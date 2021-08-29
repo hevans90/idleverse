@@ -52,28 +52,46 @@ export const contrastCalculator = (color: string): 'white' | 'black' => {
     : 'white';
 };
 
-export const themeContraster = ({
-  primary: { default: primaryDefault, light: primaryLight, dark: primaryDark },
-  secondary: {
-    default: secondaryDefault,
-    light: secondaryLight,
-    dark: secondaryDark,
-  },
-  traffic: { green, orange, red },
-}: theme): theme => ({
-  primary: {
-    default: contrastCalculator(primaryDefault),
-    light: contrastCalculator(primaryLight),
-    dark: contrastCalculator(primaryDark),
-  },
-  secondary: {
-    default: contrastCalculator(secondaryDefault),
-    light: contrastCalculator(secondaryLight),
-    dark: contrastCalculator(secondaryDark),
-  },
-  traffic: {
-    green: contrastCalculator(green),
-    orange: contrastCalculator(orange),
-    red: contrastCalculator(red),
-  },
-});
+// export const themeContraster = ({
+//   primary: { default: primaryDefault, light: primaryLight, dark: primaryDark },
+//   secondary: {
+//     default: secondaryDefault,
+//     light: secondaryLight,
+//     dark: secondaryDark,
+//   },
+//   traffic: { green, orange, red },
+// }: theme): theme => ({
+//   primary: {
+//     default: contrastCalculator(primaryDefault),
+//     light: contrastCalculator(primaryLight),
+//     dark: contrastCalculator(primaryDark),
+//   },
+//   secondary: {
+//     default: contrastCalculator(secondaryDefault),
+//     light: contrastCalculator(secondaryLight),
+//     dark: contrastCalculator(secondaryDark),
+//   },
+//   traffic: {
+//     green: contrastCalculator(green),
+//     orange: contrastCalculator(orange),
+//     red: contrastCalculator(red),
+//   },
+// });
+
+export const themeContraster = (theme: theme): theme => {
+  //scuffed copy
+  var newObj = JSON.parse(JSON.stringify(theme));
+  return recursiveContrast(newObj);
+};
+
+const recursiveContrast = (parent: any): any => {
+  Object.keys(parent).forEach((childKey: any) => {
+    if(typeof parent[childKey] !== "string") {
+      var temp = recursiveContrast(parent[childKey]);
+      parent[childKey] = temp;
+    }
+    else 
+      parent[childKey] = contrastCalculator(parent[childKey]);
+  });
+  return parent;
+}

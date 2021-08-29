@@ -17,12 +17,6 @@ const ResponsiveGrid = styled.div`
     'side-nav   main'
     'side-nav   footer';
 
-  nav.sidenav {
-    grid-area: side-nav;
-    background: rgba(255, 100, 0, 0.1);
-    color: var(--blue);
-  }
-
   div.toolbar {
     grid-area: toolbar;
     background: rgba(255, 0, 100, 0.1);

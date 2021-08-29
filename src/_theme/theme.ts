@@ -9,4 +9,6 @@ export const theme = {
     orange: '#ff8f00',
     red: '#c62828',
   },
+
+  content: { default: '#f5f5f5', light: '#fafafa', dark: '#e0e0e0'}
 };
