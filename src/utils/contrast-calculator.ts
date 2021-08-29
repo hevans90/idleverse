@@ -81,11 +81,11 @@ export const contrastCalculator = (color: string): 'white' | 'black' => {
 export const themeContraster = (theme: theme): theme => {
   //scuffed copy
   var newObj = JSON.parse(JSON.stringify(theme));
-  return recursiveContrast(newObj);
+  return recursiveContrast(newObj) as theme;
 };
 
 const recursiveContrast = (parent: any): any => {
-  Object.keys(parent).forEach((childKey: any) => {
+  Object.keys(parent).forEach((childKey: string) => {
     if(typeof parent[childKey] !== "string") {
       var temp = recursiveContrast(parent[childKey]);
       parent[childKey] = temp;
