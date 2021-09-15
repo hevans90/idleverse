@@ -32,11 +32,12 @@ const ResponsiveGrid = styled.div`
   }
 `;
 
-export const Layout = () => {
+export const Layout = (props: { children: JSX.Element }) => {
   return (
     <ResponsiveGrid>
       <SideNav></SideNav>
       <ToolBar></ToolBar>
+      <main>{props.children}</main>
     </ResponsiveGrid>
   );
 };
