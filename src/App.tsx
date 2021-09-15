@@ -73,7 +73,6 @@ export const App = () => {
   return (
     <ApolloProvider client={client}>
       <ThemeProvider theme={{ theme, contrast }}>
-        nice
         <Layout>
           <IdleGameCountersComponent {...idleProps}></IdleGameCountersComponent>
         </Layout>
