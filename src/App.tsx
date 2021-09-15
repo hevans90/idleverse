@@ -1,16 +1,19 @@
 import {
   ApolloClient,
-  ApolloLink,
   ApolloProvider,
   createHttpLink,
   InMemoryCache,
   NormalizedCacheObject,
+  split,
 } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
+import { WebSocketLink } from '@apollo/client/link/ws';
+import { getMainDefinition } from '@apollo/client/utilities';
 import { useAuth0 } from '@auth0/auth0-react';
-import React from 'react';
+import { OperationDefinitionNode } from 'graphql';
+import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { Layout } from './components/layout';
+import { RealtimeCounter } from './containers/counter/realtime';
 import { themeContraster } from './utils/contrast-calculator';
 import {
   IdleGameCountersComponent,
@@ -23,37 +26,64 @@ const contrast = themeContraster({ ...theme });
 export const App = () => {
   const { getIdTokenClaims, isLoading } = useAuth0();
 
-  if (isLoading) {
+  const [idToken, setIdToken] = useState<string>('');
+
+  useEffect(() => {
+    async function fetchMyAPI() {
+      let x = await getIdTokenClaims();
+
+      console.error(x);
+
+      if (x?.__raw) {
+        setIdToken(`Bearer ${x.__raw}`);
+      }
+    }
+
+    fetchMyAPI();
+  }, [getIdTokenClaims, isLoading]);
+
+  if (isLoading || idToken === '') {
     return <div>Loading...</div>;
   }
 
-  const contextLink = setContext(
-    (request) =>
-      new Promise((success, fail) => {
-        getIdTokenClaims().then((res) => {
-          if (res) {
-            success({
-              headers: {
-                authorization: `Bearer ${res.__raw}`,
-              },
-            });
-          }
-          success(null);
-        });
-        setTimeout(() => {
-          fail('timeout');
-        }, 10);
-      })
-  );
+  const uri = 'superb-caiman-21.hasura.app/v1/graphql';
 
   const httpLink = createHttpLink({
-    uri: 'https://superb-caiman-21.hasura.app/v1/graphql',
+    uri: `https://${uri}`,
+    headers: {
+      Authorization: idToken,
+    },
   });
+
+  const wsLink = new WebSocketLink({
+    uri: `wss://${uri}`,
+    options: {
+      lazy: true,
+      reconnect: true,
+      connectionParams: async () => ({
+        headers: {
+          Authorization: idToken,
+        },
+      }),
+    },
+  });
+
+  // split based on operation type - so queries/mutations go via HTTP and subscriptions go via WS
+  const link = split(
+    ({ query }) => {
+      const { kind, operation } = getMainDefinition(
+        query
+      ) as OperationDefinitionNode;
+      return kind === 'OperationDefinition' && operation === 'subscription';
+    },
+    wsLink,
+    httpLink
+  );
 
   // Initialize ApolloClient
   const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
     cache: new InMemoryCache(),
-    link: ApolloLink.from([contextLink, httpLink]),
+    link,
     //remove in production
     connectToDevTools: true,
   });
@@ -74,7 +104,15 @@ export const App = () => {
     <ApolloProvider client={client}>
       <ThemeProvider theme={{ theme, contrast }}>
         <Layout>
-          <IdleGameCountersComponent {...idleProps}></IdleGameCountersComponent>
+          <>
+            <IdleGameCountersComponent
+              {...idleProps}
+            ></IdleGameCountersComponent>
+
+            <hr />
+
+            <RealtimeCounter />
+          </>
         </Layout>
       </ThemeProvider>
     </ApolloProvider>

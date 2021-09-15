@@ -144,6 +144,11 @@ export type IdleGameCountersQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type IdleGameCountersQuery = { __typename?: 'query_root', idle_test: Array<{ __typename?: 'idle_test', id: any, counter: number, counter2: number }> };
 
+export type IdleGameCounterRealTimeSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type IdleGameCounterRealTimeSubscription = { __typename?: 'subscription_root', idle_test: Array<{ __typename?: 'idle_test', id: any, counter: number, counter2: number }> };
+
 
 export const IdleGameCountersDocument = gql`
     query IdleGameCounters {
@@ -187,3 +192,40 @@ export function useIdleGameCountersLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type IdleGameCountersQueryHookResult = ReturnType<typeof useIdleGameCountersQuery>;
 export type IdleGameCountersLazyQueryHookResult = ReturnType<typeof useIdleGameCountersLazyQuery>;
 export type IdleGameCountersQueryResult = Apollo.QueryResult<IdleGameCountersQuery, IdleGameCountersQueryVariables>;
+export const IdleGameCounterRealTimeDocument = gql`
+    subscription IdleGameCounterRealTime {
+  idle_test {
+    id
+    counter
+    counter2
+  }
+}
+    `;
+export type IdleGameCounterRealTimeComponentProps = Omit<ApolloReactComponents.SubscriptionComponentOptions<IdleGameCounterRealTimeSubscription, IdleGameCounterRealTimeSubscriptionVariables>, 'subscription'>;
+
+    export const IdleGameCounterRealTimeComponent = (props: IdleGameCounterRealTimeComponentProps) => (
+      <ApolloReactComponents.Subscription<IdleGameCounterRealTimeSubscription, IdleGameCounterRealTimeSubscriptionVariables> subscription={IdleGameCounterRealTimeDocument} {...props} />
+    );
+    
+
+/**
+ * __useIdleGameCounterRealTimeSubscription__
+ *
+ * To run a query within a React component, call `useIdleGameCounterRealTimeSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useIdleGameCounterRealTimeSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useIdleGameCounterRealTimeSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useIdleGameCounterRealTimeSubscription(baseOptions?: Apollo.SubscriptionHookOptions<IdleGameCounterRealTimeSubscription, IdleGameCounterRealTimeSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<IdleGameCounterRealTimeSubscription, IdleGameCounterRealTimeSubscriptionVariables>(IdleGameCounterRealTimeDocument, options);
+      }
+export type IdleGameCounterRealTimeSubscriptionHookResult = ReturnType<typeof useIdleGameCounterRealTimeSubscription>;
+export type IdleGameCounterRealTimeSubscriptionResult = Apollo.SubscriptionResult<IdleGameCounterRealTimeSubscription>;

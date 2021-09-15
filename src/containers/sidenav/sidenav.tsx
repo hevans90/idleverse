@@ -1,9 +1,10 @@
 import styled from 'styled-components';
+import { Auth } from '../../_auth/auth';
 
 const Nav = ({ className }: any) => {
   return (
     <nav className={className}>
-      <h1>Sidebarchamp</h1>
+      <Auth></Auth>
     </nav>
   );
 };
