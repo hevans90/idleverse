@@ -17,14 +17,13 @@ const convertColorToArray = (color: string) => {
 };
 
 export const contrastCalculator = (color: string): 'white' | 'black' => {
-  const hexToRGB: Array<number> = convertColorToArray(color).map((hex) => {
-    return parseInt(hex, 16);
-  });
+  const hexToRGB: Array<number> = convertColorToArray(color).map((hex) =>
+    parseInt(hex, 16)
+  );
 
   return [0.2126, 0.7152, 0.0722].reduce(
-    (total: number, current: number, idx: number): number => {
-      return total + hexToRGB[idx] * current;
-    },
+    (total: number, current: number, idx: number): number =>
+      total + hexToRGB[idx] * current,
     0
   ) > 165
     ? 'black'
