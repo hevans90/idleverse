@@ -2,6 +2,5 @@ query IdleGameCounters {
   idle_test {
     id
     counter
-    counter2
   }
 }

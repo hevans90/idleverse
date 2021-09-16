@@ -31,12 +31,47 @@ export type Int_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['Int']>>;
 };
 
+/** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
+export type String_Comparison_Exp = {
+  _eq?: Maybe<Scalars['String']>;
+  _gt?: Maybe<Scalars['String']>;
+  _gte?: Maybe<Scalars['String']>;
+  /** does the column match the given case-insensitive pattern */
+  _ilike?: Maybe<Scalars['String']>;
+  _in?: Maybe<Array<Scalars['String']>>;
+  /** does the column match the given POSIX regular expression, case insensitive */
+  _iregex?: Maybe<Scalars['String']>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  /** does the column match the given pattern */
+  _like?: Maybe<Scalars['String']>;
+  _lt?: Maybe<Scalars['String']>;
+  _lte?: Maybe<Scalars['String']>;
+  _neq?: Maybe<Scalars['String']>;
+  /** does the column NOT match the given case-insensitive pattern */
+  _nilike?: Maybe<Scalars['String']>;
+  _nin?: Maybe<Array<Scalars['String']>>;
+  /** does the column NOT match the given POSIX regular expression, case insensitive */
+  _niregex?: Maybe<Scalars['String']>;
+  /** does the column NOT match the given pattern */
+  _nlike?: Maybe<Scalars['String']>;
+  /** does the column NOT match the given POSIX regular expression, case sensitive */
+  _nregex?: Maybe<Scalars['String']>;
+  /** does the column NOT match the given SQL regular expression */
+  _nsimilar?: Maybe<Scalars['String']>;
+  /** does the column match the given POSIX regular expression, case sensitive */
+  _regex?: Maybe<Scalars['String']>;
+  /** does the column match the given SQL regular expression */
+  _similar?: Maybe<Scalars['String']>;
+};
+
 /** columns and relationships of "idle_test" */
 export type Idle_Test = {
   __typename?: 'idle_test';
   counter: Scalars['Int'];
-  counter2: Scalars['Int'];
   id: Scalars['uuid'];
+  owner_id?: Maybe<Scalars['String']>;
+  /** An object relationship */
+  user?: Maybe<Users>;
 };
 
 /** Boolean expression to filter rows from the table "idle_test". All fields are combined with a logical 'AND'. */
@@ -45,15 +80,17 @@ export type Idle_Test_Bool_Exp = {
   _not?: Maybe<Idle_Test_Bool_Exp>;
   _or?: Maybe<Array<Idle_Test_Bool_Exp>>;
   counter?: Maybe<Int_Comparison_Exp>;
-  counter2?: Maybe<Int_Comparison_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
+  owner_id?: Maybe<String_Comparison_Exp>;
+  user?: Maybe<Users_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "idle_test". */
 export type Idle_Test_Order_By = {
   counter?: Maybe<Order_By>;
-  counter2?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
+  owner_id?: Maybe<Order_By>;
+  user?: Maybe<Users_Order_By>;
 };
 
 /** select columns of table "idle_test" */
@@ -61,9 +98,9 @@ export enum Idle_Test_Select_Column {
   /** column name */
   Counter = 'counter',
   /** column name */
-  Counter2 = 'counter2',
+  Id = 'id',
   /** column name */
-  Id = 'id'
+  OwnerId = 'owner_id'
 }
 
 /** column ordering options */
@@ -88,6 +125,10 @@ export type Query_Root = {
   idle_test: Array<Idle_Test>;
   /** fetch data from the table: "idle_test" using primary key columns */
   idle_test_by_pk?: Maybe<Idle_Test>;
+  /** fetch data from the table: "users" */
+  users: Array<Users>;
+  /** fetch data from the table: "users" using primary key columns */
+  users_by_pk?: Maybe<Users>;
 };
 
 
@@ -104,12 +145,30 @@ export type Query_RootIdle_Test_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
+export type Query_RootUsersArgs = {
+  distinct_on?: Maybe<Array<Users_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Users_Order_By>>;
+  where?: Maybe<Users_Bool_Exp>;
+};
+
+
+export type Query_RootUsers_By_PkArgs = {
+  id: Scalars['String'];
+};
+
 export type Subscription_Root = {
   __typename?: 'subscription_root';
   /** fetch data from the table: "idle_test" */
   idle_test: Array<Idle_Test>;
   /** fetch data from the table: "idle_test" using primary key columns */
   idle_test_by_pk?: Maybe<Idle_Test>;
+  /** fetch data from the table: "users" */
+  users: Array<Users>;
+  /** fetch data from the table: "users" using primary key columns */
+  users_by_pk?: Maybe<Users>;
 };
 
 
@@ -126,6 +185,50 @@ export type Subscription_RootIdle_Test_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
+export type Subscription_RootUsersArgs = {
+  distinct_on?: Maybe<Array<Users_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Users_Order_By>>;
+  where?: Maybe<Users_Bool_Exp>;
+};
+
+
+export type Subscription_RootUsers_By_PkArgs = {
+  id: Scalars['String'];
+};
+
+/** columns and relationships of "users" */
+export type Users = {
+  __typename?: 'users';
+  id: Scalars['String'];
+  nickname?: Maybe<Scalars['String']>;
+};
+
+/** Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'. */
+export type Users_Bool_Exp = {
+  _and?: Maybe<Array<Users_Bool_Exp>>;
+  _not?: Maybe<Users_Bool_Exp>;
+  _or?: Maybe<Array<Users_Bool_Exp>>;
+  id?: Maybe<String_Comparison_Exp>;
+  nickname?: Maybe<String_Comparison_Exp>;
+};
+
+/** Ordering options when selecting data from "users". */
+export type Users_Order_By = {
+  id?: Maybe<Order_By>;
+  nickname?: Maybe<Order_By>;
+};
+
+/** select columns of table "users" */
+export enum Users_Select_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Nickname = 'nickname'
+}
+
 /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
 export type Uuid_Comparison_Exp = {
   _eq?: Maybe<Scalars['uuid']>;
@@ -139,23 +242,66 @@ export type Uuid_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
+export type IdleGameCountersRealTimeDescSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type IdleGameCountersRealTimeDescSubscription = { __typename?: 'subscription_root', idle_test: Array<{ __typename?: 'idle_test', counter: number, id: any, user?: Maybe<{ __typename?: 'users', nickname?: Maybe<string> }> }> };
+
 export type IdleGameCountersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type IdleGameCountersQuery = { __typename?: 'query_root', idle_test: Array<{ __typename?: 'idle_test', id: any, counter: number, counter2: number }> };
+export type IdleGameCountersQuery = { __typename?: 'query_root', idle_test: Array<{ __typename?: 'idle_test', id: any, counter: number }> };
 
 export type IdleGameCounterRealTimeSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type IdleGameCounterRealTimeSubscription = { __typename?: 'subscription_root', idle_test: Array<{ __typename?: 'idle_test', id: any, counter: number, counter2: number }> };
+export type IdleGameCounterRealTimeSubscription = { __typename?: 'subscription_root', idle_test: Array<{ __typename?: 'idle_test', id: any, counter: number }> };
 
 
+export const IdleGameCountersRealTimeDescDocument = gql`
+    subscription IdleGameCountersRealTimeDesc {
+  idle_test(order_by: {counter: desc}) {
+    user {
+      nickname
+    }
+    counter
+    id
+  }
+}
+    `;
+export type IdleGameCountersRealTimeDescComponentProps = Omit<ApolloReactComponents.SubscriptionComponentOptions<IdleGameCountersRealTimeDescSubscription, IdleGameCountersRealTimeDescSubscriptionVariables>, 'subscription'>;
+
+    export const IdleGameCountersRealTimeDescComponent = (props: IdleGameCountersRealTimeDescComponentProps) => (
+      <ApolloReactComponents.Subscription<IdleGameCountersRealTimeDescSubscription, IdleGameCountersRealTimeDescSubscriptionVariables> subscription={IdleGameCountersRealTimeDescDocument} {...props} />
+    );
+    
+
+/**
+ * __useIdleGameCountersRealTimeDescSubscription__
+ *
+ * To run a query within a React component, call `useIdleGameCountersRealTimeDescSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useIdleGameCountersRealTimeDescSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useIdleGameCountersRealTimeDescSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useIdleGameCountersRealTimeDescSubscription(baseOptions?: Apollo.SubscriptionHookOptions<IdleGameCountersRealTimeDescSubscription, IdleGameCountersRealTimeDescSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<IdleGameCountersRealTimeDescSubscription, IdleGameCountersRealTimeDescSubscriptionVariables>(IdleGameCountersRealTimeDescDocument, options);
+      }
+export type IdleGameCountersRealTimeDescSubscriptionHookResult = ReturnType<typeof useIdleGameCountersRealTimeDescSubscription>;
+export type IdleGameCountersRealTimeDescSubscriptionResult = Apollo.SubscriptionResult<IdleGameCountersRealTimeDescSubscription>;
 export const IdleGameCountersDocument = gql`
     query IdleGameCounters {
   idle_test {
     id
     counter
-    counter2
   }
 }
     `;
@@ -197,7 +343,6 @@ export const IdleGameCounterRealTimeDocument = gql`
   idle_test {
     id
     counter
-    counter2
   }
 }
     `;

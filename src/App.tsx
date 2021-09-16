@@ -24,7 +24,7 @@ import { theme } from './_theme/theme';
 const contrast = themeContraster({ ...theme });
 
 export const App = () => {
-  const { getIdTokenClaims, isLoading } = useAuth0();
+  const { getIdTokenClaims, isLoading, loginWithRedirect, isAuthenticated } = useAuth0();
 
   const [idToken, setIdToken] = useState<string>('');
 
@@ -42,9 +42,18 @@ export const App = () => {
     fetchMyAPI();
   }, [getIdTokenClaims, isLoading]);
 
-  if (isLoading || idToken === '') {
+  console.warn(isLoading);
+  console.warn(idToken);
+
+  if (isLoading)
     return <div>Loading...</div>;
-  }
+
+  if (idToken === '' && !isAuthenticated)
+    loginWithRedirect();
+    
+  if (idToken === '')
+    return <div>Loading...</div>;
+
 
   const uri = 'superb-caiman-21.hasura.app/v1/graphql';
 
@@ -88,28 +97,28 @@ export const App = () => {
     connectToDevTools: true,
   });
 
-  const idleProps: IdleGameCountersComponentProps = {
-    children: ({ data }) => {
-      if (data) {
-        return (
-          <>
-            <div>{JSON.stringify(data?.idle_test)}</div>
-          </>
-        );
-      } else return <div>ERROR</div>;
-    },
-  };
+  // const idleProps: IdleGameCountersComponentProps = {
+  //   children: ({ data }) => {
+  //     if (data) {
+  //       return (
+  //         <>
+  //           <div>{JSON.stringify(data?.idle_test)}</div>
+  //         </>
+  //       );
+  //     } else return <div>ERROR</div>;
+  //   },
+  // };
 
   return (
     <ApolloProvider client={client}>
       <ThemeProvider theme={{ theme, contrast }}>
         <Layout>
           <>
-            <IdleGameCountersComponent
+            {/* <IdleGameCountersComponent
               {...idleProps}
             ></IdleGameCountersComponent>
 
-            <hr />
+            <hr /> */}
 
             <RealtimeCounter />
           </>

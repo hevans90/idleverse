@@ -1,12 +1,21 @@
 import { useSubscription } from '@apollo/client';
-import { IdleGameCounterRealTimeDocument } from '../../_graphql/api';
+import { IdleGameCountersRealTimeDescDocument } from '../../_graphql/api';
 
 export const RealtimeCounter = () => {
-  const { data, loading } = useSubscription(IdleGameCounterRealTimeDocument);
+  
+    //todo fix types
+  const { data, loading } = useSubscription(IdleGameCountersRealTimeDescDocument);
 
+  console.log(data);
   if (loading) {
     return <div>websocket pending....</div>;
   } else {
-    return <div>{JSON.stringify(data)}</div>;
+    return <div>
+      <ol>
+        {data?.idle_test.map((item: any) => {
+          return <li><span>{item.user.nickname} has {item.counter} points</span></li>
+        })}
+      </ol>
+    </div>;
   }
 };

@@ -1,0 +1,9 @@
+subscription IdleGameCountersRealTimeDesc {
+  idle_test(order_by: { counter: desc }) {
+    user {
+      nickname
+    }
+    counter
+    id
+  }
+}
