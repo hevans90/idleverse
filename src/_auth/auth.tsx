@@ -17,11 +17,11 @@ export const Auth = () => {
           borderRadius="full"
           boxSize="40px"
           src={user.picture}
-          alt={user.name}
+          alt={user.nickname}
           marginRight="1rem"
         />
 
-        <Text marginRight="1rem">{user.name}</Text>
+        <Text marginRight="1rem">{user.nickname}</Text>
 
         <LogoutButton></LogoutButton>
       </Box>

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { apolloBootstrapper } from './apollo-bootstrapper';
 import { Layout } from './components/layout';
 import { RealtimeCounter } from './containers/counter/realtime';
+import { Game } from './game/game';
 
 export const App = () => {
   const { getIdTokenClaims, isLoading, loginWithRedirect, isAuthenticated } =
@@ -34,7 +35,10 @@ export const App = () => {
   return (
     <ApolloProvider client={client}>
       <Layout>
-        <RealtimeCounter />
+        <>
+          <Game />
+          <RealtimeCounter />
+        </>
       </Layout>
     </ApolloProvider>
   );
