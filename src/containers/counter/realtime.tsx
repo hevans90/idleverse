@@ -1,21 +1,32 @@
 import { useSubscription } from '@apollo/client';
-import { IdleGameCountersRealTimeDescDocument } from '../../_graphql/api';
+import { ListItem, OrderedList } from '@chakra-ui/react';
+import {
+  IdleGameCountersRealTimeDescDocument,
+  IdleGameCountersRealTimeDescSubscription,
+} from '../../_graphql/api';
 
 export const RealtimeCounter = () => {
-  
-    //todo fix types
-  const { data, loading } = useSubscription(IdleGameCountersRealTimeDescDocument);
+  //todo fix types
+  const { data, loading } =
+    useSubscription<IdleGameCountersRealTimeDescSubscription>(
+      IdleGameCountersRealTimeDescDocument
+    );
 
-  console.log(data);
   if (loading) {
     return <div>websocket pending....</div>;
   } else {
-    return <div>
-      <ol>
-        {data?.idle_test.map((item: any) => {
-          return <li><span>{item.user.nickname} has {item.counter} points</span></li>
-        })}
-      </ol>
-    </div>;
+    return (
+      <div>
+        <OrderedList stylePosition="inside">
+          {data?.idle_test.map((item) => (
+            <ListItem key={item.id}>
+              <span>
+                {item?.user?.nickname} has {item.counter} points
+              </span>
+            </ListItem>
+          ))}
+        </OrderedList>
+      </div>
+    );
   }
 };
