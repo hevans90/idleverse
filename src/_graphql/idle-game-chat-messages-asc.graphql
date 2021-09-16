@@ -1,0 +1,12 @@
+subscription GetChatMessages {
+  chat_messages(order_by: {date: desc}, limit: 10) {
+    date
+    id
+    message
+    poster_id
+    user_info {
+      nickname
+      id
+    }
+  }
+}

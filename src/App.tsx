@@ -36,7 +36,6 @@ export const App = () => {
     <ApolloProvider client={client}>
       <Layout>
         <>
-          <Game />
           <RealtimeCounter />
         </>
       </Layout>

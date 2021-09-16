@@ -1,0 +1,5 @@
+mutation SendNewMessage($message: String) {
+  insert_chat_messages_one(object: {message: $message}) {
+    message
+  }
+}
