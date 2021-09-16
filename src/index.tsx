@@ -1,9 +1,11 @@
 import { Auth0Provider } from '@auth0/auth0-react';
+import { ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { App } from './App';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
+import { theme } from './_theme/theme';
 
 const auth = {
   domain: 'dev-uyer-vun.us.auth0.com',
@@ -17,7 +19,9 @@ ReactDOM.render(
       clientId={auth.clientId}
       redirectUri={window.location.origin}
     >
-      <App />
+      <ChakraProvider theme={theme}>
+        <App />
+      </ChakraProvider>
     </Auth0Provider>
   </React.StrictMode>,
   document.getElementById('root')

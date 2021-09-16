@@ -3,8 +3,6 @@ import { SideNav } from '../containers/sidenav/sidenav';
 import { ToolBar } from '../containers/toolbar/toolbar';
 
 const ResponsiveGrid = styled.div`
-  background: rgba(255, 0, 0, 0.1);
-
   height: 100vh;
 
   display: grid;
@@ -19,16 +17,15 @@ const ResponsiveGrid = styled.div`
 
   div.toolbar {
     grid-area: toolbar;
-    background: rgba(255, 0, 100, 0.1);
   }
 
   main {
     grid-area: main;
+    padding: 2rem;
   }
 
   footer {
     grid-area: footer;
-    background: rgba(255, 100, 100, 0.1);
   }
 `;
 
@@ -38,6 +35,7 @@ export const Layout = (props: { children: JSX.Element }) => {
       <SideNav></SideNav>
       <ToolBar></ToolBar>
       <main>{props.children}</main>
+      <footer>nice</footer>
     </ResponsiveGrid>
   );
 };

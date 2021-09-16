@@ -11,6 +11,6 @@ const Nav = ({ className }: any) => {
 
 export const SideNav = styled(Nav)`
   grid-area: side-nav;
-  background: ${(props) => props.theme.theme.primary.default};
-  color: ${(props) => props.theme.contrast.primary.default};
 `;
+/* background: ${(props) => props.theme.theme.primary.default};
+  color: ${(props) => props.theme.contrast.primary.default}; */
