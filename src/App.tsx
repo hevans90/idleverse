@@ -17,17 +17,15 @@ export const App = () => {
   const [idToken, setIdToken] = useState<string>('');
 
   useEffect(() => {
-    async function fetchMyAPI() {
-      let x = await getIdTokenClaims();
-
-      console.error(x);
+    async function fetchMyToken() {
+      const x = await getIdTokenClaims();
 
       if (x?.__raw) {
         setIdToken(`Bearer ${x.__raw}`);
       }
     }
 
-    fetchMyAPI();
+    fetchMyToken();
   }, [getIdTokenClaims, isLoading]);
 
   if (isLoading) return <div>Loading...</div>;
