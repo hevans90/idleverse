@@ -1,12 +1,9 @@
 import { gql } from '@apollo/client';
-import * as React from 'react';
 import * as Apollo from '@apollo/client';
-import * as ApolloReactComponents from '@apollo/client/react/components';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 const defaultOptions =  {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -71,7 +68,7 @@ export type Idle_Test = {
   id: Scalars['uuid'];
   owner_id?: Maybe<Scalars['String']>;
   /** An object relationship */
-  user?: Maybe<Users>;
+  user?: Maybe<User_Info>;
 };
 
 /** Boolean expression to filter rows from the table "idle_test". All fields are combined with a logical 'AND'. */
@@ -82,7 +79,41 @@ export type Idle_Test_Bool_Exp = {
   counter?: Maybe<Int_Comparison_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
   owner_id?: Maybe<String_Comparison_Exp>;
-  user?: Maybe<Users_Bool_Exp>;
+  user?: Maybe<User_Info_Bool_Exp>;
+};
+
+/** unique or primary key constraints on table "idle_test" */
+export enum Idle_Test_Constraint {
+  /** unique or primary key constraint */
+  IdleTestOwnerIdKey = 'idle_test_owner_id_key',
+  /** unique or primary key constraint */
+  IdleTestPkey = 'idle_test_pkey'
+}
+
+/** input type for incrementing numeric columns in table "idle_test" */
+export type Idle_Test_Inc_Input = {
+  counter?: Maybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "idle_test" */
+export type Idle_Test_Insert_Input = {
+  counter?: Maybe<Scalars['Int']>;
+};
+
+/** response of any mutation on the table "idle_test" */
+export type Idle_Test_Mutation_Response = {
+  __typename?: 'idle_test_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Idle_Test>;
+};
+
+/** on conflict condition type for table "idle_test" */
+export type Idle_Test_On_Conflict = {
+  constraint: Idle_Test_Constraint;
+  update_columns?: Array<Idle_Test_Update_Column>;
+  where?: Maybe<Idle_Test_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "idle_test". */
@@ -90,7 +121,12 @@ export type Idle_Test_Order_By = {
   counter?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   owner_id?: Maybe<Order_By>;
-  user?: Maybe<Users_Order_By>;
+  user?: Maybe<User_Info_Order_By>;
+};
+
+/** primary key columns input for table: idle_test */
+export type Idle_Test_Pk_Columns_Input = {
+  id: Scalars['uuid'];
 };
 
 /** select columns of table "idle_test" */
@@ -102,6 +138,109 @@ export enum Idle_Test_Select_Column {
   /** column name */
   OwnerId = 'owner_id'
 }
+
+/** input type for updating data in table "idle_test" */
+export type Idle_Test_Set_Input = {
+  counter?: Maybe<Scalars['Int']>;
+};
+
+/** update columns of table "idle_test" */
+export enum Idle_Test_Update_Column {
+  /** column name */
+  Counter = 'counter'
+}
+
+/** mutation root */
+export type Mutation_Root = {
+  __typename?: 'mutation_root';
+  /** delete data from the table: "idle_test" */
+  delete_idle_test?: Maybe<Idle_Test_Mutation_Response>;
+  /** delete single row from the table: "idle_test" */
+  delete_idle_test_by_pk?: Maybe<Idle_Test>;
+  /** delete data from the table: "user_private" */
+  delete_user_private?: Maybe<User_Private_Mutation_Response>;
+  /** insert data into the table: "idle_test" */
+  insert_idle_test?: Maybe<Idle_Test_Mutation_Response>;
+  /** insert a single row into the table: "idle_test" */
+  insert_idle_test_one?: Maybe<Idle_Test>;
+  /** insert data into the table: "user_private" */
+  insert_user_private?: Maybe<User_Private_Mutation_Response>;
+  /** insert a single row into the table: "user_private" */
+  insert_user_private_one?: Maybe<User_Private>;
+  /** update data of the table: "idle_test" */
+  update_idle_test?: Maybe<Idle_Test_Mutation_Response>;
+  /** update single row of the table: "idle_test" */
+  update_idle_test_by_pk?: Maybe<Idle_Test>;
+  /** update data of the table: "user_private" */
+  update_user_private?: Maybe<User_Private_Mutation_Response>;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Idle_TestArgs = {
+  where: Idle_Test_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Idle_Test_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_User_PrivateArgs = {
+  where: User_Private_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Idle_TestArgs = {
+  objects: Array<Idle_Test_Insert_Input>;
+  on_conflict?: Maybe<Idle_Test_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Idle_Test_OneArgs = {
+  object: Idle_Test_Insert_Input;
+  on_conflict?: Maybe<Idle_Test_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_User_PrivateArgs = {
+  objects: Array<User_Private_Insert_Input>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_User_Private_OneArgs = {
+  object: User_Private_Insert_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Idle_TestArgs = {
+  _inc?: Maybe<Idle_Test_Inc_Input>;
+  _set?: Maybe<Idle_Test_Set_Input>;
+  where: Idle_Test_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Idle_Test_By_PkArgs = {
+  _inc?: Maybe<Idle_Test_Inc_Input>;
+  _set?: Maybe<Idle_Test_Set_Input>;
+  pk_columns: Idle_Test_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_User_PrivateArgs = {
+  _set?: Maybe<User_Private_Set_Input>;
+  where: User_Private_Bool_Exp;
+};
 
 /** column ordering options */
 export enum Order_By {
@@ -125,10 +264,12 @@ export type Query_Root = {
   idle_test: Array<Idle_Test>;
   /** fetch data from the table: "idle_test" using primary key columns */
   idle_test_by_pk?: Maybe<Idle_Test>;
-  /** fetch data from the table: "users" */
-  users: Array<Users>;
-  /** fetch data from the table: "users" using primary key columns */
-  users_by_pk?: Maybe<Users>;
+  /** fetch data from the table: "user_info" */
+  user_info: Array<User_Info>;
+  /** fetch data from the table: "user_info" using primary key columns */
+  user_info_by_pk?: Maybe<User_Info>;
+  /** fetch data from the table: "user_private" */
+  user_private: Array<User_Private>;
 };
 
 
@@ -146,17 +287,26 @@ export type Query_RootIdle_Test_By_PkArgs = {
 };
 
 
-export type Query_RootUsersArgs = {
-  distinct_on?: Maybe<Array<Users_Select_Column>>;
+export type Query_RootUser_InfoArgs = {
+  distinct_on?: Maybe<Array<User_Info_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Users_Order_By>>;
-  where?: Maybe<Users_Bool_Exp>;
+  order_by?: Maybe<Array<User_Info_Order_By>>;
+  where?: Maybe<User_Info_Bool_Exp>;
 };
 
 
-export type Query_RootUsers_By_PkArgs = {
+export type Query_RootUser_Info_By_PkArgs = {
   id: Scalars['String'];
+};
+
+
+export type Query_RootUser_PrivateArgs = {
+  distinct_on?: Maybe<Array<User_Private_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<User_Private_Order_By>>;
+  where?: Maybe<User_Private_Bool_Exp>;
 };
 
 export type Subscription_Root = {
@@ -165,10 +315,12 @@ export type Subscription_Root = {
   idle_test: Array<Idle_Test>;
   /** fetch data from the table: "idle_test" using primary key columns */
   idle_test_by_pk?: Maybe<Idle_Test>;
-  /** fetch data from the table: "users" */
-  users: Array<Users>;
-  /** fetch data from the table: "users" using primary key columns */
-  users_by_pk?: Maybe<Users>;
+  /** fetch data from the table: "user_info" */
+  user_info: Array<User_Info>;
+  /** fetch data from the table: "user_info" using primary key columns */
+  user_info_by_pk?: Maybe<User_Info>;
+  /** fetch data from the table: "user_private" */
+  user_private: Array<User_Private>;
 };
 
 
@@ -186,48 +338,110 @@ export type Subscription_RootIdle_Test_By_PkArgs = {
 };
 
 
-export type Subscription_RootUsersArgs = {
-  distinct_on?: Maybe<Array<Users_Select_Column>>;
+export type Subscription_RootUser_InfoArgs = {
+  distinct_on?: Maybe<Array<User_Info_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Users_Order_By>>;
-  where?: Maybe<Users_Bool_Exp>;
+  order_by?: Maybe<Array<User_Info_Order_By>>;
+  where?: Maybe<User_Info_Bool_Exp>;
 };
 
 
-export type Subscription_RootUsers_By_PkArgs = {
+export type Subscription_RootUser_Info_By_PkArgs = {
   id: Scalars['String'];
 };
 
-/** columns and relationships of "users" */
-export type Users = {
-  __typename?: 'users';
-  id: Scalars['String'];
-  nickname?: Maybe<Scalars['String']>;
+
+export type Subscription_RootUser_PrivateArgs = {
+  distinct_on?: Maybe<Array<User_Private_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<User_Private_Order_By>>;
+  where?: Maybe<User_Private_Bool_Exp>;
 };
 
-/** Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'. */
-export type Users_Bool_Exp = {
-  _and?: Maybe<Array<Users_Bool_Exp>>;
-  _not?: Maybe<Users_Bool_Exp>;
-  _or?: Maybe<Array<Users_Bool_Exp>>;
+/** columns and relationships of "user_info" */
+export type User_Info = {
+  __typename?: 'user_info';
+  id: Scalars['String'];
+  /** An object relationship */
+  idle_test?: Maybe<Idle_Test>;
+  nickname: Scalars['String'];
+};
+
+/** Boolean expression to filter rows from the table "user_info". All fields are combined with a logical 'AND'. */
+export type User_Info_Bool_Exp = {
+  _and?: Maybe<Array<User_Info_Bool_Exp>>;
+  _not?: Maybe<User_Info_Bool_Exp>;
+  _or?: Maybe<Array<User_Info_Bool_Exp>>;
   id?: Maybe<String_Comparison_Exp>;
+  idle_test?: Maybe<Idle_Test_Bool_Exp>;
   nickname?: Maybe<String_Comparison_Exp>;
 };
 
-/** Ordering options when selecting data from "users". */
-export type Users_Order_By = {
+/** Ordering options when selecting data from "user_info". */
+export type User_Info_Order_By = {
   id?: Maybe<Order_By>;
+  idle_test?: Maybe<Idle_Test_Order_By>;
   nickname?: Maybe<Order_By>;
 };
 
-/** select columns of table "users" */
-export enum Users_Select_Column {
+/** select columns of table "user_info" */
+export enum User_Info_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
   Nickname = 'nickname'
 }
+
+/** columns and relationships of "user_private" */
+export type User_Private = {
+  __typename?: 'user_private';
+  secret_setting_test?: Maybe<Scalars['String']>;
+  user_id?: Maybe<Scalars['String']>;
+};
+
+/** Boolean expression to filter rows from the table "user_private". All fields are combined with a logical 'AND'. */
+export type User_Private_Bool_Exp = {
+  _and?: Maybe<Array<User_Private_Bool_Exp>>;
+  _not?: Maybe<User_Private_Bool_Exp>;
+  _or?: Maybe<Array<User_Private_Bool_Exp>>;
+  secret_setting_test?: Maybe<String_Comparison_Exp>;
+  user_id?: Maybe<String_Comparison_Exp>;
+};
+
+/** input type for inserting data into table "user_private" */
+export type User_Private_Insert_Input = {
+  secret_setting_test?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "user_private" */
+export type User_Private_Mutation_Response = {
+  __typename?: 'user_private_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<User_Private>;
+};
+
+/** Ordering options when selecting data from "user_private". */
+export type User_Private_Order_By = {
+  secret_setting_test?: Maybe<Order_By>;
+  user_id?: Maybe<Order_By>;
+};
+
+/** select columns of table "user_private" */
+export enum User_Private_Select_Column {
+  /** column name */
+  SecretSettingTest = 'secret_setting_test',
+  /** column name */
+  UserId = 'user_id'
+}
+
+/** input type for updating data in table "user_private" */
+export type User_Private_Set_Input = {
+  secret_setting_test?: Maybe<Scalars['String']>;
+};
 
 /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
 export type Uuid_Comparison_Exp = {
@@ -245,7 +459,7 @@ export type Uuid_Comparison_Exp = {
 export type IdleGameCountersRealTimeDescSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type IdleGameCountersRealTimeDescSubscription = { __typename?: 'subscription_root', idle_test: Array<{ __typename?: 'idle_test', counter: number, id: any, user?: Maybe<{ __typename?: 'users', nickname?: Maybe<string> }> }> };
+export type IdleGameCountersRealTimeDescSubscription = { __typename?: 'subscription_root', idle_test: Array<{ __typename?: 'idle_test', counter: number, id: any, user?: Maybe<{ __typename?: 'user_info', nickname: string }> }> };
 
 export type IdleGameCountersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -269,12 +483,6 @@ export const IdleGameCountersRealTimeDescDocument = gql`
   }
 }
     `;
-export type IdleGameCountersRealTimeDescComponentProps = Omit<ApolloReactComponents.SubscriptionComponentOptions<IdleGameCountersRealTimeDescSubscription, IdleGameCountersRealTimeDescSubscriptionVariables>, 'subscription'>;
-
-    export const IdleGameCountersRealTimeDescComponent = (props: IdleGameCountersRealTimeDescComponentProps) => (
-      <ApolloReactComponents.Subscription<IdleGameCountersRealTimeDescSubscription, IdleGameCountersRealTimeDescSubscriptionVariables> subscription={IdleGameCountersRealTimeDescDocument} {...props} />
-    );
-    
 
 /**
  * __useIdleGameCountersRealTimeDescSubscription__
@@ -305,12 +513,6 @@ export const IdleGameCountersDocument = gql`
   }
 }
     `;
-export type IdleGameCountersComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IdleGameCountersQuery, IdleGameCountersQueryVariables>, 'query'>;
-
-    export const IdleGameCountersComponent = (props: IdleGameCountersComponentProps) => (
-      <ApolloReactComponents.Query<IdleGameCountersQuery, IdleGameCountersQueryVariables> query={IdleGameCountersDocument} {...props} />
-    );
-    
 
 /**
  * __useIdleGameCountersQuery__
@@ -346,12 +548,6 @@ export const IdleGameCounterRealTimeDocument = gql`
   }
 }
     `;
-export type IdleGameCounterRealTimeComponentProps = Omit<ApolloReactComponents.SubscriptionComponentOptions<IdleGameCounterRealTimeSubscription, IdleGameCounterRealTimeSubscriptionVariables>, 'subscription'>;
-
-    export const IdleGameCounterRealTimeComponent = (props: IdleGameCounterRealTimeComponentProps) => (
-      <ApolloReactComponents.Subscription<IdleGameCounterRealTimeSubscription, IdleGameCounterRealTimeSubscriptionVariables> subscription={IdleGameCounterRealTimeDocument} {...props} />
-    );
-    
 
 /**
  * __useIdleGameCounterRealTimeSubscription__
