@@ -1,4 +1,5 @@
 import { useSubscription } from '@apollo/client';
+import { ListItem, OrderedList } from '@chakra-ui/react';
 import {
   IdleGameCountersRealTimeDescDocument,
   IdleGameCountersRealTimeDescSubscription,
@@ -16,15 +17,15 @@ export const RealtimeCounter = () => {
   } else {
     return (
       <div>
-        <ol>
+        <OrderedList stylePosition="inside">
           {data?.idle_test.map((item) => (
-            <li key={item.id}>
+            <ListItem key={item.id}>
               <span>
                 {item?.user?.nickname} has {item.counter} points
               </span>
-            </li>
+            </ListItem>
           ))}
-        </ol>
+        </OrderedList>
       </div>
     );
   }

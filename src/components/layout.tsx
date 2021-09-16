@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Footer } from '../containers/footer/footer';
 import { SideNav } from '../containers/sidenav/sidenav';
 import { ToolBar } from '../containers/toolbar/toolbar';
 
@@ -19,12 +20,16 @@ const ResponsiveGrid = styled.div`
     grid-area: toolbar;
   }
 
+  div.sidenav {
+    grid-area: side-nav;
+  }
+
   main {
     grid-area: main;
     padding: 2rem;
   }
 
-  footer {
+  div.footer {
     grid-area: footer;
   }
 `;
@@ -35,7 +40,7 @@ export const Layout = (props: { children: JSX.Element }) => {
       <SideNav></SideNav>
       <ToolBar></ToolBar>
       <main>{props.children}</main>
-      <footer>nice</footer>
+      <Footer></Footer>
     </ResponsiveGrid>
   );
 };

@@ -1,4 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
+import { Box, Image, Text } from '@chakra-ui/react';
 import { LoginButton } from './login-button';
 import { LogoutButton } from './logout-button';
 
@@ -11,12 +12,19 @@ export const Auth = () => {
 
   if (isAuthenticated && user) {
     return (
-      <div>
-        <img src={user.picture} alt={user.name} />
-        <h2>{user.name}</h2>
-        <p>{user.email}</p>
+      <Box display="flex" alignItems="center">
+        <Image
+          borderRadius="full"
+          boxSize="40px"
+          src={user.picture}
+          alt={user.name}
+          marginRight="1rem"
+        />
+
+        <Text marginRight="1rem">{user.name}</Text>
+
         <LogoutButton></LogoutButton>
-      </div>
+      </Box>
     );
   } else {
     return <LoginButton></LoginButton>;
