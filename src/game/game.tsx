@@ -19,7 +19,7 @@ export const Game = ({
   useEffect(() => {
     const app = new Application({
       ...size,
-      backgroundColor: 0x000000,
+      backgroundColor: 0x2d3239,
       resizeTo: ref.current,
     });
 
