@@ -12,7 +12,7 @@ const auth = {
   clientId: 'UMMpI9y0OurEwa9M6lEf5wwG6kFqfj91',
 };
 
-const redirectUri = window.location.origin.includes('localhost')
+export const redirectUri = window.location.origin.includes('localhost')
   ? window.location.origin
   : `${window.location.origin}/idle-game`;
 
