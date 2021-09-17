@@ -1,5 +1,6 @@
 import { useSubscription } from '@apollo/client';
-import { Sprite, Stage, Text } from '@inlet/react-pixi';
+import { Box } from '@chakra-ui/layout';
+import { Container, Sprite, Stage, Text } from '@inlet/react-pixi';
 import { TextStyle } from 'pixi.js';
 import { useState } from 'react';
 import { InitializeStars } from '../../game/generate';
@@ -8,29 +9,30 @@ import {
   IdleGameCountersRealTimeDescDocument,
   IdleGameCountersRealTimeDescSubscription,
 } from '../../_graphql/api';
-
-const canvasWidth = 500;
-const canvasHeight = 500;
+import { useResize } from './responsive-canvas';
 
 export const RealtimeCounter = () => {
   //todo fix types
+  const size = useResize();
+
   const { data, loading } =
     useSubscription<IdleGameCountersRealTimeDescSubscription>(
       IdleGameCountersRealTimeDescDocument
     );
 
-  const [stars, setStars] = useState(
-    InitializeStars(canvasWidth, canvasHeight)
-  );
-  console.log(stars);
+  const [stars] = useState(InitializeStars(size.width, size.height));
 
   if (loading) {
-    return <div>websocket pending....</div>;
+    return (
+      <Box h="100%" display="flex" alignItems="center" justifyContent="center">
+        loading universe...
+      </Box>
+    );
   } else {
     return (
-      <Stage width={canvasWidth} height={canvasHeight}>
+      <Stage {...size}>
         {data?.idle_test.map((item, i) => (
-          <>
+          <Container key={i}>
             <Sprite
               image="https://s3-us-west-2.amazonaws.com/s.cdpn.io/693612/IaUrttj.png"
               x={100}
@@ -51,7 +53,7 @@ export const RealtimeCounter = () => {
                 })
               }
             />
-          </>
+          </Container>
         ))}
         {stars.map((item, i) => (
           <Star key={i} x={item.x} y={item.y}></Star>
