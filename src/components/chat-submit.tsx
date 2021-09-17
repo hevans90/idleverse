@@ -9,7 +9,7 @@ import {
 export const ChatSubmit = () => {
   const [message, setMessage] = React.useState('');
 
-  const [sendNewMessage, { error, data }] = useMutation<SendNewMessageMutation>(
+  const [sendNewMessage] = useMutation<SendNewMessageMutation>(
     SendNewMessageDocument,
     {
       variables: { message },

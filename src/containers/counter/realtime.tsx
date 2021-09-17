@@ -20,7 +20,7 @@ export const RealtimeCounter = () => {
       IdleGameCountersRealTimeDescDocument
     );
 
-  const [stars, setStars] = useState(InitializeStars(size.width, size.height));
+  const [stars] = useState(InitializeStars(size.width, size.height));
 
   if (loading) {
     return (
