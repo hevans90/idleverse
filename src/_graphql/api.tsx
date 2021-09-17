@@ -12,6 +12,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  timestamp: any;
   uuid: any;
 };
 
@@ -60,6 +61,64 @@ export type String_Comparison_Exp = {
   /** does the column match the given SQL regular expression */
   _similar?: Maybe<Scalars['String']>;
 };
+
+/** columns and relationships of "chat_messages" */
+export type Chat_Messages = {
+  __typename?: 'chat_messages';
+  date?: Maybe<Scalars['timestamp']>;
+  id: Scalars['uuid'];
+  message: Scalars['String'];
+  poster_id: Scalars['String'];
+  /** An object relationship */
+  user_info: User_Info;
+};
+
+/** Boolean expression to filter rows from the table "chat_messages". All fields are combined with a logical 'AND'. */
+export type Chat_Messages_Bool_Exp = {
+  _and?: Maybe<Array<Chat_Messages_Bool_Exp>>;
+  _not?: Maybe<Chat_Messages_Bool_Exp>;
+  _or?: Maybe<Array<Chat_Messages_Bool_Exp>>;
+  date?: Maybe<Timestamp_Comparison_Exp>;
+  id?: Maybe<Uuid_Comparison_Exp>;
+  message?: Maybe<String_Comparison_Exp>;
+  poster_id?: Maybe<String_Comparison_Exp>;
+  user_info?: Maybe<User_Info_Bool_Exp>;
+};
+
+/** input type for inserting data into table "chat_messages" */
+export type Chat_Messages_Insert_Input = {
+  message?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "chat_messages" */
+export type Chat_Messages_Mutation_Response = {
+  __typename?: 'chat_messages_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Chat_Messages>;
+};
+
+/** Ordering options when selecting data from "chat_messages". */
+export type Chat_Messages_Order_By = {
+  date?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  message?: Maybe<Order_By>;
+  poster_id?: Maybe<Order_By>;
+  user_info?: Maybe<User_Info_Order_By>;
+};
+
+/** select columns of table "chat_messages" */
+export enum Chat_Messages_Select_Column {
+  /** column name */
+  Date = 'date',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Message = 'message',
+  /** column name */
+  PosterId = 'poster_id'
+}
 
 /** columns and relationships of "idle_test" */
 export type Idle_Test = {
@@ -159,6 +218,10 @@ export type Mutation_Root = {
   delete_idle_test_by_pk?: Maybe<Idle_Test>;
   /** delete data from the table: "user_private" */
   delete_user_private?: Maybe<User_Private_Mutation_Response>;
+  /** insert data into the table: "chat_messages" */
+  insert_chat_messages?: Maybe<Chat_Messages_Mutation_Response>;
+  /** insert a single row into the table: "chat_messages" */
+  insert_chat_messages_one?: Maybe<Chat_Messages>;
   /** insert data into the table: "idle_test" */
   insert_idle_test?: Maybe<Idle_Test_Mutation_Response>;
   /** insert a single row into the table: "idle_test" */
@@ -191,6 +254,18 @@ export type Mutation_RootDelete_Idle_Test_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootDelete_User_PrivateArgs = {
   where: User_Private_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Chat_MessagesArgs = {
+  objects: Array<Chat_Messages_Insert_Input>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Chat_Messages_OneArgs = {
+  object: Chat_Messages_Insert_Input;
 };
 
 
@@ -260,6 +335,10 @@ export enum Order_By {
 
 export type Query_Root = {
   __typename?: 'query_root';
+  /** fetch data from the table: "chat_messages" */
+  chat_messages: Array<Chat_Messages>;
+  /** fetch data from the table: "chat_messages" using primary key columns */
+  chat_messages_by_pk?: Maybe<Chat_Messages>;
   /** fetch data from the table: "idle_test" */
   idle_test: Array<Idle_Test>;
   /** fetch data from the table: "idle_test" using primary key columns */
@@ -270,6 +349,20 @@ export type Query_Root = {
   user_info_by_pk?: Maybe<User_Info>;
   /** fetch data from the table: "user_private" */
   user_private: Array<User_Private>;
+};
+
+
+export type Query_RootChat_MessagesArgs = {
+  distinct_on?: Maybe<Array<Chat_Messages_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Chat_Messages_Order_By>>;
+  where?: Maybe<Chat_Messages_Bool_Exp>;
+};
+
+
+export type Query_RootChat_Messages_By_PkArgs = {
+  id: Scalars['uuid'];
 };
 
 
@@ -311,6 +404,10 @@ export type Query_RootUser_PrivateArgs = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
+  /** fetch data from the table: "chat_messages" */
+  chat_messages: Array<Chat_Messages>;
+  /** fetch data from the table: "chat_messages" using primary key columns */
+  chat_messages_by_pk?: Maybe<Chat_Messages>;
   /** fetch data from the table: "idle_test" */
   idle_test: Array<Idle_Test>;
   /** fetch data from the table: "idle_test" using primary key columns */
@@ -321,6 +418,20 @@ export type Subscription_Root = {
   user_info_by_pk?: Maybe<User_Info>;
   /** fetch data from the table: "user_private" */
   user_private: Array<User_Private>;
+};
+
+
+export type Subscription_RootChat_MessagesArgs = {
+  distinct_on?: Maybe<Array<Chat_Messages_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Chat_Messages_Order_By>>;
+  where?: Maybe<Chat_Messages_Bool_Exp>;
+};
+
+
+export type Subscription_RootChat_Messages_By_PkArgs = {
+  id: Scalars['uuid'];
 };
 
 
@@ -358,6 +469,19 @@ export type Subscription_RootUser_PrivateArgs = {
   offset?: Maybe<Scalars['Int']>;
   order_by?: Maybe<Array<User_Private_Order_By>>;
   where?: Maybe<User_Private_Bool_Exp>;
+};
+
+/** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
+export type Timestamp_Comparison_Exp = {
+  _eq?: Maybe<Scalars['timestamp']>;
+  _gt?: Maybe<Scalars['timestamp']>;
+  _gte?: Maybe<Scalars['timestamp']>;
+  _in?: Maybe<Array<Scalars['timestamp']>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _lt?: Maybe<Scalars['timestamp']>;
+  _lte?: Maybe<Scalars['timestamp']>;
+  _neq?: Maybe<Scalars['timestamp']>;
+  _nin?: Maybe<Array<Scalars['timestamp']>>;
 };
 
 /** columns and relationships of "user_info" */
@@ -456,6 +580,18 @@ export type Uuid_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
+export type GetChatMessagesSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetChatMessagesSubscription = { __typename?: 'subscription_root', chat_messages: Array<{ __typename?: 'chat_messages', date?: Maybe<any>, id: any, message: string, poster_id: string, user_info: { __typename?: 'user_info', nickname: string, id: string } }> };
+
+export type SendNewMessageMutationVariables = Exact<{
+  message?: Maybe<Scalars['String']>;
+}>;
+
+
+export type SendNewMessageMutation = { __typename?: 'mutation_root', insert_chat_messages_one?: Maybe<{ __typename?: 'chat_messages', message: string }> };
+
 export type IdleGameCountersRealTimeDescSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -472,6 +608,75 @@ export type IdleGameCounterRealTimeSubscriptionVariables = Exact<{ [key: string]
 export type IdleGameCounterRealTimeSubscription = { __typename?: 'subscription_root', idle_test: Array<{ __typename?: 'idle_test', id: any, counter: number }> };
 
 
+export const GetChatMessagesDocument = gql`
+    subscription GetChatMessages {
+  chat_messages(order_by: {date: desc}, limit: 10) {
+    date
+    id
+    message
+    poster_id
+    user_info {
+      nickname
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetChatMessagesSubscription__
+ *
+ * To run a query within a React component, call `useGetChatMessagesSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useGetChatMessagesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetChatMessagesSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetChatMessagesSubscription(baseOptions?: Apollo.SubscriptionHookOptions<GetChatMessagesSubscription, GetChatMessagesSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<GetChatMessagesSubscription, GetChatMessagesSubscriptionVariables>(GetChatMessagesDocument, options);
+      }
+export type GetChatMessagesSubscriptionHookResult = ReturnType<typeof useGetChatMessagesSubscription>;
+export type GetChatMessagesSubscriptionResult = Apollo.SubscriptionResult<GetChatMessagesSubscription>;
+export const SendNewMessageDocument = gql`
+    mutation SendNewMessage($message: String) {
+  insert_chat_messages_one(object: {message: $message}) {
+    message
+  }
+}
+    `;
+export type SendNewMessageMutationFn = Apollo.MutationFunction<SendNewMessageMutation, SendNewMessageMutationVariables>;
+
+/**
+ * __useSendNewMessageMutation__
+ *
+ * To run a mutation, you first call `useSendNewMessageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendNewMessageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [sendNewMessageMutation, { data, loading, error }] = useSendNewMessageMutation({
+ *   variables: {
+ *      message: // value for 'message'
+ *   },
+ * });
+ */
+export function useSendNewMessageMutation(baseOptions?: Apollo.MutationHookOptions<SendNewMessageMutation, SendNewMessageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SendNewMessageMutation, SendNewMessageMutationVariables>(SendNewMessageDocument, options);
+      }
+export type SendNewMessageMutationHookResult = ReturnType<typeof useSendNewMessageMutation>;
+export type SendNewMessageMutationResult = Apollo.MutationResult<SendNewMessageMutation>;
+export type SendNewMessageMutationOptions = Apollo.BaseMutationOptions<SendNewMessageMutation, SendNewMessageMutationVariables>;
 export const IdleGameCountersRealTimeDescDocument = gql`
     subscription IdleGameCountersRealTimeDesc {
   idle_test(order_by: {counter: desc}) {
