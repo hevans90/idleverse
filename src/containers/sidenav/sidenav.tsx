@@ -42,11 +42,14 @@ export const SideNav = () => {
       ) : (
         <OrderedList marginInlineStart="unset">
           {messages?.map((item, i) => (
-            <ListItem key={item.id} display="flex" marginBottom="0.25rem">
-              <Text fontSize="xxs" color={chatUserColor}>
-                {item.user_info.nickname}:
+            <ListItem key={item.id}>
+              <Text fontSize="xxs">
+                <Text fontSize="xxs" color={chatUserColor} display="contents">
+                  {item.user_info.nickname}:
+                </Text>
+
+                {item.message}
               </Text>
-              <Text fontSize="xxs">{item.message}</Text>
             </ListItem>
           ))}
         </OrderedList>
