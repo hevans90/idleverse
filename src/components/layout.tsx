@@ -3,13 +3,17 @@ import { Footer } from '../containers/footer/footer';
 import { SideNav } from '../containers/sidenav/sidenav';
 import { ToolBar } from '../containers/toolbar/toolbar';
 
+export const sideNavWidth = 450;
+export const topBarHeight = 50;
+export const footerHeight = 200;
+
 const ResponsiveGrid = styled.div`
   height: 100vh;
 
   display: grid;
 
-  grid-template-columns: 450px auto;
-  grid-template-rows: 50px auto 200px;
+  grid-template-columns: ${sideNavWidth}px auto;
+  grid-template-rows: ${topBarHeight}px auto ${footerHeight}px;
 
   grid-template-areas:
     'side-nav   toolbar'
@@ -26,7 +30,6 @@ const ResponsiveGrid = styled.div`
 
   main {
     grid-area: main;
-    padding: 2rem;
   }
 
   div.footer {
