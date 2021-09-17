@@ -1,10 +1,22 @@
 import { ApolloProvider } from '@apollo/client';
 import { useAuth0 } from '@auth0/auth0-react';
+import { Box, Text } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { apolloBootstrapper } from './apollo-bootstrapper';
 import { Layout } from './components/layout';
 import { RealtimeCounter } from './containers/counter/realtime';
-import { Game } from './game/game';
+
+const Loading = () => (
+  <Box
+    height="100vh"
+    width="100vw"
+    display="flex"
+    alignItems="center"
+    justifyContent="center"
+  >
+    <Text fontSize="4xl">Loading...</Text>
+  </Box>
+);
 
 export const App = () => {
   const { getIdTokenClaims, isLoading, loginWithRedirect, isAuthenticated } =
@@ -24,11 +36,11 @@ export const App = () => {
     fetchMyToken();
   }, [getIdTokenClaims, isLoading]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading></Loading>;
 
   if (idToken === '' && !isAuthenticated) loginWithRedirect();
 
-  if (idToken === '') return <div>Loading...</div>;
+  if (idToken === '') return <Loading></Loading>;
 
   const client = apolloBootstrapper(idToken);
 

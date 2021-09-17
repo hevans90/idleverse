@@ -27,6 +27,8 @@ export const SideNav = () => {
     if (data) setMessages(data?.chat_messages.reverse());
   }, [data]);
 
+  const chatUserColor = useColorModeValue('gray.500', 'gray.500');
+
   return (
     <Box
       className="sidenav"
@@ -38,12 +40,13 @@ export const SideNav = () => {
       {loading && data ? (
         <div>Loading...</div>
       ) : (
-        <OrderedList>
+        <OrderedList marginInlineStart="unset">
           {messages?.map((item, i) => (
-            <ListItem key={item.id}>
-              <Text fontSize="xs">
-                {item.user_info.nickname}: {item.message}
+            <ListItem key={item.id} display="flex" marginBottom="0.25rem">
+              <Text fontSize="xxs" color={chatUserColor}>
+                {item.user_info.nickname}:
               </Text>
+              <Text fontSize="xxs">{item.message}</Text>
             </ListItem>
           ))}
         </OrderedList>

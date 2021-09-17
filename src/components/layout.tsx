@@ -8,7 +8,7 @@ const ResponsiveGrid = styled.div`
 
   display: grid;
 
-  grid-template-columns: 300px auto;
+  grid-template-columns: 450px auto;
   grid-template-rows: 50px auto 200px;
 
   grid-template-areas:

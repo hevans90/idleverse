@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client';
-import { Box, Input } from '@chakra-ui/react';
+import { Box, Button, Input } from '@chakra-ui/react';
 import React from 'react';
 import {
   SendNewMessageDocument,
@@ -23,15 +23,6 @@ export const ChatSubmit = () => {
 
   return (
     <Box marginTop="auto" display="flex">
-      {/* <Button
-        colorScheme="teal"
-        size="xs"
-        onClick={(e) => {
-          submit();
-        }}
-      >
-        Send
-      </Button> */}
       <Input
         placeholder="Type to chat..."
         value={message}
@@ -42,6 +33,19 @@ export const ChatSubmit = () => {
           if (e.key === 'Enter') submit();
         }}
       />
+      <Button
+        colorScheme="teal"
+        size="xs"
+        height="100%"
+        marginLeft="1rem"
+        paddingLeft="1rem"
+        paddingRight="1rem"
+        onClick={(e) => {
+          submit();
+        }}
+      >
+        Send
+      </Button>
     </Box>
   );
 };
