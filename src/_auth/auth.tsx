@@ -21,7 +21,7 @@ export const Auth = () => {
           marginRight="1rem"
         />
 
-        <Text marginRight="1rem">{user.nickname}</Text>
+        <Text marginRight="1rem">{user.name}</Text>
 
         <LogoutButton></LogoutButton>
       </Box>

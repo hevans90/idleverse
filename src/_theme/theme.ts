@@ -135,4 +135,7 @@ export const theme = extendTheme({
     heading: 'zx spectrum',
     mono: 'zx spectrum',
   } as Partial<Pick<Theme, 'fonts'>>,
+  fontSizes: {
+    xxs: '0.7rem',
+  },
 });
