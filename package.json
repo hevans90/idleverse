@@ -1,5 +1,6 @@
 {
-  "name": "idle-game",
+  "homepage": "https://hevans90.github.io/idle-game",
+  "name": "idleverse",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -37,6 +38,7 @@
     "@types/react-dom": "^17.0.0",
     "@types/styled-components": "^5.1.13",
     "babel-plugin-styled-components": "^1.13.2",
+    "gh-pages": "^3.2.3",
     "react-devtools": "^4.17.0",
     "typescript": "^4.1.2"
   },
@@ -46,7 +48,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "generate": "graphql-codegen --config codegen.js -r dotenv/config",
-    "generate:watch": "yarn generate --watch"
+    "generate:watch": "yarn generate --watch",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
