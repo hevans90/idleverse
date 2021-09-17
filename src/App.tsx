@@ -4,7 +4,7 @@ import { Box, Text } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { apolloBootstrapper } from './apollo-bootstrapper';
 import { Layout } from './components/layout';
-import { RealtimeCounter } from './containers/counter/realtime';
+import { GameContainer } from './game/game-container';
 
 const Loading = () => (
   <Box
@@ -47,9 +47,7 @@ export const App = () => {
   return (
     <ApolloProvider client={client}>
       <Layout>
-        <>
-          <RealtimeCounter />
-        </>
+        <GameContainer></GameContainer>
       </Layout>
     </ApolloProvider>
   );
