@@ -1,25 +1,30 @@
-import { useMutation, useSubscription } from '@apollo/client';
-import { Box, useColorModeValue } from '@chakra-ui/react';
-import { GetChatMessagesDocument, GetChatMessagesSubscription } from "../../_graphql/api"
-import { ListItem, OrderedList } from '@chakra-ui/react';
-import { Text } from "@chakra-ui/react"
-import { ChatSubmit } from '../../components/chat-submit';
+import { useSubscription } from '@apollo/client';
+import {
+  Box,
+  ListItem,
+  OrderedList,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-
+import { ChatSubmit } from '../../components/chat-submit';
+import {
+  Chat_Messages,
+  GetChatMessagesDocument,
+  GetChatMessagesSubscription,
+} from '../../_graphql/api';
 
 export const SideNav = () => {
   const color = useColorModeValue('gray.200', 'gray.700');
 
-  const [messages, setMessages] = useState(new Array<any>())
+  const [messages, setMessages] = useState<Chat_Messages[]>([]);
 
-  const { data, loading } =
-    useSubscription<GetChatMessagesSubscription>(
-      GetChatMessagesDocument
-    );
+  const { data, loading } = useSubscription<GetChatMessagesSubscription>(
+    GetChatMessagesDocument
+  );
 
   useEffect(() => {
-    if (data)
-      setMessages(data?.chat_messages.reverse());
+    if (data) setMessages(data?.chat_messages.reverse());
   }, [data]);
 
   return (
@@ -30,22 +35,19 @@ export const SideNav = () => {
       flexDirection="column"
       bgColor={color}
     >
-      {
-        loading && data ?
-          <div>Loading...</div>
-          :
-          <OrderedList>
-            {messages?.map((item, i) => (
-              <>
-                <ListItem key={item.id}>
-                  <Text fontSize="xs">
-                    {item.user_info.nickname}: {item.message}
-                  </Text>
-                </ListItem>
-              </>
-            ))}
-          </OrderedList>
-      }
+      {loading && data ? (
+        <div>Loading...</div>
+      ) : (
+        <OrderedList>
+          {messages?.map((item, i) => (
+            <ListItem key={item.id}>
+              <Text fontSize="xs">
+                {item.user_info.nickname}: {item.message}
+              </Text>
+            </ListItem>
+          ))}
+        </OrderedList>
+      )}
       <ChatSubmit></ChatSubmit>
     </Box>
   );
