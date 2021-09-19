@@ -9,7 +9,6 @@ import {
 import { useEffect, useState } from 'react';
 import { ChatSubmit } from '../../components/chat-submit';
 import {
-  Chat_Messages,
   GetChatMessagesDocument,
   GetChatMessagesSubscription,
 } from '../../_graphql/api';
