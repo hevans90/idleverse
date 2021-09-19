@@ -22,7 +22,6 @@ export const SideNav = () => {
     GetChatMessagesDocument
   );
 
-  let test = data?.chat_messages.reverse();
   useEffect(() => {
     if (data) setMessages(data?.chat_messages.reverse());
   }, [data]);
