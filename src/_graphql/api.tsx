@@ -65,12 +65,19 @@ export type String_Comparison_Exp = {
 /** columns and relationships of "chat_messages" */
 export type Chat_Messages = {
   __typename?: 'chat_messages';
-  date?: Maybe<Scalars['timestamp']>;
   id: Scalars['uuid'];
   message: Scalars['String'];
   poster_id: Scalars['String'];
+  timestamp?: Maybe<Scalars['timestamp']>;
   /** An object relationship */
   user_info: User_Info;
+};
+
+/** order by aggregate values of table "chat_messages" */
+export type Chat_Messages_Aggregate_Order_By = {
+  count?: Maybe<Order_By>;
+  max?: Maybe<Chat_Messages_Max_Order_By>;
+  min?: Maybe<Chat_Messages_Min_Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "chat_messages". All fields are combined with a logical 'AND'. */
@@ -78,16 +85,32 @@ export type Chat_Messages_Bool_Exp = {
   _and?: Maybe<Array<Chat_Messages_Bool_Exp>>;
   _not?: Maybe<Chat_Messages_Bool_Exp>;
   _or?: Maybe<Array<Chat_Messages_Bool_Exp>>;
-  date?: Maybe<Timestamp_Comparison_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
   message?: Maybe<String_Comparison_Exp>;
   poster_id?: Maybe<String_Comparison_Exp>;
+  timestamp?: Maybe<Timestamp_Comparison_Exp>;
   user_info?: Maybe<User_Info_Bool_Exp>;
 };
 
 /** input type for inserting data into table "chat_messages" */
 export type Chat_Messages_Insert_Input = {
   message?: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "chat_messages" */
+export type Chat_Messages_Max_Order_By = {
+  id?: Maybe<Order_By>;
+  message?: Maybe<Order_By>;
+  poster_id?: Maybe<Order_By>;
+  timestamp?: Maybe<Order_By>;
+};
+
+/** order by min() on columns of table "chat_messages" */
+export type Chat_Messages_Min_Order_By = {
+  id?: Maybe<Order_By>;
+  message?: Maybe<Order_By>;
+  poster_id?: Maybe<Order_By>;
+  timestamp?: Maybe<Order_By>;
 };
 
 /** response of any mutation on the table "chat_messages" */
@@ -101,23 +124,141 @@ export type Chat_Messages_Mutation_Response = {
 
 /** Ordering options when selecting data from "chat_messages". */
 export type Chat_Messages_Order_By = {
-  date?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   message?: Maybe<Order_By>;
   poster_id?: Maybe<Order_By>;
+  timestamp?: Maybe<Order_By>;
   user_info?: Maybe<User_Info_Order_By>;
 };
 
 /** select columns of table "chat_messages" */
 export enum Chat_Messages_Select_Column {
   /** column name */
-  Date = 'date',
-  /** column name */
   Id = 'id',
   /** column name */
   Message = 'message',
   /** column name */
-  PosterId = 'poster_id'
+  PosterId = 'poster_id',
+  /** column name */
+  Timestamp = 'timestamp'
+}
+
+/** columns and relationships of "cluster" */
+export type Cluster = {
+  __typename?: 'cluster';
+  /** An object relationship */
+  galaxy: Galaxy;
+  galaxy_id: Scalars['uuid'];
+  id: Scalars['uuid'];
+  name?: Maybe<Scalars['String']>;
+  /** An array relationship */
+  systems: Array<System>;
+};
+
+
+/** columns and relationships of "cluster" */
+export type ClusterSystemsArgs = {
+  distinct_on?: Maybe<Array<System_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<System_Order_By>>;
+  where?: Maybe<System_Bool_Exp>;
+};
+
+/** order by aggregate values of table "cluster" */
+export type Cluster_Aggregate_Order_By = {
+  count?: Maybe<Order_By>;
+  max?: Maybe<Cluster_Max_Order_By>;
+  min?: Maybe<Cluster_Min_Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "cluster". All fields are combined with a logical 'AND'. */
+export type Cluster_Bool_Exp = {
+  _and?: Maybe<Array<Cluster_Bool_Exp>>;
+  _not?: Maybe<Cluster_Bool_Exp>;
+  _or?: Maybe<Array<Cluster_Bool_Exp>>;
+  galaxy?: Maybe<Galaxy_Bool_Exp>;
+  galaxy_id?: Maybe<Uuid_Comparison_Exp>;
+  id?: Maybe<Uuid_Comparison_Exp>;
+  name?: Maybe<String_Comparison_Exp>;
+  systems?: Maybe<System_Bool_Exp>;
+};
+
+/** order by max() on columns of table "cluster" */
+export type Cluster_Max_Order_By = {
+  galaxy_id?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+};
+
+/** order by min() on columns of table "cluster" */
+export type Cluster_Min_Order_By = {
+  galaxy_id?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+};
+
+/** Ordering options when selecting data from "cluster". */
+export type Cluster_Order_By = {
+  galaxy?: Maybe<Galaxy_Order_By>;
+  galaxy_id?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+  systems_aggregate?: Maybe<System_Aggregate_Order_By>;
+};
+
+/** select columns of table "cluster" */
+export enum Cluster_Select_Column {
+  /** column name */
+  GalaxyId = 'galaxy_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
+/** columns and relationships of "galaxy" */
+export type Galaxy = {
+  __typename?: 'galaxy';
+  /** An array relationship */
+  clusters: Array<Cluster>;
+  id: Scalars['uuid'];
+  name?: Maybe<Scalars['String']>;
+};
+
+
+/** columns and relationships of "galaxy" */
+export type GalaxyClustersArgs = {
+  distinct_on?: Maybe<Array<Cluster_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Cluster_Order_By>>;
+  where?: Maybe<Cluster_Bool_Exp>;
+};
+
+/** Boolean expression to filter rows from the table "galaxy". All fields are combined with a logical 'AND'. */
+export type Galaxy_Bool_Exp = {
+  _and?: Maybe<Array<Galaxy_Bool_Exp>>;
+  _not?: Maybe<Galaxy_Bool_Exp>;
+  _or?: Maybe<Array<Galaxy_Bool_Exp>>;
+  clusters?: Maybe<Cluster_Bool_Exp>;
+  id?: Maybe<Uuid_Comparison_Exp>;
+  name?: Maybe<String_Comparison_Exp>;
+};
+
+/** Ordering options when selecting data from "galaxy". */
+export type Galaxy_Order_By = {
+  clusters_aggregate?: Maybe<Cluster_Aggregate_Order_By>;
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+};
+
+/** select columns of table "galaxy" */
+export enum Galaxy_Select_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
 }
 
 /** columns and relationships of "idle_test" */
@@ -335,14 +476,26 @@ export enum Order_By {
 
 export type Query_Root = {
   __typename?: 'query_root';
-  /** fetch data from the table: "chat_messages" */
+  /** An array relationship */
   chat_messages: Array<Chat_Messages>;
   /** fetch data from the table: "chat_messages" using primary key columns */
   chat_messages_by_pk?: Maybe<Chat_Messages>;
+  /** fetch data from the table: "cluster" */
+  cluster: Array<Cluster>;
+  /** fetch data from the table: "cluster" using primary key columns */
+  cluster_by_pk?: Maybe<Cluster>;
+  /** fetch data from the table: "galaxy" */
+  galaxy: Array<Galaxy>;
+  /** fetch data from the table: "galaxy" using primary key columns */
+  galaxy_by_pk?: Maybe<Galaxy>;
   /** fetch data from the table: "idle_test" */
   idle_test: Array<Idle_Test>;
   /** fetch data from the table: "idle_test" using primary key columns */
   idle_test_by_pk?: Maybe<Idle_Test>;
+  /** fetch data from the table: "system" */
+  system: Array<System>;
+  /** fetch data from the table: "system" using primary key columns */
+  system_by_pk?: Maybe<System>;
   /** fetch data from the table: "user_info" */
   user_info: Array<User_Info>;
   /** fetch data from the table: "user_info" using primary key columns */
@@ -366,6 +519,34 @@ export type Query_RootChat_Messages_By_PkArgs = {
 };
 
 
+export type Query_RootClusterArgs = {
+  distinct_on?: Maybe<Array<Cluster_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Cluster_Order_By>>;
+  where?: Maybe<Cluster_Bool_Exp>;
+};
+
+
+export type Query_RootCluster_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootGalaxyArgs = {
+  distinct_on?: Maybe<Array<Galaxy_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Galaxy_Order_By>>;
+  where?: Maybe<Galaxy_Bool_Exp>;
+};
+
+
+export type Query_RootGalaxy_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type Query_RootIdle_TestArgs = {
   distinct_on?: Maybe<Array<Idle_Test_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -376,6 +557,20 @@ export type Query_RootIdle_TestArgs = {
 
 
 export type Query_RootIdle_Test_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootSystemArgs = {
+  distinct_on?: Maybe<Array<System_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<System_Order_By>>;
+  where?: Maybe<System_Bool_Exp>;
+};
+
+
+export type Query_RootSystem_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -404,14 +599,26 @@ export type Query_RootUser_PrivateArgs = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
-  /** fetch data from the table: "chat_messages" */
+  /** An array relationship */
   chat_messages: Array<Chat_Messages>;
   /** fetch data from the table: "chat_messages" using primary key columns */
   chat_messages_by_pk?: Maybe<Chat_Messages>;
+  /** fetch data from the table: "cluster" */
+  cluster: Array<Cluster>;
+  /** fetch data from the table: "cluster" using primary key columns */
+  cluster_by_pk?: Maybe<Cluster>;
+  /** fetch data from the table: "galaxy" */
+  galaxy: Array<Galaxy>;
+  /** fetch data from the table: "galaxy" using primary key columns */
+  galaxy_by_pk?: Maybe<Galaxy>;
   /** fetch data from the table: "idle_test" */
   idle_test: Array<Idle_Test>;
   /** fetch data from the table: "idle_test" using primary key columns */
   idle_test_by_pk?: Maybe<Idle_Test>;
+  /** fetch data from the table: "system" */
+  system: Array<System>;
+  /** fetch data from the table: "system" using primary key columns */
+  system_by_pk?: Maybe<System>;
   /** fetch data from the table: "user_info" */
   user_info: Array<User_Info>;
   /** fetch data from the table: "user_info" using primary key columns */
@@ -435,6 +642,34 @@ export type Subscription_RootChat_Messages_By_PkArgs = {
 };
 
 
+export type Subscription_RootClusterArgs = {
+  distinct_on?: Maybe<Array<Cluster_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Cluster_Order_By>>;
+  where?: Maybe<Cluster_Bool_Exp>;
+};
+
+
+export type Subscription_RootCluster_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootGalaxyArgs = {
+  distinct_on?: Maybe<Array<Galaxy_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Galaxy_Order_By>>;
+  where?: Maybe<Galaxy_Bool_Exp>;
+};
+
+
+export type Subscription_RootGalaxy_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type Subscription_RootIdle_TestArgs = {
   distinct_on?: Maybe<Array<Idle_Test_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -445,6 +680,20 @@ export type Subscription_RootIdle_TestArgs = {
 
 
 export type Subscription_RootIdle_Test_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootSystemArgs = {
+  distinct_on?: Maybe<Array<System_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<System_Order_By>>;
+  where?: Maybe<System_Bool_Exp>;
+};
+
+
+export type Subscription_RootSystem_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -471,6 +720,66 @@ export type Subscription_RootUser_PrivateArgs = {
   where?: Maybe<User_Private_Bool_Exp>;
 };
 
+/** columns and relationships of "system" */
+export type System = {
+  __typename?: 'system';
+  /** An object relationship */
+  cluster: Cluster;
+  cluster_id: Scalars['uuid'];
+  id: Scalars['uuid'];
+  name?: Maybe<Scalars['String']>;
+};
+
+/** order by aggregate values of table "system" */
+export type System_Aggregate_Order_By = {
+  count?: Maybe<Order_By>;
+  max?: Maybe<System_Max_Order_By>;
+  min?: Maybe<System_Min_Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "system". All fields are combined with a logical 'AND'. */
+export type System_Bool_Exp = {
+  _and?: Maybe<Array<System_Bool_Exp>>;
+  _not?: Maybe<System_Bool_Exp>;
+  _or?: Maybe<Array<System_Bool_Exp>>;
+  cluster?: Maybe<Cluster_Bool_Exp>;
+  cluster_id?: Maybe<Uuid_Comparison_Exp>;
+  id?: Maybe<Uuid_Comparison_Exp>;
+  name?: Maybe<String_Comparison_Exp>;
+};
+
+/** order by max() on columns of table "system" */
+export type System_Max_Order_By = {
+  cluster_id?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+};
+
+/** order by min() on columns of table "system" */
+export type System_Min_Order_By = {
+  cluster_id?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+};
+
+/** Ordering options when selecting data from "system". */
+export type System_Order_By = {
+  cluster?: Maybe<Cluster_Order_By>;
+  cluster_id?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+};
+
+/** select columns of table "system" */
+export enum System_Select_Column {
+  /** column name */
+  ClusterId = 'cluster_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
 /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
 export type Timestamp_Comparison_Exp = {
   _eq?: Maybe<Scalars['timestamp']>;
@@ -487,10 +796,22 @@ export type Timestamp_Comparison_Exp = {
 /** columns and relationships of "user_info" */
 export type User_Info = {
   __typename?: 'user_info';
+  /** An array relationship */
+  chat_messages: Array<Chat_Messages>;
   id: Scalars['String'];
   /** An object relationship */
   idle_test?: Maybe<Idle_Test>;
   nickname: Scalars['String'];
+};
+
+
+/** columns and relationships of "user_info" */
+export type User_InfoChat_MessagesArgs = {
+  distinct_on?: Maybe<Array<Chat_Messages_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Chat_Messages_Order_By>>;
+  where?: Maybe<Chat_Messages_Bool_Exp>;
 };
 
 /** Boolean expression to filter rows from the table "user_info". All fields are combined with a logical 'AND'. */
@@ -498,6 +819,7 @@ export type User_Info_Bool_Exp = {
   _and?: Maybe<Array<User_Info_Bool_Exp>>;
   _not?: Maybe<User_Info_Bool_Exp>;
   _or?: Maybe<Array<User_Info_Bool_Exp>>;
+  chat_messages?: Maybe<Chat_Messages_Bool_Exp>;
   id?: Maybe<String_Comparison_Exp>;
   idle_test?: Maybe<Idle_Test_Bool_Exp>;
   nickname?: Maybe<String_Comparison_Exp>;
@@ -505,6 +827,7 @@ export type User_Info_Bool_Exp = {
 
 /** Ordering options when selecting data from "user_info". */
 export type User_Info_Order_By = {
+  chat_messages_aggregate?: Maybe<Chat_Messages_Aggregate_Order_By>;
   id?: Maybe<Order_By>;
   idle_test?: Maybe<Idle_Test_Order_By>;
   nickname?: Maybe<Order_By>;
@@ -583,7 +906,7 @@ export type Uuid_Comparison_Exp = {
 export type GetChatMessagesSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetChatMessagesSubscription = { __typename?: 'subscription_root', chat_messages: Array<{ __typename?: 'chat_messages', date?: Maybe<any>, id: any, message: string, poster_id: string, user_info: { __typename?: 'user_info', nickname: string, id: string } }> };
+export type GetChatMessagesSubscription = { __typename?: 'subscription_root', chat_messages: Array<{ __typename?: 'chat_messages', timestamp?: Maybe<any>, id: any, message: string, poster_id: string, user_info: { __typename?: 'user_info', nickname: string, id: string } }> };
 
 export type SendNewMessageMutationVariables = Exact<{
   message?: Maybe<Scalars['String']>;
@@ -610,8 +933,8 @@ export type IdleGameCounterRealTimeSubscription = { __typename?: 'subscription_r
 
 export const GetChatMessagesDocument = gql`
     subscription GetChatMessages {
-  chat_messages(order_by: {date: desc}, limit: 10) {
-    date
+  chat_messages(order_by: {timestamp: desc}, limit: 10) {
+    timestamp
     id
     message
     poster_id
