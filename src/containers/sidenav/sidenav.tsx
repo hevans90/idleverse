@@ -9,7 +9,6 @@ import {
 import { useEffect, useState } from 'react';
 import { ChatSubmit } from '../../components/chat-submit';
 import {
-  Chat_Messages,
   GetChatMessagesDocument,
   GetChatMessagesSubscription,
 } from '../../_graphql/api';
@@ -23,7 +22,6 @@ export const SideNav = () => {
     GetChatMessagesDocument
   );
 
-  let test = data?.chat_messages.reverse();
   useEffect(() => {
     if (data) setMessages(data?.chat_messages.reverse());
   }, [data]);
