@@ -17,12 +17,13 @@ import {
 export const SideNav = () => {
   const color = useColorModeValue('gray.200', 'gray.700');
 
-  const [messages, setMessages] = useState<Chat_Messages[]>([]);
+  const [messages, setMessages] = useState<GetChatMessagesSubscription['chat_messages']>([]);
 
   const { data, loading } = useSubscription<GetChatMessagesSubscription>(
     GetChatMessagesDocument
   );
 
+  let test = data?.chat_messages.reverse();
   useEffect(() => {
     if (data) setMessages(data?.chat_messages.reverse());
   }, [data]);
