@@ -68,7 +68,7 @@ export type Chat_Messages = {
   id: Scalars['uuid'];
   message: Scalars['String'];
   poster_id: Scalars['String'];
-  timestamp?: Maybe<Scalars['timestamp']>;
+  timestamp: Scalars['timestamp'];
   /** An object relationship */
   user_info: User_Info;
 };
@@ -906,7 +906,7 @@ export type Uuid_Comparison_Exp = {
 export type GetChatMessagesSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetChatMessagesSubscription = { __typename?: 'subscription_root', chat_messages: Array<{ __typename?: 'chat_messages', timestamp?: Maybe<any>, id: any, message: string, poster_id: string, user_info: { __typename?: 'user_info', nickname: string, id: string } }> };
+export type GetChatMessagesSubscription = { __typename?: 'subscription_root', chat_messages: Array<{ __typename?: 'chat_messages', timestamp: any, id: any, message: string, poster_id: string, user_info: { __typename?: 'user_info', nickname: string, id: string } }> };
 
 export type SendNewMessageMutationVariables = Exact<{
   message?: Maybe<Scalars['String']>;
