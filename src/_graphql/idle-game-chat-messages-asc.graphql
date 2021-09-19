@@ -1,6 +1,6 @@
 subscription GetChatMessages {
-  chat_messages(order_by: { date: desc }, limit: 10) {
-    date
+  chat_messages(order_by: { timestamp: desc }, limit: 10) {
+    timestamp
     id
     message
     poster_id
