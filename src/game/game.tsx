@@ -1,10 +1,10 @@
-import { Box } from '@chakra-ui/react';
-import { Application } from 'pixi.js';
-import React, { useEffect, useRef, useState } from 'react';
-import { useResize } from '../containers/counter/responsive-canvas';
-import { IdleGameCountersRealTimeDescSubscription } from '../_graphql/api';
-import { InitializeStars } from './generate';
-import { Star } from './star';
+import { Box } from "@chakra-ui/react";
+import { Application, Container } from "pixi.js";
+import React, { useEffect, useRef, useState } from "react";
+import { useResize } from "../containers/counter/responsive-canvas";
+import { IdleGameCountersRealTimeDescSubscription } from "../_graphql/api";
+import { InitializeCelestials } from "./generate";
+import { Star } from "./star";
 
 export const Game = ({
   data,
@@ -14,7 +14,9 @@ export const Game = ({
   const ref = useRef<HTMLDivElement>(null!);
   const size = useResize();
 
-  const [starPositions] = useState(InitializeStars(size.width, size.height));
+  const [starPositions] = useState(
+    InitializeCelestials(size.width, size.height, 5000)
+  );
 
   useEffect(() => {
     const app = new Application({
@@ -28,9 +30,23 @@ export const Game = ({
     // Start the PixiJS app
     app.start();
 
+    const galaxy = new Container();
+    app.stage.addChild(galaxy);
+
     starPositions.forEach((starPosition) =>
-      app.stage.addChild(Star(starPosition))
+      galaxy.addChild(Star(starPosition))
     );
+
+    galaxy.x = size.width / 2;
+    galaxy.y = size.height / 2;
+
+    console.log(app.stage.children[0]);
+
+    app.ticker.add((delta) => {
+      // rotate the container!
+      // use delta to create frame-independent transform
+      galaxy.rotation -= 0.001 * delta;
+    });
 
     return () => {
       // On unload completely destroy the application and all of it's children

@@ -1,48 +1,42 @@
-import { StarProps } from "./star";
+export const InitializeCelestials = (
+  canvasWidth: number,
+  canvasHeight: number,
+  count: number
+) => {
+  const radius = canvasHeight;
+  const arms = 3;
+  const curvature = 3;
+  const arm_width = 0.05;
+  const core_radius = radius / 50;
+  const core_concentration_bias = 1.5;
 
-const numArms = 5;
-const armSeparationDistance = 2 * Math.PI / numArms;
-const armOffsetMax = 0.5;
-const rotationFactor = 5;
-const randomOffsetXY = 0.02;
+  function getRandomInt(max: number) {
+    return Math.floor(Math.random() * max);
+  }
 
-export const InitializeStars = (canvasWidth: number, canvasHeight: number): StarProps[] => {
-    let starPositions: StarProps[] = [];
-    for(let i = 0; i < 5000; i++) {
-        // Choose a distance from the center of the galaxy.
-        let distance = Math.random();
-        distance = Math.pow(distance, 2);
+  function signedRandom() {
+    return 2 * Math.random() - 1;
+  }
 
-        // Choose an angle between 0 and 2 * PI.
-        let angle = Math.random() * 2 * Math.PI;
-        let armOffset = Math.random() * armOffsetMax; // 0.5
-        armOffset = armOffset - (armOffsetMax / 2); // 0.5 - 0.25 = 0.25
-        armOffset = armOffset * (1 / distance);
+  let positions = [];
+  for (let i = 0; i < count; i++) {
+    // Choose a distance from the center of the galaxy.
+    let arm = getRandomInt(arms) - 1;
+    let theta = Math.pow(Math.random(), core_concentration_bias) * Math.PI * curvature;
+    let r =
+      (((theta / (Math.PI * 2)) * radius) / curvature) *
+      (1 + signedRandom() * arm_width);
 
-        let squaredArmOffset = Math.pow(armOffset, 2);
-        if(armOffset < 0)
-            squaredArmOffset = squaredArmOffset * -1;
-        armOffset = squaredArmOffset;
+    theta += (signedRandom() * Math.PI * core_radius) / r;
 
-        let rotation = distance * rotationFactor;
+    // Convert polar coordinates to 2D cartesian coordinates.
+    let x =
+      Math.cos(theta + ((2 * Math.PI) / arms) * arm) * r;
+    let y =
+      Math.sin(theta + ((2 * Math.PI) / arms) * arm) * r;
 
-        angle = (angle / armSeparationDistance) * armSeparationDistance + armOffset + rotation;
-
-        // Convert polar coordinates to 2D cartesian coordinates.
-        let x = Math.cos(angle) * distance;
-        let y = Math.sin(angle) * distance;
-
-        
-        let randomOffsetX = Math.random() * randomOffsetXY;
-        let randomOffsetY = Math.random() * randomOffsetXY;
-
-        x += randomOffsetX;
-        y += randomOffsetY;
-
-        let scale = Math.max(...[canvasWidth / 4 - -canvasWidth / 4,
-            -canvasHeight / 4 - canvasHeight / 4])
-        // Now we can assign xy coords.
-        starPositions[i] = {x: x * scale + canvasWidth / 2, y: y * scale + canvasHeight / 2};
-    }
-    return starPositions;
-}
+    // Now we can assign xy coords.
+    positions[i] = { x: x, y: y, theta: theta, r: r };
+  }
+  return positions;
+};
