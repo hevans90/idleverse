@@ -1,10 +1,12 @@
 import { useSubscription } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
+import { Stage } from '@inlet/react-pixi';
 import {
   IdleGameCountersRealTimeDescDocument,
   IdleGameCountersRealTimeDescSubscription,
 } from '../_graphql/api';
 import { Game } from './game';
+import { useResize } from './use-resize.hook';
 
 export const GameContainer = () => {
   const { data, loading } =
@@ -12,6 +14,7 @@ export const GameContainer = () => {
       IdleGameCountersRealTimeDescDocument
     );
 
+  const size = useResize();
   if (loading) {
     return (
       <Box h="100%" display="flex" alignItems="center" justifyContent="center">
@@ -19,7 +22,11 @@ export const GameContainer = () => {
       </Box>
     );
   } else if (data) {
-    return <Game data={data}></Game>;
+    return (
+      <Stage {...size} options={{ backgroundColor: 0x2d3239, antialias: true }}>
+        <Game></Game>
+      </Stage>
+    );
   } else {
     return (
       <Box h="100%" display="flex" alignItems="center" justifyContent="center">

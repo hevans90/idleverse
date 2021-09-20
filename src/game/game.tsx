@@ -1,17 +1,13 @@
-import { Box } from '@chakra-ui/react';
-import { Application, Container } from 'pixi.js';
-import React, { useEffect, useRef, useState } from 'react';
-import { useResize } from '../containers/counter/responsive-canvas';
-import { IdleGameCountersRealTimeDescSubscription } from '../_graphql/api';
+import { useApp } from '@inlet/react-pixi';
+import { Container } from 'pixi.js';
+import { useEffect, useState } from 'react';
 import { InitializeCelestials } from './generate';
 import { Star } from './star';
+import { useResize } from './use-resize.hook';
 
-export const Game = ({
-  data,
-}: {
-  data: IdleGameCountersRealTimeDescSubscription;
-}) => {
-  const ref = useRef<HTMLDivElement>(null!);
+export const Game = () => {
+  const app = useApp();
+
   const size = useResize();
 
   const [starPositions] = useState(
@@ -19,17 +15,6 @@ export const Game = ({
   );
 
   useEffect(() => {
-    const app = new Application({
-      ...size,
-      backgroundColor: 0x2d3239,
-      resizeTo: ref.current,
-    });
-
-    // Add app to DOM
-    ref.current.appendChild(app.view);
-    // Start the PixiJS app
-    app.start();
-
     const galaxy = new Container();
     app.stage.addChild(galaxy);
 
@@ -55,5 +40,5 @@ export const Game = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <Box height="100%" ref={ref} />;
+  return <></>;
 };
