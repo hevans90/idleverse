@@ -11511,6 +11511,11 @@ pend@~1.2.0:
   resolved "https://registry.yarnpkg.com/pend/-/pend-1.2.0.tgz#7a57eb550a6783f9115331fcf4663d5c8e007a50"
   integrity sha1-elfrVQpng/kRUzH89GY9XI4AelA=
 
+penner@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/penner/-/penner-0.1.3.tgz#0b8b482d4e9b39af2f3d7c37592229b8acc29705"
+  integrity sha1-C4tILU6bOa8vPXw3WSIpuKzClwU=
+
 performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
@@ -11567,6 +11572,13 @@ pixi-stats@^1.0.7:
   dependencies:
     "@jacekpietal/gstats" "^0.1.0"
     pixi.js "*"
+
+pixi-viewport@^4.32.0:
+  version "4.32.0"
+  resolved "https://registry.yarnpkg.com/pixi-viewport/-/pixi-viewport-4.32.0.tgz#f3b000105ec3a969b6821a282b6b1db65e00f045"
+  integrity sha512-KZYZokCjCNexWBFWMahBnUWQNnVRyKMff0OqPaT9ykOd0WJBGPp2ovU0Q758/NIOKyNiO2bK3Ok3EJfO+DcH1g==
+  dependencies:
+    penner "^0.1.3"
 
 pixi.js@*, pixi.js@^6.1.3:
   version "6.1.3"
