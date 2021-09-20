@@ -6,7 +6,7 @@ import {
   IdleGameCountersRealTimeDescSubscription,
 } from '../_graphql/api';
 import { Game } from './game';
-import { useResize } from './use-resize.hook';
+import { useResize } from './utils/use-resize.hook';
 
 export const GameContainer = () => {
   const { data, loading } =
