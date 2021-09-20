@@ -933,7 +933,7 @@ export type IdleGameCounterRealTimeSubscription = { __typename?: 'subscription_r
 
 export const GetChatMessagesDocument = gql`
     subscription GetChatMessages {
-  chat_messages(order_by: {timestamp: desc}, limit: 10) {
+  chat_messages(order_by: {timestamp: desc}, limit: 200) {
     timestamp
     id
     message
