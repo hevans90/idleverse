@@ -1,6 +1,7 @@
 import { useApp } from '@inlet/react-pixi';
+import { addStats } from 'pixi-stats';
 import { Viewport } from 'pixi-viewport';
-import { Container } from 'pixi.js';
+import { Container, UPDATE_PRIORITY } from 'pixi.js';
 import { useEffect, useState } from 'react';
 import { Star } from './graphics/star';
 import { InitializeCelestials } from './utils/generate';
@@ -52,6 +53,10 @@ export const Game = () => {
       // use delta to create frame-independent transform
       galaxy.rotation -= 0.001 * delta;
     });
+
+    const stats = addStats(document, app);
+
+    app.ticker.add(stats.update, stats, UPDATE_PRIORITY.UTILITY);
 
     return () => {
       // On unload completely destroy the application and all of it's children
