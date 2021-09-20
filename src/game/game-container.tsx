@@ -6,6 +6,7 @@ import {
   IdleGameCountersRealTimeDescSubscription,
 } from '../_graphql/api';
 import { Game } from './game';
+import { Indicators } from './indicators';
 import { useResize } from './utils/use-resize.hook';
 
 export const GameContainer = () => {
@@ -25,6 +26,7 @@ export const GameContainer = () => {
     return (
       <Stage {...size} options={{ backgroundColor: 0x2d3239, antialias: true }}>
         <Game></Game>
+        <Indicators></Indicators>
       </Stage>
     );
   } else {

@@ -2853,6 +2853,11 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.3.tgz#e45e384e4b8ec16bce2fd903af78450f6bf7ec98"
   integrity sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==
 
+"@jacekpietal/gstats@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@jacekpietal/gstats/-/gstats-0.1.0.tgz#b61fd6cc6f7ed0fd27e92484ee418ea55f62c3a1"
+  integrity sha512-52ILOmtGRZdunCFXE/wxNaGs/CsP0mF7QbNKvpviSI8cnznognB65zWG2r+k+2SNhYPCDg+FTi3/pj5JSxeh3A==
+
 "@jest/console@^26.6.2":
   version "26.6.2"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-26.6.2.tgz#4e04bc464014358b03ab4937805ee36a0aeb98f2"
@@ -11555,7 +11560,15 @@ pirates@^4.0.1:
   dependencies:
     node-modules-regexp "^1.0.0"
 
-pixi.js@^6.1.3:
+pixi-stats@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/pixi-stats/-/pixi-stats-1.0.7.tgz#e7762b0b4e53cca2814cdc1b8d3beb860817abf9"
+  integrity sha512-7bSEH46KpvJ9pv00b6zfPT74lvarpOKM8wk/unI3OlFt8KA8YmY8lq1C/pViDYM59xaJdUPzedrbmo2lvER8Iw==
+  dependencies:
+    "@jacekpietal/gstats" "^0.1.0"
+    pixi.js "*"
+
+pixi.js@*, pixi.js@^6.1.3:
   version "6.1.3"
   resolved "https://registry.yarnpkg.com/pixi.js/-/pixi.js-6.1.3.tgz#b8ff7a7348dac1def839e7cb970c7efe3283e0fd"
   integrity sha512-h8Y/YVgP4CSPoUQvXaQvQf5GyQxi0b1NtVD38bZQsrX4CQ3r85jBU+zPyHN0fAcvhCB+nNvdD2sEwhhqkNsuSw==

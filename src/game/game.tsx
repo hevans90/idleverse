@@ -25,8 +25,6 @@ export const Game = () => {
     galaxy.x = size.width / 2;
     galaxy.y = size.height / 2;
 
-    console.log(app.stage.children[0]);
-
     app.ticker.add((delta) => {
       // rotate the container!
       // use delta to create frame-independent transform
