@@ -1,4 +1,5 @@
 import { useApp } from '@inlet/react-pixi';
+import { Viewport } from 'pixi-viewport';
 import { Container } from 'pixi.js';
 import { useEffect, useState } from 'react';
 import { Star } from './graphics/star';
@@ -15,8 +16,29 @@ export const Game = () => {
   );
 
   useEffect(() => {
+    // create viewport
+    const viewport = new Viewport({
+      screenWidth: size.width,
+      screenHeight: size.height,
+      worldWidth: size.width,
+      worldHeight: size.height,
+
+      // the interaction module is important for wheel to work properly when renderer.view is placed or scaled
+      interaction: app.renderer.plugins.interaction,
+    });
+
+    // add the viewport to the stage
+    app.stage.addChild(viewport);
+
+    // activate plugins
+    viewport.drag().pinch().wheel().decelerate();
+
+    viewport.clampZoom({ minWidth: 300, maxWidth: 2000 });
+    viewport.clamp({ direction: 'all' });
+
     const galaxy = new Container();
-    app.stage.addChild(galaxy);
+    viewport.addChild(galaxy);
+    viewport.name = 'viewport';
 
     starPositions.forEach((starPosition) =>
       galaxy.addChild(Star(starPosition))
@@ -37,6 +59,20 @@ export const Game = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // when the screen is resized, this effect will reset the viewport's screen dimensions & then re-center
+  useEffect(() => {
+    const viewport: Viewport = app.stage.getChildByName(
+      'viewport'
+    ) as unknown as Viewport;
+
+    viewport.screenHeight = size.height;
+    viewport.screenWidth = size.width;
+
+    viewport.fitWorld(true);
+
+    console.log(viewport);
+  }, [app.stage, size]);
 
   return <></>;
 };
