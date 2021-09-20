@@ -1,4 +1,9 @@
-import { Box, useColorModeValue } from '@chakra-ui/react';
+import {
+  Box,
+  ListItem,
+  UnorderedList,
+  useColorModeValue,
+} from '@chakra-ui/react';
 
 export const Footer = () => {
   const color = useColorModeValue('gray.200', 'gray.600');
@@ -6,10 +11,19 @@ export const Footer = () => {
   return (
     <Box
       className="footer"
-      padding={2}
+      padding="1rem"
       display="flex"
-      alignItems="center"
+      alignItems="start"
       bgColor={color}
-    ></Box>
+    >
+      <UnorderedList fontSize="small">
+        <ListItem marginBottom="1rem">
+          Zoom in/out using a mousewheel or pinching on a touchpad.
+        </ListItem>
+        <ListItem>
+          Move the galaxy around by dragging (after zooming in)
+        </ListItem>
+      </UnorderedList>
+    </Box>
   );
 };

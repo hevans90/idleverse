@@ -26,7 +26,7 @@ export const GameContainer = () => {
     return (
       <Stage {...size} options={{ backgroundColor: 0x2d3239, antialias: true }}>
         <Game></Game>
-        <Indicators></Indicators>
+        <Indicators />
       </Stage>
     );
   } else {
