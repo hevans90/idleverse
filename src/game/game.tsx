@@ -1,9 +1,9 @@
 import { useApp } from '@inlet/react-pixi';
 import { Container } from 'pixi.js';
 import { useEffect, useState } from 'react';
-import { InitializeCelestials } from './generate';
-import { Star } from './star';
-import { useResize } from './use-resize.hook';
+import { Star } from './graphics/star';
+import { InitializeCelestials } from './utils/generate';
+import { useResize } from './utils/use-resize.hook';
 
 export const Game = () => {
   const app = useApp();
@@ -24,8 +24,6 @@ export const Game = () => {
 
     galaxy.x = size.width / 2;
     galaxy.y = size.height / 2;
-
-    console.log(app.stage.children[0]);
 
     app.ticker.add((delta) => {
       // rotate the container!
