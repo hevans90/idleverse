@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  footerHeight,
-  sideNavWidth,
-  topBarHeight,
-} from '../../components/layout';
+import { footerHeight, sideNavWidth, topBarHeight } from '../components/layout';
 
 const getScreenSize = () => ({
   width: window.innerWidth - sideNavWidth,
