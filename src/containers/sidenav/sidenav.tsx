@@ -1,4 +1,5 @@
 import { useSubscription } from '@apollo/client';
+import { useAuth0 } from '@auth0/auth0-react';
 import {
   Box,
   ListItem,
@@ -6,7 +7,7 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ChatSubmit } from '../../components/chat-submit';
 import {
   GetChatMessagesDocument,
@@ -16,44 +17,76 @@ import {
 export const SideNav = () => {
   const color = useColorModeValue('gray.200', 'gray.700');
 
-  const [messages, setMessages] = useState<GetChatMessagesSubscription['chat_messages']>([]);
+  const endOfChat = useRef<HTMLDivElement>(null);
+
+  const { user } = useAuth0();
+
+  const [messages, setMessages] = useState<
+    GetChatMessagesSubscription['chat_messages']
+  >([]);
 
   const { data, loading } = useSubscription<GetChatMessagesSubscription>(
     GetChatMessagesDocument
   );
 
+  const scrollToBottom = () =>
+    setTimeout(() => {
+      endOfChat.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+
   useEffect(() => {
-    if (data) setMessages(data?.chat_messages.reverse());
+    if (data) {
+      setMessages(data?.chat_messages.reverse());
+      scrollToBottom();
+    }
   }, [data]);
 
-  const chatUserColor = useColorModeValue('gray.500', 'gray.500');
+  const chatUserColor = useColorModeValue('pink.500', 'pink.400');
+  const myUserColor = useColorModeValue('teal.700', 'teal.500');
+
+  const chatMessageColor = useColorModeValue('gray.500', 'gray.300');
 
   return (
-    <Box
-      className="sidenav"
-      padding={2}
-      display="flex"
-      flexDirection="column"
-      bgColor={color}
-    >
-      {loading && data ? (
-        <div>Loading...</div>
-      ) : (
-        <OrderedList marginInlineStart="unset">
-          {messages?.map((item, i) => (
-            <ListItem key={item.id}>
-              <Box fontSize="xxs">
-                <Text fontSize="xxs" color={chatUserColor} display="contents">
-                  {item.user_info.nickname}:
-                </Text>
+    <>
+      <Box
+        className="sidenav"
+        padding={2}
+        display="flex"
+        flexDirection="column"
+        overflowY="scroll"
+        maxHeight="100vh"
+        position="relative"
+        bgColor={color}
+      >
+        {loading && data ? (
+          <div>Loading...</div>
+        ) : (
+          <OrderedList marginInlineStart="unset">
+            {messages?.map((item, i) => (
+              <ListItem key={item.id}>
+                <Box fontSize="xxs" color={chatMessageColor}>
+                  <Text
+                    fontSize="xxs"
+                    color={
+                      item.user_info.nickname === user?.nickname
+                        ? myUserColor
+                        : chatUserColor
+                    }
+                    display="contents"
+                    lineHeight="1.25rem"
+                  >
+                    {item.user_info.nickname}:
+                  </Text>
 
-                {item.message}
-              </Box>
-            </ListItem>
-          ))}
-        </OrderedList>
-      )}
+                  {item.message}
+                </Box>
+              </ListItem>
+            ))}
+            <Box ref={endOfChat} height="50px"></Box>
+          </OrderedList>
+        )}
+      </Box>
       <ChatSubmit></ChatSubmit>
-    </Box>
+    </>
   );
 };

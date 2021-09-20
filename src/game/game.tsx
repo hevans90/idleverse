@@ -1,10 +1,10 @@
-import { Box } from "@chakra-ui/react";
-import { Application, Container } from "pixi.js";
-import React, { useEffect, useRef, useState } from "react";
-import { useResize } from "../containers/counter/responsive-canvas";
-import { IdleGameCountersRealTimeDescSubscription } from "../_graphql/api";
-import { InitializeCelestials } from "./generate";
-import { Star } from "./star";
+import { Box } from '@chakra-ui/react';
+import { Application, Container } from 'pixi.js';
+import React, { useEffect, useRef, useState } from 'react';
+import { useResize } from '../containers/counter/responsive-canvas';
+import { IdleGameCountersRealTimeDescSubscription } from '../_graphql/api';
+import { InitializeCelestials } from './generate';
+import { Star } from './star';
 
 export const Game = ({
   data,
