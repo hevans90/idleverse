@@ -24,8 +24,6 @@ export const App = () => {
 
   const [idToken, setIdToken] = useState<string>('');
 
-  const [curvature, setCurvature] = useState(3);
-
   useEffect(() => {
     async function fetchMyToken() {
       const x = await getIdTokenClaims();
@@ -48,8 +46,8 @@ export const App = () => {
 
   return (
     <ApolloProvider client={client}>
-      <Layout curvature={curvature} setCurvature={setCurvature}>
-        <GameContainer curvature={curvature}></GameContainer>
+      <Layout>
+        <GameContainer client={client}></GameContainer>
       </Layout>
     </ApolloProvider>
   );

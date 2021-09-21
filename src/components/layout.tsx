@@ -37,20 +37,13 @@ const ResponsiveGrid = styled.div`
   }
 `;
 
-export const Layout = (props: {
-  children: JSX.Element;
-  curvature: number;
-  setCurvature: React.Dispatch<React.SetStateAction<number>>;
-}) => {
+export const Layout = (props: { children: JSX.Element }) => {
   return (
     <ResponsiveGrid>
       <SideNav></SideNav>
       <ToolBar></ToolBar>
       <main>{props.children}</main>
-      <Footer
-        curvature={props.curvature}
-        setCurvature={props.setCurvature}
-      ></Footer>
+      <Footer></Footer>
     </ResponsiveGrid>
   );
 };
