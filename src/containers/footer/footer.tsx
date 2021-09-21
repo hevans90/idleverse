@@ -34,8 +34,10 @@ export const Footer = (props: {
           </ListItem>
         </UnorderedList>
         <Slider
-          aria-label="slider-ex-1"
-          defaultValue={30}
+          aria-label="curvature-slider"
+          defaultValue={3}
+          max={10}
+          step={0.1}
           onChange={(event) => {
             props.setCurvature(event);
           }}

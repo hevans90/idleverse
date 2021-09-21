@@ -1,10 +1,10 @@
 import { useApp } from "@inlet/react-pixi";
 import { addStats } from "pixi-stats";
 import { Viewport } from "pixi-viewport";
-import { Text, Container, UPDATE_PRIORITY } from "pixi.js";
+import { Text, Container, UPDATE_PRIORITY, Graphics } from "pixi.js";
 import { useEffect, useState } from "react";
 import { Star } from "./graphics/star";
-import { InitializeCelestials } from "./utils/generate";
+import { GenerateCelestials, GetCelestialPosition } from "./utils/generate";
 import { useResize } from "./utils/use-resize.hook";
 
 export const Game = (props: { curvature: number }) => {
@@ -12,9 +12,15 @@ export const Game = (props: { curvature: number }) => {
 
   const size = useResize();
 
-  const [starPositions] = useState(
-    InitializeCelestials(size.width, size.height, 5000)
-  );
+  const [stars] = useState(GenerateCelestials(5000));
+  const [galaxyConfig] = useState({
+    radius: size.height,
+    arms: 3,
+    curvature: 3,
+    armWidth: 0.05,
+    coreRadius: size.height / 50,
+    coreConcentrationBias: 1.5,
+  });
 
   useEffect(() => {
     // create viewport
@@ -30,6 +36,7 @@ export const Game = (props: { curvature: number }) => {
 
     // add the viewport to the stage
     app.stage.addChild(viewport);
+    viewport.name = "viewport";
 
     // activate plugins
     viewport.drag().pinch().wheel().decelerate();
@@ -39,18 +46,23 @@ export const Game = (props: { curvature: number }) => {
 
     const galaxy = new Container();
     viewport.addChild(galaxy);
-    viewport.name = "viewport";
+    galaxy.name = "galaxy";
 
-    const basicText = new Text(`Curvature: ${props.curvature}`);
+    stars.forEach((star) => {
+      let _star = Star(GetCelestialPosition(star, galaxyConfig));
+      galaxy.addChild(_star);
+    });
+
+    const basicText = new Text(`Curvature: ${props.curvature}`, {
+      fontFamily: "consolas",
+      fontSize: 24,
+      fill: 0xffffff,
+    });
     basicText.x = 50;
     basicText.y = 100;
 
     app.stage.addChild(basicText);
     basicText.name = "basicText";
-
-    starPositions.forEach((starPosition) =>
-      galaxy.addChild(Star(starPosition))
-    );
 
     galaxy.x = size.width / 2;
     galaxy.y = size.height / 2;
@@ -87,9 +99,17 @@ export const Game = (props: { curvature: number }) => {
   }, [app.stage, size]);
 
   useEffect(() => {
-    app.ticker.add((delta) => {
-      let basicText = app.stage.getChildByName("basicText") as Text;
-      basicText.text = `Curvature: ${props.curvature}`;
+    let basicText = app.stage.getChildByName("basicText") as Text;
+    basicText.text = `Curvature: ${props.curvature}`;
+
+    let newGalaxyConfig = { ...galaxyConfig, curvature: props.curvature };
+
+    let viewport = app.stage.getChildByName("viewport") as Viewport;
+    let galaxy = viewport.getChildByName("galaxy") as Container;
+    stars.forEach((star, i) => {
+      let _star = galaxy.getChildAt(i) as Graphics;
+      _star.x = GetCelestialPosition(star, newGalaxyConfig).x;
+      _star.y = GetCelestialPosition(star, newGalaxyConfig).y;
     });
   }, [props.curvature]);
 
