@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { Footer } from '../containers/footer/footer';
-import { SideNav } from '../containers/sidenav/sidenav';
-import { ToolBar } from '../containers/toolbar/toolbar';
+import styled from "styled-components";
+import { Footer } from "../containers/footer/footer";
+import { SideNav } from "../containers/sidenav/sidenav";
+import { ToolBar } from "../containers/toolbar/toolbar";
 
 export const sideNavWidth = 450;
 export const topBarHeight = 50;
@@ -16,9 +16,9 @@ const ResponsiveGrid = styled.div`
   grid-template-rows: ${topBarHeight}px auto ${footerHeight}px;
 
   grid-template-areas:
-    'side-nav   toolbar'
-    'side-nav   main'
-    'side-nav   footer';
+    "side-nav   toolbar"
+    "side-nav   main"
+    "side-nav   footer";
 
   div.toolbar {
     grid-area: toolbar;
@@ -37,13 +37,20 @@ const ResponsiveGrid = styled.div`
   }
 `;
 
-export const Layout = (props: { children: JSX.Element }) => {
+export const Layout = (props: {
+  children: JSX.Element;
+  curvature: number;
+  setCurvature: React.Dispatch<React.SetStateAction<number>>;
+}) => {
   return (
     <ResponsiveGrid>
       <SideNav></SideNav>
       <ToolBar></ToolBar>
       <main>{props.children}</main>
-      <Footer></Footer>
+      <Footer
+        curvature={props.curvature}
+        setCurvature={props.setCurvature}
+      ></Footer>
     </ResponsiveGrid>
   );
 };
