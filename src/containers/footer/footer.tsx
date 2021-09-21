@@ -9,11 +9,9 @@ import {
   useColorModeValue,
   VStack,
 } from '@chakra-ui/react';
+import { curvature } from '../../_state/reactive-variables';
 
-export const Footer = (props: {
-  curvature: number;
-  setCurvature: React.Dispatch<React.SetStateAction<number>>;
-}) => {
+export const Footer = () => {
   const color = useColorModeValue('gray.200', 'gray.600');
 
   return (
@@ -39,7 +37,7 @@ export const Footer = (props: {
           max={10}
           step={0.1}
           onChange={event => {
-            props.setCurvature(event);
+            curvature(event);
           }}
         >
           <SliderTrack>

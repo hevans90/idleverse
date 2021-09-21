@@ -1,13 +1,25 @@
+import { ApolloClient, NormalizedCacheObject, useQuery } from '@apollo/client';
 import { useApp } from '@inlet/react-pixi';
 import { addStats } from 'pixi-stats';
 import { Viewport } from 'pixi-viewport';
 import { Container, Graphics, Text, UPDATE_PRIORITY } from 'pixi.js';
 import { useEffect, useState } from 'react';
+import { CURVATURE } from '../_state/client-side-queries';
 import { Star } from './graphics/star';
 import { GenerateCelestials, GetCelestialPosition } from './utils/generate';
 import { useResize } from './utils/use-resize.hook';
 
-export const Game = (props: { curvature: number }) => {
+export const Game = ({
+  client,
+}: {
+  client: ApolloClient<NormalizedCacheObject>;
+}) => {
+  const {
+    // loading,
+    // error,
+    data: { curvature },
+  } = useQuery<{ curvature: number }>(CURVATURE, { client });
+
   const app = useApp();
 
   const size = useResize();
@@ -53,7 +65,7 @@ export const Game = (props: { curvature: number }) => {
       galaxy.addChild(_star);
     });
 
-    const basicText = new Text(`Curvature: ${props.curvature}`, {
+    const basicText = new Text(`Curvature: ${curvature}`, {
       fontFamily: 'consolas',
       fontSize: 24,
       fill: 0xffffff,
@@ -99,9 +111,9 @@ export const Game = (props: { curvature: number }) => {
   useEffect(
     () => {
       let basicText = app.stage.getChildByName('basicText') as Text;
-      basicText.text = `Curvature: ${props.curvature}`;
+      basicText.text = `Curvature: ${curvature}`;
 
-      let newGalaxyConfig = { ...galaxyConfig, curvature: props.curvature };
+      let newGalaxyConfig = { ...galaxyConfig, curvature };
 
       let viewport = app.stage.getChildByName('viewport') as Viewport;
       let galaxy = viewport.getChildByName('galaxy') as Container;
@@ -112,7 +124,7 @@ export const Game = (props: { curvature: number }) => {
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.curvature]
+    [curvature]
   );
 
   return <></>;

@@ -1,4 +1,8 @@
-import { useSubscription } from '@apollo/client';
+import {
+  ApolloClient,
+  NormalizedCacheObject,
+  useSubscription,
+} from '@apollo/client';
 import { Box } from '@chakra-ui/react';
 import { Stage } from '@inlet/react-pixi';
 import {
@@ -8,7 +12,11 @@ import {
 import { Game } from './game';
 import { useResize } from './utils/use-resize.hook';
 
-export const GameContainer = (props: { curvature: number }) => {
+export const GameContainer = ({
+  client,
+}: {
+  client: ApolloClient<NormalizedCacheObject>;
+}) => {
   const { data, loading } =
     useSubscription<IdleGameCountersRealTimeDescSubscription>(
       IdleGameCountersRealTimeDescDocument
@@ -24,7 +32,7 @@ export const GameContainer = (props: { curvature: number }) => {
   } else if (data) {
     return (
       <Stage {...size} options={{ backgroundColor: 0x2d3239, antialias: true }}>
-        <Game curvature={props.curvature}></Game>
+        <Game client={client}></Game>
       </Stage>
     );
   } else {

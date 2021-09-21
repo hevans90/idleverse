@@ -8,6 +8,7 @@ import {
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { OperationDefinitionNode } from 'graphql';
+import { curvature } from './_state/reactive-variables';
 
 const uri = 'superb-caiman-21.hasura.app/v1/graphql';
 
@@ -46,7 +47,17 @@ export const apolloBootstrapper = (idToken: string) => {
 
   // Initialize ApolloClient
   const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            curvature: {
+              read: () => curvature(),
+            },
+          },
+        },
+      },
+    }),
     link,
     //remove in production
     connectToDevTools: true,
