@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getRandomInt = (max: number) => {
   return Math.floor(Math.random() * max);
 };
@@ -43,10 +44,7 @@ export const GenerateCelestials = (count: number) => {
   return celestials;
 };
 
-export const GetCelestialPosition = (
-  cel: Celestial,
-  config: GalaxyConfig
-) => {
+export const GetCelestialPosition = (cel: Celestial, config: GalaxyConfig) => {
   let arm = Math.floor(cel.seeds.arm * config.arms) - 1;
   let theta =
     Math.pow(cel.seeds.theta, config.coreConcentrationBias) *
