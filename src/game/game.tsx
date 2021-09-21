@@ -48,7 +48,7 @@ export const Game = (props: { curvature: number }) => {
     viewport.addChild(galaxy);
     galaxy.name = 'galaxy';
 
-    stars.forEach((star) => {
+    stars.forEach(star => {
       let _star = Star(GetCelestialPosition(star, galaxyConfig));
       galaxy.addChild(_star);
     });
@@ -67,7 +67,7 @@ export const Game = (props: { curvature: number }) => {
     galaxy.x = size.width / 2;
     galaxy.y = size.height / 2;
 
-    app.ticker.add((delta) => {
+    app.ticker.add(delta => {
       // rotate the container!
       // use delta to create frame-independent transform
       galaxy.rotation -= 0.001 * delta;

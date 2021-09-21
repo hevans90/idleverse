@@ -1,10 +1,16 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions =  {}
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
+const defaultOptions = {};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -60,7 +66,7 @@ export enum Idle_Test_Select_Column {
   /** column name */
   Counter2 = 'counter2',
   /** column name */
-  Id = 'id'
+  Id = 'id',
 }
 
 /** column ordering options */
@@ -76,7 +82,7 @@ export enum Order_By {
   /** in descending order, nulls first */
   DescNullsFirst = 'desc_nulls_first',
   /** in descending order, nulls last */
-  DescNullsLast = 'desc_nulls_last'
+  DescNullsLast = 'desc_nulls_last',
 }
 
 export type Query_Root = {
@@ -87,7 +93,6 @@ export type Query_Root = {
   idle_test_by_pk?: Maybe<Idle_Test>;
 };
 
-
 export type Query_RootIdle_TestArgs = {
   distinct_on?: Maybe<Array<Idle_Test_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -95,7 +100,6 @@ export type Query_RootIdle_TestArgs = {
   order_by?: Maybe<Array<Idle_Test_Order_By>>;
   where?: Maybe<Idle_Test_Bool_Exp>;
 };
-
 
 export type Query_RootIdle_Test_By_PkArgs = {
   id: Scalars['uuid'];
@@ -109,7 +113,6 @@ export type Subscription_Root = {
   idle_test_by_pk?: Maybe<Idle_Test>;
 };
 
-
 export type Subscription_RootIdle_TestArgs = {
   distinct_on?: Maybe<Array<Idle_Test_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -117,7 +120,6 @@ export type Subscription_RootIdle_TestArgs = {
   order_by?: Maybe<Array<Idle_Test_Order_By>>;
   where?: Maybe<Idle_Test_Bool_Exp>;
 };
-
 
 export type Subscription_RootIdle_Test_By_PkArgs = {
   id: Scalars['uuid'];
@@ -136,21 +138,27 @@ export type Uuid_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
-export type IdleGameCountersQueryVariables = Exact<{ [key: string]: never; }>;
+export type IdleGameCountersQueryVariables = Exact<{ [key: string]: never }>;
 
-
-export type IdleGameCountersQuery = { __typename?: 'query_root', idle_test: Array<{ __typename?: 'idle_test', id: any, counter: number, counter2: number }> };
-
+export type IdleGameCountersQuery = {
+  __typename?: 'query_root';
+  idle_test: Array<{
+    __typename?: 'idle_test';
+    id: any;
+    counter: number;
+    counter2: number;
+  }>;
+};
 
 export const IdleGameCountersDocument = gql`
-    query IdleGameCounters {
-  idle_test {
-    id
-    counter
-    counter2
+  query IdleGameCounters {
+    idle_test {
+      id
+      counter
+      counter2
+    }
   }
-}
-    `;
+`;
 
 /**
  * __useIdleGameCountersQuery__
@@ -167,14 +175,37 @@ export const IdleGameCountersDocument = gql`
  *   },
  * });
  */
-export function useIdleGameCountersQuery(baseOptions?: Apollo.QueryHookOptions<IdleGameCountersQuery, IdleGameCountersQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<IdleGameCountersQuery, IdleGameCountersQueryVariables>(IdleGameCountersDocument, options);
-      }
-export function useIdleGameCountersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IdleGameCountersQuery, IdleGameCountersQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<IdleGameCountersQuery, IdleGameCountersQueryVariables>(IdleGameCountersDocument, options);
-        }
-export type IdleGameCountersQueryHookResult = ReturnType<typeof useIdleGameCountersQuery>;
-export type IdleGameCountersLazyQueryHookResult = ReturnType<typeof useIdleGameCountersLazyQuery>;
-export type IdleGameCountersQueryResult = Apollo.QueryResult<IdleGameCountersQuery, IdleGameCountersQueryVariables>;
+export function useIdleGameCountersQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    IdleGameCountersQuery,
+    IdleGameCountersQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<IdleGameCountersQuery, IdleGameCountersQueryVariables>(
+    IdleGameCountersDocument,
+    options
+  );
+}
+export function useIdleGameCountersLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    IdleGameCountersQuery,
+    IdleGameCountersQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    IdleGameCountersQuery,
+    IdleGameCountersQueryVariables
+  >(IdleGameCountersDocument, options);
+}
+export type IdleGameCountersQueryHookResult = ReturnType<
+  typeof useIdleGameCountersQuery
+>;
+export type IdleGameCountersLazyQueryHookResult = ReturnType<
+  typeof useIdleGameCountersLazyQuery
+>;
+export type IdleGameCountersQueryResult = Apollo.QueryResult<
+  IdleGameCountersQuery,
+  IdleGameCountersQueryVariables
+>;

@@ -37,10 +37,10 @@ export const ChatSubmit = () => {
       <Input
         placeholder="Type to chat..."
         value={message}
-        onChange={(event) => {
+        onChange={event => {
           setMessage(event.target.value);
         }}
-        onKeyUp={(e) => {
+        onKeyUp={e => {
           if (e.key === 'Enter') submit();
         }}
       />
@@ -51,7 +51,7 @@ export const ChatSubmit = () => {
         marginLeft="0.5rem"
         paddingLeft="1rem"
         paddingRight="1rem"
-        onClick={(e) => {
+        onClick={e => {
           submit();
         }}
       >
