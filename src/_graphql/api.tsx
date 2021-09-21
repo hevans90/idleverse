@@ -1,16 +1,10 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
-const defaultOptions = {};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+const defaultOptions =  {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -146,7 +140,7 @@ export enum Chat_Messages_Select_Column {
   /** column name */
   PosterId = 'poster_id',
   /** column name */
-  Timestamp = 'timestamp',
+  Timestamp = 'timestamp'
 }
 
 /** columns and relationships of "cluster" */
@@ -160,6 +154,7 @@ export type Cluster = {
   /** An array relationship */
   systems: Array<System>;
 };
+
 
 /** columns and relationships of "cluster" */
 export type ClusterSystemsArgs = {
@@ -219,7 +214,7 @@ export enum Cluster_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Name = 'name',
+  Name = 'name'
 }
 
 /** columns and relationships of "galaxy" */
@@ -230,6 +225,7 @@ export type Galaxy = {
   id: Scalars['uuid'];
   name?: Maybe<Scalars['String']>;
 };
+
 
 /** columns and relationships of "galaxy" */
 export type GalaxyClustersArgs = {
@@ -262,7 +258,7 @@ export enum Galaxy_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Name = 'name',
+  Name = 'name'
 }
 
 /** columns and relationships of "idle_test" */
@@ -291,7 +287,7 @@ export enum Idle_Test_Constraint {
   /** unique or primary key constraint */
   IdleTestOwnerIdKey = 'idle_test_owner_id_key',
   /** unique or primary key constraint */
-  IdleTestPkey = 'idle_test_pkey',
+  IdleTestPkey = 'idle_test_pkey'
 }
 
 /** input type for incrementing numeric columns in table "idle_test" */
@@ -340,7 +336,7 @@ export enum Idle_Test_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  OwnerId = 'owner_id',
+  OwnerId = 'owner_id'
 }
 
 /** input type for updating data in table "idle_test" */
@@ -351,7 +347,7 @@ export type Idle_Test_Set_Input = {
 /** update columns of table "idle_test" */
 export enum Idle_Test_Update_Column {
   /** column name */
-  Counter = 'counter',
+  Counter = 'counter'
 }
 
 /** mutation root */
@@ -383,30 +379,36 @@ export type Mutation_Root = {
   update_user_private?: Maybe<User_Private_Mutation_Response>;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Idle_TestArgs = {
   where: Idle_Test_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Idle_Test_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_User_PrivateArgs = {
   where: User_Private_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Chat_MessagesArgs = {
   objects: Array<Chat_Messages_Insert_Input>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Chat_Messages_OneArgs = {
   object: Chat_Messages_Insert_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Idle_TestArgs = {
@@ -414,21 +416,25 @@ export type Mutation_RootInsert_Idle_TestArgs = {
   on_conflict?: Maybe<Idle_Test_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Idle_Test_OneArgs = {
   object: Idle_Test_Insert_Input;
   on_conflict?: Maybe<Idle_Test_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_User_PrivateArgs = {
   objects: Array<User_Private_Insert_Input>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_User_Private_OneArgs = {
   object: User_Private_Insert_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Idle_TestArgs = {
@@ -437,12 +443,14 @@ export type Mutation_RootUpdate_Idle_TestArgs = {
   where: Idle_Test_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Idle_Test_By_PkArgs = {
   _inc?: Maybe<Idle_Test_Inc_Input>;
   _set?: Maybe<Idle_Test_Set_Input>;
   pk_columns: Idle_Test_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_User_PrivateArgs = {
@@ -463,7 +471,7 @@ export enum Order_By {
   /** in descending order, nulls first */
   DescNullsFirst = 'desc_nulls_first',
   /** in descending order, nulls last */
-  DescNullsLast = 'desc_nulls_last',
+  DescNullsLast = 'desc_nulls_last'
 }
 
 export type Query_Root = {
@@ -496,6 +504,7 @@ export type Query_Root = {
   user_private: Array<User_Private>;
 };
 
+
 export type Query_RootChat_MessagesArgs = {
   distinct_on?: Maybe<Array<Chat_Messages_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -504,9 +513,11 @@ export type Query_RootChat_MessagesArgs = {
   where?: Maybe<Chat_Messages_Bool_Exp>;
 };
 
+
 export type Query_RootChat_Messages_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootClusterArgs = {
   distinct_on?: Maybe<Array<Cluster_Select_Column>>;
@@ -516,9 +527,11 @@ export type Query_RootClusterArgs = {
   where?: Maybe<Cluster_Bool_Exp>;
 };
 
+
 export type Query_RootCluster_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootGalaxyArgs = {
   distinct_on?: Maybe<Array<Galaxy_Select_Column>>;
@@ -528,9 +541,11 @@ export type Query_RootGalaxyArgs = {
   where?: Maybe<Galaxy_Bool_Exp>;
 };
 
+
 export type Query_RootGalaxy_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootIdle_TestArgs = {
   distinct_on?: Maybe<Array<Idle_Test_Select_Column>>;
@@ -540,9 +555,11 @@ export type Query_RootIdle_TestArgs = {
   where?: Maybe<Idle_Test_Bool_Exp>;
 };
 
+
 export type Query_RootIdle_Test_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootSystemArgs = {
   distinct_on?: Maybe<Array<System_Select_Column>>;
@@ -552,9 +569,11 @@ export type Query_RootSystemArgs = {
   where?: Maybe<System_Bool_Exp>;
 };
 
+
 export type Query_RootSystem_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootUser_InfoArgs = {
   distinct_on?: Maybe<Array<User_Info_Select_Column>>;
@@ -564,9 +583,11 @@ export type Query_RootUser_InfoArgs = {
   where?: Maybe<User_Info_Bool_Exp>;
 };
 
+
 export type Query_RootUser_Info_By_PkArgs = {
   id: Scalars['String'];
 };
+
 
 export type Query_RootUser_PrivateArgs = {
   distinct_on?: Maybe<Array<User_Private_Select_Column>>;
@@ -606,6 +627,7 @@ export type Subscription_Root = {
   user_private: Array<User_Private>;
 };
 
+
 export type Subscription_RootChat_MessagesArgs = {
   distinct_on?: Maybe<Array<Chat_Messages_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -614,9 +636,11 @@ export type Subscription_RootChat_MessagesArgs = {
   where?: Maybe<Chat_Messages_Bool_Exp>;
 };
 
+
 export type Subscription_RootChat_Messages_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootClusterArgs = {
   distinct_on?: Maybe<Array<Cluster_Select_Column>>;
@@ -626,9 +650,11 @@ export type Subscription_RootClusterArgs = {
   where?: Maybe<Cluster_Bool_Exp>;
 };
 
+
 export type Subscription_RootCluster_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootGalaxyArgs = {
   distinct_on?: Maybe<Array<Galaxy_Select_Column>>;
@@ -638,9 +664,11 @@ export type Subscription_RootGalaxyArgs = {
   where?: Maybe<Galaxy_Bool_Exp>;
 };
 
+
 export type Subscription_RootGalaxy_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootIdle_TestArgs = {
   distinct_on?: Maybe<Array<Idle_Test_Select_Column>>;
@@ -650,9 +678,11 @@ export type Subscription_RootIdle_TestArgs = {
   where?: Maybe<Idle_Test_Bool_Exp>;
 };
 
+
 export type Subscription_RootIdle_Test_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootSystemArgs = {
   distinct_on?: Maybe<Array<System_Select_Column>>;
@@ -662,9 +692,11 @@ export type Subscription_RootSystemArgs = {
   where?: Maybe<System_Bool_Exp>;
 };
 
+
 export type Subscription_RootSystem_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootUser_InfoArgs = {
   distinct_on?: Maybe<Array<User_Info_Select_Column>>;
@@ -674,9 +706,11 @@ export type Subscription_RootUser_InfoArgs = {
   where?: Maybe<User_Info_Bool_Exp>;
 };
 
+
 export type Subscription_RootUser_Info_By_PkArgs = {
   id: Scalars['String'];
 };
+
 
 export type Subscription_RootUser_PrivateArgs = {
   distinct_on?: Maybe<Array<User_Private_Select_Column>>;
@@ -743,7 +777,7 @@ export enum System_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Name = 'name',
+  Name = 'name'
 }
 
 /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
@@ -766,9 +800,10 @@ export type User_Info = {
   chat_messages: Array<Chat_Messages>;
   id: Scalars['String'];
   /** An object relationship */
-  idle_test?: Maybe<Idle_Test>;
+  idle_test: Idle_Test;
   nickname: Scalars['String'];
 };
+
 
 /** columns and relationships of "user_info" */
 export type User_InfoChat_MessagesArgs = {
@@ -803,7 +838,7 @@ export enum User_Info_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Nickname = 'nickname',
+  Nickname = 'nickname'
 }
 
 /** columns and relationships of "user_private" */
@@ -847,7 +882,7 @@ export enum User_Private_Select_Column {
   /** column name */
   SecretSettingTest = 'secret_setting_test',
   /** column name */
-  UserId = 'user_id',
+  UserId = 'user_id'
 }
 
 /** input type for updating data in table "user_private" */
@@ -868,78 +903,48 @@ export type Uuid_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
-export type GetChatMessagesSubscriptionVariables = Exact<{
-  [key: string]: never;
-}>;
+export type GetChatMessagesSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
-export type GetChatMessagesSubscription = {
-  __typename?: 'subscription_root';
-  chat_messages: Array<{
-    __typename?: 'chat_messages';
-    timestamp: any;
-    id: any;
-    message: string;
-    poster_id: string;
-    user_info: { __typename?: 'user_info'; nickname: string; id: string };
-  }>;
-};
+
+export type GetChatMessagesSubscription = { __typename?: 'subscription_root', chat_messages: Array<{ __typename?: 'chat_messages', timestamp: any, id: any, message: string, poster_id: string, user_info: { __typename?: 'user_info', nickname: string, id: string } }> };
 
 export type SendNewMessageMutationVariables = Exact<{
   message?: Maybe<Scalars['String']>;
 }>;
 
-export type SendNewMessageMutation = {
-  __typename?: 'mutation_root';
-  insert_chat_messages_one?: Maybe<{
-    __typename?: 'chat_messages';
-    message: string;
-  }>;
-};
 
-export type IdleGameCountersRealTimeDescSubscriptionVariables = Exact<{
-  [key: string]: never;
-}>;
+export type SendNewMessageMutation = { __typename?: 'mutation_root', insert_chat_messages_one?: Maybe<{ __typename?: 'chat_messages', message: string }> };
 
-export type IdleGameCountersRealTimeDescSubscription = {
-  __typename?: 'subscription_root';
-  idle_test: Array<{
-    __typename?: 'idle_test';
-    counter: number;
-    id: any;
-    user?: Maybe<{ __typename?: 'user_info'; nickname: string }>;
-  }>;
-};
+export type IdleGameCountersRealTimeDescSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
-export type IdleGameCountersQueryVariables = Exact<{ [key: string]: never }>;
 
-export type IdleGameCountersQuery = {
-  __typename?: 'query_root';
-  idle_test: Array<{ __typename?: 'idle_test'; id: any; counter: number }>;
-};
+export type IdleGameCountersRealTimeDescSubscription = { __typename?: 'subscription_root', idle_test: Array<{ __typename?: 'idle_test', counter: number, id: any, user?: Maybe<{ __typename?: 'user_info', nickname: string }> }> };
 
-export type IdleGameCounterRealTimeSubscriptionVariables = Exact<{
-  [key: string]: never;
-}>;
+export type IdleGameCountersQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type IdleGameCounterRealTimeSubscription = {
-  __typename?: 'subscription_root';
-  idle_test: Array<{ __typename?: 'idle_test'; id: any; counter: number }>;
-};
+
+export type IdleGameCountersQuery = { __typename?: 'query_root', idle_test: Array<{ __typename?: 'idle_test', id: any, counter: number }> };
+
+export type IdleGameCounterRealTimeSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type IdleGameCounterRealTimeSubscription = { __typename?: 'subscription_root', idle_test: Array<{ __typename?: 'idle_test', id: any, counter: number }> };
+
 
 export const GetChatMessagesDocument = gql`
-  subscription GetChatMessages {
-    chat_messages(order_by: { timestamp: desc }, limit: 200) {
-      timestamp
+    subscription GetChatMessages {
+  chat_messages(order_by: {timestamp: desc}, limit: 200) {
+    timestamp
+    id
+    message
+    poster_id
+    user_info {
+      nickname
       id
-      message
-      poster_id
-      user_info {
-        nickname
-        id
-      }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetChatMessagesSubscription__
@@ -956,34 +961,20 @@ export const GetChatMessagesDocument = gql`
  *   },
  * });
  */
-export function useGetChatMessagesSubscription(
-  baseOptions?: Apollo.SubscriptionHookOptions<
-    GetChatMessagesSubscription,
-    GetChatMessagesSubscriptionVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    GetChatMessagesSubscription,
-    GetChatMessagesSubscriptionVariables
-  >(GetChatMessagesDocument, options);
-}
-export type GetChatMessagesSubscriptionHookResult = ReturnType<
-  typeof useGetChatMessagesSubscription
->;
-export type GetChatMessagesSubscriptionResult =
-  Apollo.SubscriptionResult<GetChatMessagesSubscription>;
+export function useGetChatMessagesSubscription(baseOptions?: Apollo.SubscriptionHookOptions<GetChatMessagesSubscription, GetChatMessagesSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<GetChatMessagesSubscription, GetChatMessagesSubscriptionVariables>(GetChatMessagesDocument, options);
+      }
+export type GetChatMessagesSubscriptionHookResult = ReturnType<typeof useGetChatMessagesSubscription>;
+export type GetChatMessagesSubscriptionResult = Apollo.SubscriptionResult<GetChatMessagesSubscription>;
 export const SendNewMessageDocument = gql`
-  mutation SendNewMessage($message: String) {
-    insert_chat_messages_one(object: { message: $message }) {
-      message
-    }
+    mutation SendNewMessage($message: String) {
+  insert_chat_messages_one(object: {message: $message}) {
+    message
   }
-`;
-export type SendNewMessageMutationFn = Apollo.MutationFunction<
-  SendNewMessageMutation,
-  SendNewMessageMutationVariables
->;
+}
+    `;
+export type SendNewMessageMutationFn = Apollo.MutationFunction<SendNewMessageMutation, SendNewMessageMutationVariables>;
 
 /**
  * __useSendNewMessageMutation__
@@ -1002,38 +993,24 @@ export type SendNewMessageMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useSendNewMessageMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    SendNewMessageMutation,
-    SendNewMessageMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    SendNewMessageMutation,
-    SendNewMessageMutationVariables
-  >(SendNewMessageDocument, options);
-}
-export type SendNewMessageMutationHookResult = ReturnType<
-  typeof useSendNewMessageMutation
->;
-export type SendNewMessageMutationResult =
-  Apollo.MutationResult<SendNewMessageMutation>;
-export type SendNewMessageMutationOptions = Apollo.BaseMutationOptions<
-  SendNewMessageMutation,
-  SendNewMessageMutationVariables
->;
-export const IdleGameCountersRealTimeDescDocument = gql`
-  subscription IdleGameCountersRealTimeDesc {
-    idle_test(order_by: { counter: desc }) {
-      user {
-        nickname
+export function useSendNewMessageMutation(baseOptions?: Apollo.MutationHookOptions<SendNewMessageMutation, SendNewMessageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SendNewMessageMutation, SendNewMessageMutationVariables>(SendNewMessageDocument, options);
       }
-      counter
-      id
+export type SendNewMessageMutationHookResult = ReturnType<typeof useSendNewMessageMutation>;
+export type SendNewMessageMutationResult = Apollo.MutationResult<SendNewMessageMutation>;
+export type SendNewMessageMutationOptions = Apollo.BaseMutationOptions<SendNewMessageMutation, SendNewMessageMutationVariables>;
+export const IdleGameCountersRealTimeDescDocument = gql`
+    subscription IdleGameCountersRealTimeDesc {
+  idle_test(order_by: {counter: desc}) {
+    user {
+      nickname
     }
+    counter
+    id
   }
-`;
+}
+    `;
 
 /**
  * __useIdleGameCountersRealTimeDescSubscription__
@@ -1050,31 +1027,20 @@ export const IdleGameCountersRealTimeDescDocument = gql`
  *   },
  * });
  */
-export function useIdleGameCountersRealTimeDescSubscription(
-  baseOptions?: Apollo.SubscriptionHookOptions<
-    IdleGameCountersRealTimeDescSubscription,
-    IdleGameCountersRealTimeDescSubscriptionVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    IdleGameCountersRealTimeDescSubscription,
-    IdleGameCountersRealTimeDescSubscriptionVariables
-  >(IdleGameCountersRealTimeDescDocument, options);
-}
-export type IdleGameCountersRealTimeDescSubscriptionHookResult = ReturnType<
-  typeof useIdleGameCountersRealTimeDescSubscription
->;
-export type IdleGameCountersRealTimeDescSubscriptionResult =
-  Apollo.SubscriptionResult<IdleGameCountersRealTimeDescSubscription>;
+export function useIdleGameCountersRealTimeDescSubscription(baseOptions?: Apollo.SubscriptionHookOptions<IdleGameCountersRealTimeDescSubscription, IdleGameCountersRealTimeDescSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<IdleGameCountersRealTimeDescSubscription, IdleGameCountersRealTimeDescSubscriptionVariables>(IdleGameCountersRealTimeDescDocument, options);
+      }
+export type IdleGameCountersRealTimeDescSubscriptionHookResult = ReturnType<typeof useIdleGameCountersRealTimeDescSubscription>;
+export type IdleGameCountersRealTimeDescSubscriptionResult = Apollo.SubscriptionResult<IdleGameCountersRealTimeDescSubscription>;
 export const IdleGameCountersDocument = gql`
-  query IdleGameCounters {
-    idle_test {
-      id
-      counter
-    }
+    query IdleGameCounters {
+  idle_test {
+    id
+    counter
   }
-`;
+}
+    `;
 
 /**
  * __useIdleGameCountersQuery__
@@ -1091,48 +1057,25 @@ export const IdleGameCountersDocument = gql`
  *   },
  * });
  */
-export function useIdleGameCountersQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    IdleGameCountersQuery,
-    IdleGameCountersQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<IdleGameCountersQuery, IdleGameCountersQueryVariables>(
-    IdleGameCountersDocument,
-    options
-  );
-}
-export function useIdleGameCountersLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    IdleGameCountersQuery,
-    IdleGameCountersQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    IdleGameCountersQuery,
-    IdleGameCountersQueryVariables
-  >(IdleGameCountersDocument, options);
-}
-export type IdleGameCountersQueryHookResult = ReturnType<
-  typeof useIdleGameCountersQuery
->;
-export type IdleGameCountersLazyQueryHookResult = ReturnType<
-  typeof useIdleGameCountersLazyQuery
->;
-export type IdleGameCountersQueryResult = Apollo.QueryResult<
-  IdleGameCountersQuery,
-  IdleGameCountersQueryVariables
->;
+export function useIdleGameCountersQuery(baseOptions?: Apollo.QueryHookOptions<IdleGameCountersQuery, IdleGameCountersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<IdleGameCountersQuery, IdleGameCountersQueryVariables>(IdleGameCountersDocument, options);
+      }
+export function useIdleGameCountersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IdleGameCountersQuery, IdleGameCountersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<IdleGameCountersQuery, IdleGameCountersQueryVariables>(IdleGameCountersDocument, options);
+        }
+export type IdleGameCountersQueryHookResult = ReturnType<typeof useIdleGameCountersQuery>;
+export type IdleGameCountersLazyQueryHookResult = ReturnType<typeof useIdleGameCountersLazyQuery>;
+export type IdleGameCountersQueryResult = Apollo.QueryResult<IdleGameCountersQuery, IdleGameCountersQueryVariables>;
 export const IdleGameCounterRealTimeDocument = gql`
-  subscription IdleGameCounterRealTime {
-    idle_test {
-      id
-      counter
-    }
+    subscription IdleGameCounterRealTime {
+  idle_test {
+    id
+    counter
   }
-`;
+}
+    `;
 
 /**
  * __useIdleGameCounterRealTimeSubscription__
@@ -1149,20 +1092,9 @@ export const IdleGameCounterRealTimeDocument = gql`
  *   },
  * });
  */
-export function useIdleGameCounterRealTimeSubscription(
-  baseOptions?: Apollo.SubscriptionHookOptions<
-    IdleGameCounterRealTimeSubscription,
-    IdleGameCounterRealTimeSubscriptionVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    IdleGameCounterRealTimeSubscription,
-    IdleGameCounterRealTimeSubscriptionVariables
-  >(IdleGameCounterRealTimeDocument, options);
-}
-export type IdleGameCounterRealTimeSubscriptionHookResult = ReturnType<
-  typeof useIdleGameCounterRealTimeSubscription
->;
-export type IdleGameCounterRealTimeSubscriptionResult =
-  Apollo.SubscriptionResult<IdleGameCounterRealTimeSubscription>;
+export function useIdleGameCounterRealTimeSubscription(baseOptions?: Apollo.SubscriptionHookOptions<IdleGameCounterRealTimeSubscription, IdleGameCounterRealTimeSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<IdleGameCounterRealTimeSubscription, IdleGameCounterRealTimeSubscriptionVariables>(IdleGameCounterRealTimeDocument, options);
+      }
+export type IdleGameCounterRealTimeSubscriptionHookResult = ReturnType<typeof useIdleGameCounterRealTimeSubscription>;
+export type IdleGameCounterRealTimeSubscriptionResult = Apollo.SubscriptionResult<IdleGameCounterRealTimeSubscription>;
