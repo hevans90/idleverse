@@ -41,6 +41,7 @@
     "@types/styled-components": "^5.1.13",
     "babel-plugin-styled-components": "^1.13.2",
     "gh-pages": "^3.2.3",
+    "prettier": "^2.4.1",
     "react-devtools": "^4.17.0",
     "typescript": "^4.1.2"
   },
@@ -52,7 +53,9 @@
     "generate": "graphql-codegen --config codegen.js -r dotenv/config",
     "generate:watch": "yarn generate --watch",
     "predeploy": "yarn build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "format": "prettier --write ./src",
+    "format:check": "prettier --list-different ./src"
   },
   "eslintConfig": {
     "extends": [
