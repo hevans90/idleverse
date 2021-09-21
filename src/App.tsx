@@ -1,10 +1,10 @@
-import { ApolloProvider } from '@apollo/client';
-import { useAuth0 } from '@auth0/auth0-react';
-import { Box, Text } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
-import { apolloBootstrapper } from './apollo-bootstrapper';
-import { Layout } from './components/layout';
-import { GameContainer } from './game/game-container';
+import { ApolloProvider } from "@apollo/client";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Box, Text } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { apolloBootstrapper } from "./apollo-bootstrapper";
+import { Layout } from "./components/layout";
+import { GameContainer } from "./game/game-container";
 
 const Loading = () => (
   <Box
@@ -22,7 +22,9 @@ export const App = () => {
   const { getIdTokenClaims, isLoading, loginWithRedirect, isAuthenticated } =
     useAuth0();
 
-  const [idToken, setIdToken] = useState<string>('');
+  const [idToken, setIdToken] = useState<string>("");
+
+  const [curvature, setCurvature] = useState(3);
 
   useEffect(() => {
     async function fetchMyToken() {
@@ -38,16 +40,16 @@ export const App = () => {
 
   if (isLoading) return <Loading></Loading>;
 
-  if (idToken === '' && !isAuthenticated) loginWithRedirect();
+  if (idToken === "" && !isAuthenticated) loginWithRedirect();
 
-  if (idToken === '') return <Loading></Loading>;
+  if (idToken === "") return <Loading></Loading>;
 
   const client = apolloBootstrapper(idToken);
 
   return (
     <ApolloProvider client={client}>
-      <Layout>
-        <GameContainer></GameContainer>
+      <Layout curvature={curvature} setCurvature={setCurvature}>
+        <GameContainer curvature={curvature}></GameContainer>
       </Layout>
     </ApolloProvider>
   );

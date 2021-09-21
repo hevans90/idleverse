@@ -1,13 +1,13 @@
-import { useApp } from '@inlet/react-pixi';
-import { addStats } from 'pixi-stats';
-import { Viewport } from 'pixi-viewport';
-import { Container, UPDATE_PRIORITY } from 'pixi.js';
-import { useEffect, useState } from 'react';
-import { Star } from './graphics/star';
-import { InitializeCelestials } from './utils/generate';
-import { useResize } from './utils/use-resize.hook';
+import { useApp } from "@inlet/react-pixi";
+import { addStats } from "pixi-stats";
+import { Viewport } from "pixi-viewport";
+import { Text, Container, UPDATE_PRIORITY } from "pixi.js";
+import { useEffect, useState } from "react";
+import { Star } from "./graphics/star";
+import { InitializeCelestials } from "./utils/generate";
+import { useResize } from "./utils/use-resize.hook";
 
-export const Game = () => {
+export const Game = (props: { curvature: number }) => {
   const app = useApp();
 
   const size = useResize();
@@ -35,11 +35,18 @@ export const Game = () => {
     viewport.drag().pinch().wheel().decelerate();
 
     viewport.clampZoom({ minWidth: 300, maxWidth: 2000 });
-    viewport.clamp({ direction: 'all' });
+    viewport.clamp({ direction: "all" });
 
     const galaxy = new Container();
     viewport.addChild(galaxy);
-    viewport.name = 'viewport';
+    viewport.name = "viewport";
+
+    const basicText = new Text(`Curvature: ${props.curvature}`);
+    basicText.x = 50;
+    basicText.y = 100;
+
+    app.stage.addChild(basicText);
+    basicText.name = "basicText";
 
     starPositions.forEach((starPosition) =>
       galaxy.addChild(Star(starPosition))
@@ -68,7 +75,7 @@ export const Game = () => {
   // when the screen is resized, this effect will reset the viewport's screen dimensions & then re-center
   useEffect(() => {
     const viewport: Viewport = app.stage.getChildByName(
-      'viewport'
+      "viewport"
     ) as unknown as Viewport;
 
     viewport.screenHeight = size.height;
@@ -78,6 +85,13 @@ export const Game = () => {
 
     console.log(viewport);
   }, [app.stage, size]);
+
+  useEffect(() => {
+    app.ticker.add((delta) => {
+      let basicText = app.stage.getChildByName("basicText") as Text;
+      basicText.text = `Curvature: ${props.curvature}`;
+    });
+  }, [props.curvature]);
 
   return <></>;
 };

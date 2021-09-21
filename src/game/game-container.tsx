@@ -1,14 +1,14 @@
-import { useSubscription } from '@apollo/client';
-import { Box } from '@chakra-ui/react';
-import { Stage } from '@inlet/react-pixi';
+import { useSubscription } from "@apollo/client";
+import { Box } from "@chakra-ui/react";
+import { Stage } from "@inlet/react-pixi";
 import {
   IdleGameCountersRealTimeDescDocument,
   IdleGameCountersRealTimeDescSubscription,
-} from '../_graphql/api';
-import { Game } from './game';
-import { useResize } from './utils/use-resize.hook';
+} from "../_graphql/api";
+import { Game } from "./game";
+import { useResize } from "./utils/use-resize.hook";
 
-export const GameContainer = () => {
+export const GameContainer = (props: { curvature: number }) => {
   const { data, loading } =
     useSubscription<IdleGameCountersRealTimeDescSubscription>(
       IdleGameCountersRealTimeDescDocument
@@ -24,7 +24,7 @@ export const GameContainer = () => {
   } else if (data) {
     return (
       <Stage {...size} options={{ backgroundColor: 0x2d3239, antialias: true }}>
-        <Game></Game>
+        <Game curvature={props.curvature}></Game>
       </Stage>
     );
   } else {
