@@ -1,12 +1,12 @@
-import { useSubscription } from "@apollo/client";
-import { Box } from "@chakra-ui/react";
-import { Stage } from "@inlet/react-pixi";
+import { useSubscription } from '@apollo/client';
+import { Box } from '@chakra-ui/react';
+import { Stage } from '@inlet/react-pixi';
 import {
   IdleGameCountersRealTimeDescDocument,
   IdleGameCountersRealTimeDescSubscription,
-} from "../_graphql/api";
-import { Game } from "./game";
-import { useResize } from "./utils/use-resize.hook";
+} from '../_graphql/api';
+import { Game } from './game';
+import { useResize } from './utils/use-resize.hook';
 
 export const GameContainer = (props: { curvature: number }) => {
   const { data, loading } =

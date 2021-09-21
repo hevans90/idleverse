@@ -8,13 +8,13 @@ import {
   UnorderedList,
   useColorModeValue,
   VStack,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 export const Footer = (props: {
   curvature: number;
   setCurvature: React.Dispatch<React.SetStateAction<number>>;
 }) => {
-  const color = useColorModeValue("gray.200", "gray.600");
+  const color = useColorModeValue('gray.200', 'gray.600');
 
   return (
     <Box
@@ -38,7 +38,7 @@ export const Footer = (props: {
           defaultValue={3}
           max={10}
           step={0.1}
-          onChange={(event) => {
+          onChange={event => {
             props.setCurvature(event);
           }}
         >
