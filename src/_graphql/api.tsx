@@ -766,7 +766,7 @@ export type User_Info = {
   chat_messages: Array<Chat_Messages>;
   id: Scalars['String'];
   /** An object relationship */
-  idle_test?: Maybe<Idle_Test>;
+  idle_test: Idle_Test;
   nickname: Scalars['String'];
 };
 

@@ -10,7 +10,7 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { OperationDefinitionNode } from 'graphql';
 import { curvature } from './_state/reactive-variables';
 
-const uri = 'superb-caiman-21.hasura.app/v1/graphql';
+const uri = 'idleverse.herokuapp.com/v1/graphql';
 
 export const apolloBootstrapper = (idToken: string) => {
   const httpLink = createHttpLink({
