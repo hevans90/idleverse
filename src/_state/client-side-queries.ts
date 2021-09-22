@@ -5,3 +5,9 @@ export const CURVATURE = gql`
     curvature @client
   }
 `;
+
+export const GALAXY_CONFIG = gql`
+  query galaxy_config {
+    galaxyConfig @client
+  }
+`;

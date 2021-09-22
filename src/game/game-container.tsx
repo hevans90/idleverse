@@ -1,6 +1,4 @@
 import {
-  ApolloClient,
-  NormalizedCacheObject,
   useSubscription,
 } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
@@ -12,11 +10,7 @@ import {
 import { Game } from './game';
 import { useResize } from './utils/use-resize.hook';
 
-export const GameContainer = ({
-  client,
-}: {
-  client: ApolloClient<NormalizedCacheObject>;
-}) => {
+export const GameContainer = () => {
   const { data, loading } =
     useSubscription<IdleGameCountersRealTimeDescSubscription>(
       IdleGameCountersRealTimeDescDocument
@@ -32,7 +26,7 @@ export const GameContainer = ({
   } else if (data) {
     return (
       <Stage {...size} options={{ backgroundColor: 0x2d3239, antialias: true }}>
-        <Game client={client}></Game>
+        <Game/>
       </Stage>
     );
   } else {

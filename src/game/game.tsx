@@ -1,24 +1,21 @@
-import { ApolloClient, NormalizedCacheObject, useQuery } from '@apollo/client';
+import {
+  useReactiveVar,
+} from '@apollo/client';
 import { useApp } from '@inlet/react-pixi';
 import { addStats } from 'pixi-stats';
 import { Viewport } from 'pixi-viewport';
 import { Container, Graphics, Text, UPDATE_PRIORITY } from 'pixi.js';
 import { useEffect, useState } from 'react';
-import { CURVATURE } from '../_state/client-side-queries';
+import { curvature } from '../_state/reactive-variables';
 import { Star } from './graphics/star';
-import { GenerateCelestials, GetCelestialPosition } from './utils/generate';
+import {
+  GenerateCelestials,
+  GetCelestialPosition,
+} from './utils/generate';
 import { useResize } from './utils/use-resize.hook';
 
-export const Game = ({
-  client,
-}: {
-  client: ApolloClient<NormalizedCacheObject>;
-}) => {
-  const {
-    // loading,
-    // error,
-    data: { curvature },
-  } = useQuery<{ curvature: number }>(CURVATURE, { client });
+export const Game = () => {
+  const _curvature = useReactiveVar(curvature);
 
   const app = useApp();
 
@@ -30,8 +27,8 @@ export const Game = ({
     arms: 3,
     curvature: 3,
     armWidth: 0.05,
-    coreRadius: size.height / 50,
-    coreConcentrationBias: 1.5,
+    coreRadiusFactor: 1 / 50,
+    coreConcentrationFactor: 1.5,
   });
 
   useEffect(() => {
@@ -65,7 +62,7 @@ export const Game = ({
       galaxy.addChild(_star);
     });
 
-    const basicText = new Text(`Curvature: ${curvature}`, {
+    const basicText = new Text(`Curvature: ${_curvature}`, {
       fontFamily: 'consolas',
       fontSize: 24,
       fill: 0xffffff,
@@ -111,9 +108,9 @@ export const Game = ({
   useEffect(
     () => {
       let basicText = app.stage.getChildByName('basicText') as Text;
-      basicText.text = `Curvature: ${curvature}`;
+      basicText.text = `Curvature: ${_curvature}`;
 
-      let newGalaxyConfig = { ...galaxyConfig, curvature };
+      let newGalaxyConfig = { ...galaxyConfig, curvature: _curvature };
 
       let viewport = app.stage.getChildByName('viewport') as Viewport;
       let galaxy = viewport.getChildByName('galaxy') as Container;
@@ -124,7 +121,7 @@ export const Game = ({
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [curvature]
+    [_curvature]
   );
 
   return <></>;

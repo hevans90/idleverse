@@ -23,8 +23,8 @@ export type GalaxyConfig = {
   arms: number;
   curvature: number;
   armWidth: number;
-  coreRadius: number;
-  coreConcentrationBias: number;
+  coreRadiusFactor: number;
+  coreConcentrationFactor: number;
 };
 
 export const GenerateCelestials = (count: number) => {
@@ -45,16 +45,26 @@ export const GenerateCelestials = (count: number) => {
 };
 
 export const GetCelestialPosition = (cel: Celestial, config: GalaxyConfig) => {
+  // Pick galactic arm for celestial body.
   let arm = Math.floor(cel.seeds.arm * config.arms) - 1;
+
+  /* Pick a random value for the azimuth of the celestial body from the core.
+     This value can be greater than 2 radians as it is used to calculate distance from core later.
+     The value is raised to a power which shifts the distribution towards or away from the core. */
   let theta =
-    Math.pow(cel.seeds.theta, config.coreConcentrationBias) *
+    Math.pow(cel.seeds.theta, config.coreConcentrationFactor) *
     Math.PI *
     config.curvature;
+
   let r =
     (((theta / (Math.PI * 2)) * config.radius) / config.curvature) *
     (1 + cel.seeds.rOffset * config.armWidth);
 
-  theta += (cel.seeds.coreRadius * Math.PI * config.coreRadius) / r;
+  theta +=
+    cel.seeds.coreRadius *
+    Math.PI *
+    config.coreRadiusFactor *
+    (config.radius / r);
 
   // Convert polar coordinates to 2D cartesian coordinates.
   let x = Math.cos(theta + ((2 * Math.PI) / config.arms) * arm) * r;
