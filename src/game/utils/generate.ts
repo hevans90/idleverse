@@ -54,22 +54,27 @@ export const GetCelestialPosition = (cel: Celestial, config: GalaxyConfig) => {
   let theta =
     Math.pow(cel.seeds.theta, config.coreConcentrationFactor) *
     Math.PI *
+    2 *
     config.curvature;
 
   let r =
-    (((theta / (Math.PI * 2)) * config.radius) / config.curvature) *
+    (theta / (Math.PI * 2)) *
+    (config.radius / config.curvature) *
     (1 + cel.seeds.rOffset * config.armWidth);
 
   theta +=
     cel.seeds.coreRadius *
     Math.PI *
+    2 *
     config.coreRadiusFactor *
     (config.radius / r);
 
+  theta += ((Math.PI * 2) / config.arms) * arm;
+
   // Convert polar coordinates to 2D cartesian coordinates.
-  let x = Math.cos(theta + ((2 * Math.PI) / config.arms) * arm) * r;
-  let y = Math.sin(theta + ((2 * Math.PI) / config.arms) * arm) * r;
+  let x = Math.cos(theta) * r;
+  let y = Math.sin(theta) * r;
 
   // Now we can assign xy coords.
-  return { x: x, y: y };
+  return { x, y };
 };

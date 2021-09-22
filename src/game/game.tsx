@@ -21,15 +21,6 @@ export const Game = () => {
 
   const [stars] = useState(GenerateCelestials(5000));
 
-  const [InitialGalaxyConfig] = useState({
-    radius: size.height,
-    arms: 3,
-    curvature: 3,
-    armWidth: 0.05,
-    coreRadiusFactor: 1 / 50,
-    coreConcentrationFactor: 1.5,
-  });
-
   useEffect(() => {
     // create viewport
     const viewport = new Viewport({
@@ -57,7 +48,7 @@ export const Game = () => {
     galaxy.name = 'galaxy';
 
     stars.forEach(star => {
-      let _star = Star(GetCelestialPosition(star, InitialGalaxyConfig));
+      let _star = Star(GetCelestialPosition(star, _galaxyConfig));
       galaxy.addChild(_star);
     });
 
@@ -114,13 +105,16 @@ export const Game = () => {
         let sliderText = app.stage.getChildByName(slider.name) as Text;
         sliderText.text = `${slider.name}: ${_galaxyConfig[slider.name]}`;
       });
+      
+      console.log(_galaxyConfig)
 
       let viewport = app.stage.getChildByName('viewport') as Viewport;
       let galaxy = viewport.getChildByName('galaxy') as Container;
       stars.forEach((star, i) => {
         let _star = galaxy.getChildAt(i) as Graphics;
-        _star.x = GetCelestialPosition(star, _galaxyConfig).x;
-        _star.y = GetCelestialPosition(star, _galaxyConfig).y;
+        let position = GetCelestialPosition(star, _galaxyConfig);
+        _star.x = position.x;
+        _star.y = position.y;
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
