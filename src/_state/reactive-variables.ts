@@ -11,17 +11,17 @@ export const galaxySlidersConfig: sliderType[] = [
   {
     name: 'radius',
     max: 1000,
-    step: 10,
+    step: 5,
   },
   {
     name: 'arms',
     max: 10,
-    step: 1,
+    step: 0.05,
   },
   {
     name: 'curvature',
     max: 10,
-    step: 0.1,
+    step: 0.05,
   },
   {
     name: 'armWidth',
@@ -31,22 +31,22 @@ export const galaxySlidersConfig: sliderType[] = [
   {
     name: 'coreRadiusFactor',
     max: 0.05,
-    step: 0.002,
+    step: 0.001,
   },
   {
     name: 'coreConcentrationFactor',
-    max: 10,
-    step: 0.1,
+    max: 1000,
+    step: 0.05,
   },
 ];
 
 const initialGalaxyConfig: GalaxyConfig = {
-  radius: 50,
-  arms: 3,
-  curvature: 2,
-  armWidth: 0.05,
-  coreRadiusFactor: 0.02,
-  coreConcentrationFactor: 1.5,
+  radius: 1,
+  arms: 1,
+  curvature: 1,
+  armWidth: 0,
+  coreRadiusFactor: 0,
+  coreConcentrationFactor: 1,
 };
 
 export const galaxyConfig = makeVar(initialGalaxyConfig);

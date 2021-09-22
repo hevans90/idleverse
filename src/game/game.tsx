@@ -105,8 +105,6 @@ export const Game = () => {
         let sliderText = app.stage.getChildByName(slider.name) as Text;
         sliderText.text = `${slider.name}: ${_galaxyConfig[slider.name]}`;
       });
-      
-      console.log(_galaxyConfig)
 
       let viewport = app.stage.getChildByName('viewport') as Viewport;
       let galaxy = viewport.getChildByName('galaxy') as Container;
