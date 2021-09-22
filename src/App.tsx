@@ -47,7 +47,7 @@ export const App = () => {
   return (
     <ApolloProvider client={client}>
       <Layout>
-        <GameContainer client={client}></GameContainer>
+        <GameContainer />
       </Layout>
     </ApolloProvider>
   );

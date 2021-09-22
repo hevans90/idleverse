@@ -8,7 +8,7 @@ import {
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { OperationDefinitionNode } from 'graphql';
-import { curvature } from './_state/reactive-variables';
+import { galaxyConfig } from './_state/reactive-variables';
 
 const uri = 'idleverse.herokuapp.com/v1/graphql';
 
@@ -51,8 +51,8 @@ export const apolloBootstrapper = (idToken: string) => {
       typePolicies: {
         Query: {
           fields: {
-            curvature: {
-              read: () => curvature(),
+            galaxyConfig: {
+              read: () => galaxyConfig(),
             },
           },
         },

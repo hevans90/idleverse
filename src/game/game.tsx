@@ -1,38 +1,25 @@
-import { ApolloClient, NormalizedCacheObject, useQuery } from '@apollo/client';
+import { useReactiveVar } from '@apollo/client';
 import { useApp } from '@inlet/react-pixi';
 import { addStats } from 'pixi-stats';
 import { Viewport } from 'pixi-viewport';
 import { Container, Graphics, Text, UPDATE_PRIORITY } from 'pixi.js';
 import { useEffect, useState } from 'react';
-import { CURVATURE } from '../_state/client-side-queries';
+import {
+  galaxyConfig,
+  galaxySlidersConfig,
+} from '../_state/reactive-variables';
 import { Star } from './graphics/star';
 import { GenerateCelestials, GetCelestialPosition } from './utils/generate';
 import { useResize } from './utils/use-resize.hook';
 
-export const Game = ({
-  client,
-}: {
-  client: ApolloClient<NormalizedCacheObject>;
-}) => {
-  const {
-    // loading,
-    // error,
-    data: { curvature },
-  } = useQuery<{ curvature: number }>(CURVATURE, { client });
+export const Game = () => {
+  const _galaxyConfig = useReactiveVar(galaxyConfig);
 
   const app = useApp();
 
   const size = useResize();
 
   const [stars] = useState(GenerateCelestials(5000));
-  const [galaxyConfig] = useState({
-    radius: size.height,
-    arms: 3,
-    curvature: 3,
-    armWidth: 0.05,
-    coreRadius: size.height / 50,
-    coreConcentrationBias: 1.5,
-  });
 
   useEffect(() => {
     // create viewport
@@ -61,20 +48,24 @@ export const Game = ({
     galaxy.name = 'galaxy';
 
     stars.forEach(star => {
-      let _star = Star(GetCelestialPosition(star, galaxyConfig));
+      let _star = Star(GetCelestialPosition(star, _galaxyConfig));
       galaxy.addChild(_star);
     });
 
-    const basicText = new Text(`Curvature: ${curvature}`, {
-      fontFamily: 'consolas',
-      fontSize: 24,
-      fill: 0xffffff,
+    galaxySlidersConfig.forEach((slider, i) => {
+      let sliderText = new Text(
+        `${slider.name}: ${_galaxyConfig[slider.name]}`,
+        {
+          fontFamily: 'consolas',
+          fontSize: 24,
+          fill: 0xffffff,
+        }
+      );
+      sliderText.x = 50;
+      sliderText.y = 100 + i * 40;
+      app.stage.addChild(sliderText);
+      sliderText.name = slider.name;
     });
-    basicText.x = 50;
-    basicText.y = 100;
-
-    app.stage.addChild(basicText);
-    basicText.name = 'basicText';
 
     galaxy.x = size.width / 2;
     galaxy.y = size.height / 2;
@@ -110,21 +101,22 @@ export const Game = ({
 
   useEffect(
     () => {
-      let basicText = app.stage.getChildByName('basicText') as Text;
-      basicText.text = `Curvature: ${curvature}`;
-
-      let newGalaxyConfig = { ...galaxyConfig, curvature };
+      galaxySlidersConfig.forEach((slider, i) => {
+        let sliderText = app.stage.getChildByName(slider.name) as Text;
+        sliderText.text = `${slider.name}: ${_galaxyConfig[slider.name]}`;
+      });
 
       let viewport = app.stage.getChildByName('viewport') as Viewport;
       let galaxy = viewport.getChildByName('galaxy') as Container;
       stars.forEach((star, i) => {
         let _star = galaxy.getChildAt(i) as Graphics;
-        _star.x = GetCelestialPosition(star, newGalaxyConfig).x;
-        _star.y = GetCelestialPosition(star, newGalaxyConfig).y;
+        let position = GetCelestialPosition(star, _galaxyConfig);
+        _star.x = position.x;
+        _star.y = position.y;
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [curvature]
+    [_galaxyConfig]
   );
 
   return <></>;
