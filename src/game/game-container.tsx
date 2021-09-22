@@ -1,6 +1,4 @@
-import {
-  useSubscription,
-} from '@apollo/client';
+import { useSubscription } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
 import { Stage } from '@inlet/react-pixi';
 import {
@@ -26,7 +24,7 @@ export const GameContainer = () => {
   } else if (data) {
     return (
       <Stage {...size} options={{ backgroundColor: 0x2d3239, antialias: true }}>
-        <Game/>
+        <Game />
       </Stage>
     );
   } else {
