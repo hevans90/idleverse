@@ -1,7 +1,7 @@
 module.exports = {
   schema: [
     {
-      'https://superb-caiman-21.hasura.app/v1/graphql': {
+      'https://idleverse.herokuapp.com/v1/graphql': {
         headers: {
           Authorization: 'Bearer ' + process.env.IDLE_GAME_AUTH_TOKEN,
         },
