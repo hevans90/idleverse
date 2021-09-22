@@ -1,9 +1,14 @@
 import { makeVar } from '@apollo/client';
 import { GalaxyConfig } from '../game/utils/generate';
 
-export const curvature = makeVar(3);
+type sliderType = {
+  name: keyof GalaxyConfig;
+  defaultValue: number;
+  max: number;
+  step: number;
+};
 
-export const galaxySlidersConfig = [
+export const galaxySlidersConfig: sliderType[] = [
   {
     name: 'radius',
     defaultValue: 500,
@@ -12,33 +17,33 @@ export const galaxySlidersConfig = [
   },
   {
     name: 'arms',
-    defaultValue: 500,
-    max: 1000,
-    step: 10,
+    defaultValue: 3,
+    max: 10,
+    step: 1,
   },
   {
     name: 'curvature',
-    defaultValue: 500,
-    max: 1000,
-    step: 10,
+    defaultValue: 3,
+    max: 10,
+    step: 0.1,
   },
   {
     name: 'armWidth',
-    defaultValue: 500,
-    max: 1000,
-    step: 10,
+    defaultValue: 0.05,
+    max: 0.2,
+    step: 0.005,
   },
   {
     name: 'coreRadiusFactor',
-    defaultValue: 500,
-    max: 1000,
-    step: 10,
+    defaultValue: 0.02,
+    max: 0.05,
+    step: 0.002,
   },
   {
     name: 'coreConcentrationFactor',
-    defaultValue: 500,
-    max: 1000,
-    step: 10,
+    defaultValue: 1.5,
+    max: 3,
+    step: 0.1,
   },
 ];
 

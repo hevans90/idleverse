@@ -46,7 +46,7 @@ export const GenerateCelestials = (count: number) => {
 
 export const GetCelestialPosition = (cel: Celestial, config: GalaxyConfig) => {
   // Pick galactic arm for celestial body.
-  let arm = Math.floor(cel.seeds.arm * config.arms) - 1;
+  let arm = Math.floor(cel.seeds.arm * config.arms);
 
   /* Pick a random value for the azimuth of the celestial body from the core.
      This value can be greater than 2 radians as it is used to calculate distance from core later.

@@ -9,7 +9,10 @@ import {
   useColorModeValue,
   VStack,
 } from '@chakra-ui/react';
-import { curvature } from '../../_state/reactive-variables';
+import {
+  galaxyConfig,
+  galaxySlidersConfig,
+} from '../../_state/reactive-variables';
 
 export const Footer = () => {
   const color = useColorModeValue('gray.200', 'gray.600');
@@ -31,20 +34,23 @@ export const Footer = () => {
             Move the galaxy around by dragging (after zooming in)
           </ListItem>
         </UnorderedList>
-        <Slider
-          aria-label="curvature-slider"
-          defaultValue={3}
-          max={10}
-          step={0.1}
-          onChange={event => {
-            curvature(event);
-          }}
-        >
-          <SliderTrack>
-            <SliderFilledTrack />
-          </SliderTrack>
-          <SliderThumb />
-        </Slider>
+        {galaxySlidersConfig.map(slider => (
+          <Slider
+            key={`${slider.name}-slider`}
+            aria-label={`${slider.name}-slider`}
+            defaultValue={slider.defaultValue}
+            max={slider.max}
+            step={slider.step}
+            onChange={event => {
+              galaxyConfig({ ...galaxyConfig(), [slider.name]: event });
+            }}
+          >
+            <SliderTrack>
+              <SliderFilledTrack />
+            </SliderTrack>
+            <SliderThumb />
+          </Slider>
+        ))}
       </VStack>
     </Box>
   );
