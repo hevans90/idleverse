@@ -6,6 +6,8 @@ import {
   IdleGameCountersRealTimeDescSubscription,
 } from '../_graphql/api';
 import { Game } from './game';
+import { GameUIBottomBar } from './ui/bottom-bar';
+import { GameUIRightBar } from './ui/right-bar';
 import { useResize } from './utils/use-resize.hook';
 
 export const GameContainer = () => {
@@ -23,9 +25,16 @@ export const GameContainer = () => {
     );
   } else if (data) {
     return (
-      <Stage {...size} options={{ backgroundColor: 0x2d3239, antialias: true }}>
-        <Game />
-      </Stage>
+      <Box position="relative">
+        <Stage
+          {...size}
+          options={{ backgroundColor: 0x2d3239, antialias: true }}
+        >
+          <Game />
+        </Stage>
+        <GameUIBottomBar />
+        <GameUIRightBar />
+      </Box>
     );
   } else {
     return (

@@ -58,8 +58,8 @@ export const GetCelestialPosition = (cel: Celestial, config: GalaxyConfig) => {
     config.curvature;
 
   let r =
-    (theta / (Math.PI * 2)) *
-    (config.radius / config.curvature) *
+    Math.pow(cel.seeds.theta, config.coreConcentrationFactor) *
+    config.radius *
     (1 + cel.seeds.rOffset * config.armWidth);
 
   theta +=

@@ -1,14 +1,18 @@
 import {
   Box,
-  ListItem,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
   Slider,
   SliderFilledTrack,
   SliderThumb,
   SliderTrack,
-  UnorderedList,
+  Text,
   useColorModeValue,
-  VStack,
 } from '@chakra-ui/react';
+import { useState } from 'react';
 import {
   galaxyConfig,
   galaxySlidersConfig,
@@ -17,41 +21,76 @@ import {
 export const Footer = () => {
   const color = useColorModeValue('gray.200', 'gray.600');
 
+  const initialGalaxyConfig = galaxyConfig();
+
+  const [localConfigValues, setLocalValues] = useState(initialGalaxyConfig);
+
+  // useEffect(() => {
+  //   galaxyConfig({ ...initialGalaxyConfig, radius: 300 });
+  // }, []);
+
   return (
     <Box
       className="footer"
       padding="1rem"
       display="flex"
-      alignItems="start"
+      flexDirection="column"
       bgColor={color}
     >
-      <VStack>
-        <UnorderedList fontSize="small">
-          <ListItem marginBottom="1rem">
-            Zoom in/out using a mousewheel or pinching on a touchpad.
-          </ListItem>
-          <ListItem>
-            Move the galaxy around by dragging (after zooming in)
-          </ListItem>
-        </UnorderedList>
-        {galaxySlidersConfig.map(slider => (
+      {galaxySlidersConfig.map((slider, index) => (
+        <Box
+          key={`${index}-container`}
+          display="flex"
+          alignItems="center"
+          marginBottom="5px"
+          justifyContent="space-between"
+        >
+          <Text minWidth="300px" fontSize="small">
+            {slider.displayName}
+          </Text>
           <Slider
-            key={`${slider.name}-slider`}
+            key={`${index}-slider`}
+            flexGrow={1}
+            maxWidth="400px"
             aria-label={`${slider.name}-slider`}
-            defaultValue={galaxyConfig()[slider.name]}
+            value={localConfigValues[slider.name]}
+            defaultValue={initialGalaxyConfig[slider.name] as number}
+            min={slider.min}
             max={slider.max}
             step={slider.step}
             onChange={event => {
+              setLocalValues({ ...localConfigValues, [slider.name]: event });
               galaxyConfig({ ...galaxyConfig(), [slider.name]: event });
             }}
+            focusThumbOnChange={false}
           >
             <SliderTrack>
               <SliderFilledTrack />
             </SliderTrack>
             <SliderThumb />
           </Slider>
-        ))}
-      </VStack>
+
+          <NumberInput
+            key={`${index}-number`}
+            flexGrow={0}
+            value={localConfigValues[slider.name]}
+            defaultValue={initialGalaxyConfig[slider.name] as number}
+            min={slider.min}
+            max={slider.max}
+            step={slider.step}
+            onChange={event => {
+              setLocalValues({ ...localConfigValues, [slider.name]: event });
+              galaxyConfig({ ...galaxyConfig(), [slider.name]: event });
+            }}
+          >
+            <NumberInputField autoFocus />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
+        </Box>
+      ))}
     </Box>
   );
 };

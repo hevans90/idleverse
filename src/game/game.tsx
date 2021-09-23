@@ -2,24 +2,54 @@ import { useReactiveVar } from '@apollo/client';
 import { useApp } from '@inlet/react-pixi';
 import { addStats } from 'pixi-stats';
 import { Viewport } from 'pixi-viewport';
-import { Container, Graphics, Text, UPDATE_PRIORITY } from 'pixi.js';
-import { useEffect, useState } from 'react';
+import { Container, Graphics, UPDATE_PRIORITY } from 'pixi.js';
+import { useEffect, useRef, useState } from 'react';
 import {
+  animate,
   galaxyConfig,
-  galaxySlidersConfig,
+  galaxyRotation,
+  time,
 } from '../_state/reactive-variables';
 import { Star } from './graphics/star';
-import { GenerateCelestials, GetCelestialPosition } from './utils/generate';
+import {
+  GalaxyConfig,
+  GenerateCelestials,
+  GetCelestialPosition,
+} from './utils/generate';
 import { useResize } from './utils/use-resize.hook';
 
 export const Game = () => {
-  const _galaxyConfig = useReactiveVar(galaxyConfig);
+  const galaxy = useRef(new Container());
+
+  const updateGalaxyRotation = (galaxy: Container) => (delta: number) => {
+    galaxy.rotation += delta * galaxyRotation();
+  };
 
   const app = useApp();
-
   const size = useResize();
 
   const [stars] = useState(GenerateCelestials(5000));
+
+  const reactiveAnimate = useReactiveVar(animate);
+
+  const reposition = (config: GalaxyConfig) =>
+    stars.forEach((star, i) => {
+      let _star = galaxy.current.getChildAt(i) as Graphics;
+      let position = GetCelestialPosition(star, config);
+      _star.x = position.x;
+      _star.y = position.y;
+    });
+
+  const animatedRepositioningTicker = () => {
+    const animConfig = {
+      ...galaxyConfig(),
+      curvature: galaxyConfig().curvature * Math.sin(time() * 0.01),
+    };
+
+    reposition(animConfig);
+  };
+
+  const repositioningTicker = () => reposition(galaxyConfig());
 
   useEffect(() => {
     // create viewport
@@ -43,41 +73,27 @@ export const Game = () => {
     viewport.clampZoom({ minWidth: 300, maxWidth: 2000 });
     viewport.clamp({ direction: 'all' });
 
-    const galaxy = new Container();
-    viewport.addChild(galaxy);
-    galaxy.name = 'galaxy';
+    galaxy.current.name = 'galaxy';
+
+    viewport.addChild(galaxy.current);
 
     stars.forEach(star => {
-      let _star = Star(GetCelestialPosition(star, _galaxyConfig));
-      galaxy.addChild(_star);
+      let _star = Star(GetCelestialPosition(star, galaxyConfig()));
+      galaxy.current.addChild(_star);
     });
 
-    galaxySlidersConfig.forEach((slider, i) => {
-      let sliderText = new Text(
-        `${slider.name}: ${_galaxyConfig[slider.name]}`,
-        {
-          fontFamily: 'consolas',
-          fontSize: 24,
-          fill: 0xffffff,
-        }
-      );
-      sliderText.x = 50;
-      sliderText.y = 100 + i * 40;
-      app.stage.addChild(sliderText);
-      sliderText.name = slider.name;
-    });
+    galaxy.current.x = size.width / 2;
+    galaxy.current.y = size.height / 2;
 
-    galaxy.x = size.width / 2;
-    galaxy.y = size.height / 2;
+    app.ticker.add(updateGalaxyRotation(galaxy.current));
 
     app.ticker.add(delta => {
-      // rotate the container!
-      // use delta to create frame-independent transform
-      galaxy.rotation -= 0.001 * delta;
+      time(time() + 1);
     });
 
-    const stats = addStats(document, app);
+    app.ticker.add(repositioningTicker);
 
+    const stats = addStats(document, app);
     app.ticker.add(stats.update, stats, UPDATE_PRIORITY.UTILITY);
 
     return () => {
@@ -86,6 +102,17 @@ export const Game = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (reactiveAnimate) {
+      app.ticker.remove(repositioningTicker);
+      app.ticker.add(animatedRepositioningTicker);
+    } else {
+      app.ticker.remove(animatedRepositioningTicker);
+      app.ticker.add(repositioningTicker);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reactiveAnimate]);
 
   // when the screen is resized, this effect will reset the viewport's screen dimensions & then re-center
   useEffect(() => {
@@ -98,26 +125,6 @@ export const Game = () => {
 
     viewport.fitWorld(true);
   }, [app.stage, size]);
-
-  useEffect(
-    () => {
-      galaxySlidersConfig.forEach((slider, i) => {
-        let sliderText = app.stage.getChildByName(slider.name) as Text;
-        sliderText.text = `${slider.name}: ${_galaxyConfig[slider.name]}`;
-      });
-
-      let viewport = app.stage.getChildByName('viewport') as Viewport;
-      let galaxy = viewport.getChildByName('galaxy') as Container;
-      stars.forEach((star, i) => {
-        let _star = galaxy.getChildAt(i) as Graphics;
-        let position = GetCelestialPosition(star, _galaxyConfig);
-        _star.x = position.x;
-        _star.y = position.y;
-      });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [_galaxyConfig]
-  );
 
   return <></>;
 };
