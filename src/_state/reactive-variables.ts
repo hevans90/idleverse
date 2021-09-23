@@ -37,7 +37,7 @@ export const galaxySlidersConfig: sliderType[] = [
   },
   {
     name: 'coreConcentrationFactor',
-    max: 1000,
+    max: 10,
     step: 0.05,
   },
 ];
