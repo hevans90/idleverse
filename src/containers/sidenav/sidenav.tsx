@@ -17,6 +17,8 @@ import {
 export const SideNav = () => {
   const color = useColorModeValue('gray.200', 'gray.700');
 
+  const borderColor = useColorModeValue('gray.200', 'gray.600');
+
   const endOfChat = useRef<HTMLDivElement>(null);
 
   const { user } = useAuth0();
@@ -57,6 +59,9 @@ export const SideNav = () => {
         maxHeight="100vh"
         position="relative"
         bgColor={color}
+        borderColor={borderColor}
+        borderRightStyle="solid"
+        borderRightWidth="1px"
       >
         {loading && data ? (
           <div>Loading...</div>

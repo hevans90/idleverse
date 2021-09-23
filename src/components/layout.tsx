@@ -5,7 +5,7 @@ import { ToolBar } from '../containers/toolbar/toolbar';
 
 export const sideNavWidth = 450;
 export const topBarHeight = 50;
-export const footerHeight = 200;
+export const footerHeight = 300;
 
 const ResponsiveGrid = styled.div`
   height: 100vh;
