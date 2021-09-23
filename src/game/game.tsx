@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import {
   galaxyConfig,
   galaxySlidersConfig,
+  time,
 } from '../_state/reactive-variables';
 import { Star } from './graphics/star';
 import { GenerateCelestials, GetCelestialPosition } from './utils/generate';
@@ -48,13 +49,13 @@ export const Game = () => {
     galaxy.name = 'galaxy';
 
     stars.forEach(star => {
-      let _star = Star(GetCelestialPosition(star, _galaxyConfig));
+      let _star = Star(GetCelestialPosition(star, galaxyConfig()));
       galaxy.addChild(_star);
     });
 
     galaxySlidersConfig.forEach((slider, i) => {
       let sliderText = new Text(
-        `${slider.name}: ${_galaxyConfig[slider.name]}`,
+        `${slider.name}: ${galaxyConfig()[slider.name]}`,
         {
           fontFamily: 'consolas',
           fontSize: 24,
@@ -76,8 +77,30 @@ export const Game = () => {
       galaxy.rotation -= 0.001 * delta;
     });
 
-    const stats = addStats(document, app);
+    app.ticker.add(delta => {
+      time(time() + 1);
+    });
 
+    app.ticker.add(delta => {
+      galaxySlidersConfig.forEach((slider, i) => {
+        let sliderText = app.stage.getChildByName(slider.name) as Text;
+        sliderText.text = `${slider.name}: ${galaxyConfig()[slider.name]}`;
+      });
+
+      let modifiedGalaxyConfig = {
+        ...galaxyConfig(),
+        curvature: galaxyConfig().curvature * Math.sin(time() * 0.01),
+      };
+
+      stars.forEach((star, i) => {
+        let _star = galaxy.getChildAt(i) as Graphics;
+        let position = GetCelestialPosition(star, modifiedGalaxyConfig);
+        _star.x = position.x;
+        _star.y = position.y;
+      });
+    });
+
+    const stats = addStats(document, app);
     app.ticker.add(stats.update, stats, UPDATE_PRIORITY.UTILITY);
 
     return () => {
@@ -98,26 +121,6 @@ export const Game = () => {
 
     viewport.fitWorld(true);
   }, [app.stage, size]);
-
-  useEffect(
-    () => {
-      galaxySlidersConfig.forEach((slider, i) => {
-        let sliderText = app.stage.getChildByName(slider.name) as Text;
-        sliderText.text = `${slider.name}: ${_galaxyConfig[slider.name]}`;
-      });
-
-      let viewport = app.stage.getChildByName('viewport') as Viewport;
-      let galaxy = viewport.getChildByName('galaxy') as Container;
-      stars.forEach((star, i) => {
-        let _star = galaxy.getChildAt(i) as Graphics;
-        let position = GetCelestialPosition(star, _galaxyConfig);
-        _star.x = position.x;
-        _star.y = position.y;
-      });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [_galaxyConfig]
-  );
 
   return <></>;
 };

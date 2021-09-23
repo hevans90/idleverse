@@ -50,3 +50,5 @@ const initialGalaxyConfig: GalaxyConfig = {
 };
 
 export const galaxyConfig = makeVar(initialGalaxyConfig);
+export const galaxyRotation = makeVar(-0.001);
+export const time = makeVar(0);
