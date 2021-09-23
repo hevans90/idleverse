@@ -1,5 +1,4 @@
-import { useReactiveVar } from '@apollo/client';
-import { useApp, useTick } from '@inlet/react-pixi';
+import { useApp } from '@inlet/react-pixi';
 import { addStats } from 'pixi-stats';
 import { Viewport } from 'pixi-viewport';
 import { Container, Graphics, Text, UPDATE_PRIORITY } from 'pixi.js';
@@ -15,11 +14,8 @@ import { GenerateCelestials, GetCelestialPosition } from './utils/generate';
 import { useResize } from './utils/use-resize.hook';
 
 export const Game = () => {
-  const _galaxyConfig = useReactiveVar(galaxyConfig);
-  const _galaxyRotation = useReactiveVar(galaxyRotation);
-
   const updateGalaxyRotation = (galaxy: Container) => (delta: number) => {
-    galaxy.rotation += delta * _galaxyRotation;
+    galaxy.rotation += delta * galaxyRotation();
   };
 
   const app = useApp();
