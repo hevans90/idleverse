@@ -39,6 +39,7 @@ export const Footer = () => {
             key={`${slider.name}-slider`}
             aria-label={`${slider.name}-slider`}
             defaultValue={galaxyConfig()[slider.name]}
+            min={slider.min}
             max={slider.max}
             step={slider.step}
             onChange={event => {

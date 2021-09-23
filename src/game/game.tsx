@@ -1,11 +1,12 @@
 import { useReactiveVar } from '@apollo/client';
-import { useApp } from '@inlet/react-pixi';
+import { useApp, useTick } from '@inlet/react-pixi';
 import { addStats } from 'pixi-stats';
 import { Viewport } from 'pixi-viewport';
 import { Container, Graphics, Text, UPDATE_PRIORITY } from 'pixi.js';
 import { useEffect, useState } from 'react';
 import {
   galaxyConfig,
+  galaxyRotation,
   galaxySlidersConfig,
   time,
 } from '../_state/reactive-variables';
@@ -15,9 +16,13 @@ import { useResize } from './utils/use-resize.hook';
 
 export const Game = () => {
   const _galaxyConfig = useReactiveVar(galaxyConfig);
+  const _galaxyRotation = useReactiveVar(galaxyRotation);
+
+  const updateGalaxyRotation = (galaxy: Container) => (delta: number) => {
+    galaxy.rotation += delta * _galaxyRotation;
+  };
 
   const app = useApp();
-
   const size = useResize();
 
   const [stars] = useState(GenerateCelestials(5000));
@@ -71,11 +76,7 @@ export const Game = () => {
     galaxy.x = size.width / 2;
     galaxy.y = size.height / 2;
 
-    app.ticker.add(delta => {
-      // rotate the container!
-      // use delta to create frame-independent transform
-      galaxy.rotation -= 0.001 * delta;
-    });
+    app.ticker.add(updateGalaxyRotation(galaxy));
 
     app.ticker.add(delta => {
       time(time() + 1);

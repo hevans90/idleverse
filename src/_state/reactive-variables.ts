@@ -3,6 +3,7 @@ import { GalaxyConfig } from '../game/utils/generate';
 
 type sliderType = {
   name: keyof GalaxyConfig;
+  min?: number;
   max: number;
   step: number;
 };
@@ -20,7 +21,8 @@ export const galaxySlidersConfig: sliderType[] = [
   },
   {
     name: 'curvature',
-    max: 10,
+    min: -5,
+    max: 5,
     step: 0.05,
   },
   {
