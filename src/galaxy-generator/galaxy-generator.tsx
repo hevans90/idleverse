@@ -18,7 +18,7 @@ import {
 } from './utils/generate';
 import { useResize } from './utils/use-resize.hook';
 
-export const Game = () => {
+export const GalaxyGenerator = () => {
   const galaxy = useRef(new Container());
 
   const updateGalaxyRotation = (galaxy: Container) => (delta: number) => {
@@ -26,7 +26,8 @@ export const Game = () => {
   };
 
   const app = useApp();
-  const size = useResize();
+
+  const size = useResize(true);
 
   const [stars] = useState(GenerateCelestials(5000));
 
@@ -97,9 +98,20 @@ export const Game = () => {
     app.ticker.add(stats.update, stats, UPDATE_PRIORITY.UTILITY);
 
     return () => {
+      // app.ticker.destroy();
       // On unload completely destroy the application and all of it's children
-      app.destroy(true, true);
+      // try {
+      //   app.destroy(true, true);
+      // } catch (err) {
+      //   console.warn(err);
+      // }
     };
+
+    /**
+     * NOTE: we don't need to manually destroy anything in a return function, as react-pixi seems to do this automatically.
+     *
+     * In fact, if you try and destroy in a return here it will throw errors as it tried to double-delete.
+     */
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

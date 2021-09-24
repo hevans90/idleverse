@@ -1,5 +1,6 @@
 import { Box, Checkbox, useColorModeValue } from '@chakra-ui/react';
 import { animate } from '../../_state/reactive-variables';
+import { generatorControlsHeight } from './generator-controls';
 
 export const GameUIRightBar = () => {
   const bg = useColorModeValue('gray.300', 'gray.700');
@@ -13,7 +14,7 @@ export const GameUIRightBar = () => {
       position="absolute"
       alignItems="start"
       bgColor={bg}
-      bottom="0"
+      bottom={generatorControlsHeight}
       right="0"
       borderWidth="1px"
       borderStyle="solid"

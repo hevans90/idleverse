@@ -12,22 +12,28 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   galaxyConfig,
   galaxySlidersConfig,
 } from '../../_state/reactive-variables';
 
-export const Footer = () => {
+export const generatorControlsHeight = 300;
+
+export const GeneratorControls = () => {
   const color = useColorModeValue('gray.200', 'gray.600');
 
   const initialGalaxyConfig = galaxyConfig();
 
   const [localConfigValues, setLocalValues] = useState(initialGalaxyConfig);
 
-  // useEffect(() => {
-  //   galaxyConfig({ ...initialGalaxyConfig, radius: 300 });
-  // }, []);
+  useEffect(() => {
+    setTimeout(() => {
+      galaxyConfig({ ...initialGalaxyConfig, radius: 200 });
+      setLocalValues({ ...initialGalaxyConfig, radius: 200 });
+    }, 100);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Box
@@ -36,6 +42,11 @@ export const Footer = () => {
       display="flex"
       flexDirection="column"
       bgColor={color}
+      position="absolute"
+      bottom="0"
+      left="0"
+      height={`${generatorControlsHeight}px`}
+      width="100%"
     >
       {galaxySlidersConfig.map((slider, index) => (
         <Box

@@ -5,12 +5,13 @@ import {
   IdleGameCountersRealTimeDescDocument,
   IdleGameCountersRealTimeDescSubscription,
 } from '../_graphql/api';
-import { Game } from './game';
+import { GalaxyGenerator } from './galaxy-generator';
 import { GameUIBottomBar } from './ui/bottom-bar';
+import { GeneratorControls } from './ui/generator-controls';
 import { GameUIRightBar } from './ui/right-bar';
 import { useResize } from './utils/use-resize.hook';
 
-export const GameContainer = () => {
+export const GalaxyGenContainer = () => {
   const { data, loading } =
     useSubscription<IdleGameCountersRealTimeDescSubscription>(
       IdleGameCountersRealTimeDescDocument
@@ -20,7 +21,7 @@ export const GameContainer = () => {
   if (loading) {
     return (
       <Box h="100%" display="flex" alignItems="center" justifyContent="center">
-        loading universe...
+        loading galaxy generator...
       </Box>
     );
   } else if (data) {
@@ -30,10 +31,11 @@ export const GameContainer = () => {
           {...size}
           options={{ backgroundColor: 0x2d3239, antialias: true }}
         >
-          <Game />
+          <GalaxyGenerator />
         </Stage>
         <GameUIBottomBar />
         <GameUIRightBar />
+        <GeneratorControls />
       </Box>
     );
   } else {

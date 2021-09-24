@@ -1,11 +1,9 @@
 import styled from 'styled-components';
-import { Footer } from '../containers/footer/footer';
 import { SideNav } from '../containers/sidenav/sidenav';
 import { ToolBar } from '../containers/toolbar/toolbar';
 
 export const sideNavWidth = 450;
 export const topBarHeight = 50;
-export const footerHeight = 300;
 
 const ResponsiveGrid = styled.div`
   height: 100vh;
@@ -13,12 +11,11 @@ const ResponsiveGrid = styled.div`
   display: grid;
 
   grid-template-columns: ${sideNavWidth}px auto;
-  grid-template-rows: ${topBarHeight}px auto ${footerHeight}px;
+  grid-template-rows: ${topBarHeight}px auto;
 
   grid-template-areas:
     'side-nav   toolbar'
-    'side-nav   main'
-    'side-nav   footer';
+    'side-nav   main';
 
   div.toolbar {
     grid-area: toolbar;
@@ -43,7 +40,6 @@ export const Layout = (props: { children: JSX.Element }) => {
       <SideNav></SideNav>
       <ToolBar></ToolBar>
       <main>{props.children}</main>
-      <Footer></Footer>
     </ResponsiveGrid>
   );
 };
