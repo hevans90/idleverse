@@ -97,16 +97,6 @@ export const GalaxyGenerator = () => {
     const stats = addStats(document, app);
     app.ticker.add(stats.update, stats, UPDATE_PRIORITY.UTILITY);
 
-    return () => {
-      // app.ticker.destroy();
-      // On unload completely destroy the application and all of it's children
-      // try {
-      //   app.destroy(true, true);
-      // } catch (err) {
-      //   console.warn(err);
-      // }
-    };
-
     /**
      * NOTE: we don't need to manually destroy anything in a return function, as react-pixi seems to do this automatically.
      *

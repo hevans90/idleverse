@@ -9,6 +9,7 @@ import { GalaxyGenerator } from './galaxy-generator';
 import { GameUIBottomBar } from './ui/bottom-bar';
 import { GeneratorControls } from './ui/generator-controls';
 import { GameUIRightBar } from './ui/right-bar';
+import { GameUITopLeftBar } from './ui/top-left-bar';
 import { useResize } from './utils/use-resize.hook';
 
 export const GalaxyGenContainer = () => {
@@ -29,10 +30,21 @@ export const GalaxyGenContainer = () => {
       <Box position="relative">
         <Stage
           {...size}
-          options={{ backgroundColor: 0x2d3239, antialias: true }}
+          options={{
+            backgroundColor: 0x2d3239,
+            antialias: true,
+          }}
+          onUnmount={app => {
+            document.getElementById('stats').remove();
+
+            // only way to stop pixi errors
+            // eslint-disable-next-line no-restricted-globals
+            location.reload();
+          }}
         >
           <GalaxyGenerator />
         </Stage>
+        <GameUITopLeftBar />
         <GameUIBottomBar />
         <GameUIRightBar />
         <GeneratorControls />
