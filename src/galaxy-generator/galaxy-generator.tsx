@@ -1,8 +1,7 @@
 import { useReactiveVar } from '@apollo/client';
 import { useApp } from '@inlet/react-pixi';
-import { addStats } from 'pixi-stats';
 import { Viewport } from 'pixi-viewport';
-import { Container, Graphics, UPDATE_PRIORITY } from 'pixi.js';
+import { Container, Graphics, Text } from 'pixi.js';
 import { useEffect, useRef, useState } from 'react';
 import {
   animate,
@@ -29,7 +28,7 @@ export const GalaxyGenerator = () => {
 
   const size = useResize(true);
 
-  const [stars] = useState(GenerateCelestials(5000));
+  const [stars] = useState(GenerateCelestials(2000));
 
   const reactiveAnimate = useReactiveVar(animate);
 
@@ -94,8 +93,21 @@ export const GalaxyGenerator = () => {
 
     app.ticker.add(repositioningTicker);
 
-    const stats = addStats(document, app);
-    app.ticker.add(stats.update, stats, UPDATE_PRIORITY.UTILITY);
+    let fpsCounter = new Text(`FPS: `, {
+      fontFamily: 'zx spectrum',
+      fontSize: 24,
+      fill: 0xffffff,
+    });
+    fpsCounter.x = 50;
+    fpsCounter.y = 100;
+    fpsCounter.name = 'fpsCounter';
+    app.stage.addChild(fpsCounter);
+
+    app.ticker.add(() => {
+      (app.stage.getChildByName('fpsCounter') as Text).text = `FPS: ${Math.ceil(
+        app.ticker.FPS
+      )}`;
+    });
 
     /**
      * NOTE: we don't need to manually destroy anything in a return function, as react-pixi seems to do this automatically.

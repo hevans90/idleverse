@@ -5,6 +5,7 @@ import {
   IdleGameCountersRealTimeDescDocument,
   IdleGameCountersRealTimeDescSubscription,
 } from '../_graphql/api';
+import { animate } from '../_state/reactive-variables';
 import { GalaxyGenerator } from './galaxy-generator';
 import { GameUIBottomBar } from './ui/bottom-bar';
 import { GeneratorControls } from './ui/generator-controls';
@@ -34,13 +35,7 @@ export const GalaxyGenContainer = () => {
             backgroundColor: 0x2d3239,
             antialias: true,
           }}
-          onUnmount={app => {
-            document.getElementById('stats').remove();
-
-            // only way to stop pixi errors
-            // eslint-disable-next-line no-restricted-globals
-            location.reload();
-          }}
+          onUnmount={() => animate(false)}
         >
           <GalaxyGenerator />
         </Stage>
