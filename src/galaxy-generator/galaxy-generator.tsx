@@ -1,8 +1,7 @@
 import { useReactiveVar } from '@apollo/client';
 import { useApp } from '@inlet/react-pixi';
-import { addStats } from 'pixi-stats';
 import { Viewport } from 'pixi-viewport';
-import { Container, Graphics, UPDATE_PRIORITY } from 'pixi.js';
+import { Container, Graphics, Text } from 'pixi.js';
 import { useEffect, useRef, useState } from 'react';
 import {
   animate,
@@ -18,7 +17,7 @@ import {
 } from './utils/generate';
 import { useResize } from './utils/use-resize.hook';
 
-export const Game = () => {
+export const GalaxyGenerator = () => {
   const galaxy = useRef(new Container());
 
   const updateGalaxyRotation = (galaxy: Container) => (delta: number) => {
@@ -26,9 +25,10 @@ export const Game = () => {
   };
 
   const app = useApp();
-  const size = useResize();
 
-  const [stars] = useState(GenerateCelestials(5000));
+  const size = useResize(true);
+
+  const [stars] = useState(GenerateCelestials(2000));
 
   const reactiveAnimate = useReactiveVar(animate);
 
@@ -93,13 +93,27 @@ export const Game = () => {
 
     app.ticker.add(repositioningTicker);
 
-    const stats = addStats(document, app);
-    app.ticker.add(stats.update, stats, UPDATE_PRIORITY.UTILITY);
+    let fpsCounter = new Text(`FPS: `, {
+      fontFamily: 'zx spectrum',
+      fontSize: 24,
+      fill: 0xffffff,
+    });
+    fpsCounter.x = 50;
+    fpsCounter.y = 100;
+    fpsCounter.name = 'fpsCounter';
+    app.stage.addChild(fpsCounter);
 
-    return () => {
-      // On unload completely destroy the application and all of it's children
-      app.destroy(true, true);
-    };
+    app.ticker.add(() => {
+      (app.stage.getChildByName('fpsCounter') as Text).text = `FPS: ${Math.ceil(
+        app.ticker.FPS
+      )}`;
+    });
+
+    /**
+     * NOTE: we don't need to manually destroy anything in a return function, as react-pixi seems to do this automatically.
+     *
+     * In fact, if you try and destroy in a return here it will throw errors as it tried to double-delete.
+     */
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

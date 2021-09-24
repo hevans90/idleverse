@@ -5,6 +5,7 @@ import {
   useColorModeValue,
   VStack,
 } from '@chakra-ui/react';
+import { generatorControlsHeight } from './generator-controls';
 
 export const GameUIBottomBar = () => {
   const bg = useColorModeValue('gray.300', 'gray.700');
@@ -17,7 +18,7 @@ export const GameUIBottomBar = () => {
       position="absolute"
       alignItems="start"
       bgColor={bg}
-      bottom="0"
+      bottom={generatorControlsHeight}
       left="0"
       borderWidth="1px"
       borderStyle="solid"

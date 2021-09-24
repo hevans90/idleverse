@@ -1,5 +1,5 @@
 import { makeVar } from '@apollo/client';
-import { GalaxyConfig } from '../game/utils/generate';
+import { GalaxyConfig } from '../galaxy-generator/utils/generate';
 
 export type sliderType = {
   name: keyof GalaxyConfig;
@@ -51,10 +51,10 @@ export const galaxySlidersConfig: sliderType[] = [
 
 const initialGalaxyConfig: GalaxyConfig = {
   radius: 1,
-  arms: 1,
+  arms: 2,
   curvature: 1,
-  armWidth: 0,
-  coreRadiusFactor: 0,
+  armWidth: 0.1,
+  coreRadiusFactor: 0.01,
   coreConcentrationFactor: 1,
 };
 

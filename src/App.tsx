@@ -2,9 +2,11 @@ import { ApolloProvider } from '@apollo/client';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Text } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { apolloBootstrapper } from './apollo-bootstrapper';
 import { Layout } from './components/layout';
-import { GameContainer } from './game/game-container';
+import { GalaxyGenContainer } from './galaxy-generator/galaxy-generator.container';
+import { Home } from './home/home';
 
 const Loading = () => (
   <Box
@@ -42,12 +44,15 @@ export const App = () => {
 
   if (idToken === '') return <Loading></Loading>;
 
-  const client = apolloBootstrapper(idToken);
-
   return (
-    <ApolloProvider client={client}>
+    <ApolloProvider client={apolloBootstrapper(idToken)}>
       <Layout>
-        <GameContainer />
+        <BrowserRouter basename="/idle-game">
+          <Switch>
+            <Route path="/galaxy-gen" component={GalaxyGenContainer} />
+            <Route path="/" component={Home} />
+          </Switch>
+        </BrowserRouter>
       </Layout>
     </ApolloProvider>
   );
