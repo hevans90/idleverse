@@ -23,80 +23,103 @@
         }
       }
     },
-    "idleverse": {
-      "root": "apps/idleverse",
-      "sourceRoot": "apps/idleverse/src",
+    "web": {
+      "root": "apps/web",
+      "sourceRoot": "apps/web/src",
       "projectType": "application",
       "targets": {
         "build": {
-          "executor": "@nrwl/workspace:run-commands",
+          "executor": "@nrwl/web:build",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "command": "node ../../node_modules/.bin/react-app-rewired build",
-            "cwd": "apps/idleverse",
-            "outputPath": "dist/apps/idleverse"
+            "outputPath": "dist/apps/web",
+            "index": "apps/web/src/index.html",
+            "main": "apps/web/src/index.tsx",
+            "polyfills": "apps/web/src/polyfills.ts",
+            "tsConfig": "apps/web/tsconfig.app.json",
+            "assets": ["apps/web/src/favicon.ico", "apps/web/src/assets"],
+            "styles": ["apps/web/src/styles.css"],
+            "scripts": [],
+            "webpackConfig": "@nrwl/react/plugins/webpack"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/web/src/environments/environment.ts",
+                  "with": "apps/web/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                }
+              ]
+            }
           }
         },
         "serve": {
-          "executor": "@nrwl/workspace:run-commands",
-          "outputs": [],
+          "executor": "@nrwl/web:dev-server",
           "options": {
-            "command": "node ../../node_modules/.bin/react-app-rewired start",
-            "cwd": "apps/idleverse"
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/workspace:run-commands",
-          "outputs": [],
-          "options": {
-            "command": "node ../../node_modules/.bin/eslint src/**/*.tsx src/**/*.ts",
-            "cwd": "apps/idleverse"
-          }
-        },
-        "test": {
-          "executor": "@nrwl/workspace:run-commands",
-          "outputs": [],
-          "options": {
-            "command": "node ../../node_modules/.bin/react-app-rewired test --watchAll=false",
-            "cwd": "apps/idleverse"
-          }
-        }
-      }
-    },
-    "idleverse-e2e": {
-      "root": "apps/idleverse-e2e",
-      "sourceRoot": "apps/idleverse-e2e/src",
-      "projectType": "application",
-      "targets": {
-        "e2e": {
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              "nx e2e-serve idleverse-e2e",
-              "nx e2e-run idleverse-e2e"
-            ]
+            "buildTarget": "web:build",
+            "hmr": true,
+            "port": 3000
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "web:build:production",
+              "hmr": false
+            }
           }
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["apps/idleverse-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": ["apps/web/**/*.{ts,tsx,js,jsx}"]
           }
         },
-        "e2e-run": {
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/web"],
+          "options": {
+            "jestConfig": "apps/web/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "web-e2e": {
+      "root": "apps/web-e2e",
+      "sourceRoot": "apps/web-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
           "executor": "@nrwl/cypress:cypress",
           "options": {
-            "cypressConfig": "apps/idleverse-e2e/cypress.json",
-            "tsConfig": "apps/idleverse-e2e/tsconfig.e2e.json",
-            "baseUrl": "http://localhost:3000"
+            "cypressConfig": "apps/web-e2e/cypress.json",
+            "devServerTarget": "web:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "web:serve:production"
+            }
           }
         },
-        "e2e-serve": {
-          "executor": "@nrwl/workspace:run-commands",
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "commands": ["nx serve idleverse"],
-            "readyWhen": "can now view"
+            "lintFilePatterns": ["apps/web-e2e/**/*.{js,ts}"]
           }
         }
       }

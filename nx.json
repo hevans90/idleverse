@@ -31,12 +31,12 @@
     "graphql": {
       "tags": []
     },
-    "idleverse": {
+    "web": {
       "tags": []
     },
-    "idleverse-e2e": {
+    "web-e2e": {
       "tags": [],
-      "implicitDependencies": ["idleverse"]
+      "implicitDependencies": ["web"]
     }
   }
 }
