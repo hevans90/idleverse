@@ -28,6 +28,9 @@
     ]
   },
   "projects": {
+    "game-server": {
+      "tags": []
+    },
     "graphql": {
       "tags": []
     },

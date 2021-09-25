@@ -2631,6 +2631,33 @@
     tmp "~0.2.1"
     tslib "^2.0.0"
 
+"@nrwl/node@^12.9.0":
+  version "12.9.0"
+  resolved "https://registry.yarnpkg.com/@nrwl/node/-/node-12.9.0.tgz#fbc0a878d47f0ddff4cda28cdb34c3fe04a830c7"
+  integrity sha512-AluoSQVMKMCPMvlPZbBxTNlVQTx6/nFOZZMOYCrNLWgWuyfX29jrghCw3WSDAW41B9+ruhxPLxzmER/T58FfuQ==
+  dependencies:
+    "@nrwl/devkit" "12.9.0"
+    "@nrwl/jest" "12.9.0"
+    "@nrwl/linter" "12.9.0"
+    "@nrwl/workspace" "12.9.0"
+    chalk "4.1.0"
+    circular-dependency-plugin "5.2.0"
+    copy-webpack-plugin "6.4.1"
+    fork-ts-checker-webpack-plugin "6.2.10"
+    fs-extra "^9.1.0"
+    glob "7.1.4"
+    license-webpack-plugin "2.3.15"
+    rxjs "^6.5.4"
+    rxjs-for-await "0.0.2"
+    source-map-support "0.5.19"
+    tree-kill "1.2.2"
+    ts-loader "5.4.5"
+    tsconfig-paths-webpack-plugin "3.4.1"
+    tslib "^2.0.0"
+    webpack "4.46.0"
+    webpack-merge "4.2.1"
+    webpack-node-externals "1.7.2"
+
 "@nrwl/nx-cloud@latest":
   version "12.3.13"
   resolved "https://registry.yarnpkg.com/@nrwl/nx-cloud/-/nx-cloud-12.3.13.tgz#f2ebf28ab918af8cc61e9d45f070c4459ba42703"
@@ -13564,6 +13591,14 @@ source-map-resolve@^0.5.0, source-map-resolve@^0.5.2:
     source-map-url "^0.4.0"
     urix "^0.1.0"
 
+source-map-support@0.5.19:
+  version "0.5.19"
+  resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.19.tgz#a98b62f86dcaf4f67399648c085291ab9e8fed61"
+  integrity sha512-Wonm7zOCIJzBGQdB+thsPar0kYuCIzYvxZwlBa87yi/Mdjv7Tip2cyVbLj5o0cFPN4EVkuTwb3GDDyUx2DGnGw==
+  dependencies:
+    buffer-from "^1.0.0"
+    source-map "^0.6.0"
+
 source-map-support@^0.5.17, source-map-support@^0.5.6, source-map-support@~0.5.12, source-map-support@~0.5.20:
   version "0.5.20"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.20.tgz#12166089f8f5e5e8c56926b377633392dd2cb6c9"
@@ -14422,6 +14457,11 @@ tr46@~0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
   integrity sha1-gYT9NH2snNwYWZLzpmIuFLnZq2o=
+
+tree-kill@1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/tree-kill/-/tree-kill-1.2.2.tgz#4ca09a9092c88b73a7cdc5e8a01b507b0790a0cc"
+  integrity sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==
 
 ts-invariant@^0.9.0:
   version "0.9.3"

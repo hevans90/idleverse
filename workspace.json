@@ -1,6 +1,57 @@
 {
   "version": 2,
   "projects": {
+    "game-server": {
+      "root": "apps/game-server",
+      "sourceRoot": "apps/game-server/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/game-server",
+            "main": "apps/game-server/src/main.ts",
+            "tsConfig": "apps/game-server/tsconfig.app.json",
+            "assets": ["apps/game-server/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/game-server/src/environments/environment.ts",
+                  "with": "apps/game-server/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "game-server:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/game-server/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/game-server"],
+          "options": {
+            "jestConfig": "apps/game-server/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "graphql": {
       "root": "libs/graphql",
       "sourceRoot": "libs/graphql/src",
