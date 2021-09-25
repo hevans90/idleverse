@@ -8,6 +8,8 @@ import { Layout } from './components/layout';
 import { GalaxyGenContainer } from './galaxy-generator/galaxy-generator.container';
 import { Home } from './home/home';
 
+export const local = window.location.origin.includes('localhost');
+
 const Loading = () => (
   <Box
     height="100vh"
@@ -47,7 +49,7 @@ export const App = () => {
   return (
     <ApolloProvider client={apolloBootstrapper(idToken)}>
       <Layout>
-        <BrowserRouter basename="/idle-game">
+        <BrowserRouter basename={local ? '/' : '/idle-game'}>
           <Switch>
             <Route path="/galaxy-gen" component={GalaxyGenContainer} />
             <Route path="/" component={Home} />
