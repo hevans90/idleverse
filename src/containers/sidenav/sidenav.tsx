@@ -24,7 +24,7 @@ export const SideNav = () => {
   const { user } = useAuth0();
 
   const [messages, setMessages] = useState<
-    GetChatMessagesSubscription['chat_messages']
+    GetChatMessagesSubscription['chat_message']
   >([]);
 
   const { data, loading } = useSubscription<GetChatMessagesSubscription>(
@@ -38,7 +38,7 @@ export const SideNav = () => {
 
   useEffect(() => {
     if (data) {
-      setMessages(data?.chat_messages.reverse());
+      setMessages(data?.chat_message.reverse());
       scrollToBottom();
     }
   }, [data]);

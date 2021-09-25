@@ -1,6 +1,0 @@
-subscription IdleGameCounterRealTime {
-  idle_test {
-    id
-    counter
-  }
-}
