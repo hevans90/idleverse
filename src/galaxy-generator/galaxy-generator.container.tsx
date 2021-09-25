@@ -1,10 +1,7 @@
 import { useSubscription } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
 import { Stage } from '@inlet/react-pixi';
-import {
-  IdleGameCountersRealTimeDescDocument,
-  IdleGameCountersRealTimeDescSubscription,
-} from '../_graphql/api';
+import { GalaxiesDocument, GalaxiesSubscription } from '../_graphql/api';
 import { animate } from '../_state/reactive-variables';
 import { GalaxyGenerator } from './galaxy-generator';
 import { GameUIBottomBar } from './ui/bottom-bar';
@@ -15,9 +12,7 @@ import { useResize } from './utils/use-resize.hook';
 
 export const GalaxyGenContainer = () => {
   const { data, loading } =
-    useSubscription<IdleGameCountersRealTimeDescSubscription>(
-      IdleGameCountersRealTimeDescDocument
-    );
+    useSubscription<GalaxiesSubscription>(GalaxiesDocument);
 
   const size = useResize();
   if (loading) {

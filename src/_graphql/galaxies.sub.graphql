@@ -1,0 +1,10 @@
+subscription Galaxies {
+  galaxy {
+    id
+    name
+    systems {
+      id
+      name
+    }
+  }
+}

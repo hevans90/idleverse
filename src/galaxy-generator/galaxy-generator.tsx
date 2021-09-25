@@ -12,7 +12,7 @@ import {
 import { Star } from './graphics/star';
 import {
   GalaxyConfig,
-  GenerateCelestials,
+  generateCelestials,
   GetCelestialPosition,
 } from './utils/generate';
 import { useResize } from './utils/use-resize.hook';
@@ -28,7 +28,7 @@ export const GalaxyGenerator = () => {
 
   const size = useResize(true);
 
-  const [stars] = useState(GenerateCelestials(2000));
+  const [stars] = useState(generateCelestials(2000, 'abc'));
 
   const reactiveAnimate = useReactiveVar(animate);
 

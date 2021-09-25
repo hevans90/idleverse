@@ -22,19 +22,6 @@ export type Scalars = {
   uuid: any;
 };
 
-/** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
-export type Int_Comparison_Exp = {
-  _eq?: Maybe<Scalars['Int']>;
-  _gt?: Maybe<Scalars['Int']>;
-  _gte?: Maybe<Scalars['Int']>;
-  _in?: Maybe<Array<Scalars['Int']>>;
-  _is_null?: Maybe<Scalars['Boolean']>;
-  _lt?: Maybe<Scalars['Int']>;
-  _lte?: Maybe<Scalars['Int']>;
-  _neq?: Maybe<Scalars['Int']>;
-  _nin?: Maybe<Array<Scalars['Int']>>;
-};
-
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
 export type String_Comparison_Exp = {
   _eq?: Maybe<Scalars['String']>;
@@ -68,9 +55,9 @@ export type String_Comparison_Exp = {
   _similar?: Maybe<Scalars['String']>;
 };
 
-/** columns and relationships of "chat_messages" */
-export type Chat_Messages = {
-  __typename?: 'chat_messages';
+/** columns and relationships of "chat_message" */
+export type Chat_Message = {
+  __typename?: 'chat_message';
   id: Scalars['uuid'];
   message: Scalars['String'];
   poster_id: Scalars['String'];
@@ -79,18 +66,18 @@ export type Chat_Messages = {
   user_info: User_Info;
 };
 
-/** order by aggregate values of table "chat_messages" */
-export type Chat_Messages_Aggregate_Order_By = {
+/** order by aggregate values of table "chat_message" */
+export type Chat_Message_Aggregate_Order_By = {
   count?: Maybe<Order_By>;
-  max?: Maybe<Chat_Messages_Max_Order_By>;
-  min?: Maybe<Chat_Messages_Min_Order_By>;
+  max?: Maybe<Chat_Message_Max_Order_By>;
+  min?: Maybe<Chat_Message_Min_Order_By>;
 };
 
-/** Boolean expression to filter rows from the table "chat_messages". All fields are combined with a logical 'AND'. */
-export type Chat_Messages_Bool_Exp = {
-  _and?: Maybe<Array<Chat_Messages_Bool_Exp>>;
-  _not?: Maybe<Chat_Messages_Bool_Exp>;
-  _or?: Maybe<Array<Chat_Messages_Bool_Exp>>;
+/** Boolean expression to filter rows from the table "chat_message". All fields are combined with a logical 'AND'. */
+export type Chat_Message_Bool_Exp = {
+  _and?: Maybe<Array<Chat_Message_Bool_Exp>>;
+  _not?: Maybe<Chat_Message_Bool_Exp>;
+  _or?: Maybe<Array<Chat_Message_Bool_Exp>>;
   id?: Maybe<Uuid_Comparison_Exp>;
   message?: Maybe<String_Comparison_Exp>;
   poster_id?: Maybe<String_Comparison_Exp>;
@@ -98,38 +85,38 @@ export type Chat_Messages_Bool_Exp = {
   user_info?: Maybe<User_Info_Bool_Exp>;
 };
 
-/** input type for inserting data into table "chat_messages" */
-export type Chat_Messages_Insert_Input = {
+/** input type for inserting data into table "chat_message" */
+export type Chat_Message_Insert_Input = {
   message?: Maybe<Scalars['String']>;
 };
 
-/** order by max() on columns of table "chat_messages" */
-export type Chat_Messages_Max_Order_By = {
+/** order by max() on columns of table "chat_message" */
+export type Chat_Message_Max_Order_By = {
   id?: Maybe<Order_By>;
   message?: Maybe<Order_By>;
   poster_id?: Maybe<Order_By>;
   timestamp?: Maybe<Order_By>;
 };
 
-/** order by min() on columns of table "chat_messages" */
-export type Chat_Messages_Min_Order_By = {
+/** order by min() on columns of table "chat_message" */
+export type Chat_Message_Min_Order_By = {
   id?: Maybe<Order_By>;
   message?: Maybe<Order_By>;
   poster_id?: Maybe<Order_By>;
   timestamp?: Maybe<Order_By>;
 };
 
-/** response of any mutation on the table "chat_messages" */
-export type Chat_Messages_Mutation_Response = {
-  __typename?: 'chat_messages_mutation_response';
+/** response of any mutation on the table "chat_message" */
+export type Chat_Message_Mutation_Response = {
+  __typename?: 'chat_message_mutation_response';
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
-  returning: Array<Chat_Messages>;
+  returning: Array<Chat_Message>;
 };
 
-/** Ordering options when selecting data from "chat_messages". */
-export type Chat_Messages_Order_By = {
+/** Ordering options when selecting data from "chat_message". */
+export type Chat_Message_Order_By = {
   id?: Maybe<Order_By>;
   message?: Maybe<Order_By>;
   poster_id?: Maybe<Order_By>;
@@ -137,8 +124,8 @@ export type Chat_Messages_Order_By = {
   user_info?: Maybe<User_Info_Order_By>;
 };
 
-/** select columns of table "chat_messages" */
-export enum Chat_Messages_Select_Column {
+/** select columns of table "chat_message" */
+export enum Chat_Message_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
@@ -149,20 +136,17 @@ export enum Chat_Messages_Select_Column {
   Timestamp = 'timestamp',
 }
 
-/** columns and relationships of "cluster" */
-export type Cluster = {
-  __typename?: 'cluster';
-  /** An object relationship */
-  galaxy: Galaxy;
-  galaxy_id: Scalars['uuid'];
+/** columns and relationships of "galaxy" */
+export type Galaxy = {
+  __typename?: 'galaxy';
   id: Scalars['uuid'];
   name?: Maybe<Scalars['String']>;
   /** An array relationship */
   systems: Array<System>;
 };
 
-/** columns and relationships of "cluster" */
-export type ClusterSystemsArgs = {
+/** columns and relationships of "galaxy" */
+export type GalaxySystemsArgs = {
   distinct_on?: Maybe<Array<System_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
@@ -170,91 +154,21 @@ export type ClusterSystemsArgs = {
   where?: Maybe<System_Bool_Exp>;
 };
 
-/** order by aggregate values of table "cluster" */
-export type Cluster_Aggregate_Order_By = {
-  count?: Maybe<Order_By>;
-  max?: Maybe<Cluster_Max_Order_By>;
-  min?: Maybe<Cluster_Min_Order_By>;
-};
-
-/** Boolean expression to filter rows from the table "cluster". All fields are combined with a logical 'AND'. */
-export type Cluster_Bool_Exp = {
-  _and?: Maybe<Array<Cluster_Bool_Exp>>;
-  _not?: Maybe<Cluster_Bool_Exp>;
-  _or?: Maybe<Array<Cluster_Bool_Exp>>;
-  galaxy?: Maybe<Galaxy_Bool_Exp>;
-  galaxy_id?: Maybe<Uuid_Comparison_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  name?: Maybe<String_Comparison_Exp>;
-  systems?: Maybe<System_Bool_Exp>;
-};
-
-/** order by max() on columns of table "cluster" */
-export type Cluster_Max_Order_By = {
-  galaxy_id?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
-};
-
-/** order by min() on columns of table "cluster" */
-export type Cluster_Min_Order_By = {
-  galaxy_id?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
-};
-
-/** Ordering options when selecting data from "cluster". */
-export type Cluster_Order_By = {
-  galaxy?: Maybe<Galaxy_Order_By>;
-  galaxy_id?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
-  systems_aggregate?: Maybe<System_Aggregate_Order_By>;
-};
-
-/** select columns of table "cluster" */
-export enum Cluster_Select_Column {
-  /** column name */
-  GalaxyId = 'galaxy_id',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Name = 'name',
-}
-
-/** columns and relationships of "galaxy" */
-export type Galaxy = {
-  __typename?: 'galaxy';
-  /** An array relationship */
-  clusters: Array<Cluster>;
-  id: Scalars['uuid'];
-  name?: Maybe<Scalars['String']>;
-};
-
-/** columns and relationships of "galaxy" */
-export type GalaxyClustersArgs = {
-  distinct_on?: Maybe<Array<Cluster_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Cluster_Order_By>>;
-  where?: Maybe<Cluster_Bool_Exp>;
-};
-
 /** Boolean expression to filter rows from the table "galaxy". All fields are combined with a logical 'AND'. */
 export type Galaxy_Bool_Exp = {
   _and?: Maybe<Array<Galaxy_Bool_Exp>>;
   _not?: Maybe<Galaxy_Bool_Exp>;
   _or?: Maybe<Array<Galaxy_Bool_Exp>>;
-  clusters?: Maybe<Cluster_Bool_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
   name?: Maybe<String_Comparison_Exp>;
+  systems?: Maybe<System_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "galaxy". */
 export type Galaxy_Order_By = {
-  clusters_aggregate?: Maybe<Cluster_Aggregate_Order_By>;
   id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
+  systems_aggregate?: Maybe<System_Aggregate_Order_By>;
 };
 
 /** select columns of table "galaxy" */
@@ -265,132 +179,21 @@ export enum Galaxy_Select_Column {
   Name = 'name',
 }
 
-/** columns and relationships of "idle_test" */
-export type Idle_Test = {
-  __typename?: 'idle_test';
-  counter: Scalars['Int'];
-  id: Scalars['uuid'];
-  owner_id?: Maybe<Scalars['String']>;
-  /** An object relationship */
-  user?: Maybe<User_Info>;
-};
-
-/** Boolean expression to filter rows from the table "idle_test". All fields are combined with a logical 'AND'. */
-export type Idle_Test_Bool_Exp = {
-  _and?: Maybe<Array<Idle_Test_Bool_Exp>>;
-  _not?: Maybe<Idle_Test_Bool_Exp>;
-  _or?: Maybe<Array<Idle_Test_Bool_Exp>>;
-  counter?: Maybe<Int_Comparison_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  owner_id?: Maybe<String_Comparison_Exp>;
-  user?: Maybe<User_Info_Bool_Exp>;
-};
-
-/** unique or primary key constraints on table "idle_test" */
-export enum Idle_Test_Constraint {
-  /** unique or primary key constraint */
-  IdleTestOwnerIdKey = 'idle_test_owner_id_key',
-  /** unique or primary key constraint */
-  IdleTestPkey = 'idle_test_pkey',
-}
-
-/** input type for incrementing numeric columns in table "idle_test" */
-export type Idle_Test_Inc_Input = {
-  counter?: Maybe<Scalars['Int']>;
-};
-
-/** input type for inserting data into table "idle_test" */
-export type Idle_Test_Insert_Input = {
-  counter?: Maybe<Scalars['Int']>;
-};
-
-/** response of any mutation on the table "idle_test" */
-export type Idle_Test_Mutation_Response = {
-  __typename?: 'idle_test_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data from the rows affected by the mutation */
-  returning: Array<Idle_Test>;
-};
-
-/** on conflict condition type for table "idle_test" */
-export type Idle_Test_On_Conflict = {
-  constraint: Idle_Test_Constraint;
-  update_columns?: Array<Idle_Test_Update_Column>;
-  where?: Maybe<Idle_Test_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "idle_test". */
-export type Idle_Test_Order_By = {
-  counter?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  owner_id?: Maybe<Order_By>;
-  user?: Maybe<User_Info_Order_By>;
-};
-
-/** primary key columns input for table: idle_test */
-export type Idle_Test_Pk_Columns_Input = {
-  id: Scalars['uuid'];
-};
-
-/** select columns of table "idle_test" */
-export enum Idle_Test_Select_Column {
-  /** column name */
-  Counter = 'counter',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  OwnerId = 'owner_id',
-}
-
-/** input type for updating data in table "idle_test" */
-export type Idle_Test_Set_Input = {
-  counter?: Maybe<Scalars['Int']>;
-};
-
-/** update columns of table "idle_test" */
-export enum Idle_Test_Update_Column {
-  /** column name */
-  Counter = 'counter',
-}
-
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
-  /** delete data from the table: "idle_test" */
-  delete_idle_test?: Maybe<Idle_Test_Mutation_Response>;
-  /** delete single row from the table: "idle_test" */
-  delete_idle_test_by_pk?: Maybe<Idle_Test>;
   /** delete data from the table: "user_private" */
   delete_user_private?: Maybe<User_Private_Mutation_Response>;
-  /** insert data into the table: "chat_messages" */
-  insert_chat_messages?: Maybe<Chat_Messages_Mutation_Response>;
-  /** insert a single row into the table: "chat_messages" */
-  insert_chat_messages_one?: Maybe<Chat_Messages>;
-  /** insert data into the table: "idle_test" */
-  insert_idle_test?: Maybe<Idle_Test_Mutation_Response>;
-  /** insert a single row into the table: "idle_test" */
-  insert_idle_test_one?: Maybe<Idle_Test>;
+  /** insert data into the table: "chat_message" */
+  insert_chat_message?: Maybe<Chat_Message_Mutation_Response>;
+  /** insert a single row into the table: "chat_message" */
+  insert_chat_message_one?: Maybe<Chat_Message>;
   /** insert data into the table: "user_private" */
   insert_user_private?: Maybe<User_Private_Mutation_Response>;
   /** insert a single row into the table: "user_private" */
   insert_user_private_one?: Maybe<User_Private>;
-  /** update data of the table: "idle_test" */
-  update_idle_test?: Maybe<Idle_Test_Mutation_Response>;
-  /** update single row of the table: "idle_test" */
-  update_idle_test_by_pk?: Maybe<Idle_Test>;
   /** update data of the table: "user_private" */
   update_user_private?: Maybe<User_Private_Mutation_Response>;
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Idle_TestArgs = {
-  where: Idle_Test_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Idle_Test_By_PkArgs = {
-  id: Scalars['uuid'];
 };
 
 /** mutation root */
@@ -399,25 +202,13 @@ export type Mutation_RootDelete_User_PrivateArgs = {
 };
 
 /** mutation root */
-export type Mutation_RootInsert_Chat_MessagesArgs = {
-  objects: Array<Chat_Messages_Insert_Input>;
+export type Mutation_RootInsert_Chat_MessageArgs = {
+  objects: Array<Chat_Message_Insert_Input>;
 };
 
 /** mutation root */
-export type Mutation_RootInsert_Chat_Messages_OneArgs = {
-  object: Chat_Messages_Insert_Input;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Idle_TestArgs = {
-  objects: Array<Idle_Test_Insert_Input>;
-  on_conflict?: Maybe<Idle_Test_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Idle_Test_OneArgs = {
-  object: Idle_Test_Insert_Input;
-  on_conflict?: Maybe<Idle_Test_On_Conflict>;
+export type Mutation_RootInsert_Chat_Message_OneArgs = {
+  object: Chat_Message_Insert_Input;
 };
 
 /** mutation root */
@@ -428,20 +219,6 @@ export type Mutation_RootInsert_User_PrivateArgs = {
 /** mutation root */
 export type Mutation_RootInsert_User_Private_OneArgs = {
   object: User_Private_Insert_Input;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Idle_TestArgs = {
-  _inc?: Maybe<Idle_Test_Inc_Input>;
-  _set?: Maybe<Idle_Test_Set_Input>;
-  where: Idle_Test_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Idle_Test_By_PkArgs = {
-  _inc?: Maybe<Idle_Test_Inc_Input>;
-  _set?: Maybe<Idle_Test_Set_Input>;
-  pk_columns: Idle_Test_Pk_Columns_Input;
 };
 
 /** mutation root */
@@ -468,26 +245,22 @@ export enum Order_By {
 
 export type Query_Root = {
   __typename?: 'query_root';
-  /** An array relationship */
-  chat_messages: Array<Chat_Messages>;
-  /** fetch data from the table: "chat_messages" using primary key columns */
-  chat_messages_by_pk?: Maybe<Chat_Messages>;
-  /** fetch data from the table: "cluster" */
-  cluster: Array<Cluster>;
-  /** fetch data from the table: "cluster" using primary key columns */
-  cluster_by_pk?: Maybe<Cluster>;
+  /** fetch data from the table: "chat_message" */
+  chat_message: Array<Chat_Message>;
+  /** fetch data from the table: "chat_message" using primary key columns */
+  chat_message_by_pk?: Maybe<Chat_Message>;
   /** fetch data from the table: "galaxy" */
   galaxy: Array<Galaxy>;
   /** fetch data from the table: "galaxy" using primary key columns */
   galaxy_by_pk?: Maybe<Galaxy>;
-  /** fetch data from the table: "idle_test" */
-  idle_test: Array<Idle_Test>;
-  /** fetch data from the table: "idle_test" using primary key columns */
-  idle_test_by_pk?: Maybe<Idle_Test>;
   /** fetch data from the table: "system" */
   system: Array<System>;
   /** fetch data from the table: "system" using primary key columns */
   system_by_pk?: Maybe<System>;
+  /** fetch data from the table: "user_action" */
+  user_action: Array<User_Action>;
+  /** fetch data from the table: "user_action" using primary key columns */
+  user_action_by_pk?: Maybe<User_Action>;
   /** fetch data from the table: "user_info" */
   user_info: Array<User_Info>;
   /** fetch data from the table: "user_info" using primary key columns */
@@ -496,27 +269,15 @@ export type Query_Root = {
   user_private: Array<User_Private>;
 };
 
-export type Query_RootChat_MessagesArgs = {
-  distinct_on?: Maybe<Array<Chat_Messages_Select_Column>>;
+export type Query_RootChat_MessageArgs = {
+  distinct_on?: Maybe<Array<Chat_Message_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Chat_Messages_Order_By>>;
-  where?: Maybe<Chat_Messages_Bool_Exp>;
+  order_by?: Maybe<Array<Chat_Message_Order_By>>;
+  where?: Maybe<Chat_Message_Bool_Exp>;
 };
 
-export type Query_RootChat_Messages_By_PkArgs = {
-  id: Scalars['uuid'];
-};
-
-export type Query_RootClusterArgs = {
-  distinct_on?: Maybe<Array<Cluster_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Cluster_Order_By>>;
-  where?: Maybe<Cluster_Bool_Exp>;
-};
-
-export type Query_RootCluster_By_PkArgs = {
+export type Query_RootChat_Message_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -532,18 +293,6 @@ export type Query_RootGalaxy_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
-export type Query_RootIdle_TestArgs = {
-  distinct_on?: Maybe<Array<Idle_Test_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Idle_Test_Order_By>>;
-  where?: Maybe<Idle_Test_Bool_Exp>;
-};
-
-export type Query_RootIdle_Test_By_PkArgs = {
-  id: Scalars['uuid'];
-};
-
 export type Query_RootSystemArgs = {
   distinct_on?: Maybe<Array<System_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -553,6 +302,18 @@ export type Query_RootSystemArgs = {
 };
 
 export type Query_RootSystem_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+export type Query_RootUser_ActionArgs = {
+  distinct_on?: Maybe<Array<User_Action_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<User_Action_Order_By>>;
+  where?: Maybe<User_Action_Bool_Exp>;
+};
+
+export type Query_RootUser_Action_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -578,26 +339,22 @@ export type Query_RootUser_PrivateArgs = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
-  /** An array relationship */
-  chat_messages: Array<Chat_Messages>;
-  /** fetch data from the table: "chat_messages" using primary key columns */
-  chat_messages_by_pk?: Maybe<Chat_Messages>;
-  /** fetch data from the table: "cluster" */
-  cluster: Array<Cluster>;
-  /** fetch data from the table: "cluster" using primary key columns */
-  cluster_by_pk?: Maybe<Cluster>;
+  /** fetch data from the table: "chat_message" */
+  chat_message: Array<Chat_Message>;
+  /** fetch data from the table: "chat_message" using primary key columns */
+  chat_message_by_pk?: Maybe<Chat_Message>;
   /** fetch data from the table: "galaxy" */
   galaxy: Array<Galaxy>;
   /** fetch data from the table: "galaxy" using primary key columns */
   galaxy_by_pk?: Maybe<Galaxy>;
-  /** fetch data from the table: "idle_test" */
-  idle_test: Array<Idle_Test>;
-  /** fetch data from the table: "idle_test" using primary key columns */
-  idle_test_by_pk?: Maybe<Idle_Test>;
   /** fetch data from the table: "system" */
   system: Array<System>;
   /** fetch data from the table: "system" using primary key columns */
   system_by_pk?: Maybe<System>;
+  /** fetch data from the table: "user_action" */
+  user_action: Array<User_Action>;
+  /** fetch data from the table: "user_action" using primary key columns */
+  user_action_by_pk?: Maybe<User_Action>;
   /** fetch data from the table: "user_info" */
   user_info: Array<User_Info>;
   /** fetch data from the table: "user_info" using primary key columns */
@@ -606,27 +363,15 @@ export type Subscription_Root = {
   user_private: Array<User_Private>;
 };
 
-export type Subscription_RootChat_MessagesArgs = {
-  distinct_on?: Maybe<Array<Chat_Messages_Select_Column>>;
+export type Subscription_RootChat_MessageArgs = {
+  distinct_on?: Maybe<Array<Chat_Message_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Chat_Messages_Order_By>>;
-  where?: Maybe<Chat_Messages_Bool_Exp>;
+  order_by?: Maybe<Array<Chat_Message_Order_By>>;
+  where?: Maybe<Chat_Message_Bool_Exp>;
 };
 
-export type Subscription_RootChat_Messages_By_PkArgs = {
-  id: Scalars['uuid'];
-};
-
-export type Subscription_RootClusterArgs = {
-  distinct_on?: Maybe<Array<Cluster_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Cluster_Order_By>>;
-  where?: Maybe<Cluster_Bool_Exp>;
-};
-
-export type Subscription_RootCluster_By_PkArgs = {
+export type Subscription_RootChat_Message_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -642,18 +387,6 @@ export type Subscription_RootGalaxy_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
-export type Subscription_RootIdle_TestArgs = {
-  distinct_on?: Maybe<Array<Idle_Test_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Idle_Test_Order_By>>;
-  where?: Maybe<Idle_Test_Bool_Exp>;
-};
-
-export type Subscription_RootIdle_Test_By_PkArgs = {
-  id: Scalars['uuid'];
-};
-
 export type Subscription_RootSystemArgs = {
   distinct_on?: Maybe<Array<System_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -663,6 +396,18 @@ export type Subscription_RootSystemArgs = {
 };
 
 export type Subscription_RootSystem_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+export type Subscription_RootUser_ActionArgs = {
+  distinct_on?: Maybe<Array<User_Action_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<User_Action_Order_By>>;
+  where?: Maybe<User_Action_Bool_Exp>;
+};
+
+export type Subscription_RootUser_Action_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -690,8 +435,8 @@ export type Subscription_RootUser_PrivateArgs = {
 export type System = {
   __typename?: 'system';
   /** An object relationship */
-  cluster: Cluster;
-  cluster_id: Scalars['uuid'];
+  galaxy: Galaxy;
+  galaxy_id: Scalars['uuid'];
   id: Scalars['uuid'];
   name?: Maybe<Scalars['String']>;
 };
@@ -708,30 +453,30 @@ export type System_Bool_Exp = {
   _and?: Maybe<Array<System_Bool_Exp>>;
   _not?: Maybe<System_Bool_Exp>;
   _or?: Maybe<Array<System_Bool_Exp>>;
-  cluster?: Maybe<Cluster_Bool_Exp>;
-  cluster_id?: Maybe<Uuid_Comparison_Exp>;
+  galaxy?: Maybe<Galaxy_Bool_Exp>;
+  galaxy_id?: Maybe<Uuid_Comparison_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
   name?: Maybe<String_Comparison_Exp>;
 };
 
 /** order by max() on columns of table "system" */
 export type System_Max_Order_By = {
-  cluster_id?: Maybe<Order_By>;
+  galaxy_id?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
 };
 
 /** order by min() on columns of table "system" */
 export type System_Min_Order_By = {
-  cluster_id?: Maybe<Order_By>;
+  galaxy_id?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
 };
 
 /** Ordering options when selecting data from "system". */
 export type System_Order_By = {
-  cluster?: Maybe<Cluster_Order_By>;
-  cluster_id?: Maybe<Order_By>;
+  galaxy?: Maybe<Galaxy_Order_By>;
+  galaxy_id?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
 };
@@ -739,7 +484,7 @@ export type System_Order_By = {
 /** select columns of table "system" */
 export enum System_Select_Column {
   /** column name */
-  ClusterId = 'cluster_id',
+  GalaxyId = 'galaxy_id',
   /** column name */
   Id = 'id',
   /** column name */
@@ -759,24 +504,58 @@ export type Timestamp_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['timestamp']>>;
 };
 
+/** columns and relationships of "user_action" */
+export type User_Action = {
+  __typename?: 'user_action';
+  id: Scalars['uuid'];
+  user_id: Scalars['String'];
+  /** An object relationship */
+  user_info: User_Info;
+};
+
+/** Boolean expression to filter rows from the table "user_action". All fields are combined with a logical 'AND'. */
+export type User_Action_Bool_Exp = {
+  _and?: Maybe<Array<User_Action_Bool_Exp>>;
+  _not?: Maybe<User_Action_Bool_Exp>;
+  _or?: Maybe<Array<User_Action_Bool_Exp>>;
+  id?: Maybe<Uuid_Comparison_Exp>;
+  user_id?: Maybe<String_Comparison_Exp>;
+  user_info?: Maybe<User_Info_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "user_action". */
+export type User_Action_Order_By = {
+  id?: Maybe<Order_By>;
+  user_id?: Maybe<Order_By>;
+  user_info?: Maybe<User_Info_Order_By>;
+};
+
+/** select columns of table "user_action" */
+export enum User_Action_Select_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  UserId = 'user_id',
+}
+
 /** columns and relationships of "user_info" */
 export type User_Info = {
   __typename?: 'user_info';
   /** An array relationship */
-  chat_messages: Array<Chat_Messages>;
+  chat_messages: Array<Chat_Message>;
   id: Scalars['String'];
-  /** An object relationship */
-  idle_test: Idle_Test;
   nickname: Scalars['String'];
+  /** An object relationship */
+  user_action: User_Action;
 };
 
 /** columns and relationships of "user_info" */
 export type User_InfoChat_MessagesArgs = {
-  distinct_on?: Maybe<Array<Chat_Messages_Select_Column>>;
+  distinct_on?: Maybe<Array<Chat_Message_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Chat_Messages_Order_By>>;
-  where?: Maybe<Chat_Messages_Bool_Exp>;
+  order_by?: Maybe<Array<Chat_Message_Order_By>>;
+  where?: Maybe<Chat_Message_Bool_Exp>;
 };
 
 /** Boolean expression to filter rows from the table "user_info". All fields are combined with a logical 'AND'. */
@@ -784,18 +563,18 @@ export type User_Info_Bool_Exp = {
   _and?: Maybe<Array<User_Info_Bool_Exp>>;
   _not?: Maybe<User_Info_Bool_Exp>;
   _or?: Maybe<Array<User_Info_Bool_Exp>>;
-  chat_messages?: Maybe<Chat_Messages_Bool_Exp>;
+  chat_messages?: Maybe<Chat_Message_Bool_Exp>;
   id?: Maybe<String_Comparison_Exp>;
-  idle_test?: Maybe<Idle_Test_Bool_Exp>;
   nickname?: Maybe<String_Comparison_Exp>;
+  user_action?: Maybe<User_Action_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "user_info". */
 export type User_Info_Order_By = {
-  chat_messages_aggregate?: Maybe<Chat_Messages_Aggregate_Order_By>;
+  chat_messages_aggregate?: Maybe<Chat_Message_Aggregate_Order_By>;
   id?: Maybe<Order_By>;
-  idle_test?: Maybe<Idle_Test_Order_By>;
   nickname?: Maybe<Order_By>;
+  user_action?: Maybe<User_Action_Order_By>;
 };
 
 /** select columns of table "user_info" */
@@ -874,13 +653,25 @@ export type GetChatMessagesSubscriptionVariables = Exact<{
 
 export type GetChatMessagesSubscription = {
   __typename?: 'subscription_root';
-  chat_messages: Array<{
-    __typename?: 'chat_messages';
+  chat_message: Array<{
+    __typename?: 'chat_message';
     timestamp: any;
     id: any;
     message: string;
     poster_id: string;
     user_info: { __typename?: 'user_info'; nickname: string; id: string };
+  }>;
+};
+
+export type GalaxiesSubscriptionVariables = Exact<{ [key: string]: never }>;
+
+export type GalaxiesSubscription = {
+  __typename?: 'subscription_root';
+  galaxy: Array<{
+    __typename?: 'galaxy';
+    id: any;
+    name?: Maybe<string>;
+    systems: Array<{ __typename?: 'system'; id: any; name?: Maybe<string> }>;
   }>;
 };
 
@@ -890,45 +681,15 @@ export type SendNewMessageMutationVariables = Exact<{
 
 export type SendNewMessageMutation = {
   __typename?: 'mutation_root';
-  insert_chat_messages_one?: Maybe<{
-    __typename?: 'chat_messages';
+  insert_chat_message_one?: Maybe<{
+    __typename?: 'chat_message';
     message: string;
   }>;
 };
 
-export type IdleGameCountersRealTimeDescSubscriptionVariables = Exact<{
-  [key: string]: never;
-}>;
-
-export type IdleGameCountersRealTimeDescSubscription = {
-  __typename?: 'subscription_root';
-  idle_test: Array<{
-    __typename?: 'idle_test';
-    counter: number;
-    id: any;
-    user?: Maybe<{ __typename?: 'user_info'; nickname: string }>;
-  }>;
-};
-
-export type IdleGameCountersQueryVariables = Exact<{ [key: string]: never }>;
-
-export type IdleGameCountersQuery = {
-  __typename?: 'query_root';
-  idle_test: Array<{ __typename?: 'idle_test'; id: any; counter: number }>;
-};
-
-export type IdleGameCounterRealTimeSubscriptionVariables = Exact<{
-  [key: string]: never;
-}>;
-
-export type IdleGameCounterRealTimeSubscription = {
-  __typename?: 'subscription_root';
-  idle_test: Array<{ __typename?: 'idle_test'; id: any; counter: number }>;
-};
-
 export const GetChatMessagesDocument = gql`
   subscription GetChatMessages {
-    chat_messages(order_by: { timestamp: desc }, limit: 200) {
+    chat_message(order_by: { timestamp: desc }, limit: 200) {
       timestamp
       id
       message
@@ -973,9 +734,54 @@ export type GetChatMessagesSubscriptionHookResult = ReturnType<
 >;
 export type GetChatMessagesSubscriptionResult =
   Apollo.SubscriptionResult<GetChatMessagesSubscription>;
+export const GalaxiesDocument = gql`
+  subscription Galaxies {
+    galaxy {
+      id
+      name
+      systems {
+        id
+        name
+      }
+    }
+  }
+`;
+
+/**
+ * __useGalaxiesSubscription__
+ *
+ * To run a query within a React component, call `useGalaxiesSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useGalaxiesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGalaxiesSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGalaxiesSubscription(
+  baseOptions?: Apollo.SubscriptionHookOptions<
+    GalaxiesSubscription,
+    GalaxiesSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSubscription<
+    GalaxiesSubscription,
+    GalaxiesSubscriptionVariables
+  >(GalaxiesDocument, options);
+}
+export type GalaxiesSubscriptionHookResult = ReturnType<
+  typeof useGalaxiesSubscription
+>;
+export type GalaxiesSubscriptionResult =
+  Apollo.SubscriptionResult<GalaxiesSubscription>;
 export const SendNewMessageDocument = gql`
   mutation SendNewMessage($message: String) {
-    insert_chat_messages_one(object: { message: $message }) {
+    insert_chat_message_one(object: { message: $message }) {
       message
     }
   }
@@ -1023,146 +829,3 @@ export type SendNewMessageMutationOptions = Apollo.BaseMutationOptions<
   SendNewMessageMutation,
   SendNewMessageMutationVariables
 >;
-export const IdleGameCountersRealTimeDescDocument = gql`
-  subscription IdleGameCountersRealTimeDesc {
-    idle_test(order_by: { counter: desc }) {
-      user {
-        nickname
-      }
-      counter
-      id
-    }
-  }
-`;
-
-/**
- * __useIdleGameCountersRealTimeDescSubscription__
- *
- * To run a query within a React component, call `useIdleGameCountersRealTimeDescSubscription` and pass it any options that fit your needs.
- * When your component renders, `useIdleGameCountersRealTimeDescSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useIdleGameCountersRealTimeDescSubscription({
- *   variables: {
- *   },
- * });
- */
-export function useIdleGameCountersRealTimeDescSubscription(
-  baseOptions?: Apollo.SubscriptionHookOptions<
-    IdleGameCountersRealTimeDescSubscription,
-    IdleGameCountersRealTimeDescSubscriptionVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    IdleGameCountersRealTimeDescSubscription,
-    IdleGameCountersRealTimeDescSubscriptionVariables
-  >(IdleGameCountersRealTimeDescDocument, options);
-}
-export type IdleGameCountersRealTimeDescSubscriptionHookResult = ReturnType<
-  typeof useIdleGameCountersRealTimeDescSubscription
->;
-export type IdleGameCountersRealTimeDescSubscriptionResult =
-  Apollo.SubscriptionResult<IdleGameCountersRealTimeDescSubscription>;
-export const IdleGameCountersDocument = gql`
-  query IdleGameCounters {
-    idle_test {
-      id
-      counter
-    }
-  }
-`;
-
-/**
- * __useIdleGameCountersQuery__
- *
- * To run a query within a React component, call `useIdleGameCountersQuery` and pass it any options that fit your needs.
- * When your component renders, `useIdleGameCountersQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useIdleGameCountersQuery({
- *   variables: {
- *   },
- * });
- */
-export function useIdleGameCountersQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    IdleGameCountersQuery,
-    IdleGameCountersQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<IdleGameCountersQuery, IdleGameCountersQueryVariables>(
-    IdleGameCountersDocument,
-    options
-  );
-}
-export function useIdleGameCountersLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    IdleGameCountersQuery,
-    IdleGameCountersQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    IdleGameCountersQuery,
-    IdleGameCountersQueryVariables
-  >(IdleGameCountersDocument, options);
-}
-export type IdleGameCountersQueryHookResult = ReturnType<
-  typeof useIdleGameCountersQuery
->;
-export type IdleGameCountersLazyQueryHookResult = ReturnType<
-  typeof useIdleGameCountersLazyQuery
->;
-export type IdleGameCountersQueryResult = Apollo.QueryResult<
-  IdleGameCountersQuery,
-  IdleGameCountersQueryVariables
->;
-export const IdleGameCounterRealTimeDocument = gql`
-  subscription IdleGameCounterRealTime {
-    idle_test {
-      id
-      counter
-    }
-  }
-`;
-
-/**
- * __useIdleGameCounterRealTimeSubscription__
- *
- * To run a query within a React component, call `useIdleGameCounterRealTimeSubscription` and pass it any options that fit your needs.
- * When your component renders, `useIdleGameCounterRealTimeSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useIdleGameCounterRealTimeSubscription({
- *   variables: {
- *   },
- * });
- */
-export function useIdleGameCounterRealTimeSubscription(
-  baseOptions?: Apollo.SubscriptionHookOptions<
-    IdleGameCounterRealTimeSubscription,
-    IdleGameCounterRealTimeSubscriptionVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    IdleGameCounterRealTimeSubscription,
-    IdleGameCounterRealTimeSubscriptionVariables
-  >(IdleGameCounterRealTimeDocument, options);
-}
-export type IdleGameCounterRealTimeSubscriptionHookResult = ReturnType<
-  typeof useIdleGameCounterRealTimeSubscription
->;
-export type IdleGameCounterRealTimeSubscriptionResult =
-  Apollo.SubscriptionResult<IdleGameCounterRealTimeSubscription>;
