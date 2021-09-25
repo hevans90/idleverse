@@ -13,10 +13,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Log refs
-        run: |
-          git show-ref
-
       - name: Install
         run: |
           yarn
