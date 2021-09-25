@@ -1,0 +1,6 @@
+subscription LatestMessage {
+  chat_message(limit: 1, order_by: { timestamp: desc }) {
+    id
+    message
+  }
+}

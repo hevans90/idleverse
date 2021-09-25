@@ -1,16 +1,10 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
-const defaultOptions = {};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+const defaultOptions =  {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -133,7 +127,7 @@ export enum Chat_Message_Select_Column {
   /** column name */
   PosterId = 'poster_id',
   /** column name */
-  Timestamp = 'timestamp',
+  Timestamp = 'timestamp'
 }
 
 /** columns and relationships of "galaxy" */
@@ -144,6 +138,7 @@ export type Galaxy = {
   /** An array relationship */
   systems: Array<System>;
 };
+
 
 /** columns and relationships of "galaxy" */
 export type GalaxySystemsArgs = {
@@ -176,7 +171,7 @@ export enum Galaxy_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Name = 'name',
+  Name = 'name'
 }
 
 /** mutation root */
@@ -196,30 +191,36 @@ export type Mutation_Root = {
   update_user_private?: Maybe<User_Private_Mutation_Response>;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_User_PrivateArgs = {
   where: User_Private_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Chat_MessageArgs = {
   objects: Array<Chat_Message_Insert_Input>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Chat_Message_OneArgs = {
   object: Chat_Message_Insert_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_User_PrivateArgs = {
   objects: Array<User_Private_Insert_Input>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_User_Private_OneArgs = {
   object: User_Private_Insert_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_User_PrivateArgs = {
@@ -240,7 +241,7 @@ export enum Order_By {
   /** in descending order, nulls first */
   DescNullsFirst = 'desc_nulls_first',
   /** in descending order, nulls last */
-  DescNullsLast = 'desc_nulls_last',
+  DescNullsLast = 'desc_nulls_last'
 }
 
 export type Query_Root = {
@@ -269,6 +270,7 @@ export type Query_Root = {
   user_private: Array<User_Private>;
 };
 
+
 export type Query_RootChat_MessageArgs = {
   distinct_on?: Maybe<Array<Chat_Message_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -277,9 +279,11 @@ export type Query_RootChat_MessageArgs = {
   where?: Maybe<Chat_Message_Bool_Exp>;
 };
 
+
 export type Query_RootChat_Message_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootGalaxyArgs = {
   distinct_on?: Maybe<Array<Galaxy_Select_Column>>;
@@ -289,9 +293,11 @@ export type Query_RootGalaxyArgs = {
   where?: Maybe<Galaxy_Bool_Exp>;
 };
 
+
 export type Query_RootGalaxy_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootSystemArgs = {
   distinct_on?: Maybe<Array<System_Select_Column>>;
@@ -301,9 +307,11 @@ export type Query_RootSystemArgs = {
   where?: Maybe<System_Bool_Exp>;
 };
 
+
 export type Query_RootSystem_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootUser_ActionArgs = {
   distinct_on?: Maybe<Array<User_Action_Select_Column>>;
@@ -313,9 +321,11 @@ export type Query_RootUser_ActionArgs = {
   where?: Maybe<User_Action_Bool_Exp>;
 };
 
+
 export type Query_RootUser_Action_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootUser_InfoArgs = {
   distinct_on?: Maybe<Array<User_Info_Select_Column>>;
@@ -325,9 +335,11 @@ export type Query_RootUser_InfoArgs = {
   where?: Maybe<User_Info_Bool_Exp>;
 };
 
+
 export type Query_RootUser_Info_By_PkArgs = {
   id: Scalars['String'];
 };
+
 
 export type Query_RootUser_PrivateArgs = {
   distinct_on?: Maybe<Array<User_Private_Select_Column>>;
@@ -363,6 +375,7 @@ export type Subscription_Root = {
   user_private: Array<User_Private>;
 };
 
+
 export type Subscription_RootChat_MessageArgs = {
   distinct_on?: Maybe<Array<Chat_Message_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -371,9 +384,11 @@ export type Subscription_RootChat_MessageArgs = {
   where?: Maybe<Chat_Message_Bool_Exp>;
 };
 
+
 export type Subscription_RootChat_Message_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootGalaxyArgs = {
   distinct_on?: Maybe<Array<Galaxy_Select_Column>>;
@@ -383,9 +398,11 @@ export type Subscription_RootGalaxyArgs = {
   where?: Maybe<Galaxy_Bool_Exp>;
 };
 
+
 export type Subscription_RootGalaxy_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootSystemArgs = {
   distinct_on?: Maybe<Array<System_Select_Column>>;
@@ -395,9 +412,11 @@ export type Subscription_RootSystemArgs = {
   where?: Maybe<System_Bool_Exp>;
 };
 
+
 export type Subscription_RootSystem_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootUser_ActionArgs = {
   distinct_on?: Maybe<Array<User_Action_Select_Column>>;
@@ -407,9 +426,11 @@ export type Subscription_RootUser_ActionArgs = {
   where?: Maybe<User_Action_Bool_Exp>;
 };
 
+
 export type Subscription_RootUser_Action_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootUser_InfoArgs = {
   distinct_on?: Maybe<Array<User_Info_Select_Column>>;
@@ -419,9 +440,11 @@ export type Subscription_RootUser_InfoArgs = {
   where?: Maybe<User_Info_Bool_Exp>;
 };
 
+
 export type Subscription_RootUser_Info_By_PkArgs = {
   id: Scalars['String'];
 };
+
 
 export type Subscription_RootUser_PrivateArgs = {
   distinct_on?: Maybe<Array<User_Private_Select_Column>>;
@@ -488,7 +511,7 @@ export enum System_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Name = 'name',
+  Name = 'name'
 }
 
 /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
@@ -535,7 +558,7 @@ export enum User_Action_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  UserId = 'user_id',
+  UserId = 'user_id'
 }
 
 /** columns and relationships of "user_info" */
@@ -548,6 +571,7 @@ export type User_Info = {
   /** An object relationship */
   user_action: User_Action;
 };
+
 
 /** columns and relationships of "user_info" */
 export type User_InfoChat_MessagesArgs = {
@@ -582,7 +606,7 @@ export enum User_Info_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Nickname = 'nickname',
+  Nickname = 'nickname'
 }
 
 /** columns and relationships of "user_private" */
@@ -626,7 +650,7 @@ export enum User_Private_Select_Column {
   /** column name */
   SecretSettingTest = 'secret_setting_test',
   /** column name */
-  UserId = 'user_id',
+  UserId = 'user_id'
 }
 
 /** input type for updating data in table "user_private" */
@@ -647,60 +671,43 @@ export type Uuid_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
-export type GetChatMessagesSubscriptionVariables = Exact<{
-  [key: string]: never;
-}>;
+export type GetChatMessagesSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
-export type GetChatMessagesSubscription = {
-  __typename?: 'subscription_root';
-  chat_message: Array<{
-    __typename?: 'chat_message';
-    timestamp: any;
-    id: any;
-    message: string;
-    poster_id: string;
-    user_info: { __typename?: 'user_info'; nickname: string; id: string };
-  }>;
-};
 
-export type GalaxiesSubscriptionVariables = Exact<{ [key: string]: never }>;
+export type GetChatMessagesSubscription = { __typename?: 'subscription_root', chat_message: Array<{ __typename?: 'chat_message', timestamp: any, id: any, message: string, poster_id: string, user_info: { __typename?: 'user_info', nickname: string, id: string } }> };
 
-export type GalaxiesSubscription = {
-  __typename?: 'subscription_root';
-  galaxy: Array<{
-    __typename?: 'galaxy';
-    id: any;
-    name?: Maybe<string>;
-    systems: Array<{ __typename?: 'system'; id: any; name?: Maybe<string> }>;
-  }>;
-};
+export type GalaxiesSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GalaxiesSubscription = { __typename?: 'subscription_root', galaxy: Array<{ __typename?: 'galaxy', id: any, name?: Maybe<string>, systems: Array<{ __typename?: 'system', id: any, name?: Maybe<string> }> }> };
+
+export type LatestMessageSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LatestMessageSubscription = { __typename?: 'subscription_root', chat_message: Array<{ __typename?: 'chat_message', id: any, message: string }> };
 
 export type SendNewMessageMutationVariables = Exact<{
   message?: Maybe<Scalars['String']>;
 }>;
 
-export type SendNewMessageMutation = {
-  __typename?: 'mutation_root';
-  insert_chat_message_one?: Maybe<{
-    __typename?: 'chat_message';
-    message: string;
-  }>;
-};
+
+export type SendNewMessageMutation = { __typename?: 'mutation_root', insert_chat_message_one?: Maybe<{ __typename?: 'chat_message', message: string }> };
+
 
 export const GetChatMessagesDocument = gql`
-  subscription GetChatMessages {
-    chat_message(order_by: { timestamp: desc }, limit: 200) {
-      timestamp
+    subscription GetChatMessages {
+  chat_message(order_by: {timestamp: desc}, limit: 200) {
+    timestamp
+    id
+    message
+    poster_id
+    user_info {
+      nickname
       id
-      message
-      poster_id
-      user_info {
-        nickname
-        id
-      }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetChatMessagesSubscription__
@@ -717,35 +724,24 @@ export const GetChatMessagesDocument = gql`
  *   },
  * });
  */
-export function useGetChatMessagesSubscription(
-  baseOptions?: Apollo.SubscriptionHookOptions<
-    GetChatMessagesSubscription,
-    GetChatMessagesSubscriptionVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    GetChatMessagesSubscription,
-    GetChatMessagesSubscriptionVariables
-  >(GetChatMessagesDocument, options);
-}
-export type GetChatMessagesSubscriptionHookResult = ReturnType<
-  typeof useGetChatMessagesSubscription
->;
-export type GetChatMessagesSubscriptionResult =
-  Apollo.SubscriptionResult<GetChatMessagesSubscription>;
+export function useGetChatMessagesSubscription(baseOptions?: Apollo.SubscriptionHookOptions<GetChatMessagesSubscription, GetChatMessagesSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<GetChatMessagesSubscription, GetChatMessagesSubscriptionVariables>(GetChatMessagesDocument, options);
+      }
+export type GetChatMessagesSubscriptionHookResult = ReturnType<typeof useGetChatMessagesSubscription>;
+export type GetChatMessagesSubscriptionResult = Apollo.SubscriptionResult<GetChatMessagesSubscription>;
 export const GalaxiesDocument = gql`
-  subscription Galaxies {
-    galaxy {
+    subscription Galaxies {
+  galaxy {
+    id
+    name
+    systems {
       id
       name
-      systems {
-        id
-        name
-      }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGalaxiesSubscription__
@@ -762,34 +758,50 @@ export const GalaxiesDocument = gql`
  *   },
  * });
  */
-export function useGalaxiesSubscription(
-  baseOptions?: Apollo.SubscriptionHookOptions<
-    GalaxiesSubscription,
-    GalaxiesSubscriptionVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    GalaxiesSubscription,
-    GalaxiesSubscriptionVariables
-  >(GalaxiesDocument, options);
-}
-export type GalaxiesSubscriptionHookResult = ReturnType<
-  typeof useGalaxiesSubscription
->;
-export type GalaxiesSubscriptionResult =
-  Apollo.SubscriptionResult<GalaxiesSubscription>;
-export const SendNewMessageDocument = gql`
-  mutation SendNewMessage($message: String) {
-    insert_chat_message_one(object: { message: $message }) {
-      message
-    }
+export function useGalaxiesSubscription(baseOptions?: Apollo.SubscriptionHookOptions<GalaxiesSubscription, GalaxiesSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<GalaxiesSubscription, GalaxiesSubscriptionVariables>(GalaxiesDocument, options);
+      }
+export type GalaxiesSubscriptionHookResult = ReturnType<typeof useGalaxiesSubscription>;
+export type GalaxiesSubscriptionResult = Apollo.SubscriptionResult<GalaxiesSubscription>;
+export const LatestMessageDocument = gql`
+    subscription LatestMessage {
+  chat_message(limit: 1, order_by: {timestamp: desc}) {
+    id
+    message
   }
-`;
-export type SendNewMessageMutationFn = Apollo.MutationFunction<
-  SendNewMessageMutation,
-  SendNewMessageMutationVariables
->;
+}
+    `;
+
+/**
+ * __useLatestMessageSubscription__
+ *
+ * To run a query within a React component, call `useLatestMessageSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useLatestMessageSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLatestMessageSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLatestMessageSubscription(baseOptions?: Apollo.SubscriptionHookOptions<LatestMessageSubscription, LatestMessageSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<LatestMessageSubscription, LatestMessageSubscriptionVariables>(LatestMessageDocument, options);
+      }
+export type LatestMessageSubscriptionHookResult = ReturnType<typeof useLatestMessageSubscription>;
+export type LatestMessageSubscriptionResult = Apollo.SubscriptionResult<LatestMessageSubscription>;
+export const SendNewMessageDocument = gql`
+    mutation SendNewMessage($message: String) {
+  insert_chat_message_one(object: {message: $message}) {
+    message
+  }
+}
+    `;
+export type SendNewMessageMutationFn = Apollo.MutationFunction<SendNewMessageMutation, SendNewMessageMutationVariables>;
 
 /**
  * __useSendNewMessageMutation__
@@ -808,24 +820,10 @@ export type SendNewMessageMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useSendNewMessageMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    SendNewMessageMutation,
-    SendNewMessageMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    SendNewMessageMutation,
-    SendNewMessageMutationVariables
-  >(SendNewMessageDocument, options);
-}
-export type SendNewMessageMutationHookResult = ReturnType<
-  typeof useSendNewMessageMutation
->;
-export type SendNewMessageMutationResult =
-  Apollo.MutationResult<SendNewMessageMutation>;
-export type SendNewMessageMutationOptions = Apollo.BaseMutationOptions<
-  SendNewMessageMutation,
-  SendNewMessageMutationVariables
->;
+export function useSendNewMessageMutation(baseOptions?: Apollo.MutationHookOptions<SendNewMessageMutation, SendNewMessageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SendNewMessageMutation, SendNewMessageMutationVariables>(SendNewMessageDocument, options);
+      }
+export type SendNewMessageMutationHookResult = ReturnType<typeof useSendNewMessageMutation>;
+export type SendNewMessageMutationResult = Apollo.MutationResult<SendNewMessageMutation>;
+export type SendNewMessageMutationOptions = Apollo.BaseMutationOptions<SendNewMessageMutation, SendNewMessageMutationVariables>;

@@ -22,10 +22,14 @@
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@inlet/react-pixi": "^6.6.5",
+    "apollo-link": "^1.2.14",
+    "apollo-link-http": "^1.5.17",
+    "apollo-link-ws": "^1.0.20",
     "core-js": "^3.6.5",
     "dotenv": "^10.0.0",
     "framer-motion": "^4",
     "graphql": "^15.5.3",
+    "node-fetch": "^3.0.0",
     "object-hash": "^2.2.0",
     "pixi-stats": "^1.0.7",
     "pixi-viewport": "^4.32.0",
@@ -37,7 +41,8 @@
     "seedrandom": "^3.0.5",
     "styled-components": "^5.3.1",
     "subscriptions-transport-ws": "^0.9.19",
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "ws": "^8.2.2"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.2.0",
@@ -68,6 +73,7 @@
     "@types/seedrandom": "^3.0.1",
     "@types/styled-components": "^5.1.14",
     "@types/testing-library__jest-dom": "^5.14.1",
+    "@types/websocket": "^1.0.4",
     "@typescript-eslint/eslint-plugin": "~4.28.3",
     "@typescript-eslint/parser": "~4.28.3",
     "add": "^2.0.6",
