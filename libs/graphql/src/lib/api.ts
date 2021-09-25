@@ -675,6 +675,19 @@ export type GalaxiesSubscription = {
   }>;
 };
 
+export type LatestMessageSubscriptionVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type LatestMessageSubscription = {
+  __typename?: 'subscription_root';
+  chat_message: Array<{
+    __typename?: 'chat_message';
+    id: any;
+    message: string;
+  }>;
+};
+
 export type SendNewMessageMutationVariables = Exact<{
   message?: Maybe<Scalars['String']>;
 }>;
@@ -779,6 +792,47 @@ export type GalaxiesSubscriptionHookResult = ReturnType<
 >;
 export type GalaxiesSubscriptionResult =
   Apollo.SubscriptionResult<GalaxiesSubscription>;
+export const LatestMessageDocument = gql`
+  subscription LatestMessage {
+    chat_message(limit: 1, order_by: { timestamp: desc }) {
+      id
+      message
+    }
+  }
+`;
+
+/**
+ * __useLatestMessageSubscription__
+ *
+ * To run a query within a React component, call `useLatestMessageSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useLatestMessageSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLatestMessageSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLatestMessageSubscription(
+  baseOptions?: Apollo.SubscriptionHookOptions<
+    LatestMessageSubscription,
+    LatestMessageSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSubscription<
+    LatestMessageSubscription,
+    LatestMessageSubscriptionVariables
+  >(LatestMessageDocument, options);
+}
+export type LatestMessageSubscriptionHookResult = ReturnType<
+  typeof useLatestMessageSubscription
+>;
+export type LatestMessageSubscriptionResult =
+  Apollo.SubscriptionResult<LatestMessageSubscription>;
 export const SendNewMessageDocument = gql`
   mutation SendNewMessage($message: String) {
     insert_chat_message_one(object: { message: $message }) {
