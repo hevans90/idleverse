@@ -8,10 +8,10 @@ module.exports = {
       },
     },
   ],
-  documents: ['./src/_graphql/**/*.graphql'],
+  documents: ['libs/graphql/src/lib/**/*.graphql'],
   overwrite: true,
   generates: {
-    './src/_graphql/api.tsx': {
+    'libs/graphql/src/lib/api.tsx': {
       plugins: [
         'typescript',
         'typescript-operations',

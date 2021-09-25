@@ -69,7 +69,7 @@ export const GeneratorControls = () => {
             min={slider.min}
             max={slider.max}
             step={slider.step}
-            onChange={event => {
+            onChange={(event) => {
               setLocalValues({ ...localConfigValues, [slider.name]: event });
               galaxyConfig({ ...galaxyConfig(), [slider.name]: event });
             }}
@@ -89,7 +89,7 @@ export const GeneratorControls = () => {
             min={slider.min}
             max={slider.max}
             step={slider.step}
-            onChange={event => {
+            onChange={(event) => {
               setLocalValues({ ...localConfigValues, [slider.name]: event });
               galaxyConfig({ ...galaxyConfig(), [slider.name]: event });
             }}

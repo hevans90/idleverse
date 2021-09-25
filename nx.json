@@ -1,0 +1,42 @@
+{
+  "npmScope": "idleverse",
+  "affected": {
+    "defaultBase": "main"
+  },
+  "implicitDependencies": {
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    ".eslintrc.json": "*"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/nx-cloud",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "accessToken": "NWMzNGRmM2MtM2QzZi00MzkwLWEzMDAtNjI0ZWJkZTJkMzQ0fHJlYWQtd3JpdGU="
+      }
+    }
+  },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
+  },
+  "projects": {
+    "graphql": {
+      "tags": []
+    },
+    "idleverse": {
+      "tags": []
+    },
+    "idleverse-e2e": {
+      "tags": [],
+      "implicitDependencies": ["idleverse"]
+    }
+  }
+}

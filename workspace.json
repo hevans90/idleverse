@@ -1,0 +1,125 @@
+{
+  "version": 2,
+  "projects": {
+    "graphql": {
+      "root": "libs/graphql",
+      "sourceRoot": "libs/graphql/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/graphql/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/graphql"],
+          "options": {
+            "jestConfig": "libs/graphql/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "idleverse": {
+      "root": "apps/idleverse",
+      "sourceRoot": "apps/idleverse/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/workspace:run-commands",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "command": "node ../../node_modules/.bin/react-app-rewired build",
+            "cwd": "apps/idleverse",
+            "outputPath": "dist/apps/idleverse"
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/workspace:run-commands",
+          "outputs": [],
+          "options": {
+            "command": "node ../../node_modules/.bin/react-app-rewired start",
+            "cwd": "apps/idleverse"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/workspace:run-commands",
+          "outputs": [],
+          "options": {
+            "command": "node ../../node_modules/.bin/eslint src/**/*.tsx src/**/*.ts",
+            "cwd": "apps/idleverse"
+          }
+        },
+        "test": {
+          "executor": "@nrwl/workspace:run-commands",
+          "outputs": [],
+          "options": {
+            "command": "node ../../node_modules/.bin/react-app-rewired test --watchAll=false",
+            "cwd": "apps/idleverse"
+          }
+        }
+      }
+    },
+    "idleverse-e2e": {
+      "root": "apps/idleverse-e2e",
+      "sourceRoot": "apps/idleverse-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx e2e-serve idleverse-e2e",
+              "nx e2e-run idleverse-e2e"
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/idleverse-e2e/**/*.{js,ts}"]
+          }
+        },
+        "e2e-run": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/idleverse-e2e/cypress.json",
+            "tsConfig": "apps/idleverse-e2e/tsconfig.e2e.json",
+            "baseUrl": "http://localhost:3000"
+          }
+        },
+        "e2e-serve": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": ["nx serve idleverse"],
+            "readyWhen": "can now view"
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/react"
+  },
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "style": "css",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "css"
+      },
+      "library": {
+        "style": "css",
+        "linter": "eslint"
+      }
+    }
+  },
+  "defaultProject": "idleverse"
+}

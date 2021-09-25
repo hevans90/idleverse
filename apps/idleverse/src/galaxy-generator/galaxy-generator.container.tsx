@@ -1,7 +1,10 @@
 import { useSubscription } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
 import { Stage } from '@inlet/react-pixi';
-import { GalaxiesDocument, GalaxiesSubscription } from '../_graphql/api';
+import {
+  GalaxiesDocument,
+  GalaxiesSubscription,
+} from '../../../../libs/graphql/src/lib/api';
 import { animate } from '../_state/reactive-variables';
 import { GalaxyGenerator } from './galaxy-generator';
 import { GameUIBottomBar } from './ui/bottom-bar';

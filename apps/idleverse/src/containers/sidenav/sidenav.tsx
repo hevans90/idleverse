@@ -7,12 +7,12 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useEffect, useRef, useState } from 'react';
-import { ChatSubmit } from '../../components/chat-submit';
 import {
   GetChatMessagesDocument,
   GetChatMessagesSubscription,
-} from '../../_graphql/api';
+} from '@idleverse/graphql';
+import { useEffect, useRef, useState } from 'react';
+import { ChatSubmit } from '../../components/chat-submit';
 
 export const SideNav = () => {
   const color = useColorModeValue('gray.200', 'gray.700');

@@ -34,8 +34,8 @@ export const GalaxyGenerator = () => {
 
   const reposition = (config: GalaxyConfig) =>
     stars.forEach((star, i) => {
-      let _star = galaxy.current.getChildAt(i) as Graphics;
-      let position = GetCelestialPosition(star, config);
+      const _star = galaxy.current.getChildAt(i) as Graphics;
+      const position = GetCelestialPosition(star, config);
       _star.x = position.x;
       _star.y = position.y;
     });
@@ -77,8 +77,8 @@ export const GalaxyGenerator = () => {
 
     viewport.addChild(galaxy.current);
 
-    stars.forEach(star => {
-      let _star = Star(GetCelestialPosition(star, galaxyConfig()));
+    stars.forEach((star) => {
+      const _star = Star(GetCelestialPosition(star, galaxyConfig()));
       galaxy.current.addChild(_star);
     });
 
@@ -87,13 +87,13 @@ export const GalaxyGenerator = () => {
 
     app.ticker.add(updateGalaxyRotation(galaxy.current));
 
-    app.ticker.add(delta => {
+    app.ticker.add((delta) => {
       time(time() + 1);
     });
 
     app.ticker.add(repositioningTicker);
 
-    let fpsCounter = new Text(`FPS: `, {
+    const fpsCounter = new Text(`FPS: `, {
       fontFamily: 'zx spectrum',
       fontSize: 24,
       fill: 0xffffff,

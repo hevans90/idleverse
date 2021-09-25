@@ -25,6 +25,8 @@
     "strict": true
   },
   "include": [
-    "src"
-  ]
+    "src",
+    "../../libs/graphql/src/lib/api.tsx"
+  ],
+  "extends": "../../tsconfig.base.json"
 }

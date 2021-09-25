@@ -30,9 +30,9 @@ export type GalaxyConfig = {
 };
 
 export const generateCelestials = (count: number, seed: string) => {
-  let pseudoRandomGenerator = seedRandom(seed);
+  const pseudoRandomGenerator = seedRandom(seed);
 
-  let celestials: Celestial[] = [];
+  const celestials: Celestial[] = [];
   for (let i = 0; i < count; i++) {
     let celestial: Partial<Celestial> = {
       constants: {
@@ -55,7 +55,7 @@ export const generateCelestials = (count: number, seed: string) => {
 
 export const GetCelestialPosition = (cel: Celestial, config: GalaxyConfig) => {
   // Pick galactic arm for celestial body.
-  let arm = Math.floor(cel.constants.arm * config.arms);
+  const arm = Math.floor(cel.constants.arm * config.arms);
 
   /* Pick a random value for the azimuth of the celestial body from the core.
      This value can be greater than 2 radians as it is used to calculate distance from core later.
@@ -66,7 +66,7 @@ export const GetCelestialPosition = (cel: Celestial, config: GalaxyConfig) => {
     2 *
     config.curvature;
 
-  let r =
+  const r =
     Math.pow(cel.constants.theta, config.coreConcentrationFactor) *
     config.radius *
     (1 + cel.constants.rOffset * config.armWidth);
@@ -81,8 +81,8 @@ export const GetCelestialPosition = (cel: Celestial, config: GalaxyConfig) => {
   theta += ((Math.PI * 2) / config.arms) * arm;
 
   // Convert polar coordinates to 2D cartesian coordinates.
-  let x = Math.cos(theta) * r;
-  let y = Math.sin(theta) * r;
+  const x = Math.cos(theta) * r;
+  const y = Math.sin(theta) * r;
 
   // Now we can assign xy coords.
   return { x, y };
