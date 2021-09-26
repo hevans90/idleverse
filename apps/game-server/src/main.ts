@@ -1,6 +1,14 @@
+import { gql } from '@apollo/client';
+//import { typeDefs } from './schema';
 import { apolloBootstrapper, LatestMessageDocument } from '@idleverse/graphql';
-import fetch from 'cross-fetch';
-import gql from 'graphql-tag';
+import { ApolloServer } from 'apollo-server-express';
+import express from 'express';
+import jwt from 'express-jwt';
+import jwksRsa from 'jwks-rsa';
+import { buildSchema } from 'type-graphql';
+import Container from 'typedi';
+import { authChecker } from './authChecker';
+import { RecipeResolver } from './entities/message';
 import ws = require('ws');
 
 const client = apolloBootstrapper(
@@ -35,4 +43,57 @@ const mutation = gql`
   }
 `;
 
-client.mutate({ mutation });
+(async () => {
+  const schema = await buildSchema({
+    resolvers: [RecipeResolver],
+    authChecker,
+    container: Container,
+    emitSchemaFile: true,
+  });
+
+  const app = express();
+  const path = '/graphql';
+
+  const server = new ApolloServer({
+    schema,
+    context: ({ req }) => {
+      const context = {
+        req,
+        roles:
+          req['user'][process.env.HASURA_NAMESPACE]['x-hasura-allowed-roles'], // `req.user` comes from `express-jwt`
+      };
+      return context;
+    },
+  });
+
+  // Mount a jwt or other authentication middleware that is run before the GraphQL execution
+  app.use(
+    path,
+    jwt({
+      // Dynamically provide a signing key
+      // based on the kid in the header and
+      // the signing keys provided by the JWKS endpoint.
+      secret: jwksRsa.expressJwtSecret({
+        cache: true,
+        rateLimit: true,
+        jwksRequestsPerMinute: 5,
+        jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`,
+      }),
+
+      // Validate the audience and the issuer.
+      audience: process.env.AUTH0_AUDIENCE,
+      issuer: [`https://${process.env.AUTH0_DOMAIN}/`],
+      algorithms: ['RS256'],
+    })
+  );
+
+  await server.start();
+
+  // Apply the GraphQL server middleware
+  server.applyMiddleware({ app, path });
+
+  // Launch the express server
+  app.listen({ port: 4000 }, () =>
+    console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
+  );
+})();
