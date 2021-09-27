@@ -4,11 +4,13 @@ import { Box, Text } from '@chakra-ui/react';
 import { apolloBootstrapper } from '@idleverse/graphql';
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { Layout } from './components/layout';
 import { GalaxyGenContainer } from './canvases/galaxy-generator/galaxy-generator.container';
+import { SolarSystemContainer } from './canvases/solar-system/solar-system.container';
+import { Layout } from './components/layout';
 import { Home } from './home/home';
 import { galaxyConfig, galaxyRotation } from './_state/reactive-variables';
-import { SolarSystemContainer } from './canvases/solar-system/solar-system.container';
+
+//
 
 export const local = window.location.origin.includes('localhost');
 
