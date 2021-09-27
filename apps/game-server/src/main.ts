@@ -12,8 +12,6 @@ import { authChecker } from './authChecker';
 import { RecipeResolver } from './entities/message';
 import ws = require('ws');
 
-//
-
 const client = apolloBootstrapper(
   'admin-secret',
   process.env.HASURA_ADMIN_SECRET,

@@ -62,7 +62,7 @@
           "options": {
             "commands": [
               {
-                "command": "npx push-dir --dir=dist/apps/game-server --branch=heroku-deploy"
+                "command": "npx push-dir --dir=dist/apps/game-server --branch=heroku-deploy --force"
               }
             ]
           }
@@ -169,7 +169,7 @@
           "options": {
             "commands": [
               {
-                "command": "npx push-dir --dir=dist/apps/web --branch=gh-pages"
+                "command": "npx push-dir --dir=dist/apps/web --branch=gh-pages --force"
               }
             ]
           }
