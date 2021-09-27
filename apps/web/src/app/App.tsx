@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Layout } from './components/layout';
 import { GalaxyGenContainer } from './galaxy-generator/galaxy-generator.container';
 import { Home } from './home/home';
+import { galaxyConfig, galaxyRotation } from './_state/reactive-variables';
 
 export const local = window.location.origin.includes('localhost');
 
@@ -33,7 +34,7 @@ export const App = () => {
       const x = await getIdTokenClaims();
 
       if (x?.__raw) {
-        setIdToken(`Bearer ${x.__raw}`);
+        setIdToken(`${x.__raw}`);
       }
     }
 
@@ -46,8 +47,23 @@ export const App = () => {
 
   if (idToken === '') return <Loading></Loading>;
 
+  const client = apolloBootstrapper('user', idToken, {
+    typePolicies: {
+      Query: {
+        fields: {
+          galaxyConfig: {
+            read: () => galaxyConfig(),
+          },
+          galaxyRotation: {
+            read: () => galaxyRotation(),
+          },
+        },
+      },
+    },
+  });
+
   return (
-    <ApolloProvider client={apolloBootstrapper(idToken)}>
+    <ApolloProvider client={client}>
       <Layout>
         <BrowserRouter basename={local ? '/' : '/idle-game'}>
           <Switch>

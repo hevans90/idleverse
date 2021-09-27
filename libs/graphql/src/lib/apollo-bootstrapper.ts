@@ -1,26 +1,35 @@
 import {
   ApolloClient,
   createHttpLink,
+  HttpOptions,
   InMemoryCache,
+  InMemoryCacheConfig,
   NormalizedCacheObject,
   split,
 } from '@apollo/client';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { OperationDefinitionNode } from 'graphql';
-import {
-  galaxyConfig,
-  galaxyRotation,
-} from '../../../../apps/web/src/app/_state/reactive-variables';
+// import ws from 'websocket';
 
 const uri = 'idleverse.herokuapp.com/v1/graphql';
 
-export const apolloBootstrapper = (idToken: string) => {
+export const apolloBootstrapper = (
+  access: 'user' | 'admin-secret',
+  token: string,
+  cacheConfig: InMemoryCacheConfig = {},
+  customFetch: HttpOptions['fetch'] = fetch,
+  customWs: unknown = WebSocket
+) => {
+  const headers =
+    access === 'user'
+      ? { Authorization: `Bearer ${token}` }
+      : { 'x-hasura-admin-secret': `${token}` };
+
   const httpLink = createHttpLink({
     uri: `https://${uri}`,
-    headers: {
-      Authorization: idToken,
-    },
+    headers: { ...headers },
+    fetch: customFetch,
   });
 
   const wsLink = new WebSocketLink({
@@ -29,11 +38,10 @@ export const apolloBootstrapper = (idToken: string) => {
       lazy: true,
       reconnect: true,
       connectionParams: async () => ({
-        headers: {
-          Authorization: idToken,
-        },
+        headers: { ...headers },
       }),
     },
+    webSocketImpl: customWs,
   });
 
   // split based on operation type - so queries/mutations go via HTTP and subscriptions go via WS
@@ -50,20 +58,7 @@ export const apolloBootstrapper = (idToken: string) => {
 
   // Initialize ApolloClient
   const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
-    cache: new InMemoryCache({
-      typePolicies: {
-        Query: {
-          fields: {
-            galaxyConfig: {
-              read: () => galaxyConfig(),
-            },
-            galaxyRotation: {
-              read: () => galaxyRotation(),
-            },
-          },
-        },
-      },
-    }),
+    cache: new InMemoryCache(cacheConfig),
     link,
     //remove in production
     connectToDevTools: true,
