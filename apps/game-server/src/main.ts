@@ -2,6 +2,7 @@ import { gql } from '@apollo/client';
 //import { typeDefs } from './schema';
 import { apolloBootstrapper, LatestMessageDocument } from '@idleverse/graphql';
 import { ApolloServer } from 'apollo-server-express';
+import fetch from 'cross-fetch';
 import express from 'express';
 import jwt from 'express-jwt';
 import jwksRsa from 'jwks-rsa';
