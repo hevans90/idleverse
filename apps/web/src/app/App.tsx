@@ -1,9 +1,9 @@
 import { ApolloProvider } from '@apollo/client';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Text } from '@chakra-ui/react';
+import { apolloBootstrapper } from '@idleverse/graphql';
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { apolloBootstrapper } from './apollo-bootstrapper';
 import { Layout } from './components/layout';
 import { GalaxyGenContainer } from './galaxy-generator/galaxy-generator.container';
 import { Home } from './home/home';

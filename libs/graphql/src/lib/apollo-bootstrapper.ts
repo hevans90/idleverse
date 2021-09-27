@@ -8,7 +8,10 @@ import {
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { OperationDefinitionNode } from 'graphql';
-import { galaxyConfig, galaxyRotation } from './_state/reactive-variables';
+import {
+  galaxyConfig,
+  galaxyRotation,
+} from '../../../../apps/web/src/app/_state/reactive-variables';
 
 const uri = 'idleverse.herokuapp.com/v1/graphql';
 
