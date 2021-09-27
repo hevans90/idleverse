@@ -71,6 +71,7 @@ const mutation = gql`
   app.use(
     path,
     jwt({
+      credentialsRequired: false,
       // Dynamically provide a signing key
       // based on the kid in the header and
       // the signing keys provided by the JWKS endpoint.
