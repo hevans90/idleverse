@@ -3,6 +3,10 @@ on:
   push:
     branches:
       - main
+
+env:
+  BEFORE_SHA: ${{ github.event.before }}
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -17,4 +21,4 @@ jobs:
         run: yarn run nx affected:build
 
       - name: Deploy Affected Apps
-        run: yarn run nx affected --target=deploy
+        run: yarn run nx affected --target=deploy -- --base=$BEFORE_SHA
