@@ -10,8 +10,6 @@ import { Layout } from './components/layout';
 import { Home } from './home/home';
 import { galaxyConfig, galaxyRotation } from './_state/reactive-variables';
 
-//
-
 export const local = window.location.origin.includes('localhost');
 
 const Loading = () => (

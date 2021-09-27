@@ -169,7 +169,7 @@
           "options": {
             "commands": [
               {
-                "command": "yarn run gh-pages -d dist/apps/web"
+                "command": "npx push-dir --dir=dist/apps/web --branch=gh-pages"
               }
             ]
           }
