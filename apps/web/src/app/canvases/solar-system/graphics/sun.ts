@@ -6,4 +6,8 @@ export type SunProps = {
 };
 
 export const Sun = ({ x, y }: SunProps) =>
-  new PIXI.Graphics().clear().beginFill(0xffff00).drawCircle(x, y, 50).endFill();
+  new PIXI.Graphics()
+    .clear()
+    .beginFill(0xffff00)
+    .drawCircle(x, y, 50)
+    .endFill();
