@@ -11,6 +11,5 @@ export const authChecker: AuthChecker<any> = async (
   for (const role of roles) {
     if (!idTokenRoles.includes(role)) return false;
   }
-
   return true; // or false if access is denied
 };
