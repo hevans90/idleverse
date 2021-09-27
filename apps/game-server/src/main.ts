@@ -1,8 +1,15 @@
-import { LatestMessageDocument } from '@idleverse/graphql';
+import { apolloBootstrapper, LatestMessageDocument } from '@idleverse/graphql';
+import fetch from 'cross-fetch';
 import gql from 'graphql-tag';
-import { apolloBootstrapper } from './apollo-bootstrapper';
+import ws = require('ws');
 
-const client = apolloBootstrapper(process.env.HASURA_ADMIN_SECRET);
+const client = apolloBootstrapper(
+  'admin-secret',
+  process.env.HASURA_ADMIN_SECRET,
+  {},
+  fetch,
+  ws
+);
 
 const consumer = client.subscribe({ query: LatestMessageDocument });
 consumer.forEach((sub) => {
