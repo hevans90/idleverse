@@ -18,8 +18,19 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
+  DateTime: any;
   timestamp: any;
   uuid: any;
+};
+
+export type Recipe = {
+  __typename?: 'Recipe';
+  creationDate: Scalars['DateTime'];
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  ingredients: Array<Scalars['String']>;
+  title: Scalars['String'];
 };
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
@@ -253,6 +264,7 @@ export type Query_Root = {
   galaxy: Array<Galaxy>;
   /** fetch data from the table: "galaxy" using primary key columns */
   galaxy_by_pk?: Maybe<Galaxy>;
+  recipes?: Maybe<Recipe>;
   /** fetch data from the table: "system" */
   system: Array<System>;
   /** fetch data from the table: "system" using primary key columns */
