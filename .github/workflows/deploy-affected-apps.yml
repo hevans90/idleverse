@@ -20,7 +20,7 @@ jobs:
         run: yarn
 
       - name: Build Affected Apps
-        run: yarn run nx affected:build
+        run: yarn run nx affected:build --base=$BEFORE_SHA
 
       - name: Deploy Affected Apps
         run: yarn run nx affected --target=deploy --base=$BEFORE_SHA
