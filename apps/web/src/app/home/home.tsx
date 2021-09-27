@@ -18,11 +18,20 @@ export const Home = () => {
         architecture, but stay tuned!
       </Text>
 
-      <Link to="/galaxy-gen">
-        <Button colorScheme="teal" height="40px">
-          Try out the galaxy gen!
-        </Button>
-      </Link>
+      <Box>
+        <Link to="/galaxy-gen">
+          <Button colorScheme="teal" height="40px">
+            Try out the galaxy gen!
+          </Button>
+        </Link>
+      </Box>
+      <Box pt={4}>
+        <Link to="/solar-system">
+          <Button colorScheme="teal" height="40px">
+            View the solar system!
+          </Button>
+        </Link>
+      </Box>
     </Box>
   );
 };

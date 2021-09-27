@@ -1,5 +1,5 @@
 import { Box, Checkbox, useColorModeValue } from '@chakra-ui/react';
-import { animate } from '../../_state/reactive-variables';
+import { animate } from '../../../_state/reactive-variables';
 import { generatorControlsHeight } from './generator-controls';
 
 export const GameUIRightBar = () => {

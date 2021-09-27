@@ -8,14 +8,14 @@ import {
   galaxyConfig,
   galaxyRotation,
   time,
-} from '../_state/reactive-variables';
+} from '../../_state/reactive-variables';
 import { Star } from './graphics/star';
 import {
   GalaxyConfig,
   generateCelestials,
   GetCelestialPosition,
-} from './utils/generate';
-import { useResize } from './utils/use-resize.hook';
+} from './utils/generate-galaxy';
+import { useResize } from '../common-utils/use-resize.hook';
 
 export const GalaxyGenerator = () => {
   const galaxy = useRef(new Container());

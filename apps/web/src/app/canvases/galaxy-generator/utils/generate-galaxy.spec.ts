@@ -1,4 +1,4 @@
-import { generateCelestials } from './generate';
+import { generateCelestials } from './generate-galaxy';
 
 describe('generateCelestials', () => {
   it('should generate the same galaxy from a given seen', () => {

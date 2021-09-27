@@ -5,9 +5,10 @@ import { apolloBootstrapper } from '@idleverse/graphql';
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Layout } from './components/layout';
-import { GalaxyGenContainer } from './galaxy-generator/galaxy-generator.container';
+import { GalaxyGenContainer } from './canvases/galaxy-generator/galaxy-generator.container';
 import { Home } from './home/home';
 import { galaxyConfig, galaxyRotation } from './_state/reactive-variables';
+import { SolarSystemContainer } from './canvases/solar-system/solar-system.container';
 
 export const local = window.location.origin.includes('localhost');
 
@@ -68,6 +69,7 @@ export const App = () => {
         <BrowserRouter basename={local ? '/' : '/idle-game'}>
           <Switch>
             <Route path="/galaxy-gen" component={GalaxyGenContainer} />
+            <Route path="/solar-system" component={SolarSystemContainer} />
             <Route path="/" component={Home} />
           </Switch>
         </BrowserRouter>
