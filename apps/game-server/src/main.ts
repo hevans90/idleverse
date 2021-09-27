@@ -60,8 +60,7 @@ const mutation = gql`
     context: ({ req }) => {
       const context = {
         req,
-        roles:
-          req['user'][process.env.HASURA_NAMESPACE]['x-hasura-allowed-roles'], // `req.user` comes from `express-jwt`
+        rule: req['user'], // `req.user` comes from `express-jwt`
       };
       return context;
     },

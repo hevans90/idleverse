@@ -20,8 +20,8 @@ export class RecipeService {
     return this.items;
   }
 
-  async getOne(id: string) {
-    return this.items.find((item) => item.id === id);
+  async getLatest() {
+    return this.items[this.items.length - 1];
   }
 }
 
@@ -80,9 +80,15 @@ export class RecipeResolver {
     private readonly recipeService: RecipeService
   ) {}
 
-  @Query((returns) => Recipe, { nullable: true })
+  @Query((returns) => [Recipe], { nullable: true })
   async recipes() {
     // usage of the injected service
     return this.recipeService.getAll();
+  }
+
+  @Query((returns) => Recipe, { nullable: true })
+  async latestRecipe() {
+    // usage of the injected service
+    return this.recipeService.getLatest();
   }
 }
