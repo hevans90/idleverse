@@ -1,5 +1,5 @@
 import { makeVar } from '@apollo/client';
-import { GalaxyConfig } from '../galaxy-generator/utils/generate';
+import { GalaxyConfig } from '../canvases/galaxy-generator/utils/generate-galaxy';
 
 export type sliderType = {
   name: keyof GalaxyConfig;

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { sideNavWidth, topBarHeight } from '../../components/layout';
-import { generatorControlsHeight } from '../ui/generator-controls';
+import { generatorControlsHeight } from '../galaxy-generator/ui/generator-controls';
 
 const getScreenSize = (controlsShowing = false) => ({
   width: window.innerWidth - sideNavWidth,

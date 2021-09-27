@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react';
 import {
   galaxyConfig,
   galaxySlidersConfig,
-} from '../../_state/reactive-variables';
+} from '../../../_state/reactive-variables';
 
 export const generatorControlsHeight = 300;
 

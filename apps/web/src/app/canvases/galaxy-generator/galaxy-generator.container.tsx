@@ -2,13 +2,13 @@ import { useSubscription } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
 import { GalaxiesDocument, GalaxiesSubscription } from '@idleverse/graphql';
 import { Stage } from '@inlet/react-pixi';
-import { animate } from '../_state/reactive-variables';
+import { animate } from '../../_state/reactive-variables';
 import { GalaxyGenerator } from './galaxy-generator';
 import { GameUIBottomBar } from './ui/bottom-bar';
 import { GeneratorControls } from './ui/generator-controls';
 import { GameUIRightBar } from './ui/right-bar';
-import { GameUITopLeftBar } from './ui/top-left-bar';
-import { useResize } from './utils/use-resize.hook';
+import { GameUITopLeftBar } from '../common-utils/top-left-bar';
+import { useResize } from '../common-utils/use-resize.hook';
 
 export const GalaxyGenContainer = () => {
   const { data, loading } =
