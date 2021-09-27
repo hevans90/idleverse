@@ -13,7 +13,14 @@
             "outputPath": "dist/apps/game-server",
             "main": "apps/game-server/src/main.ts",
             "tsConfig": "apps/game-server/tsconfig.app.json",
-            "assets": ["apps/game-server/src/assets"]
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "apps/game-server/src/assets",
+                "output": "./"
+              }
+            ],
+            "generatePackageJson": true
           },
           "configurations": {
             "production": {
