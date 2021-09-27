@@ -64,6 +64,7 @@ const mutation = gql`
       };
       return context;
     },
+    introspection: true,
   });
 
   // Mount a jwt or other authentication middleware that is run before the GraphQL execution
