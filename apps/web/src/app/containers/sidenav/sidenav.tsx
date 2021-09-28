@@ -13,7 +13,6 @@ import {
 } from '@idleverse/graphql';
 import { useEffect, useRef, useState } from 'react';
 import { ChatSubmit } from '../../components/chat-submit';
-import { NameAlertModal } from '../name-alert-modal/name-alert-modal';
 
 export const SideNav = () => {
   const color = useColorModeValue('gray.200', 'gray.700');
@@ -93,7 +92,6 @@ export const SideNav = () => {
         )}
       </Box>
       <ChatSubmit></ChatSubmit>
-      <NameAlertModal></NameAlertModal>
     </>
   );
 };
