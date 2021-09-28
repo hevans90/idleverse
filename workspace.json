@@ -58,7 +58,7 @@
           }
         },
         "deploy": {
-          "builder": "@nrwl/workspace:run-commands",
+          "executor": "@nrwl/workspace:run-commands",
           "options": {
             "commands": [
               {
@@ -165,7 +165,7 @@
           }
         },
         "deploy": {
-          "builder": "@nrwl/workspace:run-commands",
+          "executor": "@nrwl/workspace:run-commands",
           "options": {
             "commands": [
               {
