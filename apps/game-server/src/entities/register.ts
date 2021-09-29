@@ -14,7 +14,7 @@ export class RegisterResolver {
   @Mutation((returns) => Register, { nullable: true })
   async setDisplayName(
     @Ctx() context: Context,
-    @Arg('displayName') displayName: string
+    @Arg('display_name') displayName: string
   ) {
     if (!context.id) throw new Error('User id not in token');
 
