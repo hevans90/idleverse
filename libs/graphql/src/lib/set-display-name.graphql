@@ -1,8 +1,5 @@
-mutation SetNameByUserID($id: String = "", $display_name: String = "") {
-  update_user_info_by_pk(
-    pk_columns: { id: $id }
-    _set: { display_name: $display_name }
-  ) {
-    display_name
+mutation SetNameByUserID($displayName: String = "") {
+  setDisplayName(displayName: $displayName) {
+    updatedName
   }
 }

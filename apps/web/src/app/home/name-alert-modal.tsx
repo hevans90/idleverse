@@ -37,8 +37,6 @@ export const NameAlertModal = () => {
     } else onClose();
   }, [self]);
 
-  console.log(self?.display_name);
-
   const onClick = () => {
     if (
       !initialRef.current &&
@@ -50,7 +48,7 @@ export const NameAlertModal = () => {
 
     setName(name);
     setDisplayName({
-      variables: { id: self.id, display_name: initialRef.current.value },
+      variables: { display_name: initialRef.current.value },
     });
     //todo if success close window
   };
@@ -60,7 +58,7 @@ export const NameAlertModal = () => {
       onCompleted: (data) => {
         selfVar({
           ...self,
-          display_name: data.update_user_info_by_pk.display_name,
+          display_name: data.setDisplayName.updatedName,
         });
         onClose();
       },

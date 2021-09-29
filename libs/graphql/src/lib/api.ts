@@ -1,5 +1,5 @@
-import * as Apollo from '@apollo/client';
 import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
@@ -45,6 +45,11 @@ export type Recipe = {
   id: Scalars['ID'];
   ingredients: Array<Scalars['String']>;
   title: Scalars['String'];
+};
+
+export type Register = {
+  __typename?: 'Register';
+  updatedName: Scalars['String'];
 };
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
@@ -775,6 +780,7 @@ export type Mutation_Root = {
   insert_user_private?: Maybe<User_Private_Mutation_Response>;
   /** insert a single row into the table: "user_private" */
   insert_user_private_one?: Maybe<User_Private>;
+  setDisplayName?: Maybe<Register>;
   /** update data of the table: "chat_message" */
   update_chat_message?: Maybe<Chat_Message_Mutation_Response>;
   /** update single row of the table: "chat_message" */
@@ -965,6 +971,11 @@ export type Mutation_RootInsert_User_PrivateArgs = {
 /** mutation root */
 export type Mutation_RootInsert_User_Private_OneArgs = {
   object: User_Private_Insert_Input;
+};
+
+/** mutation root */
+export type Mutation_RootSetDisplayNameArgs = {
+  displayName: Scalars['String'];
 };
 
 /** mutation root */
@@ -2412,17 +2423,26 @@ export type SendNewMessageMutation = {
   }>;
 };
 
-export type SetNameByUserIdMutationVariables = Exact<{
+export type SetDisplayNameByUserIdMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
   display_name?: Maybe<Scalars['String']>;
 }>;
 
-export type SetNameByUserIdMutation = {
+export type SetDisplayNameByUserIdMutation = {
   __typename?: 'mutation_root';
   update_user_info_by_pk?: Maybe<{
     __typename?: 'user_info';
     display_name?: Maybe<string>;
   }>;
+};
+
+export type SetNameByUserIdMutationVariables = Exact<{
+  displayName?: Maybe<Scalars['String']>;
+}>;
+
+export type SetNameByUserIdMutation = {
+  __typename?: 'mutation_root';
+  setDisplayName?: Maybe<{ __typename?: 'Register'; updatedName: string }>;
 };
 
 export const GetChatMessagesDocument = gql`
@@ -2654,13 +2674,67 @@ export type SendNewMessageMutationOptions = Apollo.BaseMutationOptions<
   SendNewMessageMutation,
   SendNewMessageMutationVariables
 >;
-export const SetNameByUserIdDocument = gql`
-  mutation SetNameByUserID($id: String = "", $display_name: String = "") {
+export const SetDisplayNameByUserIdDocument = gql`
+  mutation SetDisplayNameByUserID(
+    $id: String = ""
+    $display_name: String = ""
+  ) {
     update_user_info_by_pk(
       pk_columns: { id: $id }
       _set: { display_name: $display_name }
     ) {
       display_name
+    }
+  }
+`;
+export type SetDisplayNameByUserIdMutationFn = Apollo.MutationFunction<
+  SetDisplayNameByUserIdMutation,
+  SetDisplayNameByUserIdMutationVariables
+>;
+
+/**
+ * __useSetDisplayNameByUserIdMutation__
+ *
+ * To run a mutation, you first call `useSetDisplayNameByUserIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetDisplayNameByUserIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [setDisplayNameByUserIdMutation, { data, loading, error }] = useSetDisplayNameByUserIdMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      display_name: // value for 'display_name'
+ *   },
+ * });
+ */
+export function useSetDisplayNameByUserIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    SetDisplayNameByUserIdMutation,
+    SetDisplayNameByUserIdMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    SetDisplayNameByUserIdMutation,
+    SetDisplayNameByUserIdMutationVariables
+  >(SetDisplayNameByUserIdDocument, options);
+}
+export type SetDisplayNameByUserIdMutationHookResult = ReturnType<
+  typeof useSetDisplayNameByUserIdMutation
+>;
+export type SetDisplayNameByUserIdMutationResult =
+  Apollo.MutationResult<SetDisplayNameByUserIdMutation>;
+export type SetDisplayNameByUserIdMutationOptions = Apollo.BaseMutationOptions<
+  SetDisplayNameByUserIdMutation,
+  SetDisplayNameByUserIdMutationVariables
+>;
+export const SetNameByUserIdDocument = gql`
+  mutation SetNameByUserID($displayName: String = "") {
+    setDisplayName(displayName: $displayName) {
+      updatedName
     }
   }
 `;
@@ -2682,8 +2756,7 @@ export type SetNameByUserIdMutationFn = Apollo.MutationFunction<
  * @example
  * const [setNameByUserIdMutation, { data, loading, error }] = useSetNameByUserIdMutation({
  *   variables: {
- *      id: // value for 'id'
- *      display_name: // value for 'display_name'
+ *      displayName: // value for 'displayName'
  *   },
  * });
  */

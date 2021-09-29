@@ -7,7 +7,7 @@
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
-    "generate": "graphql-codegen --config codegen.js -r dotenv/config && npx nx format:write --files libs/graphql/src/lib/api.tsx",
+    "generate": "graphql-codegen --config codegen.js -r dotenv/config && npx nx format:write --files ./libs/graphql/src/lib/api.ts",
     "generate:watch": "yarn generate --watch"
   },
   "private": true,
