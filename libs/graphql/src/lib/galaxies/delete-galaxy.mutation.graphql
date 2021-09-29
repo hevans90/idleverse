@@ -1,0 +1,6 @@
+mutation DeleteGalaxyById($id: uuid!) {
+  delete_galaxy_by_pk(id: $id) {
+    id
+    name
+  }
+}

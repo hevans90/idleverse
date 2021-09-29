@@ -1,0 +1,5 @@
+subscription Systems {
+  system {
+    ...SystemFields
+  }
+}

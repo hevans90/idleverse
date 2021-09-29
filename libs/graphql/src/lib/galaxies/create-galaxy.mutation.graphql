@@ -1,0 +1,13 @@
+mutation CreateGalaxy($input: galaxy_insert_input!) {
+  insert_galaxy_one(object: $input) {
+    radius
+    arm_width
+    arms
+    core_concentration_factor
+    core_radius_factor
+    curvature
+    id
+    name
+    stars
+  }
+}

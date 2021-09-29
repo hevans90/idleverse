@@ -1,0 +1,16 @@
+subscription Galaxies {
+  galaxy {
+    id
+    name
+    curvature
+    core_radius_factor
+    core_concentration_factor
+    arms
+    arm_width
+    radius
+    stars
+    systems {
+      ...SystemFields
+    }
+  }
+}

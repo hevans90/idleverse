@@ -2351,6 +2351,20 @@ export type Uuid_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
+export type SystemFieldsFragment = {
+  __typename?: 'system';
+  id: any;
+  name?: Maybe<string>;
+  x: any;
+  y: any;
+  owner_id?: Maybe<string>;
+  user_info?: Maybe<{
+    __typename?: 'user_info';
+    display_name?: Maybe<string>;
+    name?: Maybe<string>;
+  }>;
+};
+
 export type GetChatMessagesSubscriptionVariables = Exact<{
   [key: string]: never;
 }>;
@@ -2372,18 +2386,6 @@ export type GetChatMessagesSubscription = {
   }>;
 };
 
-export type GalaxiesSubscriptionVariables = Exact<{ [key: string]: never }>;
-
-export type GalaxiesSubscription = {
-  __typename?: 'subscription_root';
-  galaxy: Array<{
-    __typename?: 'galaxy';
-    id: any;
-    name?: Maybe<string>;
-    systems: Array<{ __typename?: 'system'; id: any; name?: Maybe<string> }>;
-  }>;
-};
-
 export type LatestMessageSubscriptionVariables = Exact<{
   [key: string]: never;
 }>;
@@ -2394,6 +2396,82 @@ export type LatestMessageSubscription = {
     __typename?: 'chat_message';
     id: any;
     message: string;
+  }>;
+};
+
+export type SendNewMessageMutationVariables = Exact<{
+  message?: Maybe<Scalars['String']>;
+}>;
+
+export type SendNewMessageMutation = {
+  __typename?: 'mutation_root';
+  insert_chat_message_one?: Maybe<{
+    __typename?: 'chat_message';
+    message: string;
+  }>;
+};
+
+export type CreateGalaxyMutationVariables = Exact<{
+  input: Galaxy_Insert_Input;
+}>;
+
+export type CreateGalaxyMutation = {
+  __typename?: 'mutation_root';
+  insert_galaxy_one?: Maybe<{
+    __typename?: 'galaxy';
+    radius: number;
+    arm_width: any;
+    arms: any;
+    core_concentration_factor: any;
+    core_radius_factor: any;
+    curvature: any;
+    id: any;
+    name?: Maybe<string>;
+    stars: number;
+  }>;
+};
+
+export type DeleteGalaxyByIdMutationVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+export type DeleteGalaxyByIdMutation = {
+  __typename?: 'mutation_root';
+  delete_galaxy_by_pk?: Maybe<{
+    __typename?: 'galaxy';
+    id: any;
+    name?: Maybe<string>;
+  }>;
+};
+
+export type GalaxiesSubscriptionVariables = Exact<{ [key: string]: never }>;
+
+export type GalaxiesSubscription = {
+  __typename?: 'subscription_root';
+  galaxy: Array<{
+    __typename?: 'galaxy';
+    id: any;
+    name?: Maybe<string>;
+    curvature: any;
+    core_radius_factor: any;
+    core_concentration_factor: any;
+    arms: any;
+    arm_width: any;
+    radius: number;
+    stars: number;
+    systems: Array<{
+      __typename?: 'system';
+      id: any;
+      name?: Maybe<string>;
+      x: any;
+      y: any;
+      owner_id?: Maybe<string>;
+      user_info?: Maybe<{
+        __typename?: 'user_info';
+        display_name?: Maybe<string>;
+        name?: Maybe<string>;
+      }>;
+    }>;
   }>;
 };
 
@@ -2408,18 +2486,6 @@ export type SelfQuery = {
     name?: Maybe<string>;
     nickname?: Maybe<string>;
     secret_setting_test?: Maybe<string>;
-  }>;
-};
-
-export type SendNewMessageMutationVariables = Exact<{
-  message?: Maybe<Scalars['String']>;
-}>;
-
-export type SendNewMessageMutation = {
-  __typename?: 'mutation_root';
-  insert_chat_message_one?: Maybe<{
-    __typename?: 'chat_message';
-    message: string;
   }>;
 };
 
@@ -2445,6 +2511,38 @@ export type SetNameByUserIdMutation = {
   setDisplayName?: Maybe<{ __typename?: 'Register'; updatedName: string }>;
 };
 
+export type SystemsSubscriptionVariables = Exact<{ [key: string]: never }>;
+
+export type SystemsSubscription = {
+  __typename?: 'subscription_root';
+  system: Array<{
+    __typename?: 'system';
+    id: any;
+    name?: Maybe<string>;
+    x: any;
+    y: any;
+    owner_id?: Maybe<string>;
+    user_info?: Maybe<{
+      __typename?: 'user_info';
+      display_name?: Maybe<string>;
+      name?: Maybe<string>;
+    }>;
+  }>;
+};
+
+export const SystemFieldsFragmentDoc = gql`
+  fragment SystemFields on system {
+    id
+    name
+    x
+    y
+    owner_id
+    user_info {
+      display_name
+      name
+    }
+  }
+`;
 export const GetChatMessagesDocument = gql`
   subscription GetChatMessages {
     chat_message(order_by: { timestamp: desc }, limit: 200) {
@@ -2493,51 +2591,6 @@ export type GetChatMessagesSubscriptionHookResult = ReturnType<
 >;
 export type GetChatMessagesSubscriptionResult =
   Apollo.SubscriptionResult<GetChatMessagesSubscription>;
-export const GalaxiesDocument = gql`
-  subscription Galaxies {
-    galaxy {
-      id
-      name
-      systems {
-        id
-        name
-      }
-    }
-  }
-`;
-
-/**
- * __useGalaxiesSubscription__
- *
- * To run a query within a React component, call `useGalaxiesSubscription` and pass it any options that fit your needs.
- * When your component renders, `useGalaxiesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGalaxiesSubscription({
- *   variables: {
- *   },
- * });
- */
-export function useGalaxiesSubscription(
-  baseOptions?: Apollo.SubscriptionHookOptions<
-    GalaxiesSubscription,
-    GalaxiesSubscriptionVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    GalaxiesSubscription,
-    GalaxiesSubscriptionVariables
-  >(GalaxiesDocument, options);
-}
-export type GalaxiesSubscriptionHookResult = ReturnType<
-  typeof useGalaxiesSubscription
->;
-export type GalaxiesSubscriptionResult =
-  Apollo.SubscriptionResult<GalaxiesSubscription>;
 export const LatestMessageDocument = gql`
   subscription LatestMessage {
     chat_message(limit: 1, order_by: { timestamp: desc }) {
@@ -2579,51 +2632,6 @@ export type LatestMessageSubscriptionHookResult = ReturnType<
 >;
 export type LatestMessageSubscriptionResult =
   Apollo.SubscriptionResult<LatestMessageSubscription>;
-export const SelfDocument = gql`
-  query Self {
-    user_me {
-      display_name
-      id
-      name
-      nickname
-      secret_setting_test
-    }
-  }
-`;
-
-/**
- * __useSelfQuery__
- *
- * To run a query within a React component, call `useSelfQuery` and pass it any options that fit your needs.
- * When your component renders, `useSelfQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useSelfQuery({
- *   variables: {
- *   },
- * });
- */
-export function useSelfQuery(
-  baseOptions?: Apollo.QueryHookOptions<SelfQuery, SelfQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<SelfQuery, SelfQueryVariables>(SelfDocument, options);
-}
-export function useSelfLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<SelfQuery, SelfQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<SelfQuery, SelfQueryVariables>(
-    SelfDocument,
-    options
-  );
-}
-export type SelfQueryHookResult = ReturnType<typeof useSelfQuery>;
-export type SelfLazyQueryHookResult = ReturnType<typeof useSelfLazyQuery>;
-export type SelfQueryResult = Apollo.QueryResult<SelfQuery, SelfQueryVariables>;
 export const SendNewMessageDocument = gql`
   mutation SendNewMessage($message: String) {
     insert_chat_message_one(object: { message: $message }) {
@@ -2674,6 +2682,212 @@ export type SendNewMessageMutationOptions = Apollo.BaseMutationOptions<
   SendNewMessageMutation,
   SendNewMessageMutationVariables
 >;
+export const CreateGalaxyDocument = gql`
+  mutation CreateGalaxy($input: galaxy_insert_input!) {
+    insert_galaxy_one(object: $input) {
+      radius
+      arm_width
+      arms
+      core_concentration_factor
+      core_radius_factor
+      curvature
+      id
+      name
+      stars
+    }
+  }
+`;
+export type CreateGalaxyMutationFn = Apollo.MutationFunction<
+  CreateGalaxyMutation,
+  CreateGalaxyMutationVariables
+>;
+
+/**
+ * __useCreateGalaxyMutation__
+ *
+ * To run a mutation, you first call `useCreateGalaxyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateGalaxyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createGalaxyMutation, { data, loading, error }] = useCreateGalaxyMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateGalaxyMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateGalaxyMutation,
+    CreateGalaxyMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateGalaxyMutation,
+    CreateGalaxyMutationVariables
+  >(CreateGalaxyDocument, options);
+}
+export type CreateGalaxyMutationHookResult = ReturnType<
+  typeof useCreateGalaxyMutation
+>;
+export type CreateGalaxyMutationResult =
+  Apollo.MutationResult<CreateGalaxyMutation>;
+export type CreateGalaxyMutationOptions = Apollo.BaseMutationOptions<
+  CreateGalaxyMutation,
+  CreateGalaxyMutationVariables
+>;
+export const DeleteGalaxyByIdDocument = gql`
+  mutation DeleteGalaxyById($id: uuid!) {
+    delete_galaxy_by_pk(id: $id) {
+      id
+      name
+    }
+  }
+`;
+export type DeleteGalaxyByIdMutationFn = Apollo.MutationFunction<
+  DeleteGalaxyByIdMutation,
+  DeleteGalaxyByIdMutationVariables
+>;
+
+/**
+ * __useDeleteGalaxyByIdMutation__
+ *
+ * To run a mutation, you first call `useDeleteGalaxyByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteGalaxyByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteGalaxyByIdMutation, { data, loading, error }] = useDeleteGalaxyByIdMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteGalaxyByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteGalaxyByIdMutation,
+    DeleteGalaxyByIdMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteGalaxyByIdMutation,
+    DeleteGalaxyByIdMutationVariables
+  >(DeleteGalaxyByIdDocument, options);
+}
+export type DeleteGalaxyByIdMutationHookResult = ReturnType<
+  typeof useDeleteGalaxyByIdMutation
+>;
+export type DeleteGalaxyByIdMutationResult =
+  Apollo.MutationResult<DeleteGalaxyByIdMutation>;
+export type DeleteGalaxyByIdMutationOptions = Apollo.BaseMutationOptions<
+  DeleteGalaxyByIdMutation,
+  DeleteGalaxyByIdMutationVariables
+>;
+export const GalaxiesDocument = gql`
+  subscription Galaxies {
+    galaxy {
+      id
+      name
+      curvature
+      core_radius_factor
+      core_concentration_factor
+      arms
+      arm_width
+      radius
+      stars
+      systems {
+        ...SystemFields
+      }
+    }
+  }
+  ${SystemFieldsFragmentDoc}
+`;
+
+/**
+ * __useGalaxiesSubscription__
+ *
+ * To run a query within a React component, call `useGalaxiesSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useGalaxiesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGalaxiesSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGalaxiesSubscription(
+  baseOptions?: Apollo.SubscriptionHookOptions<
+    GalaxiesSubscription,
+    GalaxiesSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSubscription<
+    GalaxiesSubscription,
+    GalaxiesSubscriptionVariables
+  >(GalaxiesDocument, options);
+}
+export type GalaxiesSubscriptionHookResult = ReturnType<
+  typeof useGalaxiesSubscription
+>;
+export type GalaxiesSubscriptionResult =
+  Apollo.SubscriptionResult<GalaxiesSubscription>;
+export const SelfDocument = gql`
+  query Self {
+    user_me {
+      display_name
+      id
+      name
+      nickname
+      secret_setting_test
+    }
+  }
+`;
+
+/**
+ * __useSelfQuery__
+ *
+ * To run a query within a React component, call `useSelfQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSelfQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSelfQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useSelfQuery(
+  baseOptions?: Apollo.QueryHookOptions<SelfQuery, SelfQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<SelfQuery, SelfQueryVariables>(SelfDocument, options);
+}
+export function useSelfLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<SelfQuery, SelfQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<SelfQuery, SelfQueryVariables>(
+    SelfDocument,
+    options
+  );
+}
+export type SelfQueryHookResult = ReturnType<typeof useSelfQuery>;
+export type SelfLazyQueryHookResult = ReturnType<typeof useSelfLazyQuery>;
+export type SelfQueryResult = Apollo.QueryResult<SelfQuery, SelfQueryVariables>;
 export const SetDisplayNameByUserIdDocument = gql`
   mutation SetDisplayNameByUserID($id: String!, $display_name: String!) {
     update_user_info_by_pk(
@@ -2778,3 +2992,44 @@ export type SetNameByUserIdMutationOptions = Apollo.BaseMutationOptions<
   SetNameByUserIdMutation,
   SetNameByUserIdMutationVariables
 >;
+export const SystemsDocument = gql`
+  subscription Systems {
+    system {
+      ...SystemFields
+    }
+  }
+  ${SystemFieldsFragmentDoc}
+`;
+
+/**
+ * __useSystemsSubscription__
+ *
+ * To run a query within a React component, call `useSystemsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSystemsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSystemsSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useSystemsSubscription(
+  baseOptions?: Apollo.SubscriptionHookOptions<
+    SystemsSubscription,
+    SystemsSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSubscription<
+    SystemsSubscription,
+    SystemsSubscriptionVariables
+  >(SystemsDocument, options);
+}
+export type SystemsSubscriptionHookResult = ReturnType<
+  typeof useSystemsSubscription
+>;
+export type SystemsSubscriptionResult =
+  Apollo.SubscriptionResult<SystemsSubscription>;

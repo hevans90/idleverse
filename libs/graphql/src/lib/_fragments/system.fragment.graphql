@@ -1,0 +1,11 @@
+fragment SystemFields on system {
+  id
+  name
+  x
+  y
+  owner_id
+  user_info {
+    display_name
+    name
+  }
+}
