@@ -15,6 +15,7 @@ import {
 import {
   SetNameByUserIdDocument,
   SetNameByUserIdMutation,
+  SetNameByUserIdMutationVariables,
 } from '@idleverse/graphql';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { selfVar } from '../_state/reactive-variables';
@@ -53,16 +54,18 @@ export const NameAlertModal = () => {
     //todo if success close window
   };
 
-  const [setDisplayName, { data, loading, error }] =
-    useMutation<SetNameByUserIdMutation>(SetNameByUserIdDocument, {
-      onCompleted: (data) => {
-        selfVar({
-          ...self,
-          display_name: data.setDisplayName.updatedName,
-        });
-        onClose();
-      },
-    });
+  const [setDisplayName, { data, loading, error }] = useMutation<
+    SetNameByUserIdMutation,
+    SetNameByUserIdMutationVariables
+  >(SetNameByUserIdDocument, {
+    onCompleted: (data) => {
+      selfVar({
+        ...self,
+        display_name: data.setDisplayName.updatedName,
+      });
+      onClose();
+    },
+  });
 
   return (
     <Modal

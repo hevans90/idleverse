@@ -1,5 +1,5 @@
-mutation SetNameByUserID($displayName: String = "") {
-  setDisplayName(displayName: $displayName) {
+mutation SetNameByUserID($display_name: String = "") {
+  setDisplayName(display_name: $display_name) {
     updatedName
   }
 }
