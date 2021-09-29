@@ -975,7 +975,7 @@ export type Mutation_RootInsert_User_Private_OneArgs = {
 
 /** mutation root */
 export type Mutation_RootSetDisplayNameArgs = {
-  displayName: Scalars['String'];
+  display_name: Scalars['String'];
 };
 
 /** mutation root */
@@ -2437,7 +2437,7 @@ export type SetDisplayNameByUserIdMutation = {
 };
 
 export type SetNameByUserIdMutationVariables = Exact<{
-  displayName?: Maybe<Scalars['String']>;
+  display_name?: Maybe<Scalars['String']>;
 }>;
 
 export type SetNameByUserIdMutation = {
@@ -2729,8 +2729,8 @@ export type SetDisplayNameByUserIdMutationOptions = Apollo.BaseMutationOptions<
   SetDisplayNameByUserIdMutationVariables
 >;
 export const SetNameByUserIdDocument = gql`
-  mutation SetNameByUserID($displayName: String = "") {
-    setDisplayName(displayName: $displayName) {
+  mutation SetNameByUserID($display_name: String = "") {
+    setDisplayName(display_name: $display_name) {
       updatedName
     }
   }
@@ -2753,7 +2753,7 @@ export type SetNameByUserIdMutationFn = Apollo.MutationFunction<
  * @example
  * const [setNameByUserIdMutation, { data, loading, error }] = useSetNameByUserIdMutation({
  *   variables: {
- *      displayName: // value for 'displayName'
+ *      display_name: // value for 'display_name'
  *   },
  * });
  */
