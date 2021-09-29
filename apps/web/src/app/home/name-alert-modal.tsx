@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation, useReactiveVar } from '@apollo/client';
 import {
   Button,
   FormControl,
@@ -13,35 +13,31 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import {
-  SelfDocument,
-  SelfQuery,
   SetDisplayNameDocument,
   SetDisplayNameMutation,
 } from '@idleverse/graphql';
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
+import { selfVar } from '../_state/reactive-variables';
 
 export const NameAlertModal = () => {
-  const { loading, error, data } = useQuery<SelfQuery>(SelfDocument);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const { isOpen, onOpen, onClose, isControlled } = useDisclosure();
+  const self = useReactiveVar(selfVar);
   const [name, setName] = useState('');
-  const [id, setId] = useState('');
 
   //omega lazy
   const initialRef = useRef<any>(null!);
   const finalRef = useRef();
 
-  useEffect(() => {
-    onOpen();
-  }, [onOpen]);
+  console.log('self:;');
+  console.log(self);
 
-  useEffect(() => {
-    if (data && data.user_me && data.user_me[0]) {
-      setId(data.user_me[0].id);
+  useLayoutEffect(() => {
+    if (!self?.display_name) {
+      onOpen();
+    } else onClose();
+  }, [self]);
 
-      console.log(data.user_me[0].id);
-    }
-  }, [data, loading]);
+  console.log(self?.display_name);
 
   const onClick = () => {
     if (
@@ -49,37 +45,26 @@ export const NameAlertModal = () => {
       initialRef.current.value &&
       initialRef.current.value.length > 0
     )
+      //show error
       return;
 
-    console.log(initialRef);
-
-    tempFunc(initialRef.current.value, id);
-    //todo if success close window
-    onClose();
-  };
-
-  const [
-    setDisplayName,
-    { data: resData, loading: resLoading, error: resError },
-  ] = useMutation<SetDisplayNameMutation>(SetDisplayNameDocument);
-
-  useEffect(() => {
-    console.log('res:');
-    console.log(resData);
-    console.log(resLoading);
-    console.log(resError);
-  }, [resData, resLoading, resError]);
-
-  //todo make parent element not render if has name
-  if (loading || !data || data.user_me[0].display_name) return <></>;
-
-  const tempFunc = (name: string, id: string) => {
-    console.log('id:');
-    console.log(id);
-    console.log(name);
     setName(name);
-    setDisplayName({ variables: { id, display_name: name } });
+    setDisplayName({
+      variables: { id: self.id, display_name: initialRef.current.value },
+    });
+    //todo if success close window
   };
+
+  const [setDisplayName, { data, loading, error }] =
+    useMutation<SetDisplayNameMutation>(SetDisplayNameDocument, {
+      onCompleted: (data) => {
+        selfVar({
+          ...self,
+          display_name: data.update_user_info_by_pk.display_name,
+        });
+        onClose();
+      },
+    });
 
   return (
     <Modal
@@ -88,6 +73,7 @@ export const NameAlertModal = () => {
       isOpen={isOpen}
       onClose={onClose}
       closeOnOverlayClick={false}
+      isCentered
     >
       <ModalOverlay />
       <ModalContent>
