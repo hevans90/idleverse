@@ -3,7 +3,7 @@ module.exports = {
     {
       'https://idleverse.herokuapp.com/v1/graphql': {
         headers: {
-          Authorization: 'Bearer ' + process.env.IDLE_GAME_AUTH_TOKEN,
+          'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET,
         },
       },
     },

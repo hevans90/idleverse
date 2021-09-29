@@ -13,8 +13,8 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import {
-  SetDisplayNameDocument,
-  SetDisplayNameMutation,
+  SetNameByUserIdDocument,
+  SetNameByUserIdMutation,
 } from '@idleverse/graphql';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { selfVar } from '../_state/reactive-variables';
@@ -56,7 +56,7 @@ export const NameAlertModal = () => {
   };
 
   const [setDisplayName, { data, loading, error }] =
-    useMutation<SetDisplayNameMutation>(SetDisplayNameDocument, {
+    useMutation<SetNameByUserIdMutation>(SetNameByUserIdDocument, {
       onCompleted: (data) => {
         selfVar({
           ...self,
