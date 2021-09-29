@@ -1,7 +1,7 @@
 import { useReactiveVar } from '@apollo/client';
 import { useApp } from '@inlet/react-pixi';
 import { Viewport } from 'pixi-viewport';
-import { Container, Graphics, Text } from 'pixi.js';
+import { Container, Graphics } from 'pixi.js';
 import { useEffect, useRef, useState } from 'react';
 import {
   animate,
@@ -9,13 +9,14 @@ import {
   galaxyRotation,
   time,
 } from '../../_state/reactive-variables';
+import { useResize } from '../common-utils/use-resize.hook';
 import { Star } from './graphics/star';
+import { fpsTracker } from './utils/fps-counter';
 import {
   GalaxyConfig,
   generateCelestials,
   GetCelestialPosition,
 } from './utils/generate-galaxy';
-import { useResize } from '../common-utils/use-resize.hook';
 
 export const GalaxyGenerator = () => {
   const galaxy = useRef(new Container());
@@ -93,21 +94,7 @@ export const GalaxyGenerator = () => {
 
     app.ticker.add(repositioningTicker);
 
-    const fpsCounter = new Text(`FPS: `, {
-      fontFamily: 'zx spectrum',
-      fontSize: 24,
-      fill: 0xffffff,
-    });
-    fpsCounter.x = 50;
-    fpsCounter.y = 100;
-    fpsCounter.name = 'fpsCounter';
-    app.stage.addChild(fpsCounter);
-
-    app.ticker.add(() => {
-      (app.stage.getChildByName('fpsCounter') as Text).text = `FPS: ${Math.ceil(
-        app.ticker.FPS
-      )}`;
-    });
+    fpsTracker(app);
 
     /**
      * NOTE: we don't need to manually destroy anything in a return function, as react-pixi seems to do this automatically.
