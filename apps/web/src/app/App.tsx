@@ -11,6 +11,8 @@ import { SelfContainer } from './containers/self-container';
 import { Home } from './home/home';
 import { galaxyConfig, galaxyRotation } from './_state/reactive-variables';
 
+//
+
 export const local = window.location.origin.includes('localhost');
 
 export const App = () => {
