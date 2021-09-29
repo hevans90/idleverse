@@ -23,7 +23,7 @@ export class RegisterResolver {
         context.id,
         displayName
       )
-    ).data.setDisplayName.updatedName;
+    ).data.update_user_info_by_pk.display_name;
     if (resDisplayName) {
       await context.dataSources.auth0API.trySetUserRole(
         context.id,

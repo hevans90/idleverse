@@ -1,8 +1,8 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import {
-  SetNameByUserIdDocument,
-  SetNameByUserIdMutation,
-  SetNameByUserIdMutationVariables,
+  SetDisplayNameByUserIdDocument,
+  SetDisplayNameByUserIdMutation,
+  SetDisplayNameByUserIdMutationVariables,
 } from '@idleverse/graphql';
 import { DataSource } from 'apollo-datasource';
 
@@ -17,7 +17,10 @@ export class HasuraAPI extends DataSource {
 
   trySetDisplayName = async (id: string, display_name: string) =>
     this.client.mutate<
-      SetNameByUserIdMutation,
-      SetNameByUserIdMutationVariables
-    >({ mutation: SetNameByUserIdDocument, variables: { id, display_name } });
+      SetDisplayNameByUserIdMutation,
+      SetDisplayNameByUserIdMutationVariables
+    >({
+      mutation: SetDisplayNameByUserIdDocument,
+      variables: { id, display_name },
+    });
 }
