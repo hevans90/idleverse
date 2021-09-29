@@ -1,24 +1,10 @@
-import { HTTPDataSource } from 'apollo-datasource-http';
-import { Pool } from 'undici';
+import { ChadDataSource } from './chad-data-source';
 
-export class Auth0API extends HTTPDataSource {
-  constructor(auth0Url: string, pool: Pool) {
-    super(auth0Url, {
-      pool,
-      clientOptions: {
-        bodyTimeout: 5000,
-        headersTimeout: 2000,
-      },
-      requestOptions: {
-        headers: {
-          'content-type': 'application/json',
-          authorization: 'client',
-          'cache-control': 'no-cache',
-        },
-      },
-    });
+export class Auth0API extends ChadDataSource {
+  constructor(auth0Url: string, auth0Path: string, mgmtToken: string) {
+    super(auth0Url, auth0Path, mgmtToken);
   }
 
   trySetUserRole = async (id: string, role: string) =>
-    this.post(`users/${id}/roles`, { body: { roles: [role] } });
+    this.post(`/users/${id}/roles`, { roles: [role] });
 }

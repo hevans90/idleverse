@@ -4,8 +4,10 @@ import { Auth0API } from './auth0-api';
 import { HasuraAPI } from './hasura-api';
 
 export interface Context {
-  hasuraApi: HasuraAPI;
-  auth0Api: Auth0API;
+  dataSources: {
+    hasuraAPI: HasuraAPI;
+    auth0API: Auth0API;
+  };
   req: express.Request<any>;
   rule: User;
   roles?: string[];

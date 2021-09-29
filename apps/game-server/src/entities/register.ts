@@ -16,16 +16,24 @@ export class RegisterResolver {
     @Ctx() context: Context,
     @Arg('displayName') displayName: string
   ) {
-    if (!context.id) return null;
+    if (!context.id) throw new Error('User id not in token');
 
-    const resDisplayName = await context.hasuraApi.trySetDisplayName(
-      context.id,
-      displayName
-    );
+    const resDisplayName = (
+      await context.dataSources.hasuraAPI.trySetDisplayName(
+        context.id,
+        displayName
+      )
+    ).data.update_user_info_by_pk.display_name;
     if (resDisplayName) {
-      await context.auth0Api.trySetUserRole(context.id, 'user');
-      return resDisplayName;
+      await context.dataSources.auth0API.trySetUserRole(
+        context.id,
+        'rol_10vO6MmzARbpP2nL'
+      );
+      console.log(resDisplayName);
+      const shit = new Register();
+      shit.updatedName = resDisplayName;
+      return shit;
     }
-    return null;
+    throw new Error('Failed to insert display name');
   }
 }
