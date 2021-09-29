@@ -2424,8 +2424,8 @@ export type SendNewMessageMutation = {
 };
 
 export type SetDisplayNameByUserIdMutationVariables = Exact<{
-  id?: Maybe<Scalars['String']>;
-  display_name?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  display_name: Scalars['String'];
 }>;
 
 export type SetDisplayNameByUserIdMutation = {
@@ -2675,10 +2675,7 @@ export type SendNewMessageMutationOptions = Apollo.BaseMutationOptions<
   SendNewMessageMutationVariables
 >;
 export const SetDisplayNameByUserIdDocument = gql`
-  mutation SetDisplayNameByUserID(
-    $id: String = ""
-    $display_name: String = ""
-  ) {
+  mutation SetDisplayNameByUserID($id: String!, $display_name: String!) {
     update_user_info_by_pk(
       pk_columns: { id: $id }
       _set: { display_name: $display_name }
