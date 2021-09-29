@@ -7,7 +7,7 @@
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
-    "generate": "graphql-codegen --config codegen.js -r dotenv/config && nx format:write --files libs/graphql/src/lib/api.tsx",
+    "generate": "graphql-codegen --config codegen.js -r dotenv/config && npx nx format:write --files libs/graphql/src/lib/api.tsx",
     "generate:watch": "yarn generate --watch"
   },
   "private": true,
@@ -20,6 +20,7 @@
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@inlet/react-pixi": "^6.6.5",
+    "apollo-datasource-http": "^0.17.1",
     "apollo-datasource-rest": "^3.2.0",
     "apollo-link": "^1.2.14",
     "apollo-link-http": "^1.5.17",
@@ -53,6 +54,7 @@
     "tslib": "^2.0.0",
     "type-graphql": "^1.1.1",
     "typedi": "^0.10.0",
+    "undici": "^4.7.0",
     "ws": "^8.2.2"
   },
   "devDependencies": {
