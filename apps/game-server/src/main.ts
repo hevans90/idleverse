@@ -7,12 +7,12 @@ import jwt from 'express-jwt';
 import jwksRsa from 'jwks-rsa';
 import { buildSchema } from 'type-graphql';
 import Container from 'typedi';
-import { Pool } from 'undici';
 import { authChecker } from './authChecker';
 import { Auth0API } from './datasources/auth0-api';
 import { Context } from './datasources/context';
 import { HasuraAPI } from './datasources/hasura-api';
 import { RecipeResolver } from './entities/message';
+import { RegisterResolver } from './entities/register';
 import ws = require('ws');
 
 // const consumer = client.subscribe({ query: LatestMessageDocument });
@@ -49,7 +49,7 @@ import ws = require('ws');
   );
 
   const schema = await buildSchema({
-    resolvers: [RecipeResolver],
+    resolvers: [RecipeResolver, RegisterResolver],
     authChecker,
     container: Container,
     emitSchemaFile: true,
@@ -58,8 +58,6 @@ import ws = require('ws');
   const app = express();
   const path = '/graphql';
 
-  const pool = new Pool(process.env.AUTH0_MANAGEMENT_API);
-
   const server = new ApolloServer({
     schema,
     context: ({ req }) => {
@@ -67,25 +65,40 @@ import ws = require('ws');
         req,
         rule: req['user'], // `req.user` comes from `express-jwt`
       };
-      if (
-        context.req['user'][process.env.HASURA_NAMESPACE][
-          'x-hasura-allowed-roles'
-        ]
-      )
-        context.roles =
-          context.req['user'][process.env.HASURA_NAMESPACE][
-            'x-hasura-allowed-roles'
-          ];
-      if (context.req['user'][process.env.HASURA_NAMESPACE]['x-hasura-user-id'])
-        context.id =
-          context.req['user'][process.env.HASURA_NAMESPACE]['x-hasura-user-id'];
+
+      if (req['user']) {
+        if (context.req['user'][process.env.HASURA_NAMESPACE]) {
+          if (
+            context.req['user'][process.env.HASURA_NAMESPACE][
+              'x-hasura-allowed-roles'
+            ]
+          )
+            context.roles =
+              context.req['user'][process.env.HASURA_NAMESPACE][
+                'x-hasura-allowed-roles'
+              ];
+          if (
+            context.req['user'][process.env.HASURA_NAMESPACE][
+              'x-hasura-user-id'
+            ]
+          )
+            context.id =
+              context.req['user'][process.env.HASURA_NAMESPACE][
+                'x-hasura-user-id'
+              ];
+        }
+      }
 
       return context;
     },
-    dataSources: (): DataSources<Partial<Context>> => {
+    dataSources: (): DataSources<Partial<Context['dataSources']>> => {
       return {
         hasuraAPI: new HasuraAPI(client),
-        auth0API: new Auth0API(process.env.AUTH0_MANAGEMENT_API, pool),
+        auth0API: new Auth0API(
+          process.env.AUTH0_MANAGEMENT_API,
+          process.env.AUTH0_MANAGEMENT_API_PATH,
+          process.env.AUTH0_MANAGEMENT_API_TOKEN
+        ),
       };
     },
     introspection: true,

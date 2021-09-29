@@ -20,13 +20,12 @@
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@inlet/react-pixi": "^6.6.5",
-    "apollo-datasource-http": "^0.17.1",
-    "apollo-datasource-rest": "^3.2.0",
     "apollo-link": "^1.2.14",
     "apollo-link-http": "^1.5.17",
     "apollo-link-ws": "^1.0.20",
     "apollo-server": "^3.3.0",
     "apollo-server-express": "^3.3.0",
+    "axios": "^0.21.4",
     "class-validator": "^0.13.1",
     "core-js": "^3.6.5",
     "cross-fetch": "^3.1.4",
@@ -54,7 +53,6 @@
     "tslib": "^2.0.0",
     "type-graphql": "^1.1.1",
     "typedi": "^0.10.0",
-    "undici": "^4.7.0",
     "ws": "^8.2.2"
   },
   "devDependencies": {
