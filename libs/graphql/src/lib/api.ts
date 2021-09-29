@@ -2351,6 +2351,32 @@ export type Uuid_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
+export type GalaxyFieldsFragment = {
+  __typename?: 'galaxy';
+  id: any;
+  name?: Maybe<string>;
+  curvature: any;
+  core_radius_factor: any;
+  core_concentration_factor: any;
+  arms: any;
+  arm_width: any;
+  radius: number;
+  stars: number;
+  systems: Array<{
+    __typename?: 'system';
+    id: any;
+    name?: Maybe<string>;
+    x: any;
+    y: any;
+    owner_id?: Maybe<string>;
+    user_info?: Maybe<{
+      __typename?: 'user_info';
+      display_name?: Maybe<string>;
+      name?: Maybe<string>;
+    }>;
+  }>;
+};
+
 export type SystemFieldsFragment = {
   __typename?: 'system';
   id: any;
@@ -2419,15 +2445,28 @@ export type CreateGalaxyMutation = {
   __typename?: 'mutation_root';
   insert_galaxy_one?: Maybe<{
     __typename?: 'galaxy';
-    radius: number;
-    arm_width: any;
-    arms: any;
-    core_concentration_factor: any;
-    core_radius_factor: any;
-    curvature: any;
     id: any;
     name?: Maybe<string>;
+    curvature: any;
+    core_radius_factor: any;
+    core_concentration_factor: any;
+    arms: any;
+    arm_width: any;
+    radius: number;
     stars: number;
+    systems: Array<{
+      __typename?: 'system';
+      id: any;
+      name?: Maybe<string>;
+      x: any;
+      y: any;
+      owner_id?: Maybe<string>;
+      user_info?: Maybe<{
+        __typename?: 'user_info';
+        display_name?: Maybe<string>;
+        name?: Maybe<string>;
+      }>;
+    }>;
   }>;
 };
 
@@ -2542,6 +2581,23 @@ export const SystemFieldsFragmentDoc = gql`
       name
     }
   }
+`;
+export const GalaxyFieldsFragmentDoc = gql`
+  fragment GalaxyFields on galaxy {
+    id
+    name
+    curvature
+    core_radius_factor
+    core_concentration_factor
+    arms
+    arm_width
+    radius
+    stars
+    systems {
+      ...SystemFields
+    }
+  }
+  ${SystemFieldsFragmentDoc}
 `;
 export const GetChatMessagesDocument = gql`
   subscription GetChatMessages {
@@ -2685,17 +2741,10 @@ export type SendNewMessageMutationOptions = Apollo.BaseMutationOptions<
 export const CreateGalaxyDocument = gql`
   mutation CreateGalaxy($input: galaxy_insert_input!) {
     insert_galaxy_one(object: $input) {
-      radius
-      arm_width
-      arms
-      core_concentration_factor
-      core_radius_factor
-      curvature
-      id
-      name
-      stars
+      ...GalaxyFields
     }
   }
+  ${GalaxyFieldsFragmentDoc}
 `;
 export type CreateGalaxyMutationFn = Apollo.MutationFunction<
   CreateGalaxyMutation,
@@ -2794,21 +2843,10 @@ export type DeleteGalaxyByIdMutationOptions = Apollo.BaseMutationOptions<
 export const GalaxiesDocument = gql`
   subscription Galaxies {
     galaxy {
-      id
-      name
-      curvature
-      core_radius_factor
-      core_concentration_factor
-      arms
-      arm_width
-      radius
-      stars
-      systems {
-        ...SystemFields
-      }
+      ...GalaxyFields
     }
   }
-  ${SystemFieldsFragmentDoc}
+  ${GalaxyFieldsFragmentDoc}
 `;
 
 /**
