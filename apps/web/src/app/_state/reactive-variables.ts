@@ -1,5 +1,6 @@
 import { makeVar } from '@apollo/client';
 import { SelfQuery } from '@idleverse/graphql';
+import { v4 as uuidv4 } from 'uuid';
 import { GalaxyConfig } from '../canvases/galaxy-generator/utils/generate-galaxy';
 
 export type sliderType = {
@@ -48,22 +49,31 @@ export const galaxySlidersConfig: sliderType[] = [
     max: 3,
     step: 0.05,
   },
+  {
+    name: 'stars',
+    displayName: 'No. Stars',
+    max: 10000,
+    step: 100,
+  },
 ];
 
-const initialGalaxyConfig: GalaxyConfig = {
+export const galaxyConfigVar = makeVar<GalaxyConfig>({
+  seed: uuidv4(),
+  name: 'new galaxy',
   radius: 1,
   arms: 2,
   curvature: 1,
   armWidth: 0.1,
   coreRadiusFactor: 0.01,
   coreConcentrationFactor: 1,
-};
+  stars: 1000,
+});
 
-export const galaxyConfig = makeVar(initialGalaxyConfig);
-export const galaxyRotation = makeVar(-0.001);
-export const time = makeVar(0);
-export const rotate = makeVar(false);
-export const animate = makeVar(false);
+export const galaxyRotationVar = makeVar(-0.001);
+export const timeVar = makeVar(0);
+export const rotateVar = makeVar(false);
+export const animateVar = makeVar(false);
 
 type Self = SelfQuery['user_me'][0];
 export const selfVar = makeVar<Self>(null!);
+export const roleVar = makeVar<string>(null);

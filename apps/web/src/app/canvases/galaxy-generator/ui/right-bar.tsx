@@ -1,8 +1,13 @@
-import { Box, Checkbox, useColorModeValue } from '@chakra-ui/react';
-import { animate } from '../../../_state/reactive-variables';
+import { Box, Button, Checkbox, useColorModeValue } from '@chakra-ui/react';
+import { animateVar } from '../../../_state/reactive-variables';
 import { generatorControlsHeight } from './generator-controls';
 
-export const GameUIRightBar = () => {
+type Props = {
+  role: string;
+  saveGalaxyFunction: () => unknown;
+};
+
+export const GameUIRightBar = ({ role, saveGalaxyFunction }: Props) => {
   const bg = useColorModeValue('gray.300', 'gray.700');
   const border = useColorModeValue('gray.200', 'gray.600');
 
@@ -21,9 +26,22 @@ export const GameUIRightBar = () => {
       borderColor={border}
       borderRight="unset"
     >
-      <Checkbox checked={animate()} onChange={() => animate(!animate())}>
+      <Checkbox
+        checked={animateVar()}
+        onChange={() => animateVar(!animateVar())}
+      >
         Animate
       </Checkbox>
+      {role === 'dev' ? (
+        <Button
+          width="100%"
+          marginTop="1rem"
+          colorScheme="teal"
+          onClick={() => saveGalaxyFunction()}
+        >
+          Save
+        </Button>
+      ) : null}
     </Box>
   );
 };

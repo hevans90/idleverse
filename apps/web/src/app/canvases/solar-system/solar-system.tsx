@@ -2,20 +2,20 @@ import { useApp } from '@inlet/react-pixi';
 import { Viewport } from 'pixi-viewport';
 import { Text } from 'pixi.js';
 import { useEffect } from 'react';
-import { time } from '../../_state/reactive-variables';
+import { timeVar } from '../../_state/reactive-variables';
 import { useResize } from '../common-utils/use-resize.hook';
 import {
-  SpriteSheetConfig,
-  CreateBasicPlanetSprite,
   CreateAnimatedPlanetSprite,
+  CreateBasicPlanetSprite,
+  SpriteSheetConfig,
 } from './graphics/graphics-utils';
 import { Sun } from './graphics/sun';
 import {
-  PlanetConfig,
-  Planet,
   CreatePlanet,
-  UpdatePlanetPosition,
   DrawPlanet,
+  Planet,
+  PlanetConfig,
+  UpdatePlanetPosition,
 } from './planets/planet';
 
 export const SolarSystem = () => {
@@ -27,7 +27,7 @@ export const SolarSystem = () => {
   const systemRange = 50;
 
   app.ticker.add(() => {
-    time(time() + 1);
+    timeVar(timeVar() + 1);
   });
 
   const sunSpriteConfig: SpriteSheetConfig = {
@@ -114,7 +114,7 @@ export const SolarSystem = () => {
 
   app.ticker.add(() => {
     planets.forEach((planet) =>
-      UpdatePlanetPosition(time(), planet, systemOrigin, systemRange)
+      UpdatePlanetPosition(timeVar(), planet, systemOrigin, systemRange)
     );
     planets.forEach((planet) => DrawPlanet(planet));
   });

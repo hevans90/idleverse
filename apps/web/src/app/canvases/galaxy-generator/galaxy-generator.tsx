@@ -2,55 +2,69 @@ import { useReactiveVar } from '@apollo/client';
 import { useApp } from '@inlet/react-pixi';
 import { Viewport } from 'pixi-viewport';
 import { Container, Graphics } from 'pixi.js';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import {
-  animate,
-  galaxyConfig,
-  galaxyRotation,
-  time,
+  animateVar,
+  galaxyConfigVar,
+  galaxyRotationVar,
+  timeVar,
 } from '../../_state/reactive-variables';
 import { useResize } from '../common-utils/use-resize.hook';
 import { Star } from './graphics/star';
 import { fpsTracker } from './utils/fps-counter';
 import {
+  Celestial,
   GalaxyConfig,
   generateCelestials,
-  GetCelestialPosition,
+  getCelestialPosition,
 } from './utils/generate-galaxy';
 
 export const GalaxyGenerator = () => {
-  const galaxy = useRef(new Container());
+  const galaxyConfig = useReactiveVar(galaxyConfigVar);
+
+  const galaxyContainer = useRef(new Container());
 
   const updateGalaxyRotation = (galaxy: Container) => (delta: number) => {
-    galaxy.rotation += delta * galaxyRotation();
+    galaxy.rotation += delta * galaxyRotationVar();
   };
 
   const app = useApp();
 
   const size = useResize(true);
 
-  const [stars] = useState(generateCelestials(2000, 'abc'));
+  const stars = useRef<Celestial[]>(null);
 
-  const reactiveAnimate = useReactiveVar(animate);
+  const reactiveAnimate = useReactiveVar(animateVar);
 
   const reposition = (config: GalaxyConfig) =>
-    stars.forEach((star, i) => {
-      const _star = galaxy.current.getChildAt(i) as Graphics;
-      const position = GetCelestialPosition(star, config);
+    stars.current.forEach((star, i) => {
+      const _star = galaxyContainer.current.getChildAt(i) as Graphics;
+      const position = getCelestialPosition(star, config);
       _star.x = position.x;
       _star.y = position.y;
     });
 
   const animatedRepositioningTicker = () => {
     const animConfig = {
-      ...galaxyConfig(),
-      curvature: galaxyConfig().curvature * Math.sin(time() * 0.01),
+      ...galaxyConfigVar(),
+      curvature: galaxyConfigVar().curvature * Math.sin(timeVar() * 0.01),
     };
 
     reposition(animConfig);
   };
 
-  const repositioningTicker = () => reposition(galaxyConfig());
+  const repositioningTicker = () => reposition(galaxyConfigVar());
+
+  useEffect(() => {
+    galaxyContainer.current.removeChildren();
+
+    stars.current = generateCelestials(galaxyConfig.stars, galaxyConfig.seed);
+
+    stars.current.forEach((star) => {
+      const _star = Star(getCelestialPosition(star, galaxyConfigVar()));
+      galaxyContainer.current.addChild(_star);
+    });
+  }, [galaxyConfig.stars, galaxyConfig.seed]);
 
   useEffect(() => {
     // create viewport
@@ -74,22 +88,17 @@ export const GalaxyGenerator = () => {
     viewport.clampZoom({ minWidth: 300, maxWidth: 2000 });
     viewport.clamp({ direction: 'all' });
 
-    galaxy.current.name = 'galaxy';
+    galaxyContainer.current.name = 'galaxy';
 
-    viewport.addChild(galaxy.current);
+    viewport.addChild(galaxyContainer.current);
 
-    stars.forEach((star) => {
-      const _star = Star(GetCelestialPosition(star, galaxyConfig()));
-      galaxy.current.addChild(_star);
-    });
+    galaxyContainer.current.x = size.width / 2;
+    galaxyContainer.current.y = size.height / 2;
 
-    galaxy.current.x = size.width / 2;
-    galaxy.current.y = size.height / 2;
-
-    app.ticker.add(updateGalaxyRotation(galaxy.current));
+    app.ticker.add(updateGalaxyRotation(galaxyContainer.current));
 
     app.ticker.add((delta) => {
-      time(time() + 1);
+      timeVar(timeVar() + 1);
     });
 
     app.ticker.add(repositioningTicker);

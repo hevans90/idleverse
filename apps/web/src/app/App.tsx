@@ -1,6 +1,7 @@
 import { ApolloProvider } from '@apollo/client';
 import { useAuth0 } from '@auth0/auth0-react';
 import { apolloBootstrapper } from '@idleverse/graphql';
+import jwt_decode from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { GalaxyGenContainer } from './canvases/galaxy-generator/galaxy-generator.container';
@@ -9,7 +10,11 @@ import { Layout } from './components/layout';
 import { Loading } from './components/loading';
 import { SelfContainer } from './containers/self-container';
 import { Home } from './home/home';
-import { galaxyConfig, galaxyRotation } from './_state/reactive-variables';
+import {
+  galaxyConfigVar,
+  galaxyRotationVar,
+  roleVar,
+} from './_state/reactive-variables';
 
 //
 
@@ -27,6 +32,11 @@ export const App = () => {
 
       if (x?.__raw) {
         setIdToken(`${x.__raw}`);
+        roleVar(
+          jwt_decode(x.__raw)['https://hasura.io/jwt/claims'][
+            'x-hasura-default-role'
+          ]
+        );
       }
     }
 
@@ -44,10 +54,10 @@ export const App = () => {
       Query: {
         fields: {
           galaxyConfig: {
-            read: () => galaxyConfig(),
+            read: () => galaxyConfigVar(),
           },
           galaxyRotation: {
-            read: () => galaxyRotation(),
+            read: () => galaxyRotationVar(),
           },
         },
       },
