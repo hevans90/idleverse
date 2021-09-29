@@ -1,0 +1,9 @@
+query Self {
+  user_me {
+    display_name
+    id
+    name
+    nickname
+    secret_setting_test
+  }
+}

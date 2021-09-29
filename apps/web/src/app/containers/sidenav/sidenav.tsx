@@ -80,7 +80,7 @@ export const SideNav = () => {
                     display="contents"
                     lineHeight="1.25rem"
                   >
-                    {item.user_info.nickname}:
+                    {item.user_info.display_name}:
                   </Text>
 
                   {item.message}

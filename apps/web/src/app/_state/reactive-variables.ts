@@ -1,4 +1,5 @@
 import { makeVar } from '@apollo/client';
+import { SelfQuery } from '@idleverse/graphql';
 import { GalaxyConfig } from '../canvases/galaxy-generator/utils/generate-galaxy';
 
 export type sliderType = {
@@ -63,3 +64,6 @@ export const galaxyRotation = makeVar(-0.001);
 export const time = makeVar(0);
 export const rotate = makeVar(false);
 export const animate = makeVar(false);
+
+type Self = SelfQuery['user_me'][0];
+export const selfVar = makeVar<Self>(null!);
