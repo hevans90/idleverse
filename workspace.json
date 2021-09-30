@@ -1,6 +1,28 @@
 {
   "version": 2,
   "projects": {
+    "galaxy-gen": {
+      "root": "libs/galaxy-gen",
+      "sourceRoot": "libs/galaxy-gen/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/galaxy-gen/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/galaxy-gen"],
+          "options": {
+            "jestConfig": "libs/galaxy-gen/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "game-server": {
       "root": "apps/game-server",
       "sourceRoot": "apps/game-server/src",

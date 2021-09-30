@@ -1,7 +1,7 @@
 import { makeVar } from '@apollo/client';
+import { GalaxyConfig } from '@idleverse/galaxy-gen';
 import { SelfQuery } from '@idleverse/graphql';
 import { v4 as uuidv4 } from 'uuid';
-import { GalaxyConfig } from '../canvases/galaxy-generator/utils/generate-galaxy';
 
 export type sliderType = {
   name: keyof GalaxyConfig;

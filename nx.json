@@ -28,6 +28,9 @@
     ]
   },
   "projects": {
+    "galaxy-gen": {
+      "tags": []
+    },
     "game-server": {
       "tags": []
     },
