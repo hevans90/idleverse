@@ -20,6 +20,7 @@ class GalaxyManagement {
 @Resolver((of) => GalaxyManagement)
 export class GalaxyManagementResolver {
   @Authorized('user')
+  //todo change to mutation
   @Query((returns) => GalaxyManagement, { nullable: true })
   async requestRandomCelestial(
     @Ctx() context: Context,

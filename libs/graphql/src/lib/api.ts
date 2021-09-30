@@ -1912,6 +1912,20 @@ export type CelestialsSubscription = {
   }>;
 };
 
+export type GetCelestialsByGalaxyIdSubscriptionVariables = Exact<{
+  galaxyId: Scalars['uuid'];
+}>;
+
+export type GetCelestialsByGalaxyIdSubscription = {
+  __typename?: 'subscription_root';
+  celestial: Array<{
+    __typename?: 'celestial';
+    id: string;
+    name?: Maybe<string>;
+    owner_id?: Maybe<string>;
+  }>;
+};
+
 export type TryInsertClaimedCelestialMutationVariables = Exact<{
   galaxy_id: Scalars['uuid'];
   id: Scalars['String'];
@@ -2205,6 +2219,49 @@ export type CelestialsSubscriptionHookResult = ReturnType<
 >;
 export type CelestialsSubscriptionResult =
   Apollo.SubscriptionResult<CelestialsSubscription>;
+export const GetCelestialsByGalaxyIdDocument = gql`
+  subscription GetCelestialsByGalaxyID($galaxyId: uuid!) {
+    celestial(where: { galaxy_id: { _eq: $galaxyId } }) {
+      id
+      name
+      owner_id
+    }
+  }
+`;
+
+/**
+ * __useGetCelestialsByGalaxyIdSubscription__
+ *
+ * To run a query within a React component, call `useGetCelestialsByGalaxyIdSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useGetCelestialsByGalaxyIdSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCelestialsByGalaxyIdSubscription({
+ *   variables: {
+ *      galaxyId: // value for 'galaxyId'
+ *   },
+ * });
+ */
+export function useGetCelestialsByGalaxyIdSubscription(
+  baseOptions: Apollo.SubscriptionHookOptions<
+    GetCelestialsByGalaxyIdSubscription,
+    GetCelestialsByGalaxyIdSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSubscription<
+    GetCelestialsByGalaxyIdSubscription,
+    GetCelestialsByGalaxyIdSubscriptionVariables
+  >(GetCelestialsByGalaxyIdDocument, options);
+}
+export type GetCelestialsByGalaxyIdSubscriptionHookResult = ReturnType<
+  typeof useGetCelestialsByGalaxyIdSubscription
+>;
+export type GetCelestialsByGalaxyIdSubscriptionResult =
+  Apollo.SubscriptionResult<GetCelestialsByGalaxyIdSubscription>;
 export const TryInsertClaimedCelestialDocument = gql`
   mutation TryInsertClaimedCelestial(
     $galaxy_id: uuid!

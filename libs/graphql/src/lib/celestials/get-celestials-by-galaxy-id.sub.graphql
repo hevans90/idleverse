@@ -1,0 +1,7 @@
+subscription GetCelestialsByGalaxyID($galaxyId: uuid!) {
+  celestial(where: { galaxy_id: { _eq: $galaxyId } }) {
+    id
+    name
+    owner_id
+  }
+}

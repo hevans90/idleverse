@@ -1,10 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
   Celestial,
+  ClaimedCelestialAttributes,
   GalaxyConfig,
-  generateCelestials,
+  generateCelestialsWithClaimed,
   getCelestialPosition,
 } from '@idleverse/galaxy-gen';
+import { GetCelestialsByGalaxyIdSubscription } from '@idleverse/graphql';
 import { useApp } from '@inlet/react-pixi';
 import { Viewport } from 'pixi-viewport';
 import { Container, Graphics } from 'pixi.js';
@@ -19,13 +21,17 @@ import { fpsTracker } from '../galaxy-generator/utils/fps-counter';
 
 type GalaxyViewerProps = {
   galaxyConfig: GalaxyConfig;
+  claimedCelestials: GetCelestialsByGalaxyIdSubscription['celestial'];
 };
 
-export const GalaxyViewer = ({ galaxyConfig }: GalaxyViewerProps) => {
+export const GalaxyViewer = ({
+  galaxyConfig,
+  claimedCelestials,
+}: GalaxyViewerProps) => {
   const app = useApp();
 
   const galaxyContainer = useRef(new Container());
-  const stars = useRef<Celestial[]>(null);
+  const stars = useRef<(Celestial & ClaimedCelestialAttributes)[]>(null);
 
   const updateGalaxyRotation = (galaxy: Container) => (delta: number) => {
     galaxy.rotation += delta * galaxyRotationVar();
@@ -73,10 +79,18 @@ export const GalaxyViewer = ({ galaxyConfig }: GalaxyViewerProps) => {
 
     fpsTracker(app);
 
-    stars.current = generateCelestials(galaxyConfig.stars, galaxyConfig.seed);
+    //todo draw dynamic
+    stars.current = generateCelestialsWithClaimed(
+      galaxyConfig.stars,
+      galaxyConfig.seed,
+      claimedCelestials.map((x) => x.id)
+    );
 
     stars.current.forEach((star) => {
-      const _star = Star(getCelestialPosition(star, galaxyConfigVar()));
+      const _star = Star({
+        ...getCelestialPosition(star, galaxyConfigVar()),
+        isClaimed: star.isClaimed,
+      });
       galaxyContainer.current.addChild(_star);
     });
 
