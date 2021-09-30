@@ -9,7 +9,8 @@ export const GalaxyGalleryContainer = () => {
   const { data, loading } =
     useSubscription<GalaxiesSubscription>(GalaxiesDocument);
 
-  const x = useColorModeValue('gray.900', 'gray.900');
+  const bgcol = useColorModeValue('gray.300', 'gray.900');
+  const col = useColorModeValue('teal.900', 'teal.300');
 
   if (loading) {
     return (
@@ -29,7 +30,8 @@ export const GalaxyGalleryContainer = () => {
             key={id}
             margin="0 1rem 1rem 0"
             padding="1rem"
-            bgColor={x}
+            bgColor={bgcol}
+            color={col}
           >
             <Text mb="0.5rem">{name}</Text>
             <Text mb="0.5rem">Stars: {stars}</Text>

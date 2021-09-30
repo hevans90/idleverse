@@ -4,6 +4,13 @@ import { Theme } from '@chakra-ui/theme';
 
 // 2. Call `extendTheme` and pass your custom values
 export const theme = extendTheme({
+  styles: {
+    global: (props) => ({
+      body: {
+        background: props.colorMode === 'dark' ? 'gray.800' : 'gray.300',
+      },
+    }),
+  } as Partial<Pick<Theme, 'styles'>>,
   config: { initialColorMode: 'dark', useSystemColorMode: false },
   colors: {
     transparent: 'transparent',
