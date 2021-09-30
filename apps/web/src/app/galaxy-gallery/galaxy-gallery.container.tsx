@@ -1,7 +1,8 @@
 import { useSubscription } from '@apollo/client';
-import { Box, Heading, Text } from '@chakra-ui/layout';
+import { Box, Heading, Link, Text } from '@chakra-ui/layout';
 import { useColorModeValue } from '@chakra-ui/react';
 import { GalaxiesDocument, GalaxiesSubscription } from '@idleverse/graphql';
+import { Link as ReactRouterLink } from 'react-router-dom';
 import { Back } from '../components/back';
 import { Loading } from '../components/loading';
 
@@ -24,7 +25,8 @@ export const GalaxyGalleryContainer = () => {
       <Heading mb="2rem">Galaxies</Heading>
       <Box d="flex" flexWrap="wrap">
         {data.galaxy.map(({ id, stars, name, systems }) => (
-          <Box
+          <Link
+            as={ReactRouterLink}
             d="flex"
             flexDir="column"
             key={id}
@@ -32,11 +34,12 @@ export const GalaxyGalleryContainer = () => {
             padding="1rem"
             bgColor={bgcol}
             color={col}
+            to={`/galaxies/${id}`}
           >
             <Text mb="0.5rem">{name}</Text>
             <Text mb="0.5rem">Stars: {stars}</Text>
             <Text>Claimed Systems: {systems.length}</Text>
-          </Box>
+          </Link>
         ))}
       </Box>
     </Box>

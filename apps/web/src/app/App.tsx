@@ -5,6 +5,7 @@ import jwt_decode from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { GalaxyGenContainer } from './canvases/galaxy-generator/galaxy-generator.container';
+import { GalaxyViewerContainer } from './canvases/galaxy-viewer/galaxy-viewer.container';
 import { SolarSystemContainer } from './canvases/solar-system/solar-system.container';
 import { Layout } from './components/layout';
 import { Loading } from './components/loading';
@@ -69,6 +70,11 @@ export const App = () => {
         <Layout>
           <BrowserRouter basename={local ? '/' : '/idle-game'}>
             <Switch>
+              <Route
+                path="/galaxies/:id"
+                exact
+                component={GalaxyViewerContainer}
+              />
               <Route path="/galaxies" component={GalaxyGalleryContainer} />
               <Route path="/galaxy-gen" component={GalaxyGenContainer} />
               <Route path="/solar-system" component={SolarSystemContainer} />
