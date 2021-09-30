@@ -10,8 +10,11 @@ export const GalaxyGalleryContainer = () => {
   const { data, loading } =
     useSubscription<GalaxiesSubscription>(GalaxiesDocument);
 
-  const bgcol = useColorModeValue('gray.300', 'gray.900');
+  const bgcol = useColorModeValue('gray.400', 'gray.900');
   const col = useColorModeValue('teal.900', 'teal.300');
+
+  const hoverCol = useColorModeValue('teal.900', 'teal.200');
+  const hoverBg = useColorModeValue('teal.300', 'teal.800');
 
   if (loading) {
     return (
@@ -35,6 +38,11 @@ export const GalaxyGalleryContainer = () => {
             bgColor={bgcol}
             color={col}
             to={`/galaxies/${id}`}
+            _hover={{
+              textDecor: 'unset',
+              background: hoverBg,
+              color: hoverCol,
+            }}
           >
             <Text mb="0.5rem">{name}</Text>
             <Text mb="0.5rem">Stars: {stars}</Text>
