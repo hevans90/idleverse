@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useReactiveVar } from '@apollo/client';
 import { useApp } from '@inlet/react-pixi';
 import { Viewport } from 'pixi-viewport';
-import { Container, Graphics } from 'pixi.js';
+import { Container, Graphics, TickerCallback } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import {
   animateVar,
@@ -36,35 +37,27 @@ export const GalaxyGenerator = () => {
 
   const reactiveAnimate = useReactiveVar(animateVar);
 
-  const reposition = (config: GalaxyConfig) =>
+  const reposition = (config: GalaxyConfig) => {
     stars.current.forEach((star, i) => {
       const _star = galaxyContainer.current.getChildAt(i) as Graphics;
       const position = getCelestialPosition(star, config);
       _star.x = position.x;
       _star.y = position.y;
     });
+  };
 
-  const animatedRepositioningTicker = () => {
+  const animatedRepositioningTickerRef = useRef<TickerCallback<unknown>>(() => {
     const animConfig = {
       ...galaxyConfigVar(),
       curvature: galaxyConfigVar().curvature * Math.sin(timeVar() * 0.01),
     };
 
     reposition(animConfig);
-  };
+  });
 
-  const repositioningTicker = () => reposition(galaxyConfigVar());
-
-  useEffect(() => {
-    galaxyContainer.current.removeChildren();
-
-    stars.current = generateCelestials(galaxyConfig.stars, galaxyConfig.seed);
-
-    stars.current.forEach((star) => {
-      const _star = Star(getCelestialPosition(star, galaxyConfigVar()));
-      galaxyContainer.current.addChild(_star);
-    });
-  }, [galaxyConfig.stars, galaxyConfig.seed]);
+  const repositioningTickerRef = useRef<TickerCallback<unknown>>(() =>
+    reposition(galaxyConfigVar())
+  );
 
   useEffect(() => {
     // create viewport
@@ -101,8 +94,6 @@ export const GalaxyGenerator = () => {
       timeVar(timeVar() + 1);
     });
 
-    app.ticker.add(repositioningTicker);
-
     fpsTracker(app);
 
     /**
@@ -115,14 +106,30 @@ export const GalaxyGenerator = () => {
 
   useEffect(() => {
     if (reactiveAnimate) {
-      app.ticker.remove(repositioningTicker);
-      app.ticker.add(animatedRepositioningTicker);
+      app.ticker.add(animatedRepositioningTickerRef.current);
     } else {
-      app.ticker.remove(animatedRepositioningTicker);
-      app.ticker.add(repositioningTicker);
+      app.ticker.add(repositioningTickerRef.current);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    return () => {
+      if (reactiveAnimate) {
+        app.ticker.remove(repositioningTickerRef.current);
+      } else {
+        app.ticker.remove(animatedRepositioningTickerRef.current);
+      }
+    };
   }, [reactiveAnimate]);
+
+  useEffect(() => {
+    galaxyContainer.current.removeChildren();
+
+    stars.current = generateCelestials(galaxyConfig.stars, galaxyConfig.seed);
+
+    stars.current.forEach((star) => {
+      const _star = Star(getCelestialPosition(star, galaxyConfigVar()));
+      galaxyContainer.current.addChild(_star);
+    });
+  }, [galaxyConfig.stars, galaxyConfig.seed]);
 
   // when the screen is resized, this effect will reset the viewport's screen dimensions & then re-center
   useEffect(() => {
