@@ -1,5 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useReactiveVar } from '@apollo/client';
+import {
+  Celestial,
+  GalaxyConfig,
+  generateCelestials,
+  getCelestialPosition,
+} from '@idleverse/galaxy-gen';
 import { useApp } from '@inlet/react-pixi';
 import { Viewport } from 'pixi-viewport';
 import { Container, Graphics, TickerCallback } from 'pixi.js';
@@ -13,12 +19,6 @@ import {
 import { useResize } from '../common-utils/use-resize.hook';
 import { Star } from './graphics/star';
 import { fpsTracker } from './utils/fps-counter';
-import {
-  Celestial,
-  GalaxyConfig,
-  generateCelestials,
-  getCelestialPosition,
-} from './utils/generate-galaxy';
 
 export const GalaxyGenerator = () => {
   const galaxyConfig = useReactiveVar(galaxyConfigVar);

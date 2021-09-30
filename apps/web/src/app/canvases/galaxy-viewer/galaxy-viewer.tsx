@@ -1,4 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import {
+  Celestial,
+  GalaxyConfig,
+  generateCelestials,
+  getCelestialPosition,
+} from '@idleverse/galaxy-gen';
 import { useApp } from '@inlet/react-pixi';
 import { Viewport } from 'pixi-viewport';
 import { Container, Graphics } from 'pixi.js';
@@ -10,12 +16,6 @@ import {
 import { useResize } from '../common-utils/use-resize.hook';
 import { Star } from '../galaxy-generator/graphics/star';
 import { fpsTracker } from '../galaxy-generator/utils/fps-counter';
-import {
-  Celestial,
-  GalaxyConfig,
-  generateCelestials,
-  getCelestialPosition,
-} from '../galaxy-generator/utils/generate-galaxy';
 
 type GalaxyViewerProps = {
   galaxyConfig: GalaxyConfig;
