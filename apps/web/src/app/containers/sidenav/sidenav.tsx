@@ -13,6 +13,7 @@ import {
 } from '@idleverse/graphql';
 import { useEffect, useRef, useState } from 'react';
 import { ChatSubmit } from '../../components/chat-submit';
+import { Loading } from '../../components/loading';
 
 export const SideNav = () => {
   const color = useColorModeValue('gray.200', 'gray.700');
@@ -64,7 +65,12 @@ export const SideNav = () => {
         borderRightWidth="1px"
       >
         {loading && data ? (
-          <div>Loading...</div>
+          <Loading
+            fontSize="md"
+            height="100%"
+            width="100%"
+            text="Loading chat..."
+          ></Loading>
         ) : (
           <OrderedList marginInlineStart="unset">
             {messages?.map((item, i) => (

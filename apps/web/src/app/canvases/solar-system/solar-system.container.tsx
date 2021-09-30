@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { Stage } from '@inlet/react-pixi';
+import { Back } from '../../components/back';
 import { animateVar } from '../../_state/reactive-variables';
-import { GameUITopLeftBar } from '../common-utils/top-left-bar';
 import { useResize } from '../common-utils/use-resize.hook';
 import { SolarSystem } from './solar-system';
 
@@ -20,7 +20,7 @@ export const SolarSystemContainer = () => {
       >
         <SolarSystem />
       </Stage>
-      <GameUITopLeftBar />
+      <Back />
     </Box>
   );
 };

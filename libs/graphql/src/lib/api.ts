@@ -254,133 +254,6 @@ export enum Chat_Message_Update_Column {
   Timestamp = 'timestamp',
 }
 
-/** columns and relationships of "create_celestial_action" */
-export type Create_Celestial_Action = {
-  __typename?: 'create_celestial_action';
-  action_id: Scalars['uuid'];
-  hash: Scalars['String'];
-  id: Scalars['uuid'];
-};
-
-/** aggregated selection of "create_celestial_action" */
-export type Create_Celestial_Action_Aggregate = {
-  __typename?: 'create_celestial_action_aggregate';
-  aggregate?: Maybe<Create_Celestial_Action_Aggregate_Fields>;
-  nodes: Array<Create_Celestial_Action>;
-};
-
-/** aggregate fields of "create_celestial_action" */
-export type Create_Celestial_Action_Aggregate_Fields = {
-  __typename?: 'create_celestial_action_aggregate_fields';
-  count: Scalars['Int'];
-  max?: Maybe<Create_Celestial_Action_Max_Fields>;
-  min?: Maybe<Create_Celestial_Action_Min_Fields>;
-};
-
-/** aggregate fields of "create_celestial_action" */
-export type Create_Celestial_Action_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<Create_Celestial_Action_Select_Column>>;
-  distinct?: Maybe<Scalars['Boolean']>;
-};
-
-/** Boolean expression to filter rows from the table "create_celestial_action". All fields are combined with a logical 'AND'. */
-export type Create_Celestial_Action_Bool_Exp = {
-  _and?: Maybe<Array<Create_Celestial_Action_Bool_Exp>>;
-  _not?: Maybe<Create_Celestial_Action_Bool_Exp>;
-  _or?: Maybe<Array<Create_Celestial_Action_Bool_Exp>>;
-  action_id?: Maybe<Uuid_Comparison_Exp>;
-  hash?: Maybe<String_Comparison_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "create_celestial_action" */
-export enum Create_Celestial_Action_Constraint {
-  /** unique or primary key constraint */
-  CreateCelestialActionActionIdKey = 'create_celestial_action_action_id_key',
-  /** unique or primary key constraint */
-  CreateCelestialActionHashKey = 'create_celestial_action_hash_key',
-  /** unique or primary key constraint */
-  CreateCelestialActionPkey = 'create_celestial_action_pkey',
-}
-
-/** input type for inserting data into table "create_celestial_action" */
-export type Create_Celestial_Action_Insert_Input = {
-  action_id?: Maybe<Scalars['uuid']>;
-  hash?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-};
-
-/** aggregate max on columns */
-export type Create_Celestial_Action_Max_Fields = {
-  __typename?: 'create_celestial_action_max_fields';
-  action_id?: Maybe<Scalars['uuid']>;
-  hash?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-};
-
-/** aggregate min on columns */
-export type Create_Celestial_Action_Min_Fields = {
-  __typename?: 'create_celestial_action_min_fields';
-  action_id?: Maybe<Scalars['uuid']>;
-  hash?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-};
-
-/** response of any mutation on the table "create_celestial_action" */
-export type Create_Celestial_Action_Mutation_Response = {
-  __typename?: 'create_celestial_action_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data from the rows affected by the mutation */
-  returning: Array<Create_Celestial_Action>;
-};
-
-/** on conflict condition type for table "create_celestial_action" */
-export type Create_Celestial_Action_On_Conflict = {
-  constraint: Create_Celestial_Action_Constraint;
-  update_columns?: Array<Create_Celestial_Action_Update_Column>;
-  where?: Maybe<Create_Celestial_Action_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "create_celestial_action". */
-export type Create_Celestial_Action_Order_By = {
-  action_id?: Maybe<Order_By>;
-  hash?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-};
-
-/** primary key columns input for table: create_celestial_action */
-export type Create_Celestial_Action_Pk_Columns_Input = {
-  id: Scalars['uuid'];
-};
-
-/** select columns of table "create_celestial_action" */
-export enum Create_Celestial_Action_Select_Column {
-  /** column name */
-  ActionId = 'action_id',
-  /** column name */
-  Hash = 'hash',
-  /** column name */
-  Id = 'id',
-}
-
-/** input type for updating data in table "create_celestial_action" */
-export type Create_Celestial_Action_Set_Input = {
-  action_id?: Maybe<Scalars['uuid']>;
-  hash?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-};
-
-/** update columns of table "create_celestial_action" */
-export enum Create_Celestial_Action_Update_Column {
-  /** column name */
-  ActionId = 'action_id',
-  /** column name */
-  Hash = 'hash',
-  /** column name */
-  Id = 'id',
-}
-
 /** columns and relationships of "galaxy" */
 export type Galaxy = {
   __typename?: 'galaxy';
@@ -724,10 +597,6 @@ export type Mutation_Root = {
   delete_chat_message?: Maybe<Chat_Message_Mutation_Response>;
   /** delete single row from the table: "chat_message" */
   delete_chat_message_by_pk?: Maybe<Chat_Message>;
-  /** delete data from the table: "create_celestial_action" */
-  delete_create_celestial_action?: Maybe<Create_Celestial_Action_Mutation_Response>;
-  /** delete single row from the table: "create_celestial_action" */
-  delete_create_celestial_action_by_pk?: Maybe<Create_Celestial_Action>;
   /** delete data from the table: "galaxy" */
   delete_galaxy?: Maybe<Galaxy_Mutation_Response>;
   /** delete single row from the table: "galaxy" */
@@ -748,10 +617,6 @@ export type Mutation_Root = {
   insert_chat_message?: Maybe<Chat_Message_Mutation_Response>;
   /** insert a single row into the table: "chat_message" */
   insert_chat_message_one?: Maybe<Chat_Message>;
-  /** insert data into the table: "create_celestial_action" */
-  insert_create_celestial_action?: Maybe<Create_Celestial_Action_Mutation_Response>;
-  /** insert a single row into the table: "create_celestial_action" */
-  insert_create_celestial_action_one?: Maybe<Create_Celestial_Action>;
   /** insert data into the table: "galaxy" */
   insert_galaxy?: Maybe<Galaxy_Mutation_Response>;
   /** insert a single row into the table: "galaxy" */
@@ -777,10 +642,6 @@ export type Mutation_Root = {
   update_chat_message?: Maybe<Chat_Message_Mutation_Response>;
   /** update single row of the table: "chat_message" */
   update_chat_message_by_pk?: Maybe<Chat_Message>;
-  /** update data of the table: "create_celestial_action" */
-  update_create_celestial_action?: Maybe<Create_Celestial_Action_Mutation_Response>;
-  /** update single row of the table: "create_celestial_action" */
-  update_create_celestial_action_by_pk?: Maybe<Create_Celestial_Action>;
   /** update data of the table: "galaxy" */
   update_galaxy?: Maybe<Galaxy_Mutation_Response>;
   /** update single row of the table: "galaxy" */
@@ -806,16 +667,6 @@ export type Mutation_RootDelete_Chat_MessageArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Chat_Message_By_PkArgs = {
-  id: Scalars['uuid'];
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Create_Celestial_ActionArgs = {
-  where: Create_Celestial_Action_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Create_Celestial_Action_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -869,18 +720,6 @@ export type Mutation_RootInsert_Chat_MessageArgs = {
 export type Mutation_RootInsert_Chat_Message_OneArgs = {
   object: Chat_Message_Insert_Input;
   on_conflict?: Maybe<Chat_Message_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Create_Celestial_ActionArgs = {
-  objects: Array<Create_Celestial_Action_Insert_Input>;
-  on_conflict?: Maybe<Create_Celestial_Action_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Create_Celestial_Action_OneArgs = {
-  object: Create_Celestial_Action_Insert_Input;
-  on_conflict?: Maybe<Create_Celestial_Action_On_Conflict>;
 };
 
 /** mutation root */
@@ -954,18 +793,6 @@ export type Mutation_RootUpdate_Chat_MessageArgs = {
 export type Mutation_RootUpdate_Chat_Message_By_PkArgs = {
   _set?: Maybe<Chat_Message_Set_Input>;
   pk_columns: Chat_Message_Pk_Columns_Input;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Create_Celestial_ActionArgs = {
-  _set?: Maybe<Create_Celestial_Action_Set_Input>;
-  where: Create_Celestial_Action_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Create_Celestial_Action_By_PkArgs = {
-  _set?: Maybe<Create_Celestial_Action_Set_Input>;
-  pk_columns: Create_Celestial_Action_Pk_Columns_Input;
 };
 
 /** mutation root */
@@ -1059,12 +886,6 @@ export type Query_Root = {
   chat_message_aggregate: Chat_Message_Aggregate;
   /** fetch data from the table: "chat_message" using primary key columns */
   chat_message_by_pk?: Maybe<Chat_Message>;
-  /** fetch data from the table: "create_celestial_action" */
-  create_celestial_action: Array<Create_Celestial_Action>;
-  /** fetch aggregated fields from the table: "create_celestial_action" */
-  create_celestial_action_aggregate: Create_Celestial_Action_Aggregate;
-  /** fetch data from the table: "create_celestial_action" using primary key columns */
-  create_celestial_action_by_pk?: Maybe<Create_Celestial_Action>;
   /** fetch data from the table: "galaxy" */
   galaxy: Array<Galaxy>;
   /** fetch aggregated fields from the table: "galaxy" */
@@ -1112,26 +933,6 @@ export type Query_RootChat_Message_AggregateArgs = {
 };
 
 export type Query_RootChat_Message_By_PkArgs = {
-  id: Scalars['uuid'];
-};
-
-export type Query_RootCreate_Celestial_ActionArgs = {
-  distinct_on?: Maybe<Array<Create_Celestial_Action_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Create_Celestial_Action_Order_By>>;
-  where?: Maybe<Create_Celestial_Action_Bool_Exp>;
-};
-
-export type Query_RootCreate_Celestial_Action_AggregateArgs = {
-  distinct_on?: Maybe<Array<Create_Celestial_Action_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Create_Celestial_Action_Order_By>>;
-  where?: Maybe<Create_Celestial_Action_Bool_Exp>;
-};
-
-export type Query_RootCreate_Celestial_Action_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -1235,12 +1036,6 @@ export type Subscription_Root = {
   chat_message_aggregate: Chat_Message_Aggregate;
   /** fetch data from the table: "chat_message" using primary key columns */
   chat_message_by_pk?: Maybe<Chat_Message>;
-  /** fetch data from the table: "create_celestial_action" */
-  create_celestial_action: Array<Create_Celestial_Action>;
-  /** fetch aggregated fields from the table: "create_celestial_action" */
-  create_celestial_action_aggregate: Create_Celestial_Action_Aggregate;
-  /** fetch data from the table: "create_celestial_action" using primary key columns */
-  create_celestial_action_by_pk?: Maybe<Create_Celestial_Action>;
   /** fetch data from the table: "galaxy" */
   galaxy: Array<Galaxy>;
   /** fetch aggregated fields from the table: "galaxy" */
@@ -1286,26 +1081,6 @@ export type Subscription_RootChat_Message_AggregateArgs = {
 };
 
 export type Subscription_RootChat_Message_By_PkArgs = {
-  id: Scalars['uuid'];
-};
-
-export type Subscription_RootCreate_Celestial_ActionArgs = {
-  distinct_on?: Maybe<Array<Create_Celestial_Action_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Create_Celestial_Action_Order_By>>;
-  where?: Maybe<Create_Celestial_Action_Bool_Exp>;
-};
-
-export type Subscription_RootCreate_Celestial_Action_AggregateArgs = {
-  distinct_on?: Maybe<Array<Create_Celestial_Action_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Create_Celestial_Action_Order_By>>;
-  where?: Maybe<Create_Celestial_Action_Bool_Exp>;
-};
-
-export type Subscription_RootCreate_Celestial_Action_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -2391,6 +2166,26 @@ export type GalaxiesSubscription = {
   }>;
 };
 
+export type GalaxyByIdQueryVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+export type GalaxyByIdQuery = {
+  __typename?: 'query_root';
+  galaxy_by_pk?: Maybe<{
+    __typename?: 'galaxy';
+    arm_width: any;
+    arms: any;
+    core_concentration_factor: any;
+    core_radius_factor: any;
+    curvature: any;
+    id: any;
+    name?: Maybe<string>;
+    radius: number;
+    stars: number;
+  }>;
+};
+
 export type GetUserFreeClaimsQueryVariables = Exact<{
   id?: Maybe<Scalars['String']>;
 }>;
@@ -2780,6 +2575,70 @@ export type GalaxiesSubscriptionHookResult = ReturnType<
 >;
 export type GalaxiesSubscriptionResult =
   Apollo.SubscriptionResult<GalaxiesSubscription>;
+export const GalaxyByIdDocument = gql`
+  query GalaxyById($id: uuid!) {
+    galaxy_by_pk(id: $id) {
+      arm_width
+      arms
+      core_concentration_factor
+      core_radius_factor
+      curvature
+      id
+      name
+      radius
+      stars
+    }
+  }
+`;
+
+/**
+ * __useGalaxyByIdQuery__
+ *
+ * To run a query within a React component, call `useGalaxyByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGalaxyByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGalaxyByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGalaxyByIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GalaxyByIdQuery,
+    GalaxyByIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GalaxyByIdQuery, GalaxyByIdQueryVariables>(
+    GalaxyByIdDocument,
+    options
+  );
+}
+export function useGalaxyByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GalaxyByIdQuery,
+    GalaxyByIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GalaxyByIdQuery, GalaxyByIdQueryVariables>(
+    GalaxyByIdDocument,
+    options
+  );
+}
+export type GalaxyByIdQueryHookResult = ReturnType<typeof useGalaxyByIdQuery>;
+export type GalaxyByIdLazyQueryHookResult = ReturnType<
+  typeof useGalaxyByIdLazyQuery
+>;
+export type GalaxyByIdQueryResult = Apollo.QueryResult<
+  GalaxyByIdQuery,
+  GalaxyByIdQueryVariables
+>;
 export const GetUserFreeClaimsDocument = gql`
   query GetUserFreeClaims($id: String = "") {
     user_info_by_pk(id: $id) {

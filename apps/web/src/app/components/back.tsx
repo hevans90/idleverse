@@ -1,9 +1,11 @@
 import { Box, useColorModeValue } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
-export const GameUITopLeftBar = () => {
+export const Back = () => {
   const bg = useColorModeValue('gray.300', 'gray.700');
   const border = useColorModeValue('gray.200', 'gray.600');
+
+  const history = useHistory();
 
   return (
     <Box
@@ -20,8 +22,10 @@ export const GameUITopLeftBar = () => {
       borderColor={border}
       borderLeft="unset"
       borderTop="unset"
+      cursor="pointer"
+      onClick={() => history.goBack()}
     >
-      <Link to="/">Back</Link>
+      Back
     </Box>
   );
 };

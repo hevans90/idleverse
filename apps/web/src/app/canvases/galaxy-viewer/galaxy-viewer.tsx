@@ -1,63 +1,45 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useReactiveVar } from '@apollo/client';
 import { useApp } from '@inlet/react-pixi';
 import { Viewport } from 'pixi-viewport';
-import { Container, Graphics, TickerCallback } from 'pixi.js';
+import { Container, Graphics } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import {
-  animateVar,
   galaxyConfigVar,
   galaxyRotationVar,
-  timeVar,
 } from '../../_state/reactive-variables';
 import { useResize } from '../common-utils/use-resize.hook';
-import { Star } from './graphics/star';
-import { fpsTracker } from './utils/fps-counter';
+import { Star } from '../galaxy-generator/graphics/star';
+import { fpsTracker } from '../galaxy-generator/utils/fps-counter';
 import {
   Celestial,
   GalaxyConfig,
   generateCelestials,
   getCelestialPosition,
-} from './utils/generate-galaxy';
+} from '../galaxy-generator/utils/generate-galaxy';
 
-export const GalaxyGenerator = () => {
-  const galaxyConfig = useReactiveVar(galaxyConfigVar);
+type GalaxyViewerProps = {
+  galaxyConfig: GalaxyConfig;
+};
+
+export const GalaxyViewer = ({ galaxyConfig }: GalaxyViewerProps) => {
+  const app = useApp();
 
   const galaxyContainer = useRef(new Container());
+  const stars = useRef<Celestial[]>(null);
 
   const updateGalaxyRotation = (galaxy: Container) => (delta: number) => {
     galaxy.rotation += delta * galaxyRotationVar();
   };
 
-  const app = useApp();
+  const size = useResize(false);
 
-  const size = useResize(true);
-
-  const stars = useRef<Celestial[]>(null);
-
-  const reactiveAnimate = useReactiveVar(animateVar);
-
-  const reposition = (config: GalaxyConfig) => {
+  const reposition = () =>
     stars.current.forEach((star, i) => {
       const _star = galaxyContainer.current.getChildAt(i) as Graphics;
-      const position = getCelestialPosition(star, config);
+      const position = getCelestialPosition(star, galaxyConfig);
       _star.x = position.x;
       _star.y = position.y;
     });
-  };
-
-  const animatedRepositioningTickerRef = useRef<TickerCallback<unknown>>(() => {
-    const animConfig = {
-      ...galaxyConfigVar(),
-      curvature: galaxyConfigVar().curvature * Math.sin(timeVar() * 0.01),
-    };
-
-    reposition(animConfig);
-  });
-
-  const repositioningTickerRef = useRef<TickerCallback<unknown>>(() =>
-    reposition(galaxyConfigVar())
-  );
 
   useEffect(() => {
     // create viewport
@@ -77,7 +59,6 @@ export const GalaxyGenerator = () => {
 
     // activate plugins
     viewport.drag().pinch().wheel().decelerate();
-
     viewport.clampZoom({ minWidth: 300, maxWidth: 2000 });
     viewport.clamp({ direction: 'all' });
 
@@ -90,42 +71,7 @@ export const GalaxyGenerator = () => {
 
     app.ticker.add(updateGalaxyRotation(galaxyContainer.current));
 
-    app.ticker.add((delta) => {
-      timeVar(timeVar() + 1);
-    });
-
     fpsTracker(app);
-
-    /**
-     * NOTE: we don't need to manually destroy anything in a return function, as react-pixi seems to do this automatically.
-     *
-     * In fact, if you try and destroy in a return here it will throw errors as it tried to double-delete.
-     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (reactiveAnimate) {
-      app.ticker.add(animatedRepositioningTickerRef.current);
-    } else {
-      app.ticker.add(repositioningTickerRef.current);
-    }
-
-    return () => {
-      try {
-        if (reactiveAnimate) {
-          app.ticker.remove(repositioningTickerRef.current);
-        } else {
-          app.ticker.remove(animatedRepositioningTickerRef.current);
-        }
-      } catch (e) {
-        console.warn('Tried to remove ticker functions that did not exist.');
-      }
-    };
-  }, [reactiveAnimate]);
-
-  useEffect(() => {
-    galaxyContainer.current.removeChildren();
 
     stars.current = generateCelestials(galaxyConfig.stars, galaxyConfig.seed);
 
@@ -133,7 +79,11 @@ export const GalaxyGenerator = () => {
       const _star = Star(getCelestialPosition(star, galaxyConfigVar()));
       galaxyContainer.current.addChild(_star);
     });
-  }, [galaxyConfig.stars, galaxyConfig.seed]);
+
+    reposition();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // when the screen is resized, this effect will reset the viewport's screen dimensions & then re-center
   useEffect(() => {
