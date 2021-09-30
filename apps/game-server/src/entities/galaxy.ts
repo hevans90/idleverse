@@ -26,7 +26,8 @@ export class GalaxyResolver {
       await context.dataSources.hasuraAPI.getFreeSystemClaims(context.id)
     ).data.user_info_by_pk.free_claims;
     if (freeClaims > 0) {
-      const newFreeClaims = ( //todo claim query
+      //todo claim query
+      const newFreeClaims = (
         await context.dataSources.hasuraAPI.tryUpdateFreeClaims(
           context.id,
           freeClaims - 1
