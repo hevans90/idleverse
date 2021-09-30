@@ -6,7 +6,6 @@ import { selfVar } from '../_state/reactive-variables';
 export const SelfContainer = (props: any) => {
   const { loading, error, data } = useQuery<SelfQuery>(SelfDocument, {
     onCompleted: (data) => {
-      console.log('done');
       if (data && data.user_me && data.user_me[0]) {
         selfVar(data.user_me[0]);
       }

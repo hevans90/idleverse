@@ -21,12 +21,15 @@ export type Celestial = {
 };
 
 export type GalaxyConfig = {
+  seed: string;
+  name: string;
   radius: number;
   arms: number;
   curvature: number;
   armWidth: number;
   coreRadiusFactor: number;
   coreConcentrationFactor: number;
+  stars: number;
 };
 
 export const generateCelestials = (count: number, seed: string) => {
@@ -53,7 +56,7 @@ export const generateCelestials = (count: number, seed: string) => {
   return celestials;
 };
 
-export const GetCelestialPosition = (cel: Celestial, config: GalaxyConfig) => {
+export const getCelestialPosition = (cel: Celestial, config: GalaxyConfig) => {
   // Pick galactic arm for celestial body.
   const arm = Math.floor(cel.constants.arm * config.arms);
 

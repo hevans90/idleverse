@@ -29,9 +29,6 @@ export const NameAlertModal = () => {
   const initialRef = useRef<any>(null!);
   const finalRef = useRef();
 
-  console.log('self:;');
-  console.log(self);
-
   useLayoutEffect(() => {
     if (!self?.display_name) {
       onOpen();

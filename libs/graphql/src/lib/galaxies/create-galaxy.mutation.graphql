@@ -1,0 +1,5 @@
+mutation CreateGalaxy($input: galaxy_insert_input!) {
+  insert_galaxy_one(object: $input) {
+    ...GalaxyFields
+  }
+}

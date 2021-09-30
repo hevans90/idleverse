@@ -37,6 +37,7 @@
     "jsonwebtoken": "^8.5.1",
     "jwks-client": "^1.4.0",
     "jwks-rsa": "^2.0.4",
+    "jwt-decode": "^3.1.2",
     "node-fetch": "^3.0.0",
     "object-hash": "^2.2.0",
     "pixi-stats": "^1.0.7",
@@ -53,6 +54,7 @@
     "tslib": "^2.0.0",
     "type-graphql": "^1.1.1",
     "typedi": "^0.10.0",
+    "uuid": "^8.3.2",
     "ws": "^8.2.2"
   },
   "devDependencies": {
