@@ -56,6 +56,21 @@ export const generateCelestials = (count: number, seed: string) => {
   return celestials;
 };
 
+export const getRandomUnclaimedCelestialId = (
+  galaxyConfig: any,
+  claimedCelestialsId: string[]
+) => {
+  const celestials = generateCelestials(galaxyConfig.stars, galaxyConfig.id);
+
+  const filteredCelestials = celestials.filter(
+    (celestial) => !claimedCelestialsId.includes(celestial.hashedConstants)
+  );
+
+  return filteredCelestials[
+    Math.floor(Math.random() * filteredCelestials.length)
+  ].hashedConstants;
+};
+
 export const getCelestialPosition = (cel: Celestial, config: GalaxyConfig) => {
   // Pick galactic arm for celestial body.
   const arm = Math.floor(cel.constants.arm * config.arms);

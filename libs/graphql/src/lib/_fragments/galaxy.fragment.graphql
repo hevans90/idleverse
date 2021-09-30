@@ -8,7 +8,7 @@ fragment GalaxyFields on galaxy {
   arm_width
   radius
   stars
-  systems {
-    ...SystemFields
+  celestials {
+    ...CelestialFields
   }
 }
