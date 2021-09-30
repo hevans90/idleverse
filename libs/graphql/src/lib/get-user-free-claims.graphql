@@ -1,0 +1,5 @@
+query GetUserFreeClaims($id: String = "") {
+  user_info_by_pk(id: $id) {
+    free_claims
+  }
+}

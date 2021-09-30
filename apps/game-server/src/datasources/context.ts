@@ -9,7 +9,7 @@ export interface Context {
     auth0API: Auth0API;
   };
   req: express.Request<any>;
-  rule: User;
+  user: User;
   roles?: string[];
   id?: string;
 }

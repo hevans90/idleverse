@@ -6,11 +6,11 @@ import express from 'express';
 import jwt from 'express-jwt';
 import jwksRsa from 'jwks-rsa';
 import { buildSchema } from 'type-graphql';
-import Container from 'typedi';
 import { authChecker } from './authChecker';
 import { Auth0API } from './datasources/auth0-api';
 import { Context } from './datasources/context';
 import { HasuraAPI } from './datasources/hasura-api';
+import { GalaxyResolver } from './entities/galaxy';
 import { RecipeResolver } from './entities/message';
 import { RegisterResolver } from './entities/register';
 import ws = require('ws');
@@ -45,13 +45,20 @@ import ws = require('ws');
     process.env.HASURA_ADMIN_SECRET,
     {},
     fetch,
-    ws
+    ws,
+    {
+      query: {
+        fetchPolicy: 'no-cache',
+      },
+      mutate: {
+        fetchPolicy: 'no-cache',
+      },
+    }
   );
 
   const schema = await buildSchema({
-    resolvers: [RecipeResolver, RegisterResolver],
+    resolvers: [RecipeResolver, RegisterResolver, GalaxyResolver],
     authChecker,
-    container: Container,
     emitSchemaFile: true,
   });
 
@@ -63,7 +70,7 @@ import ws = require('ws');
     context: ({ req }) => {
       const context: Partial<Context> = {
         req,
-        rule: req['user'], // `req.user` comes from `express-jwt`
+        user: req['user'], // `req.user` comes from `express-jwt`
       };
 
       if (req['user']) {

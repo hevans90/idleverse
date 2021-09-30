@@ -1,8 +1,14 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import {
+  GetUserFreeClaimsDocument,
+  GetUserFreeClaimsQuery,
+  GetUserFreeClaimsQueryVariables,
   SetDisplayNameByUserIdDocument,
   SetDisplayNameByUserIdMutation,
   SetDisplayNameByUserIdMutationVariables,
+  UpdateFreeClaimsDocument,
+  UpdateFreeClaimsMutation,
+  UpdateFreeClaimsMutationVariables,
 } from '@idleverse/graphql';
 import { DataSource } from 'apollo-datasource';
 
@@ -22,5 +28,21 @@ export class HasuraAPI extends DataSource {
     >({
       mutation: SetDisplayNameByUserIdDocument,
       variables: { id, display_name },
+    });
+
+  getFreeSystemClaims = async (id: string) =>
+    this.client.query<GetUserFreeClaimsQuery, GetUserFreeClaimsQueryVariables>({
+      query: GetUserFreeClaimsDocument,
+      variables: { id },
+      fetchPolicy: 'network-only',
+    });
+
+  tryUpdateFreeClaims = async (id: string, free_claims: number) =>
+    this.client.mutate<
+      UpdateFreeClaimsMutation,
+      UpdateFreeClaimsMutationVariables
+    >({
+      mutation: UpdateFreeClaimsDocument,
+      variables: { id, free_claims },
     });
 }

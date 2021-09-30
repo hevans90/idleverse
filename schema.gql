@@ -8,13 +8,18 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 """
 scalar DateTime
 
+type Galaxy {
+  freeClaimsLeft: Float!
+}
+
 type Mutation {
-  setDisplayName(displayName: String!): Register
+  setDisplayName(display_name: String!): Register
 }
 
 type Query {
   latestRecipe: Recipe
   recipes: [Recipe!]
+  requestRandomGalaxy: Galaxy
 }
 
 type Recipe {
