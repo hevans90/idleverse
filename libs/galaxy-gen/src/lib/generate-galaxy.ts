@@ -71,6 +71,42 @@ export const getRandomUnclaimedCelestialId = (
   ].hashedConstants;
 };
 
+export type ClaimedCelestialAttributes = {
+  isClaimed: boolean;
+};
+
+export const generateCelestialsWithClaimed = (
+  count: number,
+  seed: string,
+  claimedCelestials: string[]
+) => {
+  const pseudoRandomGenerator = seedRandom(seed);
+
+  const celestials: (Celestial & ClaimedCelestialAttributes)[] = [];
+  for (let i = 0; i < count; i++) {
+    let celestial: Partial<Celestial & ClaimedCelestialAttributes> = {
+      constants: {
+        arm: pseudoRandomGenerator(),
+        theta: pseudoRandomGenerator(),
+        rOffset: signedRandom(pseudoRandomGenerator()),
+        coreRadius: signedRandom(pseudoRandomGenerator()),
+      },
+    };
+
+    const hashedConstants = objectHash(celestial.constants);
+    celestial = {
+      ...celestial,
+      hashedConstants,
+      isClaimed: claimedCelestials.find((cc) => cc === hashedConstants)
+        ? true
+        : false,
+    };
+
+    celestials[i] = celestial as Celestial & ClaimedCelestialAttributes;
+  }
+  return celestials;
+};
+
 export const getCelestialPosition = (cel: Celestial, config: GalaxyConfig) => {
   // Pick galactic arm for celestial body.
   const arm = Math.floor(cel.constants.arm * config.arms);

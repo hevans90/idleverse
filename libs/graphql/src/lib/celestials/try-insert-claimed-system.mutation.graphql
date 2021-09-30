@@ -1,6 +1,6 @@
 mutation TryInsertClaimedCelestial(
   $galaxy_id: uuid!
-  $id: uuid!
+  $id: String!
   $name: String!
   $owner_id: String!
   $free_claims: Int!

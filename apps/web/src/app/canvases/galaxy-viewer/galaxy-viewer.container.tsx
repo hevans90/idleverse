@@ -1,6 +1,12 @@
-import { useQuery } from '@apollo/client';
+import { useQuery, useSubscription } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
-import { GalaxyByIdDocument, GalaxyByIdQuery } from '@idleverse/graphql';
+import {
+  GalaxyByIdDocument,
+  GalaxyByIdQuery,
+  GetCelestialsByGalaxyIdDocument,
+  GetCelestialsByGalaxyIdSubscription,
+  GetCelestialsByGalaxyIdSubscriptionVariables,
+} from '@idleverse/graphql';
 import { Stage } from '@inlet/react-pixi';
 import { useParams } from 'react-router-dom';
 import { Back } from '../../components/back';
@@ -16,11 +22,18 @@ export const GalaxyViewerContainer = () => {
     variables: { id },
   });
 
+  const { data: celestialData, loading: celestialLoading } = useSubscription<
+    GetCelestialsByGalaxyIdSubscription,
+    GetCelestialsByGalaxyIdSubscriptionVariables
+  >(GetCelestialsByGalaxyIdDocument, {
+    variables: { galaxyId: id },
+  });
+
   const size = useResize();
 
-  if (loading) {
+  if (loading && celestialLoading) {
     return <Loading text="Loading Galaxy"></Loading>;
-  } else if (data) {
+  } else if (data && celestialData) {
     return (
       <Box position="relative">
         <Stage
@@ -31,6 +44,7 @@ export const GalaxyViewerContainer = () => {
           }}
         >
           <GalaxyViewer
+            claimedCelestials={celestialData.celestial}
             galaxyConfig={dbGalaxyToGalaxyConfig(data.galaxy_by_pk)}
           />
         </Stage>

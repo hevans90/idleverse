@@ -96,7 +96,7 @@ export type Celestial = {
   /** An object relationship */
   galaxy: Galaxy;
   galaxy_id: Scalars['uuid'];
-  id: Scalars['uuid'];
+  id: Scalars['String'];
   name?: Maybe<Scalars['String']>;
   owner_id?: Maybe<Scalars['String']>;
   /** An object relationship */
@@ -145,7 +145,7 @@ export type Celestial_Bool_Exp = {
   _or?: Maybe<Array<Celestial_Bool_Exp>>;
   galaxy?: Maybe<Galaxy_Bool_Exp>;
   galaxy_id?: Maybe<Uuid_Comparison_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
+  id?: Maybe<String_Comparison_Exp>;
   name?: Maybe<String_Comparison_Exp>;
   owner_id?: Maybe<String_Comparison_Exp>;
   user_info?: Maybe<User_Info_Bool_Exp>;
@@ -161,7 +161,7 @@ export enum Celestial_Constraint {
 export type Celestial_Insert_Input = {
   galaxy?: Maybe<Galaxy_Obj_Rel_Insert_Input>;
   galaxy_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   owner_id?: Maybe<Scalars['String']>;
   user_info?: Maybe<User_Info_Obj_Rel_Insert_Input>;
@@ -171,7 +171,7 @@ export type Celestial_Insert_Input = {
 export type Celestial_Max_Fields = {
   __typename?: 'celestial_max_fields';
   galaxy_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   owner_id?: Maybe<Scalars['String']>;
 };
@@ -188,7 +188,7 @@ export type Celestial_Max_Order_By = {
 export type Celestial_Min_Fields = {
   __typename?: 'celestial_min_fields';
   galaxy_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   owner_id?: Maybe<Scalars['String']>;
 };
@@ -229,7 +229,7 @@ export type Celestial_Order_By = {
 
 /** primary key columns input for table: celestial */
 export type Celestial_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['String'];
 };
 
 /** select columns of table "celestial" */
@@ -247,7 +247,7 @@ export enum Celestial_Select_Column {
 /** input type for updating data in table "celestial" */
 export type Celestial_Set_Input = {
   galaxy_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   owner_id?: Maybe<Scalars['String']>;
 };
@@ -846,7 +846,7 @@ export type Mutation_RootDelete_CelestialArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Celestial_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['String'];
 };
 
 /** mutation root */
@@ -1111,7 +1111,7 @@ export type Query_RootCelestial_AggregateArgs = {
 };
 
 export type Query_RootCelestial_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['String'];
 };
 
 export type Query_RootChat_MessageArgs = {
@@ -1263,7 +1263,7 @@ export type Subscription_RootCelestial_AggregateArgs = {
 };
 
 export type Subscription_RootCelestial_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['String'];
 };
 
 export type Subscription_RootChat_MessageArgs = {
@@ -1861,7 +1861,7 @@ export type Uuid_Comparison_Exp = {
 
 export type CelestialFieldsFragment = {
   __typename?: 'celestial';
-  id: any;
+  id: string;
   name?: Maybe<string>;
   owner_id?: Maybe<string>;
   user_info?: Maybe<{
@@ -1884,7 +1884,7 @@ export type GalaxyFieldsFragment = {
   stars: number;
   celestials: Array<{
     __typename?: 'celestial';
-    id: any;
+    id: string;
     name?: Maybe<string>;
     owner_id?: Maybe<string>;
     user_info?: Maybe<{
@@ -1901,7 +1901,7 @@ export type CelestialsSubscription = {
   __typename?: 'subscription_root';
   celestial: Array<{
     __typename?: 'celestial';
-    id: any;
+    id: string;
     name?: Maybe<string>;
     owner_id?: Maybe<string>;
     user_info?: Maybe<{
@@ -1912,9 +1912,23 @@ export type CelestialsSubscription = {
   }>;
 };
 
+export type GetCelestialsByGalaxyIdSubscriptionVariables = Exact<{
+  galaxyId: Scalars['uuid'];
+}>;
+
+export type GetCelestialsByGalaxyIdSubscription = {
+  __typename?: 'subscription_root';
+  celestial: Array<{
+    __typename?: 'celestial';
+    id: string;
+    name?: Maybe<string>;
+    owner_id?: Maybe<string>;
+  }>;
+};
+
 export type TryInsertClaimedCelestialMutationVariables = Exact<{
   galaxy_id: Scalars['uuid'];
-  id: Scalars['uuid'];
+  id: Scalars['String'];
   name: Scalars['String'];
   owner_id: Scalars['String'];
   free_claims: Scalars['Int'];
@@ -1925,7 +1939,7 @@ export type TryInsertClaimedCelestialMutation = {
   insert_celestial_one?: Maybe<{
     __typename?: 'celestial';
     galaxy_id: any;
-    id: any;
+    id: string;
     name?: Maybe<string>;
     owner_id?: Maybe<string>;
   }>;
@@ -2000,7 +2014,7 @@ export type CreateGalaxyMutation = {
     stars: number;
     celestials: Array<{
       __typename?: 'celestial';
-      id: any;
+      id: string;
       name?: Maybe<string>;
       owner_id?: Maybe<string>;
       user_info?: Maybe<{
@@ -2042,7 +2056,7 @@ export type GalaxiesSubscription = {
     stars: number;
     celestials: Array<{
       __typename?: 'celestial';
-      id: any;
+      id: string;
       name?: Maybe<string>;
       owner_id?: Maybe<string>;
       user_info?: Maybe<{
@@ -2084,7 +2098,7 @@ export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery = {
   __typename?: 'query_root';
   user_info_by_pk?: Maybe<{ __typename?: 'user_info'; free_claims: number }>;
   galaxy_by_pk?: Maybe<{ __typename?: 'galaxy'; id: any; stars: number }>;
-  celestial: Array<{ __typename?: 'celestial'; id: any }>;
+  celestial: Array<{ __typename?: 'celestial'; id: string }>;
 };
 
 export type SelfQueryVariables = Exact<{ [key: string]: never }>;
@@ -2205,10 +2219,53 @@ export type CelestialsSubscriptionHookResult = ReturnType<
 >;
 export type CelestialsSubscriptionResult =
   Apollo.SubscriptionResult<CelestialsSubscription>;
+export const GetCelestialsByGalaxyIdDocument = gql`
+  subscription GetCelestialsByGalaxyID($galaxyId: uuid!) {
+    celestial(where: { galaxy_id: { _eq: $galaxyId } }) {
+      id
+      name
+      owner_id
+    }
+  }
+`;
+
+/**
+ * __useGetCelestialsByGalaxyIdSubscription__
+ *
+ * To run a query within a React component, call `useGetCelestialsByGalaxyIdSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useGetCelestialsByGalaxyIdSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCelestialsByGalaxyIdSubscription({
+ *   variables: {
+ *      galaxyId: // value for 'galaxyId'
+ *   },
+ * });
+ */
+export function useGetCelestialsByGalaxyIdSubscription(
+  baseOptions: Apollo.SubscriptionHookOptions<
+    GetCelestialsByGalaxyIdSubscription,
+    GetCelestialsByGalaxyIdSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSubscription<
+    GetCelestialsByGalaxyIdSubscription,
+    GetCelestialsByGalaxyIdSubscriptionVariables
+  >(GetCelestialsByGalaxyIdDocument, options);
+}
+export type GetCelestialsByGalaxyIdSubscriptionHookResult = ReturnType<
+  typeof useGetCelestialsByGalaxyIdSubscription
+>;
+export type GetCelestialsByGalaxyIdSubscriptionResult =
+  Apollo.SubscriptionResult<GetCelestialsByGalaxyIdSubscription>;
 export const TryInsertClaimedCelestialDocument = gql`
   mutation TryInsertClaimedCelestial(
     $galaxy_id: uuid!
-    $id: uuid!
+    $id: String!
     $name: String!
     $owner_id: String!
     $free_claims: Int!
