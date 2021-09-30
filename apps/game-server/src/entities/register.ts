@@ -1,5 +1,4 @@
 import { Arg, Ctx, Field, Mutation, ObjectType, Resolver } from 'type-graphql';
-import { Service } from 'typedi';
 import { Context } from '../datasources/context';
 
 @ObjectType()
@@ -8,7 +7,6 @@ class Register {
   updatedName: string;
 }
 
-@Service()
 @Resolver((of) => Register)
 export class RegisterResolver {
   @Mutation((returns) => Register, { nullable: true })

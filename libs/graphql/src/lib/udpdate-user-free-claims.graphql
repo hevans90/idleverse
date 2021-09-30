@@ -1,0 +1,8 @@
+mutation UpdateFreeClaims($id: String!, $free_claims: Int!) {
+  update_user_info_by_pk(
+    pk_columns: { id: $id }
+    _set: { free_claims: $free_claims }
+  ) {
+    free_claims
+  }
+}

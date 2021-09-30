@@ -1,6 +1,7 @@
 import {
   ApolloClient,
   createHttpLink,
+  DefaultOptions,
   HttpOptions,
   InMemoryCache,
   InMemoryCacheConfig,
@@ -19,7 +20,8 @@ export const apolloBootstrapper = (
   token: string,
   cacheConfig: InMemoryCacheConfig = {},
   customFetch: HttpOptions['fetch'] = fetch,
-  customWs: unknown = WebSocket
+  customWs: unknown = WebSocket,
+  options: DefaultOptions = {}
 ) => {
   const headers =
     access === 'user'
@@ -60,6 +62,7 @@ export const apolloBootstrapper = (
   const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
     cache: new InMemoryCache(cacheConfig),
     link,
+    defaultOptions: options,
     //remove in production
     connectToDevTools: true,
   });

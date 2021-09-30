@@ -8,9 +8,9 @@ export const authChecker: AuthChecker<any> = async (
   roles
 ) => {
   if (roles.length === 0) return true;
+  if (!context?.roles) return false;
 
-  const idTokenRoles: string[] =
-    context.user[process.env.HASURA_NAMESPACE]['x-hasura-allowed-roles'];
+  const idTokenRoles: string[] = context.roles;
   for (const role of roles) {
     if (!idTokenRoles.includes(role)) return false;
   }
