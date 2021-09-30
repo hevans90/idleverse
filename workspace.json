@@ -127,7 +127,15 @@
             "main": "apps/web/src/index.tsx",
             "polyfills": "apps/web/src/polyfills.ts",
             "tsConfig": "apps/web/tsconfig.app.json",
-            "assets": ["apps/web/src/favicon.ico", "apps/web/src/assets"],
+            "assets": [
+              "apps/web/src/favicon.ico",
+              "apps/web/src/assets",
+              {
+                "glob": "**/*",
+                "input": "apps/web/src/assets",
+                "output": "./"
+              }
+            ],
             "styles": ["apps/web/src/styles.css"],
             "scripts": [],
             "webpackConfig": "@nrwl/react/plugins/webpack",
