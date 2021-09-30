@@ -7,6 +7,7 @@ type LoadingProps = {
   fontSize?: TypographyProps['fontSize'];
 };
 
+//
 export const Loading = ({
   height = '100vh',
   width = '100vw',
