@@ -34,6 +34,7 @@ export class HasuraAPI extends DataSource {
     this.client.query<GetUserFreeClaimsQuery, GetUserFreeClaimsQueryVariables>({
       query: GetUserFreeClaimsDocument,
       variables: { id },
+      fetchPolicy: 'network-only',
     });
 
   tryUpdateFreeClaims = async (id: string, free_claims: number) =>
