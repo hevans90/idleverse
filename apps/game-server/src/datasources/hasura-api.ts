@@ -1,11 +1,14 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import {
-  GetUserFreeClaimsDocument,
-  GetUserFreeClaimsQuery,
-  GetUserFreeClaimsQueryVariables,
+  GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsDocument,
+  GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery,
+  GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables,
   SetDisplayNameByUserIdDocument,
   SetDisplayNameByUserIdMutation,
   SetDisplayNameByUserIdMutationVariables,
+  TryInsertClaimedCelestialDocument,
+  TryInsertClaimedCelestialMutation,
+  TryInsertClaimedCelestialMutationVariables,
   UpdateFreeClaimsDocument,
   UpdateFreeClaimsMutation,
   UpdateFreeClaimsMutationVariables,
@@ -30,13 +33,6 @@ export class HasuraAPI extends DataSource {
       variables: { id, display_name },
     });
 
-  getFreeSystemClaims = async (id: string) =>
-    this.client.query<GetUserFreeClaimsQuery, GetUserFreeClaimsQueryVariables>({
-      query: GetUserFreeClaimsDocument,
-      variables: { id },
-      fetchPolicy: 'network-only',
-    });
-
   tryUpdateFreeClaims = async (id: string, free_claims: number) =>
     this.client.mutate<
       UpdateFreeClaimsMutation,
@@ -44,5 +40,35 @@ export class HasuraAPI extends DataSource {
     >({
       mutation: UpdateFreeClaimsDocument,
       variables: { id, free_claims },
+    });
+
+  getFreeClaimsByIdAndGalaxyById = async (userId: string, galaxyId: string) =>
+    this.client.mutate<
+      GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery,
+      GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables
+    >({
+      mutation: GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsDocument,
+      variables: { userId, galaxyId },
+    });
+
+  tryInsertClaimedCelestial = async (
+    userId: string,
+    celestialId: string,
+    galaxyId: string,
+    celestialName: string,
+    free_claims: number
+  ) =>
+    this.client.mutate<
+      TryInsertClaimedCelestialMutation,
+      TryInsertClaimedCelestialMutationVariables
+    >({
+      mutation: TryInsertClaimedCelestialDocument,
+      variables: {
+        id: celestialId,
+        owner_id: userId,
+        name: celestialName,
+        galaxy_id: galaxyId,
+        free_claims,
+      },
     });
 }

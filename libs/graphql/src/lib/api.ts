@@ -25,6 +25,11 @@ export type Scalars = {
   uuid: any;
 };
 
+export type GalaxyManagement = {
+  __typename?: 'GalaxyManagement';
+  freeClaimsLeft: Scalars['Float'];
+};
+
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 export type Int_Comparison_Exp = {
   _eq?: Maybe<Scalars['Int']>;
@@ -84,6 +89,180 @@ export type String_Comparison_Exp = {
   /** does the column match the given SQL regular expression */
   _similar?: Maybe<Scalars['String']>;
 };
+
+/** columns and relationships of "celestial" */
+export type Celestial = {
+  __typename?: 'celestial';
+  /** An object relationship */
+  galaxy: Galaxy;
+  galaxy_id: Scalars['uuid'];
+  id: Scalars['uuid'];
+  name?: Maybe<Scalars['String']>;
+  owner_id?: Maybe<Scalars['String']>;
+  /** An object relationship */
+  user_info?: Maybe<User_Info>;
+};
+
+/** aggregated selection of "celestial" */
+export type Celestial_Aggregate = {
+  __typename?: 'celestial_aggregate';
+  aggregate?: Maybe<Celestial_Aggregate_Fields>;
+  nodes: Array<Celestial>;
+};
+
+/** aggregate fields of "celestial" */
+export type Celestial_Aggregate_Fields = {
+  __typename?: 'celestial_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Celestial_Max_Fields>;
+  min?: Maybe<Celestial_Min_Fields>;
+};
+
+/** aggregate fields of "celestial" */
+export type Celestial_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Celestial_Select_Column>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "celestial" */
+export type Celestial_Aggregate_Order_By = {
+  count?: Maybe<Order_By>;
+  max?: Maybe<Celestial_Max_Order_By>;
+  min?: Maybe<Celestial_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "celestial" */
+export type Celestial_Arr_Rel_Insert_Input = {
+  data: Array<Celestial_Insert_Input>;
+  /** on conflict condition */
+  on_conflict?: Maybe<Celestial_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "celestial". All fields are combined with a logical 'AND'. */
+export type Celestial_Bool_Exp = {
+  _and?: Maybe<Array<Celestial_Bool_Exp>>;
+  _not?: Maybe<Celestial_Bool_Exp>;
+  _or?: Maybe<Array<Celestial_Bool_Exp>>;
+  galaxy?: Maybe<Galaxy_Bool_Exp>;
+  galaxy_id?: Maybe<Uuid_Comparison_Exp>;
+  id?: Maybe<Uuid_Comparison_Exp>;
+  name?: Maybe<String_Comparison_Exp>;
+  owner_id?: Maybe<String_Comparison_Exp>;
+  user_info?: Maybe<User_Info_Bool_Exp>;
+};
+
+/** unique or primary key constraints on table "celestial" */
+export enum Celestial_Constraint {
+  /** unique or primary key constraint */
+  SystemPkey = 'system_pkey',
+}
+
+/** input type for inserting data into table "celestial" */
+export type Celestial_Insert_Input = {
+  galaxy?: Maybe<Galaxy_Obj_Rel_Insert_Input>;
+  galaxy_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  owner_id?: Maybe<Scalars['String']>;
+  user_info?: Maybe<User_Info_Obj_Rel_Insert_Input>;
+};
+
+/** aggregate max on columns */
+export type Celestial_Max_Fields = {
+  __typename?: 'celestial_max_fields';
+  galaxy_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  owner_id?: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "celestial" */
+export type Celestial_Max_Order_By = {
+  galaxy_id?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+  owner_id?: Maybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Celestial_Min_Fields = {
+  __typename?: 'celestial_min_fields';
+  galaxy_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  owner_id?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "celestial" */
+export type Celestial_Min_Order_By = {
+  galaxy_id?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+  owner_id?: Maybe<Order_By>;
+};
+
+/** response of any mutation on the table "celestial" */
+export type Celestial_Mutation_Response = {
+  __typename?: 'celestial_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Celestial>;
+};
+
+/** on conflict condition type for table "celestial" */
+export type Celestial_On_Conflict = {
+  constraint: Celestial_Constraint;
+  update_columns?: Array<Celestial_Update_Column>;
+  where?: Maybe<Celestial_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "celestial". */
+export type Celestial_Order_By = {
+  galaxy?: Maybe<Galaxy_Order_By>;
+  galaxy_id?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+  owner_id?: Maybe<Order_By>;
+  user_info?: Maybe<User_Info_Order_By>;
+};
+
+/** primary key columns input for table: celestial */
+export type Celestial_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "celestial" */
+export enum Celestial_Select_Column {
+  /** column name */
+  GalaxyId = 'galaxy_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  OwnerId = 'owner_id',
+}
+
+/** input type for updating data in table "celestial" */
+export type Celestial_Set_Input = {
+  galaxy_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  owner_id?: Maybe<Scalars['String']>;
+};
+
+/** update columns of table "celestial" */
+export enum Celestial_Update_Column {
+  /** column name */
+  GalaxyId = 'galaxy_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  OwnerId = 'owner_id',
+}
 
 /** columns and relationships of "chat_message" */
 export type Chat_Message = {
@@ -259,6 +438,10 @@ export type Galaxy = {
   __typename?: 'galaxy';
   arm_width: Scalars['numeric'];
   arms: Scalars['numeric'];
+  /** An array relationship */
+  celestials: Array<Celestial>;
+  /** An aggregate relationship */
+  celestials_aggregate: Celestial_Aggregate;
   core_concentration_factor: Scalars['numeric'];
   core_radius_factor: Scalars['numeric'];
   curvature: Scalars['numeric'];
@@ -266,28 +449,24 @@ export type Galaxy = {
   name?: Maybe<Scalars['String']>;
   radius: Scalars['Int'];
   stars: Scalars['Int'];
-  /** An array relationship */
-  systems: Array<System>;
-  /** An aggregate relationship */
-  systems_aggregate: System_Aggregate;
 };
 
 /** columns and relationships of "galaxy" */
-export type GalaxySystemsArgs = {
-  distinct_on?: Maybe<Array<System_Select_Column>>;
+export type GalaxyCelestialsArgs = {
+  distinct_on?: Maybe<Array<Celestial_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<System_Order_By>>;
-  where?: Maybe<System_Bool_Exp>;
+  order_by?: Maybe<Array<Celestial_Order_By>>;
+  where?: Maybe<Celestial_Bool_Exp>;
 };
 
 /** columns and relationships of "galaxy" */
-export type GalaxySystems_AggregateArgs = {
-  distinct_on?: Maybe<Array<System_Select_Column>>;
+export type GalaxyCelestials_AggregateArgs = {
+  distinct_on?: Maybe<Array<Celestial_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<System_Order_By>>;
-  where?: Maybe<System_Bool_Exp>;
+  order_by?: Maybe<Array<Celestial_Order_By>>;
+  where?: Maybe<Celestial_Bool_Exp>;
 };
 
 /** aggregated selection of "galaxy" */
@@ -338,6 +517,7 @@ export type Galaxy_Bool_Exp = {
   _or?: Maybe<Array<Galaxy_Bool_Exp>>;
   arm_width?: Maybe<Numeric_Comparison_Exp>;
   arms?: Maybe<Numeric_Comparison_Exp>;
+  celestials?: Maybe<Celestial_Bool_Exp>;
   core_concentration_factor?: Maybe<Numeric_Comparison_Exp>;
   core_radius_factor?: Maybe<Numeric_Comparison_Exp>;
   curvature?: Maybe<Numeric_Comparison_Exp>;
@@ -345,7 +525,6 @@ export type Galaxy_Bool_Exp = {
   name?: Maybe<String_Comparison_Exp>;
   radius?: Maybe<Int_Comparison_Exp>;
   stars?: Maybe<Int_Comparison_Exp>;
-  systems?: Maybe<System_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "galaxy" */
@@ -369,6 +548,7 @@ export type Galaxy_Inc_Input = {
 export type Galaxy_Insert_Input = {
   arm_width?: Maybe<Scalars['numeric']>;
   arms?: Maybe<Scalars['numeric']>;
+  celestials?: Maybe<Celestial_Arr_Rel_Insert_Input>;
   core_concentration_factor?: Maybe<Scalars['numeric']>;
   core_radius_factor?: Maybe<Scalars['numeric']>;
   curvature?: Maybe<Scalars['numeric']>;
@@ -376,7 +556,6 @@ export type Galaxy_Insert_Input = {
   name?: Maybe<Scalars['String']>;
   radius?: Maybe<Scalars['Int']>;
   stars?: Maybe<Scalars['Int']>;
-  systems?: Maybe<System_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -434,6 +613,7 @@ export type Galaxy_On_Conflict = {
 export type Galaxy_Order_By = {
   arm_width?: Maybe<Order_By>;
   arms?: Maybe<Order_By>;
+  celestials_aggregate?: Maybe<Celestial_Aggregate_Order_By>;
   core_concentration_factor?: Maybe<Order_By>;
   core_radius_factor?: Maybe<Order_By>;
   curvature?: Maybe<Order_By>;
@@ -441,7 +621,6 @@ export type Galaxy_Order_By = {
   name?: Maybe<Order_By>;
   radius?: Maybe<Order_By>;
   stars?: Maybe<Order_By>;
-  systems_aggregate?: Maybe<System_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: galaxy */
@@ -593,6 +772,10 @@ export type Galaxy_Variance_Fields = {
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
+  /** delete data from the table: "celestial" */
+  delete_celestial?: Maybe<Celestial_Mutation_Response>;
+  /** delete single row from the table: "celestial" */
+  delete_celestial_by_pk?: Maybe<Celestial>;
   /** delete data from the table: "chat_message" */
   delete_chat_message?: Maybe<Chat_Message_Mutation_Response>;
   /** delete single row from the table: "chat_message" */
@@ -601,10 +784,6 @@ export type Mutation_Root = {
   delete_galaxy?: Maybe<Galaxy_Mutation_Response>;
   /** delete single row from the table: "galaxy" */
   delete_galaxy_by_pk?: Maybe<Galaxy>;
-  /** delete data from the table: "system" */
-  delete_system?: Maybe<System_Mutation_Response>;
-  /** delete single row from the table: "system" */
-  delete_system_by_pk?: Maybe<System>;
   /** delete data from the table: "user_info" */
   delete_user_info?: Maybe<User_Info_Mutation_Response>;
   /** delete single row from the table: "user_info" */
@@ -613,6 +792,10 @@ export type Mutation_Root = {
   delete_user_me?: Maybe<User_Me_Mutation_Response>;
   /** delete data from the table: "user_private" */
   delete_user_private?: Maybe<User_Private_Mutation_Response>;
+  /** insert data into the table: "celestial" */
+  insert_celestial?: Maybe<Celestial_Mutation_Response>;
+  /** insert a single row into the table: "celestial" */
+  insert_celestial_one?: Maybe<Celestial>;
   /** insert data into the table: "chat_message" */
   insert_chat_message?: Maybe<Chat_Message_Mutation_Response>;
   /** insert a single row into the table: "chat_message" */
@@ -621,10 +804,6 @@ export type Mutation_Root = {
   insert_galaxy?: Maybe<Galaxy_Mutation_Response>;
   /** insert a single row into the table: "galaxy" */
   insert_galaxy_one?: Maybe<Galaxy>;
-  /** insert data into the table: "system" */
-  insert_system?: Maybe<System_Mutation_Response>;
-  /** insert a single row into the table: "system" */
-  insert_system_one?: Maybe<System>;
   /** insert data into the table: "user_info" */
   insert_user_info?: Maybe<User_Info_Mutation_Response>;
   /** insert a single row into the table: "user_info" */
@@ -638,6 +817,10 @@ export type Mutation_Root = {
   /** insert a single row into the table: "user_private" */
   insert_user_private_one?: Maybe<User_Private>;
   setDisplayName?: Maybe<Register>;
+  /** update data of the table: "celestial" */
+  update_celestial?: Maybe<Celestial_Mutation_Response>;
+  /** update single row of the table: "celestial" */
+  update_celestial_by_pk?: Maybe<Celestial>;
   /** update data of the table: "chat_message" */
   update_chat_message?: Maybe<Chat_Message_Mutation_Response>;
   /** update single row of the table: "chat_message" */
@@ -646,10 +829,6 @@ export type Mutation_Root = {
   update_galaxy?: Maybe<Galaxy_Mutation_Response>;
   /** update single row of the table: "galaxy" */
   update_galaxy_by_pk?: Maybe<Galaxy>;
-  /** update data of the table: "system" */
-  update_system?: Maybe<System_Mutation_Response>;
-  /** update single row of the table: "system" */
-  update_system_by_pk?: Maybe<System>;
   /** update data of the table: "user_info" */
   update_user_info?: Maybe<User_Info_Mutation_Response>;
   /** update single row of the table: "user_info" */
@@ -658,6 +837,16 @@ export type Mutation_Root = {
   update_user_me?: Maybe<User_Me_Mutation_Response>;
   /** update data of the table: "user_private" */
   update_user_private?: Maybe<User_Private_Mutation_Response>;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_CelestialArgs = {
+  where: Celestial_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Celestial_By_PkArgs = {
+  id: Scalars['uuid'];
 };
 
 /** mutation root */
@@ -677,16 +866,6 @@ export type Mutation_RootDelete_GalaxyArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Galaxy_By_PkArgs = {
-  id: Scalars['uuid'];
-};
-
-/** mutation root */
-export type Mutation_RootDelete_SystemArgs = {
-  where: System_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootDelete_System_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -711,6 +890,18 @@ export type Mutation_RootDelete_User_PrivateArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootInsert_CelestialArgs = {
+  objects: Array<Celestial_Insert_Input>;
+  on_conflict?: Maybe<Celestial_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Celestial_OneArgs = {
+  object: Celestial_Insert_Input;
+  on_conflict?: Maybe<Celestial_On_Conflict>;
+};
+
+/** mutation root */
 export type Mutation_RootInsert_Chat_MessageArgs = {
   objects: Array<Chat_Message_Insert_Input>;
   on_conflict?: Maybe<Chat_Message_On_Conflict>;
@@ -732,18 +923,6 @@ export type Mutation_RootInsert_GalaxyArgs = {
 export type Mutation_RootInsert_Galaxy_OneArgs = {
   object: Galaxy_Insert_Input;
   on_conflict?: Maybe<Galaxy_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_SystemArgs = {
-  objects: Array<System_Insert_Input>;
-  on_conflict?: Maybe<System_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_System_OneArgs = {
-  object: System_Insert_Input;
-  on_conflict?: Maybe<System_On_Conflict>;
 };
 
 /** mutation root */
@@ -784,6 +963,18 @@ export type Mutation_RootSetDisplayNameArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootUpdate_CelestialArgs = {
+  _set?: Maybe<Celestial_Set_Input>;
+  where: Celestial_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Celestial_By_PkArgs = {
+  _set?: Maybe<Celestial_Set_Input>;
+  pk_columns: Celestial_Pk_Columns_Input;
+};
+
+/** mutation root */
 export type Mutation_RootUpdate_Chat_MessageArgs = {
   _set?: Maybe<Chat_Message_Set_Input>;
   where: Chat_Message_Bool_Exp;
@@ -807,20 +998,6 @@ export type Mutation_RootUpdate_Galaxy_By_PkArgs = {
   _inc?: Maybe<Galaxy_Inc_Input>;
   _set?: Maybe<Galaxy_Set_Input>;
   pk_columns: Galaxy_Pk_Columns_Input;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_SystemArgs = {
-  _inc?: Maybe<System_Inc_Input>;
-  _set?: Maybe<System_Set_Input>;
-  where: System_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_System_By_PkArgs = {
-  _inc?: Maybe<System_Inc_Input>;
-  _set?: Maybe<System_Set_Input>;
-  pk_columns: System_Pk_Columns_Input;
 };
 
 /** mutation root */
@@ -880,6 +1057,12 @@ export enum Order_By {
 
 export type Query_Root = {
   __typename?: 'query_root';
+  /** fetch data from the table: "celestial" */
+  celestial: Array<Celestial>;
+  /** fetch aggregated fields from the table: "celestial" */
+  celestial_aggregate: Celestial_Aggregate;
+  /** fetch data from the table: "celestial" using primary key columns */
+  celestial_by_pk?: Maybe<Celestial>;
   /** fetch data from the table: "chat_message" */
   chat_message: Array<Chat_Message>;
   /** fetch aggregated fields from the table: "chat_message" */
@@ -894,12 +1077,7 @@ export type Query_Root = {
   galaxy_by_pk?: Maybe<Galaxy>;
   latestRecipe?: Maybe<Recipe>;
   recipes?: Maybe<Array<Recipe>>;
-  /** fetch data from the table: "system" */
-  system: Array<System>;
-  /** fetch aggregated fields from the table: "system" */
-  system_aggregate: System_Aggregate;
-  /** fetch data from the table: "system" using primary key columns */
-  system_by_pk?: Maybe<System>;
+  requestRandomCelestial?: Maybe<GalaxyManagement>;
   /** fetch data from the table: "user_info" */
   user_info: Array<User_Info>;
   /** fetch aggregated fields from the table: "user_info" */
@@ -914,6 +1092,26 @@ export type Query_Root = {
   user_private: Array<User_Private>;
   /** fetch aggregated fields from the table: "user_private" */
   user_private_aggregate: User_Private_Aggregate;
+};
+
+export type Query_RootCelestialArgs = {
+  distinct_on?: Maybe<Array<Celestial_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Celestial_Order_By>>;
+  where?: Maybe<Celestial_Bool_Exp>;
+};
+
+export type Query_RootCelestial_AggregateArgs = {
+  distinct_on?: Maybe<Array<Celestial_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Celestial_Order_By>>;
+  where?: Maybe<Celestial_Bool_Exp>;
+};
+
+export type Query_RootCelestial_By_PkArgs = {
+  id: Scalars['uuid'];
 };
 
 export type Query_RootChat_MessageArgs = {
@@ -956,24 +1154,8 @@ export type Query_RootGalaxy_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
-export type Query_RootSystemArgs = {
-  distinct_on?: Maybe<Array<System_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<System_Order_By>>;
-  where?: Maybe<System_Bool_Exp>;
-};
-
-export type Query_RootSystem_AggregateArgs = {
-  distinct_on?: Maybe<Array<System_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<System_Order_By>>;
-  where?: Maybe<System_Bool_Exp>;
-};
-
-export type Query_RootSystem_By_PkArgs = {
-  id: Scalars['uuid'];
+export type Query_RootRequestRandomCelestialArgs = {
+  galaxy_id: Scalars['String'];
 };
 
 export type Query_RootUser_InfoArgs = {
@@ -1030,6 +1212,12 @@ export type Query_RootUser_Private_AggregateArgs = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
+  /** fetch data from the table: "celestial" */
+  celestial: Array<Celestial>;
+  /** fetch aggregated fields from the table: "celestial" */
+  celestial_aggregate: Celestial_Aggregate;
+  /** fetch data from the table: "celestial" using primary key columns */
+  celestial_by_pk?: Maybe<Celestial>;
   /** fetch data from the table: "chat_message" */
   chat_message: Array<Chat_Message>;
   /** fetch aggregated fields from the table: "chat_message" */
@@ -1042,12 +1230,6 @@ export type Subscription_Root = {
   galaxy_aggregate: Galaxy_Aggregate;
   /** fetch data from the table: "galaxy" using primary key columns */
   galaxy_by_pk?: Maybe<Galaxy>;
-  /** fetch data from the table: "system" */
-  system: Array<System>;
-  /** fetch aggregated fields from the table: "system" */
-  system_aggregate: System_Aggregate;
-  /** fetch data from the table: "system" using primary key columns */
-  system_by_pk?: Maybe<System>;
   /** fetch data from the table: "user_info" */
   user_info: Array<User_Info>;
   /** fetch aggregated fields from the table: "user_info" */
@@ -1062,6 +1244,26 @@ export type Subscription_Root = {
   user_private: Array<User_Private>;
   /** fetch aggregated fields from the table: "user_private" */
   user_private_aggregate: User_Private_Aggregate;
+};
+
+export type Subscription_RootCelestialArgs = {
+  distinct_on?: Maybe<Array<Celestial_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Celestial_Order_By>>;
+  where?: Maybe<Celestial_Bool_Exp>;
+};
+
+export type Subscription_RootCelestial_AggregateArgs = {
+  distinct_on?: Maybe<Array<Celestial_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Celestial_Order_By>>;
+  where?: Maybe<Celestial_Bool_Exp>;
+};
+
+export type Subscription_RootCelestial_By_PkArgs = {
+  id: Scalars['uuid'];
 };
 
 export type Subscription_RootChat_MessageArgs = {
@@ -1101,26 +1303,6 @@ export type Subscription_RootGalaxy_AggregateArgs = {
 };
 
 export type Subscription_RootGalaxy_By_PkArgs = {
-  id: Scalars['uuid'];
-};
-
-export type Subscription_RootSystemArgs = {
-  distinct_on?: Maybe<Array<System_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<System_Order_By>>;
-  where?: Maybe<System_Bool_Exp>;
-};
-
-export type Subscription_RootSystem_AggregateArgs = {
-  distinct_on?: Maybe<Array<System_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<System_Order_By>>;
-  where?: Maybe<System_Bool_Exp>;
-};
-
-export type Subscription_RootSystem_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -1176,332 +1358,6 @@ export type Subscription_RootUser_Private_AggregateArgs = {
   where?: Maybe<User_Private_Bool_Exp>;
 };
 
-/** columns and relationships of "system" */
-export type System = {
-  __typename?: 'system';
-  /** An object relationship */
-  galaxy: Galaxy;
-  galaxy_id: Scalars['uuid'];
-  id: Scalars['uuid'];
-  name?: Maybe<Scalars['String']>;
-  owner_id?: Maybe<Scalars['String']>;
-  /** An object relationship */
-  user_info?: Maybe<User_Info>;
-  x: Scalars['numeric'];
-  y: Scalars['numeric'];
-};
-
-/** aggregated selection of "system" */
-export type System_Aggregate = {
-  __typename?: 'system_aggregate';
-  aggregate?: Maybe<System_Aggregate_Fields>;
-  nodes: Array<System>;
-};
-
-/** aggregate fields of "system" */
-export type System_Aggregate_Fields = {
-  __typename?: 'system_aggregate_fields';
-  avg?: Maybe<System_Avg_Fields>;
-  count: Scalars['Int'];
-  max?: Maybe<System_Max_Fields>;
-  min?: Maybe<System_Min_Fields>;
-  stddev?: Maybe<System_Stddev_Fields>;
-  stddev_pop?: Maybe<System_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<System_Stddev_Samp_Fields>;
-  sum?: Maybe<System_Sum_Fields>;
-  var_pop?: Maybe<System_Var_Pop_Fields>;
-  var_samp?: Maybe<System_Var_Samp_Fields>;
-  variance?: Maybe<System_Variance_Fields>;
-};
-
-/** aggregate fields of "system" */
-export type System_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<System_Select_Column>>;
-  distinct?: Maybe<Scalars['Boolean']>;
-};
-
-/** order by aggregate values of table "system" */
-export type System_Aggregate_Order_By = {
-  avg?: Maybe<System_Avg_Order_By>;
-  count?: Maybe<Order_By>;
-  max?: Maybe<System_Max_Order_By>;
-  min?: Maybe<System_Min_Order_By>;
-  stddev?: Maybe<System_Stddev_Order_By>;
-  stddev_pop?: Maybe<System_Stddev_Pop_Order_By>;
-  stddev_samp?: Maybe<System_Stddev_Samp_Order_By>;
-  sum?: Maybe<System_Sum_Order_By>;
-  var_pop?: Maybe<System_Var_Pop_Order_By>;
-  var_samp?: Maybe<System_Var_Samp_Order_By>;
-  variance?: Maybe<System_Variance_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "system" */
-export type System_Arr_Rel_Insert_Input = {
-  data: Array<System_Insert_Input>;
-  /** on conflict condition */
-  on_conflict?: Maybe<System_On_Conflict>;
-};
-
-/** aggregate avg on columns */
-export type System_Avg_Fields = {
-  __typename?: 'system_avg_fields';
-  x?: Maybe<Scalars['Float']>;
-  y?: Maybe<Scalars['Float']>;
-};
-
-/** order by avg() on columns of table "system" */
-export type System_Avg_Order_By = {
-  x?: Maybe<Order_By>;
-  y?: Maybe<Order_By>;
-};
-
-/** Boolean expression to filter rows from the table "system". All fields are combined with a logical 'AND'. */
-export type System_Bool_Exp = {
-  _and?: Maybe<Array<System_Bool_Exp>>;
-  _not?: Maybe<System_Bool_Exp>;
-  _or?: Maybe<Array<System_Bool_Exp>>;
-  galaxy?: Maybe<Galaxy_Bool_Exp>;
-  galaxy_id?: Maybe<Uuid_Comparison_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  name?: Maybe<String_Comparison_Exp>;
-  owner_id?: Maybe<String_Comparison_Exp>;
-  user_info?: Maybe<User_Info_Bool_Exp>;
-  x?: Maybe<Numeric_Comparison_Exp>;
-  y?: Maybe<Numeric_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "system" */
-export enum System_Constraint {
-  /** unique or primary key constraint */
-  SystemPkey = 'system_pkey',
-}
-
-/** input type for incrementing numeric columns in table "system" */
-export type System_Inc_Input = {
-  x?: Maybe<Scalars['numeric']>;
-  y?: Maybe<Scalars['numeric']>;
-};
-
-/** input type for inserting data into table "system" */
-export type System_Insert_Input = {
-  galaxy?: Maybe<Galaxy_Obj_Rel_Insert_Input>;
-  galaxy_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
-  name?: Maybe<Scalars['String']>;
-  owner_id?: Maybe<Scalars['String']>;
-  user_info?: Maybe<User_Info_Obj_Rel_Insert_Input>;
-  x?: Maybe<Scalars['numeric']>;
-  y?: Maybe<Scalars['numeric']>;
-};
-
-/** aggregate max on columns */
-export type System_Max_Fields = {
-  __typename?: 'system_max_fields';
-  galaxy_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
-  name?: Maybe<Scalars['String']>;
-  owner_id?: Maybe<Scalars['String']>;
-  x?: Maybe<Scalars['numeric']>;
-  y?: Maybe<Scalars['numeric']>;
-};
-
-/** order by max() on columns of table "system" */
-export type System_Max_Order_By = {
-  galaxy_id?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
-  owner_id?: Maybe<Order_By>;
-  x?: Maybe<Order_By>;
-  y?: Maybe<Order_By>;
-};
-
-/** aggregate min on columns */
-export type System_Min_Fields = {
-  __typename?: 'system_min_fields';
-  galaxy_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
-  name?: Maybe<Scalars['String']>;
-  owner_id?: Maybe<Scalars['String']>;
-  x?: Maybe<Scalars['numeric']>;
-  y?: Maybe<Scalars['numeric']>;
-};
-
-/** order by min() on columns of table "system" */
-export type System_Min_Order_By = {
-  galaxy_id?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
-  owner_id?: Maybe<Order_By>;
-  x?: Maybe<Order_By>;
-  y?: Maybe<Order_By>;
-};
-
-/** response of any mutation on the table "system" */
-export type System_Mutation_Response = {
-  __typename?: 'system_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data from the rows affected by the mutation */
-  returning: Array<System>;
-};
-
-/** on conflict condition type for table "system" */
-export type System_On_Conflict = {
-  constraint: System_Constraint;
-  update_columns?: Array<System_Update_Column>;
-  where?: Maybe<System_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "system". */
-export type System_Order_By = {
-  galaxy?: Maybe<Galaxy_Order_By>;
-  galaxy_id?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
-  owner_id?: Maybe<Order_By>;
-  user_info?: Maybe<User_Info_Order_By>;
-  x?: Maybe<Order_By>;
-  y?: Maybe<Order_By>;
-};
-
-/** primary key columns input for table: system */
-export type System_Pk_Columns_Input = {
-  id: Scalars['uuid'];
-};
-
-/** select columns of table "system" */
-export enum System_Select_Column {
-  /** column name */
-  GalaxyId = 'galaxy_id',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Name = 'name',
-  /** column name */
-  OwnerId = 'owner_id',
-  /** column name */
-  X = 'x',
-  /** column name */
-  Y = 'y',
-}
-
-/** input type for updating data in table "system" */
-export type System_Set_Input = {
-  galaxy_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
-  name?: Maybe<Scalars['String']>;
-  owner_id?: Maybe<Scalars['String']>;
-  x?: Maybe<Scalars['numeric']>;
-  y?: Maybe<Scalars['numeric']>;
-};
-
-/** aggregate stddev on columns */
-export type System_Stddev_Fields = {
-  __typename?: 'system_stddev_fields';
-  x?: Maybe<Scalars['Float']>;
-  y?: Maybe<Scalars['Float']>;
-};
-
-/** order by stddev() on columns of table "system" */
-export type System_Stddev_Order_By = {
-  x?: Maybe<Order_By>;
-  y?: Maybe<Order_By>;
-};
-
-/** aggregate stddev_pop on columns */
-export type System_Stddev_Pop_Fields = {
-  __typename?: 'system_stddev_pop_fields';
-  x?: Maybe<Scalars['Float']>;
-  y?: Maybe<Scalars['Float']>;
-};
-
-/** order by stddev_pop() on columns of table "system" */
-export type System_Stddev_Pop_Order_By = {
-  x?: Maybe<Order_By>;
-  y?: Maybe<Order_By>;
-};
-
-/** aggregate stddev_samp on columns */
-export type System_Stddev_Samp_Fields = {
-  __typename?: 'system_stddev_samp_fields';
-  x?: Maybe<Scalars['Float']>;
-  y?: Maybe<Scalars['Float']>;
-};
-
-/** order by stddev_samp() on columns of table "system" */
-export type System_Stddev_Samp_Order_By = {
-  x?: Maybe<Order_By>;
-  y?: Maybe<Order_By>;
-};
-
-/** aggregate sum on columns */
-export type System_Sum_Fields = {
-  __typename?: 'system_sum_fields';
-  x?: Maybe<Scalars['numeric']>;
-  y?: Maybe<Scalars['numeric']>;
-};
-
-/** order by sum() on columns of table "system" */
-export type System_Sum_Order_By = {
-  x?: Maybe<Order_By>;
-  y?: Maybe<Order_By>;
-};
-
-/** update columns of table "system" */
-export enum System_Update_Column {
-  /** column name */
-  GalaxyId = 'galaxy_id',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Name = 'name',
-  /** column name */
-  OwnerId = 'owner_id',
-  /** column name */
-  X = 'x',
-  /** column name */
-  Y = 'y',
-}
-
-/** aggregate var_pop on columns */
-export type System_Var_Pop_Fields = {
-  __typename?: 'system_var_pop_fields';
-  x?: Maybe<Scalars['Float']>;
-  y?: Maybe<Scalars['Float']>;
-};
-
-/** order by var_pop() on columns of table "system" */
-export type System_Var_Pop_Order_By = {
-  x?: Maybe<Order_By>;
-  y?: Maybe<Order_By>;
-};
-
-/** aggregate var_samp on columns */
-export type System_Var_Samp_Fields = {
-  __typename?: 'system_var_samp_fields';
-  x?: Maybe<Scalars['Float']>;
-  y?: Maybe<Scalars['Float']>;
-};
-
-/** order by var_samp() on columns of table "system" */
-export type System_Var_Samp_Order_By = {
-  x?: Maybe<Order_By>;
-  y?: Maybe<Order_By>;
-};
-
-/** aggregate variance on columns */
-export type System_Variance_Fields = {
-  __typename?: 'system_variance_fields';
-  x?: Maybe<Scalars['Float']>;
-  y?: Maybe<Scalars['Float']>;
-};
-
-/** order by variance() on columns of table "system" */
-export type System_Variance_Order_By = {
-  x?: Maybe<Order_By>;
-  y?: Maybe<Order_By>;
-};
-
 /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
 export type Timestamp_Comparison_Exp = {
   _eq?: Maybe<Scalars['timestamp']>;
@@ -1529,9 +1385,9 @@ export type User_Info = {
   nickname: Scalars['String'];
   secret_setting_test?: Maybe<Scalars['String']>;
   /** An array relationship */
-  systems: Array<System>;
+  systems: Array<Celestial>;
   /** An aggregate relationship */
-  systems_aggregate: System_Aggregate;
+  systems_aggregate: Celestial_Aggregate;
 };
 
 /** columns and relationships of "user_info" */
@@ -1554,20 +1410,20 @@ export type User_InfoChat_Messages_AggregateArgs = {
 
 /** columns and relationships of "user_info" */
 export type User_InfoSystemsArgs = {
-  distinct_on?: Maybe<Array<System_Select_Column>>;
+  distinct_on?: Maybe<Array<Celestial_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<System_Order_By>>;
-  where?: Maybe<System_Bool_Exp>;
+  order_by?: Maybe<Array<Celestial_Order_By>>;
+  where?: Maybe<Celestial_Bool_Exp>;
 };
 
 /** columns and relationships of "user_info" */
 export type User_InfoSystems_AggregateArgs = {
-  distinct_on?: Maybe<Array<System_Select_Column>>;
+  distinct_on?: Maybe<Array<Celestial_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<System_Order_By>>;
-  where?: Maybe<System_Bool_Exp>;
+  order_by?: Maybe<Array<Celestial_Order_By>>;
+  where?: Maybe<Celestial_Bool_Exp>;
 };
 
 /** aggregated selection of "user_info" */
@@ -1617,7 +1473,7 @@ export type User_Info_Bool_Exp = {
   name?: Maybe<String_Comparison_Exp>;
   nickname?: Maybe<String_Comparison_Exp>;
   secret_setting_test?: Maybe<String_Comparison_Exp>;
-  systems?: Maybe<System_Bool_Exp>;
+  systems?: Maybe<Celestial_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "user_info" */
@@ -1642,7 +1498,7 @@ export type User_Info_Insert_Input = {
   name?: Maybe<Scalars['String']>;
   nickname?: Maybe<Scalars['String']>;
   secret_setting_test?: Maybe<Scalars['String']>;
-  systems?: Maybe<System_Arr_Rel_Insert_Input>;
+  systems?: Maybe<Celestial_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -1699,7 +1555,7 @@ export type User_Info_Order_By = {
   name?: Maybe<Order_By>;
   nickname?: Maybe<Order_By>;
   secret_setting_test?: Maybe<Order_By>;
-  systems_aggregate?: Maybe<System_Aggregate_Order_By>;
+  systems_aggregate?: Maybe<Celestial_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: user_info */
@@ -2003,6 +1859,18 @@ export type Uuid_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
+export type CelestialFieldsFragment = {
+  __typename?: 'celestial';
+  id: any;
+  name?: Maybe<string>;
+  owner_id?: Maybe<string>;
+  user_info?: Maybe<{
+    __typename?: 'user_info';
+    display_name?: Maybe<string>;
+    name?: Maybe<string>;
+  }>;
+};
+
 export type GalaxyFieldsFragment = {
   __typename?: 'galaxy';
   id: any;
@@ -2014,12 +1882,10 @@ export type GalaxyFieldsFragment = {
   arm_width: any;
   radius: number;
   stars: number;
-  systems: Array<{
-    __typename?: 'system';
+  celestials: Array<{
+    __typename?: 'celestial';
     id: any;
     name?: Maybe<string>;
-    x: any;
-    y: any;
     owner_id?: Maybe<string>;
     user_info?: Maybe<{
       __typename?: 'user_info';
@@ -2029,17 +1895,43 @@ export type GalaxyFieldsFragment = {
   }>;
 };
 
-export type SystemFieldsFragment = {
-  __typename?: 'system';
-  id: any;
-  name?: Maybe<string>;
-  x: any;
-  y: any;
-  owner_id?: Maybe<string>;
-  user_info?: Maybe<{
-    __typename?: 'user_info';
-    display_name?: Maybe<string>;
+export type CelestialsSubscriptionVariables = Exact<{ [key: string]: never }>;
+
+export type CelestialsSubscription = {
+  __typename?: 'subscription_root';
+  celestial: Array<{
+    __typename?: 'celestial';
+    id: any;
     name?: Maybe<string>;
+    owner_id?: Maybe<string>;
+    user_info?: Maybe<{
+      __typename?: 'user_info';
+      display_name?: Maybe<string>;
+      name?: Maybe<string>;
+    }>;
+  }>;
+};
+
+export type TryInsertClaimedCelestialMutationVariables = Exact<{
+  galaxy_id: Scalars['uuid'];
+  id: Scalars['uuid'];
+  name: Scalars['String'];
+  owner_id: Scalars['String'];
+  free_claims: Scalars['Int'];
+}>;
+
+export type TryInsertClaimedCelestialMutation = {
+  __typename?: 'mutation_root';
+  insert_celestial_one?: Maybe<{
+    __typename?: 'celestial';
+    galaxy_id: any;
+    id: any;
+    name?: Maybe<string>;
+    owner_id?: Maybe<string>;
+  }>;
+  update_user_info_by_pk?: Maybe<{
+    __typename?: 'user_info';
+    free_claims: number;
   }>;
 };
 
@@ -2106,12 +1998,10 @@ export type CreateGalaxyMutation = {
     arm_width: any;
     radius: number;
     stars: number;
-    systems: Array<{
-      __typename?: 'system';
+    celestials: Array<{
+      __typename?: 'celestial';
       id: any;
       name?: Maybe<string>;
-      x: any;
-      y: any;
       owner_id?: Maybe<string>;
       user_info?: Maybe<{
         __typename?: 'user_info';
@@ -2150,12 +2040,10 @@ export type GalaxiesSubscription = {
     arm_width: any;
     radius: number;
     stars: number;
-    systems: Array<{
-      __typename?: 'system';
+    celestials: Array<{
+      __typename?: 'celestial';
       id: any;
       name?: Maybe<string>;
-      x: any;
-      y: any;
       owner_id?: Maybe<string>;
       user_info?: Maybe<{
         __typename?: 'user_info';
@@ -2186,13 +2074,17 @@ export type GalaxyByIdQuery = {
   }>;
 };
 
-export type GetUserFreeClaimsQueryVariables = Exact<{
-  id?: Maybe<Scalars['String']>;
-}>;
+export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables =
+  Exact<{
+    userId: Scalars['String'];
+    galaxyId: Scalars['uuid'];
+  }>;
 
-export type GetUserFreeClaimsQuery = {
+export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery = {
   __typename?: 'query_root';
   user_info_by_pk?: Maybe<{ __typename?: 'user_info'; free_claims: number }>;
+  galaxy_by_pk?: Maybe<{ __typename?: 'galaxy'; id: any; stars: number }>;
+  celestial: Array<{ __typename?: 'celestial'; id: any }>;
 };
 
 export type SelfQueryVariables = Exact<{ [key: string]: never }>;
@@ -2231,25 +2123,6 @@ export type SetNameByUserIdMutation = {
   setDisplayName?: Maybe<{ __typename?: 'Register'; updatedName: string }>;
 };
 
-export type SystemsSubscriptionVariables = Exact<{ [key: string]: never }>;
-
-export type SystemsSubscription = {
-  __typename?: 'subscription_root';
-  system: Array<{
-    __typename?: 'system';
-    id: any;
-    name?: Maybe<string>;
-    x: any;
-    y: any;
-    owner_id?: Maybe<string>;
-    user_info?: Maybe<{
-      __typename?: 'user_info';
-      display_name?: Maybe<string>;
-      name?: Maybe<string>;
-    }>;
-  }>;
-};
-
 export type UpdateFreeClaimsMutationVariables = Exact<{
   id: Scalars['String'];
   free_claims: Scalars['Int'];
@@ -2263,12 +2136,10 @@ export type UpdateFreeClaimsMutation = {
   }>;
 };
 
-export const SystemFieldsFragmentDoc = gql`
-  fragment SystemFields on system {
+export const CelestialFieldsFragmentDoc = gql`
+  fragment CelestialFields on celestial {
     id
     name
-    x
-    y
     owner_id
     user_info {
       display_name
@@ -2287,12 +2158,131 @@ export const GalaxyFieldsFragmentDoc = gql`
     arm_width
     radius
     stars
-    systems {
-      ...SystemFields
+    celestials {
+      ...CelestialFields
     }
   }
-  ${SystemFieldsFragmentDoc}
+  ${CelestialFieldsFragmentDoc}
 `;
+export const CelestialsDocument = gql`
+  subscription Celestials {
+    celestial {
+      ...CelestialFields
+    }
+  }
+  ${CelestialFieldsFragmentDoc}
+`;
+
+/**
+ * __useCelestialsSubscription__
+ *
+ * To run a query within a React component, call `useCelestialsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useCelestialsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCelestialsSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCelestialsSubscription(
+  baseOptions?: Apollo.SubscriptionHookOptions<
+    CelestialsSubscription,
+    CelestialsSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSubscription<
+    CelestialsSubscription,
+    CelestialsSubscriptionVariables
+  >(CelestialsDocument, options);
+}
+export type CelestialsSubscriptionHookResult = ReturnType<
+  typeof useCelestialsSubscription
+>;
+export type CelestialsSubscriptionResult =
+  Apollo.SubscriptionResult<CelestialsSubscription>;
+export const TryInsertClaimedCelestialDocument = gql`
+  mutation TryInsertClaimedCelestial(
+    $galaxy_id: uuid!
+    $id: uuid!
+    $name: String!
+    $owner_id: String!
+    $free_claims: Int!
+  ) {
+    insert_celestial_one(
+      object: {
+        galaxy_id: $galaxy_id
+        id: $id
+        name: $name
+        owner_id: $owner_id
+      }
+      on_conflict: { constraint: system_pkey, update_columns: owner_id }
+    ) {
+      galaxy_id
+      id
+      name
+      owner_id
+    }
+    update_user_info_by_pk(
+      pk_columns: { id: $owner_id }
+      _set: { free_claims: $free_claims }
+    ) {
+      free_claims
+    }
+  }
+`;
+export type TryInsertClaimedCelestialMutationFn = Apollo.MutationFunction<
+  TryInsertClaimedCelestialMutation,
+  TryInsertClaimedCelestialMutationVariables
+>;
+
+/**
+ * __useTryInsertClaimedCelestialMutation__
+ *
+ * To run a mutation, you first call `useTryInsertClaimedCelestialMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTryInsertClaimedCelestialMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [tryInsertClaimedCelestialMutation, { data, loading, error }] = useTryInsertClaimedCelestialMutation({
+ *   variables: {
+ *      galaxy_id: // value for 'galaxy_id'
+ *      id: // value for 'id'
+ *      name: // value for 'name'
+ *      owner_id: // value for 'owner_id'
+ *      free_claims: // value for 'free_claims'
+ *   },
+ * });
+ */
+export function useTryInsertClaimedCelestialMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    TryInsertClaimedCelestialMutation,
+    TryInsertClaimedCelestialMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    TryInsertClaimedCelestialMutation,
+    TryInsertClaimedCelestialMutationVariables
+  >(TryInsertClaimedCelestialDocument, options);
+}
+export type TryInsertClaimedCelestialMutationHookResult = ReturnType<
+  typeof useTryInsertClaimedCelestialMutation
+>;
+export type TryInsertClaimedCelestialMutationResult =
+  Apollo.MutationResult<TryInsertClaimedCelestialMutation>;
+export type TryInsertClaimedCelestialMutationOptions =
+  Apollo.BaseMutationOptions<
+    TryInsertClaimedCelestialMutation,
+    TryInsertClaimedCelestialMutationVariables
+  >;
 export const GetChatMessagesDocument = gql`
   subscription GetChatMessages {
     chat_message(order_by: { timestamp: desc }, limit: 200) {
@@ -2639,64 +2629,83 @@ export type GalaxyByIdQueryResult = Apollo.QueryResult<
   GalaxyByIdQuery,
   GalaxyByIdQueryVariables
 >;
-export const GetUserFreeClaimsDocument = gql`
-  query GetUserFreeClaims($id: String = "") {
-    user_info_by_pk(id: $id) {
+export const GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsDocument = gql`
+  query GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestials(
+    $userId: String!
+    $galaxyId: uuid!
+  ) {
+    user_info_by_pk(id: $userId) {
       free_claims
+    }
+    galaxy_by_pk(id: $galaxyId) {
+      id
+      stars
+    }
+    celestial(
+      where: {
+        galaxy_id: { _eq: $galaxyId }
+        _and: { owner_id: { _is_null: true } }
+      }
+    ) {
+      id
     }
   }
 `;
 
 /**
- * __useGetUserFreeClaimsQuery__
+ * __useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery__
  *
- * To run a query within a React component, call `useGetUserFreeClaimsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUserFreeClaimsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetUserFreeClaimsQuery({
+ * const { data, loading, error } = useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery({
  *   variables: {
- *      id: // value for 'id'
+ *      userId: // value for 'userId'
+ *      galaxyId: // value for 'galaxyId'
  *   },
  * });
  */
-export function useGetUserFreeClaimsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetUserFreeClaimsQuery,
-    GetUserFreeClaimsQueryVariables
+export function useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery,
+    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetUserFreeClaimsQuery,
-    GetUserFreeClaimsQueryVariables
-  >(GetUserFreeClaimsDocument, options);
+    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery,
+    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables
+  >(GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsDocument, options);
 }
-export function useGetUserFreeClaimsLazyQuery(
+export function useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetUserFreeClaimsQuery,
-    GetUserFreeClaimsQueryVariables
+    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery,
+    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetUserFreeClaimsQuery,
-    GetUserFreeClaimsQueryVariables
-  >(GetUserFreeClaimsDocument, options);
+    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery,
+    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables
+  >(GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsDocument, options);
 }
-export type GetUserFreeClaimsQueryHookResult = ReturnType<
-  typeof useGetUserFreeClaimsQuery
->;
-export type GetUserFreeClaimsLazyQueryHookResult = ReturnType<
-  typeof useGetUserFreeClaimsLazyQuery
->;
-export type GetUserFreeClaimsQueryResult = Apollo.QueryResult<
-  GetUserFreeClaimsQuery,
-  GetUserFreeClaimsQueryVariables
->;
+export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryHookResult =
+  ReturnType<
+    typeof useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery
+  >;
+export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsLazyQueryHookResult =
+  ReturnType<
+    typeof useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsLazyQuery
+  >;
+export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryResult =
+  Apollo.QueryResult<
+    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery,
+    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables
+  >;
 export const SelfDocument = gql`
   query Self {
     user_me {
@@ -2846,47 +2855,6 @@ export type SetNameByUserIdMutationOptions = Apollo.BaseMutationOptions<
   SetNameByUserIdMutation,
   SetNameByUserIdMutationVariables
 >;
-export const SystemsDocument = gql`
-  subscription Systems {
-    system {
-      ...SystemFields
-    }
-  }
-  ${SystemFieldsFragmentDoc}
-`;
-
-/**
- * __useSystemsSubscription__
- *
- * To run a query within a React component, call `useSystemsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useSystemsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useSystemsSubscription({
- *   variables: {
- *   },
- * });
- */
-export function useSystemsSubscription(
-  baseOptions?: Apollo.SubscriptionHookOptions<
-    SystemsSubscription,
-    SystemsSubscriptionVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    SystemsSubscription,
-    SystemsSubscriptionVariables
-  >(SystemsDocument, options);
-}
-export type SystemsSubscriptionHookResult = ReturnType<
-  typeof useSystemsSubscription
->;
-export type SystemsSubscriptionResult =
-  Apollo.SubscriptionResult<SystemsSubscription>;
 export const UpdateFreeClaimsDocument = gql`
   mutation UpdateFreeClaims($id: String!, $free_claims: Int!) {
     update_user_info_by_pk(

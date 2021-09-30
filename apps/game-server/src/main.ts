@@ -10,7 +10,7 @@ import { authChecker } from './authChecker';
 import { Auth0API } from './datasources/auth0-api';
 import { Context } from './datasources/context';
 import { HasuraAPI } from './datasources/hasura-api';
-import { GalaxyResolver } from './entities/galaxy';
+import { GalaxyManagementResolver } from './entities/galaxy-management';
 import { RecipeResolver } from './entities/message';
 import { RegisterResolver } from './entities/register';
 import ws = require('ws');
@@ -57,7 +57,7 @@ import ws = require('ws');
   );
 
   const schema = await buildSchema({
-    resolvers: [RecipeResolver, RegisterResolver, GalaxyResolver],
+    resolvers: [RecipeResolver, RegisterResolver, GalaxyManagementResolver],
     authChecker,
     emitSchemaFile: true,
   });

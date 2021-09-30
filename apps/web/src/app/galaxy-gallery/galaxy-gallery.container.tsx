@@ -27,7 +27,7 @@ export const GalaxyGalleryContainer = () => {
       <Back></Back>
       <Heading mb="2rem">Galaxies</Heading>
       <Box d="flex" flexWrap="wrap">
-        {data.galaxy.map(({ id, stars, name, systems }) => (
+        {data.galaxy.map(({ id, stars, name, celestials }) => (
           <Link
             as={ReactRouterLink}
             d="flex"
@@ -46,7 +46,7 @@ export const GalaxyGalleryContainer = () => {
           >
             <Text mb="0.5rem">{name}</Text>
             <Text mb="0.5rem">Stars: {stars}</Text>
-            <Text>Claimed Systems: {systems.length}</Text>
+            <Text>Claimed Celestials: {celestials.length}</Text>
           </Link>
         ))}
       </Box>
