@@ -112,10 +112,14 @@ export const GalaxyGenerator = () => {
     }
 
     return () => {
-      if (reactiveAnimate) {
-        app.ticker.remove(repositioningTickerRef.current);
-      } else {
-        app.ticker.remove(animatedRepositioningTickerRef.current);
+      try {
+        if (reactiveAnimate) {
+          app.ticker.remove(repositioningTickerRef.current);
+        } else {
+          app.ticker.remove(animatedRepositioningTickerRef.current);
+        }
+      } catch (e) {
+        console.warn('Tried to remove ticker functions that did not exist.');
       }
     };
   }, [reactiveAnimate]);

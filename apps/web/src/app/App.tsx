@@ -9,14 +9,13 @@ import { SolarSystemContainer } from './canvases/solar-system/solar-system.conta
 import { Layout } from './components/layout';
 import { Loading } from './components/loading';
 import { SelfContainer } from './containers/self-container';
+import { GalaxyGalleryContainer } from './galaxy-gallery/galaxy-gallery.container';
 import { Home } from './home/home';
 import {
   galaxyConfigVar,
   galaxyRotationVar,
   roleVar,
 } from './_state/reactive-variables';
-
-//
 
 export const local = window.location.origin.includes('localhost');
 
@@ -70,6 +69,7 @@ export const App = () => {
         <Layout>
           <BrowserRouter basename={local ? '/' : '/idle-game'}>
             <Switch>
+              <Route path="/galaxies" component={GalaxyGalleryContainer} />
               <Route path="/galaxy-gen" component={GalaxyGenContainer} />
               <Route path="/solar-system" component={SolarSystemContainer} />
               <Route path="/" component={Home} />

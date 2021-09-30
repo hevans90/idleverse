@@ -1,13 +1,25 @@
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Text, TypographyProps } from '@chakra-ui/react';
 
-export const Loading = () => (
+type LoadingProps = {
+  height?: string;
+  width?: string;
+  text?: string;
+  fontSize?: TypographyProps['fontSize'];
+};
+
+export const Loading = ({
+  height = '100vh',
+  width = '100vw',
+  text = 'Loading...',
+  fontSize = '4xl',
+}: LoadingProps | undefined) => (
   <Box
-    height="100vh"
-    width="100vw"
+    height={height}
+    width={width}
     display="flex"
     alignItems="center"
     justifyContent="center"
   >
-    <Text fontSize="4xl">Loading...</Text>
+    <Text fontSize={fontSize}>{text}</Text>
   </Box>
 );

@@ -15,12 +15,12 @@ import {
 import { Stage } from '@inlet/react-pixi';
 import { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Back } from '../../components/back';
 import {
   animateVar,
   galaxyConfigVar,
   roleVar,
 } from '../../_state/reactive-variables';
-import { GameUITopLeftBar } from '../common-utils/top-left-bar';
 import { useResize } from '../common-utils/use-resize.hook';
 import { GalaxyGenerator } from './galaxy-generator';
 import { GameUIBottomBar } from './ui/bottom-bar';
@@ -98,7 +98,7 @@ export const GalaxyGenContainer = () => {
         >
           <GalaxyGenerator />
         </Stage>
-        <GameUITopLeftBar />
+        <Back />
         <GameUIBottomBar />
         <GameUIRightBar
           role={role}
