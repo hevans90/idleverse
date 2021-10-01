@@ -13,9 +13,9 @@ import { Back } from '../../components/back';
 import { Loading } from '../../components/loading';
 import { useResize } from '../common-utils/use-resize.hook';
 import { dbGalaxyToGalaxyConfig } from '../common-utils/db-galaxy-to-galaxy-config';
-import { GalaxyViewer } from './galaxy-viewer';
+import { GalaxyThumbnail } from './galaxy-thumbnail';
 
-export const GalaxyViewerContainer = () => {
+export const GalaxyThumbnailContainer = () => {
   const { id } = useParams<{ id: string }>();
 
   const { data, loading } = useQuery<GalaxyByIdQuery>(GalaxyByIdDocument, {
@@ -43,9 +43,9 @@ export const GalaxyViewerContainer = () => {
             antialias: true,
           }}
         >
-          <GalaxyViewer
-            claimedCelestials={celestialData.celestial}
+          <GalaxyThumbnail
             galaxyConfig={dbGalaxyToGalaxyConfig(data.galaxy_by_pk)}
+            thumbnailNumber={1}
           />
         </Stage>
         <Back />

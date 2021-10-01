@@ -16,8 +16,8 @@ export const fpsTracker = (app: Application) => {
   };
 
   app.stage.addChild(
-    indicator('FPS', 50, 100, 'fpsCounter'),
-    indicator('Frametime', 50, 150, 'frameTime')
+    indicator('FPS', 0, 0, 'fpsCounter'),
+    indicator('Frametime', 0, 50, 'frameTime')
   );
 
   app.ticker.add(() => {

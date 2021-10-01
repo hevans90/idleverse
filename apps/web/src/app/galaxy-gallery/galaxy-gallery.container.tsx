@@ -3,6 +3,8 @@ import { Box, Heading, Link, Text } from '@chakra-ui/layout';
 import { useColorModeValue } from '@chakra-ui/react';
 import { GalaxiesDocument, GalaxiesSubscription } from '@idleverse/graphql';
 import { Link as ReactRouterLink } from 'react-router-dom';
+import { dbGalaxyToGalaxyConfig } from '../canvases/common-utils/db-galaxy-to-galaxy-config';
+import { GalaxyThumbnail } from '../canvases/galaxy-thumbnail/galaxy-thumbnail';
 import { Back } from '../components/back';
 import { Loading } from '../components/loading';
 
@@ -27,26 +29,33 @@ export const GalaxyGalleryContainer = () => {
       <Back></Back>
       <Heading mb="2rem">Galaxies</Heading>
       <Box d="flex" flexWrap="wrap">
-        {data.galaxy.map(({ id, stars, name, celestials }) => (
+        {data.galaxy.map((galaxyConfig, i) => (
           <Link
             as={ReactRouterLink}
+            position="relative"
             d="flex"
             flexDir="column"
-            key={id}
+            key={galaxyConfig.id}
             margin="0 1rem 1rem 0"
             padding="1rem"
             bgColor={bgcol}
             color={col}
-            to={`/galaxies/${id}`}
+            to={`/galaxies/${galaxyConfig.id}`}
             _hover={{
               textDecor: 'unset',
               background: hoverBg,
               color: hoverCol,
             }}
           >
-            <Text mb="0.5rem">{name}</Text>
-            <Text mb="0.5rem">Stars: {stars}</Text>
-            <Text>Claimed Celestials: {celestials.length}</Text>
+            <Box>
+              <GalaxyThumbnail
+                galaxyConfig={dbGalaxyToGalaxyConfig(galaxyConfig)}
+                thumbnailNumber={i}
+              />
+              <Text mb="0.5rem">{galaxyConfig.name}</Text>
+              <Text mb="0.5rem">Stars: {galaxyConfig.stars}</Text>
+              <Text>Claimed Celestials: {galaxyConfig.celestials.length}</Text>
+            </Box>
           </Link>
         ))}
       </Box>
