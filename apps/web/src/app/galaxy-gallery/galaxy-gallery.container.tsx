@@ -1,5 +1,5 @@
 import { useSubscription } from '@apollo/client';
-import { Box, Link, Text } from '@chakra-ui/layout';
+import { Box, Link, Text, TextProps } from '@chakra-ui/layout';
 import { useColorModeValue } from '@chakra-ui/react';
 import { GalaxiesDocument, GalaxiesSubscription } from '@idleverse/graphql';
 import { Link as ReactRouterLink } from 'react-router-dom';
@@ -23,6 +23,12 @@ export const GalaxyGalleryContainer = () => {
     );
   }
 
+  const textProps: TextProps = {
+    position: 'absolute',
+    fontSize: 'xs',
+    marginBottom: '0.5rem',
+  };
+
   return (
     <Box d="flex" flexWrap="wrap" justifyContent="center" mt="5rem">
       {data.galaxy.map((galaxyConfig, i) => (
@@ -33,9 +39,9 @@ export const GalaxyGalleryContainer = () => {
           flexDir="column"
           key={galaxyConfig.id}
           margin="0 1rem 1rem 0"
-          padding="1rem"
           bgColor={bgcol}
           color={col}
+          padding="1rem"
           to={`/galaxies/${galaxyConfig.id}`}
           _hover={{
             textDecor: 'unset',
@@ -48,15 +54,16 @@ export const GalaxyGalleryContainer = () => {
               galaxyConfig={dbGalaxyToGalaxyConfig(galaxyConfig)}
               thumbnailNumber={i}
             />
-            <Box
-              position="absolute"
-              bottom="0"
-              fontSize={{ base: 'xs', md: 'sm', lg: 'md' }}
-            >
-              <Text mb="0.5rem">{galaxyConfig.name}</Text>
-              <Text mb="0.5rem">Stars: {galaxyConfig.stars}</Text>
-              <Text>Claimed Celestials: {galaxyConfig.celestials.length}</Text>
-            </Box>
+
+            <Text top="-0.5rem" left="-0.5rem" {...textProps}>
+              {galaxyConfig.name}
+            </Text>
+            <Text top="-0.5rem" right="-0.5rem" {...textProps}>
+              Stars: {galaxyConfig.stars}
+            </Text>
+            <Text bottom="-0.5rem" left="-0.5rem" {...textProps} mb="unset">
+              Claimed Celestials: {galaxyConfig.celestials.length}
+            </Text>
           </Box>
         </Link>
       ))}
