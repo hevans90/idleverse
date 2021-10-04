@@ -11,6 +11,7 @@ export const Home = () => {
         alignItems="center"
         justifyContent="center"
         flexDirection="column"
+        margin="0 1rem 0 1rem"
       >
         <Text fontSize="5xl" textAlign="center" marginBottom="2rem">
           Welcome to Idleverse

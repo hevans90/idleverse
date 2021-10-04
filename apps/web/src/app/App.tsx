@@ -67,8 +67,8 @@ export const App = () => {
   return (
     <ApolloProvider client={client}>
       <SelfContainer>
-        <Layout>
-          <BrowserRouter basename={local ? '/' : '/idle-game'}>
+        <BrowserRouter basename={local ? '/' : '/idle-game'}>
+          <Layout>
             <Switch>
               <Route
                 path="/galaxies/:id"
@@ -80,8 +80,8 @@ export const App = () => {
               <Route path="/solar-system" component={SolarSystemContainer} />
               <Route path="/" component={Home} />
             </Switch>
-          </BrowserRouter>
-        </Layout>
+          </Layout>
+        </BrowserRouter>
       </SelfContainer>
     </ApolloProvider>
   );

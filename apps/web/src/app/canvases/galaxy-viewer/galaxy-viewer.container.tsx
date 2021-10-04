@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom';
 import { Back } from '../../components/back';
 import { Loading } from '../../components/loading';
 import { useResize } from '../common-utils/use-resize.hook';
-import { dbGalaxyToGalaxyConfig } from './db-galaxy-to-galaxy-config';
+import { dbGalaxyToGalaxyConfig } from '../common-utils/db-galaxy-to-galaxy-config';
 import { GalaxyViewer } from './galaxy-viewer';
 
 export const GalaxyViewerContainer = () => {

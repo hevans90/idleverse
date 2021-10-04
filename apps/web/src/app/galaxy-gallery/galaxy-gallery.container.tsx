@@ -1,9 +1,10 @@
 import { useSubscription } from '@apollo/client';
-import { Box, Heading, Link, Text } from '@chakra-ui/layout';
+import { Box, Link, Text, TextProps } from '@chakra-ui/layout';
 import { useColorModeValue } from '@chakra-ui/react';
 import { GalaxiesDocument, GalaxiesSubscription } from '@idleverse/graphql';
 import { Link as ReactRouterLink } from 'react-router-dom';
-import { Back } from '../components/back';
+import { dbGalaxyToGalaxyConfig } from '../canvases/common-utils/db-galaxy-to-galaxy-config';
+import { GalaxyThumbnail } from '../canvases/galaxy-thumbnail/galaxy-thumbnail';
 import { Loading } from '../components/loading';
 
 export const GalaxyGalleryContainer = () => {
@@ -22,34 +23,50 @@ export const GalaxyGalleryContainer = () => {
     );
   }
 
+  const textProps: TextProps = {
+    position: 'absolute',
+    fontSize: 'xs',
+    marginBottom: '0.5rem',
+  };
+
   return (
-    <Box p="1rem" pt="7rem" pos="relative">
-      <Back></Back>
-      <Heading mb="2rem">Galaxies</Heading>
-      <Box d="flex" flexWrap="wrap">
-        {data.galaxy.map(({ id, stars, name, celestials }) => (
-          <Link
-            as={ReactRouterLink}
-            d="flex"
-            flexDir="column"
-            key={id}
-            margin="0 1rem 1rem 0"
-            padding="1rem"
-            bgColor={bgcol}
-            color={col}
-            to={`/galaxies/${id}`}
-            _hover={{
-              textDecor: 'unset',
-              background: hoverBg,
-              color: hoverCol,
-            }}
-          >
-            <Text mb="0.5rem">{name}</Text>
-            <Text mb="0.5rem">Stars: {stars}</Text>
-            <Text>Claimed Celestials: {celestials.length}</Text>
-          </Link>
-        ))}
-      </Box>
+    <Box d="flex" flexWrap="wrap" mt="5rem" ml="5rem">
+      {data.galaxy.map((galaxyConfig, i) => (
+        <Link
+          as={ReactRouterLink}
+          position="relative"
+          d="flex"
+          flexDir="column"
+          key={galaxyConfig.id}
+          margin="0 1rem 1rem 0"
+          bgColor={bgcol}
+          color={col}
+          padding="1rem"
+          to={`/galaxies/${galaxyConfig.id}`}
+          _hover={{
+            textDecor: 'unset',
+            background: hoverBg,
+            color: hoverCol,
+          }}
+        >
+          <Box position="relative">
+            <GalaxyThumbnail
+              galaxyConfig={dbGalaxyToGalaxyConfig(galaxyConfig)}
+              thumbnailNumber={i}
+            />
+
+            <Text top="-0.5rem" left="-0.5rem" {...textProps}>
+              {galaxyConfig.name}
+            </Text>
+            <Text top="-0.5rem" right="-0.5rem" {...textProps}>
+              Stars: {galaxyConfig.stars}
+            </Text>
+            <Text bottom="-0.5rem" left="-0.5rem" {...textProps} mb="unset">
+              Claimed Celestials: {galaxyConfig.celestials.length}
+            </Text>
+          </Box>
+        </Link>
+      ))}
     </Box>
   );
 };

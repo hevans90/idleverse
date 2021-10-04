@@ -23,6 +23,7 @@ export const Back = () => {
       borderLeft="unset"
       borderTop="unset"
       cursor="pointer"
+      zIndex="2"
       onClick={() => history.goBack()}
     >
       Back
