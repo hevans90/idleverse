@@ -30,7 +30,7 @@ export const GalaxyGalleryContainer = () => {
   };
 
   return (
-    <Box d="flex" flexWrap="wrap" justifyContent="center" mt="5rem">
+    <Box d="flex" flexWrap="wrap" mt="5rem" ml="5rem">
       {data.galaxy.map((galaxyConfig, i) => (
         <Link
           as={ReactRouterLink}
