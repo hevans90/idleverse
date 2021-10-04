@@ -5,7 +5,7 @@ import {
   generateCelestials,
   getCelestialPosition,
 } from '@idleverse/galaxy-gen';
-import { Application, Container} from 'pixi.js';
+import { Application, Container } from 'pixi.js';
 import { useEffect } from 'react';
 import { galaxyRotationVar } from '../../_state/reactive-variables';
 import { Star } from '../galaxy-generator/graphics/star';
@@ -50,10 +50,10 @@ export const GalaxyThumbnail = ({
         : 0;
       app.screen.width = gameElement.clientWidth ? gameElement.clientWidth : 0;
       galaxyContainer.rotation += delta * galaxyRotationVar();
-      galaxyContainer.x = app.screen.width*0.5;
-      galaxyContainer.y = app.screen.height*0.5;
-      galaxyContainer.width = app.screen.width*0.9;
-      galaxyContainer.height = app.screen.height*0.9;
+      galaxyContainer.x = app.screen.width * 0.5;
+      galaxyContainer.y = app.screen.height * 0.5;
+      galaxyContainer.width = app.screen.width * 0.9;
+      galaxyContainer.height = app.screen.height * 0.9;
     });
 
     document.getElementById(divId).appendChild(app.view);
@@ -61,5 +61,5 @@ export const GalaxyThumbnail = ({
     return () => app.destroy(true, true);
   }, []);
 
-  return <Box id={divId} height="600px" width="600px"></Box>;
+  return <Box id={divId} width="20vw" height="20vw"></Box>;
 };

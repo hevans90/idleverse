@@ -14,8 +14,6 @@ import {
 } from '@idleverse/graphql';
 import { Stage } from '@inlet/react-pixi';
 import { useEffect, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
-import { Back } from '../../components/back';
 import {
   animateVar,
   galaxyConfigVar,
@@ -32,8 +30,6 @@ export const GalaxyGenContainer = () => {
     useSubscription<GalaxiesSubscription>(GalaxiesDocument);
 
   const size = useResize();
-
-  const history = useHistory();
 
   const toast = useToast();
 
@@ -87,7 +83,7 @@ export const GalaxyGenContainer = () => {
     );
   } else if (data) {
     return (
-      <Box position="relative">
+      <>
         <Stage
           {...size}
           options={{
@@ -98,14 +94,13 @@ export const GalaxyGenContainer = () => {
         >
           <GalaxyGenerator />
         </Stage>
-        <Back />
         <GameUIBottomBar />
         <GameUIRightBar
           role={role}
           saveGalaxyFunction={() => saveGalaxyFn.current()}
         />
         <GeneratorControls />
-      </Box>
+      </>
     );
   } else {
     return (
