@@ -17,6 +17,7 @@ import {
   timeVar,
 } from '../../_state/reactive-variables';
 import { useResize } from '../common-utils/use-resize.hook';
+import { useViewport } from '../common-utils/use-viewport';
 import { Star } from './graphics/star';
 import { fpsTracker } from './utils/fps-counter';
 
@@ -135,17 +136,7 @@ export const GalaxyGenerator = () => {
     });
   }, [galaxyConfig.stars, galaxyConfig.seed]);
 
-  // when the screen is resized, this effect will reset the viewport's screen dimensions & then re-center
-  useEffect(() => {
-    const viewport: Viewport = app.stage.getChildByName(
-      'viewport'
-    ) as unknown as Viewport;
-
-    viewport.screenHeight = size.height;
-    viewport.screenWidth = size.width;
-
-    viewport.fitWorld(true);
-  }, [app.stage, size]);
+  useViewport(app, size, galaxyContainer);
 
   // eslint-disable-next-line react/jsx-no-useless-fragment
   return <></>;

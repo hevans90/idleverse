@@ -4,6 +4,7 @@ import { Text } from 'pixi.js';
 import { useEffect } from 'react';
 import { timeVar } from '../../_state/reactive-variables';
 import { useResize } from '../common-utils/use-resize.hook';
+import { useViewport } from '../common-utils/use-viewport';
 import {
   CreateAnimatedPlanetSprite,
   CreateBasicPlanetSprite,
@@ -160,17 +161,7 @@ export const SolarSystem = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // when the screen is resized, this effect will reset the viewport's screen dimensions & then re-center
-  useEffect(() => {
-    const viewport: Viewport = app.stage.getChildByName(
-      'viewport'
-    ) as unknown as Viewport;
-
-    viewport.screenHeight = size.height;
-    viewport.screenWidth = size.width;
-
-    viewport.fitWorld(true);
-  }, [app.stage, size]);
+  useViewport(app, size);
 
   // eslint-disable-next-line react/jsx-no-useless-fragment
   return <></>;
