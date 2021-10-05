@@ -1,0 +1,18 @@
+subscription CelestialsByGalaxyId($id: uuid!) {
+  galaxy_by_pk(id: $id) {
+    celestials {
+      name
+      id
+      owner_id
+    }
+    celestials_aggregate(distinct_on: owner_id) {
+      nodes {
+        owner_id
+        user_info {
+          display_name
+          avatar_url
+        }
+      }
+    }
+  }
+}

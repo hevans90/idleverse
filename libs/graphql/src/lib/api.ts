@@ -1374,6 +1374,7 @@ export type Timestamp_Comparison_Exp = {
 /** columns and relationships of "user_info" */
 export type User_Info = {
   __typename?: 'user_info';
+  avatar_url?: Maybe<Scalars['String']>;
   /** An array relationship */
   chat_messages: Array<Chat_Message>;
   /** An aggregate relationship */
@@ -1466,6 +1467,7 @@ export type User_Info_Bool_Exp = {
   _and?: Maybe<Array<User_Info_Bool_Exp>>;
   _not?: Maybe<User_Info_Bool_Exp>;
   _or?: Maybe<Array<User_Info_Bool_Exp>>;
+  avatar_url?: Maybe<String_Comparison_Exp>;
   chat_messages?: Maybe<Chat_Message_Bool_Exp>;
   display_name?: Maybe<String_Comparison_Exp>;
   free_claims?: Maybe<Int_Comparison_Exp>;
@@ -1491,6 +1493,7 @@ export type User_Info_Inc_Input = {
 
 /** input type for inserting data into table "user_info" */
 export type User_Info_Insert_Input = {
+  avatar_url?: Maybe<Scalars['String']>;
   chat_messages?: Maybe<Chat_Message_Arr_Rel_Insert_Input>;
   display_name?: Maybe<Scalars['String']>;
   free_claims?: Maybe<Scalars['Int']>;
@@ -1504,6 +1507,7 @@ export type User_Info_Insert_Input = {
 /** aggregate max on columns */
 export type User_Info_Max_Fields = {
   __typename?: 'user_info_max_fields';
+  avatar_url?: Maybe<Scalars['String']>;
   display_name?: Maybe<Scalars['String']>;
   free_claims?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['String']>;
@@ -1515,6 +1519,7 @@ export type User_Info_Max_Fields = {
 /** aggregate min on columns */
 export type User_Info_Min_Fields = {
   __typename?: 'user_info_min_fields';
+  avatar_url?: Maybe<Scalars['String']>;
   display_name?: Maybe<Scalars['String']>;
   free_claims?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['String']>;
@@ -1548,6 +1553,7 @@ export type User_Info_On_Conflict = {
 
 /** Ordering options when selecting data from "user_info". */
 export type User_Info_Order_By = {
+  avatar_url?: Maybe<Order_By>;
   chat_messages_aggregate?: Maybe<Chat_Message_Aggregate_Order_By>;
   display_name?: Maybe<Order_By>;
   free_claims?: Maybe<Order_By>;
@@ -1566,6 +1572,8 @@ export type User_Info_Pk_Columns_Input = {
 /** select columns of table "user_info" */
 export enum User_Info_Select_Column {
   /** column name */
+  AvatarUrl = 'avatar_url',
+  /** column name */
   DisplayName = 'display_name',
   /** column name */
   FreeClaims = 'free_claims',
@@ -1581,6 +1589,7 @@ export enum User_Info_Select_Column {
 
 /** input type for updating data in table "user_info" */
 export type User_Info_Set_Input = {
+  avatar_url?: Maybe<Scalars['String']>;
   display_name?: Maybe<Scalars['String']>;
   free_claims?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['String']>;
@@ -1615,6 +1624,8 @@ export type User_Info_Sum_Fields = {
 
 /** update columns of table "user_info" */
 export enum User_Info_Update_Column {
+  /** column name */
+  AvatarUrl = 'avatar_url',
   /** column name */
   DisplayName = 'display_name',
   /** column name */
@@ -1912,17 +1923,32 @@ export type CelestialsSubscription = {
   }>;
 };
 
-export type GetCelestialsByGalaxyIdSubscriptionVariables = Exact<{
-  galaxyId: Scalars['uuid'];
+export type CelestialsByGalaxyIdSubscriptionVariables = Exact<{
+  id: Scalars['uuid'];
 }>;
 
-export type GetCelestialsByGalaxyIdSubscription = {
+export type CelestialsByGalaxyIdSubscription = {
   __typename?: 'subscription_root';
-  celestial: Array<{
-    __typename?: 'celestial';
-    id: string;
-    name?: Maybe<string>;
-    owner_id?: Maybe<string>;
+  galaxy_by_pk?: Maybe<{
+    __typename?: 'galaxy';
+    celestials: Array<{
+      __typename?: 'celestial';
+      name?: Maybe<string>;
+      id: string;
+      owner_id?: Maybe<string>;
+    }>;
+    celestials_aggregate: {
+      __typename?: 'celestial_aggregate';
+      nodes: Array<{
+        __typename?: 'celestial';
+        owner_id?: Maybe<string>;
+        user_info?: Maybe<{
+          __typename?: 'user_info';
+          display_name?: Maybe<string>;
+          avatar_url?: Maybe<string>;
+        }>;
+      }>;
+    };
   }>;
 };
 
@@ -2219,49 +2245,60 @@ export type CelestialsSubscriptionHookResult = ReturnType<
 >;
 export type CelestialsSubscriptionResult =
   Apollo.SubscriptionResult<CelestialsSubscription>;
-export const GetCelestialsByGalaxyIdDocument = gql`
-  subscription GetCelestialsByGalaxyID($galaxyId: uuid!) {
-    celestial(where: { galaxy_id: { _eq: $galaxyId } }) {
-      id
-      name
-      owner_id
+export const CelestialsByGalaxyIdDocument = gql`
+  subscription CelestialsByGalaxyId($id: uuid!) {
+    galaxy_by_pk(id: $id) {
+      celestials {
+        name
+        id
+        owner_id
+      }
+      celestials_aggregate(distinct_on: owner_id) {
+        nodes {
+          owner_id
+          user_info {
+            display_name
+            avatar_url
+          }
+        }
+      }
     }
   }
 `;
 
 /**
- * __useGetCelestialsByGalaxyIdSubscription__
+ * __useCelestialsByGalaxyIdSubscription__
  *
- * To run a query within a React component, call `useGetCelestialsByGalaxyIdSubscription` and pass it any options that fit your needs.
- * When your component renders, `useGetCelestialsByGalaxyIdSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useCelestialsByGalaxyIdSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useCelestialsByGalaxyIdSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetCelestialsByGalaxyIdSubscription({
+ * const { data, loading, error } = useCelestialsByGalaxyIdSubscription({
  *   variables: {
- *      galaxyId: // value for 'galaxyId'
+ *      id: // value for 'id'
  *   },
  * });
  */
-export function useGetCelestialsByGalaxyIdSubscription(
+export function useCelestialsByGalaxyIdSubscription(
   baseOptions: Apollo.SubscriptionHookOptions<
-    GetCelestialsByGalaxyIdSubscription,
-    GetCelestialsByGalaxyIdSubscriptionVariables
+    CelestialsByGalaxyIdSubscription,
+    CelestialsByGalaxyIdSubscriptionVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useSubscription<
-    GetCelestialsByGalaxyIdSubscription,
-    GetCelestialsByGalaxyIdSubscriptionVariables
-  >(GetCelestialsByGalaxyIdDocument, options);
+    CelestialsByGalaxyIdSubscription,
+    CelestialsByGalaxyIdSubscriptionVariables
+  >(CelestialsByGalaxyIdDocument, options);
 }
-export type GetCelestialsByGalaxyIdSubscriptionHookResult = ReturnType<
-  typeof useGetCelestialsByGalaxyIdSubscription
+export type CelestialsByGalaxyIdSubscriptionHookResult = ReturnType<
+  typeof useCelestialsByGalaxyIdSubscription
 >;
-export type GetCelestialsByGalaxyIdSubscriptionResult =
-  Apollo.SubscriptionResult<GetCelestialsByGalaxyIdSubscription>;
+export type CelestialsByGalaxyIdSubscriptionResult =
+  Apollo.SubscriptionResult<CelestialsByGalaxyIdSubscription>;
 export const TryInsertClaimedCelestialDocument = gql`
   mutation TryInsertClaimedCelestial(
     $galaxy_id: uuid!
