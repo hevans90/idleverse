@@ -16,6 +16,7 @@ import {
   galaxyRotationVar,
 } from '../../_state/reactive-variables';
 import { useResize } from '../common-utils/use-resize.hook';
+import { useViewport } from '../common-utils/use-viewport';
 import { Star } from '../galaxy-generator/graphics/star';
 import { fpsTracker } from '../galaxy-generator/utils/fps-counter';
 
@@ -64,7 +65,7 @@ export const GalaxyViewer = ({
     viewport.name = 'viewport';
 
     // activate plugins
-    viewport.drag().pinch().wheel().decelerate();
+    viewport.pinch().wheel().decelerate();
     viewport.clampZoom({ minWidth: 300, maxWidth: 2000 });
     viewport.clamp({ direction: 'all' });
 
@@ -99,17 +100,7 @@ export const GalaxyViewer = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // when the screen is resized, this effect will reset the viewport's screen dimensions & then re-center
-  useEffect(() => {
-    const viewport: Viewport = app.stage.getChildByName(
-      'viewport'
-    ) as unknown as Viewport;
-
-    viewport.screenHeight = size.height;
-    viewport.screenWidth = size.width;
-
-    viewport.fitWorld(true);
-  }, [app.stage, size]);
+  useViewport(app, size, galaxyContainer);
 
   // eslint-disable-next-line react/jsx-no-useless-fragment
   return <></>;
