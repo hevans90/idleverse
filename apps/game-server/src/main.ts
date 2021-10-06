@@ -11,33 +11,8 @@ import { Auth0API } from './datasources/auth0-api';
 import { Context } from './datasources/context';
 import { HasuraAPI } from './datasources/hasura-api';
 import { GalaxyManagementResolver } from './entities/galaxy-management';
-import { RecipeResolver } from './entities/message';
 import { RegisterResolver } from './entities/register';
 import ws = require('ws');
-
-// const consumer = client.subscribe({ query: LatestMessageDocument });
-// consumer.forEach((sub) => {
-//   console.log(sub.data);
-// });
-
-// const mutation = gql`
-//   mutation MemeGalaxy {
-//     insert_galaxy_one(
-//       object: {
-//         arm_width: 0.2
-//         arms: 5
-//         core_concentration_factor: 1
-//         core_radius_factor: 0.05
-//         curvature: 3
-//         name: "incelverse"
-//         radius: 10
-//         stars: 100
-//       }
-//     ) {
-//       id
-//     }
-//   }
-// `;
 
 (async () => {
   const client = apolloBootstrapper(
@@ -57,7 +32,7 @@ import ws = require('ws');
   );
 
   const schema = await buildSchema({
-    resolvers: [RecipeResolver, RegisterResolver, GalaxyManagementResolver],
+    resolvers: [RegisterResolver, GalaxyManagementResolver],
     authChecker,
     emitSchemaFile: true,
   });
