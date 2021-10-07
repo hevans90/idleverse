@@ -18,8 +18,6 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
-  DateTime: any;
   numeric: any;
   timestamp: any;
   uuid: any;
@@ -41,15 +39,6 @@ export type Int_Comparison_Exp = {
   _lte?: Maybe<Scalars['Int']>;
   _neq?: Maybe<Scalars['Int']>;
   _nin?: Maybe<Array<Scalars['Int']>>;
-};
-
-export type Recipe = {
-  __typename?: 'Recipe';
-  creationDate: Scalars['DateTime'];
-  description?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  ingredients: Array<Scalars['String']>;
-  title: Scalars['String'];
 };
 
 export type Register = {
@@ -816,6 +805,7 @@ export type Mutation_Root = {
   insert_user_private?: Maybe<User_Private_Mutation_Response>;
   /** insert a single row into the table: "user_private" */
   insert_user_private_one?: Maybe<User_Private>;
+  requestRandomCelestial?: Maybe<GalaxyManagement>;
   setDisplayName?: Maybe<Register>;
   /** update data of the table: "celestial" */
   update_celestial?: Maybe<Celestial_Mutation_Response>;
@@ -958,6 +948,11 @@ export type Mutation_RootInsert_User_Private_OneArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootRequestRandomCelestialArgs = {
+  galaxy_id: Scalars['String'];
+};
+
+/** mutation root */
 export type Mutation_RootSetDisplayNameArgs = {
   display_name: Scalars['String'];
 };
@@ -1075,9 +1070,7 @@ export type Query_Root = {
   galaxy_aggregate: Galaxy_Aggregate;
   /** fetch data from the table: "galaxy" using primary key columns */
   galaxy_by_pk?: Maybe<Galaxy>;
-  latestRecipe?: Maybe<Recipe>;
-  recipes?: Maybe<Array<Recipe>>;
-  requestRandomCelestial?: Maybe<GalaxyManagement>;
+  returnNothing?: Maybe<GalaxyManagement>;
   /** fetch data from the table: "user_info" */
   user_info: Array<User_Info>;
   /** fetch aggregated fields from the table: "user_info" */
@@ -1152,10 +1145,6 @@ export type Query_RootGalaxy_AggregateArgs = {
 
 export type Query_RootGalaxy_By_PkArgs = {
   id: Scalars['uuid'];
-};
-
-export type Query_RootRequestRandomCelestialArgs = {
-  galaxy_id: Scalars['String'];
 };
 
 export type Query_RootUser_InfoArgs = {
