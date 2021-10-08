@@ -8,7 +8,6 @@ import {
 } from '@idleverse/galaxy-gen';
 import { CelestialsByGalaxyIdSubscription } from '@idleverse/graphql';
 import { useApp } from '@inlet/react-pixi';
-import { Viewport } from 'pixi-viewport';
 import { Container, Graphics } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import {
@@ -18,7 +17,7 @@ import {
 import { useResize } from '../common-utils/use-resize.hook';
 import { useViewport } from '../common-utils/use-viewport';
 import { Star } from '../galaxy-generator/graphics/star';
-import { fpsTracker } from '../galaxy-generator/utils/fps-counter';
+import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
 
 type GalaxyViewerProps = {
   galaxyConfig: GalaxyConfig;
@@ -48,37 +47,17 @@ export const GalaxyViewer = ({
       _star.y = position.y;
     });
 
+  useViewport(app, size, galaxyContainer, true);
+
+  useFpsTracker(app, size);
+
   useEffect(() => {
-    // create viewport
-    const viewport = new Viewport({
-      screenWidth: size.width,
-      screenHeight: size.height,
-      worldWidth: size.width,
-      worldHeight: size.height,
-
-      // the interaction module is important for wheel to work properly when renderer.view is placed or scaled
-      interaction: app.renderer.plugins.interaction,
-    });
-
-    // add the viewport to the stage
-    app.stage.addChild(viewport);
-    viewport.name = 'viewport';
-
-    // activate plugins
-    viewport.pinch().wheel().decelerate();
-    viewport.clampZoom({ minWidth: 300, maxWidth: 2000 });
-    viewport.clamp({ direction: 'all' });
-
     galaxyContainer.current.name = 'galaxy';
-
-    viewport.addChild(galaxyContainer.current);
 
     galaxyContainer.current.x = size.width / 2;
     galaxyContainer.current.y = size.height / 2;
 
     app.ticker.add(updateGalaxyRotation(galaxyContainer.current));
-
-    fpsTracker(app);
 
     //todo draw dynamic
     stars.current = generateCelestialsWithClaimed(
@@ -99,8 +78,6 @@ export const GalaxyViewer = ({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useViewport(app, size, galaxyContainer);
 
   // eslint-disable-next-line react/jsx-no-useless-fragment
   return <></>;

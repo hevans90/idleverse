@@ -1,26 +1,12 @@
-import { Application, Text } from 'pixi.js';
+import { Application, Text, TickerCallback } from 'pixi.js';
+import { useEffect, useRef } from 'react';
+import { indicatorFactory } from './indicator-factory';
 
-export const fpsTracker = (app: Application) => {
-  const indicator = (text: string, x: number, y: number, name: string) => {
-    const ind = new Text(`FPS: `, {
-      fontFamily: 'zx spectrum',
-      fontSize: 24,
-      fill: 0xffffff,
-    });
-
-    ind.x = x;
-    ind.y = y;
-    ind.name = name;
-
-    return ind;
-  };
-
-  app.stage.addChild(
-    indicator('FPS', 50, 100, 'fpsCounter'),
-    indicator('Frametime', 50, 150, 'frameTime')
-  );
-
-  app.ticker.add(() => {
+export const useFpsTracker = (
+  app: Application,
+  size: { width: number; height: number }
+) => {
+  const fpsUpdateTickerRef = useRef<TickerCallback<unknown>>(() => {
     (app.stage.getChildByName('fpsCounter') as Text).text = `FPS: ${Math.ceil(
       app.ticker.FPS
     )}`;
@@ -29,4 +15,26 @@ export const fpsTracker = (app: Application) => {
       app.stage.getChildByName('frameTime') as Text
     ).text = `Frame time: ${Math.ceil(app.ticker.deltaMS)}`;
   });
+
+  const fpsText = useRef<Text>(
+    indicatorFactory('FPS: ', 50, 100, 'fpsCounter')
+  );
+  const frameTimeText = useRef<Text>(
+    indicatorFactory('Frametime: ', 50, 150, 'frameTime')
+  );
+
+  useEffect(() => {
+    app.stage.addChild(fpsText.current, frameTimeText.current);
+    app.ticker.add(fpsUpdateTickerRef.current);
+
+    return () => {
+      try {
+        app.stage.removeChild(fpsText.current);
+        app.stage.removeChild(frameTimeText.current);
+        app.ticker.remove(fpsUpdateTickerRef.current);
+      } catch (e) {
+        console.warn(e);
+      }
+    };
+  }, []);
 };
