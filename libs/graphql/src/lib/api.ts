@@ -1011,6 +1011,7 @@ export type Mutation_RootUpdate_User_Info_By_PkArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_User_MeArgs = {
+  _inc?: Maybe<User_Me_Inc_Input>;
   _set?: Maybe<User_Me_Set_Input>;
   where: User_Me_Bool_Exp;
 };
@@ -1651,6 +1652,7 @@ export type User_Info_Variance_Fields = {
 export type User_Me = {
   __typename?: 'user_me';
   display_name?: Maybe<Scalars['String']>;
+  free_claims?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   nickname?: Maybe<Scalars['String']>;
@@ -1667,9 +1669,17 @@ export type User_Me_Aggregate = {
 /** aggregate fields of "user_me" */
 export type User_Me_Aggregate_Fields = {
   __typename?: 'user_me_aggregate_fields';
+  avg?: Maybe<User_Me_Avg_Fields>;
   count: Scalars['Int'];
   max?: Maybe<User_Me_Max_Fields>;
   min?: Maybe<User_Me_Min_Fields>;
+  stddev?: Maybe<User_Me_Stddev_Fields>;
+  stddev_pop?: Maybe<User_Me_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<User_Me_Stddev_Samp_Fields>;
+  sum?: Maybe<User_Me_Sum_Fields>;
+  var_pop?: Maybe<User_Me_Var_Pop_Fields>;
+  var_samp?: Maybe<User_Me_Var_Samp_Fields>;
+  variance?: Maybe<User_Me_Variance_Fields>;
 };
 
 /** aggregate fields of "user_me" */
@@ -1678,21 +1688,34 @@ export type User_Me_Aggregate_FieldsCountArgs = {
   distinct?: Maybe<Scalars['Boolean']>;
 };
 
+/** aggregate avg on columns */
+export type User_Me_Avg_Fields = {
+  __typename?: 'user_me_avg_fields';
+  free_claims?: Maybe<Scalars['Float']>;
+};
+
 /** Boolean expression to filter rows from the table "user_me". All fields are combined with a logical 'AND'. */
 export type User_Me_Bool_Exp = {
   _and?: Maybe<Array<User_Me_Bool_Exp>>;
   _not?: Maybe<User_Me_Bool_Exp>;
   _or?: Maybe<Array<User_Me_Bool_Exp>>;
   display_name?: Maybe<String_Comparison_Exp>;
+  free_claims?: Maybe<Int_Comparison_Exp>;
   id?: Maybe<String_Comparison_Exp>;
   name?: Maybe<String_Comparison_Exp>;
   nickname?: Maybe<String_Comparison_Exp>;
   secret_setting_test?: Maybe<String_Comparison_Exp>;
 };
 
+/** input type for incrementing numeric columns in table "user_me" */
+export type User_Me_Inc_Input = {
+  free_claims?: Maybe<Scalars['Int']>;
+};
+
 /** input type for inserting data into table "user_me" */
 export type User_Me_Insert_Input = {
   display_name?: Maybe<Scalars['String']>;
+  free_claims?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   nickname?: Maybe<Scalars['String']>;
@@ -1703,6 +1726,7 @@ export type User_Me_Insert_Input = {
 export type User_Me_Max_Fields = {
   __typename?: 'user_me_max_fields';
   display_name?: Maybe<Scalars['String']>;
+  free_claims?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   nickname?: Maybe<Scalars['String']>;
@@ -1713,6 +1737,7 @@ export type User_Me_Max_Fields = {
 export type User_Me_Min_Fields = {
   __typename?: 'user_me_min_fields';
   display_name?: Maybe<Scalars['String']>;
+  free_claims?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   nickname?: Maybe<Scalars['String']>;
@@ -1731,6 +1756,7 @@ export type User_Me_Mutation_Response = {
 /** Ordering options when selecting data from "user_me". */
 export type User_Me_Order_By = {
   display_name?: Maybe<Order_By>;
+  free_claims?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
   nickname?: Maybe<Order_By>;
@@ -1741,6 +1767,8 @@ export type User_Me_Order_By = {
 export enum User_Me_Select_Column {
   /** column name */
   DisplayName = 'display_name',
+  /** column name */
+  FreeClaims = 'free_claims',
   /** column name */
   Id = 'id',
   /** column name */
@@ -1754,10 +1782,53 @@ export enum User_Me_Select_Column {
 /** input type for updating data in table "user_me" */
 export type User_Me_Set_Input = {
   display_name?: Maybe<Scalars['String']>;
+  free_claims?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   nickname?: Maybe<Scalars['String']>;
   secret_setting_test?: Maybe<Scalars['String']>;
+};
+
+/** aggregate stddev on columns */
+export type User_Me_Stddev_Fields = {
+  __typename?: 'user_me_stddev_fields';
+  free_claims?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type User_Me_Stddev_Pop_Fields = {
+  __typename?: 'user_me_stddev_pop_fields';
+  free_claims?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type User_Me_Stddev_Samp_Fields = {
+  __typename?: 'user_me_stddev_samp_fields';
+  free_claims?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate sum on columns */
+export type User_Me_Sum_Fields = {
+  __typename?: 'user_me_sum_fields';
+  free_claims?: Maybe<Scalars['Int']>;
+};
+
+/** aggregate var_pop on columns */
+export type User_Me_Var_Pop_Fields = {
+  __typename?: 'user_me_var_pop_fields';
+  free_claims?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type User_Me_Var_Samp_Fields = {
+  __typename?: 'user_me_var_samp_fields';
+  free_claims?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type User_Me_Variance_Fields = {
+  __typename?: 'user_me_variance_fields';
+  free_claims?: Maybe<Scalars['Float']>;
 };
 
 /** columns and relationships of "user_private" */
@@ -1938,6 +2009,18 @@ export type CelestialsByGalaxyIdSubscription = {
         }>;
       }>;
     };
+  }>;
+};
+
+export type RequestRandomCelestialByGalaxyIdMutationVariables = Exact<{
+  galaxy_id: Scalars['String'];
+}>;
+
+export type RequestRandomCelestialByGalaxyIdMutation = {
+  __typename?: 'mutation_root';
+  requestRandomCelestial?: Maybe<{
+    __typename?: 'GalaxyManagement';
+    freeClaimsLeft: number;
   }>;
 };
 
@@ -2127,6 +2210,7 @@ export type SelfQuery = {
     name?: Maybe<string>;
     nickname?: Maybe<string>;
     secret_setting_test?: Maybe<string>;
+    free_claims?: Maybe<number>;
   }>;
 };
 
@@ -2288,6 +2372,58 @@ export type CelestialsByGalaxyIdSubscriptionHookResult = ReturnType<
 >;
 export type CelestialsByGalaxyIdSubscriptionResult =
   Apollo.SubscriptionResult<CelestialsByGalaxyIdSubscription>;
+export const RequestRandomCelestialByGalaxyIdDocument = gql`
+  mutation RequestRandomCelestialByGalaxyId($galaxy_id: String!) {
+    requestRandomCelestial(galaxy_id: $galaxy_id) {
+      freeClaimsLeft
+    }
+  }
+`;
+export type RequestRandomCelestialByGalaxyIdMutationFn =
+  Apollo.MutationFunction<
+    RequestRandomCelestialByGalaxyIdMutation,
+    RequestRandomCelestialByGalaxyIdMutationVariables
+  >;
+
+/**
+ * __useRequestRandomCelestialByGalaxyIdMutation__
+ *
+ * To run a mutation, you first call `useRequestRandomCelestialByGalaxyIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRequestRandomCelestialByGalaxyIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [requestRandomCelestialByGalaxyIdMutation, { data, loading, error }] = useRequestRandomCelestialByGalaxyIdMutation({
+ *   variables: {
+ *      galaxy_id: // value for 'galaxy_id'
+ *   },
+ * });
+ */
+export function useRequestRandomCelestialByGalaxyIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    RequestRandomCelestialByGalaxyIdMutation,
+    RequestRandomCelestialByGalaxyIdMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    RequestRandomCelestialByGalaxyIdMutation,
+    RequestRandomCelestialByGalaxyIdMutationVariables
+  >(RequestRandomCelestialByGalaxyIdDocument, options);
+}
+export type RequestRandomCelestialByGalaxyIdMutationHookResult = ReturnType<
+  typeof useRequestRandomCelestialByGalaxyIdMutation
+>;
+export type RequestRandomCelestialByGalaxyIdMutationResult =
+  Apollo.MutationResult<RequestRandomCelestialByGalaxyIdMutation>;
+export type RequestRandomCelestialByGalaxyIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    RequestRandomCelestialByGalaxyIdMutation,
+    RequestRandomCelestialByGalaxyIdMutationVariables
+  >;
 export const TryInsertClaimedCelestialDocument = gql`
   mutation TryInsertClaimedCelestial(
     $galaxy_id: uuid!
@@ -2797,6 +2933,7 @@ export const SelfDocument = gql`
       name
       nickname
       secret_setting_test
+      free_claims
     }
   }
 `;

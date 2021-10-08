@@ -1,18 +1,35 @@
-import { ApolloError } from '@apollo/client';
-import { Box, Text, useColorModeValue } from '@chakra-ui/react';
+import { ApolloError, useReactiveVar } from '@apollo/client';
+import {
+  Box,
+  Button,
+  Spinner,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { Loading } from '../../../components/loading';
 import { Thumbnail } from '../../../components/thumbnail';
+import { selfVar } from '../../../_state/reactive-variables';
 import { CelestialOwner } from '../celestial-owner';
 
 type PlayerPanelProps = {
   owners: CelestialOwner[];
   loading: boolean;
   error?: ApolloError;
+  claimCelestialFunction: () => unknown;
+  claimPending: boolean;
 };
 
-export const PlayerPanel = ({ owners, loading, error }: PlayerPanelProps) => {
+export const PlayerPanel = ({
+  owners,
+  loading,
+  error,
+  claimCelestialFunction,
+  claimPending,
+}: PlayerPanelProps) => {
   const bg = useColorModeValue('gray.300', 'gray.700');
   const border = useColorModeValue('gray.200', 'gray.600');
+
+  const { free_claims } = useReactiveVar(selfVar);
 
   if (loading) {
     return <Loading text="Loading players..."></Loading>;
@@ -37,6 +54,16 @@ export const PlayerPanel = ({ owners, loading, error }: PlayerPanelProps) => {
       borderColor={border}
       borderRight="unset"
     >
+      <Button
+        width="100%"
+        marginTop="1rem"
+        marginBottom="1rem"
+        colorScheme="teal"
+        onClick={() => claimCelestialFunction()}
+        disabled={free_claims === 0 || claimPending}
+      >
+        {claimPending ? <Spinner color="teal.500" /> : `Claim (${free_claims})`}
+      </Button>
       {owners.map(({ display_name, avatar_url, ownedCount }) => (
         <Box
           key={display_name}
