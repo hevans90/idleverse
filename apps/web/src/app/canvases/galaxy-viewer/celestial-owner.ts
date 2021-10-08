@@ -9,6 +9,9 @@ export type CelestialOwner = Pick<User_Info, 'display_name' | 'avatar_url'> & {
   celestials: Partial<Celestial>[];
 };
 
+/**
+ * Maps a galaxy response from Hasura to a `CelestialOwner`.
+ */
 export const celestialOwnerMapper = ({
   galaxy_by_pk: {
     celestials: allCelestials,
