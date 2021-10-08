@@ -1,0 +1,5 @@
+mutation RequestRandomCelestialByGalaxyId($galaxy_id: String!) {
+  requestRandomCelestial(galaxy_id: $galaxy_id) {
+    freeClaimsLeft
+  }
+}

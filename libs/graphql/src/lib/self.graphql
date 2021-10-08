@@ -5,5 +5,6 @@ query Self {
     name
     nickname
     secret_setting_test
+    free_claims
   }
 }
