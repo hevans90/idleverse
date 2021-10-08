@@ -25,7 +25,7 @@ export const SolarSystem = () => {
 
   const systemContainer = useRef(new Container());
 
-  app.stage.sortableChildren = true;
+  systemContainer.current.sortableChildren = true;
 
   const systemOrigin = 200;
   const systemRange = 50;
