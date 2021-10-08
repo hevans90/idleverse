@@ -7,7 +7,6 @@ import {
   getCelestialPosition,
 } from '@idleverse/galaxy-gen';
 import { useApp } from '@inlet/react-pixi';
-import { Viewport } from 'pixi-viewport';
 import { Container, Graphics, TickerCallback } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import {
@@ -19,7 +18,7 @@ import {
 import { useResize } from '../common-utils/use-resize.hook';
 import { useViewport } from '../common-utils/use-viewport';
 import { Star } from './graphics/star';
-import { fpsTracker } from './utils/fps-counter';
+import { useFpsTracker } from './utils/fps-counter';
 
 export const GalaxyGenerator = () => {
   const galaxyConfig = useReactiveVar(galaxyConfigVar);
@@ -61,30 +60,7 @@ export const GalaxyGenerator = () => {
   );
 
   useEffect(() => {
-    // create viewport
-    const viewport = new Viewport({
-      screenWidth: size.width,
-      screenHeight: size.height,
-      worldWidth: size.width,
-      worldHeight: size.height,
-
-      // the interaction module is important for wheel to work properly when renderer.view is placed or scaled
-      interaction: app.renderer.plugins.interaction,
-    });
-
-    // add the viewport to the stage
-    app.stage.addChild(viewport);
-    viewport.name = 'viewport';
-
-    // activate plugins
-    viewport.drag().pinch().wheel().decelerate();
-
-    viewport.clampZoom({ minWidth: 300, maxWidth: 2000 });
-    viewport.clamp({ direction: 'all' });
-
     galaxyContainer.current.name = 'galaxy';
-
-    viewport.addChild(galaxyContainer.current);
 
     galaxyContainer.current.x = size.width / 2;
     galaxyContainer.current.y = size.height / 2;
@@ -94,8 +70,6 @@ export const GalaxyGenerator = () => {
     app.ticker.add((delta) => {
       timeVar(timeVar() + 1);
     });
-
-    fpsTracker(app);
 
     /**
      * NOTE: we don't need to manually destroy anything in a return function, as react-pixi seems to do this automatically.
@@ -136,7 +110,8 @@ export const GalaxyGenerator = () => {
     });
   }, [galaxyConfig.stars, galaxyConfig.seed]);
 
-  useViewport(app, size, galaxyContainer);
+  useViewport(app, size, galaxyContainer, true);
+  useFpsTracker(app, size);
 
   // eslint-disable-next-line react/jsx-no-useless-fragment
   return <></>;

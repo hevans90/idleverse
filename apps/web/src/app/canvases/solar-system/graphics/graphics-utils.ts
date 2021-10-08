@@ -1,11 +1,12 @@
 import {
+  AnimatedSprite,
   Application,
   BaseTexture,
-  Texture,
-  Rectangle,
-  AnimatedSprite,
-  Sprite,
+  Container,
   Graphics,
+  Rectangle,
+  Sprite,
+  Texture,
 } from 'pixi.js';
 
 export type SpriteSheetConfig = {
@@ -18,7 +19,7 @@ export type SpriteSheetConfig = {
 };
 
 export const CreateAnimatedPlanetSprite = (
-  app: Application,
+  container: Container,
   conf: SpriteSheetConfig
 ) => {
   const sheet = BaseTexture.from(conf.url);
@@ -48,16 +49,17 @@ export const CreateAnimatedPlanetSprite = (
   sprite.height = sprite.height * conf.spriteScale;
   sprite.width = sprite.width * conf.spriteScale;
   sprite.play();
-  app.stage.addChild(sprite);
+  container.addChild(sprite);
   return sprite;
 };
 
 export const CreateBasicPlanetSprite = (
   app: Application,
+  container: Container,
   graphic: Graphics
 ) => {
   const sunTexture = app.renderer.generateTexture(graphic);
   const sprite = new Sprite(sunTexture);
-  app.stage.addChild(sprite);
+  container.addChild(sprite);
   return sprite;
 };

@@ -1,6 +1,7 @@
 import { Viewport } from 'pixi-viewport';
-import { Application, Container } from 'pixi.js';
-import { useEffect } from 'react';
+import { Application, Container, Graphics, Text } from 'pixi.js';
+import { useEffect, useRef } from 'react';
+import { indicatorFactory } from '../galaxy-generator/utils/indicator-factory';
 
 /**
  * when the screen is resized, this effect will reset the viewport's screen dimensions & then re-center
@@ -8,21 +9,71 @@ import { useEffect } from 'react';
 export const useViewport = (
   app: Application,
   size: { width: number; height: number },
-  containerRef?: React.MutableRefObject<Container>
+  containerRef?: React.MutableRefObject<Container>,
+  debug = false
 ) => {
-  useEffect(() => {
-    const viewport: Viewport = app.stage.getChildByName(
-      'viewport'
-    ) as unknown as Viewport;
+  const outline = useRef<Graphics>(null);
 
+  const viewportRef = useRef<Viewport>(null);
+
+  const sizeIndicator = useRef<Text>(
+    indicatorFactory('viewport:', 50, size.height - 200, 'sizeIndicator')
+  );
+
+  useEffect(() => {
+    viewportRef.current = new Viewport({
+      screenWidth: size.width,
+      screenHeight: size.height,
+      worldWidth: size.width,
+      worldHeight: size.height,
+
+      // the interaction module is important for wheel to work properly when renderer.view is placed or scaled
+      interaction: app.renderer.plugins.interaction,
+    });
+
+    viewportRef.current.pinch().wheel().decelerate();
+    viewportRef.current.clampZoom({ minWidth: 300, maxWidth: 2000 });
+    viewportRef.current.clamp({ direction: 'all' });
+
+    viewportRef.current.screenHeight = size.height;
+    viewportRef.current.screenWidth = size.width;
+
+    app.stage.addChild(viewportRef.current);
     if (containerRef) {
       containerRef.current.x = size.width / 2;
       containerRef.current.y = size.height / 2;
+
+      viewportRef.current.addChild(containerRef.current);
     }
+    viewportRef.current.fitWorld(true);
 
-    viewport.screenHeight = size.height;
-    viewport.screenWidth = size.width;
+    if (debug) {
+      outline.current = new Graphics();
+      outline.current
+        .lineStyle(5, 0xff0000)
+        .drawRect(
+          0,
+          0,
+          viewportRef.current.worldWidth,
+          viewportRef.current.worldHeight
+        );
 
-    viewport.fitWorld(true);
-  }, [app.stage, containerRef, size]);
+      viewportRef.current.addChild(outline.current);
+
+      sizeIndicator.current.text = `width: ${size.width}\n\nheight: ${size.height}`;
+
+      app.stage.addChild(sizeIndicator.current);
+    }
+    return () => {
+      try {
+        // this will also remove any children (debug outline etc)
+        app.stage.removeChild(viewportRef.current);
+
+        app.stage.removeChild(sizeIndicator.current);
+      } catch (e) {
+        // this can throw if react-pixi destroys the stage, from routing etc.
+      }
+    };
+    // viewport.moveCenter(size.width / 2, size.height / 2);
+  }, [app.stage, containerRef, size, debug]);
 };
