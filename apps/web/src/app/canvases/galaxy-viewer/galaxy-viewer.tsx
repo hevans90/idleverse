@@ -79,6 +79,10 @@ export const GalaxyViewer = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    console.log('new payload:', claimedCelestials);
+  }, [claimedCelestials]);
+
   // eslint-disable-next-line react/jsx-no-useless-fragment
   return <></>;
 };

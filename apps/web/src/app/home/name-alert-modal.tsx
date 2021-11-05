@@ -35,7 +35,7 @@ export const NameAlertModal = () => {
     } else onClose();
   }, [self]);
 
-  const onClick = () => {
+  const handleSubmit = () => {
     if (
       !initialRef.current &&
       initialRef.current.value &&
@@ -74,21 +74,32 @@ export const NameAlertModal = () => {
       isCentered
     >
       <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Enter your name</ModalHeader>
-        <ModalBody pb={6}>
-          <FormControl>
-            <FormLabel>Display name</FormLabel>
-            <Input ref={initialRef} />
-          </FormControl>
-        </ModalBody>
+      <form onSubmit={handleSubmit}>
+        <ModalContent>
+          <ModalHeader>Enter your name</ModalHeader>
+          <ModalBody pb={6}>
+            <FormControl>
+              <FormLabel>Display name</FormLabel>
+              <Input
+                disabled={loading}
+                ref={initialRef}
+                onSubmit={handleSubmit}
+              />
+            </FormControl>
+          </ModalBody>
 
-        <ModalFooter>
-          <Button onClick={onClick} colorScheme="blue" mr={3}>
-            Save
-          </Button>
-        </ModalFooter>
-      </ModalContent>
+          <ModalFooter>
+            <Button
+              disabled={loading}
+              onClick={handleSubmit}
+              colorScheme="blue"
+              mr={3}
+            >
+              Save
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </form>
     </Modal>
   );
 };
