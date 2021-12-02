@@ -7,12 +7,11 @@ import {
 } from './card';
 import { ceoCardConfig } from './card.configs';
 import { Diner } from './diner';
-import { Drawer } from './drawer';
+import { getDrawerByName } from './drawer';
 
 export type Player = {
-  diner: Diner;
+  diners: Diner[];
   ceo: { card: Card };
-  cards: Card[];
   food: {
     [key: string]: {
       amount: number;
@@ -34,11 +33,13 @@ invalidCardTint.beginFill(0xd3002c, 0.25);
 invalidCardTint.drawRoundedRect(0, 0, 200, 192, 12);
 invalidCardTint.endFill();
 
-export const initCEOCard = (player: Player, structureDrawer: Drawer) => {
+export const initCEOCard = (player: Player) => {
+  const structureDrawer = getDrawerByName('Structure');
   player.ceo.card = {
     ...ceoCardConfig,
     container: createCardSprite(ceoCardConfig),
     owner: player,
+    parent: structureDrawer,
     active: false,
     used: false,
     employees: [],
@@ -63,8 +64,8 @@ export const initCEOCard = (player: Player, structureDrawer: Drawer) => {
     structureDrawer.width / 2 - ceoCard.container.width / 2;
   ceoCard.container.position.y = 50;
 
-  initManagerContentsContainer(ceoCard, structureDrawer);
-
   structureDrawer.contentsContainer.addChild(ceoCard.container);
+
+  initManagerContentsContainer(ceoCard);
   structureDrawer.contentsContainer.addChild(ceoCard.contentsContainer);
 };

@@ -6,6 +6,7 @@ import { drawPlacementIndicator, PlacementIndicatorColour } from './indicators';
 import { parseRoadConfig } from './road';
 import { lineColour } from './types';
 import { tileConfigRegex, ts } from './utils/constants';
+import { grassTexture } from './utils/graphics';
 import { app, board, keyEventMap } from './utils/singletons';
 import { calcDistance, rangeOverlapsItem } from './utils/utils';
 
@@ -29,10 +30,27 @@ export type Chunk = Tile[];
 export const generateTileTexture = (fillColor: number, alpha = 1) => {
   const square = new PIXI.Graphics();
   square.lineStyle(2, lineColour, alpha);
-  square.beginFill(fillColor, alpha);
+  //square.beginFill(fillColor, alpha);
   square.drawRect(2, 2, ts - 2, ts - 2);
   square.endFill();
-  return app.renderer.generateTexture(square);
+
+  const grassSprite = new PIXI.Sprite(grassTexture);
+  grassSprite.height = ts - 4;
+  grassSprite.width = ts - 4;
+
+  const renderContainer = new PIXI.Container();
+  if (alpha === 1) renderContainer.addChild(square, grassSprite);
+  else renderContainer.addChild(square);
+
+  const baseTexture = new PIXI.BaseRenderTexture({
+    width: ts,
+    height: ts,
+  });
+  const renderTexture = new PIXI.RenderTexture(baseTexture);
+
+  app.renderer.render(renderContainer, { renderTexture });
+
+  return renderTexture;
 };
 
 const tileTexture = generateTileTexture(0xffffff);
@@ -117,22 +135,6 @@ export const addTileToBoard = (
 
   board.tiles.push(tile);
   board.container.addChild(tile.container);
-};
-
-export const disablePlacement = (board: Board) => {
-  removeChildrenByName(board.container, 'indicator');
-  [].concat(board.tiles, board.outerTiles).forEach((square) => {
-    square.container.removeAllListeners();
-    square.container.interactive = true;
-    square.container.buttonMode = true;
-  });
-  [].concat(board.tiles, board.outerTiles).forEach((tile) => {
-    removeChildrenByName(tile.container, 'tint');
-  });
-  board.houses.forEach((house) => (house.sprite.tint = 0xffffff));
-  keyEventMap.Space = () => {
-    return;
-  };
 };
 
 export const getAdjacentSquares = (tiles: Tile[], tile1: Tile) => {
@@ -275,4 +277,21 @@ export const enablePlacement = (
       }
     });
   });
+};
+
+export const disablePlacement = () => {
+  console.log('disabling placement');
+  removeChildrenByName(board.container, 'indicator');
+  [].concat(board.tiles, board.outerTiles).forEach((square) => {
+    square.container.removeAllListeners();
+    square.container.interactive = true;
+    square.container.buttonMode = true;
+  });
+  [].concat(board.tiles, board.outerTiles).forEach((tile) => {
+    removeChildrenByName(tile.container, 'tint');
+  });
+  board.houses.forEach((house) => (house.sprite.tint = 0xffffff));
+  keyEventMap.Space = () => {
+    return;
+  };
 };

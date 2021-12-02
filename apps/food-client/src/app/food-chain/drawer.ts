@@ -1,7 +1,9 @@
 import * as PIXI from 'pixi.js';
 import { translateObject } from './animation';
 import { Card } from './card';
+import { Diner } from './diner';
 import { MarketingTile, MarketingTileKinds } from './marketingTile';
+import { Player } from './player';
 import { baseColour, lineColour } from './types';
 import { ts } from './utils/constants';
 import { app, drawers } from './utils/singletons';
@@ -16,15 +18,21 @@ export type Drawer = {
   tabEndY?: number;
   tabWidth: number;
   orient: string;
-  employees: Card[];
-  marketingTiles: MarketingTile[];
+  owner?: Player;
+  employees?: Card[];
+  marketingTiles?: MarketingTile[];
+  diners?: Diner[];
   container?: PIXI.Container;
   contentsContainer?: PIXI.Container;
   fixedContainer?: PIXI.Container;
   renderContents?: () => void;
 };
 
-const getX = (drawer: Drawer) => {
+export const getDrawerByName = (drawerName: string) => {
+  return drawers.find((drawer) => drawer.name === drawerName);
+};
+
+const getDrawerXPos = (drawer: Drawer) => {
   if (drawer.orient === 'left') {
     return drawer.open ? drawer.tabWidth : -drawer.width;
   } else {
@@ -36,24 +44,24 @@ const getX = (drawer: Drawer) => {
 
 export const openDrawer = (drawerName: string) => {
   const drawer = drawers.find((drawer) => drawer.name === drawerName);
-  if (!drawer.open) toggleOpen(drawer);
+  if (!drawer.open) toggleDrawerOpen(drawer);
 };
 
 export const closeAllDrawers = async () => {
   const promises = [];
   for (let i = 0; i < drawers.length; i++) {
     const drawer = drawers[i];
-    if (drawer.open) promises.push(toggleOpen(drawer));
+    if (drawer.open) promises.push(toggleDrawerOpen(drawer));
   }
   await Promise.all(promises);
 };
 
-export const toggleOpen = async (drawer: Drawer) => {
+export const toggleDrawerOpen = async (drawer: Drawer) => {
   drawer.open = !drawer.open;
   await translateObject(
     drawer.container,
     { x: drawer.container.position.x, y: drawer.container.position.y },
-    { x: getX(drawer), y: drawer.container.position.y },
+    { x: getDrawerXPos(drawer), y: drawer.container.position.y },
     25
   );
 };
@@ -79,15 +87,20 @@ const getStacks = (drawer: Drawer) => {
   return sortedStacks;
 };
 
-export const addMarketingTileToDrawer = (
-  drawer: Drawer,
-  tile: MarketingTile
-) => {
+export const addMarketingTileToDrawer = (tile: MarketingTile) => {
+  const drawer = getDrawerByName('Market');
   drawer.marketingTiles.push(tile);
   drawer.contentsContainer.addChild(tile.container);
 };
 
-export const renderRecruitDrawer = (drawer: Drawer) => {
+export const addDinerToDrawer = (diner: Diner) => {
+  const drawer = getDrawerByName('Diners');
+  drawer.diners.push(diner);
+  drawer.contentsContainer.addChild(diner.container);
+};
+
+export const renderRecruitDrawerContents = () => {
+  const drawer = getDrawerByName('Recruit');
   const stacks = getStacks(drawer);
   stacks.forEach((stack) => {
     const firstCard = stack[0];
@@ -99,15 +112,8 @@ export const renderRecruitDrawer = (drawer: Drawer) => {
   });
 };
 
-export const renderBeachDrawer = (drawer: Drawer) => {
-  const stacks = getStacks(drawer);
-  stacks.forEach((stack, i) => {
-    const firstCard = stack[0];
-    arrangeStack(stack, i * (firstCard.container.width + 50) + 10, 10);
-  });
-};
-
-export const renderMarketingDrawer = (drawer: Drawer) => {
+export const renderMarketingDrawerContents = () => {
+  const drawer = getDrawerByName('Market');
   const kindMap = {
     [MarketingTileKinds.radio]: { x: 1, y: 1 },
     [MarketingTileKinds.airplane]: { x: 1, y: 3 },
@@ -119,6 +125,23 @@ export const renderMarketingDrawer = (drawer: Drawer) => {
     tile.container.position.x = kindMap[tile.kind].x * ts;
     tile.container.position.y = kindMap[tile.kind].y * ts;
     kindMap[tile.kind].x += tile.w + 1;
+  });
+};
+
+export const renderBeachDrawerContents = () => {
+  const drawer = getDrawerByName('Beach');
+  const stacks = getStacks(drawer);
+  stacks.forEach((stack, i) => {
+    const firstCard = stack[0];
+    arrangeStack(stack, i * (firstCard.container.width + 50) + 10, 10);
+  });
+};
+
+export const renderDinerDrawerContents = () => {
+  const drawer = getDrawerByName('Diners');
+  drawer.diners.forEach((diner, i) => {
+    diner.container.position.x = i * (diner.container.width + 50) + 10;
+    diner.container.position.y = 10;
   });
 };
 
@@ -154,7 +177,7 @@ export const renderDrawer = (drawer: Drawer) => {
   drawerTab.interactive = true;
   drawerTab.buttonMode = true;
   drawerTab.on('pointerdown', () => {
-    toggleOpen(drawer);
+    toggleDrawerOpen(drawer);
   });
 
   const drawerTabText = new PIXI.Text(
@@ -242,7 +265,7 @@ export const renderDrawer = (drawer: Drawer) => {
     .on('pointerupoutside', onDragEnd)
     .on('pointermove', onDragMove);
 
-  drawer.container.x = getX(drawer);
+  drawer.container.x = getDrawerXPos(drawer);
   drawer.container.y = drawer.startY;
   app.stage.addChild(drawer.container);
 };

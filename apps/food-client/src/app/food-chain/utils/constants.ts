@@ -1,5 +1,4 @@
 import * as PIXI from 'pixi.js';
-import { carTexture } from './graphics';
 import {
   createAnimatedSprite,
   createAnimatedTexture,

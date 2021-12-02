@@ -189,7 +189,7 @@ export const addRoadToBoard = (board: Board, road: Road) => {
   road.container.interactive = true;
   road.container.buttonMode = true;
   road.container.on('pointerdown', () => {
-    const path = findRoadPath(getAdjacentRoads(board, board.diner), road);
+    const path = findRoadPath(getAdjacentRoads(board, board.diners[0]), road);
     triggerCarAnimation(path, road as BoardObject);
   });
   board.roads.push(road);

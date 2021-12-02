@@ -57,7 +57,6 @@ export const bounceFood = (board: Board, tile: MarketingTile, house: House) => {
 };
 
 export const triggerBillBoardAnimation = (
-  board: Board,
   tile: MarketingTile,
   affectedHouses: House[]
 ) => {
@@ -115,7 +114,6 @@ export const walkBetween = async (item1: BoardObject, item2: BoardObject) => {
 };
 
 export const triggerPlaneAnimation = async (
-  board: Board,
   tile: MarketingTile,
   affectedHouses: House[]
 ) => {
@@ -183,7 +181,6 @@ export const triggerPlaneAnimation = async (
 };
 
 export const triggerRadioAnimation = (
-  board: Board,
   tile: MarketingTile,
   affectedHouses: House[]
 ) => {

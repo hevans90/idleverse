@@ -1,17 +1,21 @@
 import * as PIXI from 'pixi.js';
 import { BoardObject } from './board';
+import { addDinerToDrawer, getDrawerByName, toggleDrawerOpen } from './drawer';
 import { Player } from './player';
+import { Road } from './road';
+import { disablePlacement, enablePlacement } from './tile';
 import { ts } from './utils/constants';
+import { dinerTexture } from './utils/graphics';
 import { board } from './utils/singletons';
-import { getRandomValidPosition } from './utils/utils';
-
-const dinerTexture = PIXI.Texture.from('https://i.imgur.com/gPK9T8l.png');
+import { getRandomValidPosition, isValidPosition } from './utils/utils';
 
 export type Diner = BoardObject & {
   time?: number;
   duration?: number;
   previousPosition?: number;
   nextPosition?: number;
+  owner: Player;
+  path?: Road[];
   update?: () => void;
 };
 
@@ -24,35 +28,52 @@ export const createDinerSprite = (ts: number) => {
   return dinerSprite;
 };
 
-export const addDinerToBoard = (player: Player) => {
+export const createDiner = (player: Player) => {
   const diner: Diner = {
     i: 0,
     j: 0,
     w: 2,
     h: 2,
     rotation: 0,
+    owner: player,
     container: new PIXI.Container(),
   };
-  board.diner = diner;
-  player.diner = diner;
+  player.diners.push(diner);
+  addDinerToDrawer(diner);
   const dinerSprite = createDinerSprite(ts);
   diner.sprite = dinerSprite;
   diner.container.addChild(dinerSprite);
   diner.container.zIndex = 50;
+};
 
-  const randomPosition = getRandomValidPosition(board, diner, 20, true);
-  console.log(randomPosition);
+export const enableDinerPlacement = (player: Player) => {
+  const diners = player.diners;
+  const dinersDrawer = getDrawerByName('Diners');
+  diners.forEach((diner) => {
+    diner.sprite.interactive = true;
+    diner.sprite.buttonMode = true;
+    diner.sprite.on('pointerdown', () => {
+      enablePlacement(
+        diner,
+        board.tiles,
+        (square) => isValidPosition(diner, square),
+        () => [],
+        () => {
+          board.diners.push(diner);
+          disablePlacement();
+        }
+      );
+
+      if (dinersDrawer.open) toggleDrawerOpen(dinersDrawer);
+    });
+  });
+};
+
+export const placeDinerRandomly = (diner: Diner) => {
+  const randomPosition = getRandomValidPosition(diner, 20, true);
   diner.i = randomPosition.i;
   diner.j = randomPosition.j;
   diner.container.x = randomPosition.i * ts;
   diner.container.y = randomPosition.j * ts;
-  diner.container.interactive = true;
-  diner.container.buttonMode = true;
-  diner.container.on('pointerdown', () => {
-    // const adjacentRoads = getAdjacentRoads(board, diner);
-    // board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
-    // adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
-    // playCashAnimation(diner, 10);
-  });
   board.container.addChild(diner.container);
 };

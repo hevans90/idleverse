@@ -1,4 +1,4 @@
-import { BoardObject, Board, getAdjacentRoads } from '../board';
+import { BoardObject, getAdjacentRoads } from '../board';
 import { getConnectedRoads, isRoad, Road } from '../road';
 import { getAdjacentSquares, Tile } from '../tile';
 import { debug as debugConfig } from './constants';
@@ -41,13 +41,12 @@ export const collides = (item1: BoardItem, item2: BoardItem) => {
 };
 
 export const isValidPosition = (
-  board: Board,
   item: BoardItem,
   position: BoardPosition,
   adjacentRoadRequired = false
 ) => {
   const itemsArray = [].concat(
-    [board.diner],
+    board.diners,
     board.roads,
     board.houses,
     board.drinks
@@ -76,12 +75,11 @@ export const isValidPosition = (
 };
 
 export const isValidOuterPosition = (
-  board: Board,
   item: BoardItem,
   position: BoardPosition
 ) => {
   const itemsArray = [].concat(
-    [board.diner],
+    board.diners,
     board.roads,
     board.houses,
     board.drinks
@@ -139,7 +137,6 @@ export const getRandomPosition = (size: number) => {
 };
 
 export const getRandomValidPosition = (
-  board: Board,
   item: BoardObject,
   size: number,
   adjacentRoadRequired: boolean
@@ -147,8 +144,7 @@ export const getRandomValidPosition = (
   let randomPosition = getRandomPosition(size);
   let tries = 0;
   for (let i = 0; i < 1000; i++) {
-    if (isValidPosition(board, item, randomPosition, adjacentRoadRequired)) {
-      console.log(`tries: ${tries}`);
+    if (isValidPosition(item, randomPosition, adjacentRoadRequired)) {
       return randomPosition;
     }
     randomPosition = getRandomPosition(size);
@@ -254,7 +250,6 @@ export const rangeOverlapsItem = (item: BoardObject, range: Tile[]) => {
 };
 
 export const getSquaresInRange = (
-  board: Board,
   item: BoardObject,
   position: BoardPosition,
   range: number
@@ -268,7 +263,6 @@ export const getSquaresInRange = (
 };
 
 export const getSquaresInLine = (
-  board: Board,
   item: BoardObject,
   position: BoardPosition
 ) => {
@@ -286,10 +280,7 @@ export const getSquaresInLine = (
     );
 };
 
-export const getConnectedSquares = (
-  board: Board,
-  startSquare: Tile
-): Tile[] => {
+export const getConnectedSquares = (startSquare: Tile): Tile[] => {
   const tilePool = [...board.tiles];
   const openSquares = [startSquare];
   const validSquares = [];
@@ -358,7 +349,6 @@ export const findRoadPath = (startRoads: Road[], endRoad: Road): Road[] => {
   const path = [];
   if (pathFound) {
     let currentRoad = lastRoad;
-    console.log(`distance: ${currentRoad.toGoal + currentRoad.fromStart}`);
     while (!startRoads.includes(currentRoad)) {
       path.push(currentRoad);
       currentRoad = currentRoad.previousRoad;
@@ -394,7 +384,6 @@ export const findTilePath = (startTile: Tile, endTile: Tile): Tile[] => {
     );
     const currentTile = openTiles[0];
     if (currentTile.i === endTile.i && currentTile.j === endTile.j) {
-      console.log('path found');
       pathFound = true;
       lastTile = currentTile;
       break;
@@ -423,7 +412,6 @@ export const findTilePath = (startTile: Tile, endTile: Tile): Tile[] => {
   const path = [];
   if (pathFound) {
     let currentTile = lastTile;
-    console.log(`distance: ${currentTile.toGoal + currentTile.fromStart}`);
     while (startTile !== currentTile) {
       path.push(currentTile);
       if (debug) currentTile.sprite.tint = 0x9fc8d0;
@@ -433,4 +421,18 @@ export const findTilePath = (startTile: Tile, endTile: Tile): Tile[] => {
     path.push(currentTile);
   }
   return path.reverse();
+};
+
+export const findShortestRoadPath = (
+  item1: BoardObject,
+  item2: BoardObject
+) => {
+  let path: Road[] = null;
+  const item1AdjacentRoads = getAdjacentRoads(board, item1);
+  const item2AdjacentRoads = getAdjacentRoads(board, item2);
+  item2AdjacentRoads.forEach((road) => {
+    const currentPath = findRoadPath(item1AdjacentRoads, road);
+    if (!path || currentPath.length < path.length) path = currentPath;
+  });
+  return path;
 };

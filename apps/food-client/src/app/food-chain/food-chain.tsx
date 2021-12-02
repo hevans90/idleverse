@@ -1,27 +1,23 @@
 import * as PIXI from 'pixi.js';
 import { useEffect } from 'react';
 import { Box } from '@chakra-ui/react';
-import { getSquaresInRange, isValidPosition } from './utils/utils';
-import { addBoardToStage } from './board';
+import { addBoardToStage, enableDinnerTime } from './board';
 import { initCEOCard, Player } from './player';
 import {
   renderDrawer,
-  Drawer,
-  toggleOpen,
-  renderMarketingDrawer,
-  renderBeachDrawer,
   openDrawer,
-  renderRecruitDrawer,
+  renderRecruitDrawerContents,
+  renderMarketingDrawerContents,
+  renderBeachDrawerContents,
+  renderDinerDrawerContents,
 } from './drawer';
 import { drawerHiresIndicator } from './indicators';
 import {
   drawDebugButton,
   drawNextPhaseButton,
   drawPhaseIndicator,
-  getPhase,
 } from './phase';
 import { drawChunks, drawOuterSquares } from './chunk';
-import { enablePlacement } from './tile';
 import {
   initCards,
   enableCardHire,
@@ -36,14 +32,12 @@ import {
   enableAdvertise,
   enableMarketingTilePlacement,
 } from './marketingTile';
-import { addDinerToBoard } from './diner';
+import { createDiner, enableDinerPlacement } from './diner';
 import { drawToolbar } from './toolbar';
 import {
   animations,
   app,
-  board,
   cards,
-  currentPhase,
   drawers,
   keyEventMap,
   marketingTiles,
@@ -52,7 +46,6 @@ import {
 import { tileConfigs } from './tile.configs';
 import { cardConfigs } from './card.configs';
 import { marketingTileConfigs } from './marketingTile.configs';
-import { enableDinnerTime } from './house';
 
 export const FoodChain = () => {
   useEffect(() => {
@@ -61,38 +54,43 @@ export const FoodChain = () => {
     app.stage.sortableChildren = true;
     gameElement.appendChild(app.view);
 
+    document.addEventListener('keydown', (e) => {
+      if (Object.keys(keyEventMap).includes(e.code)) keyEventMap[e.code]();
+    });
+
     PIXI.Loader.shared
-      .add('car', 'https://i.imgur.com/01q7OGv.png')
+      .add('car', 'https://i.imgur.com/6ADHQAp.png')
       .add('beer', 'https://i.imgur.com/1Ym9YX6.png')
       .add('lemonade', 'https://i.imgur.com/UaijMRU.png')
       .add('cola', 'https://i.imgur.com/LesWWMh.png')
       .add('burger', 'https://i.imgur.com/pyw8386.png')
       .add('pizza', 'https://i.imgur.com/uQZeADM.png')
       .load(() => {
-        const player: Player = {
-          diner: null,
-          ceo: { card: null },
-          cards: [],
-          hiresAvailable: 10,
-          cash: 0,
-          food: {
-            beer: { amount: 0 },
-            lemonade: { amount: 0 },
-            cola: { amount: 0 },
-            pizza: { amount: 0 },
-            burger: { amount: 0 },
-          },
-        };
+        //Initialise Players
+        const players: Player[] = [];
+        for (let i = 0; i < 5; i++) {
+          players.push({
+            diners: [],
+            ceo: { card: null },
+            hiresAvailable: 10,
+            cash: 0,
+            food: {
+              beer: { amount: 10 },
+              lemonade: { amount: 0 },
+              cola: { amount: 0 },
+              pizza: { amount: 10 },
+              burger: { amount: 0 },
+            },
+          });
+        }
+        const currentPlayer = players[0];
 
+        //Initialise Phases
         phases.push({
           name: 'Launch',
           start: () => {
-            enablePlacement(
-              board.diner,
-              board.tiles,
-              (square) => isValidPosition(board, board.diner, square, true),
-              (square) => getSquaresInRange(board, board.diner, square, 1)
-            );
+            openDrawer('Diners');
+            enableDinerPlacement(currentPlayer);
           },
           nextPhase: 'Structure',
         });
@@ -102,7 +100,7 @@ export const FoodChain = () => {
             openDrawer('Structure');
             openDrawer('Beach');
             untapCards();
-            enableCardStructure(player, beachDrawer, structureDrawer, cards);
+            enableCardStructure(currentPlayer, cards);
           },
           nextPhase: 'Hire',
         });
@@ -111,13 +109,7 @@ export const FoodChain = () => {
           start: () => {
             openDrawer('Beach');
             openDrawer('Recruit');
-            enableCardHire(
-              player,
-              cards,
-              recruitDrawer,
-              beachDrawer,
-              hiresIndicator
-            );
+            enableCardHire(currentPlayer, cards, hiresIndicator);
           },
           nextPhase: 'Market',
         });
@@ -125,23 +117,23 @@ export const FoodChain = () => {
           name: 'Market',
           start: () => {
             openDrawer('Market');
-            enableMarketingTilePlacement(marketDrawer, marketingTiles);
+            enableMarketingTilePlacement();
           },
           nextPhase: 'Produce',
         });
         phases.push({
           name: 'Produce',
           start: () => {
-            enableFoodProduction(player);
+            openDrawer('Structure');
+            enableFoodProduction(currentPlayer);
             untapCards();
-            if (!structureDrawer.open) toggleOpen(structureDrawer);
           },
           nextPhase: 'Dinner Time',
         });
         phases.push({
           name: 'Dinner Time',
           start: () => {
-            enableDinnerTime(player);
+            enableDinnerTime();
           },
           nextPhase: 'Advertise',
         });
@@ -153,11 +145,8 @@ export const FoodChain = () => {
           nextPhase: 'Structure',
         });
 
-        document.addEventListener('keydown', (e) => {
-          if (Object.keys(keyEventMap).includes(e.code)) keyEventMap[e.code]();
-        });
-
-        const recruitDrawer: Drawer = {
+        // Initialise Drawers
+        drawers.push({
           name: 'Recruit',
           open: false,
           startY: 100,
@@ -167,11 +156,9 @@ export const FoodChain = () => {
           tabWidth: 40,
           orient: 'right',
           employees: [],
-          marketingTiles: [],
-          renderContents: () => renderRecruitDrawer(recruitDrawer),
-        };
-
-        const marketDrawer: Drawer = {
+          renderContents: () => renderRecruitDrawerContents(),
+        });
+        drawers.push({
           name: 'Market',
           open: false,
           startY: 100,
@@ -180,26 +167,38 @@ export const FoodChain = () => {
           tabStartY: (app.screen.height - 200) / 2,
           tabWidth: 40,
           orient: 'right',
-          employees: [],
           marketingTiles: [],
-          renderContents: () => renderMarketingDrawer(marketDrawer),
-        };
-
-        const beachDrawer: Drawer = {
+          renderContents: () => renderMarketingDrawerContents(),
+        });
+        drawers.push({
           name: 'Beach',
+          owner: currentPlayer,
           open: false,
           startY: (app.screen.height - 200) * 0.85,
           endY: app.screen.height - 100,
-          width: 1500,
+          width: 1000,
           tabWidth: 40,
+          tabEndY: (200 * 0.85 + 100) / 2,
           orient: 'left',
           employees: [],
-          marketingTiles: [],
-          renderContents: () => renderBeachDrawer(beachDrawer),
-        };
-
-        const structureDrawer: Drawer = {
+          renderContents: () => renderBeachDrawerContents(),
+        });
+        drawers.push({
+          name: 'Diners',
+          owner: currentPlayer,
+          open: false,
+          startY: (app.screen.height - 200) * 0.85,
+          endY: app.screen.height - 100,
+          width: 1000,
+          tabWidth: 40,
+          tabStartY: (200 * 0.85 + 100) / 2,
+          orient: 'left',
+          diners: [],
+          renderContents: () => renderBeachDrawerContents(),
+        });
+        drawers.push({
           name: 'Structure',
+          owner: currentPlayer,
           open: false,
           startY: 100,
           endY: (app.screen.height - 200) * 0.85,
@@ -207,38 +206,35 @@ export const FoodChain = () => {
           tabWidth: 40,
           orient: 'left',
           employees: [],
-          marketingTiles: [],
-        };
-
-        drawers.push(recruitDrawer, marketDrawer, structureDrawer, beachDrawer);
+        });
 
         drawChunks(tileConfigs);
-        addDinerToBoard(player);
         addBoardToStage();
         drawOuterSquares();
 
         drawers.forEach((drawer) => renderDrawer(drawer));
-        const hiresIndicator = drawerHiresIndicator(player, beachDrawer);
 
-        initCEOCard(player, structureDrawer);
-        initCards(recruitDrawer, Object.values(cardConfigs), cards);
-        initMarketingTiles(marketDrawer, marketingTileConfigs, marketingTiles);
+        for (let i = 0; i < 3; i++) {
+          createDiner(currentPlayer);
+        }
+        renderDinerDrawerContents();
+        const hiresIndicator = drawerHiresIndicator(currentPlayer);
+
+        initCEOCard(currentPlayer);
+        initCards(Object.values(cardConfigs), cards);
+        initMarketingTiles(marketingTileConfigs, marketingTiles);
 
         drawDebugButton();
+        drawPhaseIndicator();
         drawNextPhaseButton();
 
-        const burgerCook = cards.find((card) => card.title === 'Burger\nCook');
-        hireCard(player, beachDrawer, burgerCook);
-        manageCard(player.ceo.card, burgerCook, 1);
-        const pizzaChef = cards.find((card) => card.title === 'Pizza\nChef');
-        hireCard(player, beachDrawer, pizzaChef);
-        manageCard(player.ceo.card, pizzaChef, 2);
+        drawToolbar(currentPlayer);
 
-        drawToolbar(player);
-
-        currentPhase.phase = getPhase('Advertise');
-        currentPhase.phase.start();
-        drawPhaseIndicator();
+        setTimeout(async () => {
+          const card = cards.find((card) => card.kind === 'burgerCook');
+          await hireCard(currentPlayer, card);
+          manageCard(currentPlayer.ceo.card, card, 0);
+        }, 500);
 
         app.ticker.add(() => {
           animations.forEach((animation) => animation.update());

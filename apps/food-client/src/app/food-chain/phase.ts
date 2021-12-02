@@ -110,19 +110,17 @@ export const startPhase = (phase: Phase) => {
 };
 
 const endCurrentPhase = async () => {
-  cards.forEach((card) => {
-    card.container.removeAllListeners();
-    card.container.interactive = false;
-    card.container.buttonMode = false;
+  console.log('Ending phase');
+  [].concat(board.diners, cards, marketingTiles).forEach((object) => {
+    object.container.removeAllListeners();
+    object.container.interactive = false;
+    object.container.buttonMode = false;
+    if (object.sprite) {
+      object.sprite.removeAllListeners();
+      object.sprite.interactive = false;
+      object.sprite.buttonMode = false;
+    }
   });
-  marketingTiles.forEach((tile) => {
-    tile.sprite.removeAllListeners();
-    tile.sprite.interactive = false;
-    tile.sprite.buttonMode = false;
-  });
-  // board.diner.container.removeAllListeners();
-  // board.diner.container.interactive = false;
-  // board.diner.container.buttonMode = false;
-  disablePlacement(board);
+  disablePlacement();
   await closeAllDrawers();
 };

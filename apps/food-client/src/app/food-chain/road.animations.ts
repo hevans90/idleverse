@@ -13,9 +13,9 @@ export const triggerCarAnimation = async (
   path: Road[],
   object: BoardObject
 ) => {
+  const carContainer = new PIXI.Container();
   // const carSprite = createAnimatedCarSprite();
   // carSprite.play();
-  const carContainer = new PIXI.Container();
   const carSprite = createCarSprite();
   board.container.addChild(carSprite);
   carSprite.anchor.x = 0.5;
