@@ -2,19 +2,9 @@ import * as PIXI from 'pixi.js';
 import { useEffect } from 'react';
 import { Box } from '@chakra-ui/react';
 import { tileConfigRegex, ts } from './utils/constants';
-import {
-  getRandomValidPosition,
-  isValidPosition,
-  Vector2D,
-} from './utils/utils';
+import { getRandomValidPosition, isValidPosition } from './utils/utils';
 import { createEmptySquareSprite } from './emptySquare';
-import {
-  Tile,
-  tileConfigs,
-  Chunk,
-  parseTileConfig,
-  rotateAboutCenter,
-} from './tile';
+import { Tile, Chunk, parseTileConfig, rotateAboutCenter } from './tile';
 import { addRoadToBoard } from './road';
 import { createHouseSprite, House } from './house';
 import {
@@ -39,8 +29,9 @@ import {
   emptyCardConfig,
   enableCardStructure,
 } from './card';
-import { Board, getAdjacentRoads } from './board';
+import { addTileContentsToBoard, Board, getAdjacentRoads } from './board';
 import { Anim, translateObject } from './animation';
+import { tileConfigs } from './tileConfigs';
 
 export const FoodChain = () => {
   useEffect(() => {
@@ -95,7 +86,7 @@ export const FoodChain = () => {
         squareSprite.interactive = true;
         squareSprite.buttonMode = true;
         squareSprite.on('mouseover', () => {
-          if (isValidPosition({ i: i, j: j, h: 1, w: 1 }, board)) {
+          if (isValidPosition(board, { i: i, j: j, h: 1, w: 1 })) {
             activeIndicator = validIndicator;
             inactiveIndicator = invalidIndicator;
           } else {
@@ -112,7 +103,7 @@ export const FoodChain = () => {
         });
         squareSprite.on('pointerdown', () => {
           console.log(i, j);
-          if (isValidPosition({ i: i, j: j, w: 1, h: 1 }, board)) {
+          if (isValidPosition(board, { i: i, j: j, w: 1, h: 1 })) {
             board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
             diner.i = i;
             diner.j = j;
@@ -124,56 +115,7 @@ export const FoodChain = () => {
       });
 
       chunk.forEach((tile) => {
-        const i = tile.i;
-        const j = tile.j;
-        const match = tileConfigRegex.exec(tile.contents);
-
-        if (match[1] === 'r') {
-          addRoadToBoard(
-            app,
-            animations,
-            queue,
-            board,
-            i + p * 5,
-            j + q * 5,
-            match[2].split('').map((i) => parseInt(i))
-          );
-        } else if (match[1] === 'h') {
-          const house: House = {
-            i: i + p * 5,
-            j: j + q * 5,
-            w: 1,
-            h: 1,
-            orient: parseInt(match[2]),
-            num: parseInt(match[3]),
-          };
-          board.houses.push(house);
-          const houseSprite = createHouseSprite(house);
-          houseSprite.x = house.i * ts;
-          houseSprite.y = house.j * ts;
-          houseSprite.interactive = true;
-          houseSprite.buttonMode = true;
-          houseSprite.on('pointerdown', () => {
-            const adjacentRoads = getAdjacentRoads(board, house);
-            board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
-            adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
-          });
-          container.addChild(houseSprite);
-        } else if (match[1] in drinkTextures) {
-          const drink: Drink = {
-            i: i + p * 5,
-            j: j + q * 5,
-            w: 0,
-            h: 0,
-          };
-          board.drinks.push(drink);
-          const drinkSprite = createDrinkSprite(
-            match[1] as keyof DrinkTextures
-          );
-          drinkSprite.x = drink.i * ts + 3;
-          drinkSprite.y = drink.j * ts + 3;
-          container.addChild(drinkSprite);
-        }
+        addTileContentsToBoard(app, board, animations, tile, p, q);
       });
     };
 
@@ -198,7 +140,7 @@ export const FoodChain = () => {
       h: 1,
       name: 'diner1',
     };
-    const randomPosition = getRandomValidPosition(diner, board, 20);
+    const randomPosition = getRandomValidPosition(board, diner, 20);
     console.log(randomPosition);
     diner.i = randomPosition.i;
     diner.j = randomPosition.j;

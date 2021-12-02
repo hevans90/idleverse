@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
-import { BoardObject } from './board';
+import { Anim } from './animation';
+import { Board, BoardObject } from './board';
 import { ts } from './utils/constants';
 
 export type Drink = BoardObject;
@@ -21,4 +22,25 @@ export const createDrinkSprite = (drinkType: keyof DrinkTextures) => {
   drink.width = ts - 4;
   drink.height = ts - 4;
   return drink;
+};
+
+export const addDrinkToBoard = (
+  app: PIXI.Application,
+  animations: Anim[],
+  board: Board,
+  i: number,
+  j: number,
+  key: keyof DrinkTextures
+) => {
+  const drink: Drink = {
+    i,
+    j,
+    w: 0,
+    h: 0,
+  };
+  board.drinks.push(drink);
+  const drinkSprite = createDrinkSprite(key);
+  drinkSprite.x = drink.i * ts + 3;
+  drinkSprite.y = drink.j * ts + 3;
+  board.container.addChild(drinkSprite);
 };

@@ -1,7 +1,11 @@
 import * as PIXI from 'pixi.js';
-import { BoardObject, Board, getAdjacentRoads } from '../board';
+import {
+  BoardObject,
+  Board,
+  getConnectedRoads,
+  getAdjacentRoads,
+} from '../board';
 import { Road } from '../road';
-import { Tile } from '../tile';
 
 export type Vector2D = {
   x: number;
@@ -46,12 +50,9 @@ export const drawDottedLine = (
   }
 };
 
-export const isValidPosition = (item1: BoardObject, boardItems: Board) => {
+export const isValidPosition = (board: Board, item1: BoardObject) => {
   if (item1.name === 'diner1') console.log(item1);
-  const itemsArray = boardItems.roads.concat(
-    boardItems.houses,
-    boardItems.drinks
-  );
+  const itemsArray = board.roads.concat(board.houses, board.drinks);
 
   const collisionArray = itemsArray.filter((item2) => collides(item1, item2));
   if (item1.name === 'diner1') console.log(collisionArray.length);
@@ -60,16 +61,7 @@ export const isValidPosition = (item1: BoardObject, boardItems: Board) => {
     return false;
   }
 
-  const adjacentToRoadArray = boardItems.roads.filter((road) => {
-    return (
-      collides(item1, { ...road, i: road.i + 1 }) ||
-      collides(item1, { ...road, i: road.i - 1 }) ||
-      collides(item1, { ...road, j: road.j + 1 }) ||
-      collides(item1, { ...road, j: road.j - 1 })
-    );
-  });
-
-  if (adjacentToRoadArray.length === 0) {
+  if (getAdjacentRoads(board, item1).length === 0) {
     return false;
   }
 
@@ -84,14 +76,14 @@ export const getRandomPosition = (size: number) => {
 };
 
 export const getRandomValidPosition = (
+  board: Board,
   item: BoardObject,
-  boardItems: Board,
   size: number
 ) => {
   let randomPosition = getRandomPosition(size);
   let tries = 0;
   for (let i = 0; i < 1000; i++) {
-    if (isValidPosition({ ...item, ...randomPosition }, boardItems)) {
+    if (isValidPosition(board, { ...item, ...randomPosition })) {
       console.log(`tries: ${tries}`);
       return randomPosition;
     }
@@ -114,7 +106,6 @@ export const findPath = (
   board.roads.forEach((road) => {
     road.toGoal = 99;
     road.fromStart = 99;
-    road.sprite.tint = 0xffffff;
   });
   const openRoads = [...startRoads];
   const closedRoads = [];
@@ -142,7 +133,7 @@ export const findPath = (
     openRoads.splice(openRoads.indexOf(currentRoad), 1);
     closedRoads.push(currentRoad);
 
-    const connectedRoads = getAdjacentRoads(board, currentRoad);
+    const connectedRoads = getConnectedRoads(board, currentRoad);
     connectedRoads.forEach((road) => {
       if (!closedRoads.includes(road)) {
         road.toGoal = calcDistance(road, endRoad);

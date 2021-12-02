@@ -1,4 +1,5 @@
 import { BoardObject } from '../board';
+import { Road } from '../road';
 import { collides } from './utils';
 
 const item1: BoardObject = {

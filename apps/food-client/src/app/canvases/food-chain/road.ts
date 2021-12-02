@@ -1,7 +1,12 @@
 import * as PIXI from 'pixi.js';
 import { drawDottedLine, drawLine, findPath } from './utils/utils';
 import { rls, ts, ts1_2, ts1_3, ts2_3 } from './utils/constants';
-import { BoardObject, Board, getAdjacentRoads } from './board';
+import {
+  BoardObject,
+  Board,
+  getAdjacentRoads,
+  getConnectedRoads,
+} from './board';
 import { Anim, translateObject } from './animation';
 
 export type Road = BoardObject & {
@@ -9,10 +14,6 @@ export type Road = BoardObject & {
   toGoal?: number;
   previousRoad?: Road;
   connections?: number[];
-};
-
-export const getConnectedRoads = (roads: Road[], road: Road) => {
-  return;
 };
 
 export const createRoadSprite = (app: PIXI.Application, road: Road) => {
@@ -109,37 +110,26 @@ export const createRoadSprite = (app: PIXI.Application, road: Road) => {
   return roadSprite;
 };
 
-export const addRoadToBoard = (
-  app: PIXI.Application,
-  animations: Anim[],
-  queue: Anim[],
-  board: Board,
-  i: number,
-  j: number,
-  connections: number[]
-) => {
-  const road: Road = {
-    i: i,
-    j: j,
-    w: 0,
-    h: 0,
-    connections: connections,
-  };
-  board.roads.push(road);
-  const roadSprite = createRoadSprite(app, road);
-  roadSprite.x = road.i * ts;
-  roadSprite.y = road.j * ts;
-  roadSprite.interactive = true;
-  roadSprite.buttonMode = true;
-  roadSprite.on('pointerdown', () => {
-    // const adjacentRoads = getAdjacentRoads(board, road);
-    // board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
-    // adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
-    const path = findPath(board, getAdjacentRoads(board, board.diner), road);
-    const carTexture = PIXI.Texture.from('https://i.imgur.com/01q7OGv.png');
-    const carSprite = new PIXI.Sprite(carTexture);
-    carSprite.anchor.x = 0.5;
-    carSprite.anchor.y = 0.5;
+const tintAdjacentRoads = (board: Board, road: Road) => {
+  const adjacentRoads = getAdjacentRoads(board, road);
+  board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
+  adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
+};
+
+const tintConnectedRoads = (board: Board, road: Road) => {
+  const adjacentRoads = getConnectedRoads(board, road);
+  board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
+  adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
+};
+
+const triggerCarAnimation = (animations, board, road) => {
+  const path = findPath(board, getAdjacentRoads(board, board.diner), road);
+  const carTexture = PIXI.Texture.from('https://i.imgur.com/01q7OGv.png');
+  const carSprite = new PIXI.Sprite(carTexture);
+  carSprite.anchor.x = 0.5;
+  carSprite.anchor.y = 0.5;
+  const queue: Anim[] = [];
+  if (path.length > 1) {
     for (let i = 0; i < path.length - 1; i++) {
       const road1 = path[i];
       const road2 = path[i + 1];
@@ -213,8 +203,35 @@ export const addRoadToBoard = (
         )
       );
     }
+
     board.container.addChild(carSprite);
     queue[0].start();
+  }
+};
+
+export const addRoadToBoard = (
+  app: PIXI.Application,
+  animations: Anim[],
+  board: Board,
+  i: number,
+  j: number,
+  connections: number[]
+) => {
+  const road: Road = {
+    i: i,
+    j: j,
+    w: 0,
+    h: 0,
+    connections: connections,
+  };
+  board.roads.push(road);
+  const roadSprite = createRoadSprite(app, road);
+  roadSprite.x = road.i * ts;
+  roadSprite.y = road.j * ts;
+  roadSprite.interactive = true;
+  roadSprite.buttonMode = true;
+  roadSprite.on('pointerdown', () => {
+    triggerCarAnimation(animations, board, road);
   });
   road.sprite = roadSprite;
   board.container.addChild(roadSprite);
