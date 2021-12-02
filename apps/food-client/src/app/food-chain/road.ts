@@ -3,8 +3,8 @@ import { rls, ts, ts1_2, ts1_3, ts2_3 } from './utils/constants';
 import { BoardObject, Board, getAdjacentRoads } from './board';
 import { drawLine, drawDottedLine } from './utils/graphics-utils';
 import { app } from './utils/singletons';
-import { triggerCarAnimation } from './road.animations';
 import { findRoadPath } from './utils/utils';
+import { triggerCarAnimation } from './road.animations';
 
 export type Road = BoardObject & {
   fromStart?: number;
@@ -179,7 +179,7 @@ export const parseRoadConfig = (config: RegExpExecArray, zOffset: number) => {
   };
   road.sprite = createRoadSprite(road);
   road.container.addChild(road.sprite);
-  road.container.zIndex = 10 + zOffset;
+  road.container.zIndex = 30 + zOffset;
   return road;
 };
 

@@ -1,6 +1,11 @@
 import * as PIXI from 'pixi.js';
-import { Card, createCardSprite, organiseCEOCards } from './card';
-import { ceoCardConfig, emptyCardConfig } from './card.configs';
+import {
+  Card,
+  createCardSprite,
+  initManagerContentsContainer,
+  renderManagerCards,
+} from './card';
+import { ceoCardConfig } from './card.configs';
 import { Diner } from './diner';
 import { Drawer } from './drawer';
 
@@ -37,40 +42,29 @@ export const initCEOCard = (player: Player, structureDrawer: Drawer) => {
     active: false,
     used: false,
     employees: [],
+    managementSlots: 3,
+    contentsSpacing: 3,
+    renderContents: () => renderManagerCards(player.ceo.card),
   };
-  player.ceo.card.organiseContents = () => organiseCEOCards(player.ceo.card);
   const ceoCard = player.ceo.card;
 
-  ceoCard.container.on('pointerover', () => {
-    if (ceoCard.employees.length < ceoCard.managementSlots) {
-      ceoCard.container.addChild(validCardTint);
-    } else ceoCard.container.addChild(invalidCardTint);
-  });
+  // ceoCard.container.on('pointerover', () => {
+  //   if (ceoCard.employees.length < ceoCard.managementSlots) {
+  //     ceoCard.container.addChild(validCardTint);
+  //   } else ceoCard.container.addChild(invalidCardTint);
+  // });
 
-  ceoCard.container.on('pointerout', () => {
-    ceoCard.container.removeChild(validCardTint);
-    ceoCard.container.removeChild(invalidCardTint);
-  });
+  // ceoCard.container.on('pointerout', () => {
+  //   ceoCard.container.removeChild(validCardTint);
+  //   ceoCard.container.removeChild(invalidCardTint);
+  // });
 
   ceoCard.container.position.x =
     structureDrawer.width / 2 - ceoCard.container.width / 2;
   ceoCard.container.position.y = 50;
+
+  initManagerContentsContainer(ceoCard, structureDrawer);
+
   structureDrawer.contentsContainer.addChild(ceoCard.container);
-
-  ceoCard.contentsContainer = new PIXI.Container();
-  ceoCard.contentsContainer.x = ceoCard.container.position.x;
-  ceoCard.contentsContainer.y =
-    ceoCard.container.position.y + ceoCard.container.height + 50;
-
-  for (let i = -1; i < 2; i++) {
-    const emptyCard = {
-      ...emptyCardConfig,
-      container: createCardSprite(emptyCardConfig),
-    };
-    emptyCard.container.position.x = 3 * i * (ceoCard.container.width + 20);
-
-    ceoCard.contentsContainer.addChild(emptyCard.container);
-  }
-
   structureDrawer.contentsContainer.addChild(ceoCard.contentsContainer);
 };

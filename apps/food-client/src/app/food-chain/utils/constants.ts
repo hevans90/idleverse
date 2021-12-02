@@ -1,3 +1,4 @@
+import * as PIXI from 'pixi.js';
 import { carTexture } from './graphics';
 import {
   createAnimatedSprite,
@@ -45,7 +46,16 @@ const carSpriteConfig: SpriteSheetConfig = {
 
 const carFrames = createAnimatedTexture(carSpriteConfig);
 
-export const createCarSprite = () => createSprite(carTexture, ts);
+export const createCarSprite = () =>
+  createSprite(PIXI.Loader.shared.resources['car'].texture, ts);
 
 export const createAnimatedCarSprite = () =>
   createAnimatedSprite(carSpriteConfig, carFrames);
+
+export const defaultZ = {
+  house: 20,
+  road: 20,
+  diner: 20,
+  drink: 20,
+  marketingTile: 20,
+};

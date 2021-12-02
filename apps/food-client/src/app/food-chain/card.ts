@@ -1,7 +1,8 @@
 import * as PIXI from 'pixi.js';
+import { translateObject } from './animation';
 import { playProduceAnimation } from './card.animations';
-import { emptyCardConfig } from './card.configs';
-import { Drawer, organiseRecruitDrawer } from './drawer';
+import { emptyCardConfig, emptyCardKind } from './card.configs';
+import { Drawer, renderRecruitDrawer } from './drawer';
 import { foodKindConfigs } from './food';
 import { Indicator } from './indicators';
 import { Player } from './player';
@@ -9,6 +10,7 @@ import { EmployeeType, EmployeeTypes } from './types';
 import { app, cards } from './utils/singletons';
 
 export type CardConfig = {
+  kind?: string;
   title: string;
   type: EmployeeType;
   description: string;
@@ -26,7 +28,9 @@ export type Card = CardConfig & {
   used: boolean;
   container?: PIXI.Container;
   contentsContainer?: PIXI.Container;
-  organiseContents?: () => void;
+  contentsSpacing?: number;
+  contentsSlot?: number;
+  renderContents?: () => void;
 };
 
 export const createCardSprite = (cardConfig: CardConfig) => {
@@ -115,26 +119,77 @@ export const initCards = (
         active: false,
         used: false,
       };
-      if (card.type === EmployeeTypes.manager)
-        card.organiseContents = () => organiseManagerCards(card);
+      if (card.type === EmployeeTypes.manager) {
+        card.contentsSpacing = 1;
+        card.renderContents = () => renderManagerCards(card);
+      }
       cards.push(card);
       addCardToParent(recruitDrawer, card);
     }
   });
-  organiseRecruitDrawer(recruitDrawer);
+  renderRecruitDrawer(recruitDrawer);
   return cards;
 };
 
-export const moveCardToParent = (parent: Drawer | Card, card: Card) => {
-  console.log(parent);
-  console.log(card);
+export const initManagerContentsContainer = (
+  card: Card,
+  parent: Card | Drawer
+) => {
+  card.contentsContainer = new PIXI.Container();
+  card.contentsContainer.position.x =
+    card.container.position.x -
+    card.contentsSpacing * (card.container.width + 20);
+  card.contentsContainer.position.y =
+    card.container.position.y + card.container.height + 50;
+  initManagerCards(card);
+  renderManagerCards(card);
+  parent.contentsContainer.addChild(card.contentsContainer);
+};
+
+export const removeManagerContentsContainer = (card: Card) => {
+  card.contentsContainer.destroy();
+  card.contentsContainer = null;
+  card.employees.forEach((emptyCard) => emptyCard.container.destroy());
+  card.employees = [];
+};
+
+export const initManagerCards = (card: Card) => {
+  for (let i = 0; i < card.managementSlots; i++) {
+    const emptyCard: Card = {
+      ...emptyCardConfig,
+      parent: card,
+      contentsSlot: i,
+      active: false,
+      used: false,
+      container: createCardSprite(emptyCardConfig),
+    };
+    card.employees.push(emptyCard);
+  }
+};
+
+export const renderManagerCards = (card: Card) => {
+  card.employees.forEach((childCard) => {
+    childCard.container.position.x =
+      card.contentsSpacing *
+      (childCard.contentsSlot % 3) *
+      (card.container.width + 20);
+    childCard.container.position.y =
+      Math.floor(childCard.contentsSlot / 3) * (card.container.height + 20);
+    card.contentsContainer.addChild(childCard.container);
+  });
+};
+
+export const moveCardToParent = (
+  parent: Drawer | Card,
+  card: Card,
+  slot?: number
+) => {
   const oldParent = card.parent;
+  if (slot) card.contentsSlot = slot;
   removeCardFromParent(card.parent, card);
   addCardToParent(parent, card);
-  console.log(parent);
-  console.log(card);
-  oldParent.organiseContents();
-  parent.organiseContents();
+  oldParent.renderContents();
+  parent.renderContents();
 };
 
 export const addCardToParent = (parent: Drawer | Card, card: Card) => {
@@ -151,28 +206,24 @@ export const removeCardFromParent = (parent: Drawer | Card, card: Card) => {
   }
 };
 
-export const organiseCEOCards = (ceoCard: Card) => {
-  console.log('Organising CEO card');
-  console.log(ceoCard.employees);
-  ceoCard.employees.forEach((childCard, i) => {
-    childCard.container.position.x =
-      3 * (i - 1) * (ceoCard.container.width + 20);
-    childCard.container.position.y = 0;
-  });
-};
-
-export const organiseManagerCards = (card: Card) => {
-  card.employees.forEach((childCard, i) => {
-    childCard.container.position.x = (i % 3) * (card.container.width + 20);
-    childCard.container.position.y =
-      Math.floor(i / 3) * (card.container.height + 20);
-  });
-};
-
-export const hireCard = (player: Player, beachDrawer: Drawer, card: Card) => {
+export const hireCard = async (
+  player: Player,
+  beachDrawer: Drawer,
+  card: Card
+) => {
+  card.container.position.x = card.container.getGlobalPosition().x;
+  app.stage.addChild(card.container);
+  await translateObject(
+    card.container,
+    { x: card.container.position.x, y: card.container.position.y },
+    {
+      x: beachDrawer.container.x,
+      y: beachDrawer.container.y,
+    },
+    50
+  );
   moveCardToParent(beachDrawer, card);
   card.owner = player;
-  console.log(card);
   player.hiresAvailable--;
 };
 
@@ -182,7 +233,8 @@ export const fireCard = (player: Player, recruitDrawer: Drawer, card: Card) => {
   player.hiresAvailable++;
 };
 
-export const manageCard = (manager: Card, card: Card) => {
+export const manageCard = (manager: Card, card: Card, slot: number) => {
+  card.contentsSlot = slot;
   moveCardToParent(manager, card);
   card.active = true;
 };
@@ -215,35 +267,18 @@ export const enableCardHire = (
   });
 };
 
-export const renderManagementContainer = (
-  card: Card,
-  structureDrawer: Drawer
-) => {
-  const cardPos = structureDrawer.contentsContainer.toLocal(
-    card.container.getGlobalPosition()
-  );
-  card.contentsContainer = new PIXI.Container();
-  card.contentsContainer.x = cardPos.x - (card.container.width + 20);
-  card.contentsContainer.y = cardPos.y + card.container.height + 50;
-  for (let i = 0; i < card.managementSlots; i++) {
-    const emptyCard = {
-      ...emptyCardConfig,
-      container: createCardSprite(emptyCardConfig),
-    };
-    emptyCard.container.position.x = (i % 3) * (card.container.width + 20);
-    emptyCard.container.position.y =
-      Math.floor(i / 3) * (card.container.height + 20);
+export const slotIsFree = (card: Card, slot: number) =>
+  card.employees.filter(
+    (childCard) =>
+      childCard.contentsSlot === slot && !(childCard.kind === emptyCardKind)
+  ).length === 0;
 
-    card.contentsContainer.addChild(emptyCard.container);
-  }
-  structureDrawer.contentsContainer.addChild(card.contentsContainer);
-};
+export const cardContainsEvent = (event: PIXI.InteractionEvent, card: Card) =>
+  card.container.getBounds().contains(event.data.global.x, event.data.global.y);
 
-export const cardContainsEvent = (event: PIXI.InteractionEvent, card: Card) => {
-  return card.container
-    .getBounds()
-    .contains(event.data.global.x, event.data.global.y);
-};
+export const hasEmployees = (card: Card) =>
+  card.employees.filter((employee) => !(employee.kind === emptyCardKind))
+    .length > 0;
 
 export const enableCardStructure = (
   player: Player,
@@ -260,7 +295,7 @@ export const enableCardStructure = (
     let dragging = false;
 
     function onDragStart(event: PIXI.InteractionEvent) {
-      if (card.employees.length === 0) {
+      if (!hasEmployees(card)) {
         start.x = card.container.position.x;
         start.y = card.container.position.y;
         click.x = event.data.global.x;
@@ -297,40 +332,44 @@ export const enableCardStructure = (
       if (dragging) {
         ceoCard.container.emit('pointerout');
 
-        // Check if card dragged to CEO card
         if (card.contentsContainer) {
-          card.contentsContainer.destroy();
-          card.contentsContainer = null;
-        }
-        if (
-          cardContainsEvent(event, ceoCard) &&
-          ceoCard.employees.length < ceoCard.managementSlots
-        ) {
-          if (card.parent === beachDrawer) {
-            manageCard(ceoCard, card);
-            if (card.managementSlots) {
-              renderManagementContainer(card, structureDrawer);
-            }
-          } else {
-            card.parent.organiseContents();
-          }
-          dragging = false;
-          return;
+          removeManagerContentsContainer(card);
         }
 
-        // Check if card dragged to manager card
-        ceoCard.employees.forEach((manager) => {
+        // Check if card dragged to a CEO card slot
+        for (let i = 0; i < ceoCard.employees.length; i++) {
+          const childCard = ceoCard.employees[i];
           if (
-            manager !== card &&
-            card.type !== EmployeeTypes.manager &&
-            cardContainsEvent(event, manager) &&
-            manager.employees.length < manager.managementSlots
+            childCard.kind === emptyCardKind &&
+            cardContainsEvent(event, childCard) &&
+            slotIsFree(ceoCard, childCard.contentsSlot)
           ) {
-            moveCardToParent(manager, card);
+            manageCard(ceoCard, card, childCard.contentsSlot);
+            if (card.managementSlots) {
+              initManagerContentsContainer(card, ceoCard);
+            }
             dragging = false;
             return;
+            //Check if card is dragged to a manager slot
+          } else if (
+            childCard !== card &&
+            childCard.type === EmployeeTypes.manager &&
+            card.type !== EmployeeTypes.manager
+          ) {
+            const manager = childCard;
+            for (let j = 0; j < manager.employees.length; j++) {
+              const emptyCard = manager.employees[j];
+              if (
+                cardContainsEvent(event, emptyCard) &&
+                slotIsFree(manager, emptyCard.contentsSlot)
+              ) {
+                manageCard(manager, card, emptyCard.contentsSlot);
+                dragging = false;
+                return;
+              }
+            }
           }
-        });
+        }
 
         // Finally move card to beach drawer
         moveCardToParent(beachDrawer, card);

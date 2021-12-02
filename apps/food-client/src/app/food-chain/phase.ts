@@ -40,8 +40,8 @@ export const drawPhaseIndicator = () => {
     phaseIndicatorElement.position.x = i * indicatorWidth;
     phaseIndicatorElement.interactive = true;
     phaseIndicatorElement.buttonMode = true;
-    phaseIndicatorElement.on('pointerdown', () => {
-      endCurrentPhase();
+    phaseIndicatorElement.on('pointerdown', async () => {
+      await endCurrentPhase();
       startPhase(phase);
     });
     phaseIndicatorContainer.addChild(phaseIndicatorElement);
@@ -68,8 +68,8 @@ export const drawNextPhaseButton = () => {
   nextPhaseButton.container.position.y = app.screen.height - 50;
   nextPhaseButton.container.interactive = true;
   nextPhaseButton.container.buttonMode = true;
-  nextPhaseButton.container.on('pointerdown', () => {
-    endCurrentPhase();
+  nextPhaseButton.container.on('pointerdown', async () => {
+    await endCurrentPhase();
     startPhase(getPhase(currentPhase.phase.nextPhase));
   });
   app.stage.addChild(nextPhaseButton.container);
@@ -103,12 +103,13 @@ export const getPhase = (phaseName: string) => {
 };
 
 export const startPhase = (phase: Phase) => {
+  console.log(`Starting phase ${phase.name}`);
   currentPhase.phase = phase;
   if (currentPhase.phase.start) currentPhase.phase.start();
   drawPhaseIndicator();
 };
 
-const endCurrentPhase = () => {
+const endCurrentPhase = async () => {
   cards.forEach((card) => {
     card.container.removeAllListeners();
     card.container.interactive = false;
@@ -123,5 +124,5 @@ const endCurrentPhase = () => {
   // board.diner.container.interactive = false;
   // board.diner.container.buttonMode = false;
   disablePlacement(board);
-  closeAllDrawers();
+  await closeAllDrawers();
 };

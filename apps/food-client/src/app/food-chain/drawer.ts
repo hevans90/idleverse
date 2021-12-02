@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import { translateObject } from './animation';
 import { Card } from './card';
 import { MarketingTile, MarketingTileKinds } from './marketingTile';
 import { baseColour, lineColour } from './types';
@@ -20,7 +21,7 @@ export type Drawer = {
   container?: PIXI.Container;
   contentsContainer?: PIXI.Container;
   fixedContainer?: PIXI.Container;
-  organiseContents?: () => void;
+  renderContents?: () => void;
 };
 
 const getX = (drawer: Drawer) => {
@@ -35,19 +36,26 @@ const getX = (drawer: Drawer) => {
 
 export const openDrawer = (drawerName: string) => {
   const drawer = drawers.find((drawer) => drawer.name === drawerName);
-  console.log(drawer);
   if (!drawer.open) toggleOpen(drawer);
 };
 
-export const closeAllDrawers = () => {
-  drawers.forEach((drawer) => {
-    if (drawer.open) toggleOpen(drawer);
-  });
+export const closeAllDrawers = async () => {
+  const promises = [];
+  for (let i = 0; i < drawers.length; i++) {
+    const drawer = drawers[i];
+    if (drawer.open) promises.push(toggleOpen(drawer));
+  }
+  await Promise.all(promises);
 };
 
-export const toggleOpen = (drawer: Drawer) => {
+export const toggleOpen = async (drawer: Drawer) => {
   drawer.open = !drawer.open;
-  drawer.container.x = getX(drawer);
+  await translateObject(
+    drawer.container,
+    { x: drawer.container.position.x, y: drawer.container.position.y },
+    { x: getX(drawer), y: drawer.container.position.y },
+    25
+  );
 };
 
 const arrangeStack = (stack: Card[], x: number, y: number) => {
@@ -79,7 +87,7 @@ export const addMarketingTileToDrawer = (
   drawer.contentsContainer.addChild(tile.container);
 };
 
-export const organiseRecruitDrawer = (drawer: Drawer) => {
+export const renderRecruitDrawer = (drawer: Drawer) => {
   const stacks = getStacks(drawer);
   stacks.forEach((stack) => {
     const firstCard = stack[0];
@@ -91,7 +99,7 @@ export const organiseRecruitDrawer = (drawer: Drawer) => {
   });
 };
 
-export const organiseBeachDrawer = (drawer: Drawer) => {
+export const renderBeachDrawer = (drawer: Drawer) => {
   const stacks = getStacks(drawer);
   stacks.forEach((stack, i) => {
     const firstCard = stack[0];
@@ -99,7 +107,7 @@ export const organiseBeachDrawer = (drawer: Drawer) => {
   });
 };
 
-export const organiseMarketingDrawer = (drawer: Drawer) => {
+export const renderMarketingDrawer = (drawer: Drawer) => {
   const kindMap = {
     [MarketingTileKinds.radio]: { x: 1, y: 1 },
     [MarketingTileKinds.airplane]: { x: 1, y: 3 },

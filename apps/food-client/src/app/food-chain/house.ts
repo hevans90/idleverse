@@ -5,7 +5,6 @@ import { createFoodSprite, FoodKind } from './food';
 import { addCarToBoard, travelPath } from './house.animations';
 import { Player } from './player';
 import { Road } from './road';
-import { triggerCarAnimation } from './road.animations';
 import { drawToolbar } from './toolbar';
 import { ts } from './utils/constants';
 import { demandBubbleTexture } from './utils/graphics';
@@ -82,11 +81,11 @@ export const addHouseToBoard = (board: Board, house: House) => {
   house.container.interactive = true;
   house.container.buttonMode = true;
   house.container.on('pointerdown', () => {
-    const adjacentRoads = getAdjacentRoads(board, house);
-    board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
-    adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
-    const path = findShortestPath(house, board.diner);
-    if (path) triggerCarAnimation(path, house);
+    // const adjacentRoads = getAdjacentRoads(board, house);
+    // board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
+    // adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
+    // const path = findShortestPath(house, board.diner);
+    // if (path) triggerCarAnimation(path, house);
   });
   board.houses.push(house);
 };
@@ -102,6 +101,7 @@ export const renderHouseFood = (house: House) => {
   if (house.demandContainer) house.demandContainer.destroy();
   if (house.food.length > 0) {
     house.demandContainer = new PIXI.Container();
+    house.demandContainer.zIndex = 100;
     const demandBubbleSprite = createSprite(demandBubbleTexture, 100);
     house.demandContainer.addChild(demandBubbleSprite);
     house.food.forEach((food, i) => {
@@ -167,53 +167,55 @@ export const dinnerTime = async (player: Player) => {
   for (let i = 0; i < sortedHouses.length; i++) {
     const house = sortedHouses[i];
     if (satisfiesFood(player, house)) {
-      let cashReward = 0;
-      house.food.forEach((food) => {
-        house.container.removeChild(food.sprite);
-        player.food[food.kind.name].amount--;
-        cashReward += 10;
-      });
-      house.food = [];
-      drawToolbar(player);
       const path = findShortestPath(house, board.diner);
-      const car = addCarToBoard();
-      car.carContainer.addChild(house.demandContainer);
-      if (path.length > 1) {
-        const firstRoad = path[0];
-        await travelPath(
-          [firstRoad, firstRoad],
-          car.carContainer,
-          car.carSprite,
-          200
-        );
-        await travelPath(path, car.carContainer, car.carSprite, 20);
-        player.cash += cashReward;
-        playCashAnimation(board.diner, cashReward);
-        car.carContainer.removeChild(house.demandContainer);
-        const lastRoad = path[path.length - 1];
-        await travelPath(
-          [lastRoad, lastRoad],
-          car.carContainer,
-          car.carSprite,
-          100
-        );
-        path.reverse();
-        await travelPath(path, car.carContainer, car.carSprite, 20);
-        await travelPath(
-          [firstRoad, firstRoad],
-          car.carContainer,
-          car.carSprite,
-          100
-        );
-      } else if (path.length === 1) {
-        await travelPath(
-          [path[0], path[0]],
-          car.carContainer,
-          car.carSprite,
-          400
-        );
+      if (path.length > 0) {
+        let cashReward = 0;
+        house.food.forEach((food) => {
+          house.container.removeChild(food.sprite);
+          player.food[food.kind.name].amount--;
+          cashReward += 10;
+        });
+        house.food = [];
+        drawToolbar(player);
+        const car = addCarToBoard();
+        car.carContainer.addChild(house.demandContainer);
+        if (path.length > 1) {
+          const firstRoad = path[0];
+          await travelPath(
+            [firstRoad, firstRoad],
+            car.carContainer,
+            car.carSprite,
+            200
+          );
+          await travelPath(path, car.carContainer, car.carSprite, 20);
+          player.cash += cashReward;
+          playCashAnimation(board.diner, cashReward);
+          car.carContainer.removeChild(house.demandContainer);
+          const lastRoad = path[path.length - 1];
+          await travelPath(
+            [lastRoad, lastRoad],
+            car.carContainer,
+            car.carSprite,
+            100
+          );
+          path.reverse();
+          await travelPath(path, car.carContainer, car.carSprite, 20);
+          await travelPath(
+            [firstRoad, firstRoad],
+            car.carContainer,
+            car.carSprite,
+            100
+          );
+        } else if (path.length === 1) {
+          await travelPath(
+            [path[0], path[0]],
+            car.carContainer,
+            car.carSprite,
+            400
+          );
+        }
+        board.container.removeChild(car.carContainer, car.carSprite);
       }
-      board.container.removeChild(car.carContainer, car.carSprite);
     }
   }
 };

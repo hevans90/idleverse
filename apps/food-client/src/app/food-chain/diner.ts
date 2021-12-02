@@ -1,6 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { BoardObject, getAdjacentRoads } from './board';
-import { playCashAnimation } from './diner.animations';
+import { BoardObject } from './board';
 import { Player } from './player';
 import { ts } from './utils/constants';
 import { board } from './utils/singletons';
@@ -53,7 +52,7 @@ export const addDinerToBoard = (player: Player) => {
     // const adjacentRoads = getAdjacentRoads(board, diner);
     // board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
     // adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
-    playCashAnimation(diner, 10);
+    // playCashAnimation(diner, 10);
   });
   board.container.addChild(diner.container);
 };

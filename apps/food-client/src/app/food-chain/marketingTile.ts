@@ -3,7 +3,7 @@ import { Board, BoardObject } from './board';
 import {
   addMarketingTileToDrawer,
   Drawer,
-  organiseMarketingDrawer,
+  renderMarketingDrawer,
   toggleOpen,
 } from './drawer';
 import { createFoodSelect, FoodKind, foodKindConfigs } from './food';
@@ -16,7 +16,7 @@ import {
 } from './marketingTile.animations';
 import { Player } from './player';
 import { disablePlacement, enablePlacement, Tile } from './tile';
-import { ts } from './utils/constants';
+import { defaultZ, ts } from './utils/constants';
 import { app, board } from './utils/singletons';
 import {
   getConnectedSquares,
@@ -169,25 +169,27 @@ export const initMarketingTiles = (
     };
     marketingTile.sprite = createMarketTileSprite(config);
     marketingTile.container.addChild(marketingTile.sprite);
-    marketingTile.container.zIndex = 20;
+    marketingTile.container.zIndex = defaultZ.marketingTile;
     marketingTiles.push(marketingTile);
   });
 
   marketingTiles.forEach((tile) => {
     addMarketingTileToDrawer(marketingDrawer, tile);
   });
-  organiseMarketingDrawer(marketingDrawer);
+  renderMarketingDrawer(marketingDrawer);
   return marketingTiles;
 };
 
 export const selectMarketingTileFood = (tile: MarketingTile) => {
   disablePlacement(board);
+  tile.container.zIndex = 50;
   const oldFoodSelect = tile.container.getChildByName('foodSelect');
   tile.container.removeChild(oldFoodSelect);
 
   const newFoodSelect = createFoodSelect(foodKindConfigs, (foodKind) => {
     tile.foodKind = foodKind;
     tile.foodQuant = 4;
+    tile.container.zIndex = defaultZ.marketingTile;
     renderMarketingTileFood(tile);
     tile.container.removeChild(newFoodSelect);
   });

@@ -1,6 +1,8 @@
 import { CardConfig } from './card';
 import { EmployeeTypes } from './types';
 
+export const emptyCardKind = 'emptyCard';
+
 export const ceoCardConfig: CardConfig = {
   title: 'CEO',
   type: EmployeeTypes.manager,
@@ -9,6 +11,7 @@ export const ceoCardConfig: CardConfig = {
 };
 
 export const emptyCardConfig: CardConfig = {
+  kind: emptyCardKind,
   title: '',
   type: EmployeeTypes.empty,
   description: '',
@@ -280,3 +283,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     position: 2,
   },
 };
+
+Object.entries(cardConfigs).forEach((config) => {
+  config[1].kind = config[0];
+});
