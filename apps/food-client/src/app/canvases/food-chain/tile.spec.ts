@@ -1,8 +1,4 @@
-import {
-  translateTileArray,
-  parseTileConfig,
-  rotateTileArray,
-} from './tile';
+import { translateChunk, parseTileConfig, rotateChunk } from './tile';
 
 const tileConfig = [
   ['e', 'r24', 'h1'],
@@ -27,7 +23,7 @@ describe('tile reader', () => {
 
   it('should shift a tile array so it is centered', () => {
     const tileArray = parseTileConfig(tileConfig);
-    const centeredTileArray = translateTileArray(
+    const centeredTileArray = translateChunk(
       tileArray,
       -(tileConfig.length - 1) / 2
     );
@@ -37,12 +33,12 @@ describe('tile reader', () => {
 
   it('should rotate a tile array', () => {
     const tileArray = parseTileConfig(tileConfig2);
-    const centeredTileArray = translateTileArray(
+    const centeredTileArray = translateChunk(
       tileArray,
       -(tileConfig2.length - 1) / 2
     );
-    const rotatedTileArray = rotateTileArray(centeredTileArray, 1);
-    const finalTileArray = translateTileArray(
+    const rotatedTileArray = rotateChunk(centeredTileArray, 1);
+    const finalTileArray = translateChunk(
       rotatedTileArray,
       (tileConfig2.length - 1) / 2
     );

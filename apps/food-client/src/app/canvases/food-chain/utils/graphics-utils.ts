@@ -17,7 +17,14 @@ export type SpriteSheetConfig = {
   spriteScale: number;
 };
 
-export const CreateAnimatedPlanetSprite = (
+export const CreateBasicSprite = (app: Application, graphic: Graphics) => {
+  const sunTexture = app.renderer.generateTexture(graphic);
+  const sprite = new Sprite(sunTexture);
+  app.stage.addChild(sprite);
+  return sprite;
+};
+
+export const CreateAnimatedSprite = (
   app: Application,
   conf: SpriteSheetConfig
 ) => {
@@ -48,16 +55,6 @@ export const CreateAnimatedPlanetSprite = (
   sprite.height = sprite.height * conf.spriteScale;
   sprite.width = sprite.width * conf.spriteScale;
   sprite.play();
-  app.stage.addChild(sprite);
-  return sprite;
-};
-
-export const CreateBasicPlanetSprite = (
-  app: Application,
-  graphic: Graphics
-) => {
-  const sunTexture = app.renderer.generateTexture(graphic);
-  const sprite = new Sprite(sunTexture);
   app.stage.addChild(sprite);
   return sprite;
 };

@@ -1,7 +1,7 @@
-import { SolarSystem } from './canvases/solar-system/solar-system';
+import { FoodChain } from './canvases/food-chain/food-chain';
 
 export const local = window.location.origin.includes('localhost');
 
 export const App = () => {
-  return <SolarSystem />;
+  return <FoodChain />;
 };
