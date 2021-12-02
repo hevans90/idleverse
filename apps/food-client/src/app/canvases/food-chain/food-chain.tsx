@@ -1,18 +1,33 @@
-import { Box } from '@chakra-ui/react';
-import { Application } from '@pixi/app';
 import * as PIXI from 'pixi.js';
+import { Box } from '@chakra-ui/react';
 import { useEffect } from 'react';
-import { drawRoad as createRoadSprite } from './road';
-import { Tile } from './tile';
-import { tileConfigs, Chunk, parseTileConfig, rotateAboutCenter } from './tile';
-import { BoardObject, Diner, Drink, House, Road } from './types';
 import { ts } from './utils/constants';
-import { collides, Vector2D } from './utils/utils';
+import {
+  getRandomValidPosition,
+  isValidPosition,
+  Vector2D,
+} from './utils/utils';
+import { Diner, Drink, EmployeeTypes, House, Road } from './types';
+import { createEmptySquareSprite } from './emptySquare';
+import {
+  Tile,
+  tileConfigs,
+  Chunk,
+  parseTileConfig,
+  rotateAboutCenter,
+} from './tile';
+import { drawRoad as createRoadSprite } from './road';
+import { createHouseSprite } from './house';
+import { createDrinkSprite, drinkTextures, DrinkTextures } from './drink';
+import { createDinerSprite } from './diner';
+import { drawIndicator } from './indicators';
+import { addDrawer } from './drawer';
+import { drawCard } from './card';
 
 export const FoodChain = () => {
   useEffect(() => {
     const gameElement = document.getElementById('game');
-    const app = new Application({
+    const app = new PIXI.Application({
       transparent: true,
       resizeTo: gameElement,
     });
@@ -20,129 +35,21 @@ export const FoodChain = () => {
 
     const animations = [];
     const tiles: Tile[] = [];
-    const roads: Road[] = [];
-    const houses: House[] = [];
-    const drinks: Drink[] = [];
 
-    let collisionArray = [];
-
-    const isValidPosition = (item1: BoardObject) => {
-      if (item1.name === 'diner1') console.log(item1);
-      const itemsArray = roads.concat(houses, drinks);
-      collisionArray = itemsArray.filter((item2) => collides(item1, item2));
-      if (item1.name === 'diner1') console.log(collisionArray.length);
-      if (collisionArray.length > 0) {
-        return false;
-      }
-
-      // collisionArray = roads.filter(
-      //   (road) => Math.abs(road.i - item1.i) + Math.abs(road.j - item1.j) < 3
-      // );
-      // if (collisionArray.length === 0) {
-      //   console.log(`not next to road`);
-      //   return false;
-      // }
-
-      return true;
+    const boardItems = {
+      roads: [],
+      houses: [],
+      drinks: [],
     };
 
-    const getRandomPosition = () => {
-      return {
-        i: Math.floor(Math.random() * 14),
-        j: Math.floor(Math.random() * 14),
-      };
-    };
-
-    const getRandomValidPosition = (item: BoardObject) => {
-      let randomPosition = getRandomPosition();
-      let tries = 0;
-      for (let i = 0; i < 1000; i++) {
-        if (isValidPosition({ ...item, ...randomPosition })) {
-          console.log(`tries: ${tries}`);
-          return randomPosition;
-        }
-        randomPosition = getRandomPosition();
-        tries++;
-      }
-      console.log(`tries: ${tries}`);
-      return randomPosition;
-    };
+    const collisionArray = [];
 
     const chunks = tileConfigs.map((tileConfig) => parseTileConfig(tileConfig));
 
-    const createEmptySquareSprite = () => {
-      const square = new PIXI.Graphics();
-      square.lineStyle(2, 0x0, 1);
-      square.beginFill(0xffffff);
-      square.drawRect(2, 2, ts - 2, ts - 2);
-      square.endFill();
-
-      return square;
-    };
-
-    const createHouseSprite = (house: House) => {
-      const houseContainer = new PIXI.Container();
-      const houseSprite = new PIXI.Sprite(houseTextures[house.orient]);
-      houseSprite.width = ts * 2;
-      houseSprite.height = ts * 2;
-      const houseNum = new PIXI.Text(
-        house.num,
-        new PIXI.TextStyle({
-          fontFamily: 'zx-spectrum',
-          fontSize: 24,
-          fontWeight: 'bold',
-          fill: '#ffffff',
-        })
-      );
-      houseNum.position.x = 5;
-      houseNum.position.y = 5;
-
-      houseContainer.addChild(houseSprite, houseNum);
-
-      return houseContainer;
-    };
-
-    const createDrinkSprite = (texture: PIXI.Texture) => {
-      const drink = new PIXI.Sprite(texture);
-      drink.width = ts;
-      drink.height = ts;
-      return drink;
-    };
-
     const re = /(\w)(\d*)(?:-(\d+))?/;
-    const houseTextures = {
-      '1': PIXI.Texture.from('https://i.imgur.com/rGgNlV1.png'),
-      '2': PIXI.Texture.from('https://i.imgur.com/OYDsDs7.png'),
-      '3': PIXI.Texture.from('https://i.imgur.com/rGgNlV1.png'),
-      '4': PIXI.Texture.from('https://i.imgur.com/jYSXUk0.png'),
-    };
-    const dinerTexture = PIXI.Texture.from('https://i.imgur.com/gPK9T8l.png');
-    const beerTexture = PIXI.Texture.from('https://i.imgur.com/eNwKilN.png');
-    const colaTexture = PIXI.Texture.from('https://i.imgur.com/LMUTwgN.png');
-    const lemonadeTexture = PIXI.Texture.from(
-      'https://i.imgur.com/6ilmUUU.png'
-    );
 
-    const drawInvalidIndicator = () => {
-      const indicator = new PIXI.Graphics();
-      indicator.lineStyle(4, 0x8b0000, 1);
-      indicator.beginFill(0x8b0000, 0.25);
-      indicator.drawRect(0, 0, ts * 2 - 2, ts * 2 - 2);
-      indicator.endFill();
-      return indicator;
-    };
-
-    const drawValidIndicator = () => {
-      const indicator = new PIXI.Graphics();
-      indicator.lineStyle(4, 0x8b8000, 1);
-      indicator.beginFill(0x8b8000, 0.25);
-      indicator.drawRect(0, 0, ts * 2 - 2, ts * 2 - 2);
-      indicator.endFill();
-      return indicator;
-    };
-
-    const invalidIndicator = drawInvalidIndicator();
-    const validIndicator = drawValidIndicator();
+    const invalidIndicator = drawIndicator('invalid');
+    const validIndicator = drawIndicator('valid');
     let indicator = validIndicator;
     let otherIndicator = invalidIndicator;
 
@@ -167,7 +74,13 @@ export const FoodChain = () => {
         squareSprite.interactive = true;
         squareSprite.buttonMode = true;
         squareSprite.on('mouseover', () => {
-          if (isValidPosition({ i: i, j: j, h: 1, w: 1 })) {
+          if (
+            isValidPosition(
+              { i: i, j: j, h: 1, w: 1 },
+              collisionArray,
+              boardItems
+            )
+          ) {
             indicator = validIndicator;
             otherIndicator = invalidIndicator;
           } else {
@@ -184,7 +97,13 @@ export const FoodChain = () => {
         });
         squareSprite.on('pointerdown', () => {
           console.log(i, j);
-          if (isValidPosition({ i: i, j: j, w: 1, h: 1 })) {
+          if (
+            isValidPosition(
+              { i: i, j: j, w: 1, h: 1 },
+              collisionArray,
+              boardItems
+            )
+          ) {
             dinerSprite.x = i * ts;
             dinerSprite.y = j * ts;
           }
@@ -205,7 +124,7 @@ export const FoodChain = () => {
             h: 0,
             connections: match[2].split('').map((i) => parseInt(i)),
           };
-          roads.push(road);
+          boardItems.roads.push(road);
           const roadSprite = createRoadSprite(road);
           roadSprite.x = road.i * ts;
           roadSprite.y = road.j * ts;
@@ -216,10 +135,10 @@ export const FoodChain = () => {
             j: i + q * 5,
             w: 1,
             h: 1,
-            orient: match[2],
-            num: match[3],
+            orient: parseInt(match[2]),
+            num: parseInt(match[3]),
           };
-          houses.push(house);
+          boardItems.houses.push(house);
           const houseSprite = createHouseSprite(house);
           houseSprite.x = house.i * ts;
           houseSprite.y = house.j * ts;
@@ -229,88 +148,28 @@ export const FoodChain = () => {
             console.log(house);
           });
           container.addChild(houseSprite);
-        } else if (match[1] === 'b') {
-          const beer: Drink = {
+        } else if (match[1] in drinkTextures) {
+          const drink: Drink = {
             i: j + p * 5,
             j: i + q * 5,
             w: 0,
             h: 0,
           };
-          drinks.push(beer);
-          const beerSprite = createDrinkSprite(beerTexture);
-          beerSprite.x = beer.i * ts;
-          beerSprite.y = beer.j * ts;
-          container.addChild(beerSprite);
-        } else if (match[1] === 'l') {
-          const cola: Drink = {
-            i: j + p * 5,
-            j: i + q * 5,
-            w: 0,
-            h: 0,
-          };
-          drinks.push(cola);
-          const colaSprite = createDrinkSprite(colaTexture);
-          colaSprite.x = cola.i * ts;
-          colaSprite.y = cola.j * ts;
-          container.addChild(colaSprite);
-        } else if (match[1] === 'c') {
-          const lemonade: Drink = {
-            i: j + p * 5,
-            j: i + q * 5,
-            w: 0,
-            h: 0,
-          };
-          drinks.push(lemonade);
-          const lemonadeSprite = createDrinkSprite(lemonadeTexture);
-          lemonadeSprite.x = lemonade.i * ts;
-          lemonadeSprite.y = lemonade.j * ts;
-          container.addChild(lemonadeSprite);
+          boardItems.drinks.push(drink);
+          const drinkSprite = createDrinkSprite(
+            match[1] as keyof DrinkTextures
+          );
+          drinkSprite.x = drink.i * ts;
+          drinkSprite.y = drink.j * ts;
+          container.addChild(drinkSprite);
         }
       });
     };
 
-    const createDinerSprite = (dinerTexture: PIXI.Texture) => {
-      const dinerSprite = new PIXI.Sprite(dinerTexture);
-
-      dinerSprite.width = ts * 2;
-      dinerSprite.height = ts * 2;
-
-      dinerSprite.interactive = true;
-      dinerSprite.buttonMode = true;
-      // dinerSprite.on('pointerdown', () => {
-      //   let time = 0;
-      //   diner.prevPosition.x = dinerSprite.position.x;
-      //   diner.prevPosition.y = dinerSprite.position.y;
-      //   const randomPosition = getRandomValidPosition(dinerSprite);
-      //   diner.nextPosition.x = randomPosition.i * ts + 2;
-      //   diner.nextPosition.y = randomPosition.j * ts + 2;
-      //   animations.push(() => {
-      //     time += 1;
-      //     if (diner.time < diner.duration) {
-      //       dinerSprite.position.x =
-      //         diner.prevPosition.x +
-      //         (diner.nextPosition.x - diner.prevPosition.x) *
-      //           (diner.time / diner.duration);
-      //       dinerSprite.position.y =
-      //         diner.prevPosition.y +
-      //         (diner.nextPosition.y - diner.prevPosition.y) *
-      //           (diner.time / diner.duration);
-      //     } else {
-      //       dinerSprite.x = diner.nextPosition.x;
-      //       dinerSprite.y = diner.nextPosition.y;
-      //       diner.prevPosition = { ...diner.nextPosition };
-      //       animations.splice(0, 1);
-      //     }
-      //   });
-      // });
-
-      return dinerSprite;
-    };
-
     const board = new PIXI.Container();
 
-    for (let p = 0; p < 3; p++) {
-      for (let q = 0; q < 3; q++) {
+    for (let p = 0; p < 5; p++) {
+      for (let q = 0; q < 4; q++) {
         const chunk = chunks[Math.floor(Math.random() * chunks.length)];
         const rotatedChunk = rotateAboutCenter(
           chunk,
@@ -322,7 +181,7 @@ export const FoodChain = () => {
       }
     }
 
-    const dinerSprite = createDinerSprite(dinerTexture);
+    const dinerSprite = createDinerSprite(ts);
     const diner: Diner = {
       i: 0,
       j: 0,
@@ -330,7 +189,11 @@ export const FoodChain = () => {
       h: 1,
       name: 'diner1',
     };
-    const randomPosition = getRandomValidPosition(diner);
+    const randomPosition = getRandomValidPosition(
+      diner,
+      collisionArray,
+      boardItems
+    );
     console.log(randomPosition);
     dinerSprite.x = randomPosition.i * ts;
     dinerSprite.y = randomPosition.j * ts;
@@ -342,83 +205,7 @@ export const FoodChain = () => {
     board.position.y = app.screen.height / 2;
     app.stage.addChild(board);
 
-    const addDrawer = ({
-      app,
-      width,
-      height,
-      x,
-      y,
-      tabWidth,
-    }: {
-      app: PIXI.Application;
-      width: number;
-      height: number;
-      x: number;
-      y: number;
-      tabWidth: number;
-    }) => {
-      const drawerContainer = new PIXI.Container();
-
-      const drawerBody = new PIXI.Graphics();
-      drawerBody.lineStyle(2, 0x0, 1);
-      drawerBody.beginFill(0xeed9ba);
-      drawerBody.drawRoundedRect(0, 0, width, height, 20);
-      drawerBody.endFill();
-
-      // set recruit spacing
-      const rs = 0.1;
-      // set recruit tile size
-      const rts = 160;
-      for (let i = 0; i < 5; i++) {
-        for (let j = 0; j < 8; j++) {
-          const item = new PIXI.Graphics();
-          item.lineStyle(2, 0x0, 1);
-          item.beginFill(0xc370ff);
-          item.drawRoundedRect(
-            rts * ((1 + rs) * i + rs),
-            rts * ((1 + rs) * j + rs),
-            rts,
-            rts,
-            5
-          );
-          item.endFill();
-          drawerBody.addChild(item);
-        }
-      }
-
-      const drawerTab = new PIXI.Graphics();
-
-      drawerTab.lineStyle(2, 0x0, 1);
-      drawerTab.beginFill(0xeed9ba);
-      drawerTab.drawRoundedRect(-40, 0, 40, app.screen.height, 20);
-      drawerTab.endFill();
-
-      drawerContainer.addChild(drawerBody, drawerTab);
-
-      const drawer = {
-        open: false,
-      };
-
-      drawerContainer.x = drawer.open
-        ? app.screen.width - 1000
-        : app.screen.width;
-      drawerContainer.y = 0;
-
-      const translateDraw = () => {
-        drawer.open = !drawer.open;
-        drawerContainer.x = drawer.open
-          ? app.screen.width - 1000
-          : app.screen.width;
-      };
-
-      drawerTab.interactive = true;
-      drawerTab.buttonMode = true;
-      drawerTab.on('pointerdown', translateDraw);
-
-      app.stage.addChild(drawerContainer);
-    };
-
-    addDrawer({
+    const drawer = addDrawer({
       app: app,
       x: 0,
       y: 0,
@@ -426,6 +213,41 @@ export const FoodChain = () => {
       height: app.screen.height,
       tabWidth: 40,
     });
+
+    const executiveVP1 = drawCard({
+      title: 'CFO',
+      colour: EmployeeTypes.finance.color,
+      description: 'Add +50% to cash\nearned this round',
+    });
+    app.stage.addChild(executiveVP1);
+
+    const executiveVP2 = drawCard({
+      title: 'CFO',
+      colour: EmployeeTypes.finance.color,
+      description: 'Add +50% to cash\nearned this round',
+    });
+    executiveVP2.position.x = 10;
+    executiveVP2.position.y = 10;
+    app.stage.addChild(executiveVP2);
+
+    const executiveVP3 = drawCard({
+      title: 'CFO',
+      colour: EmployeeTypes.finance.color,
+      description: 'Add +50% to cash\nearned this round',
+    });
+    executiveVP3.position.x = 20;
+    executiveVP3.position.y = 20;
+    app.stage.addChild(executiveVP3);
+
+    const errandBoy = drawCard({
+      title: 'Errand\nBoy',
+      colour: EmployeeTypes.drinks.color,
+      description: 'Get 1 drink of\nany type',
+    });
+    errandBoy.position.x = 240;
+    app.stage.addChild(errandBoy);
+
+    app.stage.addChild(drawer);
 
     const translate = (item, endPos: Vector2D, duration) => {
       let time = 0;

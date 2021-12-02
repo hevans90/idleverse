@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { BoardObject } from '../types';
+import { BoardItems, BoardObject } from '../types';
 
 export type Vector2D = {
   x: number;
@@ -11,10 +11,6 @@ export const collides = (item1: BoardObject, item2: BoardObject) => {
   const item1rightitem2 = item1.i + item1.w < item2.i;
   const item1aboveitem2 = item1.j > item2.j + item2.h;
   const item1belowitem2 = item1.j + item1.h < item2.j;
-  // console.log(`item 1 is left of item 2: ${item1leftitem2}`);
-  // console.log(`item 1 is right of item 2: ${item1rightitem2}`);
-  // console.log(`item 1 is above item 2: ${item1aboveitem2}`);
-  // console.log(`item 1 is below item 2: ${item1belowitem2}`);
   return !(
     item1leftitem2 ||
     item1rightitem2 ||
@@ -46,4 +42,70 @@ export const drawDottedLine = (
     if (i % 4 > 1) graphic.lineTo(start.x + xStep * i, start.y + yStep * i);
     else graphic.moveTo(start.x + xStep * i, start.y + yStep * i);
   }
+};
+
+export const isValidPosition = (
+  item1: BoardObject,
+  collisionArray: BoardObject[],
+  boardItems: BoardItems
+) => {
+  if (item1.name === 'diner1') console.log(item1);
+  const itemsArray = boardItems.roads.concat(
+    boardItems.houses,
+    boardItems.drinks
+  );
+
+  collisionArray = itemsArray.filter((item2) => collides(item1, item2));
+  if (item1.name === 'diner1') console.log(collisionArray.length);
+
+  if (collisionArray.length > 0) {
+    return false;
+  }
+
+  collisionArray = boardItems.roads.filter((road) => {
+    return (
+      collides(item1, { ...road, i: road.i + 1 }) ||
+      collides(item1, { ...road, i: road.i - 1 }) ||
+      collides(item1, { ...road, j: road.j + 1 }) ||
+      collides(item1, { ...road, j: road.j - 1 })
+    );
+  });
+
+  if (collisionArray.length === 0) {
+    return false;
+  }
+
+  return true;
+};
+
+export const getRandomPosition = () => {
+  return {
+    i: Math.floor(Math.random() * 14),
+    j: Math.floor(Math.random() * 14),
+  };
+};
+
+export const getRandomValidPosition = (
+  item: BoardObject,
+  collisionArray: BoardObject[],
+  boardItems: BoardItems
+) => {
+  let randomPosition = getRandomPosition();
+  let tries = 0;
+  for (let i = 0; i < 1000; i++) {
+    if (
+      isValidPosition(
+        { ...item, ...randomPosition },
+        collisionArray,
+        boardItems
+      )
+    ) {
+      console.log(`tries: ${tries}`);
+      return randomPosition;
+    }
+    randomPosition = getRandomPosition();
+    tries++;
+  }
+  console.log(`tries: ${tries}`);
+  return randomPosition;
 };
