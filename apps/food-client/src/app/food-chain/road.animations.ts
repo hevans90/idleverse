@@ -1,23 +1,9 @@
-import * as PIXI from 'pixi.js';
 import { Anim } from './animation';
 import { Board, getAdjacentRoads } from './board';
 import { Road } from './road';
 import { createCarSprite, ts } from './utils/constants';
 import { createAnimationsFromPath } from './utils/graphics-utils';
 import { findRoadPath } from './utils/utils';
-
-const generatePlayNext = (
-  board: Board,
-  queue: Anim[],
-  object: PIXI.DisplayObject
-) => {
-  return (anim: Anim) => {
-    queue.splice(queue.indexOf(anim), 1);
-    if (queue.length > 0) {
-      queue[0].start();
-    } else board.container.removeChild(object);
-  };
-};
 
 export const triggerCarAnimation = (board: Board, road: Road) => {
   const path = findRoadPath(board, getAdjacentRoads(board, board.diner), road);

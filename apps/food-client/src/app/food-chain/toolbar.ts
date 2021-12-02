@@ -28,6 +28,7 @@ export const drawToolbar = (player: Player) => {
         fill: '#ffffff',
       })
     );
+    player.food[foodKind].sprite = foodSprite;
     player.food[foodKind].textSprite = foodAmountText;
     Object.assign(foodAmountText, { x: 70 + i * 100, y: 15 });
     toolbar.addChild(foodSprite, foodAmountText);

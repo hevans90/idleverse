@@ -78,12 +78,15 @@ export const createFoodSpriteIcon = (foodKind: FoodKind) => {
   return new PIXI.Sprite(renderTexture);
 };
 
-export const createFoodSelect = (tile: MarketingTile) => {
+export const createFoodSelect = (
+  tile: MarketingTile,
+  foodKinds: FoodKind[]
+) => {
   const oldFoodSelect = tile.container.getChildByName('foodSelect');
   tile.container.removeChild(oldFoodSelect);
 
   const foodSelect = new PIXI.Container();
-  Object.values(foodKindsConfig).forEach((foodKind, i) => {
+  foodKinds.forEach((foodKind, i) => {
     const foodSprite = createFoodSpriteIcon(foodKind);
     foodSprite.position.x = ts * i;
     foodSprite.interactive = true;

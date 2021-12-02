@@ -3,7 +3,14 @@ import { Box } from '@chakra-ui/react';
 import { getSquaresInRange, isValidPosition } from './utils/utils';
 import { addBoardToStage } from './board';
 import { initCEOCard, Player } from './player';
-import { renderDrawer, Drawer, openDrawer, toggleOpen } from './drawer';
+import {
+  renderDrawer,
+  Drawer,
+  toggleOpen,
+  organiseRecruitDrawer,
+  organiseMarketingDrawer,
+  organiseBeachDrawer,
+} from './drawer';
 import { drawerHiresIndicator } from './indicators';
 import {
   drawDebugButton,
@@ -13,24 +20,23 @@ import {
 } from './phase';
 import { drawChunks, drawOuterSquares } from './chunk';
 import { FoodKinds } from './food';
-import { disablePlacement, enablePlacement } from './tile';
+import { enablePlacement } from './tile';
 import {
+  initCards,
   enableCardHire,
   enableCardStructure,
   enableFoodProduction,
-  initCards,
   untapCards,
+  hireCard,
+  manageCard,
 } from './card';
 import {
+  initMarketingTiles,
   enableAdvertise,
   enableMarketingTilePlacement,
-  initMarketingTiles,
 } from './marketingTile';
 import { addDinerToBoard } from './diner';
 import { drawToolbar } from './toolbar';
-import { tileConfigs } from './tile.configs';
-import { cardConfigs } from './card.configs';
-import { marketingTileConfigs } from './marketingTile.configs';
 import {
   animations,
   app,
@@ -42,6 +48,9 @@ import {
   marketingTiles,
   phases,
 } from './utils/singletons';
+import { tileConfigs } from './tile.configs';
+import { cardConfigs } from './card.configs';
+import { marketingTileConfigs } from './marketingTile.configs';
 
 export const FoodChain = () => {
   useEffect(() => {
@@ -123,7 +132,6 @@ export const FoodChain = () => {
       },
       nextPhase: 'Structure',
     });
-    currentPhase.phase = getPhase('Launch');
 
     document.addEventListener('keydown', (e) => {
       if (Object.keys(keyEventMap).includes(e.code)) keyEventMap[e.code]();
@@ -138,9 +146,10 @@ export const FoodChain = () => {
       tabEndY: (app.screen.height - 200) / 2,
       tabWidth: 40,
       orient: 'right',
-      cards: [],
+      employees: [],
       marketingTiles: [],
     };
+    recruitDrawer.organiseContents = () => organiseRecruitDrawer(recruitDrawer);
 
     const marketDrawer: Drawer = {
       name: 'market',
@@ -151,21 +160,10 @@ export const FoodChain = () => {
       tabStartY: (app.screen.height - 200) / 2,
       tabWidth: 40,
       orient: 'right',
-      cards: [],
+      employees: [],
       marketingTiles: [],
     };
-
-    const structureDrawer: Drawer = {
-      name: 'structure',
-      open: false,
-      startY: 100,
-      endY: (app.screen.height - 200) * 0.85,
-      width: 1500,
-      tabWidth: 40,
-      orient: 'left',
-      cards: [],
-      marketingTiles: [],
-    };
+    marketDrawer.organiseContents = () => organiseMarketingDrawer(marketDrawer);
 
     const beachDrawer: Drawer = {
       name: 'beach',
@@ -175,7 +173,20 @@ export const FoodChain = () => {
       width: 1500,
       tabWidth: 40,
       orient: 'left',
-      cards: [],
+      employees: [],
+      marketingTiles: [],
+    };
+    beachDrawer.organiseContents = () => organiseBeachDrawer(beachDrawer);
+
+    const structureDrawer: Drawer = {
+      name: 'structure',
+      open: false,
+      startY: 100,
+      endY: (app.screen.height - 200) * 0.85,
+      width: 1500,
+      tabWidth: 40,
+      orient: 'left',
+      employees: [],
       marketingTiles: [],
     };
 
@@ -194,12 +205,20 @@ export const FoodChain = () => {
     initMarketingTiles(marketDrawer, marketingTileConfigs, marketingTiles);
 
     drawDebugButton();
-    drawPhaseIndicator();
     drawNextPhaseButton();
+
+    const burgerCook = cards.find((card) => card.title === 'Burger\nCook');
+    hireCard(player, beachDrawer, burgerCook);
+    manageCard(player.ceo.card, burgerCook);
+    const pizzaChef = cards.find((card) => card.title === 'Pizza\nChef');
+    hireCard(player, beachDrawer, pizzaChef);
+    manageCard(player.ceo.card, pizzaChef);
 
     drawToolbar(player);
 
+    currentPhase.phase = getPhase('Produce');
     currentPhase.phase.start();
+    drawPhaseIndicator();
 
     app.ticker.add(() => {
       animations.forEach((animation) => animation.update());

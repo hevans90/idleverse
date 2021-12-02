@@ -1,13 +1,8 @@
 import * as PIXI from 'pixi.js';
+import { playProduceAnimation } from './card.animations';
 import { emptyCardConfig } from './card.configs';
-import {
-  removeCardFromDrawer,
-  addCardToDrawer,
-  Drawer,
-  organiseBeachDrawer,
-  organiseRecruitDrawer,
-} from './drawer';
-import { FoodKinds, produceFood } from './food';
+import { Drawer, organiseRecruitDrawer } from './drawer';
+import { FoodKinds } from './food';
 import { Indicator } from './indicators';
 import { Player } from './player';
 import { EmployeeType, EmployeeTypes } from './types';
@@ -25,12 +20,13 @@ export type CardConfig = {
 
 export type Card = CardConfig & {
   owner?: Player;
+  parent?: Drawer | Card;
   employees?: Card[];
   active: boolean;
   used: boolean;
   container?: PIXI.Container;
-  managingContainer?: PIXI.Container;
-  onClick?: () => void;
+  contentsContainer?: PIXI.Container;
+  organiseContents?: () => void;
 };
 
 export const createCardSprite = (cardConfig: CardConfig) => {
@@ -108,43 +104,55 @@ export const initCards = (
   cardConfigs: CardConfig[],
   cards: Card[]
 ) => {
-  Object.values(cardConfigs).forEach((card) =>
-    Array.from({ length: card.count }, () =>
-      cards.push({
-        ...card,
-        container: createCardSprite(card),
+  Object.values(cardConfigs).forEach((cardConfig) => {
+    for (let i = 0; i < cardConfig.count; i++) {
+      const card: Card = {
+        ...cardConfig,
+        container: createCardSprite(cardConfig),
         owner: null,
+        parent: recruitDrawer,
         employees: [],
         active: false,
         used: false,
-      })
-    )
-  );
-  cards.forEach((card) => {
-    addCardToDrawer(recruitDrawer, card);
+      };
+      if (card.type === EmployeeTypes.manager)
+        card.organiseContents = () => organiseManagerCards(card);
+      cards.push(card);
+      addCardToParent(recruitDrawer, card);
+    }
   });
   organiseRecruitDrawer(recruitDrawer);
   return cards;
 };
 
-export const addToCard = (parentCard: Card, childCard: Card) => {
-  parentCard.employees.push(childCard);
-  parentCard.managingContainer.addChild(childCard.container);
-  childCard.active = true;
+export const moveCardToParent = (parent: Drawer | Card, card: Card) => {
+  const oldParent = card.parent;
+  removeCardFromParent(card.parent, card);
+  addCardToParent(parent, card);
+  oldParent.organiseContents();
+  parent.organiseContents();
 };
 
-export const removeFromCard = (parentCard: Card, childCard: Card) => {
-  const i = parentCard.employees.indexOf(childCard);
+export const addCardToParent = (parent: Drawer | Card, card: Card) => {
+  card.parent = parent;
+  parent.employees.push(card);
+  parent.contentsContainer.addChild(card.container);
+};
+
+export const removeCardFromParent = (parent: Drawer | Card, card: Card) => {
+  const i = parent.employees.indexOf(card);
   if (i > -1) {
-    parentCard.employees.splice(i, 1);
-    parentCard.managingContainer.removeChild(childCard.container);
+    parent.employees.splice(i, 1);
+    parent.contentsContainer.removeChild(card.container);
   }
-  childCard.active = false;
 };
 
-export const organiseCEOCards = (card: Card) => {
-  card.employees.forEach((childCard, i) => {
-    childCard.container.position.x = 3 * (i - 1) * (card.container.width + 20);
+export const organiseCEOCards = (ceoCard: Card) => {
+  console.log('Organising CEO card');
+  console.log(ceoCard.employees);
+  ceoCard.employees.forEach((childCard, i) => {
+    childCard.container.position.x =
+      3 * (i - 1) * (ceoCard.container.width + 20);
     childCard.container.position.y = 0;
   });
 };
@@ -155,6 +163,29 @@ export const organiseManagerCards = (card: Card) => {
     childCard.container.position.y =
       Math.floor(i / 3) * (card.container.height + 20);
   });
+};
+
+export const hireCard = (player: Player, beachDrawer: Drawer, card: Card) => {
+  moveCardToParent(beachDrawer, card);
+  card.owner = player;
+  console.log(card);
+  player.hiresAvailable--;
+};
+
+export const fireCard = (player: Player, recruitDrawer: Drawer, card: Card) => {
+  moveCardToParent(recruitDrawer, card);
+  card.owner = null;
+  player.hiresAvailable++;
+};
+
+export const manageCard = (manager: Card, card: Card) => {
+  moveCardToParent(manager, card);
+  card.active = true;
+};
+
+export const unmanageCard = () => (beachDrawer: Drawer, card: Card) => {
+  moveCardToParent(beachDrawer, card);
+  card.active = false;
 };
 
 export const enableCardHire = (
@@ -168,26 +199,46 @@ export const enableCardHire = (
     card.container.interactive = true;
     card.container.buttonMode = true;
     card.container.on('pointerdown', () => {
-      if (recruitDrawer.cards.includes(card)) {
+      if (card.parent === recruitDrawer) {
         if (player.hiresAvailable > 0) {
-          removeCardFromDrawer(recruitDrawer, card);
-          addCardToDrawer(beachDrawer, card);
-          organiseRecruitDrawer(recruitDrawer);
-          organiseBeachDrawer(beachDrawer);
-          card.owner = player;
-          player.hiresAvailable--;
+          hireCard(player, beachDrawer, card);
         }
-      } else if (beachDrawer.cards.includes(card)) {
-        removeCardFromDrawer(beachDrawer, card);
-        addCardToDrawer(recruitDrawer, card);
-        organiseRecruitDrawer(recruitDrawer);
-        organiseBeachDrawer(beachDrawer);
-        card.owner = null;
-        player.hiresAvailable++;
+      } else if (card.parent === beachDrawer) {
+        fireCard(player, recruitDrawer, card);
       }
       indicator.textGraphic.text = `Hires Available: ${player.hiresAvailable.toString()}`;
     });
   });
+};
+
+export const renderManagementContainer = (
+  card: Card,
+  structureDrawer: Drawer
+) => {
+  const cardPos = structureDrawer.contentsContainer.toLocal(
+    card.container.getGlobalPosition()
+  );
+  card.contentsContainer = new PIXI.Container();
+  card.contentsContainer.x = cardPos.x - (card.container.width + 20);
+  card.contentsContainer.y = cardPos.y + card.container.height + 50;
+  for (let i = 0; i < card.managementSlots; i++) {
+    const emptyCard = {
+      ...emptyCardConfig,
+      container: createCardSprite(emptyCardConfig),
+    };
+    emptyCard.container.position.x = (i % 3) * (card.container.width + 20);
+    emptyCard.container.position.y =
+      Math.floor(i / 3) * (card.container.height + 20);
+
+    card.contentsContainer.addChild(emptyCard.container);
+  }
+  structureDrawer.contentsContainer.addChild(card.contentsContainer);
+};
+
+export const cardContainsEvent = (event: PIXI.InteractionEvent, card: Card) => {
+  return card.container
+    .getBounds()
+    .contains(event.data.global.x, event.data.global.y);
 };
 
 export const enableCardStructure = (
@@ -241,75 +292,49 @@ export const enableCardStructure = (
     function onDragEnd(event: PIXI.InteractionEvent) {
       if (dragging) {
         ceoCard.container.emit('pointerout');
-        removeCardFromDrawer(beachDrawer, card);
-        removeFromCard(ceoCard, card);
-        ceoCard.employees.forEach((manager) => {
-          removeFromCard(manager, card);
-        });
-        if (card.managingContainer) {
-          card.managingContainer.destroy();
-          card.managingContainer = null;
+
+        // Check if card dragged to CEO card
+        if (card.contentsContainer) {
+          card.contentsContainer.destroy();
+          card.contentsContainer = null;
         }
         if (
-          ceoCard.container
-            .getBounds()
-            .contains(event.data.global.x, event.data.global.y) &&
+          cardContainsEvent(event, ceoCard) &&
           ceoCard.employees.length < ceoCard.managementSlots
         ) {
-          addToCard(ceoCard, card);
-          organiseCEOCards(ceoCard);
-          if (card.managementSlots) {
-            const cardPos = structureDrawer.contentsContainer.toLocal(
-              card.container.getGlobalPosition()
-            );
-            card.managingContainer = new PIXI.Container();
-            card.managingContainer.x = cardPos.x - (card.container.width + 20);
-            card.managingContainer.y = cardPos.y + card.container.height + 50;
-            for (let i = 0; i < card.managementSlots; i++) {
-              const emptyCard = {
-                ...emptyCardConfig,
-                container: createCardSprite(emptyCardConfig),
-              };
-              emptyCard.container.position.x =
-                (i % 3) * (card.container.width + 20);
-              emptyCard.container.position.y =
-                Math.floor(i / 3) * (card.container.height + 20);
-
-              card.managingContainer.addChild(emptyCard.container);
+          if (card.parent === beachDrawer) {
+            manageCard(ceoCard, card);
+            if (card.managementSlots) {
+              renderManagementContainer(card, structureDrawer);
             }
-            structureDrawer.contentsContainer.addChild(card.managingContainer);
+          } else {
+            card.parent.organiseContents();
           }
-
-          organiseBeachDrawer(beachDrawer);
           dragging = false;
           return;
         }
 
-        for (let i = 0; i < ceoCard.employees.length; i++) {
-          const manager = ceoCard.employees[i];
+        // Check if card dragged to manager card
+        ceoCard.employees.forEach((manager, i) => {
           if (
             manager !== card &&
             card.type !== EmployeeTypes.manager &&
-            manager.container
-              .getBounds()
-              .contains(event.data.global.x, event.data.global.y) &&
+            cardContainsEvent(event, manager) &&
             manager.employees.length < manager.managementSlots
           ) {
-            addToCard(manager, card);
-            organiseManagerCards(manager);
-            organiseBeachDrawer(beachDrawer);
+            moveCardToParent(manager, card);
             dragging = false;
             return;
           }
-        }
+        });
 
-        addCardToDrawer(beachDrawer, card);
-        organiseBeachDrawer(beachDrawer);
+        // Finally move card to beach drawer
+        moveCardToParent(beachDrawer, card);
         dragging = false;
       }
     }
 
-    if (card.owner) {
+    if (card.owner === player) {
       card.container.interactive = true;
       card.container.buttonMode = true;
       card.container
@@ -332,8 +357,26 @@ export const enableFoodProduction = (player: Player) => {
       card.container.buttonMode = true;
       card.container.on('pointerdown', () => {
         if (!card.used) {
-          produceFood(player, FoodKinds.burger, 3);
           card.used = true;
+          (async function () {
+            for (let i = 0; i < 3; i++) {
+              await playProduceAnimation(player, card, FoodKinds.burger);
+            }
+          })();
+        }
+      });
+    }
+    if (card.owner === player && card.active && card.title === 'Pizza\nChef') {
+      card.container.interactive = true;
+      card.container.buttonMode = true;
+      card.container.on('pointerdown', () => {
+        if (!card.used) {
+          card.used = true;
+          (async function () {
+            for (let i = 0; i < 8; i++) {
+              await playProduceAnimation(player, card, FoodKinds.pizza);
+            }
+          })();
         }
       });
     }

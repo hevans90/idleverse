@@ -6,7 +6,7 @@ import {
   organiseMarketingDrawer,
   toggleOpen,
 } from './drawer';
-import { createFoodSelect, FoodKind } from './food';
+import { createFoodSelect, FoodKind, foodKindsConfig } from './food';
 import { House } from './house';
 import {
   triggerBillBoardAnimation,
@@ -187,7 +187,7 @@ export const enableMarketingTilePlacement = (
   tiles.forEach((tile) => {
     const callback = () => {
       disablePlacement(board);
-      createFoodSelect(tile);
+      createFoodSelect(tile, Object.values(foodKindsConfig));
     };
     tile.sprite.interactive = true;
     tile.sprite.buttonMode = true;

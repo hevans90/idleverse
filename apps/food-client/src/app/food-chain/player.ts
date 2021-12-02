@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { Card, createCardSprite } from './card';
+import { Card, createCardSprite, organiseCEOCards } from './card';
 import { ceoCardConfig, emptyCardConfig } from './card.configs';
 import { Diner } from './diner';
 import { Drawer } from './drawer';
@@ -37,6 +37,7 @@ export const initCEOCard = (player: Player, structureDrawer: Drawer) => {
     used: false,
     employees: [],
   };
+  player.ceo.card.organiseContents = () => organiseCEOCards(player.ceo.card);
   const ceoCard = player.ceo.card;
 
   ceoCard.container.on('pointerover', () => {
@@ -55,9 +56,9 @@ export const initCEOCard = (player: Player, structureDrawer: Drawer) => {
   ceoCard.container.position.y = 50;
   structureDrawer.container.addChild(ceoCard.container);
 
-  ceoCard.managingContainer = new PIXI.Container();
-  ceoCard.managingContainer.x = ceoCard.container.position.x;
-  ceoCard.managingContainer.y =
+  ceoCard.contentsContainer = new PIXI.Container();
+  ceoCard.contentsContainer.x = ceoCard.container.position.x;
+  ceoCard.contentsContainer.y =
     ceoCard.container.position.y + ceoCard.container.height + 50;
 
   for (let i = -1; i < 2; i++) {
@@ -67,8 +68,8 @@ export const initCEOCard = (player: Player, structureDrawer: Drawer) => {
     };
     emptyCard.container.position.x = 3 * i * (ceoCard.container.width + 20);
 
-    ceoCard.managingContainer.addChild(emptyCard.container);
+    ceoCard.contentsContainer.addChild(emptyCard.container);
   }
 
-  structureDrawer.container.addChild(ceoCard.managingContainer);
+  structureDrawer.container.addChild(ceoCard.contentsContainer);
 };

@@ -113,7 +113,6 @@ export const walkToNextHouse = (
       const tile2 = path[i + 1];
       queue.push(
         translateObject(
-          animations,
           postmanSprite,
           {
             x: tile1.i * ts + (tile1.w * ts) / 2,
@@ -192,7 +191,6 @@ export const triggerPlaneAnimation = (
     const endj = startj - cos;
     queue.push(
       translateObject(
-        animations,
         planeSprite,
         {
           x: ts * starti + (tile.w * ts) / 2,

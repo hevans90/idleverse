@@ -15,11 +15,12 @@ export type Drawer = {
   tabEndY?: number;
   tabWidth: number;
   orient: string;
-  cards: Card[];
+  employees: Card[];
   marketingTiles: MarketingTile[];
   container?: PIXI.Container;
   contentsContainer?: PIXI.Container;
   fixedContainer?: PIXI.Container;
+  organiseContents?: () => void;
 };
 
 const getX = (app: PIXI.Application, drawer: Drawer) => {
@@ -58,7 +59,7 @@ const arrangeStack = (stack: Card[], x: number, y: number) => {
 
 const getStacks = (drawer: Drawer) => {
   const stacks: { [key: string]: Card[] } = {};
-  drawer.cards.forEach((card) => {
+  drawer.employees.forEach((card) => {
     stacks[card.title]
       ? stacks[card.title].push(card)
       : (stacks[card.title] = [card]);
@@ -76,19 +77,6 @@ export const addMarketingTileToDrawer = (
 ) => {
   drawer.marketingTiles.push(tile);
   drawer.contentsContainer.addChild(tile.container);
-};
-
-export const addCardToDrawer = (drawer: Drawer, card: Card) => {
-  drawer.cards.push(card);
-  drawer.contentsContainer.addChild(card.container);
-};
-
-export const removeCardFromDrawer = (drawer: Drawer, card: Card) => {
-  const i = drawer.cards.indexOf(card);
-  if (i > -1) {
-    drawer.contentsContainer.removeChild(card.container);
-    drawer.cards.splice(drawer.cards.indexOf(card), 1);
-  }
 };
 
 export const organiseRecruitDrawer = (drawer: Drawer) => {

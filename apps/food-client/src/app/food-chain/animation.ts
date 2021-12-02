@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js';
 import { ShockwaveFilter } from '@pixi/filter-shockwave';
 import { Vector2 } from './utils/utils';
+import { animations } from './utils/singletons';
 
 export type Anim = {
   time: number;
@@ -10,7 +11,6 @@ export type Anim = {
 };
 
 export const translateObject = (
-  animations: Anim[],
   object: PIXI.DisplayObject,
   startPos: Vector2,
   endPos: Vector2,

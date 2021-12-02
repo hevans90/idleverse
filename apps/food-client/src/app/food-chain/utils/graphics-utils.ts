@@ -97,7 +97,6 @@ export const createAnimationsFromPath = (
     const item2 = path[i + 1];
     queue.push(
       translateObject(
-        animations,
         sprite,
         {
           x: item1.container.position.x + ts1_2,
