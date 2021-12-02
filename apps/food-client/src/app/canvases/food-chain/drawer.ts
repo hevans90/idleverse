@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { baseColour, EmployeeTypes, lineColour } from './types';
+import { baseColour, lineColour } from './types';
 
 export const addDrawer = ({
   app,
@@ -23,6 +23,7 @@ export const addDrawer = ({
   drawerBody.beginFill(baseColour);
   drawerBody.drawRoundedRect(0, 0, width, height, 20);
   drawerBody.endFill();
+  drawerBody.interactive = true;
 
   const drawerTab = new PIXI.Graphics();
 

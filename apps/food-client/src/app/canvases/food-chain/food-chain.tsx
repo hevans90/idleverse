@@ -1,11 +1,11 @@
 import * as PIXI from 'pixi.js';
-import { Box } from '@chakra-ui/react';
 import { useEffect } from 'react';
-import { ts } from './utils/constants';
+import { Box } from '@chakra-ui/react';
+import { tileConfigRegex, ts } from './utils/constants';
 import {
   getRandomValidPosition,
   isValidPosition,
-  Vector2D,
+  translate,
 } from './utils/utils';
 import { Diner, Drink, EmployeeTypes, House, Road } from './types';
 import { createEmptySquareSprite } from './emptySquare';
@@ -45,8 +45,6 @@ export const FoodChain = () => {
     const collisionArray = [];
 
     const chunks = tileConfigs.map((tileConfig) => parseTileConfig(tileConfig));
-
-    const re = /(\w)(\d*)(?:-(\d+))?/;
 
     const invalidIndicator = drawIndicator('invalid');
     const validIndicator = drawIndicator('valid');
@@ -114,7 +112,7 @@ export const FoodChain = () => {
       chunk.forEach((tile) => {
         const i = tile.i;
         const j = tile.j;
-        const match = re.exec(tile.contents);
+        const match = tileConfigRegex.exec(tile.contents);
 
         if (match[1] === 'r') {
           const road: Road = {
@@ -192,11 +190,22 @@ export const FoodChain = () => {
     const randomPosition = getRandomValidPosition(
       diner,
       collisionArray,
-      boardItems
+      boardItems,
+      20
     );
     console.log(randomPosition);
     dinerSprite.x = randomPosition.i * ts;
     dinerSprite.y = randomPosition.j * ts;
+    dinerSprite.interactive = true;
+    dinerSprite.buttonMode = true;
+    // dinerSprite.on('pointerdown', () => {
+    //   translate(
+    //     diner,
+    //     getRandomValidPosition(diner, collisionArray, boardItems, 20),
+    //     500,
+    //     animations
+    //   );
+    // });
     board.addChild(dinerSprite);
 
     board.pivot.x = board.width / 2;
@@ -219,54 +228,53 @@ export const FoodChain = () => {
       colour: EmployeeTypes.finance.color,
       description: 'Add +50% to cash\nearned this round',
     });
-    app.stage.addChild(executiveVP1);
+    executiveVP1.position.x = 10;
+    executiveVP1.position.y = 10;
+    drawer.addChild(executiveVP1);
 
     const executiveVP2 = drawCard({
       title: 'CFO',
       colour: EmployeeTypes.finance.color,
       description: 'Add +50% to cash\nearned this round',
     });
-    executiveVP2.position.x = 10;
-    executiveVP2.position.y = 10;
-    app.stage.addChild(executiveVP2);
+    executiveVP2.position.x = 20;
+    executiveVP2.position.y = 20;
+    drawer.addChild(executiveVP2);
 
     const executiveVP3 = drawCard({
       title: 'CFO',
       colour: EmployeeTypes.finance.color,
       description: 'Add +50% to cash\nearned this round',
     });
-    executiveVP3.position.x = 20;
-    executiveVP3.position.y = 20;
-    app.stage.addChild(executiveVP3);
+    executiveVP3.position.x = 30;
+    executiveVP3.position.y = 30;
+    executiveVP3.interactive = true;
+    executiveVP3.buttonMode = true;
+    drawer.addChild(executiveVP3);
 
     const errandBoy = drawCard({
       title: 'Errand\nBoy',
       colour: EmployeeTypes.drinks.color,
       description: 'Get 1 drink of\nany type',
     });
-    errandBoy.position.x = 240;
-    app.stage.addChild(errandBoy);
+    errandBoy.position.x = 250;
+    errandBoy.position.y = 10;
+    errandBoy.interactive = true;
+    errandBoy.buttonMode = true;
+    drawer.addChild(errandBoy);
+
+    const recruitingGirl = drawCard({
+      title: 'Recruiting\nGirl',
+      colour: EmployeeTypes.humanResources.color,
+      description: 'Hire 1 Person',
+    });
+    recruitingGirl.position.x = 470;
+    recruitingGirl.position.y = 10;
+    recruitingGirl.interactive = true;
+    recruitingGirl.buttonMode = true;
+    drawer.addChild(recruitingGirl);
 
     app.stage.addChild(drawer);
-
-    const translate = (item, endPos: Vector2D, duration) => {
-      let time = 0;
-      const startPos: Vector2D = { ...item.displayItem.position };
-      function animate() {
-        time += 1;
-        if (time < duration) {
-          item.displayItem.x =
-            startPos.x + (startPos.x - endPos.x) * (time / duration);
-          item.displayItem.y =
-            startPos.y + (startPos.y - endPos.y) * (time / duration);
-        } else {
-          item.displayItem.x = endPos.x;
-          item.displayItem.y = endPos.y;
-          animations.splice(this);
-        }
-      }
-      animations.push(animate);
-    };
 
     app.ticker.add((delta) => {
       animations.forEach((animate) => animate());

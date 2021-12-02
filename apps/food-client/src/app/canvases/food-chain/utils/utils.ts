@@ -78,19 +78,20 @@ export const isValidPosition = (
   return true;
 };
 
-export const getRandomPosition = () => {
+export const getRandomPosition = (size: number) => {
   return {
-    i: Math.floor(Math.random() * 14),
-    j: Math.floor(Math.random() * 14),
+    i: Math.floor(Math.random() * size),
+    j: Math.floor(Math.random() * size),
   };
 };
 
 export const getRandomValidPosition = (
   item: BoardObject,
   collisionArray: BoardObject[],
-  boardItems: BoardItems
+  boardItems: BoardItems,
+  size: number
 ) => {
-  let randomPosition = getRandomPosition();
+  let randomPosition = getRandomPosition(size);
   let tries = 0;
   for (let i = 0; i < 1000; i++) {
     if (
@@ -103,9 +104,28 @@ export const getRandomValidPosition = (
       console.log(`tries: ${tries}`);
       return randomPosition;
     }
-    randomPosition = getRandomPosition();
+    randomPosition = getRandomPosition(size);
     tries++;
   }
   console.log(`tries: ${tries}`);
   return randomPosition;
+};
+
+export const translate = (item, endPos, duration, animations) => {
+  let time = 0;
+  const startPos = { ...item.displayItem.position };
+  function animate() {
+    time += 1;
+    if (time < duration) {
+      item.displayItem.x =
+        startPos.x + (startPos.x - endPos.x) * (time / duration);
+      item.displayItem.y =
+        startPos.y + (startPos.y - endPos.y) * (time / duration);
+    } else {
+      item.displayItem.x = endPos.x;
+      item.displayItem.y = endPos.y;
+      animations.splice(this);
+    }
+  }
+  animations.push(animate);
 };
