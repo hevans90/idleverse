@@ -27,19 +27,10 @@ export const FoodChain = () => {
     const gameElement = document.getElementById('game');
     app.resizeTo = gameElement;
     app.stage.sortableChildren = true;
-    const cards: Card[] = [];
-    const marketingTiles: MarketingTile[] = [];
 
     const player = {
       cards: [],
       hiresAvailable: 10,
-    };
-
-    const ceoCard: Card = {
-      ...ceoCardConfig,
-      container: createCardSprite(ceoCardConfig),
-      owner: player,
-      employees: [],
     };
 
     const board: Board = {
@@ -56,6 +47,9 @@ export const FoodChain = () => {
     };
 
     const phases: { [key: string]: Phase } = {
+      launch: {
+        name: 'Launch',
+      },
       structure: {
         name: 'Structure',
       },
@@ -65,30 +59,26 @@ export const FoodChain = () => {
       train: {
         name: 'Train',
       },
+      market: {
+        name: 'Market',
+      },
+      advertise: {
+        name: 'Advertise',
+      },
     };
 
+    phases.launch.nextPhase = phases.structure;
     phases.structure.nextPhase = phases.hire;
     phases.hire.nextPhase = phases.train;
-    phases.train.nextPhase = phases.structure;
+    phases.train.nextPhase = phases.market;
+    phases.market.nextPhase = phases.advertise;
+    phases.advertise.nextPhase = phases.structure;
 
-    const currentPhase = phases.structure;
+    const currentPhase = phases.launch;
 
     document.addEventListener('keydown', (e) => {
       if (Object.keys(keyEventMap).includes(e.code)) keyEventMap[e.code]();
     });
-
-    drawChunks(board, tileConfigs);
-    addDinerToBoard(board);
-    addBoardToStage(app, board);
-    drawOuterSquares(board);
-    enablePlacement(
-      board,
-      board.diner,
-      board.tiles,
-      (square) => isValidPosition(board, board.diner, square, true),
-      (square) => getSquaresInRange(board, board.diner, square, 1),
-      () => disablePlacement(board, board.tiles)
-    );
 
     const recruitDrawer: Drawer = {
       open: false,
@@ -102,7 +92,6 @@ export const FoodChain = () => {
       cards: [],
       marketingTiles: [],
     };
-    renderDrawer(recruitDrawer);
 
     const marketingDrawer: Drawer = {
       open: false,
@@ -116,7 +105,6 @@ export const FoodChain = () => {
       cards: [],
       marketingTiles: [],
     };
-    renderDrawer(marketingDrawer);
 
     const structureDrawer: Drawer = {
       open: false,
@@ -128,7 +116,6 @@ export const FoodChain = () => {
       cards: [],
       marketingTiles: [],
     };
-    renderDrawer(structureDrawer);
 
     const beachDrawer: Drawer = {
       open: false,
@@ -140,7 +127,6 @@ export const FoodChain = () => {
       cards: [],
       marketingTiles: [],
     };
-    renderDrawer(beachDrawer);
 
     const hiresIndicator: Indicator = {
       height: 50,
@@ -151,17 +137,26 @@ export const FoodChain = () => {
       text: `Hires Available: ${player.hiresAvailable.toString()}`,
     };
 
-    initCEOCard(ceoCard, structureDrawer);
-    initCards(recruitDrawer, Object.values(cardConfigs), cards);
-    initMarketingTiles(
-      board,
+    drawChunks(board, tileConfigs);
+    addDinerToBoard(board);
+    addBoardToStage(app, board);
+    drawOuterSquares(board);
+
+    renderDrawer(recruitDrawer);
+    renderDrawer(marketingDrawer);
+    renderDrawer(structureDrawer);
+    renderDrawer(beachDrawer);
+
+    const ceoCard = initCEOCard(player, structureDrawer);
+    const cards = initCards(recruitDrawer, Object.values(cardConfigs));
+    const marketingTiles = initMarketingTiles(
       marketingDrawer,
-      marketingTileConfigs,
-      marketingTiles
+      marketingTileConfigs
     );
 
     drawPhaseIndicator(app, Object.values(phases), currentPhase);
     drawNextPhaseButton(
+      board,
       player,
       hiresIndicator,
       phases,
@@ -169,8 +164,10 @@ export const FoodChain = () => {
       recruitDrawer,
       beachDrawer,
       structureDrawer,
+      marketingDrawer,
       ceoCard,
-      cards
+      cards,
+      marketingTiles,
     );
     drawDebugButton(board);
     drawBoxIndicator(hiresIndicator);
@@ -178,8 +175,14 @@ export const FoodChain = () => {
     hiresIndicator.container.position.x = 620;
     hiresIndicator.container.position.y = 180;
 
-    app.stage.sortableChildren = true;
-
+    enablePlacement(
+      board,
+      board.diner,
+      board.tiles,
+      (square) => isValidPosition(board, board.diner, square, true),
+      (square) => getSquaresInRange(board, board.diner, square, 1),
+      () => disablePlacement(board)
+    );
     app.ticker.add(() => {
       animations.forEach((animation) => animation.update());
     });

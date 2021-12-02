@@ -3,6 +3,11 @@ import { Board } from './board';
 import { Card, enableCardStructure, enableCardHire } from './card';
 import { Drawer } from './drawer';
 import { drawBoxIndicator, Indicator } from './indicators';
+import {
+  enableAdvertise,
+  enableMarketingTilePlacement,
+  MarketingTile,
+} from './marketingTile';
 import { Player } from './types';
 import { debug } from './utils/constants';
 import { app } from './utils/singletons';
@@ -18,6 +23,8 @@ export const drawPhaseIndicator = (
   currentPhase: Phase
 ) => {
   const currentPhaseIndicator = app.stage.getChildByName('phaseIndicator');
+  const indicatorWidth = 180;
+  const indicatorHeight = 50;
   if (currentPhaseIndicator) {
     app.stage.removeChild(currentPhaseIndicator);
     currentPhaseIndicator.destroy();
@@ -25,14 +32,14 @@ export const drawPhaseIndicator = (
   const phaseIndicatorContainer = new PIXI.Container();
   Object.values(phases).forEach((phase, i) => {
     const phaseIndicatorElement = drawBoxIndicator({
-      height: 50,
-      width: 200,
+      height: indicatorHeight,
+      width: indicatorWidth,
       borderColor: phase === currentPhase ? 0x27684d : 0x27684d,
       bgColor: phase === currentPhase ? 0x27b46e : 0x37946e,
       textColor: 0xffffff,
       text: phase.name,
     });
-    phaseIndicatorElement.position.x = i * 200;
+    phaseIndicatorElement.position.x = i * indicatorWidth;
     phaseIndicatorContainer.addChild(phaseIndicatorElement);
   });
   phaseIndicatorContainer.pivot.x = phaseIndicatorContainer.width / 2;
@@ -43,6 +50,7 @@ export const drawPhaseIndicator = (
 };
 
 export const drawNextPhaseButton = (
+  board: Board,
   player: Player,
   hiresIndicator: Indicator,
   phases: { [key: string]: Phase },
@@ -50,8 +58,10 @@ export const drawNextPhaseButton = (
   recruitDrawer: Drawer,
   beachDrawer: Drawer,
   structureDrawer: Drawer,
+  marketingDrawer: Drawer,
   ceoCard: Card,
-  cards: Card[]
+  cards: Card[],
+  marketingTiles: MarketingTile[]
 ) => {
   const nextPhaseButton = drawBoxIndicator({
     height: 50,
@@ -69,9 +79,12 @@ export const drawNextPhaseButton = (
     currentPhase = currentPhase.nextPhase;
     drawPhaseIndicator(app, Object.values(phases), currentPhase);
     cards.forEach((card) => {
+      card.container.removeAllListeners();
+      card.container.interactive = false;
+      card.container.buttonMode = false;
       if (currentPhase === phases.structure)
         enableCardStructure(app, beachDrawer, structureDrawer, card, ceoCard);
-      else if (currentPhase === phases.hire) {
+      else if (currentPhase === phases.hire)
         enableCardHire(
           player,
           card,
@@ -79,7 +92,14 @@ export const drawNextPhaseButton = (
           beachDrawer,
           hiresIndicator
         );
-      }
+    });
+    marketingTiles.forEach((tile) => {
+      tile.sprite.removeAllListeners();
+      tile.sprite.interactive = false;
+      tile.sprite.buttonMode = false;
+      if (currentPhase === phases.market)
+        enableMarketingTilePlacement(board, marketingDrawer, tile);
+      else if (currentPhase === phases.advertise) enableAdvertise(board, tile);
     });
   });
   app.stage.addChild(nextPhaseButton);

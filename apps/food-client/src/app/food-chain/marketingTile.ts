@@ -6,7 +6,8 @@ import {
   organiseMarketingDrawer,
   toggleOpen,
 } from './drawer';
-import { disablePlacement, enablePlacement } from './tile';
+import { createFoodSelect, FoodKind, renderHouseFood } from './food';
+import { disablePlacement, enablePlacement, Tile } from './tile';
 import { Player } from './types';
 import { ts } from './utils/constants';
 import { app } from './utils/singletons';
@@ -16,6 +17,7 @@ import {
   getSquaresInRange,
   isValidOuterPosition,
   isValidPosition,
+  rangeOverlapsItem,
 } from './utils/utils';
 
 export enum MarketingTileKinds {
@@ -24,6 +26,41 @@ export enum MarketingTileKinds {
   'airplane',
   'radio',
 }
+
+export const marketingTileKindConfigs = {
+  [MarketingTileKinds.billboard]: {
+    texture: PIXI.Texture.from('https://i.imgur.com/adBXURw.png'),
+    getValidTiles: (board: Board) => board.tiles,
+    isValidPlacement: (board: Board, tile: BoardObject, square: Tile) =>
+      isValidPosition(board, tile, square),
+    getTilesInRange: (board: Board, tile: BoardObject, square: Tile) =>
+      getSquaresInRange(board, tile, square, 1),
+  },
+  [MarketingTileKinds.mailbox]: {
+    texture: PIXI.Texture.from('https://i.imgur.com/uQuBooP.png'),
+    getValidTiles: (board: Board) => board.tiles,
+    isValidPlacement: (board: Board, tile: BoardObject, square: Tile) =>
+      isValidPosition(board, tile, square),
+    getTilesInRange: (board: Board, tile: BoardObject, square: Tile) =>
+      getConnectedSquares(board, square as Tile),
+  },
+  [MarketingTileKinds.airplane]: {
+    texture: PIXI.Texture.from('https://i.imgur.com/BDo38zP.png'),
+    getValidTiles: (board: Board) => board.outerTiles,
+    isValidPlacement: (board: Board, tile: BoardObject, square: Tile) =>
+      isValidOuterPosition(board, tile, square),
+    getTilesInRange: (board: Board, tile: BoardObject, square: Tile) =>
+      getSquaresInLine(board, tile, square),
+  },
+  [MarketingTileKinds.radio]: {
+    texture: PIXI.Texture.from('https://i.imgur.com/m9ksWCR.png'),
+    getValidTiles: (board: Board) => board.tiles,
+    isValidPlacement: (board: Board, tile: BoardObject, square: Tile) =>
+      isValidPosition(board, tile, square),
+    getTilesInRange: (board: Board, tile: BoardObject, square: Tile) =>
+      getSquaresInRange(board, tile, square, 10),
+  },
+};
 
 export const marketingTileTextures = {
   [MarketingTileKinds.radio]: PIXI.Texture.from(
@@ -49,6 +86,9 @@ export type MarketingTileConfig = {
 
 export type MarketingTile = BoardObject &
   MarketingTileConfig & {
+    foodQuant?: number;
+    foodKind?: FoodKind;
+    foodSprites?: PIXI.Sprite[];
     owner?: Player;
   };
 
@@ -97,28 +137,29 @@ export const createMarketTileSprite = (config: MarketingTileConfig) => {
 };
 
 export const initMarketingTiles = (
-  board: Board,
   marketingDrawer: Drawer,
-  configs: MarketingTileConfig[],
-  marketingTiles: MarketingTile[]
+  configs: MarketingTileConfig[]
 ) => {
+  const marketingTiles: MarketingTile[] = [];
   configs.forEach((config) => {
     const marketingTile: MarketingTile = {
       ...config,
       rotation: 0,
       container: new PIXI.Container(),
       owner: null,
+      foodSprites: [],
     };
     marketingTile.sprite = createMarketTileSprite(config);
     marketingTile.container.addChild(marketingTile.sprite);
+    marketingTile.container.zIndex = 20;
     marketingTiles.push(marketingTile);
   });
 
   marketingTiles.forEach((tile) => {
     addMarketingTileToDrawer(marketingDrawer, tile);
-    enableMarketingTilePlacement(board, marketingDrawer, tile);
   });
   organiseMarketingDrawer(marketingDrawer);
+  return marketingTiles;
 };
 
 export const enableMarketingTilePlacement = (
@@ -126,46 +167,55 @@ export const enableMarketingTilePlacement = (
   marketingDrawer: Drawer,
   tile: MarketingTile
 ) => {
-  tile.container.removeAllListeners();
-  tile.container.interactive = true;
-  tile.container.buttonMode = true;
-  tile.container.on('pointerdown', () => {
-    if (tile.kind === MarketingTileKinds.billboard)
-      enablePlacement(
-        board,
-        tile,
-        board.tiles,
-        (square) => isValidPosition(board, tile, square, false),
-        (square) => getSquaresInRange(board, tile, square, 1),
-        () => disablePlacement(board, board.tiles)
-      );
-    else if (tile.kind === MarketingTileKinds.mailbox)
-      enablePlacement(
-        board,
-        tile,
-        board.tiles,
-        (square) => isValidPosition(board, tile, square, false),
-        (square) => getConnectedSquares(board, square),
-        () => disablePlacement(board, board.tiles)
-      );
-    else if (tile.kind === MarketingTileKinds.airplane)
-      enablePlacement(
-        board,
-        tile,
-        board.outerTiles,
-        (square) => isValidOuterPosition(board, tile, square),
-        (square) => getSquaresInLine(board, tile, square),
-        () => disablePlacement(board, board.outerTiles)
-      );
-    else if (tile.kind === MarketingTileKinds.radio)
-      enablePlacement(
-        board,
-        tile,
-        board.tiles,
-        (square) => isValidPosition(board, tile, square, false),
-        (square) => getSquaresInRange(board, tile, square, 10),
-        () => disablePlacement(board, board.tiles)
-      );
+  const callback = () => {
+    disablePlacement(board);
+    createFoodSelect(tile);
+  };
+  tile.sprite.interactive = true;
+  tile.sprite.buttonMode = true;
+  tile.sprite.on('pointerdown', () => {
+    enablePlacement(
+      board,
+      tile,
+      marketingTileKindConfigs[tile.kind].getValidTiles(board),
+      (square) =>
+        marketingTileKindConfigs[tile.kind].isValidPlacement(
+          board,
+          tile,
+          square
+        ),
+      (square) =>
+        marketingTileKindConfigs[tile.kind].getTilesInRange(
+          board,
+          tile,
+          square
+        ),
+      callback
+    );
+
     if (marketingDrawer.open) toggleOpen(marketingDrawer);
+  });
+};
+
+export const enableAdvertise = (board: Board, tile: MarketingTile) => {
+  tile.sprite.interactive = true;
+  tile.sprite.buttonMode = true;
+  tile.sprite.on('pointerdown', () => advertise(board, tile));
+};
+
+export const advertise = (board: Board, tile: MarketingTile) => {
+  const tilesInRange = marketingTileKindConfigs[tile.kind].getTilesInRange(
+    board,
+    tile,
+    tile as Tile
+  );
+  board.houses.forEach((house) => {
+    house.sprite.tint = 0xffffff;
+    if (rangeOverlapsItem(house, tilesInRange))
+      house.food.push({
+        kind: tile.foodKind,
+        sprite: new PIXI.Sprite(tile.foodKind.texture),
+      });
+    renderHouseFood(house);
   });
 };

@@ -1,11 +1,13 @@
 import * as PIXI from 'pixi.js';
 import { Board, BoardObject, getAdjacentRoads } from './board';
+import { FoodKind } from './food';
 import { ts } from './utils/constants';
 import { app } from './utils/singletons';
 
 export type House = BoardObject & {
   orient: number;
   num: number;
+  food: { kind: FoodKind; sprite: PIXI.Sprite }[];
 };
 
 export const isHouse = (boardObject: BoardObject): boardObject is House => {
@@ -56,6 +58,7 @@ export const parseHouseConfig = (config: RegExpExecArray, zOffset: number) => {
     orient: parseInt(config[2]),
     num: parseInt(config[3]),
     container: new PIXI.Container(),
+    food: [],
   };
   house.sprite = createHouseSprite(house);
   house.container.addChild(house.sprite);

@@ -3,19 +3,27 @@ import { Board, BoardObject } from './board';
 import { ts } from './utils/constants';
 
 export type Drink = BoardObject & {
-  kind: DrinkKind;
+  kind?: DrinkKind;
 };
 
-export type DrinkTexture = { [key: string]: PIXI.Texture };
-
 export type DrinkKind = {
+  letter: string;
   texture: PIXI.Texture;
 };
 
-export const drinkKinds = {
-  b: { texture: PIXI.Texture.from('https://i.imgur.com/eNwKilN.png') },
-  c: { texture: PIXI.Texture.from('https://i.imgur.com/LMUTwgN.png') },
-  l: { texture: PIXI.Texture.from('https://i.imgur.com/6ilmUUU.png') },
+export const drinkKinds: { [key: string]: DrinkKind } = {
+  beer: {
+    letter: 'b',
+    texture: PIXI.Texture.from('https://i.imgur.com/eNwKilN.png'),
+  },
+  cola: {
+    letter: 'c',
+    texture: PIXI.Texture.from('https://i.imgur.com/LMUTwgN.png'),
+  },
+  lemonade: {
+    letter: 'l',
+    texture: PIXI.Texture.from('https://i.imgur.com/6ilmUUU.png'),
+  },
 };
 
 export const isDrink = (boardObject: BoardObject): boardObject is Drink => {
@@ -33,8 +41,8 @@ export const parseDrinkConfig = (config: RegExpExecArray, zOffset: number) => {
   const drink: Drink = {
     w: 1,
     h: 1,
-    kind: drinkKinds[config[1]],
     container: new PIXI.Container(),
+    kind: Object.values(drinkKinds).find((kind) => config[1] === kind.letter),
   };
   drink.sprite = createDrinkSprite(drink);
   drink.container.addChild(drink.sprite);

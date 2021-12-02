@@ -6,7 +6,7 @@ import {
 } from '../board';
 import { isRoad, Road } from '../road';
 import { Tile } from '../tile';
-import { debug as debugConfig, tileConfigRegex } from './constants';
+import { debug as debugConfig } from './constants';
 
 export type Vector2 = {
   x: number;
@@ -44,7 +44,7 @@ export const isValidPosition = (
   board: Board,
   item: BoardItem,
   position: BoardPosition,
-  adjacentRoadRequired: boolean
+  adjacentRoadRequired = false
 ) => {
   const itemsArray = [].concat(
     [board.diner],
@@ -330,7 +330,6 @@ export const getSquaresInLine = (
   position: BoardPosition
 ) => {
   const boardItem = { ...item, i: position.i, j: position.j };
-  console.log(boardItem.rotation);
   const isVertical = [Math.PI / 2, (Math.PI * 3) / 2].includes(
     boardItem.rotation
   );

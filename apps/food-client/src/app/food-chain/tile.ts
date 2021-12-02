@@ -7,7 +7,7 @@ import { parseRoadConfig } from './road';
 import { lineColour } from './types';
 import { tileConfigRegex, ts } from './utils/constants';
 import { app, keyEventMap } from './utils/singletons';
-import { itemContainsTile, rangeOverlapsItem } from './utils/utils';
+import { rangeOverlapsItem } from './utils/utils';
 
 export type TileConfig = Array<Array<string | Array<string>>>;
 
@@ -23,19 +23,17 @@ export type Tile = {
 
 export type Chunk = Tile[];
 
-const square = new PIXI.Graphics();
-square.lineStyle(2, lineColour, 1);
-square.beginFill(0xffffff);
-square.drawRect(2, 2, ts - 2, ts - 2);
-square.endFill();
-const tileTexture = app.renderer.generateTexture(square);
+export const generateTileTexture = (fillColor: number) => {
+  const square = new PIXI.Graphics();
+  square.lineStyle(2, lineColour, 1);
+  square.beginFill(fillColor);
+  square.drawRect(2, 2, ts - 2, ts - 2);
+  square.endFill();
+  return app.renderer.generateTexture(square);
+};
 
-const outerSquare = new PIXI.Graphics();
-outerSquare.lineStyle(2, lineColour, 1);
-outerSquare.beginFill(0xc8c1be);
-outerSquare.drawRect(2, 2, ts - 2, ts - 2);
-outerSquare.endFill();
-const outerTileTexture = app.renderer.generateTexture(outerSquare);
+const tileTexture = generateTileTexture(0xffffff);
+const outerTileTexture = generateTileTexture(0xc8c1be);
 
 export const parseTileContents = (contents: string, zOffset = 0) => {
   const match = tileConfigRegex.exec(contents);
@@ -44,8 +42,14 @@ export const parseTileContents = (contents: string, zOffset = 0) => {
     return parseRoadConfig(match, zOffset);
   } else if (match[1] === 'h') {
     return parseHouseConfig(match, zOffset);
-  } else if (match[1] in drinkKinds) {
+  } else if (
+    Object.values(drinkKinds)
+      .map((kind) => kind.letter)
+      .includes(match[1])
+  )
     return parseDrinkConfig(match, zOffset);
+  else {
+    console.log(`${match[1]} not matched`);
   }
 
   return null;
@@ -112,17 +116,16 @@ export const addTileToBoard = (
   board.container.addChild(tile.container);
 };
 
-export const disablePlacement = (board: Board, tiles: Tile[]) => {
-  tiles.forEach((square) => {
+export const disablePlacement = (board: Board) => {
+  removeChildrenByName(board.container, 'indicator');
+  [].concat(board.tiles, board.outerTiles).forEach((square) => {
     square.container.removeAllListeners();
     square.container.interactive = true;
     square.container.buttonMode = true;
   });
-  removeChildrenByName(board.container, 'indicator');
-  board.tiles.forEach((tile) => removeChildrenByName(tile.container, 'tint'));
-  board.outerTiles.forEach((tile) =>
-    removeChildrenByName(tile.container, 'tint')
-  );
+  [].concat(board.tiles, board.outerTiles).forEach((tile) => {
+    removeChildrenByName(tile.container, 'tint');
+  });
   board.houses.forEach((house) => (house.sprite.tint = 0xffffff));
   keyEventMap.Space = () => {
     return;
@@ -140,9 +143,18 @@ export const removeChildrenByName = (
   }
 };
 
-export const applyRotation = (object: BoardObject) => {
+export const setRotation = (object: BoardObject) => {
   object.rotation += 0.5 * Math.PI;
   if (object.rotation === 2 * Math.PI) object.rotation = 0;
+
+  const w = object.w;
+  const h = object.h;
+
+  object.h = w;
+  object.w = h;
+};
+
+export const applyRotation = (object: BoardObject) => {
   object.sprite.rotation = object.rotation;
 
   if (object.sprite.rotation === 0.5 * Math.PI) {
@@ -158,12 +170,6 @@ export const applyRotation = (object: BoardObject) => {
     object.sprite.x = 0;
     object.sprite.y = 0;
   }
-
-  const w = object.w;
-  const h = object.h;
-
-  object.h = w;
-  object.w = h;
 };
 
 export const enablePlacement = (
@@ -180,9 +186,12 @@ export const enablePlacement = (
   let activeIndicator = validIndicator;
 
   keyEventMap.Space = () => {
-    applyRotation(item);
+    setRotation(item);
     invalidIndicator = drawIndicator(item.w, item.h, IndicatorColour.invalid);
     validIndicator = drawIndicator(item.w, item.h, IndicatorColour.valid);
+    // TODO: Reset indicator when tile is rotated
+    // removeChildrenByName(board.container, 'indicator');
+    // board.container.addChild(activeIndicator);
   };
 
   validTiles.forEach((square) => {
@@ -232,6 +241,7 @@ export const enablePlacement = (
         board.container.addChild(item.container);
         item.i = square.i;
         item.j = square.j;
+        applyRotation(item);
         item.container.x = square.i * ts;
         item.container.y = square.j * ts;
 

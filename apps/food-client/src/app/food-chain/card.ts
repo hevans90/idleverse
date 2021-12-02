@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { emptyCardConfig } from './cardConfigs';
+import { cardConfigs, emptyCardConfig } from './cardConfigs';
 import {
   removeCardFromDrawer,
   addCardToDrawer,
@@ -8,6 +8,7 @@ import {
   organiseRecruitDrawer,
 } from './drawer';
 import { Indicator } from './indicators';
+import { MarketingTile } from './marketingTile';
 import { EmployeeType, EmployeeTypes, lineColour, Player } from './types';
 import { animations } from './utils/singletons';
 
@@ -92,8 +93,6 @@ export const createCardSprite = (cardConfig: CardConfig) => {
   cardDescText.anchor.x = 0.5;
 
   cardContainer.addChild(cardDescText);
-  cardContainer.interactive = true;
-  cardContainer.buttonMode = true;
 
   cardContainer.scale.x = 0.65;
   cardContainer.scale.y = 0.65;
@@ -101,11 +100,8 @@ export const createCardSprite = (cardConfig: CardConfig) => {
   return cardContainer;
 };
 
-export const initCards = (
-  recruitDrawer: Drawer,
-  cardConfigs: CardConfig[],
-  cards: Card[]
-) => {
+export const initCards = (recruitDrawer: Drawer, cardConfigs: CardConfig[]) => {
+  const cards: Card[] = [];
   Object.values(cardConfigs).forEach((card) =>
     Array.from({ length: card.count }, () =>
       cards.push({
@@ -120,6 +116,7 @@ export const initCards = (
     addCardToDrawer(recruitDrawer, card);
   });
   organiseRecruitDrawer(recruitDrawer);
+  return cards;
 };
 
 export const addToCard = (parentCard: Card, childCard: Card) => {
@@ -157,7 +154,8 @@ export const enableCardHire = (
   beachDrawer: Drawer,
   indicator: Indicator
 ) => {
-  card.container.removeAllListeners();
+  card.container.interactive = true;
+  card.container.buttonMode = true;
   card.container.on('pointerdown', () => {
     if (!card.owner) {
       if (player.hiresAvailable > 0) {
@@ -188,8 +186,6 @@ export const enableCardStructure = (
   card: Card,
   ceoCard: Card
 ) => {
-  card.container.removeAllListeners();
-
   let global: PIXI.Point;
   const start = { x: 0, y: 0 };
   const click = { x: 0, y: 0 };
@@ -249,12 +245,6 @@ export const enableCardStructure = (
       ) {
         addToCard(ceoCard, card);
         organiseCEOCards(ceoCard);
-        console.log(card.container.getGlobalPosition());
-        console.log(
-          structureDrawer.contentsContainer.toLocal(
-            card.container.getGlobalPosition()
-          )
-        );
         if (card.managementSlots) {
           const cardPos = structureDrawer.contentsContainer.toLocal(
             card.container.getGlobalPosition()
@@ -308,16 +298,14 @@ export const enableCardStructure = (
   }
 
   if (card.owner) {
+    card.container.interactive = true;
+    card.container.buttonMode = true;
     card.container
       .on('pointerdown', onDragStart)
       .on('pointerup', onDragEnd)
       .on('pointerupoutside', onDragEnd)
       .on('pointermove', onDragMove);
   }
-};
-
-export const enableCardMarket = () => {
-  return;
 };
 
 export const renderCardCount = (count) => {
