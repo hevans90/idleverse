@@ -102,11 +102,15 @@ export const getRandomValidPosition = (
   return randomPosition;
 };
 
-const calculateDistance = (road1: Road, road2: Road) => {
+const calcDistance = (road1: Road, road2: Road) => {
   return Math.abs(road1.i - road2.i) + Math.abs(road1.j - road2.j);
 };
 
-export const findPath = (board: Board, startRoads: Road[], endRoad: Road) => {
+export const findPath = (
+  board: Board,
+  startRoads: Road[],
+  endRoad: Road
+): Road[] => {
   board.roads.forEach((road) => {
     road.toGoal = 99;
     road.fromStart = 99;
@@ -116,7 +120,7 @@ export const findPath = (board: Board, startRoads: Road[], endRoad: Road) => {
   const closedRoads = [];
 
   openRoads.forEach((road) => {
-    road.toGoal = calculateDistance(road, endRoad);
+    road.toGoal = calcDistance(road, endRoad);
     road.fromStart = 0;
   });
 
@@ -141,7 +145,7 @@ export const findPath = (board: Board, startRoads: Road[], endRoad: Road) => {
     const connectedRoads = getAdjacentRoads(board, currentRoad);
     connectedRoads.forEach((road) => {
       if (!closedRoads.includes(road)) {
-        road.toGoal = calculateDistance(road, endRoad);
+        road.toGoal = calcDistance(road, endRoad);
         const fromStart = currentRoad.fromStart + 1;
         if (fromStart < road.fromStart) {
           road.previousRoad = currentRoad;
@@ -152,15 +156,15 @@ export const findPath = (board: Board, startRoads: Road[], endRoad: Road) => {
     });
   }
 
+  const path = [];
   if (pathFound) {
     let currentRoad = lastRoad;
     console.log(currentRoad.toGoal + currentRoad.fromStart);
     while (!startRoads.includes(currentRoad)) {
-      currentRoad.sprite.tint = 0x9b39f7;
+      path.push(currentRoad);
       currentRoad = currentRoad.previousRoad;
     }
-    currentRoad.sprite.tint = 0x9b39f7;
+    path.push(currentRoad);
   }
-
-  return pathFound;
+  return path;
 };

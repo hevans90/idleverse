@@ -40,6 +40,7 @@ import {
   enableCardStructure,
 } from './card';
 import { Board, getAdjacentRoads } from './board';
+import { Anim, translateObject } from './animation';
 
 export const FoodChain = () => {
   useEffect(() => {
@@ -50,7 +51,8 @@ export const FoodChain = () => {
     });
     app.stage.sortableChildren = true;
 
-    const animations = [];
+    const animations: Anim[] = [];
+    const queue: Anim[] = [];
 
     const board: Board = {
       roads: [],
@@ -69,98 +71,8 @@ export const FoodChain = () => {
 
     const carTexture = PIXI.Texture.from('https://i.imgur.com/01q7OGv.png');
     const carSprite = new PIXI.Sprite(carTexture);
-
-    type Animation = {
-      startPos: { x: number; y: number };
-      endPos: { x: number; y: number };
-      rotation: number;
-      time: number;
-      duration: number;
-      object: PIXI.Sprite;
-      start?: () => void;
-      update?: () => void;
-      end?: () => void;
-    };
-
-    const queue: Animation[] = [];
-
-    const translateObject = (
-      object: PIXI.Sprite,
-      startPos: Vector2D,
-      endPos: Vector2D,
-      rotation: number,
-      duration: number
-    ): Animation => {
-      const anim: Animation = {
-        startPos,
-        endPos,
-        rotation,
-        time: 0,
-        duration,
-        object,
-      };
-
-      anim.start = () => {
-        anim.object.rotation = anim.rotation;
-        anim.time = 0;
-        animations.push(anim);
-      };
-      anim.update = () => {
-        anim.time += 1;
-        if (anim.time < anim.duration) {
-          anim.object.x =
-            anim.startPos.x +
-            (anim.endPos.x - anim.startPos.x) * (anim.time / anim.duration);
-          anim.object.y =
-            anim.startPos.y +
-            (anim.endPos.y - anim.startPos.y) * (anim.time / anim.duration);
-        } else {
-          anim.end();
-        }
-      };
-      anim.end = () => {
-        anim.object.x = anim.endPos.x;
-        anim.object.y = anim.endPos.y;
-        animations.splice(animations.indexOf(anim), 1);
-        queue.splice(queue.indexOf(anim), 1);
-        if (queue.length > 0) {
-          queue[0].start();
-        } else board.container.removeChild(object);
-      };
-
-      return anim;
-    };
-
-    queue.push(
-      translateObject(carSprite, { x: 0, y: 0 }, { x: ts * 24, y: 0 }, 0, 200)
-    );
-    queue.push(
-      translateObject(
-        carSprite,
-        { x: ts * 24, y: 0 },
-        { x: ts * 24, y: ts * 19 },
-        Math.PI / 2,
-        200
-      )
-    );
-    queue.push(
-      translateObject(
-        carSprite,
-        { x: ts * 24, y: ts * 19 },
-        { x: 0, y: ts * 19 },
-        Math.PI,
-        200
-      )
-    );
-    queue.push(
-      translateObject(
-        carSprite,
-        { x: 0, y: ts * 19 },
-        { x: 0, y: 0 },
-        (Math.PI * 3) / 2,
-        200
-      )
-    );
+    carSprite.pivot.x = 0.5;
+    carSprite.pivot.y = 0.5;
 
     const drawChunk = (
       p: number,
@@ -219,6 +131,8 @@ export const FoodChain = () => {
         if (match[1] === 'r') {
           addRoadToBoard(
             app,
+            animations,
+            queue,
             board,
             i + p * 5,
             j + q * 5,
@@ -293,12 +207,56 @@ export const FoodChain = () => {
     dinerSprite.interactive = true;
     dinerSprite.buttonMode = true;
     dinerSprite.on('pointerdown', () => {
-      console.log(queue);
+      queue.push(
+        translateObject(
+          animations,
+          queue,
+          board,
+          carSprite,
+          { x: 0, y: 0 },
+          { x: ts * 25, y: 0 },
+          0,
+          200
+        )
+      );
+      queue.push(
+        translateObject(
+          animations,
+          queue,
+          board,
+          carSprite,
+          { x: ts * 25, y: 0 },
+          { x: ts * 25, y: ts * 20 },
+          Math.PI / 2,
+          200
+        )
+      );
+      queue.push(
+        translateObject(
+          animations,
+          queue,
+          board,
+          carSprite,
+          { x: ts * 25, y: ts * 20 },
+          { x: 0, y: ts * 20 },
+          Math.PI,
+          200
+        )
+      );
+      queue.push(
+        translateObject(
+          animations,
+          queue,
+          board,
+          carSprite,
+          { x: 0, y: ts * 20 },
+          { x: 0, y: 0 },
+          (Math.PI * 3) / 2,
+          200
+        )
+      );
       board.container.addChild(carSprite);
       queue[0].start();
-      // const adjacentRoads = getAdjacentRoads(board, diner);
-      // board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
-      // adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
     });
     board.diner = diner;
     board.container.addChild(dinerSprite);

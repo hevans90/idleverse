@@ -1,0 +1,65 @@
+import * as PIXI from 'pixi.js';
+import { Board } from './board';
+import { Vector2D } from './utils/utils';
+
+export type Anim = {
+  startPos: { x: number; y: number };
+  endPos: { x: number; y: number };
+  rotation: number;
+  time: number;
+  duration: number;
+  object: PIXI.Sprite;
+  start?: () => void;
+  update?: () => void;
+  end?: () => void;
+};
+
+export const translateObject = (
+  animations: Anim[],
+  queue: Anim[],
+  board: Board,
+  object: PIXI.Sprite,
+  startPos: Vector2D,
+  endPos: Vector2D,
+  rotation: number,
+  duration: number
+): Anim => {
+  const anim: Anim = {
+    startPos,
+    endPos,
+    rotation,
+    time: 0,
+    duration,
+    object,
+  };
+
+  anim.start = () => {
+    anim.object.rotation = anim.rotation;
+    anim.time = 0;
+    animations.push(anim);
+  };
+  anim.update = () => {
+    anim.time += 1;
+    if (anim.time < anim.duration) {
+      anim.object.x =
+        anim.startPos.x +
+        (anim.endPos.x - anim.startPos.x) * (anim.time / anim.duration);
+      anim.object.y =
+        anim.startPos.y +
+        (anim.endPos.y - anim.startPos.y) * (anim.time / anim.duration);
+    } else {
+      anim.end();
+    }
+  };
+  anim.end = () => {
+    anim.object.x = anim.endPos.x;
+    anim.object.y = anim.endPos.y;
+    animations.splice(animations.indexOf(anim), 1);
+    queue.splice(queue.indexOf(anim), 1);
+    if (queue.length > 0) {
+      queue[0].start();
+    } else board.container.removeChild(object);
+  };
+
+  return anim;
+};

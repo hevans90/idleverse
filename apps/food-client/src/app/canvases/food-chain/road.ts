@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js';
 import { drawDottedLine, drawLine, findPath } from './utils/utils';
 import { rls, ts, ts1_2, ts1_3, ts2_3 } from './utils/constants';
 import { BoardObject, Board, getAdjacentRoads } from './board';
+import { Anim, translateObject } from './animation';
 
 export type Road = BoardObject & {
   fromStart?: number;
@@ -110,6 +111,8 @@ export const createRoadSprite = (app: PIXI.Application, road: Road) => {
 
 export const addRoadToBoard = (
   app: PIXI.Application,
+  animations: Anim[],
+  queue: Anim[],
   board: Board,
   i: number,
   j: number,
@@ -132,7 +135,86 @@ export const addRoadToBoard = (
     // const adjacentRoads = getAdjacentRoads(board, road);
     // board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
     // adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
-    findPath(board, getAdjacentRoads(board, board.diner), road);
+    const path = findPath(board, getAdjacentRoads(board, board.diner), road);
+    const carTexture = PIXI.Texture.from('https://i.imgur.com/01q7OGv.png');
+    const carSprite = new PIXI.Sprite(carTexture);
+    carSprite.anchor.x = 0.5;
+    carSprite.anchor.y = 0.5;
+    for (let i = 0; i < path.length - 1; i++) {
+      const road1 = path[i];
+      const road2 = path[i + 1];
+      queue.push(
+        translateObject(
+          animations,
+          queue,
+          board,
+          carSprite,
+          {
+            x: road1.sprite.position.x + ts1_2,
+            y: road1.sprite.position.y + ts1_2,
+          },
+          {
+            x: road2.sprite.position.x + ts1_2,
+            y: road2.sprite.position.y + ts1_2,
+          },
+          Math.atan2(
+            road2.sprite.position.y - road1.sprite.position.y,
+            road2.sprite.position.x - road1.sprite.position.x
+          ),
+          20
+        )
+      );
+    }
+    const road1 = path[path.length - 2];
+    const road2 = path[path.length - 1];
+    queue.push(
+      translateObject(
+        animations,
+        queue,
+        board,
+        carSprite,
+        {
+          x: road2.sprite.position.x + ts1_2,
+          y: road2.sprite.position.y + ts1_2,
+        },
+        {
+          x: road2.sprite.position.x + ts1_2,
+          y: road2.sprite.position.y + ts1_2,
+        },
+        Math.atan2(
+          road2.sprite.position.y - road1.sprite.position.y,
+          road2.sprite.position.x - road1.sprite.position.x
+        ),
+        200
+      )
+    );
+    for (let i = path.length - 2; i >= 0; i--) {
+      const road1 = path[i];
+      const road2 = path[i + 1];
+      queue.push(
+        translateObject(
+          animations,
+          queue,
+          board,
+          carSprite,
+          {
+            x: road2.sprite.position.x + ts1_2,
+            y: road2.sprite.position.y + ts1_2,
+          },
+          {
+            x: road1.sprite.position.x + ts1_2,
+            y: road1.sprite.position.y + ts1_2,
+          },
+          Math.atan2(
+            road1.sprite.position.y - road2.sprite.position.y,
+            road1.sprite.position.x - road2.sprite.position.x
+          ),
+          20
+        )
+      );
+    }
+    board.container.addChild(carSprite);
+    queue[0].start();
   });
   road.sprite = roadSprite;
   board.container.addChild(roadSprite);
