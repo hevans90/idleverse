@@ -1,4 +1,4 @@
-import { BoardObject } from './types';
+import { BoardObject } from './board';
 
 export type TileConfig = string[][];
 
@@ -13,8 +13,8 @@ export type Chunk = Tile[];
 
 export const parseTileConfig = (tileConfig: TileConfig) => {
   const tileArray = [];
-  tileConfig.forEach((row, i) =>
-    row.forEach((element, j) => {
+  tileConfig.forEach((row, j) =>
+    row.forEach((element, i) => {
       tileArray.push({
         i: i,
         j: j,

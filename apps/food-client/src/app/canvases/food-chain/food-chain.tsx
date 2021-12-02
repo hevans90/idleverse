@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import { Box } from '@chakra-ui/react';
 import { tileConfigRegex, ts } from './utils/constants';
 import { getRandomValidPosition, isValidPosition } from './utils/utils';
-import { Diner, Drink, House, lineColour, Road } from './types';
 import { createEmptySquareSprite } from './emptySquare';
 import {
   Tile,
@@ -12,16 +11,20 @@ import {
   parseTileConfig,
   rotateAboutCenter,
 } from './tile';
-import { drawRoad as createRoadSprite } from './road';
-import { createHouseSprite } from './house';
-import { createDrinkSprite, drinkTextures, DrinkTextures } from './drink';
-import { createDinerSprite } from './diner';
+import { addRoadToBoard } from './road';
+import { createHouseSprite, House } from './house';
+import {
+  createDrinkSprite,
+  Drink,
+  drinkTextures,
+  DrinkTextures,
+} from './drink';
+import { createDinerSprite, Diner } from './diner';
 import { drawBoxIndicator, drawIndicator, Indicator } from './indicators';
 import {
   renderDrawer,
   Drawer,
   addToDrawer,
-  removeFromDrawer,
   organiseRecruitDrawer,
 } from './drawer';
 import {
@@ -30,9 +33,9 @@ import {
   ceoCardConfig,
   createCardSprite,
   emptyCardConfig,
-  enableCardHire,
   enableCardStructure,
 } from './card';
+import { getAdjacentRoads } from './board';
 
 export const FoodChain = () => {
   useEffect(() => {
@@ -44,15 +47,14 @@ export const FoodChain = () => {
     app.stage.sortableChildren = true;
 
     const animations = [];
-    const tiles: Tile[] = [];
 
-    const boardItems = {
+    const board = {
       roads: [],
       houses: [],
       drinks: [],
+      diner: null,
+      container: new PIXI.Container(),
     };
-
-    const collisionArray = [];
 
     const chunks = tileConfigs.map((tileConfig) => parseTileConfig(tileConfig));
 
@@ -77,18 +79,12 @@ export const FoodChain = () => {
         };
 
         const squareSprite = createEmptySquareSprite();
-        squareSprite.x = emptySquare.i * ts;
-        squareSprite.y = emptySquare.j * ts;
+        squareSprite.position.x = emptySquare.i * ts;
+        squareSprite.position.y = emptySquare.j * ts;
         squareSprite.interactive = true;
         squareSprite.buttonMode = true;
         squareSprite.on('mouseover', () => {
-          if (
-            isValidPosition(
-              { i: i, j: j, h: 1, w: 1 },
-              collisionArray,
-              boardItems
-            )
-          ) {
+          if (isValidPosition({ i: i, j: j, h: 1, w: 1 }, board)) {
             activeIndicator = validIndicator;
             inactiveIndicator = invalidIndicator;
           } else {
@@ -97,21 +93,18 @@ export const FoodChain = () => {
           }
           activeIndicator.position.x = i * ts;
           activeIndicator.position.y = j * ts;
-          board.addChild(activeIndicator);
-          board.removeChild(inactiveIndicator);
+          board.container.addChild(activeIndicator);
+          board.container.removeChild(inactiveIndicator);
         });
         squareSprite.on('mouseout', () => {
-          board.removeChild(activeIndicator);
+          board.container.removeChild(activeIndicator);
         });
         squareSprite.on('pointerdown', () => {
           console.log(i, j);
-          if (
-            isValidPosition(
-              { i: i, j: j, w: 1, h: 1 },
-              collisionArray,
-              boardItems
-            )
-          ) {
+          if (isValidPosition({ i: i, j: j, w: 1, h: 1 }, board)) {
+            board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
+            diner.i = i;
+            diner.j = j;
             dinerSprite.x = i * ts;
             dinerSprite.y = j * ts;
           }
@@ -125,56 +118,51 @@ export const FoodChain = () => {
         const match = tileConfigRegex.exec(tile.contents);
 
         if (match[1] === 'r') {
-          const road: Road = {
-            i: j + p * 5,
-            j: i + q * 5,
-            w: 0,
-            h: 0,
-            connections: match[2].split('').map((i) => parseInt(i)),
-          };
-          boardItems.roads.push(road);
-          const roadSprite = createRoadSprite(road);
-          roadSprite.x = road.i * ts;
-          roadSprite.y = road.j * ts;
-          container.addChild(roadSprite);
+          addRoadToBoard(
+            app,
+            board,
+            i + p * 5,
+            j + q * 5,
+            match[2].split('').map((i) => parseInt(i))
+          );
         } else if (match[1] === 'h') {
           const house: House = {
-            i: j + p * 5,
-            j: i + q * 5,
+            i: i + p * 5,
+            j: j + q * 5,
             w: 1,
             h: 1,
             orient: parseInt(match[2]),
             num: parseInt(match[3]),
           };
-          boardItems.houses.push(house);
+          board.houses.push(house);
           const houseSprite = createHouseSprite(house);
           houseSprite.x = house.i * ts;
           houseSprite.y = house.j * ts;
           houseSprite.interactive = true;
           houseSprite.buttonMode = true;
           houseSprite.on('pointerdown', () => {
-            console.log(house);
+            const adjacentRoads = getAdjacentRoads(board, house);
+            board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
+            adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
           });
           container.addChild(houseSprite);
         } else if (match[1] in drinkTextures) {
           const drink: Drink = {
-            i: j + p * 5,
-            j: i + q * 5,
+            i: i + p * 5,
+            j: j + q * 5,
             w: 0,
             h: 0,
           };
-          boardItems.drinks.push(drink);
+          board.drinks.push(drink);
           const drinkSprite = createDrinkSprite(
             match[1] as keyof DrinkTextures
           );
-          drinkSprite.x = drink.i * ts;
-          drinkSprite.y = drink.j * ts;
+          drinkSprite.x = drink.i * ts + 3;
+          drinkSprite.y = drink.j * ts + 3;
           container.addChild(drinkSprite);
         }
       });
     };
-
-    const board = new PIXI.Container();
 
     for (let p = 0; p < 5; p++) {
       for (let q = 0; q < 4; q++) {
@@ -185,7 +173,7 @@ export const FoodChain = () => {
           5
         );
         chunks.splice(chunks.indexOf(chunk), 1);
-        drawChunk(p, q, board, chunk);
+        drawChunk(p, q, board.container, chunk);
       }
     }
 
@@ -197,24 +185,30 @@ export const FoodChain = () => {
       h: 1,
       name: 'diner1',
     };
-    const randomPosition = getRandomValidPosition(
-      diner,
-      collisionArray,
-      boardItems,
-      20
-    );
+    const randomPosition = getRandomValidPosition(diner, board, 20);
     console.log(randomPosition);
+    diner.i = randomPosition.i;
+    diner.j = randomPosition.j;
     dinerSprite.x = randomPosition.i * ts;
     dinerSprite.y = randomPosition.j * ts;
     dinerSprite.interactive = true;
     dinerSprite.buttonMode = true;
-    board.addChild(dinerSprite);
+    dinerSprite.on('pointerdown', () => {
+      const adjacentRoads = getAdjacentRoads(board, diner);
+      board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
+      adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
+      console.log(adjacentRoads);
+    });
+    board.diner = diner;
+    board.container.addChild(dinerSprite);
 
-    board.pivot.x = board.width / 2;
-    board.pivot.y = board.height / 2;
-    board.position.x = app.screen.width / 2;
-    board.position.y = app.screen.height / 2;
-    app.stage.addChild(board);
+    board.container.pivot.x = board.container.width / 2;
+    board.container.pivot.y = board.container.height / 2;
+    board.container.position.x = app.screen.width / 2;
+    board.container.position.y = app.screen.height / 2;
+    board.container.scale.x = 0.8;
+    board.container.scale.y = 0.8;
+    app.stage.addChild(board.container);
 
     const player = {
       cards: [],

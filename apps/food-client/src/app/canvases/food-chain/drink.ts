@@ -1,5 +1,8 @@
 import * as PIXI from 'pixi.js';
+import { BoardObject } from './board';
 import { ts } from './utils/constants';
+
+export type Drink = BoardObject;
 
 export type DrinkTextures = {
   b: PIXI.Texture;
@@ -15,7 +18,7 @@ export const drinkTextures: DrinkTextures = {
 
 export const createDrinkSprite = (drinkType: keyof DrinkTextures) => {
   const drink = new PIXI.Sprite(drinkTextures[drinkType]);
-  drink.width = ts;
-  drink.height = ts;
+  drink.width = ts - 4;
+  drink.height = ts - 4;
   return drink;
 };

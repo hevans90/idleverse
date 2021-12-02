@@ -1,5 +1,5 @@
+import { BoardObject } from '../board';
 import { collides } from './utils';
-import { BoardObject } from '../types';
 
 const item1: BoardObject = {
   i: 6,

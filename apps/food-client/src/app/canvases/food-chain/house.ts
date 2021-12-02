@@ -1,6 +1,11 @@
 import * as PIXI from 'pixi.js';
-import { House } from './types';
+import { BoardObject } from './board';
 import { ts } from './utils/constants';
+
+export type House = BoardObject & {
+  orient: number;
+  num: number;
+};
 
 const houseTextures = {
   1: PIXI.Texture.from('https://i.imgur.com/rGgNlV1.png'),
