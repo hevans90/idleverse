@@ -15,13 +15,14 @@ import {
   MarketingTileKinds,
 } from './marketingTile';
 import { createPostmanSprite, ts } from './utils/constants';
-import { animations, board } from './utils/singletons';
+import { animations, board, mainLayer } from './utils/singletons';
 import { calcDistance, findTilePath, sleep } from './utils/utils';
 
 export const bounceFood = (board: Board, tile: MarketingTile, house: House) => {
   const queue: Anim[] = [];
   const foodSprite = new PIXI.Sprite(tile.foodKind.texture);
-  foodSprite.zIndex = 40;
+  foodSprite.parentLayer = mainLayer;
+  foodSprite.zOrder = 10;
   foodSprite.anchor.x = 0.5;
   foodSprite.anchor.y = 0.5;
   const scaleFactor = ts / foodSprite.height;
@@ -81,7 +82,8 @@ export const triggerMailboxAnimation = async (
 export const walkBetween = async (item1: BoardObject, item2: BoardObject) => {
   const path = findTilePath(item1, item2);
   const postmanSprite = createPostmanSprite();
-  postmanSprite.zIndex = 50;
+  postmanSprite.parentLayer = mainLayer;
+  postmanSprite.zOrder = 10;
   postmanSprite.anchor.x = 0.5;
   postmanSprite.anchor.x = 0.5;
   const scaleFactor = ts / postmanSprite.height;
@@ -122,7 +124,8 @@ export const triggerPlaneAnimation = async (
   const planeTexture =
     marketingTileKindConfigs[MarketingTileKinds.airplane].texture;
   const planeSprite = new PIXI.Sprite(planeTexture);
-  planeSprite.zIndex = 50;
+  planeSprite.parentLayer = mainLayer;
+  planeSprite.zOrder = 10;
   planeSprite.anchor.x = 0.5;
   planeSprite.anchor.x = 0.5;
   const scale = ((sin === 0 ? tile.w : tile.h) * ts) / planeSprite.width;
@@ -154,7 +157,8 @@ export const triggerPlaneAnimation = async (
         (sin === 0 && house.j === startj + cos * 2)
       ) {
         const foodSprite = new PIXI.Sprite(tile.foodKind.texture);
-        foodSprite.zIndex = 40;
+        foodSprite.parentLayer = mainLayer;
+        foodSprite.zOrder = 9;
         foodSprite.anchor.x = 0.5;
         foodSprite.anchor.y = 0.5;
         foodSprite.position.x =

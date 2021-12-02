@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import { translateObject } from './animation';
 import { BoardObject } from './board';
 import { createCarSprite, ts, ts1_2 } from './utils/constants';
-import { setSpriteZIndex } from './utils/graphics-utils';
+import { setSpriteZOrder } from './utils/graphics-utils';
 import { board } from './utils/singletons';
 
 export const addCarToBoard = () => {
@@ -33,7 +33,7 @@ export const travelPath = async (
         item2.container.position.y - item1.container.position.y,
         item2.container.position.x - item1.container.position.x
       );
-    setSpriteZIndex(container, item1, item2);
+    setSpriteZOrder(container, item1, item2);
     await translateObject(
       container,
       {

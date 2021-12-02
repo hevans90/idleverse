@@ -5,7 +5,7 @@ import { createFoodSprite, FoodKind } from './food';
 import { ts } from './utils/constants';
 import { demandBubbleTexture } from './utils/graphics';
 import { createSprite } from './utils/graphics-utils';
-import { app } from './utils/singletons';
+import { app, mainLayer } from './utils/singletons';
 
 export type House = BoardObject & {
   orient: number;
@@ -66,7 +66,8 @@ export const parseHouseConfig = (config: RegExpExecArray, zOffset: number) => {
   };
   house.sprite = createHouseSprite(house);
   house.container.addChild(house.sprite);
-  house.container.zIndex = 40 + zOffset;
+  house.container.parentLayer = mainLayer;
+  house.container.zOrder = 1;
   return house;
 };
 
@@ -96,7 +97,8 @@ export const renderHouseFood = (house: House) => {
   if (house.demandContainer) house.demandContainer.destroy();
   if (house.food.length > 0) {
     house.demandContainer = new PIXI.Container();
-    house.demandContainer.zIndex = 100;
+    house.demandContainer.parentLayer = mainLayer;
+    house.demandContainer.zOrder = 5;
     const demandBubbleSprite = createSprite(demandBubbleTexture, 100);
     house.demandContainer.addChild(demandBubbleSprite);
     house.food.forEach((food, i) => {
@@ -123,6 +125,7 @@ export const aggregateFood = (house: House) => {
 };
 
 export const satisfiesFood = (diner: Diner, house: House) => {
+  console.log(`Checking if house ${house.num} is satisfied by diner`);
   const houseFood = aggregateFood(house);
   if (Object.keys(houseFood).length === 0) return false;
   let satisfies = true;
@@ -133,5 +136,6 @@ export const satisfiesFood = (diner: Diner, house: House) => {
       satisfies = false;
     }
   });
+  console.log(satisfies);
   return satisfies;
 };

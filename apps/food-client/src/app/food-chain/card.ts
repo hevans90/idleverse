@@ -2,12 +2,12 @@ import * as PIXI from 'pixi.js';
 import { translateObject } from './animation';
 import { playProduceAnimation } from './card.animations';
 import { emptyCardConfig, emptyCardKind } from './card.configs';
-import { Drawer, getDrawerByName, renderRecruitDrawerContents } from './drawer';
+import { Drawer, renderRecruitDrawerContents } from './drawer';
 import { foodKindConfigs } from './food';
 import { Indicator } from './indicators';
 import { Player } from './player';
 import { EmployeeType, EmployeeTypes } from './types';
-import { app, cards } from './utils/singletons';
+import { app, cards, communalDrawers, currentPlayer } from './utils/singletons';
 
 export type CardConfig = {
   kind?: string;
@@ -104,7 +104,7 @@ export const createCardSprite = (cardConfig: CardConfig) => {
 };
 
 export const initCards = (cardConfigs: CardConfig[], cards: Card[]) => {
-  const recruitDrawer = getDrawerByName('Recruit');
+  const recruitDrawer = communalDrawers.recruit;
   Object.values(cardConfigs).forEach((cardConfig) => {
     for (let i = 0; i < cardConfig.count; i++) {
       const card: Card = {
@@ -205,7 +205,7 @@ export const removeCardFromParent = (parent: Drawer | Card, card: Card) => {
 };
 
 export const hireCard = async (player: Player, card: Card) => {
-  const beachDrawer = getDrawerByName('Beach');
+  const beachDrawer = player.drawers.beach;
   card.container.position.x = card.container.getGlobalPosition().x;
   app.stage.addChild(card.container);
   await translateObject(
@@ -242,17 +242,14 @@ export const unmanageCard = () => (beachDrawer: Drawer, card: Card) => {
   card.active = false;
 };
 
-export const enableCardHire = (
-  player: Player,
-  cards: Card[],
-  indicator: Indicator
-) => {
-  const beachDrawer = getDrawerByName('Beach');
-  const recruitDrawer = getDrawerByName('Recruit');
+export const enableCardHire = () => {
+  const recruitDrawer = communalDrawers.recruit;
   cards.forEach((card) => {
     card.container.interactive = true;
     card.container.buttonMode = true;
     card.container.on('pointerdown', () => {
+      const player = currentPlayer.player;
+      const beachDrawer = player.drawers.beach;
       if (card.parent === recruitDrawer) {
         if (player.hiresAvailable > 0) {
           hireCard(player, card);
@@ -260,7 +257,7 @@ export const enableCardHire = (
       } else if (card.parent === beachDrawer) {
         fireCard(player, recruitDrawer, card);
       }
-      indicator.textGraphic.text = `Hires Available: ${player.hiresAvailable.toString()}`;
+      player.hiresIndicator.textGraphic.text = `Hires Available: ${player.hiresAvailable.toString()}`;
     });
   });
 };
@@ -278,9 +275,7 @@ export const hasEmployees = (card: Card) =>
   card.employees.filter((employee) => !(employee.kind === emptyCardKind))
     .length > 0;
 
-export const enableCardStructure = (player: Player, cards: Card[]) => {
-  const ceoCard = player.ceo.card;
-  const beachDrawer = getDrawerByName('Beach');
+export const enableCardStructure = () => {
   cards.forEach((card) => {
     let global: PIXI.Point;
     const start = { x: 0, y: 0 };
@@ -305,6 +300,7 @@ export const enableCardStructure = (player: Player, cards: Card[]) => {
     }
 
     function onDragMove(event: PIXI.InteractionEvent) {
+      const ceoCard = currentPlayer.player.ceo.card;
       if (dragging) {
         cursor.x = event.data.global.x - click.x;
         cursor.y = event.data.global.y - click.y;
@@ -323,6 +319,8 @@ export const enableCardStructure = (player: Player, cards: Card[]) => {
     }
 
     function onDragEnd(event: PIXI.InteractionEvent) {
+      const ceoCard = currentPlayer.player.ceo.card;
+      const beachDrawer = currentPlayer.player.drawers.beach;
       if (dragging) {
         ceoCard.container.emit('pointerout');
 
@@ -368,7 +366,7 @@ export const enableCardStructure = (player: Player, cards: Card[]) => {
       }
     }
 
-    if (card.owner === player) {
+    if (card.owner) {
       card.container.interactive = true;
       card.container.buttonMode = true;
       card.container

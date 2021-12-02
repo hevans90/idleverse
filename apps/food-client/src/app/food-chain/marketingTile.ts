@@ -2,7 +2,6 @@ import * as PIXI from 'pixi.js';
 import { BoardObject } from './board';
 import {
   addMarketingTileToDrawer,
-  getDrawerByName,
   renderMarketingDrawerContents,
   toggleDrawerOpen,
 } from './drawer';
@@ -16,8 +15,13 @@ import {
 } from './marketingTile.animations';
 import { Player } from './player';
 import { disablePlacement, enablePlacement, Tile } from './tile';
-import { defaultZ, ts } from './utils/constants';
-import { app, board, marketingTiles } from './utils/singletons';
+import { ts } from './utils/constants';
+import {
+  app,
+  board,
+  communalDrawers,
+  marketingTiles,
+} from './utils/singletons';
 import {
   getConnectedSquares,
   getSquaresInLine,
@@ -161,7 +165,6 @@ export const initMarketingTiles = (
     };
     marketingTile.sprite = createMarketTileSprite(config);
     marketingTile.container.addChild(marketingTile.sprite);
-    marketingTile.container.zIndex = defaultZ.marketingTile;
     marketingTiles.push(marketingTile);
   });
 
@@ -173,14 +176,12 @@ export const initMarketingTiles = (
 };
 
 export const selectMarketingTileFood = (tile: MarketingTile) => {
-  tile.container.zIndex = 50;
   const oldFoodSelect = tile.container.getChildByName('foodSelect');
   tile.container.removeChild(oldFoodSelect);
 
   const newFoodSelect = createFoodSelect(foodKindConfigs, (foodKind) => {
     tile.foodKind = foodKind;
     tile.foodQuant = 4;
-    tile.container.zIndex = defaultZ.marketingTile;
     renderMarketingTileFood(tile);
     tile.container.removeChild(newFoodSelect);
   });
@@ -197,15 +198,18 @@ export const renderMarketingTileFood = (tile: MarketingTile) => {
     const foodSprite = new PIXI.Sprite(tile.foodKind.texture);
     foodSprite.height = ts / 2;
     foodSprite.width = ts / 2;
-    foodSprite.position.x = i * 20 + (tile.w * ts) / 2 - ts + 10;
-    foodSprite.position.y = 10;
+    const xSpacing = 15 * tile.h;
+    const xOffset =
+      tile.sprite.width / 2 - (xSpacing * 1.5 + foodSprite.width / 2);
+    foodSprite.position.x = xOffset + xSpacing * i;
+    foodSprite.position.y = (tile.h * ts) / 3 - foodSprite.height / 2 + 5;
     tile.container.addChild(foodSprite);
     tile.foodSprites.push(foodSprite);
   }
 };
 
 export const enableMarketingTilePlacement = () => {
-  const marketingDrawer = getDrawerByName('Market');
+  const marketingDrawer = communalDrawers.market;
   marketingTiles.forEach((tile) => {
     tile.sprite.interactive = true;
     tile.sprite.buttonMode = true;

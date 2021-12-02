@@ -3,7 +3,7 @@ import { Card } from './card';
 import { createFoodSprite, FoodKind, produceFood } from './food';
 import { Player } from './player';
 import { ts } from './utils/constants';
-import { app } from './utils/singletons';
+import { app, mainLayer } from './utils/singletons';
 
 export const playProduceAnimation = async (
   player: Player,
@@ -11,7 +11,8 @@ export const playProduceAnimation = async (
   foodKind: FoodKind
 ) => {
   const foodSprite = createFoodSprite(foodKind, ts);
-  foodSprite.zIndex = 50;
+  foodSprite.parentLayer = mainLayer;
+  foodSprite.zOrder = 5;
   app.stage.addChild(foodSprite);
   await translateObject(
     foodSprite,

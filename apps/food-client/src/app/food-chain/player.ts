@@ -6,11 +6,29 @@ import {
   renderManagerCards,
 } from './card';
 import { ceoCardConfig } from './card.configs';
-import { Diner } from './diner';
-import { getDrawerByName } from './drawer';
+import { createDiner, Diner } from './diner';
+import {
+  Drawer,
+  renderDinerDrawerContents,
+  renderDrawer,
+  renderBeachContentsHorizontally,
+} from './drawer';
+import { drawHiresIndicator, Indicator } from './indicators';
+import { renderToolbar } from './toolbar';
+import { app, currentPlayer, players } from './utils/singletons';
+
+const playerColours = {
+  0: 0x37946e,
+  1: 0x5b6ee1,
+  2: 0xac3232,
+  3: 0xd77bba,
+  4: 0xdf7126,
+};
 
 export type Player = {
+  colour: number;
   diners: Diner[];
+  drawers: { [key: string]: Drawer };
   ceo: { card: Card };
   food: {
     [key: string]: {
@@ -20,21 +38,51 @@ export type Player = {
     };
   };
   cash: number;
+  hiresIndicator: Indicator;
   hiresAvailable: number;
 };
 
-const validCardTint = new PIXI.Graphics();
-validCardTint.beginFill(0x37946e, 0.25);
-validCardTint.drawRoundedRect(0, 0, 200, 192, 12);
-validCardTint.endFill();
+export const initPlayer = (number: number) => {
+  const player: Player = {
+    colour: playerColours[number],
+    diners: [],
+    ceo: { card: null },
+    drawers: {
+      structure: null,
+      beach: null,
+      diners: null,
+    },
+    hiresAvailable: 10,
+    hiresIndicator: null,
+    cash: 0,
+    food: {
+      beer: { amount: 10 },
+      lemonade: { amount: 0 },
+      cola: { amount: 0 },
+      pizza: { amount: 10 },
+      burger: { amount: 0 },
+    },
+  };
 
-const invalidCardTint = new PIXI.Graphics();
-invalidCardTint.beginFill(0xd3002c, 0.25);
-invalidCardTint.drawRoundedRect(0, 0, 200, 192, 12);
-invalidCardTint.endFill();
+  initStructureDrawer(player);
+  initBeachDrawer(player);
+  initDinersDrawer(player);
+
+  Object.values(player.drawers).forEach((drawer) => renderDrawer(drawer));
+  player.hiresIndicator = drawHiresIndicator(player);
+
+  for (let i = 0; i < 3; i++) {
+    createDiner(player);
+  }
+  renderDinerDrawerContents(player);
+
+  initCEOCard(player);
+
+  players.push(player);
+};
 
 export const initCEOCard = (player: Player) => {
-  const structureDrawer = getDrawerByName('Structure');
+  const structureDrawer = player.drawers.structure;
   player.ceo.card = {
     ...ceoCardConfig,
     container: createCardSprite(ceoCardConfig),
@@ -49,17 +97,6 @@ export const initCEOCard = (player: Player) => {
   };
   const ceoCard = player.ceo.card;
 
-  // ceoCard.container.on('pointerover', () => {
-  //   if (ceoCard.employees.length < ceoCard.managementSlots) {
-  //     ceoCard.container.addChild(validCardTint);
-  //   } else ceoCard.container.addChild(invalidCardTint);
-  // });
-
-  // ceoCard.container.on('pointerout', () => {
-  //   ceoCard.container.removeChild(validCardTint);
-  //   ceoCard.container.removeChild(invalidCardTint);
-  // });
-
   ceoCard.container.position.x =
     structureDrawer.width / 2 - ceoCard.container.width / 2;
   ceoCard.container.position.y = 50;
@@ -68,4 +105,75 @@ export const initCEOCard = (player: Player) => {
 
   initManagerContentsContainer(ceoCard);
   structureDrawer.contentsContainer.addChild(ceoCard.contentsContainer);
+};
+
+export const initPlayers = (number: number) => {
+  for (let i = 0; i < number; i++) {
+    initPlayer(i);
+  }
+};
+
+const initStructureDrawer = (player: Player) => {
+  player.drawers.structure = {
+    name: 'Structure',
+    colour: player.colour,
+    owner: player,
+    open: false,
+    startY: 100,
+    endY: (app.screen.height - 200) * 0.85,
+    width: 1500,
+    tabWidth: 40,
+    orient: 'left',
+    employees: [],
+  };
+};
+const initBeachDrawer = (player: Player) => {
+  player.drawers.beach = {
+    name: 'Beach',
+    colour: player.colour,
+    owner: player,
+    open: false,
+    startY: (app.screen.height - 200) * 0.85,
+    endY: app.screen.height - 100,
+    width: 1000,
+    tabWidth: 40,
+    orient: 'left',
+    employees: [],
+    renderContents: () => renderBeachContentsHorizontally(player),
+  };
+  const drawer = player.drawers.beach;
+  drawer.tabEndY = (drawer.endY - drawer.startY) / 2;
+};
+const initDinersDrawer = (player: Player) => {
+  player.drawers.diners = {
+    name: 'Diners',
+    colour: player.colour,
+    owner: player,
+    open: false,
+    startY: (app.screen.height - 200) * 0.85,
+    endY: app.screen.height - 100,
+    width: 1000,
+    tabWidth: 40,
+    orient: 'left',
+    diners: [],
+  };
+  const drawer = player.drawers.diners;
+  drawer.tabStartY = (drawer.endY - drawer.startY) / 2;
+};
+
+export const renderPlayerDrawers = (player: Player) => {
+  Object.values(player.drawers).forEach((drawer) =>
+    app.stage.addChild(drawer.container)
+  );
+};
+
+export const switchPlayer = (player: Player) => {
+  Object.values(currentPlayer.player.drawers).forEach((drawer) =>
+    app.stage.removeChild(drawer.container)
+  );
+  renderPlayerDrawers(player);
+  renderToolbar(player);
+  currentPlayer.player = player;
+  console.log(`Switched to player ${players.indexOf(player) + 1}`);
+  console.log(player);
 };

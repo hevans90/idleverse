@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js';
 import { Board, BoardObject } from './board';
 import { ts } from './utils/constants';
+import { mainLayer } from './utils/singletons';
 
 export type Drink = BoardObject & {
   kind?: DrinkKind;
@@ -46,7 +47,8 @@ export const parseDrinkConfig = (config: RegExpExecArray, zOffset: number) => {
   };
   drink.sprite = createDrinkSprite(drink);
   drink.container.addChild(drink.sprite);
-  drink.sprite.zIndex = 10 + zOffset;
+  drink.container.parentLayer = mainLayer;
+  drink.container.zOrder = 1;
   return drink;
 };
 

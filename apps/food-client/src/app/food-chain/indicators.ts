@@ -1,5 +1,4 @@
 import * as PIXI from 'pixi.js';
-import { getDrawerByName } from './drawer';
 import { Player } from './player';
 import { ts } from './utils/constants';
 
@@ -65,7 +64,7 @@ export const initBoxIndicator = (indicator: Indicator) => {
   return indicator;
 };
 
-export const drawerHiresIndicator = (player: Player) => {
+export const drawHiresIndicator = (player: Player) => {
   const hiresIndicatorConfig: Indicator = {
     height: 50,
     width: 250,
@@ -74,7 +73,7 @@ export const drawerHiresIndicator = (player: Player) => {
     textColor: 0x000000,
     text: `Hires Available: ${player.hiresAvailable.toString()}`,
   };
-  const beachDrawer = getDrawerByName('Beach');
+  const beachDrawer = player.drawers.beach;
   const hiresIndicator = initBoxIndicator(hiresIndicatorConfig);
   hiresIndicator.container.position.x =
     beachDrawer.container.width / 2 - hiresIndicatorConfig.container.width / 2;

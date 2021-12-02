@@ -3,7 +3,7 @@ import { Player } from './player';
 import { ts } from './utils/constants';
 import { cashTexture } from './utils/graphics';
 import { createSprite } from './utils/graphics-utils';
-import { app } from './utils/singletons';
+import { app, mainLayer } from './utils/singletons';
 
 export type FoodKind = {
   name: string;
@@ -81,6 +81,8 @@ export const createFoodSelect = (
   onClick: (foodKind: FoodKind) => void
 ) => {
   const foodSelect = new PIXI.Container();
+  foodSelect.parentLayer = mainLayer;
+  foodSelect.zOrder = 5;
   foodKinds.forEach((foodKind, i) => {
     const foodSprite = createFoodSpriteIcon(foodKind);
     foodSprite.position.x = ts * i;

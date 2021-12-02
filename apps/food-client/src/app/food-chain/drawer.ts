@@ -6,10 +6,11 @@ import { MarketingTile, MarketingTileKinds } from './marketingTile';
 import { Player } from './player';
 import { baseColour, lineColour } from './types';
 import { ts } from './utils/constants';
-import { app, drawers } from './utils/singletons';
+import { app, communalDrawers, players } from './utils/singletons';
 
 export type Drawer = {
   name: string;
+  colour: number;
   open: boolean;
   startY: number;
   endY: number;
@@ -28,10 +29,6 @@ export type Drawer = {
   renderContents?: () => void;
 };
 
-export const getDrawerByName = (drawerName: string) => {
-  return drawers.find((drawer) => drawer.name === drawerName);
-};
-
 const getDrawerXPos = (drawer: Drawer) => {
   if (drawer.orient === 'left') {
     return drawer.open ? drawer.tabWidth : -drawer.width;
@@ -42,15 +39,21 @@ const getDrawerXPos = (drawer: Drawer) => {
   }
 };
 
-export const openDrawer = (drawerName: string) => {
-  const drawer = drawers.find((drawer) => drawer.name === drawerName);
+export const openDrawer = (drawer: Drawer) => {
   if (!drawer.open) toggleDrawerOpen(drawer);
 };
 
 export const closeAllDrawers = async () => {
   const promises = [];
-  for (let i = 0; i < drawers.length; i++) {
-    const drawer = drawers[i];
+  for (let i = 0; i < players.length; i++) {
+    const player = players[i];
+    for (let j = 0; j < Object.keys(player.drawers).length; j++) {
+      const drawer = Object.values(player.drawers)[j];
+      if (drawer.open) promises.push(toggleDrawerOpen(drawer));
+    }
+  }
+  for (let i = 0; i < Object.values(communalDrawers).length; i++) {
+    const drawer = Object.values(communalDrawers)[i];
     if (drawer.open) promises.push(toggleDrawerOpen(drawer));
   }
   await Promise.all(promises);
@@ -88,19 +91,19 @@ const getStacks = (drawer: Drawer) => {
 };
 
 export const addMarketingTileToDrawer = (tile: MarketingTile) => {
-  const drawer = getDrawerByName('Market');
+  const drawer = communalDrawers.market;
   drawer.marketingTiles.push(tile);
   drawer.contentsContainer.addChild(tile.container);
 };
 
-export const addDinerToDrawer = (diner: Diner) => {
-  const drawer = getDrawerByName('Diners');
+export const addDinerToDrawer = (player: Player, diner: Diner) => {
+  const drawer = player.drawers.diners;
   drawer.diners.push(diner);
   drawer.contentsContainer.addChild(diner.container);
 };
 
 export const renderRecruitDrawerContents = () => {
-  const drawer = getDrawerByName('Recruit');
+  const drawer = communalDrawers.recruit;
   const stacks = getStacks(drawer);
   stacks.forEach((stack) => {
     const firstCard = stack[0];
@@ -113,7 +116,7 @@ export const renderRecruitDrawerContents = () => {
 };
 
 export const renderMarketingDrawerContents = () => {
-  const drawer = getDrawerByName('Market');
+  const drawer = communalDrawers.market;
   const kindMap = {
     [MarketingTileKinds.radio]: { x: 1, y: 1 },
     [MarketingTileKinds.airplane]: { x: 1, y: 3 },
@@ -128,8 +131,8 @@ export const renderMarketingDrawerContents = () => {
   });
 };
 
-export const renderBeachDrawerContents = () => {
-  const drawer = getDrawerByName('Beach');
+export const renderBeachContentsHorizontally = (player: Player) => {
+  const drawer = player.drawers.beach;
   const stacks = getStacks(drawer);
   stacks.forEach((stack, i) => {
     const firstCard = stack[0];
@@ -137,8 +140,8 @@ export const renderBeachDrawerContents = () => {
   });
 };
 
-export const renderDinerDrawerContents = () => {
-  const drawer = getDrawerByName('Diners');
+export const renderDinerDrawerContents = (player: Player) => {
+  const drawer = player.drawers.diners;
   drawer.diners.forEach((diner, i) => {
     diner.container.position.x = i * (diner.container.width + 50) + 10;
     diner.container.position.y = 10;
@@ -151,7 +154,7 @@ export const renderDrawer = (drawer: Drawer) => {
   // Render drawer body
   const drawerBody = new PIXI.Graphics();
   drawerBody.lineStyle(2, lineColour, 1);
-  drawerBody.beginFill(baseColour);
+  drawerBody.beginFill(drawer.colour);
   drawerBody.drawRoundedRect(
     0,
     0,
@@ -164,7 +167,7 @@ export const renderDrawer = (drawer: Drawer) => {
   // Render drawer tab
   const drawerTab = new PIXI.Graphics();
   drawerTab.lineStyle(2, lineColour, 1);
-  drawerTab.beginFill(baseColour);
+  drawerTab.beginFill(drawer.colour);
   drawerTab.drawRoundedRect(
     drawer.orient === 'left' ? drawer.width : -40,
     drawer.tabStartY ? drawer.tabStartY : 0,
@@ -267,5 +270,4 @@ export const renderDrawer = (drawer: Drawer) => {
 
   drawer.container.x = getDrawerXPos(drawer);
   drawer.container.y = drawer.startY;
-  app.stage.addChild(drawer.container);
 };

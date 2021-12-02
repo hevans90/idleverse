@@ -3,7 +3,7 @@ import { createCashSprite, createFoodSprite, foodKindConfigs } from './food';
 import { Player } from './player';
 import { app } from './utils/singletons';
 
-export const drawToolbar = (player: Player) => {
+export const renderToolbar = (player: Player) => {
   const previousToolbar = app.stage.getChildByName('toolbar');
   app.stage.removeChild(previousToolbar);
   const toolbar = new PIXI.Container();

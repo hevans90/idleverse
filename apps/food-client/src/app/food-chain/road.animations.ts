@@ -7,7 +7,7 @@ import {
   ts,
 } from './utils/constants';
 import { travelPath } from './utils/graphics-utils';
-import { board } from './utils/singletons';
+import { board, mainLayer } from './utils/singletons';
 
 export const triggerCarAnimation = async (
   path: Road[],
@@ -17,6 +17,8 @@ export const triggerCarAnimation = async (
   // const carSprite = createAnimatedCarSprite();
   // carSprite.play();
   const carSprite = createCarSprite();
+  carSprite.parentLayer = mainLayer;
+  carSprite.zOrder = 5;
   board.container.addChild(carSprite);
   carSprite.anchor.x = 0.5;
   carSprite.anchor.y = 0.5;

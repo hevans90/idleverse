@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js';
 import { translateObject } from '../animation';
 import { BoardObject } from '../board';
 import { ts1_2 } from './constants';
+import { app, mainLayer } from './singletons';
 import { Vector2 } from './utils';
 
 export type SpriteSheetConfig = {
@@ -82,15 +83,16 @@ export const drawDottedLine = (
   }
 };
 
-export const setSpriteZIndex = (
+export const setSpriteZOrder = (
   sprite: PIXI.DisplayObject,
   item1: BoardObject,
   item2: BoardObject
 ) => {
-  sprite.zIndex =
-    item1.container.zIndex > item2.container.zIndex
-      ? item1.container.zIndex + 1
-      : item2.container.zIndex + 1;
+  sprite.zOrder =
+    item1.sprite.zOrder > item2.sprite.zOrder
+      ? item1.sprite.zOrder + 1
+      : item2.sprite.zOrder + 1;
+  console.log(sprite.zOrder, item1.sprite.zOrder, item2.sprite.zOrder);
 };
 
 export const travelPath = async (
@@ -106,7 +108,7 @@ export const travelPath = async (
         item2.container.position.y - item1.container.position.y,
         item2.container.position.x - item1.container.position.x
       );
-    setSpriteZIndex(sprite, item1, item2);
+    setSpriteZOrder(sprite, item1, item2);
     await translateObject(
       sprite,
       {

@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import { rls, ts, ts1_2, ts1_3, ts2_3 } from './utils/constants';
 import { BoardObject, Board, getAdjacentRoads } from './board';
 import { drawLine, drawDottedLine } from './utils/graphics-utils';
-import { app } from './utils/singletons';
+import { app, mainLayer } from './utils/singletons';
 import { findRoadPath } from './utils/utils';
 import { triggerCarAnimation } from './road.animations';
 
@@ -179,7 +179,8 @@ export const parseRoadConfig = (config: RegExpExecArray, zOffset: number) => {
   };
   road.sprite = createRoadSprite(road);
   road.container.addChild(road.sprite);
-  road.container.zIndex = 30 + zOffset;
+  road.sprite.parentLayer = mainLayer;
+  road.sprite.zOrder = 2 + zOffset;
   return road;
 };
 

@@ -7,7 +7,7 @@ import { addCarToBoard, travelPath } from './house.animations';
 import { MarketingTile } from './marketingTile';
 import { addRoadToBoard, isRoad, Road } from './road';
 import { Tile } from './tile';
-import { drawToolbar } from './toolbar';
+import { renderToolbar } from './toolbar';
 import { ts } from './utils/constants';
 import { app, board } from './utils/singletons';
 import { BoardItem, collides, findShortestRoadPath } from './utils/utils';
@@ -27,7 +27,6 @@ export type Board = {
 };
 
 export type BoardObject = BoardItem & {
-  zIndex?: number;
   sprite?: PIXI.Sprite;
   container?: PIXI.Container;
 };
@@ -114,7 +113,7 @@ export const feedHouse = async (diner: Diner, house: House) => {
       cashReward += 10;
     });
     house.food = [];
-    drawToolbar(player);
+    renderToolbar(player);
     const car = addCarToBoard();
     car.carContainer.addChild(house.demandContainer);
     if (path.length > 1) {
@@ -158,12 +157,17 @@ export const feedHouse = async (diner: Diner, house: House) => {
 
 export const dinnerTime = async () => {
   console.log('dinner time activated');
-  const sortedHouses = board.houses.sort(
+  const housesWithDemand = board.houses.filter(
+    (house) => house.food.length > 0
+  );
+  const sortedHouses = housesWithDemand.sort(
     (house1, house2) => house1.num - house2.num
   );
   for (let i = 0; i < sortedHouses.length; i++) {
     const house = sortedHouses[i];
     const diner = chooseDiner(board.diners, house);
     if (diner) await feedHouse(diner, house);
+    else
+      console.log(`No house diner suitable diner found for house ${house.num}`);
   }
 };

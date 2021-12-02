@@ -7,7 +7,7 @@ import { parseRoadConfig } from './road';
 import { lineColour } from './types';
 import { tileConfigRegex, ts } from './utils/constants';
 import { grassTexture } from './utils/graphics';
-import { app, board, keyEventMap } from './utils/singletons';
+import { app, board, keyEventMap, mainLayer } from './utils/singletons';
 import { calcDistance, rangeOverlapsItem } from './utils/utils';
 
 export type TileConfig = Array<Array<string | Array<string>>>;
@@ -130,7 +130,8 @@ export const addTileToBoard = (
   tile.j += jOffset;
   tile.container.x = tile.i * ts;
   tile.container.y = tile.j * ts;
-  tile.container.zIndex = 0;
+  tile.container.parentLayer = mainLayer;
+  tile.container.zOrder = 0;
   tile.container.addChild(squareSprite);
 
   board.tiles.push(tile);
@@ -265,8 +266,9 @@ export const enablePlacement = (
     square.container.on('pointerdown', () => {
       console.log(square);
       if (isValidPosition(square)) {
-        board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
         board.container.addChild(item.container);
+        item.container.parentLayer = mainLayer;
+        item.container.zOrder = 1;
         item.i = square.i;
         item.j = square.j;
         applyRotation(item);
