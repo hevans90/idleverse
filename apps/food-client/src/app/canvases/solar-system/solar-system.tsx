@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { Application } from '@pixi/app';
-import { Graphics } from 'pixi.js';
+import { Graphics, Sprite, Texture } from 'pixi.js';
 import { useEffect } from 'react';
 
 type Vector2D = {
@@ -11,7 +11,7 @@ type Vector2D = {
 type Tile = {
   x: number;
   y: number;
-  occupant?: any;
+  occupant?: Sprite;
 };
 
 type TileConfig = string[][];
@@ -33,14 +33,15 @@ export const SolarSystem = () => {
     });
     app.stage.sortableChildren = true;
 
-    const ts = 90;
-    const ts1_3 = ts / 3;
+    const ts = 80;
+    const ts1_3 = ts / 8;
     const ts1_2 = ts / 2;
-    const ts2_3 = (2 * ts) / 3;
+    const ts2_3 = (7 * ts) / 8;
+    const rls = 2;
 
     const tileConfig = [
-      ['e', 'e', 'r24', 'h', 'h'],
-      ['e', 'e', 'r24', 'h', 'h'],
+      ['e', 'e', 'r24', 'h1', 'e'],
+      ['e', 'e', 'r24', 'e', 'e'],
       ['r13', 'r13', 'r1234', 'r13', 'r13'],
       ['e', 'e', 'r24', 'e', 'e'],
       ['e', 'e', 'r24', 'e', 'e'],
@@ -48,10 +49,26 @@ export const SolarSystem = () => {
 
     const tileConfig2 = [
       ['e', 'e', 'r24', 'e', 'e'],
-      ['e', 'e', 'r24', 'e', 'e'],
+      ['e', 'h4', 'r24', 'e', 'e'],
       ['r13', 'r13', 'r124', 'e', 'e'],
       ['e', 'e', 'r24', 'e', 'e'],
       ['e', 'e', 'r24', 'e', 'e'],
+    ];
+
+    const tileConfig3 = [
+      ['r34', 'r13', 'r123', 'r13', 'r14'],
+      ['r24', 'e', 'h2', 'e', 'r24'],
+      ['r12', 'e', 'e', 'e', 'r23'],
+      ['e', 'e', 'e', 'e', 'e'],
+      ['e', 'e', 'e', 'e', 'e'],
+    ];
+
+    const tileConfig4 = [
+      ['r34', 'r14', 'e', 'e', 'e'],
+      ['r24', 'r23', 'r14', 'e', 'e'],
+      ['r12', 'e', 'r23', 'r14', 'e'],
+      ['e', 'e', 'h4', 'r23', 'r14'],
+      ['e', 'e', 'e', 'e', 'r23'],
     ];
 
     const drawEmptySquare = (x: number, y: number) => {
@@ -67,27 +84,24 @@ export const SolarSystem = () => {
       return square;
     };
 
-    const DrawLine = (graphic: Graphics, start: Vector2D, end: Vector2D) => {
+    const drawLine = (graphic: Graphics, start: Vector2D, end: Vector2D) => {
       graphic.moveTo(start.x, start.y);
       graphic.lineTo(end.x, end.y);
     };
 
-    const DrawDottedLine = (
+    const drawDottedLine = (
       graphic: Graphics,
       start: Vector2D,
       end: Vector2D,
       sections: number
     ) => {
-      const xStep = (end.x - start.x) / (sections * 4 + 1);
-      const yStep = (end.y - start.y) / (sections * 4 + 1);
-      console.log(xStep);
-      graphic.moveTo(start.x, start.y);
-      for (let i = 0; i < sections * 2 + 1; i += 2) {
-        graphic.lineTo(start.x + xStep * 2 * i, start.y + yStep * 2 * i);
-        graphic.moveTo(
-          start.x + xStep * 2 * (i + 1),
-          start.y + yStep * 2 * (i + 1)
-        );
+      const step = sections * 2 + (sections - 1) * 2 + 2;
+      const xStep = (end.x - start.x) / step;
+      const yStep = (end.y - start.y) / step;
+      graphic.moveTo(start.x + xStep, start.y + yStep);
+      for (let i = 0; i < step; i += 1) {
+        if (i % 4 > 1) graphic.lineTo(start.x + xStep * i, start.y + yStep * i);
+        else graphic.moveTo(start.x + xStep * i, start.y + yStep * i);
       }
     };
 
@@ -95,67 +109,65 @@ export const SolarSystem = () => {
       const road = new Graphics();
 
       road.beginFill(0xd3d3d3);
-      road.drawRect(ts1_3, ts1_3, ts1_3, ts1_3);
+      road.drawRect(ts1_3, ts1_3, ts2_3 - ts1_3, ts2_3 - ts1_3);
       road.endFill();
 
       road.lineStyle(4, 0x0, 1);
 
-      console.log(connections);
-
       if (connections.includes(1)) {
         road.lineStyle(4, 0x0, 0);
         road.beginFill(0xd3d3d3);
-        road.drawRect(0, ts1_3, ts1_3, ts1_3);
+        road.drawRect(0, ts1_3, ts1_3, ts2_3 - ts1_3);
         road.endFill();
 
         road.lineStyle(4, 0x0, 1);
-        DrawLine(road, { x: 0, y: ts1_3 }, { x: ts1_3, y: ts1_3 });
-        DrawDottedLine(road, { x: 0, y: ts1_2 }, { x: ts1_2, y: ts1_2 }, 2);
-        DrawLine(road, { x: 0, y: ts2_3 }, { x: ts1_3, y: ts2_3 });
+        drawLine(road, { x: 0, y: ts1_3 }, { x: ts1_3, y: ts1_3 });
+        drawDottedLine(road, { x: 0, y: ts1_2 }, { x: ts1_2, y: ts1_2 }, rls);
+        drawLine(road, { x: 0, y: ts2_3 }, { x: ts1_3, y: ts2_3 });
       } else {
-        DrawLine(road, { x: ts1_3, y: ts1_3 }, { x: ts1_3, y: ts2_3 });
+        drawLine(road, { x: ts1_3, y: ts1_3 }, { x: ts1_3, y: ts2_3 });
       }
 
       if (connections.includes(2)) {
         road.lineStyle(4, 0x0, 0);
         road.beginFill(0xd3d3d3);
-        road.drawRect(ts1_3, 0, ts1_3, ts1_3);
+        road.drawRect(ts1_3, 0, ts2_3 - ts1_3, ts1_3);
         road.endFill();
 
         road.lineStyle(4, 0x0, 1);
-        DrawLine(road, { x: ts1_3, y: ts1_3 }, { x: ts1_3, y: 0 });
-        DrawDottedLine(road, { x: ts1_2, y: 0 }, { x: ts1_2, y: ts1_2 }, 2);
-        DrawLine(road, { x: ts2_3, y: ts1_3 }, { x: ts2_3, y: 0 });
+        drawLine(road, { x: ts1_3, y: ts1_3 }, { x: ts1_3, y: 0 });
+        drawDottedLine(road, { x: ts1_2, y: 0 }, { x: ts1_2, y: ts1_2 }, rls);
+        drawLine(road, { x: ts2_3, y: ts1_3 }, { x: ts2_3, y: 0 });
       } else {
-        DrawLine(road, { x: ts1_3, y: ts1_3 }, { x: ts2_3, y: ts1_3 });
+        drawLine(road, { x: ts1_3, y: ts1_3 }, { x: ts2_3, y: ts1_3 });
       }
 
       if (connections.includes(3)) {
         road.lineStyle(4, 0x0, 0);
         road.beginFill(0xd3d3d3);
-        road.drawRect(ts2_3, ts1_3, ts1_3, ts1_3);
+        road.drawRect(ts2_3, ts1_3, ts1_3, ts2_3 - ts1_3);
         road.endFill();
 
         road.lineStyle(4, 0x0, 1);
-        DrawLine(road, { x: ts2_3, y: ts1_3 }, { x: ts, y: ts1_3 });
-        DrawDottedLine(road, { x: ts, y: ts1_2 }, { x: ts1_2, y: ts1_2 }, 2);
-        DrawLine(road, { x: ts2_3, y: ts2_3 }, { x: ts, y: ts2_3 });
+        drawLine(road, { x: ts2_3, y: ts1_3 }, { x: ts, y: ts1_3 });
+        drawDottedLine(road, { x: ts, y: ts1_2 }, { x: ts1_2, y: ts1_2 }, rls);
+        drawLine(road, { x: ts2_3, y: ts2_3 }, { x: ts, y: ts2_3 });
       } else {
-        DrawLine(road, { x: ts2_3, y: ts1_3 }, { x: ts2_3, y: ts2_3 });
+        drawLine(road, { x: ts2_3, y: ts1_3 }, { x: ts2_3, y: ts2_3 });
       }
 
       if (connections.includes(4)) {
         road.lineStyle(4, 0x0, 0);
         road.beginFill(0xd3d3d3);
-        road.drawRect(ts1_3, ts2_3, ts1_3, ts1_3);
+        road.drawRect(ts1_3, ts2_3, ts2_3 - ts1_3, ts1_3);
         road.endFill();
 
         road.lineStyle(4, 0x0, 1);
-        DrawLine(road, { x: ts1_3, y: ts2_3 }, { x: ts1_3, y: ts });
-        DrawDottedLine(road, { x: ts1_2, y: ts }, { x: ts1_2, y: ts1_2 }, 2);
-        DrawLine(road, { x: ts2_3, y: ts2_3 }, { x: ts2_3, y: ts });
+        drawLine(road, { x: ts1_3, y: ts2_3 }, { x: ts1_3, y: ts });
+        drawDottedLine(road, { x: ts1_2, y: ts }, { x: ts1_2, y: ts1_2 }, rls);
+        drawLine(road, { x: ts2_3, y: ts2_3 }, { x: ts2_3, y: ts });
       } else {
-        DrawLine(road, { x: ts2_3, y: ts2_3 }, { x: ts1_3, y: ts2_3 });
+        drawLine(road, { x: ts2_3, y: ts2_3 }, { x: ts1_3, y: ts2_3 });
       }
 
       road.position.x = x;
@@ -164,6 +176,13 @@ export const SolarSystem = () => {
     };
 
     const re = /(\w)(\d*)/;
+    const houseTextures = {
+      '1': Texture.from('https://i.imgur.com/rGgNlV1.png'),
+      '2': Texture.from('https://i.imgur.com/OYDsDs7.png'),
+      '3': Texture.from('https://i.imgur.com/rGgNlV1.png'),
+      '4': Texture.from('https://i.imgur.com/jYSXUk0.png'),
+    };
+    const houseTexture = Texture.from('https://i.imgur.com/FLqAFqq.png');
 
     const drawChunk = (p: number, q: number, tileConfig: TileConfig) => {
       tileConfig.forEach((tileRow, i) => {
@@ -186,6 +205,13 @@ export const SolarSystem = () => {
               match[2].split('').map((i) => parseInt(i))
             );
             app.stage.addChild(occupant);
+          } else if (match[1] === 'h') {
+            const house = new Sprite(houseTextures[match[2]]);
+            house.width = ts - 2;
+            house.height = ts - 2;
+            house.x = j * ts + p * 5 * ts + 2;
+            house.y = i * ts + q * 5 * ts + 2;
+            app.stage.addChild(house);
           }
         });
       });
@@ -193,6 +219,9 @@ export const SolarSystem = () => {
 
     drawChunk(0, 0, tileConfig);
     drawChunk(1, 0, tileConfig2);
+    drawChunk(0, 1, tileConfig3);
+    drawChunk(1, 1, tileConfig3);
+    drawChunk(2, 1, tileConfig4);
 
     app.ticker.add(() => {
       app.screen.height = gameElement.clientHeight;
