@@ -4,12 +4,14 @@ import { baseColour, lineColour, Player } from './types';
 
 export type Drawer = {
   open: boolean;
+  y: number;
   width: number;
   height: number;
   tabWidth: number;
   orient: string;
   cards: Card[];
   container?: PIXI.Container;
+  fixedContainer?: PIXI.Container;
 };
 
 const getX = (app: PIXI.Application, drawer: Drawer) => {
@@ -20,18 +22,36 @@ const getX = (app: PIXI.Application, drawer: Drawer) => {
   }
 };
 
-const getCardStack = (card: Card, drawer: Drawer) => {
-  return drawer.cards.filter((_card) => _card.title === card.title);
+const arrangeStack = (
+  drawer: Drawer,
+  stack: Card[],
+  stackIndex: number = null
+) => {
+  stack.forEach((card: Card, i) => {
+    card.container.position.x =
+      (stackIndex !== null ? stackIndex : card.position) *
+        (card.container.width + 50) +
+      10 +
+      3 * i;
+    card.container.position.y =
+      (stackIndex !== null ? 0 : card.row) * (card.container.height + 50) +
+      10 +
+      3 * i;
+  });
 };
 
-const orderStack = (card: Card, drawer: Drawer) => {
-  const cardStack = getCardStack(card, drawer);
-  cardStack.forEach((card: Card, i) => {
-    card.container.position.x =
-      card.position * (card.container.width + 50) + 10 + 3 * i;
-    card.container.position.y =
-      card.row * (card.container.height + 50) + 10 + 3 * i;
+const getStacks = (drawer: Drawer) => {
+  const stacks: { [key: string]: Card[] } = {};
+  drawer.cards.forEach((card) => {
+    stacks[card.title]
+      ? stacks[card.title].push(card)
+      : (stacks[card.title] = [card]);
+    return stacks;
   });
+  const sortedStacks = Object.values(stacks).sort((stack1, stack2) =>
+    stack1[0].title.localeCompare(stack2[0].title)
+  );
+  return sortedStacks;
 };
 
 export const addToDrawer = (
@@ -42,16 +62,24 @@ export const addToDrawer = (
   drawer.cards.push(card);
   drawer.container.addChild(card.container);
   card.owner = player;
-  orderStack(card, drawer);
+  const stacks = getStacks(drawer);
+  stacks.forEach((stack, i) => arrangeStack(drawer, stack, player ? i : null));
   // const cardInDrawer = drawer.cards.find((_card) => _card.title === card.title);
   // if (cardInDrawer) cardInDrawer.count += card.count;
   // else drawer.cards.push({ ...card, count: card.count });
 };
 
-export const removeFromDrawer = (card: Card, drawer: Drawer) => {
+export const removeFromDrawer = (
+  card: Card,
+  drawer: Drawer,
+  player: Player = null
+) => {
   drawer.container.removeChild(card.container);
   drawer.cards.splice(drawer.cards.indexOf(card), 1);
-  orderStack(card, drawer);
+  const stacks = getStacks(drawer);
+  stacks.forEach((stack) =>
+    arrangeStack(drawer, stack, player ? stacks.indexOf(stack) : null)
+  );
   // const cardInDrawer = drawer.cards.find((_card) => _card.title === card.title);
   // if (cardInDrawer) cardInDrawer.count += card.count;
   // else drawer.cards.push({ ...card, count: card.count });
@@ -90,7 +118,14 @@ export const renderDrawer = (app: PIXI.Application, drawer: Drawer) => {
 
   const drawerContents = new PIXI.Container();
   drawerContainer.addChild(drawerContents);
+  drawer.fixedContainer = drawerBody;
   drawer.container = drawerContents;
+
+  const drawerContentsPlaceholder = new PIXI.Graphics();
+  drawerContentsPlaceholder.beginFill(baseColour);
+  drawerContentsPlaceholder.drawRoundedRect(10, 10, 1, 1, 20);
+  drawerContentsPlaceholder.endFill();
+  drawerContents.addChild(drawerContentsPlaceholder);
 
   const start = { x: 0, y: 0 };
   const end = { x: 0, y: 0 };
@@ -120,8 +155,10 @@ export const renderDrawer = (app: PIXI.Application, drawer: Drawer) => {
         drawerContents.x = end.x;
       if (end.y < 0 && end.y > -drawerContents.height + drawerBody.height - 20)
         drawerContents.y = end.y;
-      if (-drawerContents.width + drawerBody.width - 20 > 0) drawerContents.x = 0;
-      if (-drawerContents.height + drawerBody.height - 20 > 0) drawerContents.y = 0;
+      if (-drawerContents.width + drawerBody.width - 20 > 0)
+        drawerContents.x = 0;
+      if (-drawerContents.height + drawerBody.height - 20 > 0)
+        drawerContents.y = 0;
     }
   }
 
@@ -134,10 +171,10 @@ export const renderDrawer = (app: PIXI.Application, drawer: Drawer) => {
   const drawerMask = new PIXI.Graphics();
   drawerContainer.addChild(drawerMask);
   drawerMask.beginFill(0x000000);
-  drawerMask.drawRoundedRect(0, 0, drawer.width, drawer.height, 20);
+  drawerMask.drawRoundedRect(0, 10, drawer.width, drawer.height, 20);
   drawerContents.mask = drawerMask;
 
   drawerContainer.x = getX(app, drawer);
-  drawerContainer.y = 0;
+  drawerContainer.y = drawer.y;
   app.stage.addChild(drawerContainer);
 };

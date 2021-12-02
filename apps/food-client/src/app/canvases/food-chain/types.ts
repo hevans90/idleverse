@@ -4,19 +4,20 @@ export const baseColour = 0xfef4df;
 export const lineColour = 0x1c1b15;
 
 export type EmployeeType = {
-  colour: number;
+  bgColour: number;
+  textColour: number;
 };
 
 export const EmployeeTypes: { [key: string]: EmployeeType } = {
-  marketeer: { colour: 0x9fc8d0 },
-  food: { colour: 0x96a94d },
-  drinks: { colour: 0xaecd84 },
-  pricingManager: { colour: 0xefa890 },
-  trainer: { colour: 0xc8c1be },
-  humanResources: { colour: 0xc8c1be },
-  manager: { colour: 0x1c1b15 },
-  branchManager: { colour: 0xb8312c },
-  finance: { colour: 0xbb9ac9 },
+  marketeer: { bgColour: 0x9fc8d0, textColour: 0x1c1b15 },
+  food: { bgColour: 0x96a94d, textColour: 0x1c1b15 },
+  drinks: { bgColour: 0xaecd84, textColour: 0x1c1b15  },
+  pricingManager: { bgColour: 0xefa890, textColour: 0x1c1b15  },
+  trainer: { bgColour: 0xc8c1be, textColour: 0x1c1b15  },
+  humanResources: { bgColour: 0xc8c1be, textColour: 0x1c1b15  },
+  manager: { bgColour: 0x1c1b15, textColour: 0xffffff  },
+  branchManager: { bgColour: 0xb8312c, textColour: 0x1c1b15  },
+  finance: { bgColour: 0xbb9ac9, textColour: 0x1c1b15  },
 };
 
 export type BoardObject = {

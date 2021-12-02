@@ -5,9 +5,10 @@ export type CardConfig = {
   title: string;
   type: EmployeeType;
   description: string;
-  count: number;
-  row: number;
-  position: number;
+  count?: number;
+  row?: number;
+  position?: number;
+  managementSlots?: number;
 };
 
 export type Card = {
@@ -31,7 +32,7 @@ export const createCardSprite = (cardConfig: CardConfig) => {
   cardGraphic.drawRoundedRect(0, 0, 200, 72, 12);
   cardGraphic.endFill();
 
-  cardGraphic.beginFill(cardConfig.type.colour);
+  cardGraphic.beginFill(cardConfig.type.bgColour);
   cardGraphic.drawRoundedRect(0, 56, 200, 136, 12);
   cardGraphic.endFill();
 
@@ -63,7 +64,7 @@ export const createCardSprite = (cardConfig: CardConfig) => {
     cardConfig.description,
     new PIXI.TextStyle({
       fontFamily: 'consolas',
-      fill: lineColour,
+      fill: cardConfig.type.textColour,
       align: 'center',
       fontSize: 20,
       wordWrap: true,
@@ -101,6 +102,13 @@ export const renderCardCount = (count) => {
   cardCount.anchor.x = 0.5;
 
   return cardCount;
+};
+
+export const ceoCardConfig: CardConfig = {
+  title: 'CEO',
+  type: EmployeeTypes.manager,
+  description: 'This is you!',
+  managementSlots: 3,
 };
 
 export const cardConfigs: { [key: string]: CardConfig } = {
@@ -149,42 +157,47 @@ export const cardConfigs: { [key: string]: CardConfig } = {
   managementTrainee: {
     title: 'Management\nTrainee',
     type: EmployeeTypes.manager,
-    description: '',
+    description: 'Can manage 2 employees',
     count: 18,
     row: 1,
     position: 0,
+    managementSlots: 2,
   },
   juniorVP: {
     title: 'Junior\nVice President',
     type: EmployeeTypes.manager,
-    description: '',
+    description: 'Can manage 3 employees',
     count: 6,
     row: 1,
     position: 1,
+    managementSlots: 3,
   },
   VP: {
     title: 'Vice\nPresident',
     type: EmployeeTypes.manager,
-    description: '',
+    description: 'Can manage 4 employees',
     count: 6,
     row: 1,
     position: 2,
+    managementSlots: 4,
   },
   seniorVP: {
     title: 'Senior\nVice President',
     type: EmployeeTypes.manager,
-    description: '',
+    description: 'Can manage 5 employees',
     count: 6,
     row: 1,
     position: 3,
+    managementSlots: 5,
   },
   executiveVP: {
     title: 'Executive\nVice President',
     type: EmployeeTypes.manager,
-    description: '',
+    description: 'Can manage 10 employees',
     count: 3,
     row: 1,
     position: 4,
+    managementSlots: 10,
   },
   pricingManager: {
     title: 'Pricing\nManager',

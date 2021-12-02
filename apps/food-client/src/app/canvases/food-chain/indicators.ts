@@ -1,6 +1,17 @@
 import * as PIXI from 'pixi.js';
 import { ts } from './utils/constants';
 
+export type Indicator = {
+  width: number;
+  height: number;
+  borderColor: number;
+  bgColor: number;
+  textColor: number;
+  text: string;
+  textGraphic?: PIXI.Text;
+  container?: PIXI.Container;
+};
+
 export type IndicatorColours = {
   invalid: number;
   valid: number;
@@ -18,4 +29,35 @@ export const drawIndicator = (indicatorType: keyof IndicatorColours) => {
   indicator.drawRect(0, 0, ts * 2 - 2, ts * 2 - 2);
   indicator.endFill();
   return indicator;
+};
+
+export const drawBoxIndicator = (indicator: Indicator) => {
+  const indicatorContainer = new PIXI.Container();
+  const indicatorBox = new PIXI.Graphics();
+  indicatorBox.lineStyle(4, indicator.borderColor, 1);
+  indicatorBox.beginFill(indicator.bgColor, 1);
+  indicatorBox.drawRect(0, 0, indicator.width, indicator.height);
+  indicatorBox.endFill();
+  indicatorContainer.addChild(indicatorBox);
+  const indicatorText = new PIXI.Text(
+    indicator.text,
+    new PIXI.TextStyle({
+      fontFamily: 'consolas',
+      fill: indicator.textColor,
+      align: 'center',
+      fontSize: 20,
+      wordWrap: true,
+      wordWrapWidth: indicator.width - 20,
+    })
+  );
+  indicatorText.anchor.x = 0.5;
+  indicatorText.anchor.y = 0.5;
+  indicatorText.x = indicator.width / 2;
+  indicatorText.y = indicator.height / 2;
+  indicatorContainer.addChild(indicatorText);
+
+  indicator.textGraphic = indicatorText;
+  indicator.container = indicatorContainer;
+
+  return indicatorContainer;
 };

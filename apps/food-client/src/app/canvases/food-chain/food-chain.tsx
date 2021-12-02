@@ -16,7 +16,7 @@ import { drawRoad as createRoadSprite } from './road';
 import { createHouseSprite } from './house';
 import { createDrinkSprite, drinkTextures, DrinkTextures } from './drink';
 import { createDinerSprite } from './diner';
-import { drawIndicator } from './indicators';
+import { drawBoxIndicator, drawIndicator, Indicator } from './indicators';
 import { renderDrawer, Drawer, addToDrawer, removeFromDrawer } from './drawer';
 import { cardConfigs, createCardSprite } from './card';
 
@@ -44,8 +44,8 @@ export const FoodChain = () => {
 
     const invalidIndicator = drawIndicator('invalid');
     const validIndicator = drawIndicator('valid');
-    let indicator = validIndicator;
-    let otherIndicator = invalidIndicator;
+    let activeIndicator = validIndicator;
+    let inactiveIndicator = invalidIndicator;
 
     const drawChunk = (
       p: number,
@@ -75,19 +75,19 @@ export const FoodChain = () => {
               boardItems
             )
           ) {
-            indicator = validIndicator;
-            otherIndicator = invalidIndicator;
+            activeIndicator = validIndicator;
+            inactiveIndicator = invalidIndicator;
           } else {
-            indicator = invalidIndicator;
-            otherIndicator = validIndicator;
+            activeIndicator = invalidIndicator;
+            inactiveIndicator = validIndicator;
           }
-          indicator.position.x = i * ts;
-          indicator.position.y = j * ts;
-          board.addChild(indicator);
-          board.removeChild(otherIndicator);
+          activeIndicator.position.x = i * ts;
+          activeIndicator.position.y = j * ts;
+          board.addChild(activeIndicator);
+          board.removeChild(inactiveIndicator);
         });
         squareSprite.on('mouseout', () => {
-          board.removeChild(indicator);
+          board.removeChild(activeIndicator);
         });
         squareSprite.on('pointerdown', () => {
           console.log(i, j);
@@ -204,29 +204,14 @@ export const FoodChain = () => {
 
     const player = {
       cards: [],
-      hiresAvailable: 8,
+      hiresAvailable: 10,
     };
 
-    const phases = ['structure', 'hire', 'train'];
-    const currentPhase = 'hire';
-
-    const hireCountText = new PIXI.Text(
-      `Hires Available: ${player.hiresAvailable.toString()}`,
-      new PIXI.TextStyle({
-        fontFamily: 'consolas',
-        fill: lineColour,
-        align: 'center',
-        fontSize: 20,
-      })
-    );
-
-    hireCountText.position.x = 25;
-    hireCountText.position.y = app.screen.height - 50;
-    hireCountText.zIndex = 50;
-    app.stage.addChild(hireCountText);
+    const phases = ['Structure', 'Hire', 'Train'];
 
     const recruitDrawer: Drawer = {
-      open: true,
+      open: false,
+      y: 0,
       width: 900,
       height: app.screen.height,
       tabWidth: 40,
@@ -234,16 +219,28 @@ export const FoodChain = () => {
       cards: [],
     };
 
-    const playerDrawer: Drawer = {
+    const structureDrawer: Drawer = {
       open: false,
+      y: 0,
       width: 900,
-      height: app.screen.height,
+      height: app.screen.height * 0.8,
       tabWidth: 40,
       orient: 'left',
       cards: [],
     };
 
-    renderDrawer(app, playerDrawer);
+    const beachDrawer: Drawer = {
+      open: false,
+      y: app.screen.height * 0.8,
+      width: 900,
+      height: app.screen.height * 0.2,
+      tabWidth: 40,
+      orient: 'left',
+      cards: [],
+    };
+
+    renderDrawer(app, structureDrawer);
+    renderDrawer(app, beachDrawer);
     renderDrawer(app, recruitDrawer);
 
     const cards = [];
@@ -258,23 +255,57 @@ export const FoodChain = () => {
       )
     );
 
+    const hiresIndicator: Indicator = {
+      height: 50,
+      width: 250,
+      borderColor: 0xffbd2e,
+      bgColor: 0xffd67d,
+      textColor: 0x000000,
+      text: `Hires Available: ${player.hiresAvailable.toString()}`,
+    };
+    drawBoxIndicator(hiresIndicator);
+    beachDrawer.container.addChild(hiresIndicator.container);
+    hiresIndicator.container.position.x = 620;
+    hiresIndicator.container.position.y = 180;
+
     cards.forEach((card) => {
       addToDrawer(card, recruitDrawer);
       card.container.on('pointerdown', () => {
         if (!card.owner) {
           if (player.hiresAvailable > 0) {
             removeFromDrawer(card, recruitDrawer);
-            addToDrawer(card, playerDrawer, player);
+            addToDrawer(card, beachDrawer, player);
             player.hiresAvailable--;
           }
         } else {
-          removeFromDrawer(card, playerDrawer);
+          removeFromDrawer(card, beachDrawer, player);
           addToDrawer(card, recruitDrawer);
           player.hiresAvailable++;
         }
-        hireCountText.text = `Hires Available: ${player.hiresAvailable.toString()}`;
+        hiresIndicator.textGraphic.text = `Hires Available: ${player.hiresAvailable.toString()}`;
       });
     });
+
+    const phaseIndicatorContainer = new PIXI.Container();
+    phases.forEach((phase, i) => {
+      const phaseIndicatorElement = drawBoxIndicator({
+        height: 50,
+        width: 200,
+        borderColor: 0x27684d,
+        bgColor: 0x37946e,
+        textColor: 0xffffff,
+        text: phase,
+      });
+      phaseIndicatorElement.position.x = i * 200;
+      phaseIndicatorContainer.addChild(phaseIndicatorElement);
+    });
+
+    phaseIndicatorContainer.pivot.x = phaseIndicatorContainer.width / 2;
+
+    phaseIndicatorContainer.x = app.screen.width * 0.5;
+    phaseIndicatorContainer.y = app.screen.height - 100;
+
+    app.stage.addChild(phaseIndicatorContainer);
 
     app.ticker.add((delta) => {
       animations.forEach((animate) => animate());
