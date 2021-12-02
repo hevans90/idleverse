@@ -2,11 +2,11 @@ import * as PIXI from 'pixi.js';
 import {
   Card,
   createCardSprite,
-  initManagerContentsContainer,
   renderManagerCards,
-} from '../Card/card';
-import { ceoCardConfig } from '../Card/card.configs';
-import { createDiner, Diner } from './diner';
+  initManagerContentsContainer,
+} from './card/card';
+import { ceoCardConfig } from './card/card.configs';
+import { Diner, createDiner } from './diner';
 import {
   Drawer,
   renderDinerDrawerContents,

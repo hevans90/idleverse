@@ -1,28 +1,9 @@
 import * as PIXI from 'pixi.js';
-import { cardConfigs, emptyCardConfig, emptyCardKind } from './card.configs';
-import { Drawer, renderRecruitDrawerContents } from '../food-chain/drawer';
-import { Player } from '../food-chain/player';
-import { EmployeeType, EmployeeTypes } from '../food-chain/types';
-import {
-  app,
-  cards,
-  communalDrawers,
-  players,
-} from '../food-chain/utils/singletons';
-
-export type CardConfig = {
-  kind?: keyof typeof cardConfigs;
-  title: string;
-  type: EmployeeType;
-  description: string;
-  promotesFrom?: string;
-  count?: number;
-  row?: number;
-  position?: number;
-  maxHires?: number;
-  maxTrains?: number;
-  managementSlots?: number;
-};
+import { Drawer, renderRecruitDrawerContents } from '../drawer';
+import { Player } from '../player';
+import { EmployeeTypes } from '../types';
+import { app, communalDrawers, players, cards } from '../utils/singletons';
+import { CardConfig, emptyCardConfig, emptyCardKind } from './card.configs';
 
 export type Card = CardConfig & {
   owner?: Player;

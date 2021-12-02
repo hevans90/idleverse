@@ -1,13 +1,37 @@
-import { translateObject } from '../food-chain/animation';
-import { Player } from '../food-chain/player';
-import { addGlow, greyOut } from '../food-chain/utils/graphics-utils';
+import { translateObject } from '../animation';
+import { Player } from '../player';
+import { addGlow, greyOut } from '../utils/graphics-utils';
 import {
   currentPlayer,
   cards,
   communalDrawers,
   app,
-} from '../food-chain/utils/singletons';
+} from '../utils/singletons';
 import { Card, moveCardToParent } from './card';
+
+export const hireCard = async (player: Player, card: Card) => {
+  const beachDrawer = player.drawers.beach;
+  card.container.position.x = card.container.getGlobalPosition().x;
+  card.container.position.y = card.container.getGlobalPosition().y;
+  app.stage.addChild(card.container);
+  await translateObject(
+    card.container,
+    { x: card.container.position.x, y: card.container.position.y },
+    {
+      x: beachDrawer.container.x,
+      y: beachDrawer.container.y,
+    },
+    50
+  );
+  beachDrawer.contentsContainer.addChild(card.container);
+  moveCardToParent(beachDrawer, card);
+  card.owner = player;
+};
+
+export const fireCard = (card: Card) => {
+  moveCardToParent(communalDrawers.recruit, card);
+  card.owner = null;
+};
 
 export const getAllRecruiters = (player: Player) => {
   const ceoCard = player.ceo.card;
@@ -104,28 +128,4 @@ export const deactivateCardHire = (player: Player) => {
     card.container.buttonMode = false;
     card.container.removeAllListeners();
   });
-};
-
-export const hireCard = async (player: Player, card: Card) => {
-  const beachDrawer = player.drawers.beach;
-  card.container.position.x = card.container.getGlobalPosition().x;
-  card.container.position.y = card.container.getGlobalPosition().y;
-  app.stage.addChild(card.container);
-  await translateObject(
-    card.container,
-    { x: card.container.position.x, y: card.container.position.y },
-    {
-      x: beachDrawer.container.x,
-      y: beachDrawer.container.y,
-    },
-    50
-  );
-  beachDrawer.contentsContainer.addChild(card.container);
-  moveCardToParent(beachDrawer, card);
-  card.owner = player;
-};
-
-export const fireCard = (card: Card) => {
-  moveCardToParent(communalDrawers.recruit, card);
-  card.owner = null;
 };

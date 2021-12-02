@@ -2,11 +2,11 @@ import * as PIXI from 'pixi.js';
 import { Group, Layer } from '@pixi/layers';
 import { Anim } from '../animation';
 import { Board } from '../board';
-import { Card } from '../../Card/card';
 import { Drawer } from '../drawer';
 import { MarketingTile } from '../marketingTile';
 import { Phase } from '../phase';
 import { Player } from '../player';
+import { Card } from '../card/card';
 
 export const app = new PIXI.Application({
   transparent: true,

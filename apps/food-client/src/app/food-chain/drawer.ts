@@ -1,6 +1,5 @@
 import * as PIXI from 'pixi.js';
 import { translateObject } from './animation';
-import { Card } from '../Card/card';
 import { Diner } from './diner';
 import { House } from './house';
 import { MarketingTile } from './marketingTile';
@@ -9,6 +8,7 @@ import { baseColour, lineColour } from './types';
 import { ts } from './utils/constants';
 import { app, communalDrawers, players } from './utils/singletons';
 import { drawArrow } from './utils/graphics-utils';
+import { Card } from './card/card';
 
 export type Drawer = {
   name: string;
@@ -126,7 +126,6 @@ export const renderRecruitDrawerContents = () => {
   stacks.forEach((stack) => {
     const card2 = stack[0];
     if (card2.promotesFrom) {
-      console.log(card2.promotesFrom, card2.kind);
       const card1 = stacks.find(
         (stack) => stack[0].kind === card2.promotesFrom
       )[0];

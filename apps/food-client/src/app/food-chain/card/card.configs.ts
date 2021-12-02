@@ -1,5 +1,25 @@
-import { CardConfig } from './card';
-import { EmployeeTypes } from '../food-chain/types';
+import { FoodKind, foodKinds } from '../food';
+import { MarketingTileKind, marketingTileKinds } from '../marketingTile';
+import { EmployeeType, EmployeeTypes } from '../types';
+
+export type CardConfig = {
+  kind?: keyof typeof cardConfigs;
+  title: string;
+  type: EmployeeType;
+  description: string;
+  promotesFrom?: string;
+  count?: number;
+  row?: number;
+  position?: number;
+  range?: number;
+  maxHires?: number;
+  maxTrains?: number;
+  maxDuration?: number;
+  marketingKinds?: MarketingTileKind[];
+  managementSlots?: number;
+  foodKinds?: FoodKind[];
+  foodQuantity?: number;
+};
 
 export const emptyCardKind = 'emptyCard';
 
@@ -241,6 +261,8 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 12,
     row: 6,
     position: 0,
+    maxDuration: 2,
+    marketingKinds: [marketingTileKinds.billboard],
   },
   campaignManager: {
     title: 'Campaign\nManager',
@@ -250,6 +272,8 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     row: 6,
     position: 1,
     promotesFrom: 'marketingTrainee',
+    maxDuration: 3,
+    marketingKinds: [marketingTileKinds.billboard, marketingTileKinds.mailbox],
   },
   brandManager: {
     title: 'Brand\nManager',
@@ -259,6 +283,12 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     row: 6,
     position: 2,
     promotesFrom: 'campaignManager',
+    maxDuration: 4,
+    marketingKinds: [
+      marketingTileKinds.billboard,
+      marketingTileKinds.mailbox,
+      marketingTileKinds.airplane,
+    ],
   },
   brandDirector: {
     title: 'Brand\nDirector',
@@ -268,6 +298,13 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     row: 6,
     position: 3,
     promotesFrom: 'brandManager',
+    maxDuration: 5,
+    marketingKinds: [
+      marketingTileKinds.billboard,
+      marketingTileKinds.mailbox,
+      marketingTileKinds.airplane,
+      marketingTileKinds.radio,
+    ],
   },
   kitchenTrainee: {
     title: 'Kitchen\nTrainee',
@@ -276,6 +313,8 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 12,
     row: 7.5,
     position: 0,
+    foodKinds: [foodKinds.burger, foodKinds.pizza],
+    foodQuantity: 1,
   },
   burgerCook: {
     title: 'Burger\nCook',
@@ -285,6 +324,8 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     row: 7,
     position: 1,
     promotesFrom: 'kitchenTrainee',
+    foodKinds: [foodKinds.burger],
+    foodQuantity: 3,
   },
   burgerChef: {
     title: 'Burger\nChef',
@@ -294,6 +335,8 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     row: 7,
     position: 2,
     promotesFrom: 'burgerCook',
+    foodKinds: [foodKinds.burger],
+    foodQuantity: 8,
   },
   pizzaCook: {
     title: 'Pizza\nCook',
@@ -303,6 +346,8 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     row: 8,
     position: 1,
     promotesFrom: 'kitchenTrainee',
+    foodKinds: [foodKinds.pizza],
+    foodQuantity: 3,
   },
   pizzaChef: {
     title: 'Pizza\nChef',
@@ -312,6 +357,8 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     row: 8,
     position: 2,
     promotesFrom: 'pizzaCook',
+    foodKinds: [foodKinds.pizza],
+    foodQuantity: 8,
   },
 };
 

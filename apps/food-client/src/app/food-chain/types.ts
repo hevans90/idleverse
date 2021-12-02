@@ -1,5 +1,5 @@
 export const baseColour = 0xfef4df;
-export const lineColour = 0x1c1b15;
+export const lineColour = 0x000000;
 
 export type EmployeeType = {
   topColour: number;
@@ -49,7 +49,7 @@ export const EmployeeTypes: { [key: string]: EmployeeType } = {
   },
   manager: {
     topColour: lineColour,
-    bottomColour: 0x1c1b15,
+    bottomColour: 0x041831,
     textColour: 0xffffff,
     borderColor: 0x1c1b15,
   },

@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
-import { Drawer } from '../food-chain/drawer';
-import { EmployeeTypes } from '../food-chain/types';
-import { cards, app, currentPlayer } from '../food-chain/utils/singletons';
+import { Drawer } from '../drawer';
+import { EmployeeTypes } from '../types';
+import { cards, app, currentPlayer } from '../utils/singletons';
 import {
   Card,
   moveCardToParent,

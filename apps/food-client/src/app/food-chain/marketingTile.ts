@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
 import { BoardObject } from './board';
+import { Card } from './card/card';
 import {
   addMarketingTileToDrawer,
   renderMarketingDrawerContents,
@@ -14,9 +15,9 @@ import {
   triggerRadioAnimation,
 } from './marketingTile.animations';
 import { Player } from './player';
-import { disablePlacement, enablePlacement, Tile } from './tile';
+import { applyRotation, disablePlacement, enablePlacement, Tile } from './tile';
 import { ts } from './utils/constants';
-import { createSprite } from './utils/graphics-utils';
+import { createSprite, darken } from './utils/graphics-utils';
 import {
   app,
   board,
@@ -32,7 +33,7 @@ import {
   rangeOverlapsItem,
 } from './utils/utils';
 
-type MarketingTileKind = {
+export type MarketingTileKind = {
   name?: string;
   texture: PIXI.Texture;
   validTiles: Tile[];
@@ -176,23 +177,39 @@ export const initMarketingTiles = (
   return marketingTiles;
 };
 
-export const selectMarketingTileFood = (tile: MarketingTile) => {
+export const selectMarketingTileFood = (
+  marketer: Card,
+  tile: MarketingTile
+) => {
   const oldFoodSelect = tile.container.getChildByName('foodSelect');
   tile.container.removeChild(oldFoodSelect);
 
   const newFoodSelect = createFoodSelect(
     Object.values(foodKinds),
-    (foodKind) => {
+    marketer.maxDuration,
+    (foodKind, foodQuantity) => {
       tile.foodKind = foodKind;
-      tile.foodQuant = 5;
+      tile.foodQuant = foodQuantity;
       renderMarketingTileFood(tile);
-      tile.container.removeChild(newFoodSelect);
+      tile.container.removeChild(newFoodSelect.container);
+      marketer.used = true;
+    },
+    () => {
+      tile.container.parentLayer = null;
+      tile.container.zOrder = null;
+      tile.rotation = 0;
+      applyRotation(tile);
+      tile.container.removeChild(newFoodSelect.container);
+      board.marketingTiles.splice(board.marketingTiles.indexOf(tile), 1);
+      communalDrawers.market.marketingTiles.push(tile);
+      communalDrawers.market.contentsContainer.addChild(tile.container);
+      communalDrawers.market.renderContents();
     }
   );
-  newFoodSelect.y = tile.h * ts;
-  newFoodSelect.name = 'foodSelect';
+  newFoodSelect.container.y = tile.h * ts;
+  newFoodSelect.container.name = 'foodSelect';
 
-  tile.container.addChild(newFoodSelect);
+  tile.container.addChild(newFoodSelect.container);
 };
 
 export const renderMarketingTileFood = (tile: MarketingTile) => {
@@ -211,28 +228,38 @@ export const renderMarketingTileFood = (tile: MarketingTile) => {
   }
 };
 
-export const enableMarketingTilePlacement = () => {
+export const enableMarketingTilePlacement = (marketer: Card) => {
   const marketingDrawer = communalDrawers.market;
   marketingTiles.forEach((tile) => {
-    tile.sprite.interactive = true;
-    tile.sprite.buttonMode = true;
-    tile.sprite.on('pointerdown', () => {
-      enablePlacement(
-        tile,
-        tile.kind.validTiles,
-        (square) => tile.kind.isValidPlacement(tile, square),
-        (square) => tile.kind.getTilesInRange(tile, square),
-        () => {
-          disablePlacement();
-          selectMarketingTileFood(tile);
-          if (!board.marketingTiles.includes(tile)) {
-            board.marketingTiles.push(tile);
+    if (marketer.marketingKinds.includes(tile.kind)) {
+      tile.sprite.interactive = true;
+      tile.sprite.buttonMode = true;
+      tile.sprite.on('pointerdown', () => {
+        enablePlacement(
+          tile,
+          tile.kind.validTiles,
+          (square) => tile.kind.isValidPlacement(tile, square),
+          (square) => tile.kind.getTilesInRange(tile, square),
+          () => {
+            disablePlacement();
+            if (!board.marketingTiles.includes(tile)) {
+              board.marketingTiles.push(tile);
+            }
+            if (marketingDrawer.marketingTiles.includes(tile)) {
+              marketingDrawer.marketingTiles.splice(
+                marketingDrawer.marketingTiles.indexOf(tile),
+                1
+              );
+            }
+            selectMarketingTileFood(marketer, tile);
           }
-        }
-      );
+        );
 
-      if (marketingDrawer.open) toggleDrawerOpen(marketingDrawer);
-    });
+        if (marketingDrawer.open) toggleDrawerOpen(marketingDrawer);
+      });
+    } else {
+      darken(tile.container);
+    }
   });
 };
 

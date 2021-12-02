@@ -1,50 +1,36 @@
-import { translateObject } from "../food-chain/animation";
-import { getAdjacentDrinks } from "../food-chain/board";
-import { toggleDrawerOpen } from "../food-chain/drawer";
-import { foodKinds } from "../food-chain/food";
-import { Player } from "../food-chain/player";
-import { ts, ts1_2 } from "../food-chain/utils/constants";
-import { addSpriteToBoard, setSpriteZOrder } from "../food-chain/utils/graphics-utils";
-import { cards, board } from "../food-chain/utils/singletons";
-import { playProduceAnimation } from "./card.animations";
+import { translateObject } from '../animation';
+import { getAdjacentDrinks } from '../board';
+import { toggleDrawerOpen } from '../drawer';
+import { Player } from '../player';
+import { ts, ts1_2 } from '../utils/constants';
+import { addSpriteToBoard, setSpriteZOrder } from '../utils/graphics-utils';
+import { cards, board } from '../utils/singletons';
+import { Card } from './card';
+import { playProduceAnimation } from './card.animations';
 
-export const enableFoodProduction = (player: Player) => {
-  cards.forEach((card) => {
-    if (card.owner === player && card.active && card.kind === 'burgerCook') {
-      card.container.interactive = true;
-      card.container.buttonMode = true;
-      card.container.on('pointerdown', () => {
-        if (!card.used) {
-          card.used = true;
-          (async function () {
-            for (let i = 0; i < 3; i++) {
-              await playProduceAnimation(
-                player,
-                card.container,
-                foodKinds.burger
-              );
-            }
-          })();
+export const enableCardFoodProduction = (card: Card) => {
+  card.container.interactive = true;
+  card.container.buttonMode = true;
+  card.container.on('pointerdown', () => {
+    if (!card.used) {
+      card.used = true;
+      (async function () {
+        for (let i = 0; i < card.foodQuantity; i++) {
+          await playProduceAnimation(
+            card.owner,
+            card.container,
+            card.foodKinds[0]
+          );
         }
-      });
+      })();
     }
-    if (card.owner === player && card.active && card.kind === 'pizzaChef') {
-      card.container.interactive = true;
-      card.container.buttonMode = true;
-      card.container.on('pointerdown', () => {
-        if (!card.used) {
-          card.used = true;
-          (async function () {
-            for (let i = 0; i < 8; i++) {
-              await playProduceAnimation(
-                player,
-                card.container,
-                foodKinds.pizza
-              );
-            }
-          })();
-        }
-      });
+  });
+};
+
+export const enablePlayerFoodProduction = (player: Player) => {
+  cards.forEach((card) => {
+    if (card.owner === player && card.active && card.foodKinds) {
+      enableCardFoodProduction(card);
     }
     if (card.owner === player && card.active && card.kind === 'cartOperator') {
       card.container.interactive = true;

@@ -1,4 +1,6 @@
 export const assetMaps: { name: string; url: string }[] = [
+  { name: 'tick', url: 'https://i.imgur.com/qVEuw8m.png' },
+  { name: 'cross', url: 'https://i.imgur.com/XV8NlLa.png' },
   { name: 'houseWest', url: 'https://i.imgur.com/Oy8pcaB.png' },
   { name: 'houseNorth', url: 'https://i.imgur.com/kYdPrX7.png' },
   { name: 'houseEast', url: 'https://i.imgur.com/Oy8pcaB.png' },

@@ -1,11 +1,11 @@
 import * as PIXI from 'pixi.js';
 import { GlowFilter } from '@pixi/filter-glow';
-import { Card } from '../../Card/card';
 import { translateObject } from '../animation';
 import { BoardObject } from '../board';
 import { ts1_2 } from './constants';
 import { board, mainLayer } from './singletons';
 import { Vector2 } from './utils';
+import { Card } from '../card/card';
 
 export type SpriteSheetConfig = {
   url: string;
@@ -18,6 +18,12 @@ export type SpriteSheetConfig = {
 
 export const addGlow = (container: PIXI.Container) => {
   container.filters = [new GlowFilter({ distance: 30, outerStrength: 2 })];
+};
+
+export const darken = (container: PIXI.Container) => {
+  const colorMatrix = new PIXI.filters.ColorMatrixFilter();
+  container.filters = [colorMatrix];
+  colorMatrix.brightness(0.5, false);
 };
 
 export const greyOut = (card: Card) => {

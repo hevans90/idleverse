@@ -1,19 +1,20 @@
 import { enableDinnerTime } from './board';
-import { untapCards } from '../Card/card';
+import { untapCards } from './card/card';
+import { startHire } from './card/card.hire';
+import { startMarketing } from './card/card.market';
+import { enablePlayerFoodProduction } from './card/card.produce';
+import { enableCardStructure } from './card/card.structure';
+import { startTrain } from './card/card.train';
 import { enableDinerPlacement } from './diner';
 import { openDrawer } from './drawer';
 import { enableExtraHousePlacement } from './house';
-import { enableMarketingTilePlacement, enableAdvertise } from './marketingTile';
+import { enableAdvertise } from './marketingTile';
 import {
-  communalDrawers,
-  marketingTiles,
   phases,
   players,
+  communalDrawers,
+  marketingTiles,
 } from './utils/singletons';
-import { startHire } from '../Card/card.hire';
-import { enableFoodProduction } from '../Card/card.produce';
-import { enableCardStructure } from '../Card/card.structure';
-import { startTrain } from '../Card/card.train';
 
 export const initPhases = () => {
   phases.push({
@@ -66,7 +67,7 @@ export const initPhases = () => {
     name: 'Market',
     start: () => {
       openDrawer(communalDrawers.market);
-      enableMarketingTilePlacement();
+      startMarketing();
     },
     nextPhase: 'Produce',
   });
@@ -75,7 +76,7 @@ export const initPhases = () => {
     start: () => {
       players.forEach((player) => {
         openDrawer(player.drawers.structure);
-        enableFoodProduction(player);
+        enablePlayerFoodProduction(player);
       });
       untapCards();
     },

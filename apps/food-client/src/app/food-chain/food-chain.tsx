@@ -21,17 +21,17 @@ import {
   marketingTiles,
   players,
 } from './utils/singletons';
-import { tileConfigs } from './tile.configs';
-import { cardConfigs } from '../Card/card.configs';
-import { marketingTileConfigs } from './marketingTile.configs';
-import { initCommunalDrawers } from './drawer.configs';
-import { initPhases } from './phase.configs';
 import { Stage } from '@pixi/layers';
-import { assetMaps } from './utils/asset-loader';
+import { initCards } from './card/card';
+import { cardConfigs } from './card/card.configs';
+import { hireCard } from './card/card.hire';
+import { manageCard } from './card/card.structure';
+import { initCommunalDrawers } from './drawer.configs';
 import { initExtraHouseTiles } from './house';
-import { initCards } from '../Card/card';
-import { hireCard } from '../Card/card.hire';
-import { manageCard } from '../Card/card.structure';
+import { marketingTileConfigs } from './marketingTile.configs';
+import { initPhases } from './phase.configs';
+import { tileConfigs } from './tile.configs';
+import { assetMaps } from './utils/asset-loader';
 
 export const FoodChain = () => {
   useEffect(() => {

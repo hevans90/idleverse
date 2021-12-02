@@ -1,12 +1,14 @@
-import { Player } from '../food-chain/player';
-import { addGlow, greyOut } from '../food-chain/utils/graphics-utils';
-import {
-  currentPlayer,
-  cards,
-  communalDrawers,
-} from '../food-chain/utils/singletons';
+import { Player } from '../player';
+import { addGlow, greyOut } from '../utils/graphics-utils';
+import { currentPlayer, cards, communalDrawers } from '../utils/singletons';
 import { Card } from './card';
 import { fireCard, hireCard } from './card.hire';
+
+export const trainCard = (originalCard: Card, targetCard: Card) => {
+  const player = originalCard.owner;
+  fireCard(originalCard);
+  hireCard(player, targetCard);
+};
 
 export const getAllTrainers = (player: Player) => {
   const trainers: Card[] = [];
@@ -112,12 +114,6 @@ export const selectTarget = (trainer: Card, trainee: Card) => {
       });
     } else greyOut(target);
   });
-};
-
-export const trainCard = (originalCard: Card, targetCard: Card) => {
-  const player = originalCard.owner;
-  fireCard(originalCard);
-  hireCard(player, targetCard);
 };
 
 export const deactivateTrain = (player: Player) => {
