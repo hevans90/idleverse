@@ -11,6 +11,7 @@ export type Board = {
   drinks: Drink[];
   diner: Diner;
   container: PIXI.Container;
+  deliverFood?: () => void;
 };
 
 export type BoardObject = {

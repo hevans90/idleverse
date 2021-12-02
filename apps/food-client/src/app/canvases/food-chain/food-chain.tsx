@@ -2,7 +2,11 @@ import * as PIXI from 'pixi.js';
 import { useEffect } from 'react';
 import { Box } from '@chakra-ui/react';
 import { tileConfigRegex, ts } from './utils/constants';
-import { getRandomValidPosition, isValidPosition } from './utils/utils';
+import {
+  getRandomValidPosition,
+  isValidPosition,
+  Vector2D,
+} from './utils/utils';
 import { createEmptySquareSprite } from './emptySquare';
 import {
   Tile,
@@ -35,7 +39,7 @@ import {
   emptyCardConfig,
   enableCardStructure,
 } from './card';
-import { getAdjacentRoads } from './board';
+import { Board, getAdjacentRoads } from './board';
 
 export const FoodChain = () => {
   useEffect(() => {
@@ -48,7 +52,7 @@ export const FoodChain = () => {
 
     const animations = [];
 
-    const board = {
+    const board: Board = {
       roads: [],
       houses: [],
       drinks: [],
@@ -62,6 +66,101 @@ export const FoodChain = () => {
     const validIndicator = drawIndicator('valid');
     let activeIndicator = validIndicator;
     let inactiveIndicator = invalidIndicator;
+
+    const carTexture = PIXI.Texture.from('https://i.imgur.com/01q7OGv.png');
+    const carSprite = new PIXI.Sprite(carTexture);
+
+    type Animation = {
+      startPos: { x: number; y: number };
+      endPos: { x: number; y: number };
+      rotation: number;
+      time: number;
+      duration: number;
+      object: PIXI.Sprite;
+      start?: () => void;
+      update?: () => void;
+      end?: () => void;
+    };
+
+    const queue: Animation[] = [];
+
+    const translateObject = (
+      object: PIXI.Sprite,
+      startPos: Vector2D,
+      endPos: Vector2D,
+      rotation: number,
+      duration: number
+    ): Animation => {
+      const anim: Animation = {
+        startPos,
+        endPos,
+        rotation,
+        time: 0,
+        duration,
+        object,
+      };
+
+      anim.start = () => {
+        anim.object.rotation = anim.rotation;
+        anim.time = 0;
+        animations.push(anim);
+      };
+      anim.update = () => {
+        anim.time += 1;
+        if (anim.time < anim.duration) {
+          anim.object.x =
+            anim.startPos.x +
+            (anim.endPos.x - anim.startPos.x) * (anim.time / anim.duration);
+          anim.object.y =
+            anim.startPos.y +
+            (anim.endPos.y - anim.startPos.y) * (anim.time / anim.duration);
+        } else {
+          anim.end();
+        }
+      };
+      anim.end = () => {
+        anim.object.x = anim.endPos.x;
+        anim.object.y = anim.endPos.y;
+        animations.splice(animations.indexOf(anim), 1);
+        queue.splice(queue.indexOf(anim), 1);
+        if (queue.length > 0) {
+          queue[0].start();
+        } else board.container.removeChild(object);
+      };
+
+      return anim;
+    };
+
+    queue.push(
+      translateObject(carSprite, { x: 0, y: 0 }, { x: ts * 24, y: 0 }, 0, 200)
+    );
+    queue.push(
+      translateObject(
+        carSprite,
+        { x: ts * 24, y: 0 },
+        { x: ts * 24, y: ts * 19 },
+        Math.PI / 2,
+        200
+      )
+    );
+    queue.push(
+      translateObject(
+        carSprite,
+        { x: ts * 24, y: ts * 19 },
+        { x: 0, y: ts * 19 },
+        Math.PI,
+        200
+      )
+    );
+    queue.push(
+      translateObject(
+        carSprite,
+        { x: 0, y: ts * 19 },
+        { x: 0, y: 0 },
+        (Math.PI * 3) / 2,
+        200
+      )
+    );
 
     const drawChunk = (
       p: number,
@@ -194,10 +293,12 @@ export const FoodChain = () => {
     dinerSprite.interactive = true;
     dinerSprite.buttonMode = true;
     dinerSprite.on('pointerdown', () => {
-      const adjacentRoads = getAdjacentRoads(board, diner);
-      board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
-      adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
-      console.log(adjacentRoads);
+      console.log(queue);
+      board.container.addChild(carSprite);
+      queue[0].start();
+      // const adjacentRoads = getAdjacentRoads(board, diner);
+      // board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
+      // adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
     });
     board.diner = diner;
     board.container.addChild(dinerSprite);
@@ -357,7 +458,7 @@ export const FoodChain = () => {
     app.stage.addChild(phaseIndicatorContainer);
 
     app.ticker.add((delta) => {
-      animations.forEach((animate) => animate());
+      animations.forEach((animation) => animation.update());
     });
 
     gameElement.appendChild(app.view);

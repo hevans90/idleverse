@@ -102,25 +102,6 @@ export const getRandomValidPosition = (
   return randomPosition;
 };
 
-export const translate = (item, endPos, duration, animations) => {
-  let time = 0;
-  const startPos = { ...item.displayItem.position };
-  function animate() {
-    time += 1;
-    if (time < duration) {
-      item.displayItem.x =
-        startPos.x + (startPos.x - endPos.x) * (time / duration);
-      item.displayItem.y =
-        startPos.y + (startPos.y - endPos.y) * (time / duration);
-    } else {
-      item.displayItem.x = endPos.x;
-      item.displayItem.y = endPos.y;
-      animations.splice(this);
-    }
-  }
-  animations.push(animate);
-};
-
 const calculateDistance = (road1: Road, road2: Road) => {
   return Math.abs(road1.i - road2.i) + Math.abs(road1.j - road2.j);
 };
@@ -129,6 +110,7 @@ export const findPath = (board: Board, startRoads: Road[], endRoad: Road) => {
   board.roads.forEach((road) => {
     road.toGoal = 99;
     road.fromStart = 99;
+    road.sprite.tint = 0xffffff;
   });
   const openRoads = [...startRoads];
   const closedRoads = [];
