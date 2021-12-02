@@ -1,37 +1,49 @@
 import * as PIXI from 'pixi.js';
+import { Anim, translateObject } from '../animation';
+import { Board, BoardObject } from '../board';
+import { ts1_2 } from './constants';
+import { animations } from './singletons';
 import { Vector2 } from './utils';
 
 export type SpriteSheetConfig = {
   url: string;
   cols: number;
   rows: number;
+  rotation: number;
   lastRowItemCount: number;
   animationSpeed: number;
 };
 
-export const CreateAnimatedSprite = (conf: SpriteSheetConfig) => {
+export const createAnimatedTexture = (conf: SpriteSheetConfig) => {
   const sheet = PIXI.BaseTexture.from(conf.url);
-  const frames = [];
+  const frames: PIXI.Texture[] = [];
   const rowSpacing = sheet.width / conf.cols;
   const colSpacing = sheet.height / conf.rows;
 
   for (let j = 0; j < conf.rows; j++) {
     for (let i = 0; i < conf.cols; i++) {
       if (!(j === conf.rows - 1 && i > conf.lastRowItemCount - 1)) {
-        frames.push(
-          new PIXI.Texture(
-            sheet,
-            new PIXI.Rectangle(
-              rowSpacing * i,
-              colSpacing * j,
-              rowSpacing,
-              colSpacing
-            )
+        const texture = new PIXI.Texture(
+          sheet,
+          new PIXI.Rectangle(
+            rowSpacing * i,
+            colSpacing * j,
+            rowSpacing,
+            colSpacing
           )
         );
+        //texture.rotate = conf.rotation;
+        frames.push(texture);
       }
     }
   }
+  return frames;
+};
+
+export const createAnimatedSprite = (
+  conf: SpriteSheetConfig,
+  frames: PIXI.Texture[]
+) => {
   const sprite = new PIXI.AnimatedSprite(frames);
   sprite.animationSpeed = conf.animationSpeed;
   return sprite;
@@ -59,5 +71,58 @@ export const drawDottedLine = (
   for (let i = 0; i < step; i += 1) {
     if (i % 4 > 1) graphic.lineTo(start.x + xStep * i, start.y + yStep * i);
     else graphic.moveTo(start.x + xStep * i, start.y + yStep * i);
+  }
+};
+
+const setSpriteZIndex = (
+  sprite: PIXI.DisplayObject,
+  item1: BoardObject,
+  item2: BoardObject
+) => {
+  sprite.zIndex =
+    item1.container.zIndex > item2.container.zIndex
+      ? item1.container.zIndex + 1
+      : item2.container.zIndex + 1;
+};
+
+export const createAnimationsFromPath = (
+  board: Board,
+  queue: Anim[],
+  path: BoardObject[],
+  sprite: PIXI.DisplayObject,
+  stepDuration: number
+) => {
+  for (let i = 0; i < path.length - 1; i++) {
+    const item1 = path[i];
+    const item2 = path[i + 1];
+    queue.push(
+      translateObject(
+        animations,
+        sprite,
+        {
+          x: item1.container.position.x + ts1_2,
+          y: item1.container.position.y + ts1_2,
+        },
+        {
+          x: item2.container.position.x + ts1_2,
+          y: item2.container.position.y + ts1_2,
+        },
+        stepDuration,
+        () => {
+          if (item1 !== item2)
+            sprite.rotation = Math.atan2(
+              item2.container.position.y - item1.container.position.y,
+              item2.container.position.x - item1.container.position.x
+            );
+          setSpriteZIndex(sprite, item1, item2);
+        },
+        (anim) => {
+          queue.splice(queue.indexOf(anim), 1);
+          if (queue.length > 0) {
+            queue[0].start();
+          } else board.container.removeChild(sprite);
+        }
+      )
+    );
   }
 };

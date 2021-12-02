@@ -12,6 +12,7 @@ import {
   triggerBillBoardAnimation,
   triggerMailboxAnimation,
   triggerPlaneAnimation,
+  triggerRadioAnimation,
 } from './marketingTile.animations';
 import { disablePlacement, enablePlacement, Tile } from './tile';
 import { Player } from './types';
@@ -72,7 +73,7 @@ export const marketingTileKindConfigs = {
     getTilesInRange: (board: Board, tile: BoardObject, square: Tile) =>
       getSquaresInRange(board, tile, square, 10),
     advertise: (board: Board, tile: MarketingTile, affectedHouses: House[]) =>
-      triggerPlaneAnimation(board, tile, affectedHouses),
+      triggerRadioAnimation(board, tile, affectedHouses),
   },
 };
 
@@ -234,18 +235,12 @@ export const advertise = (board: Board, tile: MarketingTile) => {
       if (rangeOverlapsItem(house, tilesInRange) && house.food.length < 3)
         affectedHouses.push(house);
     });
-    if (affectedHouses.length > 0) {
-      affectedHouses.forEach((house) => {
-        house.food.push({
-          kind: tile.foodKind,
-          sprite: new PIXI.Sprite(tile.foodKind.texture),
-        });
+    affectedHouses.forEach((house) => {
+      house.food.push({
+        kind: tile.foodKind,
+        sprite: new PIXI.Sprite(tile.foodKind.texture),
       });
-      marketingTileKindConfigs[tile.kind].advertise(
-        board,
-        tile,
-        affectedHouses
-      );
-    }
+    });
+    marketingTileKindConfigs[tile.kind].advertise(board, tile, affectedHouses);
   }
 };

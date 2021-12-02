@@ -74,5 +74,6 @@ export const addBoardToStage = (app: PIXI.Application, board: Board) => {
   board.container.scale.x = 0.8;
   board.container.scale.y = 0.8;
   board.container.sortableChildren = true;
+  board.container.filters = [];
   app.stage.addChild(board.container);
 };

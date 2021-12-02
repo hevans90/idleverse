@@ -1,10 +1,9 @@
 import * as PIXI from 'pixi.js';
+import { ShockwaveFilter } from '@pixi/filter-shockwave';
 import { Vector2 } from './utils/utils';
 
 export type Anim = {
   time: number;
-  duration: number;
-  object: PIXI.DisplayObject;
   start?: () => void;
   update?: () => void;
   end?: () => void;
@@ -21,8 +20,6 @@ export const translateObject = (
 ): Anim => {
   const anim: Anim = {
     time: 0,
-    duration,
-    object,
   };
 
   anim.start = () => {
@@ -32,18 +29,16 @@ export const translateObject = (
   };
   anim.update = () => {
     anim.time += 1;
-    if (anim.time < anim.duration) {
-      anim.object.x =
-        startPos.x + (endPos.x - startPos.x) * (anim.time / anim.duration);
-      anim.object.y =
-        startPos.y + (endPos.y - startPos.y) * (anim.time / anim.duration);
+    if (anim.time < duration) {
+      object.x = startPos.x + (endPos.x - startPos.x) * (anim.time / duration);
+      object.y = startPos.y + (endPos.y - startPos.y) * (anim.time / duration);
     } else {
       anim.end();
     }
   };
   anim.end = () => {
-    anim.object.x = endPos.x;
-    anim.object.y = endPos.y;
+    object.x = endPos.x;
+    object.y = endPos.y;
     animations.splice(animations.indexOf(anim), 1);
     next(anim);
   };
@@ -62,8 +57,6 @@ export const scaleObject = (
 ): Anim => {
   const anim: Anim = {
     time: 0,
-    duration,
-    object,
   };
 
   anim.start = () => {
@@ -73,18 +66,18 @@ export const scaleObject = (
   };
   anim.update = () => {
     anim.time += 1;
-    if (anim.time < anim.duration) {
-      anim.object.scale.x =
-        startScale + (endScale - startScale) * (anim.time / anim.duration);
-      anim.object.scale.y =
-        startScale + (endScale - startScale) * (anim.time / anim.duration);
+    if (anim.time < duration) {
+      object.scale.x =
+        startScale + (endScale - startScale) * (anim.time / duration);
+      object.scale.y =
+        startScale + (endScale - startScale) * (anim.time / duration);
     } else {
       anim.end();
     }
   };
   anim.end = () => {
-    anim.object.scale.y = endScale;
-    anim.object.scale.x = endScale;
+    object.scale.y = endScale;
+    object.scale.x = endScale;
     animations.splice(animations.indexOf(anim), 1);
     if (next) next(anim);
   };
@@ -103,8 +96,6 @@ export const bounceObject = (
 ): Anim => {
   const anim: Anim = {
     time: 0,
-    duration,
-    object,
   };
 
   anim.start = () => {
@@ -114,24 +105,57 @@ export const bounceObject = (
   };
   anim.update = () => {
     anim.time += 1;
-    if (anim.time < anim.duration) {
-      anim.object.x =
+    if (anim.time < duration) {
+      object.x =
         startPos.x +
-        (endPos.x - startPos.x) *
-          Math.sin((anim.time / anim.duration) * Math.PI);
-      anim.object.y =
+        (endPos.x - startPos.x) * Math.sin((anim.time / duration) * Math.PI);
+      object.y =
         startPos.y +
-        (endPos.y - startPos.y) *
-          Math.sin((anim.time / anim.duration) * Math.PI);
+        (endPos.y - startPos.y) * Math.sin((anim.time / duration) * Math.PI);
     } else {
       anim.end();
     }
   };
   anim.end = () => {
-    anim.object.x = startPos.x;
-    anim.object.y = startPos.y;
+    object.x = startPos.x;
+    object.y = startPos.y;
     animations.splice(animations.indexOf(anim), 1);
     if (next) next(anim);
+  };
+
+  return anim;
+};
+
+export const addShockwave = (
+  animations: Anim[],
+  object: PIXI.DisplayObject,
+  shockwave: ShockwaveFilter,
+  duration: number,
+  update: (pixelRadius: number) => void
+): Anim => {
+  const anim: Anim = {
+    time: 0,
+  };
+
+  anim.start = () => {
+    object.filters.push(shockwave);
+    anim.time = 0;
+    shockwave.time = 0;
+    animations.push(anim);
+  };
+  anim.update = () => {
+    anim.time += 1;
+    update(shockwave.time * shockwave.speed);
+    if (anim.time < duration) {
+      shockwave.time += 1 / 60;
+    } else {
+      anim.end();
+    }
+  };
+  anim.end = () => {
+    shockwave.time = 0;
+    object.filters.splice(object.filters.indexOf(shockwave), 1);
+    animations.splice(animations.indexOf(anim), 1);
   };
 
   return anim;
