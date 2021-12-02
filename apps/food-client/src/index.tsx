@@ -18,15 +18,9 @@ export const redirectUri = window.location.origin.includes('localhost')
 
 ReactDOM.render(
   <React.StrictMode>
-    <Auth0Provider
-      domain={auth.domain}
-      clientId={auth.clientId}
-      redirectUri={redirectUri}
-    >
-      <ChakraProvider theme={theme}>
-        <App />
-      </ChakraProvider>
-    </Auth0Provider>
+    <ChakraProvider theme={theme}>
+      <App />
+    </ChakraProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
