@@ -6,7 +6,7 @@ import { drawBoxIndicator, Indicator } from './indicators';
 import { renderDrawer, Drawer } from './drawer';
 import { Card, createCardSprite, initCards } from './card';
 import { addBoardToStage, Board } from './board';
-import { tileConfigs } from './tileConfigs';
+import { tileConfigs } from './tile.configs';
 import { drawChunks, drawOuterSquares } from './chunk';
 import {
   drawDebugButton,
@@ -14,10 +14,10 @@ import {
   drawPhaseIndicator,
   Phase,
 } from './phase';
-import { cardConfigs, ceoCardConfig } from './cardConfigs';
+import { cardConfigs, ceoCardConfig } from './card.configs';
 import { initCEOCard } from './ceo';
 import { initMarketingTiles, MarketingTile } from './marketingTile';
-import { marketingTileConfigs } from './marketingTileConfigs';
+import { marketingTileConfigs } from './marketingTile.configs';
 import { disablePlacement, enablePlacement } from './tile';
 import { animations, app, keyEventMap } from './utils/singletons';
 import { getSquaresInRange, isValidPosition } from './utils/utils';
@@ -74,7 +74,7 @@ export const FoodChain = () => {
     phases.market.nextPhase = phases.advertise;
     phases.advertise.nextPhase = phases.structure;
 
-    const currentPhase = phases.launch;
+    const currentPhase = phases.train;
 
     document.addEventListener('keydown', (e) => {
       if (Object.keys(keyEventMap).includes(e.code)) keyEventMap[e.code]();
@@ -167,7 +167,7 @@ export const FoodChain = () => {
       marketingDrawer,
       ceoCard,
       cards,
-      marketingTiles,
+      marketingTiles
     );
     drawDebugButton(board);
     drawBoxIndicator(hiresIndicator);
@@ -175,18 +175,19 @@ export const FoodChain = () => {
     hiresIndicator.container.position.x = 620;
     hiresIndicator.container.position.y = 180;
 
-    enablePlacement(
-      board,
-      board.diner,
-      board.tiles,
-      (square) => isValidPosition(board, board.diner, square, true),
-      (square) => getSquaresInRange(board, board.diner, square, 1),
-      () => disablePlacement(board)
-    );
+    if (currentPhase === phases.launch)
+      enablePlacement(
+        board,
+        board.diner,
+        board.tiles,
+        (square) => isValidPosition(board, board.diner, square, true),
+        (square) => getSquaresInRange(board, board.diner, square, 1),
+        () => disablePlacement(board)
+      );
+
     app.ticker.add(() => {
       animations.forEach((animation) => animation.update());
     });
-
     gameElement.appendChild(app.view);
 
     return () => app.destroy(true, true);

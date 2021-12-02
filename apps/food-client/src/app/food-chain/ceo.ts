@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 import { Card, createCardSprite } from './card';
-import { ceoCardConfig, emptyCardConfig } from './cardConfigs';
+import { ceoCardConfig, emptyCardConfig } from './card.configs';
 import { Drawer } from './drawer';
 import { Player } from './types';
 

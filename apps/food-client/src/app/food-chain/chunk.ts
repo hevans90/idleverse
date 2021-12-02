@@ -45,6 +45,7 @@ export const drawChunks = (board: Board, tileConfigs: TileConfig[]) => {
   for (let p = 0; p < board.chunksWide; p++) {
     for (let q = 0; q < board.chunksHigh; q++) {
       const chunk = chunks[Math.floor(Math.random() * chunks.length)];
+      // TODO: add random chunk rotation on placement
       // const rotatedChunk = rotateAboutCenter(
       //   chunk,
       //   Math.floor(Math.random() * 4),

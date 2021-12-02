@@ -10,27 +10,35 @@ export type FoodKind = {
   bg: number;
 };
 
-export const foodKinds: { [key: string]: FoodKind } = {
-  beer: {
+enum FoodKinds {
+  beer,
+  cola,
+  lemonade,
+  burger,
+  pizza,
+}
+
+export const foodKindsConfig: { [key: number]: FoodKind } = {
+  [FoodKinds.beer]: {
     letter: 'b',
     texture: PIXI.Texture.from('https://i.imgur.com/1Ym9YX6.png'),
     bg: 0xa0e5af,
   },
-  cola: {
+  [FoodKinds.cola]: {
     letter: 'c',
     texture: PIXI.Texture.from('https://i.imgur.com/UaijMRU.png'),
     bg: 0xeeb4bf,
   },
-  lemonade: {
+  [FoodKinds.lemonade]: {
     letter: 'l',
     texture: PIXI.Texture.from('https://i.imgur.com/LesWWMh.png'),
     bg: 0xffe67d,
   },
-  pizza: {
+  [FoodKinds.pizza]: {
     texture: PIXI.Texture.from('https://i.imgur.com/pyw8386.png'),
     bg: 0xf0ddae,
   },
-  burger: {
+  [FoodKinds.burger]: {
     texture: PIXI.Texture.from('https://i.imgur.com/uQZeADM.png'),
     bg: 0xd0b0a5,
   },
@@ -67,8 +75,7 @@ export const createFoodSelect = (tile: MarketingTile) => {
   tile.container.removeChild(oldFoodSelect);
 
   const foodSelect = new PIXI.Container();
-  console.log(foodKinds);
-  Object.values(foodKinds).forEach((foodKind, i) => {
+  Object.values(foodKindsConfig).forEach((foodKind, i) => {
     const foodSprite = createFoodSpriteIcon(foodKind);
     foodSprite.position.x = ts * i;
     foodSprite.interactive = true;

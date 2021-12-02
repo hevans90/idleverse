@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { cardConfigs, emptyCardConfig } from './cardConfigs';
+import { cardConfigs, emptyCardConfig } from './card.configs';
 import {
   removeCardFromDrawer,
   addCardToDrawer,

@@ -12,6 +12,7 @@ import {
   renderHouseFood,
   renderMarketingTileFood,
 } from './food';
+import { triggerPlaneAnimation } from './marketingTile.animations';
 import { disablePlacement, enablePlacement, Tile } from './tile';
 import { Player } from './types';
 import { ts } from './utils/constants';
@@ -26,10 +27,10 @@ import {
 } from './utils/utils';
 
 export enum MarketingTileKinds {
-  'billboard',
-  'mailbox',
-  'airplane',
-  'radio',
+  billboard,
+  mailbox,
+  airplane,
+  radio,
 }
 
 export const marketingTileKindConfigs = {
@@ -116,7 +117,9 @@ export const createMarketTileSprite = (config: MarketingTileConfig) => {
   tileNum.position.x = 5;
   tileNum.position.y = 5;
 
-  const marketingSprite = new PIXI.Sprite(marketingTileTextures[config.kind]);
+  const marketingSprite = new PIXI.Sprite(
+    marketingTileKindConfigs[config.kind].texture
+  );
   const xScale = (config.h * ts) / marketingSprite.height;
   const yScale = (config.w * ts) / marketingSprite.width;
   const scale = 0.9 * (xScale > yScale ? yScale : xScale);
@@ -218,15 +221,17 @@ export const advertise = (board: Board, tile: MarketingTile) => {
   if (tile.foodQuant > 0) {
     tile.foodQuant--;
     renderMarketingTileFood(tile);
+    const affectedHouses = [];
     board.houses.forEach((house) => {
-      if (rangeOverlapsItem(house, tilesInRange) && house.food.length < 3) {
-        console.log(house.food.length);
-        house.food.push({
-          kind: tile.foodKind,
-          sprite: new PIXI.Sprite(tile.foodKind.texture),
-        });
-        renderHouseFood(house);
-      }
+      if (rangeOverlapsItem(house, tilesInRange) && house.food.length < 3)
+        affectedHouses.push(house);
     });
+    affectedHouses.forEach((house) => {
+      house.food.push({
+        kind: tile.foodKind,
+        sprite: new PIXI.Sprite(tile.foodKind.texture),
+      });
+    });
+    triggerPlaneAnimation(board, tile, affectedHouses);
   }
 };

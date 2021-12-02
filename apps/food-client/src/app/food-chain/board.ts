@@ -28,7 +28,7 @@ export type BoardObject = BoardItem & {
   container?: PIXI.Container;
 };
 
-export const getAdjacentRoads = (board: Board, object: BoardObject): Road[] => {
+export const getAdjacentRoads = (board: Board, object: BoardItem): Road[] => {
   return board.roads.filter((road) => {
     return (
       collides(object, { ...road, i: road.i + 1 }) ||
