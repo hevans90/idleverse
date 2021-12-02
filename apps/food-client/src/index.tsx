@@ -1,16 +1,10 @@
-import { Auth0Provider } from '@auth0/auth0-react';
 import { ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { App } from './app/App';
+import { App } from './app/app';
 import { theme } from './app/_theme/theme';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-
-const auth = {
-  domain: 'dev-uyer-vun.us.auth0.com',
-  clientId: 'UMMpI9y0OurEwa9M6lEf5wwG6kFqfj91',
-};
 
 export const redirectUri = window.location.origin.includes('localhost')
   ? window.location.origin
