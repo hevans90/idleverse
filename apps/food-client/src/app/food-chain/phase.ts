@@ -1,7 +1,6 @@
 import * as PIXI from 'pixi.js';
 import { closeAllDrawers } from './drawer';
 import { initBoxIndicator } from './indicators';
-import { Player } from './player';
 import { disablePlacement } from './tile';
 import { debug } from './utils/constants';
 import {
@@ -39,12 +38,19 @@ export const drawPhaseIndicator = () => {
       text: phase.name,
     }).container;
     phaseIndicatorElement.position.x = i * indicatorWidth;
+    phaseIndicatorElement.interactive = true;
+    phaseIndicatorElement.buttonMode = true;
+    phaseIndicatorElement.on('pointerdown', () => {
+      endCurrentPhase();
+      startPhase(phase);
+    });
     phaseIndicatorContainer.addChild(phaseIndicatorElement);
   });
   phaseIndicatorContainer.pivot.x = phaseIndicatorContainer.width / 2;
   phaseIndicatorContainer.x = app.screen.width * 0.5;
   phaseIndicatorContainer.y = app.screen.height - 50;
   phaseIndicatorContainer.name = 'phaseIndicator';
+
   app.stage.addChild(phaseIndicatorContainer);
 };
 
@@ -64,7 +70,7 @@ export const drawNextPhaseButton = () => {
   nextPhaseButton.container.buttonMode = true;
   nextPhaseButton.container.on('pointerdown', () => {
     endCurrentPhase();
-    drawPhaseIndicator();
+    startPhase(getPhase(currentPhase.phase.nextPhase));
   });
   app.stage.addChild(nextPhaseButton.container);
 };
@@ -96,10 +102,10 @@ export const getPhase = (phaseName: string) => {
   return phases.find((phase) => phase.name === phaseName);
 };
 
-export const startPhase = (phaseName: string) => {
-  const phase = getPhase(phaseName);
-  phase.start();
-  return phase;
+export const startPhase = (phase: Phase) => {
+  currentPhase.phase = phase;
+  if (currentPhase.phase.start) currentPhase.phase.start();
+  drawPhaseIndicator();
 };
 
 const endCurrentPhase = () => {
@@ -113,8 +119,9 @@ const endCurrentPhase = () => {
     tile.sprite.interactive = false;
     tile.sprite.buttonMode = false;
   });
+  board.diner.sprite.removeAllListeners();
+  board.diner.sprite.interactive = false;
+  board.diner.sprite.buttonMode = false;
   disablePlacement(board);
   closeAllDrawers();
-  currentPhase.phase = getPhase(currentPhase.phase.nextPhase);
-  if (currentPhase.phase.start) currentPhase.phase.start();
 };

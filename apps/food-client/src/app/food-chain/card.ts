@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import { playProduceAnimation } from './card.animations';
 import { emptyCardConfig } from './card.configs';
 import { Drawer, organiseRecruitDrawer } from './drawer';
-import { FoodKinds } from './food';
+import { foodKindConfigs } from './food';
 import { Indicator } from './indicators';
 import { Player } from './player';
 import { EmployeeType, EmployeeTypes } from './types';
@@ -360,7 +360,11 @@ export const enableFoodProduction = (player: Player) => {
           card.used = true;
           (async function () {
             for (let i = 0; i < 3; i++) {
-              await playProduceAnimation(player, card, FoodKinds.burger);
+              await playProduceAnimation(
+                player,
+                card,
+                foodKindConfigs.find((kind) => kind.name === 'burger')
+              );
             }
           })();
         }
@@ -374,7 +378,11 @@ export const enableFoodProduction = (player: Player) => {
           card.used = true;
           (async function () {
             for (let i = 0; i < 8; i++) {
-              await playProduceAnimation(player, card, FoodKinds.pizza);
+              await playProduceAnimation(
+                player,
+                card,
+                foodKindConfigs.find((kind) => kind.name === 'pizza')
+              );
             }
           })();
         }

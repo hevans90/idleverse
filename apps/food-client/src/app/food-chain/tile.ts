@@ -26,17 +26,17 @@ export type Tile = {
 
 export type Chunk = Tile[];
 
-export const generateTileTexture = (fillColor: number) => {
+export const generateTileTexture = (fillColor: number, alpha = 1) => {
   const square = new PIXI.Graphics();
-  square.lineStyle(2, lineColour, 1);
-  square.beginFill(fillColor);
+  square.lineStyle(2, lineColour, alpha);
+  square.beginFill(fillColor, alpha);
   square.drawRect(2, 2, ts - 2, ts - 2);
   square.endFill();
   return app.renderer.generateTexture(square);
 };
 
 const tileTexture = generateTileTexture(0xffffff);
-const outerTileTexture = generateTileTexture(0xc8c1be);
+const outerTileTexture = generateTileTexture(0xc8c1be, 0);
 
 export const parseTileContents = (contents: string, zOffset = 0) => {
   const match = tileConfigRegex.exec(contents);
@@ -186,15 +186,31 @@ export const enablePlacement = (
   rangeFunction: (tile: Tile) => Tile[],
   callback?: () => void
 ) => {
-  let invalidIndicator = drawPlacementIndicator(item.w, item.h, PlacementIndicatorColour.invalid);
-  let validIndicator = drawPlacementIndicator(item.w, item.h, PlacementIndicatorColour.valid);
+  let invalidIndicator = drawPlacementIndicator(
+    item.w,
+    item.h,
+    PlacementIndicatorColour.invalid
+  );
+  let validIndicator = drawPlacementIndicator(
+    item.w,
+    item.h,
+    PlacementIndicatorColour.valid
+  );
 
   let activeIndicator = validIndicator;
 
   keyEventMap.Space = () => {
     setRotation(item);
-    invalidIndicator = drawPlacementIndicator(item.w, item.h, PlacementIndicatorColour.invalid);
-    validIndicator = drawPlacementIndicator(item.w, item.h, PlacementIndicatorColour.valid);
+    invalidIndicator = drawPlacementIndicator(
+      item.w,
+      item.h,
+      PlacementIndicatorColour.invalid
+    );
+    validIndicator = drawPlacementIndicator(
+      item.w,
+      item.h,
+      PlacementIndicatorColour.valid
+    );
     // TODO: Reset indicator when tile is rotated
     // removeChildrenByName(board.container, 'indicator');
     // board.container.addChild(activeIndicator);
@@ -218,7 +234,11 @@ export const enablePlacement = (
       const tilesInRange = rangeFunction(square);
 
       tilesInRange.forEach((_square) => {
-        const tint = drawPlacementIndicator(1, 1, PlacementIndicatorColour.range);
+        const tint = drawPlacementIndicator(
+          1,
+          1,
+          PlacementIndicatorColour.range
+        );
         tint.name = 'tint';
         _square.container.addChild(tint);
       });

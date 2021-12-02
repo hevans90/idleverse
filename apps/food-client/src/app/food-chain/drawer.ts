@@ -23,7 +23,7 @@ export type Drawer = {
   organiseContents?: () => void;
 };
 
-const getX = (app: PIXI.Application, drawer: Drawer) => {
+const getX = (drawer: Drawer) => {
   if (drawer.orient === 'left') {
     return drawer.open ? drawer.tabWidth : -drawer.width;
   } else {
@@ -34,7 +34,7 @@ const getX = (app: PIXI.Application, drawer: Drawer) => {
 };
 
 export const openDrawer = (drawerName: string) => {
-  const drawer = drawers.find((drawer) => (drawer.name = drawerName));
+  const drawer = drawers.find((drawer) => drawer.name === drawerName);
   console.log(drawer);
   if (!drawer.open) toggleOpen(drawer);
 };
@@ -47,7 +47,7 @@ export const closeAllDrawers = () => {
 
 export const toggleOpen = (drawer: Drawer) => {
   drawer.open = !drawer.open;
-  drawer.container.x = getX(app, drawer);
+  drawer.container.x = getX(drawer);
 };
 
 const arrangeStack = (stack: Card[], x: number, y: number) => {
@@ -148,7 +148,23 @@ export const renderDrawer = (drawer: Drawer) => {
   drawerTab.on('pointerdown', () => {
     toggleOpen(drawer);
   });
-  drawer.container.addChild(drawerBody, drawerTab);
+
+  const drawerTabText = new PIXI.Text(
+    drawer.name,
+    new PIXI.TextStyle({
+      fontFamily: 'consolas',
+      fill: lineColour,
+      align: 'center',
+      fontSize: 20,
+      wordWrap: true,
+      wordWrapWidth: 190,
+    })
+  );
+  drawerTabText.rotation = Math.PI / 2;
+  drawerTabText.position.x = drawer.orient === 'left' ? drawer.width + 30 : -10;
+  drawerTabText.position.y = (drawer.tabStartY ? drawer.tabStartY : 0) + 20;
+
+  drawer.container.addChild(drawerBody, drawerTab, drawerTabText);
 
   //Render drawer contents
   const drawerContents = new PIXI.Container();
@@ -218,7 +234,7 @@ export const renderDrawer = (drawer: Drawer) => {
     .on('pointerupoutside', onDragEnd)
     .on('pointermove', onDragMove);
 
-  drawer.container.x = getX(app, drawer);
+  drawer.container.x = getX(drawer);
   drawer.container.y = drawer.startY;
   app.stage.addChild(drawer.container);
 };

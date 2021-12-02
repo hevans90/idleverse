@@ -1,8 +1,7 @@
 import * as PIXI from 'pixi.js';
-import { Anim, translateObject } from '../animation';
-import { Board, BoardObject } from '../board';
+import { translateObject } from '../animation';
+import { BoardObject } from '../board';
 import { ts1_2 } from './constants';
-import { animations } from './singletons';
 import { Vector2 } from './utils';
 
 export type SpriteSheetConfig = {
@@ -38,6 +37,15 @@ export const createAnimatedTexture = (conf: SpriteSheetConfig) => {
     }
   }
   return frames;
+};
+
+export const createSprite = (texture: PIXI.Texture, size: number) => {
+  const sprite = new PIXI.Sprite(texture);
+  const xScale = size / sprite.height;
+  const yScale = size / sprite.width;
+  const scale = xScale > yScale ? yScale : xScale;
+  sprite.scale.x = sprite.scale.y = scale;
+  return sprite;
 };
 
 export const createAnimatedSprite = (
@@ -93,6 +101,12 @@ export const travelPath = async (
   for (let i = 0; i < path.length - 1; i++) {
     const item1 = path[i];
     const item2 = path[i + 1];
+    if (item1 !== item2)
+      sprite.rotation = Math.atan2(
+        item2.container.position.y - item1.container.position.y,
+        item2.container.position.x - item1.container.position.x
+      );
+    setSpriteZIndex(sprite, item1, item2);
     await translateObject(
       sprite,
       {

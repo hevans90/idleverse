@@ -10,6 +10,7 @@ import {
   organiseRecruitDrawer,
   organiseMarketingDrawer,
   organiseBeachDrawer,
+  openDrawer,
 } from './drawer';
 import { drawerHiresIndicator } from './indicators';
 import {
@@ -19,7 +20,6 @@ import {
   getPhase,
 } from './phase';
 import { drawChunks, drawOuterSquares } from './chunk';
-import { FoodKinds } from './food';
 import { enablePlacement } from './tile';
 import {
   initCards,
@@ -51,7 +51,7 @@ import {
 import { tileConfigs } from './tile.configs';
 import { cardConfigs } from './card.configs';
 import { marketingTileConfigs } from './marketingTile.configs';
-import { dinnerTime } from './house';
+import { enableDinnerTime } from './house';
 
 export const FoodChain = () => {
   useEffect(() => {
@@ -64,12 +64,13 @@ export const FoodChain = () => {
       ceo: { card: null },
       cards: [],
       hiresAvailable: 10,
+      cash: 0,
       food: {
-        [FoodKinds.beer]: { amount: 0 },
-        [FoodKinds.lemonade]: { amount: 0 },
-        [FoodKinds.cola]: { amount: 0 },
-        [FoodKinds.pizza]: { amount: 0 },
-        [FoodKinds.burger]: { amount: 0 },
+        beer: { amount: 0 },
+        lemonade: { amount: 0 },
+        cola: { amount: 0 },
+        pizza: { amount: 0 },
+        burger: { amount: 0 },
       },
     };
 
@@ -88,8 +89,8 @@ export const FoodChain = () => {
     phases.push({
       name: 'Structure',
       start: () => {
-        if (!structureDrawer.open) toggleOpen(structureDrawer);
-        if (!beachDrawer.open) toggleOpen(beachDrawer);
+        openDrawer('Structure');
+        openDrawer('Beach');
         untapCards();
         enableCardStructure(player, beachDrawer, structureDrawer, cards);
       },
@@ -98,8 +99,8 @@ export const FoodChain = () => {
     phases.push({
       name: 'Hire',
       start: () => {
-        if (!beachDrawer.open) toggleOpen(beachDrawer);
-        if (!recruitDrawer.open) toggleOpen(recruitDrawer);
+        openDrawer('Beach');
+        openDrawer('Recruit');
         enableCardHire(
           player,
           cards,
@@ -113,7 +114,7 @@ export const FoodChain = () => {
     phases.push({
       name: 'Market',
       start: () => {
-        if (!marketDrawer.open) toggleOpen(marketDrawer);
+        openDrawer('Market');
         enableMarketingTilePlacement(marketDrawer, marketingTiles);
       },
       nextPhase: 'Produce',
@@ -129,7 +130,7 @@ export const FoodChain = () => {
     phases.push({
       name: 'Dinner Time',
       start: () => {
-        dinnerTime();
+        enableDinnerTime(player);
       },
       nextPhase: 'Advertise',
     });
@@ -146,7 +147,7 @@ export const FoodChain = () => {
     });
 
     const recruitDrawer: Drawer = {
-      name: 'recruit',
+      name: 'Recruit',
       open: false,
       startY: 100,
       endY: app.screen.height - 100,
@@ -160,7 +161,7 @@ export const FoodChain = () => {
     };
 
     const marketDrawer: Drawer = {
-      name: 'market',
+      name: 'Market',
       open: false,
       startY: 100,
       endY: app.screen.height - 100,
@@ -174,7 +175,7 @@ export const FoodChain = () => {
     };
 
     const beachDrawer: Drawer = {
-      name: 'beach',
+      name: 'Beach',
       open: false,
       startY: (app.screen.height - 200) * 0.85,
       endY: app.screen.height - 100,
@@ -187,7 +188,7 @@ export const FoodChain = () => {
     };
 
     const structureDrawer: Drawer = {
-      name: 'structure',
+      name: 'Structure',
       open: false,
       startY: 100,
       endY: (app.screen.height - 200) * 0.85,

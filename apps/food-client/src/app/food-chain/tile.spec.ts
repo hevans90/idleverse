@@ -1,4 +1,5 @@
-import { translateChunk, parseTileConfig, rotateChunk } from './tile';
+import { isHouse } from './house';
+import { parseTileConfig } from './tile';
 
 const tileConfig = [
   ['e', 'r24', 'h1'],
@@ -17,8 +18,8 @@ const tileConfig2 = [
 describe('tile reader', () => {
   it('should generate a tile array from a config', () => {
     const tileArray = parseTileConfig(tileConfig);
-    console.log(JSON.stringify(tileArray[2].contents));
-    expect(tileArray[2].contents).toStrictEqual('h1');
+    const tileContainsHouse = tileArray[2];
+    expect(isHouse(tileContainsHouse.occupants[0]));
   });
 
   it('should shift a tile array so it is centered', () => {

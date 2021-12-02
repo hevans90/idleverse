@@ -1,11 +1,6 @@
 import { translateObject } from './animation';
 import { Card } from './card';
-import {
-  createFoodSprite,
-  FoodKinds,
-  foodKindsConfig,
-  produceFood,
-} from './food';
+import { createFoodSprite, FoodKind, produceFood } from './food';
 import { Player } from './player';
 import { ts } from './utils/constants';
 import { app } from './utils/singletons';
@@ -13,9 +8,9 @@ import { app } from './utils/singletons';
 export const playProduceAnimation = async (
   player: Player,
   card: Card,
-  foodKind: FoodKinds
+  foodKind: FoodKind
 ) => {
-  const foodSprite = createFoodSprite(foodKindsConfig[foodKind], ts);
+  const foodSprite = createFoodSprite(foodKind, ts);
   foodSprite.zIndex = 50;
   app.stage.addChild(foodSprite);
   await translateObject(
@@ -25,8 +20,8 @@ export const playProduceAnimation = async (
       y: card.container.getGlobalPosition().y + card.container.height / 2,
     },
     {
-      x: player.food[foodKind].sprite.getGlobalPosition().x,
-      y: player.food[foodKind].sprite.getGlobalPosition().y,
+      x: player.food[foodKind.name].sprite.getGlobalPosition().x,
+      y: player.food[foodKind.name].sprite.getGlobalPosition().y,
     },
     30
   );

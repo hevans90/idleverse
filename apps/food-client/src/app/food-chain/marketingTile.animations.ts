@@ -16,7 +16,7 @@ import {
 } from './marketingTile';
 import { createPostmanSprite, ts } from './utils/constants';
 import { animations, board } from './utils/singletons';
-import { calcDistance, findTilePath } from './utils/utils';
+import { calcDistance, findTilePath, sleep } from './utils/utils';
 
 export const bounceFood = (board: Board, tile: MarketingTile, house: House) => {
   const queue: Anim[] = [];
@@ -71,8 +71,10 @@ export const triggerMailboxAnimation = async (
   affectedHouses: House[]
 ) => {
   await walkBetween(tile, affectedHouses[0]);
-  for (let i = 1; i < affectedHouses.length - 1; i++) {
+  await sleep(500);
+  for (let i = 0; i < affectedHouses.length - 1; i++) {
     await walkBetween(affectedHouses[i], affectedHouses[i + 1]);
+    await sleep(500);
   }
   await walkBetween(affectedHouses[affectedHouses.length - 1], tile);
 };
@@ -108,6 +110,8 @@ export const walkBetween = async (item1: BoardObject, item2: BoardObject) => {
       );
     }
   }
+  board.container.removeChild(postmanSprite);
+  if (isHouse(item2)) renderHouseFood(item2);
 };
 
 export const triggerPlaneAnimation = async (

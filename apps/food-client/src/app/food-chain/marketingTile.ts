@@ -6,8 +6,8 @@ import {
   organiseMarketingDrawer,
   toggleOpen,
 } from './drawer';
-import { createFoodSelect, FoodKind, foodKindsConfig } from './food';
-import { House } from './house';
+import { createFoodSelect, FoodKind, foodKindConfigs } from './food';
+import { addFoodToHouse, House } from './house';
 import {
   triggerBillBoardAnimation,
   triggerMailboxAnimation,
@@ -180,31 +180,42 @@ export const initMarketingTiles = (
   return marketingTiles;
 };
 
+export const selectMarketingTileFood = (tile: MarketingTile) => {
+  disablePlacement(board);
+  const oldFoodSelect = tile.container.getChildByName('foodSelect');
+  tile.container.removeChild(oldFoodSelect);
+
+  const newFoodSelect = createFoodSelect(foodKindConfigs, (foodKind) => {
+    tile.foodKind = foodKind;
+    tile.foodQuant = 4;
+    renderMarketingTileFood(tile);
+    tile.container.removeChild(newFoodSelect);
+  });
+  newFoodSelect.y = tile.h * ts;
+  newFoodSelect.name = 'foodSelect';
+
+  tile.container.addChild(newFoodSelect);
+};
+
+export const renderMarketingTileFood = (tile: MarketingTile) => {
+  tile.foodSprites.forEach((sprite) => sprite.destroy());
+  tile.foodSprites = [];
+  for (let i = 0; i < tile.foodQuant; i++) {
+    const foodSprite = new PIXI.Sprite(tile.foodKind.texture);
+    foodSprite.height = ts;
+    foodSprite.width = ts;
+    foodSprite.position.x = i * 20 + (tile.w * ts) / 2 - ts;
+    foodSprite.position.y = 20;
+    tile.container.addChild(foodSprite);
+    tile.foodSprites.push(foodSprite);
+  }
+};
+
 export const enableMarketingTilePlacement = (
   marketingDrawer: Drawer,
   tiles: MarketingTile[]
 ) => {
   tiles.forEach((tile) => {
-    const callback = () => {
-      disablePlacement(board);
-      const oldFoodSelect = tile.container.getChildByName('foodSelect');
-      tile.container.removeChild(oldFoodSelect);
-
-      const newFoodSelect = createFoodSelect(
-        Object.values(foodKindsConfig),
-        (foodKind) => {
-          tile.foodKind = foodKind;
-          tile.foodQuant = 4;
-          renderMarketingTileFood(tile);
-          tile.container.removeChild(newFoodSelect);
-        }
-      );
-      newFoodSelect.y = tile.h * ts;
-      newFoodSelect.name = 'foodSelect';
-
-      tile.container.addChild(newFoodSelect);
-    };
-
     tile.sprite.interactive = true;
     tile.sprite.buttonMode = true;
     tile.sprite.on('pointerdown', () => {
@@ -223,7 +234,7 @@ export const enableMarketingTilePlacement = (
             tile,
             square
           ),
-        callback
+        () => selectMarketingTileFood(tile)
       );
 
       if (marketingDrawer.open) toggleOpen(marketingDrawer);
@@ -245,6 +256,7 @@ export const advertise = (tile: MarketingTile) => {
     tile,
     tile
   );
+  console.log(tile);
   if (tile.foodQuant > 0) {
     tile.foodQuant--;
     renderMarketingTileFood(tile);
@@ -254,27 +266,8 @@ export const advertise = (tile: MarketingTile) => {
         affectedHouses.push(house);
     });
     affectedHouses.forEach((house) => {
-      house.food.push({
-        kind: tile.foodKind,
-        sprite: new PIXI.Sprite(tile.foodKind.texture),
-      });
+      addFoodToHouse(house, tile.foodKind);
     });
     marketingTileKindConfigs[tile.kind].advertise(board, tile, affectedHouses);
-  }
-};
-
-export const renderMarketingTileFood = (tile: MarketingTile) => {
-  console.log('rendering food');
-  console.log(tile);
-  tile.foodSprites.forEach((sprite) => sprite.destroy());
-  tile.foodSprites = [];
-  for (let i = 0; i < tile.foodQuant; i++) {
-    const foodSprite = new PIXI.Sprite(tile.foodKind.texture);
-    foodSprite.height = ts;
-    foodSprite.width = ts;
-    foodSprite.position.x = i * 20 + (tile.w * ts) / 2 - ts;
-    foodSprite.position.y = 20;
-    tile.container.addChild(foodSprite);
-    tile.foodSprites.push(foodSprite);
   }
 };

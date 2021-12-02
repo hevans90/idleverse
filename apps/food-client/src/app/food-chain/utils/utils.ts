@@ -23,6 +23,10 @@ export type BoardItem = {
   rotation?: number;
 };
 
+export function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(() => resolve(''), ms));
+}
+
 export const collides = (item1: BoardItem, item2: BoardItem) => {
   const item1leftitem2 = item1.i >= item2.i + item2.w;
   const item1rightitem2 = item1.i + item1.w <= item2.i;

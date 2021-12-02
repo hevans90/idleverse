@@ -1,56 +1,49 @@
 import * as PIXI from 'pixi.js';
-import { MarketingTile, renderMarketingTileFood } from './marketingTile';
 import { Player } from './player';
 import { ts } from './utils/constants';
+import { createSprite } from './utils/graphics-utils';
 import { app } from './utils/singletons';
 
 export type FoodKind = {
+  name: string;
   letter?: string;
   texture: PIXI.Texture;
   bg: number;
 };
 
-export enum FoodKinds {
-  beer,
-  cola,
-  lemonade,
-  burger,
-  pizza,
-}
-
-export const foodKindsConfig: { [key: number]: FoodKind } = {
-  [FoodKinds.beer]: {
+export const foodKindConfigs: FoodKind[] = [
+  {
+    name: 'beer',
     letter: 'b',
     texture: PIXI.Texture.from('https://i.imgur.com/1Ym9YX6.png'),
     bg: 0xa0e5af,
   },
-  [FoodKinds.cola]: {
+  {
+    name: 'cola',
     letter: 'c',
     texture: PIXI.Texture.from('https://i.imgur.com/UaijMRU.png'),
     bg: 0xeeb4bf,
   },
-  [FoodKinds.lemonade]: {
+  {
+    name: 'lemonade',
     letter: 'l',
     texture: PIXI.Texture.from('https://i.imgur.com/LesWWMh.png'),
     bg: 0xffe67d,
   },
-  [FoodKinds.pizza]: {
+  {
+    name: 'pizza',
     texture: PIXI.Texture.from('https://i.imgur.com/pyw8386.png'),
     bg: 0xf0ddae,
   },
-  [FoodKinds.burger]: {
+  {
+    name: 'burger',
     texture: PIXI.Texture.from('https://i.imgur.com/uQZeADM.png'),
     bg: 0xd0b0a5,
   },
-};
+];
 
 export const createFoodSprite = (foodKind: FoodKind, size: number) => {
-  const foodSprite = new PIXI.Sprite(foodKind.texture);
-  const xScale = size / foodSprite.height;
-  const yScale = size / foodSprite.width;
-  const scale = xScale > yScale ? yScale : xScale;
-  foodSprite.scale.x = foodSprite.scale.y = scale;
-  return foodSprite;
+  return createSprite(foodKind.texture, size);
 };
 
 export const createFoodSpriteIcon = (foodKind: FoodKind) => {
@@ -96,10 +89,10 @@ export const createFoodSelect = (
 
 export const produceFood = (
   player: Player,
-  foodKind: number,
+  foodKind: FoodKind,
   amount: number
 ) => {
-  const playerFood = player.food[foodKind];
+  const playerFood = player.food[foodKind.name];
   playerFood.amount += amount;
   playerFood.textSprite.text = `x ${playerFood.amount}`;
 };

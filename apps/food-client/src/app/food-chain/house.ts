@@ -1,8 +1,10 @@
 import * as PIXI from 'pixi.js';
 import { Board, BoardObject, getAdjacentRoads } from './board';
 import { FoodKind } from './food';
+import { Player } from './player';
 import { Road } from './road';
 import { triggerCarAnimation } from './road.animations';
+import { drawToolbar } from './toolbar';
 import { ts } from './utils/constants';
 import { app, board } from './utils/singletons';
 import { findRoadPath } from './utils/utils';
@@ -75,14 +77,20 @@ export const addHouseToBoard = (board: Board, house: House) => {
   house.container.interactive = true;
   house.container.buttonMode = true;
   house.container.on('pointerdown', () => {
-    // const adjacentRoads = getAdjacentRoads(board, house);
-    // board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
-    // adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
-    console.log(house);
+    const adjacentRoads = getAdjacentRoads(board, house);
+    board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
+    adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
     const path = findShortestPath(house, board.diner);
     if (path) triggerCarAnimation(path);
   });
   board.houses.push(house);
+};
+
+export const addFoodToHouse = (house: House, foodKind: FoodKind) => {
+  house.food.push({
+    kind: foodKind,
+    sprite: new PIXI.Sprite(foodKind.texture),
+  });
 };
 
 export const renderHouseFood = (house: House) => {
@@ -93,6 +101,16 @@ export const renderHouseFood = (house: House) => {
     food.sprite.position.y = 20;
     house.container.addChild(food.sprite);
   });
+};
+
+export const aggregateFood = (house: House) => {
+  const aggregatedFood: { [key: string]: number } = {};
+  house.food.forEach((foodItem) => {
+    if (aggregatedFood[foodItem.kind.name]) {
+      aggregatedFood[foodItem.kind.name]++;
+    } else aggregatedFood[foodItem.kind.name] = 1;
+  });
+  return aggregatedFood;
 };
 
 export const findShortestPath = (item1: BoardObject, item2: BoardObject) => {
@@ -106,10 +124,42 @@ export const findShortestPath = (item1: BoardObject, item2: BoardObject) => {
   return path;
 };
 
-export const dinnerTime = async () => {
+export const satisfiesFood = (player: Player, house: House) => {
+  const houseFood = aggregateFood(house);
+  console.log(houseFood);
+  if (Object.keys(houseFood).length === 0) return false;
+  let satisfies = true;
+  Object.entries(houseFood).forEach((food) => {
+    const foodName = food[0];
+    const foodAmount = food[1];
+    if (player.food[foodName].amount < foodAmount) {
+      satisfies = false;
+    }
+  });
+  return satisfies;
+};
+
+export const enableDinnerTime = (player: Player) => {
+  board.diner.container.interactive = true;
+  board.diner.container.buttonMode = true;
+  board.diner.container.on('pointerdown', () => {
+    dinnerTime(player);
+  });
+};
+
+export const dinnerTime = async (player: Player) => {
   for (let i = 0; i < board.houses.length; i++) {
     const house = board.houses[i];
-    const path = findShortestPath(house, board.diner);
-    await triggerCarAnimation(path);
+    if (satisfiesFood(player, house)) {
+      house.food.forEach((food) => {
+        house.container.removeChild(food.sprite);
+        player.food[food.kind.name].amount--;
+        player.cash += 10;
+      });
+      house.food = [];
+      drawToolbar(player);
+      const path = findShortestPath(house, board.diner);
+      await triggerCarAnimation(path);
+    }
   }
 };

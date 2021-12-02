@@ -9,12 +9,13 @@ export type Player = {
   ceo: { card: Card };
   cards: Card[];
   food: {
-    [key: number]: {
+    [key: string]: {
       amount: number;
       sprite?: PIXI.Sprite;
       textSprite?: PIXI.Text;
     };
   };
+  cash: number;
   hiresAvailable: number;
 };
 
