@@ -1,4 +1,6 @@
 import { addObjectToBoard, Board } from './board';
+import { isHouse, rotateHouse } from './house';
+import { isRoad, rotateRoad } from './road';
 import {
   Chunk,
   addTileToBoard,
@@ -18,25 +20,41 @@ export const translateChunk = (chunk: Chunk, distance: number) => {
   return shiftedTileArray;
 };
 
-export const rotateChunk = (chunk: Chunk, orientation: number) => {
-  const rc = rotationConstants[orientation];
+export const rotateChunk = (
+  chunk: Chunk,
+  rotation: keyof typeof rotationConstants
+) => {
+  const rc = rotationConstants[rotation];
 
-  const rotatedTileArray = chunk.map((tile) => ({
+  const rotatedChunk = chunk.map((tile) => ({
     ...tile,
-    i: tile.i * rc.i,
-    j: tile.j * rc.j,
+    i: tile.i * rc.tile.cos - tile.j * rc.tile.sin,
+    j: tile.i * rc.tile.sin + tile.j * rc.tile.cos,
   }));
-  return rotatedTileArray;
+
+  const rotatedHouses = [];
+  rotatedChunk.forEach((tile) =>
+    tile.occupants.forEach((occupant, i) => {
+      if (isRoad(occupant)) {
+        rotateRoad(occupant, rotation);
+      } else if (isHouse(occupant) && !rotatedHouses.includes(occupant)) {
+        rotateHouse(rotatedChunk, tile, occupant, rotation);
+        rotatedHouses.push(occupant);
+      }
+    })
+  );
+
+  return rotatedChunk;
 };
 
 export const rotateAboutCenter = (
   chunk: Chunk,
-  orientation: number,
-  distance: number
+  rotation: keyof typeof rotationConstants,
+  size: number
 ) => {
-  const centeredChunk = translateChunk(chunk, -(distance - 1) / 2);
-  const rotatedChunk = rotateChunk(centeredChunk, orientation);
-  const finalChunk = translateChunk(rotatedChunk, (distance - 1) / 2);
+  const centeredChunk = translateChunk(chunk, -(size - 1) / 2);
+  const rotatedChunk = rotateChunk(centeredChunk, rotation);
+  const finalChunk = translateChunk(rotatedChunk, (size - 1) / 2);
   return finalChunk;
 };
 
@@ -46,14 +64,16 @@ export const drawChunks = (tileConfigs: TileConfig[]) => {
   for (let p = 0; p < board.chunksWide; p++) {
     for (let q = 0; q < board.chunksHigh; q++) {
       const chunk = chunks[Math.floor(Math.random() * chunks.length)];
-      // TODO: add random chunk rotation on placement
-      // const rotatedChunk = rotateAboutCenter(
-      //   chunk,
-      //   Math.floor(Math.random() * 4),
-      //   5
-      // );
+      const rotatedChunk = rotateAboutCenter(
+        chunk,
+        Math.floor(Math.random() * 4) as keyof typeof rotationConstants,
+        5
+      );
+
+      console.log(chunk[0]);
+
       chunks.splice(chunks.indexOf(chunk), 1);
-      drawChunk(board, p, q, chunk);
+      drawChunk(board, p, q, rotatedChunk);
     }
   }
 };

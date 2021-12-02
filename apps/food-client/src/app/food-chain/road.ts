@@ -1,5 +1,12 @@
 import * as PIXI from 'pixi.js';
-import { rls, ts, ts1_2, ts1_3, ts2_3 } from './utils/constants';
+import {
+  rls,
+  rotationConstants,
+  ts,
+  ts1_2,
+  ts1_3,
+  ts2_3,
+} from './utils/constants';
 import { BoardObject, Board, getAdjacentRoads } from './board';
 import { drawLine, drawDottedLine } from './utils/graphics-utils';
 import { app, mainLayer } from './utils/singletons';
@@ -154,10 +161,6 @@ export const getConnectedRoads = (roads: Road[], road: Road): Road[] => {
   return connectedRoads;
 };
 
-const rotateRoad = (road) => {
-  return road;
-};
-
 export const tintAdjacentRoads = (board: Board, road: Road) => {
   const adjacentRoads = getAdjacentRoads(board, road);
   board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
@@ -170,6 +173,17 @@ export const tintConnectedRoads = (board: Board, road: Road) => {
   adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
 };
 
+export const rotateRoad = (
+  road: Road,
+  rotation: keyof typeof rotationConstants
+) => {
+  road.connections.forEach((connection, i) => {
+    let newConnection = connection - 1;
+    newConnection = (newConnection + rotation) % 4;
+    road.connections[i] = newConnection + 1;
+  });
+};
+
 export const parseRoadConfig = (config: RegExpExecArray, zOffset: number) => {
   const road: Road = {
     w: 1,
@@ -177,14 +191,14 @@ export const parseRoadConfig = (config: RegExpExecArray, zOffset: number) => {
     connections: config[2].split('').map((i) => parseInt(i)),
     container: new PIXI.Container(),
   };
-  road.sprite = createRoadSprite(road);
-  road.container.addChild(road.sprite);
   road.container.parentLayer = mainLayer;
   road.container.zOrder = 2 + zOffset;
   return road;
 };
 
 export const addRoadToBoard = (board: Board, road: Road) => {
+  road.sprite = createRoadSprite(road);
+  road.container.addChild(road.sprite);
   road.container.x -= 2;
   road.container.y -= 2;
   road.container.interactive = true;

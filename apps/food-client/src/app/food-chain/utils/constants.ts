@@ -15,10 +15,10 @@ export const tileConfigRegex = /(\w)(\d*)(?:-(\d+))?/;
 export const debug = { enabled: false };
 
 export const rotationConstants = {
-  0: { i: 1, j: 1 },
-  1: { i: -1, j: 1 },
-  2: { i: -1, j: -1 },
-  3: { i: 1, j: -1 },
+  0: { tile: { sin: 0, cos: 1 }, occupant: { i: 0, j: 0 } },
+  1: { tile: { sin: 1, cos: 0 }, occupant: { i: -1, j: 0 } },
+  2: { tile: { sin: 0, cos: -1 }, occupant: { i: -1, j: -1 } },
+  3: { tile: { sin: -1, cos: 0 }, occupant: { i: 0, j: -1 } },
 };
 
 const postmanSpriteConfig: SpriteSheetConfig = {

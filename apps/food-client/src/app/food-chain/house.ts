@@ -2,10 +2,18 @@ import * as PIXI from 'pixi.js';
 import { Board, BoardObject } from './board';
 import { Diner } from './diner';
 import { createFoodSprite, FoodKind } from './food';
-import { ts } from './utils/constants';
+import { Tile } from './tile';
+import { rotationConstants, ts } from './utils/constants';
 import { demandBubbleTexture } from './utils/graphics';
 import { createSprite } from './utils/graphics-utils';
 import { app, mainLayer } from './utils/singletons';
+
+const houseTextures: { [key: string]: PIXI.Texture } = {
+  1: PIXI.Texture.from('https://i.imgur.com/Oy8pcaB.png'),
+  2: PIXI.Texture.from('https://i.imgur.com/kYdPrX7.png'),
+  3: PIXI.Texture.from('https://i.imgur.com/Oy8pcaB.png'),
+  4: PIXI.Texture.from('https://i.imgur.com/Rngqwb3.png'),
+};
 
 export type House = BoardObject & {
   orient: number;
@@ -17,13 +25,6 @@ export type House = BoardObject & {
 export const isHouse = (boardObject: BoardObject): boardObject is House => {
   const house = boardObject as House;
   return house['orient'] !== undefined && house.num !== undefined;
-};
-
-const houseTextures: { [key: string]: PIXI.Texture } = {
-  1: PIXI.Texture.from('https://i.imgur.com/Oy8pcaB.png'),
-  2: PIXI.Texture.from('https://i.imgur.com/kYdPrX7.png'),
-  3: PIXI.Texture.from('https://i.imgur.com/Oy8pcaB.png'),
-  4: PIXI.Texture.from('https://i.imgur.com/Rngqwb3.png'),
 };
 
 export const createHouseSprite = (house: House) => {
@@ -55,7 +56,26 @@ export const createHouseSprite = (house: House) => {
   return new PIXI.Sprite(renderTexture);
 };
 
-export const parseHouseConfig = (config: RegExpExecArray, zOffset: number) => {
+export const rotateHouse = (
+  chunk: Tile[],
+  oldTile: Tile,
+  house: House,
+  rotation: keyof typeof rotationConstants
+) => {
+  console.log(oldTile);
+  oldTile.occupants = [];
+  const newTile = chunk.find(
+    (tile) =>
+      tile.i === oldTile.i + rotationConstants[rotation].occupant.i &&
+      tile.j === oldTile.j + rotationConstants[rotation].occupant.j
+  );
+  newTile.occupants.push(house);
+  let newOrient = house.orient - 1;
+  newOrient = (newOrient + rotation) % 4;
+  house.orient = newOrient + 1;
+};
+
+export const parseHouseConfig = (config: RegExpExecArray) => {
   const house: House = {
     w: 2,
     h: 2,
@@ -64,8 +84,6 @@ export const parseHouseConfig = (config: RegExpExecArray, zOffset: number) => {
     container: new PIXI.Container(),
     food: [],
   };
-  house.sprite = createHouseSprite(house);
-  house.container.addChild(house.sprite);
   house.container.parentLayer = mainLayer;
   house.container.zOrder = 1;
   return house;
@@ -74,15 +92,8 @@ export const parseHouseConfig = (config: RegExpExecArray, zOffset: number) => {
 export const addHouseToBoard = (board: Board, house: House) => {
   house.container.x += 1;
   house.container.y += 1;
-  house.container.interactive = true;
-  house.container.buttonMode = true;
-  house.container.on('pointerdown', () => {
-    // const adjacentRoads = getAdjacentRoads(board, house);
-    // board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
-    // adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
-    // const path = findShortestPath(house, board.diner);
-    // if (path) triggerCarAnimation(path, house);
-  });
+  house.sprite = createHouseSprite(house);
+  house.container.addChild(house.sprite);
   board.houses.push(house);
 };
 

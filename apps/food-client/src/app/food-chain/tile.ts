@@ -62,7 +62,7 @@ export const parseTileContents = (contents: string, zOffset = 0) => {
   if (match[1] === 'r') {
     return parseRoadConfig(match, zOffset);
   } else if (match[1] === 'h') {
-    return parseHouseConfig(match, zOffset);
+    return parseHouseConfig(match);
   } else if (
     Object.values(drinkKinds)
       .map((kind) => kind.letter)
