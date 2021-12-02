@@ -71,8 +71,8 @@ export const addBoardToStage = (app: PIXI.Application, board: Board) => {
   board.container.pivot.y = board.container.height / 2;
   board.container.position.x = app.screen.width / 2;
   board.container.position.y = app.screen.height / 2;
-  board.container.scale.x = 0.8;
-  board.container.scale.y = 0.8;
+  // board.container.scale.x = 0.8;
+  // board.container.scale.y = 0.8;
   board.container.sortableChildren = true;
   board.container.filters = [];
   app.stage.addChild(board.container);

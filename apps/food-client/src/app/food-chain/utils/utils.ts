@@ -374,8 +374,7 @@ export const findTilePath = (
 ): Tile[] => {
   const debug = debugConfig.enabled;
   board.tiles.forEach((tile) => {
-    tile.toGoal = 99;
-    tile.fromStart = 99;
+    tile.fromStart = null;
   });
   const openTiles = [startTile];
   const closedTiles = [];
@@ -389,13 +388,14 @@ export const findTilePath = (
   let lastTile: Tile;
 
   let i = 0;
-  while (!pathFound && i < 5000) {
+  while (!pathFound && i < 1000) {
     i++;
     if (openTiles.length === 0) break;
     openTiles.sort(
       (tile1, tile2) =>
         tile1.toGoal + tile1.fromStart - (tile2.toGoal + tile2.fromStart)
     );
+    console.log(openTiles);
     const currentTile = openTiles[0];
     if (currentTile.i === endTile.i && currentTile.j === endTile.j) {
       console.log('path found');
@@ -410,14 +410,16 @@ export const findTilePath = (
     const connectedTiles = getAdjacentSquares(board.tiles, currentTile);
     connectedTiles.forEach((tile) => {
       if (!closedTiles.includes(tile) && !squareContainsRoad(tile)) {
-        tile.toGoal = calcDistance(tile, endTile);
+        if (!openTiles.includes(tile)) {
+          tile.toGoal = calcDistance(tile, endTile);
+          openTiles.push(tile);
+          if (debug) tile.sprite.tint = 0xaecd84;
+        }
         const fromStart = currentTile.fromStart + 1;
-        if (fromStart < tile.fromStart) {
+        if (tile.fromStart === null || fromStart < tile.fromStart) {
           tile.previousTile = currentTile;
           tile.fromStart = fromStart;
         }
-        openTiles.push(tile);
-        if (debug) tile.sprite.tint = 0xaecd84;
       }
     });
   }

@@ -40,6 +40,8 @@ export const bounceFood = (board: Board, tile: MarketingTile, house: House) => {
   const scaleFactor = ts / foodSprite.height;
   foodSprite.scale.x = scaleFactor;
   foodSprite.scale.y = scaleFactor;
+  foodSprite.position.x = tile.i * ts + (tile.w * ts) / 2;
+  foodSprite.position.y = tile.j * ts + (tile.h * ts) / 2;
   const startPosX = house.container.position.x + house.container.width / 2;
   const startPosY = house.container.position.y + house.container.height / 2;
   board.container.addChild(foodSprite);
@@ -93,6 +95,7 @@ export const walkToNextHouse = (
   item1: BoardObject,
   item2: BoardObject
 ) => {
+  if (isHouse(item2)) console.log(item2.num);
   const path = findTilePath(board, item1, item2);
   const queue: Anim[] = [];
   const postmanSprite = createPostmanSprite();
@@ -134,7 +137,6 @@ export const walkToNextHouse = (
               if (isHouse(item2)) {
                 renderHouseFood(item2);
                 affectedHouses.splice(0, 1);
-                console.log(affectedHouses);
                 if (affectedHouses.length > 0) {
                   setTimeout(
                     () =>
@@ -248,16 +250,19 @@ export const triggerRadioAnimation = (
   const options = {
     amplitude: 20,
     wavelength: 50,
-    speed: 250,
+    speed: 100,
     brightness: 1,
     radius: -1,
   };
 
-  const tileRadius = 12;
+  const tileRadius = 10;
   const pixelRadius = tileRadius * ts;
 
   const shockwaveFilter = new ShockwaveFilter(
-    [tile.container.position.x, tile.container.position.y],
+    [
+      (tile.i + 2) * ts + (tile.w * ts) / 2,
+      (tile.j + 2) * ts + (tile.h * ts) / 2,
+    ],
     options,
     0
   );
@@ -265,7 +270,7 @@ export const triggerRadioAnimation = (
   const update = (pixelRadius: number) => {
     const tileRadius = pixelRadius / ts;
     affectedHouses.forEach((house) => {
-      if (tileRadius + 2 > calcDistance(tile, house)) {
+      if (tileRadius + 3 > calcDistance(tile, house)) {
         bounceFood(board, tile, house);
         affectedHouses.splice(affectedHouses.indexOf(house), 1);
       }

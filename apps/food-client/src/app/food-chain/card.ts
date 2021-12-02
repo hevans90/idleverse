@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { cardConfigs, emptyCardConfig } from './card.configs';
+import { emptyCardConfig } from './card.configs';
 import {
   removeCardFromDrawer,
   addCardToDrawer,
@@ -8,7 +8,6 @@ import {
   organiseRecruitDrawer,
 } from './drawer';
 import { Indicator } from './indicators';
-import { MarketingTile } from './marketingTile';
 import { EmployeeType, EmployeeTypes, lineColour, Player } from './types';
 import { animations } from './utils/singletons';
 
