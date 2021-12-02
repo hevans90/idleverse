@@ -114,7 +114,6 @@ export const feedHouse = async (diner: Diner, house: House) => {
     });
     player.cash += cashReward;
     house.food = [];
-    renderToolbar(player);
     const car = addCarToBoard();
     car.container.addChild(house.demandContainer);
     if (path.length > 1) {
@@ -122,6 +121,7 @@ export const feedHouse = async (diner: Diner, house: House) => {
       await travelPath([firstRoad, firstRoad], car.container, car.sprite, 200);
       await travelPath(path, car.container, car.sprite, 20);
       playCashAnimation(diner, cashReward);
+      renderToolbar(player);
       car.container.removeChild(house.demandContainer);
       const lastRoad = path[path.length - 1];
       await travelPath([lastRoad, lastRoad], car.container, car.sprite, 100);
@@ -131,6 +131,7 @@ export const feedHouse = async (diner: Diner, house: House) => {
     } else if (path.length === 1) {
       await travelPath([path[0], path[0]], car.container, car.sprite, 200);
       playCashAnimation(diner, cashReward);
+      renderToolbar(player);
       car.container.removeChild(house.demandContainer);
       await travelPath([path[0], path[0]], car.container, car.sprite, 200);
     }
