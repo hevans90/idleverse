@@ -9,7 +9,7 @@ import {
   drawPhaseIndicator,
 } from './phase';
 import { drawChunks, drawOuterSquares } from './chunk';
-import { initCards } from './card';
+import { hireCard, initCards, manageCard } from './card';
 import { initMarketingTiles } from './marketingTile';
 import { renderToolbar } from './toolbar';
 import {
@@ -28,6 +28,7 @@ import { marketingTileConfigs } from './marketingTile.configs';
 import { initCommunalDrawers } from './drawer.configs';
 import { initPhases } from './phase.configs';
 import { Stage } from '@pixi/layers';
+import { assetMaps } from './utils/asset-loader';
 
 export const FoodChain = () => {
   useEffect(() => {
@@ -43,56 +44,45 @@ export const FoodChain = () => {
     document.addEventListener('keydown', (e) => {
       if (Object.keys(keyEventMap).includes(e.code)) keyEventMap[e.code]();
     });
-    keyEventMap.Digit1 = () => {
-      switchPlayer(players[0]);
-    };
-    keyEventMap.Digit2 = () => {
-      switchPlayer(players[1]);
-    };
-    keyEventMap.Digit3 = () => {
-      switchPlayer(players[2]);
-    };
-    keyEventMap.Digit4 = () => {
-      switchPlayer(players[3]);
-    };
-    keyEventMap.Digit5 = () => {
-      switchPlayer(players[4]);
-    };
+    for (let i = 0; i < 5; i++) {
+      keyEventMap[`Digit${i + 1}`] = () => {
+        switchPlayer(players[i]);
+      };
+    }
 
-    PIXI.Loader.shared
-      .add('car', 'https://i.imgur.com/6ADHQAp.png')
-      .add('beer', 'https://i.imgur.com/1Ym9YX6.png')
-      .add('lemonade', 'https://i.imgur.com/UaijMRU.png')
-      .add('cola', 'https://i.imgur.com/LesWWMh.png')
-      .add('burger', 'https://i.imgur.com/pyw8386.png')
-      .add('pizza', 'https://i.imgur.com/uQZeADM.png')
-      .load(() => {
-        //Initialise Players
-        initPlayers(5);
-        _currentPlayer.player = players[0];
-        const currentPlayer = _currentPlayer.player;
+    PIXI.Loader.shared.add(assetMaps).load(() => {
+      //Initialise Players
+      initPlayers(5);
+      _currentPlayer.player = players[0];
+      const currentPlayer = _currentPlayer.player;
 
-        drawChunks(tileConfigs);
-        addBoardToStage();
-        drawOuterSquares();
+      drawChunks(tileConfigs);
+      addBoardToStage();
+      drawOuterSquares();
 
-        initPhases();
+      initPhases();
 
-        drawDebugButton();
-        drawPhaseIndicator();
-        drawNextPhaseButton();
+      drawDebugButton();
+      drawPhaseIndicator();
+      drawNextPhaseButton();
 
-        initCommunalDrawers();
-        renderPlayerDrawers(currentPlayer);
-        renderToolbar(currentPlayer);
+      initCommunalDrawers();
+      renderPlayerDrawers(currentPlayer);
+      renderToolbar(currentPlayer);
 
-        initCards(Object.values(cardConfigs), cards);
-        initMarketingTiles(marketingTileConfigs, marketingTiles);
+      initCards(Object.values(cardConfigs), cards);
+      initMarketingTiles(marketingTileConfigs, marketingTiles);
 
-        app.ticker.add(() => {
-          animations.forEach((animation) => animation.update());
-        });
+      (async () => {
+        const card = cards.find((card) => card.kind === 'cartOperator');
+        await hireCard(currentPlayer, card);
+        manageCard(currentPlayer.ceo.card, card, 0);
+      })();
+
+      app.ticker.add(() => {
+        animations.forEach((animation) => animation.update());
       });
+    });
 
     return () => app.destroy(true, true);
   }, []);

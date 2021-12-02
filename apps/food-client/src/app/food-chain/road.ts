@@ -1,17 +1,15 @@
 import * as PIXI from 'pixi.js';
 import {
-  rls,
   rotationConstants,
+  rls,
   ts,
   ts1_2,
   ts1_3,
   ts2_3,
 } from './utils/constants';
-import { BoardObject, Board, getAdjacentRoads } from './board';
+import { BoardObject, getAdjacentRoads } from './board';
 import { drawLine, drawDottedLine } from './utils/graphics-utils';
-import { app, mainLayer } from './utils/singletons';
-import { findRoadPath } from './utils/utils';
-import { triggerCarAnimation } from './road.animations';
+import { app, board, mainLayer } from './utils/singletons';
 
 export type Road = BoardObject & {
   fromStart?: number;
@@ -123,12 +121,13 @@ export const getConnectedRoads = (roads: Road[], road: Road): Road[] => {
 
   if (road.connections.includes(1))
     connectedRoads = connectedRoads.concat(
-      roads.filter(
-        (_road) =>
+      roads.filter((_road) => {
+        return (
           _road.i === road.i - 1 &&
           _road.j === road.j &&
           _road.connections.includes(3)
-      )
+        );
+      })
     );
   if (road.connections.includes(2))
     connectedRoads = connectedRoads.concat(
@@ -161,13 +160,13 @@ export const getConnectedRoads = (roads: Road[], road: Road): Road[] => {
   return connectedRoads;
 };
 
-export const tintAdjacentRoads = (board: Board, road: Road) => {
-  const adjacentRoads = getAdjacentRoads(board, road);
+export const tintAdjacentRoads = (road: Road) => {
+  const adjacentRoads = getAdjacentRoads(road);
   board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
   adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
 };
 
-export const tintConnectedRoads = (board: Board, road: Road) => {
+export const tintConnectedRoads = (road: Road) => {
   const adjacentRoads = getConnectedRoads(board.roads, road);
   board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
   adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
@@ -196,7 +195,7 @@ export const parseRoadConfig = (config: RegExpExecArray, zOffset: number) => {
   return road;
 };
 
-export const addRoadToBoard = (board: Board, road: Road) => {
+export const addRoadToBoard = (road: Road) => {
   road.sprite = createRoadSprite(road);
   road.container.addChild(road.sprite);
   road.container.x -= 2;
@@ -204,10 +203,14 @@ export const addRoadToBoard = (board: Board, road: Road) => {
   road.container.interactive = true;
   road.container.buttonMode = true;
   road.container.on('pointerdown', () => {
-    if (board.diners.length > 0) {
-      const path = findRoadPath(getAdjacentRoads(board, board.diners[0]), road);
-      triggerCarAnimation(path, road as BoardObject);
-    }
+    // if (board.diners.length > 0) {
+    //   const path = findRoadPath(
+    //     board.roads,
+    //     getAdjacentRoads(board.diners[0]),
+    //     road
+    //   );
+    //   triggerCarAnimation(path, road as BoardObject);
+    // }
   });
   board.roads.push(road);
 };

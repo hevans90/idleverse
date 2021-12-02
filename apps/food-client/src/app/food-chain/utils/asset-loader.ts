@@ -1,0 +1,13 @@
+export const assetMaps: { name: string; url: string }[] = [
+  { name: 'diner', url: 'https://i.imgur.com/0QgedqC.png' },
+  { name: 'car', url: 'https://i.imgur.com/6ADHQAp.png' },
+  { name: 'truck', url: 'https://i.imgur.com/3a3og7T.png' },
+  { name: 'cash', url: 'https://i.imgur.com/G0H9hpe.png' },
+  { name: 'beer', url: 'https://i.imgur.com/1Ym9YX6.png' },
+  { name: 'lemonade', url: 'https://i.imgur.com/LesWWMh.png' },
+  { name: 'cola', url: 'https://i.imgur.com/UaijMRU.png' },
+  { name: 'burger', url: 'https://i.imgur.com/uQZeADM.png' },
+  { name: 'pizza', url: 'https://i.imgur.com/pyw8386.png' },
+  { name: 'demandBubble', url: 'https://i.imgur.com/lzbpThy.png' },
+  { name: 'grass', url: 'https://i.imgur.com/HT1J7Tc.png' },
+];

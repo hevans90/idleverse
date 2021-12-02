@@ -16,6 +16,7 @@ import {
 import { Player } from './player';
 import { disablePlacement, enablePlacement, Tile } from './tile';
 import { ts } from './utils/constants';
+import { createSprite } from './utils/graphics-utils';
 import {
   app,
   board,
@@ -159,6 +160,11 @@ export const initMarketingTiles = (
       foodSprites: [],
     };
     marketingTile.sprite = createMarketTileSprite(config);
+
+    marketingTile.sprite.anchor.x = 0.5;
+    marketingTile.sprite.anchor.y = 0.5;
+    marketingTile.sprite.x = marketingTile.sprite.width / 2;
+    marketingTile.sprite.y = marketingTile.sprite.height / 2;
     marketingTile.container.addChild(marketingTile.sprite);
     marketingTiles.push(marketingTile);
   });
@@ -193,9 +199,7 @@ export const renderMarketingTileFood = (tile: MarketingTile) => {
   tile.foodSprites.forEach((sprite) => sprite.destroy());
   tile.foodSprites = [];
   for (let i = 0; i < tile.foodQuant; i++) {
-    const foodSprite = new PIXI.Sprite(tile.foodKind.texture);
-    foodSprite.height = ts / 2;
-    foodSprite.width = ts / 2;
+    const foodSprite = createSprite(tile.foodKind.name, ts / 2);
     const xSpacing = 15 * tile.h;
     const xOffset =
       tile.sprite.width / 2 - (xSpacing * 1.5 + foodSprite.width / 2);

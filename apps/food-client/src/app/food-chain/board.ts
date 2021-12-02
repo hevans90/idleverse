@@ -11,7 +11,7 @@ import { renderToolbar } from './toolbar';
 import { ts } from './utils/constants';
 import { app, board } from './utils/singletons';
 import { BoardItem, collides, findShortestRoadPath } from './utils/utils';
-import { addCarToBoard, travelPath } from './utils/graphics-utils';
+import { addSpriteToBoard, travelPath } from './utils/graphics-utils';
 
 export type Board = {
   chunksWide: number;
@@ -32,13 +32,24 @@ export type BoardObject = BoardItem & {
   container?: PIXI.Container;
 };
 
-export const getAdjacentRoads = (board: Board, object: BoardItem): Road[] => {
+export const getAdjacentRoads = (object: BoardItem): Road[] => {
   return board.roads.filter((road) => {
     return (
       collides(object, { ...road, i: road.i + 1 }) ||
       collides(object, { ...road, i: road.i - 1 }) ||
       collides(object, { ...road, j: road.j + 1 }) ||
       collides(object, { ...road, j: road.j - 1 })
+    );
+  });
+};
+
+export const getAdjacentDrinks = (object: Road) => {
+  return board.drinks.filter((drink) => {
+    return (
+      collides(object, { ...drink, i: drink.i + 1 }) ||
+      collides(object, { ...drink, i: drink.i - 1 }) ||
+      collides(object, { ...drink, j: drink.j + 1 }) ||
+      collides(object, { ...drink, j: drink.j - 1 })
     );
   });
 };
@@ -51,17 +62,13 @@ export const rotateObject = (object: BoardObject) => {
   object.container.rotation += Math.PI / 2;
 };
 
-export const addObjectToBoard = (
-  board: Board,
-  tile: Tile,
-  boardObject: BoardObject
-) => {
+export const addObjectToBoard = (tile: Tile, boardObject: BoardObject) => {
   if (isHouse(boardObject)) {
-    addHouseToBoard(board, boardObject);
+    addHouseToBoard(boardObject);
   } else if (isRoad(boardObject)) {
-    addRoadToBoard(board, boardObject);
+    addRoadToBoard(boardObject);
   } else if (isDrink(boardObject)) {
-    addDrinkToBoard(board, boardObject);
+    addDrinkToBoard(boardObject);
   }
   boardObject.i = tile.i;
   boardObject.j = tile.j;
@@ -95,16 +102,17 @@ export const chooseDiner = (diners: Diner[], house: House) => {
   console.log(`found ${validDiners.length}`);
   if (validDiners.length === 0) return null;
   validDiners.forEach(
-    (diner) => (diner.path = findShortestRoadPath(house, diner))
+    (diner) =>
+      (diner.housePath = findShortestRoadPath(board.roads, house, diner))
   );
   return validDiners.sort(
-    (diner1, diner2) => diner1.path.length - diner2.path.length
+    (diner1, diner2) => diner1.housePath.length - diner2.housePath.length
   )[0];
 };
 
 export const feedHouse = async (diner: Diner, house: House) => {
   const player = diner.owner;
-  const path = diner.path;
+  const path = diner.housePath;
   if (path.length > 0) {
     let cashReward = 0;
     house.food.forEach((food) => {
@@ -114,8 +122,10 @@ export const feedHouse = async (diner: Diner, house: House) => {
     });
     player.cash += cashReward;
     house.food = [];
-    const car = addCarToBoard();
+    const car = addSpriteToBoard('car', ts * 1.2);
     car.container.addChild(house.demandContainer);
+    house.demandContainer.x -= 30;
+    house.demandContainer.y -= 10;
     if (path.length > 1) {
       const firstRoad = path[0];
       await travelPath([firstRoad, firstRoad], car.container, car.sprite, 200);

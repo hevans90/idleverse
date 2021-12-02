@@ -1,22 +1,23 @@
+import * as PIXI from 'pixi.js';
 import { translateObject } from './animation';
-import { Card } from './card';
-import { createFoodSprite, FoodKind, produceFood } from './food';
+import { FoodKind, produceFood } from './food';
 import { Player } from './player';
 import { ts } from './utils/constants';
+import { createSprite } from './utils/graphics-utils';
 import { app } from './utils/singletons';
 
 export const playProduceAnimation = async (
   player: Player,
-  card: Card,
+  object: PIXI.Container,
   foodKind: FoodKind
 ) => {
-  const foodSprite = createFoodSprite(foodKind, ts);
+  const foodSprite = createSprite(foodKind.name, ts);
   app.stage.addChild(foodSprite);
   await translateObject(
     foodSprite,
     {
-      x: card.container.getGlobalPosition().x + card.container.width / 2,
-      y: card.container.getGlobalPosition().y + card.container.height / 2,
+      x: object.getGlobalPosition().x + object.width / 2,
+      y: object.getGlobalPosition().y + object.height / 2,
     },
     {
       x: player.food[foodKind.name].sprite.getGlobalPosition().x,

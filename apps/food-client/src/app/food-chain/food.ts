@@ -1,53 +1,38 @@
 import * as PIXI from 'pixi.js';
 import { Player } from './player';
 import { ts } from './utils/constants';
-import { cashTexture } from './utils/graphics';
 import { createSprite } from './utils/graphics-utils';
 import { app, mainLayer } from './utils/singletons';
 
 export type FoodKind = {
   name?: string;
   letter?: string;
-  texture: PIXI.Texture;
   bg: number;
 };
 
 export const foodKinds: { [key: string]: FoodKind } = {
   beer: {
     letter: 'b',
-    texture: PIXI.Texture.from('https://i.imgur.com/1Ym9YX6.png'),
     bg: 0xa0e5af,
   },
   cola: {
     letter: 'c',
-    texture: PIXI.Texture.from('https://i.imgur.com/UaijMRU.png'),
     bg: 0xeeb4bf,
   },
   lemonade: {
     letter: 'l',
-    texture: PIXI.Texture.from('https://i.imgur.com/LesWWMh.png'),
     bg: 0xffe67d,
   },
   pizza: {
-    texture: PIXI.Texture.from('https://i.imgur.com/pyw8386.png'),
     bg: 0xf0ddae,
   },
   burger: {
-    texture: PIXI.Texture.from('https://i.imgur.com/uQZeADM.png'),
     bg: 0xd0b0a5,
   },
 };
 Object.entries(foodKinds).forEach((kind) => {
   kind[1].name = kind[0];
 });
-
-export const createCashSprite = (size: number) => {
-  return createSprite(cashTexture, size);
-};
-
-export const createFoodSprite = (foodKind: FoodKind, size: number) => {
-  return createSprite(foodKind.texture, size);
-};
 
 export const createFoodSpriteIcon = (foodKind: FoodKind) => {
   const graphic = new PIXI.Graphics();
@@ -56,9 +41,7 @@ export const createFoodSpriteIcon = (foodKind: FoodKind) => {
   graphic.drawRect(0, 0, ts, ts);
   graphic.endFill();
 
-  const foodSprite = new PIXI.Sprite(foodKind.texture);
-  foodSprite.height = ts;
-  foodSprite.width = ts;
+  const foodSprite = createSprite(foodKind.name, ts);
 
   const renderContainer = new PIXI.Container();
   renderContainer.addChild(graphic, foodSprite);

@@ -52,12 +52,6 @@ export const keyEventMap: { [key: string]: () => void } = {
   Space: () => {
     console.log('Space bar pressed');
   },
-  KeyA: () => {
-    console.log('A key pressed');
-  },
-  KeyD: () => {
-    console.log('D key pressed');
-  },
 };
 
 export const communalDrawers: { [key: string]: Drawer } = {};

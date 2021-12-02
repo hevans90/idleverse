@@ -7,28 +7,26 @@ import {
   translateObject,
 } from './animation';
 import { ShockwaveFilter } from '@pixi/filter-shockwave';
-import { Board, BoardObject } from './board';
+import { BoardObject } from './board';
 import { House, isHouse, renderHouseFood } from './house';
 import { MarketingTile, marketingTileKinds } from './marketingTile';
-import { createPostmanSprite, ts } from './utils/constants';
 import { animations, board, mainLayer } from './utils/singletons';
 import { calcDistance, findTilePath, sleep } from './utils/utils';
+import { createPostmanSprite, createSprite } from './utils/graphics-utils';
+import { ts } from './utils/constants';
 
-export const bounceFood = (board: Board, tile: MarketingTile, house: House) => {
+export const bounceFood = (tile: MarketingTile, house: House) => {
   const queue: Anim[] = [];
-  const foodSprite = new PIXI.Sprite(tile.foodKind.texture);
+  const foodSprite = createSprite(tile.foodKind.name, ts);
   foodSprite.parentLayer = mainLayer;
   foodSprite.zOrder = 10;
   foodSprite.anchor.x = 0.5;
   foodSprite.anchor.y = 0.5;
-  const scaleFactor = ts / foodSprite.height;
-  foodSprite.scale.x = scaleFactor;
-  foodSprite.scale.y = scaleFactor;
-  foodSprite.position.x = tile.i * ts + (tile.w * ts) / 2;
-  foodSprite.position.y = tile.j * ts + (tile.h * ts) / 2;
-  const startPosX = house.container.position.x + house.container.width / 2;
-  const startPosY = house.container.position.y + house.container.height / 2;
-  board.container.addChild(foodSprite);
+  foodSprite.position.x = (house.w * ts) / 2;
+  foodSprite.position.y = (house.h * ts) / 2;
+  const startPosX = foodSprite.position.x;
+  const startPosY = foodSprite.position.y;
+  house.container.addChild(foodSprite);
   for (let i = 1; i <= 3; i++) {
     queue.push(
       bounceObject(
@@ -43,7 +41,7 @@ export const bounceFood = (board: Board, tile: MarketingTile, house: House) => {
           if (queue.length > 0) {
             queue[0].start();
           } else {
-            board.container.removeChild(foodSprite);
+            house.container.removeChild(foodSprite);
             renderHouseFood(house);
           }
         }
@@ -58,7 +56,7 @@ export const triggerBillBoardAnimation = (
   affectedHouses: House[]
 ) => {
   affectedHouses.forEach((house) => {
-    bounceFood(board, tile, house);
+    bounceFood(tile, house);
   });
 };
 
@@ -153,7 +151,7 @@ export const triggerPlaneAnimation = async (
         (cos === 0 && house.i === starti - sin * 2) ||
         (sin === 0 && house.j === startj + cos * 2)
       ) {
-        const foodSprite = new PIXI.Sprite(tile.foodKind.texture);
+        const foodSprite = createSprite(tile.foodKind.name, ts);
         foodSprite.parentLayer = mainLayer;
         foodSprite.zOrder = 9;
         foodSprite.anchor.x = 0.5;
@@ -166,8 +164,8 @@ export const triggerPlaneAnimation = async (
         scaleObject(
           animations,
           foodSprite,
-          (ts / foodSprite.width) * 3,
-          ts / foodSprite.width,
+          foodSprite.scale.x * 3,
+          foodSprite.scale.x,
           100,
           null,
           () => {
@@ -209,7 +207,7 @@ export const triggerRadioAnimation = (
     const tileRadius = pixelRadius / ts;
     affectedHouses.forEach((house) => {
       if (tileRadius + 3 > calcDistance(tile, house)) {
-        bounceFood(board, tile, house);
+        bounceFood(tile, house);
         affectedHouses.splice(affectedHouses.indexOf(house), 1);
       }
     });

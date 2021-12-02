@@ -70,8 +70,6 @@ export const drawChunks = (tileConfigs: TileConfig[]) => {
         5
       );
 
-      console.log(chunk[0]);
-
       chunks.splice(chunks.indexOf(chunk), 1);
       drawChunk(board, p, q, rotatedChunk);
     }
@@ -96,9 +94,9 @@ export const drawOuterSquares = () => {
 
 export const drawChunk = (board: Board, p: number, q: number, chunk: Chunk) => {
   chunk.forEach((tile) => {
-    addTileToBoard(board, tile, p * 5, q * 5);
+    addTileToBoard(tile, p * 5, q * 5);
     tile.occupants.forEach((occupant, i) => {
-      addObjectToBoard(board, tile, occupant);
+      addObjectToBoard(tile, occupant);
     });
   });
 };

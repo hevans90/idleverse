@@ -59,7 +59,7 @@ export const isValidPosition = (
     return false;
   }
 
-  if (adjacentRoadRequired && getAdjacentRoads(board, item1).length === 0) {
+  if (adjacentRoadRequired && getAdjacentRoads(item1).length === 0) {
     return false;
   }
 
@@ -301,8 +301,12 @@ export const getConnectedSquares = (startSquare: Tile): Tile[] => {
   return validSquares;
 };
 
-export const findRoadPath = (startRoads: Road[], endRoad: Road): Road[] => {
-  board.roads.forEach((road) => {
+export const findRoadPath = (
+  validRoads: Road[],
+  startRoads: Road[],
+  endRoad: Road
+): Road[] => {
+  validRoads.forEach((road) => {
     road.toGoal = 99;
     road.fromStart = 99;
   });
@@ -332,7 +336,7 @@ export const findRoadPath = (startRoads: Road[], endRoad: Road): Road[] => {
     openRoads.splice(openRoads.indexOf(currentRoad), 1);
     closedRoads.push(currentRoad);
 
-    const connectedRoads = getConnectedRoads(board.roads, currentRoad);
+    const connectedRoads = getConnectedRoads(validRoads, currentRoad);
     connectedRoads.forEach((road) => {
       if (!closedRoads.includes(road)) {
         road.toGoal = calcDistance(road, endRoad);
@@ -424,15 +428,22 @@ export const findTilePath = (startTile: Tile, endTile: Tile): Tile[] => {
 };
 
 export const findShortestRoadPath = (
+  validRoads: Road[],
   item1: BoardObject,
   item2: BoardObject
 ) => {
   let path: Road[] = null;
-  const item1AdjacentRoads = getAdjacentRoads(board, item1);
-  const item2AdjacentRoads = getAdjacentRoads(board, item2);
-  item2AdjacentRoads.forEach((road) => {
-    const currentPath = findRoadPath(item1AdjacentRoads, road);
-    if (!path || currentPath.length < path.length) path = currentPath;
-  });
+  if (isRoad(item1) && isRoad(item2)) {
+    path = findRoadPath(validRoads, [item1], item2);
+  } else if (isRoad(item2)) {
+    path = findRoadPath(validRoads, getAdjacentRoads(item1), item2);
+  } else {
+    const item1AdjacentRoads = getAdjacentRoads(item1);
+    const item2AdjacentRoads = getAdjacentRoads(item2);
+    item2AdjacentRoads.forEach((road) => {
+      const currentPath = findRoadPath(validRoads, item1AdjacentRoads, road);
+      if (!path || currentPath.length < path.length) path = currentPath;
+    });
+  }
   return path;
 };

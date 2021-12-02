@@ -1,12 +1,13 @@
 import * as PIXI from 'pixi.js';
 import { Board, BoardObject } from './board';
-import { drinkKinds, parseDrinkConfig } from './drink';
+import { parseDrinkConfig } from './drink';
+import { foodKinds } from './food';
 import { parseHouseConfig } from './house';
 import { drawPlacementIndicator, PlacementIndicatorColour } from './indicators';
 import { parseRoadConfig } from './road';
 import { lineColour } from './types';
 import { tileConfigRegex, ts } from './utils/constants';
-import { grassTexture } from './utils/graphics';
+import { createSprite } from './utils/graphics-utils';
 import { app, board, keyEventMap, mainLayer } from './utils/singletons';
 import { calcDistance, rangeOverlapsItem } from './utils/utils';
 
@@ -34,13 +35,8 @@ export const generateTileTexture = (fillColor: number, alpha = 1) => {
   square.drawRect(2, 2, ts - 2, ts - 2);
   square.endFill();
 
-  const grassSprite = new PIXI.Sprite(grassTexture);
-  grassSprite.height = ts - 4;
-  grassSprite.width = ts - 4;
-
   const renderContainer = new PIXI.Container();
-  if (alpha === 1) renderContainer.addChild(square, grassSprite);
-  else renderContainer.addChild(square);
+  renderContainer.addChild(square);
 
   const baseTexture = new PIXI.BaseRenderTexture({
     width: ts,
@@ -52,8 +48,6 @@ export const generateTileTexture = (fillColor: number, alpha = 1) => {
 
   return renderTexture;
 };
-
-const tileTexture = generateTileTexture(0xffffff);
 const outerTileTexture = generateTileTexture(0xc8c1be, 0);
 
 export const parseTileContents = (contents: string, zOffset = 0) => {
@@ -64,7 +58,7 @@ export const parseTileContents = (contents: string, zOffset = 0) => {
   } else if (match[1] === 'h') {
     return parseHouseConfig(match);
   } else if (
-    Object.values(drinkKinds)
+    Object.values(foodKinds)
       .map((kind) => kind.letter)
       .includes(match[1])
   )
@@ -120,12 +114,11 @@ export const addOuterTileToBoard = (board: Board, i: number, j: number) => {
 };
 
 export const addTileToBoard = (
-  board: Board,
   tile: Tile,
   iOffset: number,
   jOffset: number
 ) => {
-  const squareSprite = new PIXI.Sprite(tileTexture);
+  const squareSprite = createSprite('grass', ts - 4);
   tile.sprite = squareSprite;
   tile.container = new PIXI.Container();
   tile.i += iOffset;
@@ -169,19 +162,8 @@ export const setRotation = (object: BoardObject) => {
 export const applyRotation = (object: BoardObject) => {
   object.sprite.rotation = object.rotation;
 
-  if (object.sprite.rotation === 0.5 * Math.PI) {
-    object.sprite.x = object.sprite.height;
-    object.sprite.y = 0;
-  } else if (object.sprite.rotation === 1.0 * Math.PI) {
-    object.sprite.x = object.sprite.width;
-    object.sprite.y = object.sprite.height;
-  } else if (object.sprite.rotation === 1.5 * Math.PI) {
-    object.sprite.x = 0;
-    object.sprite.y = object.sprite.width;
-  } else {
-    object.sprite.x = 0;
-    object.sprite.y = 0;
-  }
+  object.sprite.x = (object.w * ts) / 2;
+  object.sprite.y = (object.h * ts) / 2;
 };
 
 export const enablePlacement = (

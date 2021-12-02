@@ -1,15 +1,15 @@
-import { BoardObject } from './board';
 import { Road } from './road';
-import { addCarToBoard, travelPath } from './utils/graphics-utils';
+import { ts } from './utils/constants';
+import { addSpriteToBoard, travelPath } from './utils/graphics-utils';
 import { board } from './utils/singletons';
 
-export const triggerCarAnimation = async (
+export const triggerPathAnimation = async (
   path: Road[],
-  object: BoardObject
+  spriteName: string
 ) => {
   // const carSprite = createAnimatedCarSprite();
   // carSprite.play();
-  const car = addCarToBoard();
+  const car = addSpriteToBoard(spriteName, ts * 1.2);
   if (path.length > 1) {
     const firstRoad = path[0];
     await travelPath([firstRoad, firstRoad], car.container, car.sprite, 200);
@@ -23,5 +23,4 @@ export const triggerCarAnimation = async (
     await travelPath([path[0], path[0]], car.container, car.sprite, 400);
   }
   board.container.removeChild(car.container);
-  return object;
 };

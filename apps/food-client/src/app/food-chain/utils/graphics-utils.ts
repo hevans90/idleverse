@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
 import { translateObject } from '../animation';
 import { BoardObject } from '../board';
-import { createCarSprite, ts, ts1_2 } from './constants';
+import { ts1_2 } from './constants';
 import { board, mainLayer } from './singletons';
 import { Vector2 } from './utils';
 
@@ -12,6 +12,17 @@ export type SpriteSheetConfig = {
   rotation: number;
   lastRowItemCount: number;
   animationSpeed: number;
+};
+
+export const createSprite = (spriteName: string, size: number) => {
+  const sprite = new PIXI.Sprite(
+    PIXI.Loader.shared.resources[spriteName].texture
+  );
+  const xScale = size / sprite.height;
+  const yScale = size / sprite.width;
+  const scale = xScale > yScale ? yScale : xScale;
+  sprite.scale.x = sprite.scale.y = scale;
+  return sprite;
 };
 
 export const createAnimatedTexture = (conf: SpriteSheetConfig) => {
@@ -40,15 +51,6 @@ export const createAnimatedTexture = (conf: SpriteSheetConfig) => {
   return frames;
 };
 
-export const createSprite = (texture: PIXI.Texture, size: number) => {
-  const sprite = new PIXI.Sprite(texture);
-  const xScale = size / sprite.height;
-  const yScale = size / sprite.width;
-  const scale = xScale < yScale ? yScale : xScale;
-  sprite.scale.x = sprite.scale.y = scale;
-  return sprite;
-};
-
 export const createAnimatedSprite = (
   conf: SpriteSheetConfig,
   frames: PIXI.Texture[]
@@ -57,6 +59,33 @@ export const createAnimatedSprite = (
   sprite.animationSpeed = conf.animationSpeed;
   return sprite;
 };
+
+const postmanSpriteConfig: SpriteSheetConfig = {
+  url: 'https://i.imgur.com/FEGPres.png',
+  rows: 1,
+  cols: 4,
+  lastRowItemCount: 4,
+  rotation: 0,
+  animationSpeed: 0.2,
+};
+
+export const createAnimatedCarSprite = () =>
+  createAnimatedSprite(carSpriteConfig, carFrames);
+
+export const postmanFrames = createAnimatedTexture(postmanSpriteConfig);
+export const createPostmanSprite = () =>
+  createAnimatedSprite(postmanSpriteConfig, postmanFrames);
+
+const carSpriteConfig: SpriteSheetConfig = {
+  url: 'https://i.imgur.com/XUbpirS.png',
+  rows: 1,
+  cols: 2,
+  lastRowItemCount: 2,
+  rotation: Math.PI / 2,
+  animationSpeed: 0.2,
+};
+
+const carFrames = createAnimatedTexture(carSpriteConfig);
 
 export const drawLine = (
   graphic: PIXI.Graphics,
@@ -83,18 +112,16 @@ export const drawDottedLine = (
   }
 };
 
-export const addCarToBoard = () => {
-  const container = new PIXI.Container();
-  const sprite = createCarSprite();
+export const addSpriteToBoard = (spriteName: string, size: number) => {
+  const sprite = createSprite(spriteName, size);
   board.container.addChild(sprite);
   sprite.anchor.x = 0.5;
   sprite.anchor.y = 0.5;
-  const scaleFactor = ts / sprite.height;
-  sprite.scale.x = scaleFactor;
-  sprite.scale.y = scaleFactor;
+  const container = new PIXI.Container();
   container.addChild(sprite);
-  board.container.addChild(container);
   container.parentLayer = mainLayer;
+  board.container.addChild(container);
+
   return { container: container, sprite: sprite };
 };
 

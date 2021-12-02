@@ -1,12 +1,11 @@
 import * as PIXI from 'pixi.js';
-import { Board, BoardObject } from './board';
+import { BoardObject } from './board';
 import { Diner } from './diner';
-import { createFoodSprite, FoodKind } from './food';
+import { FoodKind } from './food';
 import { Tile } from './tile';
 import { rotationConstants, ts } from './utils/constants';
-import { demandBubbleTexture } from './utils/graphics';
 import { createSprite } from './utils/graphics-utils';
-import { app, mainLayer } from './utils/singletons';
+import { app, board, mainLayer } from './utils/singletons';
 
 const houseTextures: { [key: string]: PIXI.Texture } = {
   1: PIXI.Texture.from('https://i.imgur.com/Oy8pcaB.png'),
@@ -62,7 +61,6 @@ export const rotateHouse = (
   house: House,
   rotation: keyof typeof rotationConstants
 ) => {
-  console.log(oldTile);
   oldTile.occupants = [];
   const newTile = chunk.find(
     (tile) =>
@@ -89,7 +87,7 @@ export const parseHouseConfig = (config: RegExpExecArray) => {
   return house;
 };
 
-export const addHouseToBoard = (board: Board, house: House) => {
+export const addHouseToBoard = (house: House) => {
   house.container.x += 1;
   house.container.y += 1;
   house.sprite = createHouseSprite(house);
@@ -100,7 +98,7 @@ export const addHouseToBoard = (board: Board, house: House) => {
 export const addFoodToHouse = (house: House, foodKind: FoodKind) => {
   house.food.push({
     kind: foodKind,
-    sprite: new PIXI.Sprite(foodKind.texture),
+    sprite: createSprite(foodKind.name, ts),
   });
 };
 
@@ -108,17 +106,15 @@ export const renderHouseFood = (house: House) => {
   if (house.demandContainer) house.demandContainer.destroy();
   if (house.food.length > 0) {
     house.demandContainer = new PIXI.Container();
-    const demandBubbleSprite = createSprite(demandBubbleTexture, 100);
+    const demandBubbleSprite = createSprite('demandBubble', 160);
     house.demandContainer.addChild(demandBubbleSprite);
     house.food.forEach((food, i) => {
-      const foodSprite = createFoodSprite(food.kind, 50);
-      foodSprite.height = ts;
-      foodSprite.width = ts;
+      const foodSprite = createSprite(food.kind.name, ts);
       foodSprite.position.x = i * 30 + 5;
       foodSprite.position.y = 5;
       house.demandContainer.addChild(foodSprite);
     });
-    house.demandContainer.position.y = -105;
+    house.demandContainer.position.y = -90;
     house.container.addChild(house.demandContainer);
     house.demandContainer.parentLayer = mainLayer;
     house.demandContainer.zOrder = 6;

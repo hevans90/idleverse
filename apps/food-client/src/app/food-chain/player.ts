@@ -58,11 +58,11 @@ export const initPlayer = (number: number) => {
     hiresIndicator: null,
     cash: 0,
     food: {
-      beer: { amount: 10 },
-      lemonade: { amount: 0 },
-      cola: { amount: 0 },
-      pizza: { amount: 10 },
-      burger: { amount: 0 },
+      beer: { amount: 5 },
+      lemonade: { amount: 10 },
+      cola: { amount: 15 },
+      burger: { amount: 20 },
+      pizza: { amount: 25 },
     },
   };
 
@@ -177,5 +177,4 @@ export const switchPlayer = (player: Player) => {
   renderToolbar(player);
   currentPlayer.player = player;
   console.log(`Switched to player ${players.indexOf(player) + 1}`);
-  console.log(player);
 };
