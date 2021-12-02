@@ -14,7 +14,7 @@ export const animations: Anim[] = [];
 
 export const drawers: Drawer[] = [];
 
-export const ceoCard: Card = null;
+export const ceoCard: { card: Card } = { card: null };
 
 export const cards: Card[] = [];
 

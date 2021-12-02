@@ -10,7 +10,7 @@ import {
 import { Indicator } from './indicators';
 import { Player } from './player';
 import { EmployeeType, EmployeeTypes, lineColour } from './types';
-import { animations, cards } from './utils/singletons';
+import { animations, app, cards } from './utils/singletons';
 
 export type CardConfig = {
   title: string;
@@ -185,12 +185,12 @@ export const enableCardHire = (
 };
 
 export const enableCardStructure = (
-  app: PIXI.Application,
+  player: Player,
   beachDrawer: Drawer,
   structureDrawer: Drawer,
-  cards: Card[],
-  ceoCard: Card
+  cards: Card[]
 ) => {
+  const ceoCard = player.ceo.card;
   cards.forEach((card) => {
     let global: PIXI.Point;
     const start = { x: 0, y: 0 };

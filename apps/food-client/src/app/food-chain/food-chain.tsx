@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Box } from '@chakra-ui/react';
 import { getSquaresInRange, isValidPosition } from './utils/utils';
 import { addBoardToStage } from './board';
-import { Player } from './player';
+import { initCEOCard, Player } from './player';
 import { renderDrawer, Drawer, openDrawer, toggleOpen } from './drawer';
 import { drawerHiresIndicator } from './indicators';
 import {
@@ -14,7 +14,6 @@ import {
 import { drawChunks, drawOuterSquares } from './chunk';
 import { FoodKinds } from './food';
 import { disablePlacement, enablePlacement } from './tile';
-import { initCEOCard } from './ceo';
 import { enableCardHire, enableCardStructure, initCards } from './card';
 import {
   enableAdvertise,
@@ -31,7 +30,6 @@ import {
   app,
   board,
   cards,
-  ceoCard,
   currentPhase,
   drawers,
   keyEventMap,
@@ -46,6 +44,7 @@ export const FoodChain = () => {
     app.stage.sortableChildren = true;
 
     const player: Player = {
+      ceo: { card: null },
       cards: [],
       hiresAvailable: 10,
       food: {
@@ -75,7 +74,7 @@ export const FoodChain = () => {
       start: () => {
         if (!structureDrawer.open) toggleOpen(structureDrawer);
         if (!beachDrawer.open) toggleOpen(beachDrawer);
-        enableCardStructure(app, beachDrawer, structureDrawer, cards, ceoCard);
+        enableCardStructure(player, beachDrawer, structureDrawer, cards);
       },
       nextPhase: 'Hire',
     });
@@ -179,7 +178,7 @@ export const FoodChain = () => {
     drawers.forEach((drawer) => renderDrawer(drawer));
     const hiresIndicator = drawerHiresIndicator(player, beachDrawer);
 
-    initCEOCard(player, structureDrawer, ceoCard);
+    initCEOCard(player, structureDrawer);
     initCards(recruitDrawer, Object.values(cardConfigs), cards);
     initMarketingTiles(marketDrawer, marketingTileConfigs, marketingTiles);
 
