@@ -2953,10 +2953,20 @@
   resolved "https://registry.npmjs.org/@pixi/filter-fxaa/-/filter-fxaa-6.1.3.tgz"
   integrity sha512-yhKVxX5vFKQz3lxfqAGg4XoajFyIRR8XzWqEHgAsPMFRnIIQIbF25bMRygZj12P61z3vxwqAM/2bn7S46Ii1zQ==
 
+"@pixi/filter-glow@^4.1.5":
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/@pixi/filter-glow/-/filter-glow-4.1.5.tgz#bd92a6eca3320b71e8c3651fea26c56480a7b640"
+  integrity sha512-Km+30k1dMlmAn2QuzdR1qhGIiyRRrSLknS0aVxvFlCoIlBlSN6ii9eo2sn1FQxjJq3A977kwYrhrcZS/Y5SrwQ==
+
 "@pixi/filter-noise@6.1.3":
   version "6.1.3"
   resolved "https://registry.npmjs.org/@pixi/filter-noise/-/filter-noise-6.1.3.tgz"
   integrity sha512-oVRtcJwbN6VnAnvXZuLEZ0c12JUzporao5AziXgRAUjTMA3bFVE0/7Dx193Kx/l6UAasmzhWQctuv6NMxy5Efw==
+
+"@pixi/filter-shockwave@^4.1.5":
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/@pixi/filter-shockwave/-/filter-shockwave-4.1.5.tgz#2500f52f0ef77d790bc4890cc6d32c3a88bdf0c5"
+  integrity sha512-L9i12+2UIIIwxGdXeBBq1WNTexWgwdYIyq6NqG0dlet1qW8++4KxgLYERCT1lpPjDxUmD2SkOU9VR3sGJOP8pQ==
 
 "@pixi/graphics@6.1.3":
   version "6.1.3"
@@ -2967,6 +2977,11 @@
   version "6.1.3"
   resolved "https://registry.npmjs.org/@pixi/interaction/-/interaction-6.1.3.tgz"
   integrity sha512-ju3fE/KnO6KZChnZzZAdY6bfjlSh7/igZcVcd/MZRkAdNozx4QoN5sYmwrcvTvA5llMYaThSIRWgIHQiSlbOfQ==
+
+"@pixi/layers@^1.0.11":
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/@pixi/layers/-/layers-1.0.11.tgz#10343f92405101e950ff5f6faaee7dce7243104e"
+  integrity sha512-E9jVR7kWMbBBhyaoX4Vi/rZAk4QFMDFiwvZF5xXZ2sBKh1/2aaTD2oQB3QHtekQ0IYXjyxgRRVEpeYTlZgz5xA==
 
 "@pixi/loaders@6.1.3":
   version "6.1.3"

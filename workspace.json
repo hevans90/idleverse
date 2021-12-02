@@ -12,7 +12,7 @@
           "options": {
             "outputPath": "dist/apps/food-client",
             "index": "apps/food-client/src/index.html",
-            "main": "apps/food-client/src/main.tsx",
+            "main": "apps/food-client/src/index.tsx",
             "polyfills": "apps/food-client/src/polyfills.ts",
             "tsConfig": "apps/food-client/tsconfig.app.json",
             "assets": [
