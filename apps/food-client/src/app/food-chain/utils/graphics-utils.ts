@@ -1,4 +1,6 @@
 import * as PIXI from 'pixi.js';
+import { GlowFilter } from '@pixi/filter-glow';
+import { Card } from '../../Card/card';
 import { translateObject } from '../animation';
 import { BoardObject } from '../board';
 import { ts1_2 } from './constants';
@@ -12,6 +14,34 @@ export type SpriteSheetConfig = {
   rotation: number;
   lastRowItemCount: number;
   animationSpeed: number;
+};
+
+export const addGlow = (container: PIXI.Container) => {
+  container.filters = [new GlowFilter({ distance: 30, outerStrength: 2 })];
+};
+
+export const greyOut = (card: Card) => {
+  card.sprite.alpha = 0.25;
+  const bwFilter = new PIXI.filters.ColorMatrixFilter();
+  bwFilter.blackAndWhite(false);
+  card.container.filters = [bwFilter];
+};
+
+export const drawArrow = (card1: Card, card2: Card) => {
+  //containers
+  const c1 = card1.container;
+  const c2 = card2.container;
+  //midpoints
+  const mx = c1.x + c1.width + ((c2.x - (c1.x + c1.width)) * 3) / 4;
+  const my1 = c1.y + c1.height / 2;
+  const my2 = c2.y + c2.height / 2;
+  //graphic
+  const arrow = new PIXI.Graphics();
+  arrow.lineStyle(4, 0x0, 1);
+  drawLine(arrow, { x: c1.x + c1.width, y: my1 }, { x: mx, y: my1 });
+  drawLine(arrow, { x: mx, y: my1 }, { x: mx, y: my2 });
+  drawLine(arrow, { x: mx, y: my2 }, { x: c2.x, y: my2 });
+  return arrow;
 };
 
 export const createSprite = (spriteName: string, size: number) => {

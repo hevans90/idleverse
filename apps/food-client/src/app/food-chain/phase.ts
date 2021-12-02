@@ -126,9 +126,8 @@ const endCurrentPhase = async () => {
       object.sprite.alpha = 1;
     }
     object.container.filters = [];
-    if (object.hiresText) {
-      object.hiresText.text = '';
-    }
+    if (object.hiresText) object.hiresText.text = '';
+    if (object.trainsText) object.trainsText.text = '';
   });
   disablePlacement();
   await closeAllDrawers();

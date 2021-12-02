@@ -1,5 +1,5 @@
 import { CardConfig } from './card';
-import { EmployeeTypes } from './types';
+import { EmployeeTypes } from '../food-chain/types';
 
 export const emptyCardKind = 'emptyCard';
 
@@ -63,7 +63,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 3,
     row: 0,
     position: 4,
-    promotesFrom: 'SeniorVP',
+    promotesFrom: 'seniorVP',
   },
   managementTrainee: {
     title: 'Management\nTrainee',
@@ -196,7 +196,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 3,
     row: 4,
     position: 3,
-    promotesFrom: 'seniorVP',
+    promotesFrom: 'VP',
     maxTrains: 3,
   },
   errandBoy: {

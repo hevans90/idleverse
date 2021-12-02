@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 import { translateObject } from './animation';
-import { Card } from './card';
+import { Card } from '../Card/card';
 import { Diner } from './diner';
 import { House } from './house';
 import { MarketingTile } from './marketingTile';
@@ -8,6 +8,7 @@ import { Player } from './player';
 import { baseColour, lineColour } from './types';
 import { ts } from './utils/constants';
 import { app, communalDrawers, players } from './utils/singletons';
+import { drawArrow } from './utils/graphics-utils';
 
 export type Drawer = {
   name: string;
@@ -73,6 +74,7 @@ export const toggleDrawerOpen = async (drawer: Drawer) => {
 
 const arrangeStack = (stack: Card[], x: number, y: number) => {
   stack.forEach((card: Card, i) => {
+    card.container.zIndex = 1;
     card.container.position.x = x + 3 * i;
     card.container.position.y = y + 3 * i;
   });
@@ -117,9 +119,21 @@ export const renderRecruitDrawerContents = () => {
     const firstCard = stack[0];
     arrangeStack(
       stack,
-      firstCard.position * (firstCard.container.width + 50) + 10,
-      firstCard.row * (firstCard.container.height + 50) + 10
+      firstCard.position * (firstCard.container.width + 75) + 10,
+      firstCard.row * (firstCard.container.height + 75) + 10
     );
+  });
+  stacks.forEach((stack) => {
+    const card2 = stack[0];
+    if (card2.promotesFrom) {
+      console.log(card2.promotesFrom, card2.kind);
+      const card1 = stacks.find(
+        (stack) => stack[0].kind === card2.promotesFrom
+      )[0];
+      const arrow = drawArrow(card1, card2);
+      arrow.zIndex = 0;
+      drawer.contentsContainer.addChild(arrow);
+    }
   });
 };
 
@@ -222,8 +236,9 @@ export const renderDrawer = (drawer: Drawer) => {
   drawer.container.addChild(drawerContents);
   drawer.fixedContainer = drawerBody;
   drawer.contentsContainer = drawerContents;
+  drawer.contentsContainer.sortableChildren = true;
 
-  //Render object to artifially fix width of drawer at 0,0
+  //Render object to artifially fix width of drawer at (0, 0)
   const drawerContentsPlaceholder = new PIXI.Graphics();
   drawerContentsPlaceholder.beginFill(baseColour);
   drawerContentsPlaceholder.drawRoundedRect(0, 0, 1, 1, 20);

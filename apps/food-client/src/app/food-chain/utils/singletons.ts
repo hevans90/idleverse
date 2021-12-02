@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import { Group, Layer } from '@pixi/layers';
 import { Anim } from '../animation';
 import { Board } from '../board';
-import { Card } from '../card';
+import { Card } from '../../Card/card';
 import { Drawer } from '../drawer';
 import { MarketingTile } from '../marketingTile';
 import { Phase } from '../phase';

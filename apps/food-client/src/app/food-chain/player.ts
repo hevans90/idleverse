@@ -4,8 +4,8 @@ import {
   createCardSprite,
   initManagerContentsContainer,
   renderManagerCards,
-} from './card';
-import { ceoCardConfig } from './card.configs';
+} from '../Card/card';
+import { ceoCardConfig } from '../Card/card.configs';
 import { createDiner, Diner } from './diner';
 import {
   Drawer,
@@ -154,7 +154,7 @@ const initBeachDrawer = (player: Player) => {
     open: false,
     startY: (app.screen.height - 200) * 0.85,
     endY: app.screen.height - 100,
-    width: 1000,
+    width: 1500,
     tabWidth: 40,
     orient: 'left',
     employees: [],

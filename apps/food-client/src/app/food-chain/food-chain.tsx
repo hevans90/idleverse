@@ -9,7 +9,6 @@ import {
   drawPhaseIndicator,
 } from './phase';
 import { drawChunks, drawOuterSquares } from './chunk';
-import { hireCard, initCards, manageCard } from './card';
 import { initMarketingTiles } from './marketingTile';
 import { renderToolbar } from './toolbar';
 import {
@@ -23,13 +22,16 @@ import {
   players,
 } from './utils/singletons';
 import { tileConfigs } from './tile.configs';
-import { cardConfigs } from './card.configs';
+import { cardConfigs } from '../Card/card.configs';
 import { marketingTileConfigs } from './marketingTile.configs';
 import { initCommunalDrawers } from './drawer.configs';
 import { initPhases } from './phase.configs';
 import { Stage } from '@pixi/layers';
 import { assetMaps } from './utils/asset-loader';
 import { initExtraHouseTiles } from './house';
+import { initCards } from '../Card/card';
+import { hireCard } from '../Card/card.hire';
+import { manageCard } from '../Card/card.structure';
 
 export const FoodChain = () => {
   useEffect(() => {
@@ -76,9 +78,14 @@ export const FoodChain = () => {
       initExtraHouseTiles();
 
       (async () => {
-        const card = cards.find((card) => card.kind === 'cartOperator');
+        let card = cards.find((card) => card.kind === 'cartOperator');
         await hireCard(currentPlayer, card);
         manageCard(currentPlayer.ceo.card, card, 0);
+        card = cards.find((card) => card.kind === 'trainer');
+        await hireCard(currentPlayer, card);
+        manageCard(currentPlayer.ceo.card, card, 1);
+        card = cards.find((card) => card.kind === 'managementTrainee');
+        await hireCard(currentPlayer, card);
       })();
 
       app.ticker.add(() => {

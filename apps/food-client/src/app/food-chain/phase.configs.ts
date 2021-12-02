@@ -1,10 +1,5 @@
 import { enableDinnerTime } from './board';
-import {
-  untapCards,
-  enableCardStructure,
-  enableFoodProduction,
-  startHire,
-} from './card';
+import { untapCards } from '../Card/card';
 import { enableDinerPlacement } from './diner';
 import { openDrawer } from './drawer';
 import { enableExtraHousePlacement } from './house';
@@ -15,6 +10,10 @@ import {
   phases,
   players,
 } from './utils/singletons';
+import { startHire } from '../Card/card.hire';
+import { enableFoodProduction } from '../Card/card.produce';
+import { enableCardStructure } from '../Card/card.structure';
+import { startTrain } from '../Card/card.train';
 
 export const initPhases = () => {
   phases.push({
@@ -49,7 +48,18 @@ export const initPhases = () => {
         openDrawer(player.drawers.beach);
       });
     },
-    //end: () => deactivateCardHire(),
+    nextPhase: 'Train',
+  });
+  phases.push({
+    name: 'Train',
+    start: () => {
+      openDrawer(communalDrawers.recruit);
+      startTrain();
+      players.forEach((player) => {
+        openDrawer(player.drawers.structure);
+        openDrawer(player.drawers.beach);
+      });
+    },
     nextPhase: 'Market',
   });
   phases.push({

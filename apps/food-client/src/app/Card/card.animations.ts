@@ -1,10 +1,10 @@
 import * as PIXI from 'pixi.js';
-import { translateObject } from './animation';
-import { FoodKind, produceFood } from './food';
-import { Player } from './player';
-import { ts } from './utils/constants';
-import { createSprite } from './utils/graphics-utils';
-import { app } from './utils/singletons';
+import { translateObject } from '../food-chain/animation';
+import { FoodKind, produceFood } from '../food-chain/food';
+import { Player } from '../food-chain/player';
+import { ts } from '../food-chain/utils/constants';
+import { createSprite } from '../food-chain/utils/graphics-utils';
+import { app } from '../food-chain/utils/singletons';
 
 export const playProduceAnimation = async (
   player: Player,
