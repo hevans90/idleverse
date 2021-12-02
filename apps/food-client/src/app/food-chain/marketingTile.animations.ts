@@ -15,7 +15,7 @@ import {
   MarketingTileKinds,
 } from './marketingTile';
 import { createPostmanSprite, ts } from './utils/constants';
-import { animations, app } from './utils/singletons';
+import { animations } from './utils/singletons';
 import { calcDistance, findTilePath } from './utils/utils';
 
 const generatePlayNext = (

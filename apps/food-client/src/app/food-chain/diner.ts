@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js';
-import { Board, BoardObject, getAdjacentRoads } from './board';
+import { BoardObject, getAdjacentRoads } from './board';
 import { ts } from './utils/constants';
+import { board } from './utils/singletons';
 import { getRandomValidPosition } from './utils/utils';
 
 const dinerTexture = PIXI.Texture.from('https://i.imgur.com/gPK9T8l.png');
@@ -22,7 +23,7 @@ export const createDinerSprite = (ts: number) => {
   return dinerSprite;
 };
 
-export const addDinerToBoard = (board: Board) => {
+export const addDinerToBoard = () => {
   const diner: Diner = {
     i: 0,
     j: 0,

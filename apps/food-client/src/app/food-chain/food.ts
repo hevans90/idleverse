@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { MarketingTile } from './marketingTile';
+import { MarketingTile, renderMarketingTileFood } from './marketingTile';
 import { ts } from './utils/constants';
 import { app } from './utils/singletons';
 
@@ -9,7 +9,7 @@ export type FoodKind = {
   bg: number;
 };
 
-enum FoodKinds {
+export enum FoodKinds {
   beer,
   cola,
   lemonade,
@@ -41,6 +41,15 @@ export const foodKindsConfig: { [key: number]: FoodKind } = {
     texture: PIXI.Texture.from('https://i.imgur.com/uQZeADM.png'),
     bg: 0xd0b0a5,
   },
+};
+
+export const createFoodSprite = (foodKind: FoodKind, size: number) => {
+  const foodSprite = new PIXI.Sprite(foodKind.texture);
+  const xScale = size / foodSprite.height;
+  const yScale = size / foodSprite.width;
+  const scale = xScale > yScale ? yScale : xScale;
+  foodSprite.scale.x = foodSprite.scale.y = scale;
+  return foodSprite;
 };
 
 export const createFoodSpriteIcon = (foodKind: FoodKind) => {
@@ -91,18 +100,4 @@ export const createFoodSelect = (tile: MarketingTile) => {
   foodSelect.name = 'foodSelect';
 
   tile.container.addChild(foodSelect);
-};
-
-export const renderMarketingTileFood = (tile: MarketingTile) => {
-  tile.foodSprites.forEach((sprite) => sprite.destroy());
-  tile.foodSprites = [];
-  for (let i = 0; i < tile.foodQuant; i++) {
-    const foodSprite = new PIXI.Sprite(tile.foodKind.texture);
-    foodSprite.height = ts;
-    foodSprite.width = ts;
-    foodSprite.position.x = i * 20 + (tile.w * ts) / 2 - ts;
-    foodSprite.position.y = 10;
-    tile.container.addChild(foodSprite);
-    tile.foodSprites.push(foodSprite);
-  }
 };

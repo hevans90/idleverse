@@ -1,5 +1,27 @@
 import * as PIXI from 'pixi.js';
+import { Drawer } from './drawer';
+import { Player } from './player';
 import { ts } from './utils/constants';
+
+export enum PlacementIndicatorColour {
+  invalid = 0x8b0000,
+  valid = 0x8b8000,
+  range = 0x9b39f7,
+}
+
+export const drawPlacementIndicator = (
+  w: number,
+  h: number,
+  indicatorType: PlacementIndicatorColour
+) => {
+  const indicator = new PIXI.Graphics();
+  indicator.name = 'indicator';
+  indicator.lineStyle(4, indicatorType, 1);
+  indicator.beginFill(indicatorType, 0.25);
+  indicator.drawRect(0, 0, ts * w - 2, ts * h - 2);
+  indicator.endFill();
+  return indicator;
+};
 
 export type Indicator = {
   width: number;
@@ -12,27 +34,7 @@ export type Indicator = {
   container?: PIXI.Container;
 };
 
-export enum IndicatorColour {
-  invalid = 0x8b0000,
-  valid = 0x8b8000,
-  range = 0x9b39f7,
-}
-
-export const drawIndicator = (
-  w: number,
-  h: number,
-  indicatorType: IndicatorColour
-) => {
-  const indicator = new PIXI.Graphics();
-  indicator.name = 'indicator';
-  indicator.lineStyle(4, indicatorType, 1);
-  indicator.beginFill(indicatorType, 0.25);
-  indicator.drawRect(0, 0, ts * w - 2, ts * h - 2);
-  indicator.endFill();
-  return indicator;
-};
-
-export const drawBoxIndicator = (indicator: Indicator) => {
+export const initBoxIndicator = (indicator: Indicator) => {
   const indicatorContainer = new PIXI.Container();
   const indicatorBox = new PIXI.Graphics();
   indicatorBox.lineStyle(4, indicator.borderColor, 1);
@@ -60,5 +62,25 @@ export const drawBoxIndicator = (indicator: Indicator) => {
   indicator.textGraphic = indicatorText;
   indicator.container = indicatorContainer;
 
-  return indicatorContainer;
+  return indicator;
+};
+
+export const drawerHiresIndicator = (player: Player, beachDrawer: Drawer) => {
+  const hiresIndicatorConfig: Indicator = {
+    height: 50,
+    width: 250,
+    borderColor: 0xffbd2e,
+    bgColor: 0xffd67d,
+    textColor: 0x000000,
+    text: `Hires Available: ${player.hiresAvailable.toString()}`,
+  };
+
+  const hiresIndicator = initBoxIndicator(hiresIndicatorConfig);
+  hiresIndicator.container.position.x =
+    beachDrawer.container.width / 2 - hiresIndicatorConfig.container.width / 2;
+  hiresIndicator.container.position.y = beachDrawer.container.height - 100;
+
+  beachDrawer.contentsContainer.addChild(hiresIndicatorConfig.container);
+
+  return hiresIndicator;
 };

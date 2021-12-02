@@ -1,26 +1,43 @@
-import * as PIXI from 'pixi.js';
 import { useEffect } from 'react';
 import { Box } from '@chakra-ui/react';
-import { addDinerToBoard } from './diner';
-import { drawBoxIndicator, Indicator } from './indicators';
-import { renderDrawer, Drawer } from './drawer';
-import { initCards } from './card';
-import { addBoardToStage, Board } from './board';
-import { tileConfigs } from './tile.configs';
-import { drawChunks, drawOuterSquares } from './chunk';
+import { getSquaresInRange, isValidPosition } from './utils/utils';
+import { addBoardToStage } from './board';
+import { Player } from './player';
+import { renderDrawer, Drawer, openDrawer, toggleOpen } from './drawer';
+import { drawerHiresIndicator } from './indicators';
 import {
   drawDebugButton,
   drawNextPhaseButton,
   drawPhaseIndicator,
-  Phase,
+  getPhase,
 } from './phase';
-import { cardConfigs } from './card.configs';
-import { initCEOCard } from './ceo';
-import { initMarketingTiles } from './marketingTile';
-import { marketingTileConfigs } from './marketingTile.configs';
+import { drawChunks, drawOuterSquares } from './chunk';
+import { FoodKinds } from './food';
 import { disablePlacement, enablePlacement } from './tile';
-import { animations, app, keyEventMap } from './utils/singletons';
-import { getSquaresInRange, isValidPosition } from './utils/utils';
+import { initCEOCard } from './ceo';
+import { enableCardHire, enableCardStructure, initCards } from './card';
+import {
+  enableAdvertise,
+  enableMarketingTilePlacement,
+  initMarketingTiles,
+} from './marketingTile';
+import { addDinerToBoard } from './diner';
+import { drawToolbar } from './toolbar';
+import { tileConfigs } from './tile.configs';
+import { cardConfigs } from './card.configs';
+import { marketingTileConfigs } from './marketingTile.configs';
+import {
+  animations,
+  app,
+  board,
+  cards,
+  ceoCard,
+  currentPhase,
+  drawers,
+  keyEventMap,
+  marketingTiles,
+  phases,
+} from './utils/singletons';
 
 export const FoodChain = () => {
   useEffect(() => {
@@ -28,89 +45,112 @@ export const FoodChain = () => {
     app.resizeTo = gameElement;
     app.stage.sortableChildren = true;
 
-    const player = {
+    const player: Player = {
       cards: [],
       hiresAvailable: 10,
-    };
-
-    const board: Board = {
-      chunksWide: 5,
-      chunksHigh: 4,
-      tiles: [],
-      outerTiles: [],
-      roads: [],
-      houses: [],
-      drinks: [],
-      marketingTiles: [],
-      diner: null,
-      container: new PIXI.Container(),
-    };
-
-    const phases: { [key: string]: Phase } = {
-      launch: {
-        name: 'Launch',
-      },
-      structure: {
-        name: 'Structure',
-      },
-      hire: {
-        name: 'Hire',
-      },
-      train: {
-        name: 'Train',
-      },
-      market: {
-        name: 'Market',
-      },
-      advertise: {
-        name: 'Advertise',
+      food: {
+        [FoodKinds.beer]: 0,
+        [FoodKinds.lemonade]: 0,
+        [FoodKinds.cola]: 0,
+        [FoodKinds.pizza]: 0,
+        [FoodKinds.burger]: 0,
       },
     };
 
-    phases.launch.nextPhase = phases.structure;
-    phases.structure.nextPhase = phases.hire;
-    phases.hire.nextPhase = phases.train;
-    phases.train.nextPhase = phases.market;
-    phases.market.nextPhase = phases.advertise;
-    phases.advertise.nextPhase = phases.structure;
-
-    const currentPhase = phases.train;
+    phases.push({
+      name: 'Launch',
+      start: () => {
+        enablePlacement(
+          board.diner,
+          board.tiles,
+          (square) => isValidPosition(board, board.diner, square, true),
+          (square) => getSquaresInRange(board, board.diner, square, 1),
+          () => disablePlacement(board)
+        );
+      },
+      nextPhase: 'Structure',
+    });
+    phases.push({
+      name: 'Structure',
+      start: () => {
+        if (!structureDrawer.open) toggleOpen(structureDrawer);
+        if (!beachDrawer.open) toggleOpen(beachDrawer);
+        enableCardStructure(app, beachDrawer, structureDrawer, cards, ceoCard);
+      },
+      nextPhase: 'Hire',
+    });
+    phases.push({
+      name: 'Hire',
+      start: () => {
+        if (!beachDrawer.open) toggleOpen(beachDrawer);
+        if (!recruitDrawer.open) toggleOpen(recruitDrawer);
+        enableCardHire(
+          player,
+          cards,
+          recruitDrawer,
+          beachDrawer,
+          hiresIndicator
+        );
+      },
+      nextPhase: 'Train',
+    });
+    phases.push({
+      name: 'Train',
+      nextPhase: 'Market',
+    });
+    phases.push({
+      name: 'Market',
+      start: () => {
+        if (!marketDrawer.open) toggleOpen(marketDrawer);
+        enableMarketingTilePlacement(marketDrawer, marketingTiles);
+      },
+      nextPhase: 'Advertise',
+    });
+    phases.push({
+      name: 'Advertise',
+      start: () => {
+        enableAdvertise(marketingTiles);
+      },
+      nextPhase: 'Structure',
+    });
+    currentPhase.phase = getPhase('Launch');
 
     document.addEventListener('keydown', (e) => {
       if (Object.keys(keyEventMap).includes(e.code)) keyEventMap[e.code]();
     });
 
     const recruitDrawer: Drawer = {
+      name: 'recruit',
       open: false,
-      y: 100,
+      startY: 100,
+      endY: app.screen.height - 100,
       width: 900,
-      height: app.screen.height - 100,
-      tabY: 0,
+      tabEndY: (app.screen.height - 200) / 2,
       tabWidth: 40,
-      tabHeight: (app.screen.height - 100) / 2,
       orient: 'right',
       cards: [],
       marketingTiles: [],
     };
 
-    const marketingDrawer: Drawer = {
+    const marketDrawer: Drawer = {
+      name: 'market',
       open: false,
-      y: 100,
+      startY: 100,
+      endY: app.screen.height - 100,
       width: 900,
-      height: app.screen.height - 100,
-      tabY: (app.screen.height - 100) / 2,
+      tabStartY: (app.screen.height - 200) / 2,
       tabWidth: 40,
-      tabHeight: (app.screen.height - 100) / 2,
       orient: 'right',
       cards: [],
       marketingTiles: [],
     };
 
     const structureDrawer: Drawer = {
+      name: 'structure',
       open: false,
-      y: 100,
+      startY: 100,
+      endY: (app.screen.height - 200) * 0.85,
       width: 1500,
-      height: app.screen.height * 0.8 - 100,
       tabWidth: 40,
       orient: 'left',
       cards: [],
@@ -118,72 +158,38 @@ export const FoodChain = () => {
     };
 
     const beachDrawer: Drawer = {
+      name: 'beach',
       open: false,
-      y: app.screen.height * 0.8,
+      startY: (app.screen.height - 200) * 0.85,
+      endY: app.screen.height - 100,
       width: 1500,
-      height: app.screen.height * 0.2,
       tabWidth: 40,
       orient: 'left',
       cards: [],
       marketingTiles: [],
     };
 
-    const hiresIndicator: Indicator = {
-      height: 50,
-      width: 250,
-      borderColor: 0xffbd2e,
-      bgColor: 0xffd67d,
-      textColor: 0x000000,
-      text: `Hires Available: ${player.hiresAvailable.toString()}`,
-    };
+    drawers.push(recruitDrawer, marketDrawer, structureDrawer, beachDrawer);
 
-    drawChunks(board, tileConfigs);
-    addDinerToBoard(board);
-    addBoardToStage(app, board);
-    drawOuterSquares(board);
+    drawChunks(tileConfigs);
+    addDinerToBoard();
+    addBoardToStage();
+    drawOuterSquares();
 
-    renderDrawer(recruitDrawer);
-    renderDrawer(marketingDrawer);
-    renderDrawer(structureDrawer);
-    renderDrawer(beachDrawer);
+    drawers.forEach((drawer) => renderDrawer(drawer));
+    const hiresIndicator = drawerHiresIndicator(player, beachDrawer);
 
-    const ceoCard = initCEOCard(player, structureDrawer);
-    const cards = initCards(recruitDrawer, Object.values(cardConfigs));
-    const marketingTiles = initMarketingTiles(
-      marketingDrawer,
-      marketingTileConfigs
-    );
+    initCEOCard(player, structureDrawer, ceoCard);
+    initCards(recruitDrawer, Object.values(cardConfigs), cards);
+    initMarketingTiles(marketDrawer, marketingTileConfigs, marketingTiles);
 
-    drawPhaseIndicator(app, Object.values(phases), currentPhase);
-    drawNextPhaseButton(
-      board,
-      player,
-      hiresIndicator,
-      phases,
-      currentPhase,
-      recruitDrawer,
-      beachDrawer,
-      structureDrawer,
-      marketingDrawer,
-      ceoCard,
-      cards,
-      marketingTiles
-    );
-    drawDebugButton(board);
-    drawBoxIndicator(hiresIndicator);
-    beachDrawer.contentsContainer.addChild(hiresIndicator.container);
-    hiresIndicator.container.position.x = 620;
-    hiresIndicator.container.position.y = 180;
+    drawDebugButton();
+    drawPhaseIndicator();
+    drawNextPhaseButton();
 
-    if (currentPhase === phases.launch)
-      enablePlacement(
-        board,
-        board.diner,
-        board.tiles,
-        (square) => isValidPosition(board, board.diner, square, true),
-        (square) => getSquaresInRange(board, board.diner, square, 1),
-        () => disablePlacement(board)
-      );
+    drawToolbar(player);
+
+    currentPhase.phase.start();
 
     app.ticker.add(() => {
       animations.forEach((animation) => animation.update());
@@ -193,5 +199,5 @@ export const FoodChain = () => {
     return () => app.destroy(true, true);
   }, []);
 
-  return <Box id="game" mx="2vw" w="96vw" my="2vh" h="96vh"></Box>;
+  return <Box id="game" mx="0.5vw" w="99vw" my="1vh" h="98vh"></Box>;
 };

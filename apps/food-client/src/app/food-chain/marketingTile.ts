@@ -6,7 +6,7 @@ import {
   organiseMarketingDrawer,
   toggleOpen,
 } from './drawer';
-import { createFoodSelect, FoodKind, renderMarketingTileFood } from './food';
+import { createFoodSelect, FoodKind } from './food';
 import { House } from './house';
 import {
   triggerBillBoardAnimation,
@@ -14,10 +14,10 @@ import {
   triggerPlaneAnimation,
   triggerRadioAnimation,
 } from './marketingTile.animations';
+import { Player } from './player';
 import { disablePlacement, enablePlacement, Tile } from './tile';
-import { Player } from './types';
 import { ts } from './utils/constants';
-import { app } from './utils/singletons';
+import { app, board } from './utils/singletons';
 import {
   getConnectedSquares,
   getSquaresInLine,
@@ -155,9 +155,9 @@ export const createMarketTileSprite = (config: MarketingTileConfig) => {
 
 export const initMarketingTiles = (
   marketingDrawer: Drawer,
-  configs: MarketingTileConfig[]
+  configs: MarketingTileConfig[],
+  marketingTiles: MarketingTile[]
 ) => {
-  const marketingTiles: MarketingTile[] = [];
   configs.forEach((config) => {
     const marketingTile: MarketingTile = {
       ...config,
@@ -181,47 +181,49 @@ export const initMarketingTiles = (
 };
 
 export const enableMarketingTilePlacement = (
-  board: Board,
   marketingDrawer: Drawer,
-  tile: MarketingTile
+  tiles: MarketingTile[]
 ) => {
-  const callback = () => {
-    disablePlacement(board);
-    createFoodSelect(tile);
-  };
-  tile.sprite.interactive = true;
-  tile.sprite.buttonMode = true;
-  tile.sprite.on('pointerdown', () => {
-    enablePlacement(
-      board,
-      tile,
-      marketingTileKindConfigs[tile.kind].getValidTiles(board),
-      (square) =>
-        marketingTileKindConfigs[tile.kind].isValidPlacement(
-          board,
-          tile,
-          square
-        ),
-      (square) =>
-        marketingTileKindConfigs[tile.kind].getTilesInRange(
-          board,
-          tile,
-          square
-        ),
-      callback
-    );
+  tiles.forEach((tile) => {
+    const callback = () => {
+      disablePlacement(board);
+      createFoodSelect(tile);
+    };
+    tile.sprite.interactive = true;
+    tile.sprite.buttonMode = true;
+    tile.sprite.on('pointerdown', () => {
+      enablePlacement(
+        tile,
+        marketingTileKindConfigs[tile.kind].getValidTiles(board),
+        (square) =>
+          marketingTileKindConfigs[tile.kind].isValidPlacement(
+            board,
+            tile,
+            square
+          ),
+        (square) =>
+          marketingTileKindConfigs[tile.kind].getTilesInRange(
+            board,
+            tile,
+            square
+          ),
+        callback
+      );
 
-    if (marketingDrawer.open) toggleOpen(marketingDrawer);
+      if (marketingDrawer.open) toggleOpen(marketingDrawer);
+    });
   });
 };
 
-export const enableAdvertise = (board: Board, tile: MarketingTile) => {
-  tile.sprite.interactive = true;
-  tile.sprite.buttonMode = true;
-  tile.sprite.on('pointerdown', () => advertise(board, tile));
+export const enableAdvertise = (tiles: MarketingTile[]) => {
+  tiles.forEach((tile) => {
+    tile.sprite.interactive = true;
+    tile.sprite.buttonMode = true;
+    tile.sprite.on('pointerdown', () => advertise(tile));
+  });
 };
 
-export const advertise = (board: Board, tile: MarketingTile) => {
+export const advertise = (tile: MarketingTile) => {
   const tilesInRange = marketingTileKindConfigs[tile.kind].getTilesInRange(
     board,
     tile,
@@ -242,5 +244,19 @@ export const advertise = (board: Board, tile: MarketingTile) => {
       });
     });
     marketingTileKindConfigs[tile.kind].advertise(board, tile, affectedHouses);
+  }
+};
+
+export const renderMarketingTileFood = (tile: MarketingTile) => {
+  tile.foodSprites.forEach((sprite) => sprite.destroy());
+  tile.foodSprites = [];
+  for (let i = 0; i < tile.foodQuant; i++) {
+    const foodSprite = new PIXI.Sprite(tile.foodKind.texture);
+    foodSprite.height = ts;
+    foodSprite.width = ts;
+    foodSprite.position.x = i * 20 + (tile.w * ts) / 2 - ts;
+    foodSprite.position.y = 20;
+    tile.container.addChild(foodSprite);
+    tile.foodSprites.push(foodSprite);
   }
 };

@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import { Card, createCardSprite } from './card';
 import { ceoCardConfig, emptyCardConfig } from './card.configs';
 import { Drawer } from './drawer';
-import { Player } from './types';
+import { Player } from './player';
 
 const validCardTint = new PIXI.Graphics();
 validCardTint.beginFill(0x37946e, 0.25);
@@ -14,8 +14,12 @@ invalidCardTint.beginFill(0xd3002c, 0.25);
 invalidCardTint.drawRoundedRect(0, 0, 200, 192, 12);
 invalidCardTint.endFill();
 
-export const initCEOCard = (player: Player, structureDrawer: Drawer) => {
-  const ceoCard: Card = {
+export const initCEOCard = (
+  player: Player,
+  structureDrawer: Drawer,
+  ceoCard: Card
+) => {
+  ceoCard = {
     ...ceoCardConfig,
     container: createCardSprite(ceoCardConfig),
     owner: player,

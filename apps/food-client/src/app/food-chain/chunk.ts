@@ -7,6 +7,7 @@ import {
   addOuterTileToBoard,
 } from './tile';
 import { rotationConstants } from './utils/constants';
+import { board } from './utils/singletons';
 
 export const translateChunk = (chunk: Chunk, distance: number) => {
   const shiftedTileArray = chunk.map((tile) => ({
@@ -39,7 +40,7 @@ export const rotateAboutCenter = (
   return finalChunk;
 };
 
-export const drawChunks = (board: Board, tileConfigs: TileConfig[]) => {
+export const drawChunks = (tileConfigs: TileConfig[]) => {
   const chunks = tileConfigs.map((tileConfig) => parseTileConfig(tileConfig));
 
   for (let p = 0; p < board.chunksWide; p++) {
@@ -57,7 +58,7 @@ export const drawChunks = (board: Board, tileConfigs: TileConfig[]) => {
   }
 };
 
-export const drawOuterSquares = (board: Board) => {
+export const drawOuterSquares = () => {
   for (let i = -2; i < board.chunksWide * 5 + 2; i++) {
     addOuterTileToBoard(board, i, -2);
     addOuterTileToBoard(board, i, -1);

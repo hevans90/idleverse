@@ -3,15 +3,16 @@ import { Card } from './card';
 import { MarketingTile, MarketingTileKinds } from './marketingTile';
 import { baseColour, lineColour } from './types';
 import { ts } from './utils/constants';
-import { app } from './utils/singletons';
+import { app, drawers } from './utils/singletons';
 
 export type Drawer = {
+  name: string;
   open: boolean;
-  y: number;
+  startY: number;
+  endY: number;
   width: number;
-  height: number;
-  tabY?: number;
-  tabHeight?: number;
+  tabStartY?: number;
+  tabEndY?: number;
   tabWidth: number;
   orient: string;
   cards: Card[];
@@ -29,6 +30,18 @@ const getX = (app: PIXI.Application, drawer: Drawer) => {
       ? app.screen.width - drawer.width - drawer.tabWidth
       : app.screen.width;
   }
+};
+
+export const openDrawer = (drawerName: string) => {
+  const drawer = drawers.find((drawer) => (drawer.name = drawerName));
+  console.log(drawer);
+  if (!drawer.open) toggleOpen(drawer);
+};
+
+export const closeAllDrawers = () => {
+  drawers.forEach((drawer) => {
+    if (drawer.open) toggleOpen(drawer);
+  });
 };
 
 export const toggleOpen = (drawer: Drawer) => {
@@ -120,7 +133,13 @@ export const renderDrawer = (drawer: Drawer) => {
   const drawerBody = new PIXI.Graphics();
   drawerBody.lineStyle(2, lineColour, 1);
   drawerBody.beginFill(baseColour);
-  drawerBody.drawRoundedRect(0, 0, drawer.width, drawer.height, 20);
+  drawerBody.drawRoundedRect(
+    0,
+    0,
+    drawer.width,
+    drawer.endY - drawer.startY,
+    20
+  );
   drawerBody.endFill();
 
   // Render drawer tab
@@ -129,9 +148,10 @@ export const renderDrawer = (drawer: Drawer) => {
   drawerTab.beginFill(baseColour);
   drawerTab.drawRoundedRect(
     drawer.orient === 'left' ? drawer.width : -40,
-    drawer.tabY ? drawer.tabY : 0,
+    drawer.tabStartY ? drawer.tabStartY : 0,
     40,
-    drawer.tabHeight ? drawer.tabHeight : drawer.height,
+    (drawer.tabEndY ? drawer.tabEndY : drawer.endY - drawer.startY) -
+      (drawer.tabStartY ? drawer.tabStartY : 0),
     20
   );
   drawerTab.endFill();
@@ -194,7 +214,13 @@ export const renderDrawer = (drawer: Drawer) => {
   const drawerMask = new PIXI.Graphics();
   drawer.container.addChild(drawerMask);
   drawerMask.beginFill(0x000000);
-  drawerMask.drawRoundedRect(0, 0, drawer.width, drawer.height, 20);
+  drawerMask.drawRoundedRect(
+    0,
+    0,
+    drawer.width,
+    drawer.endY - drawer.startY,
+    20
+  );
   drawerContents.mask = drawerMask;
 
   drawerBody.interactive = true;
@@ -205,6 +231,6 @@ export const renderDrawer = (drawer: Drawer) => {
     .on('pointermove', onDragMove);
 
   drawer.container.x = getX(app, drawer);
-  drawer.container.y = drawer.y;
+  drawer.container.y = drawer.startY;
   app.stage.addChild(drawer.container);
 };

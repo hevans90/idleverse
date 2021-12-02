@@ -6,6 +6,7 @@ import { MarketingTile } from './marketingTile';
 import { addRoadToBoard, isRoad, Road } from './road';
 import { Tile } from './tile';
 import { ts } from './utils/constants';
+import { app, board } from './utils/singletons';
 import { BoardItem, collides } from './utils/utils';
 
 export type Board = {
@@ -66,7 +67,7 @@ export const addObjectToBoard = (
   board.container.addChild(boardObject.container);
 };
 
-export const addBoardToStage = (app: PIXI.Application, board: Board) => {
+export const addBoardToStage = () => {
   board.container.pivot.x = board.container.width / 2;
   board.container.pivot.y = board.container.height / 2;
   board.container.position.x = app.screen.width / 2;

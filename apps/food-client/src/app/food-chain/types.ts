@@ -1,5 +1,3 @@
-import { Card } from './card';
-
 export const baseColour = 0xfef4df;
 export const lineColour = 0x1c1b15;
 
@@ -73,11 +71,6 @@ export const EmployeeTypes: { [key: string]: EmployeeType } = {
     borderColor: 0xcce3ff,
     textColour: 0x1c1b15,
   },
-};
-
-export type Player = {
-  cards: Card[];
-  hiresAvailable: number;
 };
 
 export type Animation = {

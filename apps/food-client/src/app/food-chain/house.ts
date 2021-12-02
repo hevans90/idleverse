@@ -85,7 +85,7 @@ export const renderHouseFood = (house: House) => {
     food.sprite.height = ts;
     food.sprite.width = ts;
     food.sprite.position.x = i * 20 + (house.w * ts) / 2 - ts;
-    food.sprite.position.y = 10;
+    food.sprite.position.y = 20;
     house.container.addChild(food.sprite);
   });
 };

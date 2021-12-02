@@ -2,11 +2,11 @@ import * as PIXI from 'pixi.js';
 import { Board, BoardObject } from './board';
 import { drinkKinds, parseDrinkConfig } from './drink';
 import { parseHouseConfig } from './house';
-import { drawIndicator, IndicatorColour } from './indicators';
+import { drawPlacementIndicator, PlacementIndicatorColour } from './indicators';
 import { parseRoadConfig } from './road';
 import { lineColour } from './types';
 import { tileConfigRegex, ts } from './utils/constants';
-import { app, keyEventMap } from './utils/singletons';
+import { app, board, keyEventMap } from './utils/singletons';
 import { calcDistance, rangeOverlapsItem } from './utils/utils';
 
 export type TileConfig = Array<Array<string | Array<string>>>;
@@ -180,22 +180,21 @@ export const applyRotation = (object: BoardObject) => {
 };
 
 export const enablePlacement = (
-  board: Board,
   item: BoardObject,
   validTiles: Tile[],
   isValidPosition: (tile: Tile) => boolean,
   rangeFunction: (tile: Tile) => Tile[],
   callback?: () => void
 ) => {
-  let invalidIndicator = drawIndicator(item.w, item.h, IndicatorColour.invalid);
-  let validIndicator = drawIndicator(item.w, item.h, IndicatorColour.valid);
+  let invalidIndicator = drawPlacementIndicator(item.w, item.h, PlacementIndicatorColour.invalid);
+  let validIndicator = drawPlacementIndicator(item.w, item.h, PlacementIndicatorColour.valid);
 
   let activeIndicator = validIndicator;
 
   keyEventMap.Space = () => {
     setRotation(item);
-    invalidIndicator = drawIndicator(item.w, item.h, IndicatorColour.invalid);
-    validIndicator = drawIndicator(item.w, item.h, IndicatorColour.valid);
+    invalidIndicator = drawPlacementIndicator(item.w, item.h, PlacementIndicatorColour.invalid);
+    validIndicator = drawPlacementIndicator(item.w, item.h, PlacementIndicatorColour.valid);
     // TODO: Reset indicator when tile is rotated
     // removeChildrenByName(board.container, 'indicator');
     // board.container.addChild(activeIndicator);
@@ -219,7 +218,7 @@ export const enablePlacement = (
       const tilesInRange = rangeFunction(square);
 
       tilesInRange.forEach((_square) => {
-        const tint = drawIndicator(1, 1, IndicatorColour.range);
+        const tint = drawPlacementIndicator(1, 1, PlacementIndicatorColour.range);
         tint.name = 'tint';
         _square.container.addChild(tint);
       });
