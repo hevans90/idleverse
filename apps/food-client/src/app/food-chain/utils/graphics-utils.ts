@@ -85,9 +85,7 @@ const setSpriteZIndex = (
       : item2.container.zIndex + 1;
 };
 
-export const createAnimationsFromPath = (
-  board: Board,
-  queue: Anim[],
+export const travelPath = async (
   path: BoardObject[],
   sprite: PIXI.DisplayObject,
   stepDuration: number
@@ -95,33 +93,17 @@ export const createAnimationsFromPath = (
   for (let i = 0; i < path.length - 1; i++) {
     const item1 = path[i];
     const item2 = path[i + 1];
-    queue.push(
-      translateObject(
-        sprite,
-        {
-          x: item1.container.position.x + ts1_2,
-          y: item1.container.position.y + ts1_2,
-        },
-        {
-          x: item2.container.position.x + ts1_2,
-          y: item2.container.position.y + ts1_2,
-        },
-        stepDuration,
-        () => {
-          if (item1 !== item2)
-            sprite.rotation = Math.atan2(
-              item2.container.position.y - item1.container.position.y,
-              item2.container.position.x - item1.container.position.x
-            );
-          setSpriteZIndex(sprite, item1, item2);
-        },
-        (anim) => {
-          queue.splice(queue.indexOf(anim), 1);
-          if (queue.length > 0) {
-            queue[0].start();
-          } else board.container.removeChild(sprite);
-        }
-      )
+    await translateObject(
+      sprite,
+      {
+        x: item1.container.position.x + ts1_2,
+        y: item1.container.position.y + ts1_2,
+      },
+      {
+        x: item2.container.position.x + ts1_2,
+        y: item2.container.position.y + ts1_2,
+      },
+      stepDuration
     );
   }
 };

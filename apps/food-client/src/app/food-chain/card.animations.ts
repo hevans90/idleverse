@@ -10,34 +10,26 @@ import { Player } from './player';
 import { ts } from './utils/constants';
 import { app } from './utils/singletons';
 
-export const playProduceAnimation = (
+export const playProduceAnimation = async (
   player: Player,
   card: Card,
   foodKind: FoodKinds
 ) => {
-  return new Promise((resolve, reject) => {
-    const foodSprite = createFoodSprite(foodKindsConfig[foodKind], ts);
-    foodSprite.zIndex = 50;
-    app.stage.addChild(foodSprite);
-    translateObject(
-      foodSprite,
-      {
-        x: card.container.getGlobalPosition().x + card.container.width / 2,
-        y: card.container.getGlobalPosition().y + card.container.height / 2,
-      },
-      {
-        x: player.food[foodKind].sprite.getGlobalPosition().x,
-        y: player.food[foodKind].sprite.getGlobalPosition().y,
-      },
-      30,
-      () => {
-        return;
-      },
-      () => {
-        foodSprite.destroy();
-        produceFood(player, foodKind, 1);
-        resolve('');
-      }
-    ).start();
-  });
+  const foodSprite = createFoodSprite(foodKindsConfig[foodKind], ts);
+  foodSprite.zIndex = 50;
+  app.stage.addChild(foodSprite);
+  await translateObject(
+    foodSprite,
+    {
+      x: card.container.getGlobalPosition().x + card.container.width / 2,
+      y: card.container.getGlobalPosition().y + card.container.height / 2,
+    },
+    {
+      x: player.food[foodKind].sprite.getGlobalPosition().x,
+      y: player.food[foodKind].sprite.getGlobalPosition().y,
+    },
+    30
+  );
+  foodSprite.destroy();
+  produceFood(player, foodKind, 1);
 };

@@ -2,6 +2,7 @@ import { BoardObject, Board, getAdjacentRoads } from '../board';
 import { getConnectedRoads, isRoad, Road } from '../road';
 import { getAdjacentSquares, Tile } from '../tile';
 import { debug as debugConfig } from './constants';
+import { board } from './singletons';
 
 export type Vector2 = {
   x: number;
@@ -305,11 +306,7 @@ export const getConnectedSquares = (
   return validSquares;
 };
 
-export const findRoadPath = (
-  board: Board,
-  startRoads: Road[],
-  endRoad: Road
-): Road[] => {
+export const findRoadPath = (startRoads: Road[], endRoad: Road): Road[] => {
   board.roads.forEach((road) => {
     road.toGoal = 99;
     road.fromStart = 99;
@@ -364,14 +361,10 @@ export const findRoadPath = (
     }
     path.push(currentRoad);
   }
-  return path;
+  return path.reverse();
 };
 
-export const findTilePath = (
-  board: Board,
-  startTile: Tile,
-  endTile: Tile
-): Tile[] => {
+export const findTilePath = (startTile: Tile, endTile: Tile): Tile[] => {
   const debug = debugConfig.enabled;
   board.tiles.forEach((tile) => {
     tile.fromStart = null;

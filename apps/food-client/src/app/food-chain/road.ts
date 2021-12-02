@@ -4,6 +4,7 @@ import { BoardObject, Board, getAdjacentRoads } from './board';
 import { drawLine, drawDottedLine } from './utils/graphics-utils';
 import { app } from './utils/singletons';
 import { triggerCarAnimation } from './road.animations';
+import { findRoadPath } from './utils/utils';
 
 export type Road = BoardObject & {
   fromStart?: number;
@@ -188,7 +189,8 @@ export const addRoadToBoard = (board: Board, road: Road) => {
   road.container.interactive = true;
   road.container.buttonMode = true;
   road.container.on('pointerdown', () => {
-    triggerCarAnimation(board, road);
+    const path = findRoadPath(getAdjacentRoads(board, board.diner), road);
+    triggerCarAnimation(path);
   });
   board.roads.push(road);
 };

@@ -1,8 +1,11 @@
 import * as PIXI from 'pixi.js';
 import { Board, BoardObject, getAdjacentRoads } from './board';
 import { FoodKind } from './food';
+import { Road } from './road';
+import { triggerCarAnimation } from './road.animations';
 import { ts } from './utils/constants';
-import { app } from './utils/singletons';
+import { app, board } from './utils/singletons';
+import { findRoadPath } from './utils/utils';
 
 export type House = BoardObject & {
   orient: number;
@@ -72,10 +75,12 @@ export const addHouseToBoard = (board: Board, house: House) => {
   house.container.interactive = true;
   house.container.buttonMode = true;
   house.container.on('pointerdown', () => {
-    const adjacentRoads = getAdjacentRoads(board, house);
-    board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
-    adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
+    // const adjacentRoads = getAdjacentRoads(board, house);
+    // board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
+    // adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
     console.log(house);
+    const path = findShortestPath(house, board.diner);
+    if (path) triggerCarAnimation(path);
   });
   board.houses.push(house);
 };
@@ -88,4 +93,23 @@ export const renderHouseFood = (house: House) => {
     food.sprite.position.y = 20;
     house.container.addChild(food.sprite);
   });
+};
+
+export const findShortestPath = (item1: BoardObject, item2: BoardObject) => {
+  let path: Road[] = null;
+  const item1AdjacentRoads = getAdjacentRoads(board, item1);
+  const item2AdjacentRoads = getAdjacentRoads(board, item2);
+  item2AdjacentRoads.forEach((road) => {
+    const currentPath = findRoadPath(item1AdjacentRoads, road);
+    if (!path || currentPath.length < path.length) path = currentPath;
+  });
+  return path;
+};
+
+export const dinnerTime = async () => {
+  for (let i = 0; i < board.houses.length; i++) {
+    const house = board.houses[i];
+    const path = findShortestPath(house, board.diner);
+    await triggerCarAnimation(path);
+  }
 };

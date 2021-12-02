@@ -79,31 +79,19 @@ export const createFoodSpriteIcon = (foodKind: FoodKind) => {
 };
 
 export const createFoodSelect = (
-  tile: MarketingTile,
-  foodKinds: FoodKind[]
+  foodKinds: FoodKind[],
+  onClick: (foodKind: FoodKind) => void
 ) => {
-  const oldFoodSelect = tile.container.getChildByName('foodSelect');
-  tile.container.removeChild(oldFoodSelect);
-
   const foodSelect = new PIXI.Container();
   foodKinds.forEach((foodKind, i) => {
     const foodSprite = createFoodSpriteIcon(foodKind);
     foodSprite.position.x = ts * i;
     foodSprite.interactive = true;
     foodSprite.buttonMode = true;
-    foodSprite.on('pointerdown', () => {
-      tile.foodKind = foodKind;
-      tile.foodQuant = 4;
-      renderMarketingTileFood(tile);
-      tile.container.removeChild(foodSelect);
-    });
+    foodSprite.on('pointerdown', () => onClick(foodKind));
     foodSelect.addChild(foodSprite);
   });
-
-  foodSelect.y = tile.h * ts;
-  foodSelect.name = 'foodSelect';
-
-  tile.container.addChild(foodSelect);
+  return foodSelect;
 };
 
 export const produceFood = (

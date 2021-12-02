@@ -4,7 +4,7 @@ import { Vector2 } from './utils/utils';
 import { animations } from './utils/singletons';
 
 export type Anim = {
-  time: number;
+  time?: number;
   start?: () => void;
   update?: () => void;
   end?: () => void;
@@ -14,36 +14,26 @@ export const translateObject = (
   object: PIXI.DisplayObject,
   startPos: Vector2,
   endPos: Vector2,
-  duration: number,
-  start?: () => void,
-  next?: (anim: Anim) => void
-): Anim => {
-  const anim: Anim = {
-    time: 0,
-  };
-
-  anim.start = () => {
-    start();
-    anim.time = 0;
+  duration: number
+) => {
+  return new Promise((resolve, reject) => {
+    let time = 0;
+    const anim: Anim = {
+      update: () => {
+        time += 1;
+        if (time < duration) {
+          object.x = startPos.x + (endPos.x - startPos.x) * (time / duration);
+          object.y = startPos.y + (endPos.y - startPos.y) * (time / duration);
+        } else {
+          object.x = endPos.x;
+          object.y = endPos.y;
+          animations.splice(animations.indexOf(anim), 1);
+          resolve('');
+        }
+      },
+    };
     animations.push(anim);
-  };
-  anim.update = () => {
-    anim.time += 1;
-    if (anim.time < duration) {
-      object.x = startPos.x + (endPos.x - startPos.x) * (anim.time / duration);
-      object.y = startPos.y + (endPos.y - startPos.y) * (anim.time / duration);
-    } else {
-      anim.end();
-    }
-  };
-  anim.end = () => {
-    object.x = endPos.x;
-    object.y = endPos.y;
-    animations.splice(animations.indexOf(anim), 1);
-    next(anim);
-  };
-
-  return anim;
+  });
 };
 
 export const scaleObject = (

@@ -53,7 +53,7 @@ export const marketingTileKindConfigs = {
     getTilesInRange: (board: Board, tile: BoardObject, square: Tile) =>
       getConnectedSquares(board, square as Tile),
     advertise: (board: Board, tile: MarketingTile, affectedHouses: House[]) =>
-      triggerMailboxAnimation(board, tile, affectedHouses),
+      triggerMailboxAnimation(tile, affectedHouses),
   },
   [MarketingTileKinds.airplane]: {
     texture: PIXI.Texture.from('https://i.imgur.com/BDo38zP.png'),
@@ -187,8 +187,24 @@ export const enableMarketingTilePlacement = (
   tiles.forEach((tile) => {
     const callback = () => {
       disablePlacement(board);
-      createFoodSelect(tile, Object.values(foodKindsConfig));
+      const oldFoodSelect = tile.container.getChildByName('foodSelect');
+      tile.container.removeChild(oldFoodSelect);
+
+      const newFoodSelect = createFoodSelect(
+        Object.values(foodKindsConfig),
+        (foodKind) => {
+          tile.foodKind = foodKind;
+          tile.foodQuant = 4;
+          renderMarketingTileFood(tile);
+          tile.container.removeChild(newFoodSelect);
+        }
+      );
+      newFoodSelect.y = tile.h * ts;
+      newFoodSelect.name = 'foodSelect';
+
+      tile.container.addChild(newFoodSelect);
     };
+
     tile.sprite.interactive = true;
     tile.sprite.buttonMode = true;
     tile.sprite.on('pointerdown', () => {
@@ -248,6 +264,8 @@ export const advertise = (tile: MarketingTile) => {
 };
 
 export const renderMarketingTileFood = (tile: MarketingTile) => {
+  console.log('rendering food');
+  console.log(tile);
   tile.foodSprites.forEach((sprite) => sprite.destroy());
   tile.foodSprites = [];
   for (let i = 0; i < tile.foodQuant; i++) {
