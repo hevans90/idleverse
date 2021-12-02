@@ -12,7 +12,7 @@ invalidCardTint.beginFill(0xd3002c, 0.25);
 invalidCardTint.drawRoundedRect(0, 0, 200, 192, 12);
 invalidCardTint.endFill();
 
-export const addCEOCardToDrawer = (ceoCard, structureDrawer) => {
+export const initCEOCard = (ceoCard, structureDrawer) => {
   ceoCard.container.on('pointerover', () => {
     if (ceoCard.employees.length < ceoCard.managementSlots) {
       ceoCard.container.addChild(validCardTint);

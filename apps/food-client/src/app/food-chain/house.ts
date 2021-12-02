@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { Board, BoardObject, getAdjacentRoads } from './board';
+import { BoardObject } from './board';
 import { ts } from './utils/constants';
 
 export type House = BoardObject & {
@@ -7,7 +7,12 @@ export type House = BoardObject & {
   num: number;
 };
 
-const houseTextures = {
+export const isHouse = (boardObject: BoardObject): boardObject is House => {
+  const house = boardObject as House;
+  return house['orient'] !== undefined && house.num !== undefined;
+};
+
+const houseTextures: { [key: string]: PIXI.Texture } = {
   1: PIXI.Texture.from('https://i.imgur.com/rGgNlV1.png'),
   2: PIXI.Texture.from('https://i.imgur.com/OYDsDs7.png'),
   3: PIXI.Texture.from('https://i.imgur.com/rGgNlV1.png'),
@@ -15,11 +20,9 @@ const houseTextures = {
 };
 
 export const createHouseSprite = (house: House) => {
-  const houseContainer = new PIXI.Container();
-  const orient = house.orient;
-  const houseSprite = new PIXI.Sprite(houseTextures[orient]);
-  houseSprite.width = ts * 2;
-  houseSprite.height = ts * 2;
+  const houseSprite = new PIXI.Sprite(houseTextures[house.orient]);
+  houseSprite.width = ts * 2 - 4;
+  houseSprite.height = ts * 2 - 4;
   const houseNum = new PIXI.Text(
     house.num.toString(),
     new PIXI.TextStyle({
@@ -32,36 +35,14 @@ export const createHouseSprite = (house: House) => {
   houseNum.position.x = 5;
   houseNum.position.y = 5;
 
-  houseContainer.addChild(houseSprite, houseNum);
+  // const baseTexture = new PIXI.BaseRenderTexture({
+  //   width: ts * 4,
+  //   height: ts * 4,
+  // });
+  // const renderTexture = new PIXI.RenderTexture(baseTexture);
 
-  return houseContainer;
-};
+  // app.renderer.render(houseSprite, { renderTexture });
+  //app.renderer.render(houseNum, { renderTexture });
 
-export const addHouseToBoard = (
-  board: Board,
-  i: number,
-  j: number,
-  orient: number,
-  num: number
-) => {
-  const house: House = {
-    i,
-    j,
-    w: 2,
-    h: 2,
-    orient,
-    num,
-  };
-  board.houses.push(house);
-  const houseSprite = createHouseSprite(house);
-  houseSprite.x = house.i * ts;
-  houseSprite.y = house.j * ts;
-  houseSprite.interactive = true;
-  houseSprite.buttonMode = true;
-  houseSprite.on('pointerdown', () => {
-    const adjacentRoads = getAdjacentRoads(board, house);
-    board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
-    adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
-  });
-  board.container.addChild(houseSprite);
+  return houseSprite;
 };

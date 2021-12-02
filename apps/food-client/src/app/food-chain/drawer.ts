@@ -3,6 +3,7 @@ import { Card } from './card';
 import { MarketingTile, MarketingTileKinds } from './marketingTile';
 import { baseColour, lineColour } from './types';
 import { ts } from './utils/constants';
+import { app } from './utils/singletons';
 
 export type Drawer = {
   open: boolean;
@@ -16,6 +17,7 @@ export type Drawer = {
   cards: Card[];
   marketingTiles: MarketingTile[];
   container?: PIXI.Container;
+  contentsContainer?: PIXI.Container;
   fixedContainer?: PIXI.Container;
 };
 
@@ -27,6 +29,11 @@ const getX = (app: PIXI.Application, drawer: Drawer) => {
       ? app.screen.width - drawer.width - drawer.tabWidth
       : app.screen.width;
   }
+};
+
+export const toggleOpen = (drawer: Drawer) => {
+  drawer.open = !drawer.open;
+  drawer.container.x = getX(app, drawer);
 };
 
 const arrangeStack = (stack: Card[], x: number, y: number) => {
@@ -55,18 +62,18 @@ export const addMarketingTileToDrawer = (
   tile: MarketingTile
 ) => {
   drawer.marketingTiles.push(tile);
-  drawer.container.addChild(tile.container);
+  drawer.contentsContainer.addChild(tile.container);
 };
 
 export const addCardToDrawer = (drawer: Drawer, card: Card) => {
   drawer.cards.push(card);
-  drawer.container.addChild(card.container);
+  drawer.contentsContainer.addChild(card.container);
 };
 
 export const removeCardFromDrawer = (drawer: Drawer, card: Card) => {
   const i = drawer.cards.indexOf(card);
   if (i > -1) {
-    drawer.container.removeChild(card.container);
+    drawer.contentsContainer.removeChild(card.container);
     drawer.cards.splice(drawer.cards.indexOf(card), 1);
   }
 };
@@ -106,8 +113,8 @@ export const organiseMarketingDrawer = (drawer: Drawer) => {
   });
 };
 
-export const renderDrawer = (app: PIXI.Application, drawer: Drawer) => {
-  const drawerContainer = new PIXI.Container();
+export const renderDrawer = (drawer: Drawer) => {
+  drawer.container = new PIXI.Container();
 
   // Render drawer body
   const drawerBody = new PIXI.Graphics();
@@ -131,16 +138,15 @@ export const renderDrawer = (app: PIXI.Application, drawer: Drawer) => {
   drawerTab.interactive = true;
   drawerTab.buttonMode = true;
   drawerTab.on('pointerdown', () => {
-    drawer.open = !drawer.open;
-    drawerContainer.x = getX(app, drawer);
+    toggleOpen(drawer);
   });
-  drawerContainer.addChild(drawerBody, drawerTab);
+  drawer.container.addChild(drawerBody, drawerTab);
 
   //Render drawer contents
   const drawerContents = new PIXI.Container();
-  drawerContainer.addChild(drawerContents);
+  drawer.container.addChild(drawerContents);
   drawer.fixedContainer = drawerBody;
-  drawer.container = drawerContents;
+  drawer.contentsContainer = drawerContents;
 
   //Render object to artifially fix width of drawer at 0,0
   const drawerContentsPlaceholder = new PIXI.Graphics();
@@ -186,7 +192,7 @@ export const renderDrawer = (app: PIXI.Application, drawer: Drawer) => {
   }
 
   const drawerMask = new PIXI.Graphics();
-  drawerContainer.addChild(drawerMask);
+  drawer.container.addChild(drawerMask);
   drawerMask.beginFill(0x000000);
   drawerMask.drawRoundedRect(0, 0, drawer.width, drawer.height, 20);
   drawerContents.mask = drawerMask;
@@ -198,7 +204,7 @@ export const renderDrawer = (app: PIXI.Application, drawer: Drawer) => {
     .on('pointerupoutside', onDragEnd)
     .on('pointermove', onDragMove);
 
-  drawerContainer.x = getX(app, drawer);
-  drawerContainer.y = drawer.y;
-  app.stage.addChild(drawerContainer);
+  drawer.container.x = getX(app, drawer);
+  drawer.container.y = drawer.y;
+  app.stage.addChild(drawer.container);
 };

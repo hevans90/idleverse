@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { Vector2D } from './utils/utils';
+import { Vector2 } from './utils/utils';
 
 export type Anim = {
   startPos: { x: number; y: number };
@@ -16,8 +16,8 @@ export type Anim = {
 export const translateObject = (
   animations: Anim[],
   object: PIXI.DisplayObject,
-  startPos: Vector2D,
-  endPos: Vector2D,
+  startPos: Vector2,
+  endPos: Vector2,
   rotation: number,
   duration: number,
   next?: (anim: Anim) => void

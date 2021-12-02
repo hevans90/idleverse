@@ -1,12 +1,15 @@
 import * as PIXI from 'pixi.js';
-import { BoardObject } from './board';
+import { Board, BoardObject } from './board';
 import {
   addMarketingTileToDrawer,
   Drawer,
   organiseMarketingDrawer,
+  toggleOpen,
 } from './drawer';
+import { enablePlacement } from './tile';
 import { Player } from './types';
 import { ts } from './utils/constants';
+import { app } from './utils/singletons';
 
 export enum MarketingTileKinds {
   'billboard',
@@ -17,16 +20,16 @@ export enum MarketingTileKinds {
 
 export const marketingTileTextures = {
   [MarketingTileKinds.radio]: PIXI.Texture.from(
-    'https://i.imgur.com/rGgNlV1.png'
+    'https://i.imgur.com/m9ksWCR.png'
   ),
   [MarketingTileKinds.airplane]: PIXI.Texture.from(
-    'https://i.imgur.com/rGgNlV1.png'
+    'https://i.imgur.com/BDo38zP.png'
   ),
   [MarketingTileKinds.mailbox]: PIXI.Texture.from(
-    'https://i.imgur.com/rGgNlV1.png'
+    'https://i.imgur.com/uQuBooP.png'
   ),
   [MarketingTileKinds.billboard]: PIXI.Texture.from(
-    'https://i.imgur.com/rGgNlV1.png'
+    'https://i.imgur.com/adBXURw.png'
   ),
 };
 
@@ -61,26 +64,53 @@ export const createMarketTileSprite = (config: MarketingTileConfig) => {
   tileNum.position.x = 5;
   tileNum.position.y = 5;
 
-  container.addChild(graphic, tileNum);
+  const marketingSprite = new PIXI.Sprite(marketingTileTextures[config.kind]);
+  const xScale = (config.h * ts) / marketingSprite.height;
+  const yScale = (config.w * ts) / marketingSprite.width;
+  const scale = 0.9 * (xScale > yScale ? yScale : xScale);
+  marketingSprite.scale.x = scale;
+  marketingSprite.scale.y = scale;
+  marketingSprite.x = (config.w * ts) / 2;
+  marketingSprite.anchor.x = 0.5;
+  marketingSprite.y = (config.h * ts) / 2;
+  marketingSprite.anchor.y = 0.5;
+
+  container.addChild(graphic, marketingSprite, tileNum);
 
   return container;
 };
 
 export const initMarketingTiles = (
+  board: Board,
   marketingDrawer: Drawer,
   configs: MarketingTileConfig[],
-  tiles: MarketingTile[]
+  marketingTiles: MarketingTile[]
 ) => {
   configs.forEach((config) => {
-    tiles.push({
+    marketingTiles.push({
       ...config,
       container: createMarketTileSprite(config),
       owner: null,
     });
   });
 
-  tiles.forEach((tile) => {
+  marketingTiles.forEach((tile) => {
     addMarketingTileToDrawer(marketingDrawer, tile);
+    enableMarketingTilePlacement(board, marketingDrawer, tile);
   });
   organiseMarketingDrawer(marketingDrawer);
+};
+
+export const enableMarketingTilePlacement = (
+  board: Board,
+  marketingDrawer: Drawer,
+  tile: MarketingTile
+) => {
+  tile.container.removeAllListeners();
+  tile.container.interactive = true;
+  tile.container.buttonMode = true;
+  tile.container.on('pointerdown', () => {
+    enablePlacement(board, tile, false);
+    toggleOpen(marketingDrawer);
+  });
 };

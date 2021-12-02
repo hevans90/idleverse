@@ -12,21 +12,21 @@ export type Indicator = {
   container?: PIXI.Container;
 };
 
-export type IndicatorColours = {
-  invalid: number;
-  valid: number;
-};
+export enum IndicatorColour {
+  invalid = 0x8b0000,
+  valid = 0x8b8000,
+  range = 0x9b39f7,
+}
 
-const indicatorColours: IndicatorColours = {
-  invalid: 0x8b0000,
-  valid: 0x8b8000,
-};
-
-export const drawIndicator = (indicatorType: keyof IndicatorColours) => {
+export const drawIndicator = (
+  w: number,
+  h: number,
+  indicatorType: IndicatorColour
+) => {
   const indicator = new PIXI.Graphics();
-  indicator.lineStyle(4, indicatorColours[indicatorType], 1);
-  indicator.beginFill(indicatorColours[indicatorType], 0.25);
-  indicator.drawRect(0, 0, ts * 2 - 2, ts * 2 - 2);
+  indicator.lineStyle(4, indicatorType, 1);
+  indicator.beginFill(indicatorType, 0.25);
+  indicator.drawRect(0, 0, ts * w - 2, ts * h - 2);
   indicator.endFill();
   return indicator;
 };

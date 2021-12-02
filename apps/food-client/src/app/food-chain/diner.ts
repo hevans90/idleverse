@@ -29,9 +29,9 @@ export const addDinerToBoard = (board: Board) => {
     j: 0,
     w: 2,
     h: 2,
-    sprite: dinerSprite,
+    container: dinerSprite,
   };
-  const randomPosition = getRandomValidPosition(board, diner, 20);
+  const randomPosition = getRandomValidPosition(board, diner, 20, true);
   console.log(randomPosition);
   diner.i = randomPosition.i;
   diner.j = randomPosition.j;
@@ -44,6 +44,7 @@ export const addDinerToBoard = (board: Board) => {
     board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
     adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
   });
+  diner.zIndex = 20;
   board.diner = diner;
   board.container.addChild(dinerSprite);
 };

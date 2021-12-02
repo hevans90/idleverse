@@ -4,7 +4,7 @@ export const marketingTileConfigs: MarketingTileConfig[] = [
   { num: 1, w: 1, h: 1, kind: MarketingTileKinds.radio },
   { num: 2, w: 1, h: 1, kind: MarketingTileKinds.radio },
   { num: 3, w: 1, h: 1, kind: MarketingTileKinds.radio },
-  { num: 4, w: 2, h: 1, kind: MarketingTileKinds.airplane },
+  { num: 4, w: 1, h: 2, kind: MarketingTileKinds.airplane },
   { num: 5, w: 3, h: 2, kind: MarketingTileKinds.airplane },
   { num: 6, w: 5, h: 2, kind: MarketingTileKinds.airplane },
   { num: 7, w: 2, h: 2, kind: MarketingTileKinds.mailbox },

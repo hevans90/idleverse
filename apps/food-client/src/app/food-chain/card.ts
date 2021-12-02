@@ -1,5 +1,4 @@
 import * as PIXI from 'pixi.js';
-import { Anim } from './animation';
 import { emptyCardConfig } from './cardConfigs';
 import {
   removeCardFromDrawer,
@@ -9,8 +8,8 @@ import {
   organiseRecruitDrawer,
 } from './drawer';
 import { Indicator } from './indicators';
-import { Phase } from './phase';
 import { EmployeeType, EmployeeTypes, lineColour, Player } from './types';
+import { animations } from './utils/singletons';
 
 export type CardConfig = {
   title: string;
@@ -103,17 +102,8 @@ export const createCardSprite = (cardConfig: CardConfig) => {
 };
 
 export const initCards = (
-  app: PIXI.Application,
-  animations: Anim[],
-  player: Player,
-  hiresIndicator: Indicator,
-  phases: { [key: string]: Phase },
-  currentPhase: Phase,
   recruitDrawer: Drawer,
-  beachDrawer: Drawer,
-  structureDrawer: Drawer,
   cardConfigs: CardConfig[],
-  ceoCard: Card,
   cards: Card[]
 ) => {
   Object.values(cardConfigs).forEach((card) =>
@@ -128,17 +118,6 @@ export const initCards = (
   );
   cards.forEach((card) => {
     addCardToDrawer(recruitDrawer, card);
-    if (currentPhase === phases.structure)
-      enableCardStructure(app, beachDrawer, structureDrawer, card, ceoCard);
-    else if (currentPhase === phases.hire)
-      enableCardHire(
-        animations,
-        player,
-        card,
-        recruitDrawer,
-        beachDrawer,
-        hiresIndicator
-      );
   });
   organiseRecruitDrawer(recruitDrawer);
 };
@@ -172,7 +151,6 @@ export const organiseManagerCards = (card: Card) => {
 };
 
 export const enableCardHire = (
-  animations: Anim[],
   player: Player,
   card: Card,
   recruitDrawer: Drawer,
@@ -184,7 +162,7 @@ export const enableCardHire = (
     if (!card.owner) {
       if (player.hiresAvailable > 0) {
         removeCardFromDrawer(recruitDrawer, card);
-        animations.push()
+        animations.push();
         addCardToDrawer(beachDrawer, card);
         organiseRecruitDrawer(recruitDrawer);
         organiseBeachDrawer(beachDrawer);
@@ -273,10 +251,12 @@ export const enableCardStructure = (
         organiseCEOCards(ceoCard);
         console.log(card.container.getGlobalPosition());
         console.log(
-          structureDrawer.container.toLocal(card.container.getGlobalPosition())
+          structureDrawer.contentsContainer.toLocal(
+            card.container.getGlobalPosition()
+          )
         );
         if (card.managementSlots) {
-          const cardPos = structureDrawer.container.toLocal(
+          const cardPos = structureDrawer.contentsContainer.toLocal(
             card.container.getGlobalPosition()
           );
           card.managingContainer = new PIXI.Container();
@@ -294,7 +274,7 @@ export const enableCardStructure = (
 
             card.managingContainer.addChild(emptyCard.container);
           }
-          structureDrawer.container.addChild(card.managingContainer);
+          structureDrawer.contentsContainer.addChild(card.managingContainer);
         }
 
         organiseBeachDrawer(beachDrawer);

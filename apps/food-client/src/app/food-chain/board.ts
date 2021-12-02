@@ -1,15 +1,17 @@
 import * as PIXI from 'pixi.js';
-import { Anim } from './animation';
 import { Diner } from './diner';
-import { addDrinkToBoard, Drink, DrinkTextures, drinkTextures } from './drink';
-import { addHouseToBoard, House } from './house';
+import { Drink, isDrink } from './drink';
+import { House, isHouse } from './house';
 import { MarketingTile } from './marketingTile';
-import { addRoadToBoard, Road } from './road';
+import { isRoad, Road, triggerCarAnimation } from './road';
 import { Tile } from './tile';
-import { tileConfigRegex } from './utils/constants';
+import { ts } from './utils/constants';
 import { BoardItem, collides } from './utils/utils';
 
 export type Board = {
+  chunksWide: number;
+  chunksHigh: number;
+  tiles: Tile[];
   roads: Road[];
   houses: House[];
   drinks: Drink[];
@@ -20,7 +22,9 @@ export type Board = {
 };
 
 export type BoardObject = BoardItem & {
+  zIndex?: number;
   sprite?: PIXI.Sprite;
+  container?: PIXI.Container;
 };
 
 export const getAdjacentRoads = (board: Board, object: BoardObject): Road[] => {
@@ -77,43 +81,51 @@ export const getConnectedRoads = (board: Board, road: Road): Road[] => {
   return connectedRoads;
 };
 
-export const addTileContentsToBoard = (
-  app: PIXI.Application,
+export const addObjectToBoard = (
   board: Board,
-  animations: Anim[],
   tile: Tile,
-  p: number,
-  q: number
+  boardObject: BoardObject
 ) => {
-  const i = tile.i;
-  const j = tile.j;
-  const match = tileConfigRegex.exec(tile.contents);
-
-  if (match[1] === 'r') {
-    addRoadToBoard(
-      app,
-      animations,
-      board,
-      i + p * 5,
-      j + q * 5,
-      match[2].split('').map((i) => parseInt(i))
-    );
-  } else if (match[1] === 'h') {
-    addHouseToBoard(
-      board,
-      i + p * 5,
-      j + q * 5,
-      parseInt(match[2]),
-      parseInt(match[3])
-    );
-  } else if (match[1] in drinkTextures) {
-    addDrinkToBoard(
-      app,
-      animations,
-      board,
-      i + p * 5,
-      j + q * 5,
-      match[1] as keyof DrinkTextures
-    );
+  if (isHouse(boardObject)) {
+    boardObject.sprite.x += 2;
+    boardObject.sprite.y += 2;
+    boardObject.sprite.interactive = true;
+    boardObject.sprite.buttonMode = true;
+    boardObject.sprite.on('pointerdown', () => {
+      const adjacentRoads = getAdjacentRoads(board, boardObject);
+      board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
+      adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
+      console.log(boardObject);
+    });
+    board.houses.push(boardObject);
+  } else if (isRoad(boardObject)) {
+    boardObject.sprite.x -= 2;
+    boardObject.sprite.y -= 2;
+    boardObject.sprite.interactive = true;
+    boardObject.sprite.buttonMode = true;
+    boardObject.sprite.on('pointerdown', () => {
+      triggerCarAnimation(board, boardObject);
+    });
+    board.roads.push(boardObject);
+  } else if (isDrink(boardObject)) {
+    boardObject.sprite.x += 2;
+    boardObject.sprite.y += 2;
+    board.drinks.push(boardObject);
   }
+  boardObject.i = tile.i;
+  boardObject.j = tile.j;
+  boardObject.sprite.x += boardObject.i * ts;
+  boardObject.sprite.y += boardObject.j * ts;
+  board.container.addChild(boardObject.sprite);
+};
+
+export const addBoardToStage = (app: PIXI.Application, board: Board) => {
+  board.container.pivot.x = board.container.width / 2;
+  board.container.pivot.y = board.container.height / 2;
+  board.container.position.x = app.screen.width / 2;
+  board.container.position.y = app.screen.height / 2;
+  board.container.scale.x = 0.8;
+  board.container.scale.y = 0.8;
+  board.container.sortableChildren = true;
+  app.stage.addChild(board.container);
 };

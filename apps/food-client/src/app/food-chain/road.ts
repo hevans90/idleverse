@@ -9,6 +9,7 @@ import {
 } from './board';
 import { Anim, translateObject } from './animation';
 import { drawLine, drawDottedLine } from './utils/graphics-utils';
+import { animations, app } from './utils/singletons';
 
 export type Road = BoardObject & {
   fromStart?: number;
@@ -17,7 +18,11 @@ export type Road = BoardObject & {
   connections?: number[];
 };
 
-export const createRoadSprite = (app: PIXI.Application, road: Road) => {
+export const isRoad = (boardObject: BoardObject): boardObject is Road => {
+  return (boardObject as Road).connections !== undefined;
+};
+
+export const createRoadSprite = (road: Road) => {
   const roadGraphic = new PIXI.Graphics();
 
   roadGraphic.drawRect(-2, -2, ts, ts);
@@ -136,7 +141,7 @@ const generatePlayNext = (
   };
 };
 
-const triggerCarAnimation = (animations: Anim[], board: Board, road: Road) => {
+export const triggerCarAnimation = (board: Board, road: Road) => {
   const path = findPath(board, getAdjacentRoads(board, board.diner), road);
   const carTexture = PIXI.Texture.from('https://i.imgur.com/01q7OGv.png');
   const carSprite = new PIXI.Sprite(carTexture);
@@ -241,30 +246,6 @@ const triggerCarAnimation = (animations: Anim[], board: Board, road: Road) => {
   }
 };
 
-export const addRoadToBoard = (
-  app: PIXI.Application,
-  animations: Anim[],
-  board: Board,
-  i: number,
-  j: number,
-  connections: number[]
-) => {
-  const road: Road = {
-    i: i,
-    j: j,
-    w: 1,
-    h: 1,
-    connections: connections,
-  };
-  board.roads.push(road);
-  const roadSprite = createRoadSprite(app, road);
-  roadSprite.x = road.i * ts;
-  roadSprite.y = road.j * ts;
-  roadSprite.interactive = true;
-  roadSprite.buttonMode = true;
-  roadSprite.on('pointerdown', () => {
-    triggerCarAnimation(animations, board, road);
-  });
-  road.sprite = roadSprite;
-  board.container.addChild(roadSprite);
+const rotateRoad = (road) => {
+  return road;
 };

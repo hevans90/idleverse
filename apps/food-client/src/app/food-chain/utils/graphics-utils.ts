@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { Vector2D } from './utils';
+import { Vector2 } from './utils';
 
 export type SpriteSheetConfig = {
   url: string;
@@ -57,8 +57,8 @@ export const CreateAnimatedSprite = (
 
 export const drawLine = (
   graphic: PIXI.Graphics,
-  start: Vector2D,
-  end: Vector2D
+  start: Vector2,
+  end: Vector2
 ) => {
   graphic.moveTo(start.x, start.y);
   graphic.lineTo(end.x, end.y);
@@ -66,8 +66,8 @@ export const drawLine = (
 
 export const drawDottedLine = (
   graphic: PIXI.Graphics,
-  start: Vector2D,
-  end: Vector2D,
+  start: Vector2,
+  end: Vector2,
   sections: number
 ) => {
   const step = sections * 2 + (sections - 1) * 2 + 2;

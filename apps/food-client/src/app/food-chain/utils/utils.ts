@@ -5,10 +5,17 @@ import {
   getAdjacentRoads,
 } from '../board';
 import { Road } from '../road';
+import { Tile } from '../tile';
+import { debug } from './constants';
 
-export type Vector2D = {
+export type Vector2 = {
   x: number;
   y: number;
+};
+
+export type BoardPosition = {
+  i: number;
+  j: number;
 };
 
 export type BoardItem = {
@@ -33,7 +40,11 @@ export const collides = (item1: BoardItem, item2: BoardItem) => {
   );
 };
 
-export const isValidPosition = (board: Board, item1: BoardItem) => {
+export const isValidPosition = (
+  board: Board,
+  item1: BoardItem,
+  adjacentRoadRequired: boolean
+) => {
   const itemsArray = [].concat(board.roads, board.houses, board.drinks);
 
   const collisionArray = itemsArray.filter((item2) => collides(item1, item2));
@@ -42,7 +53,7 @@ export const isValidPosition = (board: Board, item1: BoardItem) => {
     return false;
   }
 
-  if (getAdjacentRoads(board, item1).length === 0) {
+  if (adjacentRoadRequired && getAdjacentRoads(board, item1).length === 0) {
     return false;
   }
 
@@ -59,12 +70,19 @@ export const getRandomPosition = (size: number) => {
 export const getRandomValidPosition = (
   board: Board,
   item: BoardObject,
-  size: number
+  size: number,
+  adjacentRoadRequired: boolean
 ) => {
   let randomPosition = getRandomPosition(size);
   let tries = 0;
   for (let i = 0; i < 1000; i++) {
-    if (isValidPosition(board, { ...item, ...randomPosition })) {
+    if (
+      isValidPosition(
+        board,
+        { ...item, ...randomPosition },
+        adjacentRoadRequired
+      )
+    ) {
       console.log(`tries: ${tries}`);
       return randomPosition;
     }
@@ -75,8 +93,8 @@ export const getRandomValidPosition = (
   return randomPosition;
 };
 
-const calcDistance = (road1: Road, road2: Road) => {
-  return Math.abs(road1.i - road2.i) + Math.abs(road1.j - road2.j);
+const calcDistance = (pos1: BoardPosition, pos2: BoardPosition) => {
+  return Math.abs(pos1.i - pos2.i) + Math.abs(pos1.j - pos2.j);
 };
 
 export const findPath = (
@@ -92,7 +110,7 @@ export const findPath = (
   const closedRoads = [];
 
   openRoads.forEach((road) => {
-    road.toGoal = calcDistance(road, endRoad);
+    road.toGoal = calcDistance(road as BoardPosition, endRoad as BoardPosition);
     road.fromStart = 0;
   });
 
@@ -117,7 +135,10 @@ export const findPath = (
     const connectedRoads = getConnectedRoads(board, currentRoad);
     connectedRoads.forEach((road) => {
       if (!closedRoads.includes(road)) {
-        road.toGoal = calcDistance(road, endRoad);
+        road.toGoal = calcDistance(
+          road as BoardPosition,
+          endRoad as BoardPosition
+        );
         const fromStart = currentRoad.fromStart + 1;
         if (fromStart < road.fromStart) {
           road.previousRoad = currentRoad;
@@ -139,4 +160,76 @@ export const findPath = (
     path.push(currentRoad);
   }
   return path;
+};
+
+export const getSquaresInRange = (
+  board: Board,
+  item2: BoardObject,
+  range: number
+) => {
+  board.tiles.forEach((tile) => (tile.sprite.tint = 0xffffff));
+  return board.tiles.filter((item1) => {
+    let distance: number;
+    const item1leftitem2 = item2.i >= item1.i + item1.w;
+    const item1rightitem2 = item2.i + item2.w <= item1.i;
+    const item1aboveitem2 = item2.j >= item1.j + item1.h;
+    const item1belowitem2 = item2.j + item2.h <= item1.j;
+
+    if (item1aboveitem2 && item1leftitem2) {
+      if (debug) item1.sprite.tint = 0xac3232;
+      distance = calcDistance(
+        { i: item1.i + item1.w, j: item1.j + item1.h },
+        { i: item2.i, j: item2.j }
+      );
+    } else if (item1aboveitem2 && item1rightitem2) {
+      if (debug) item1.sprite.tint = 0x37946e;
+      distance = calcDistance(
+        { i: item1.i, j: item1.j + item1.h },
+        { i: item2.i + item2.w, j: item2.j }
+      );
+    } else if (item1belowitem2 && item1leftitem2) {
+      if (debug) item1.sprite.tint = 0x5b6ee1;
+      distance = calcDistance(
+        { i: item1.i + item1.w, j: item1.j },
+        { i: item2.i, j: item2.j + item2.w }
+      );
+    } else if (item1belowitem2 && item1rightitem2) {
+      if (debug) item1.sprite.tint = 0xfbf236;
+      distance = calcDistance(
+        { i: item1.i, j: item1.j },
+        { i: item2.i + item2.w, j: item2.j + item2.h }
+      );
+    } else if (item1leftitem2) {
+      if (debug) item1.sprite.tint = 0xdf7126;
+      distance = calcDistance(
+        { i: item1.i + item1.w, j: item2.j },
+        { i: item2.i, j: item2.j }
+      );
+    } else if (item1rightitem2) {
+      if (debug) item1.sprite.tint = 0x76428a;
+      distance = calcDistance(
+        { i: item1.i, j: item2.j },
+        { i: item2.i + item2.w, j: item2.j }
+      );
+    } else if (item1aboveitem2) {
+      if (debug) item1.sprite.tint = 0xd77bba;
+      distance = calcDistance(
+        { i: item2.i, j: item1.j + item1.h },
+        { i: item2.i, j: item2.j }
+      );
+    } else if (item1belowitem2) {
+      if (debug) item1.sprite.tint = 0x222034;
+      distance = calcDistance(
+        { i: item2.i, j: item1.j },
+        { i: item2.i, j: item2.j + item2.h }
+      );
+    }
+
+    return distance <= range;
+  });
+};
+
+export const getConnectedSquares = (board: Board, startSquares: Tile[]) => {
+  const openSquares = [...startSquares];
+  const closedSquares = [];
 };

@@ -1,46 +1,30 @@
 import * as PIXI from 'pixi.js';
-import { Anim } from './animation';
-import { Board, BoardObject } from './board';
+import { BoardObject } from './board';
 import { ts } from './utils/constants';
 
-export type Drink = BoardObject;
-
-export type DrinkTextures = {
-  b: PIXI.Texture;
-  c: PIXI.Texture;
-  l: PIXI.Texture;
+export type Drink = BoardObject & {
+  kind: DrinkKind;
 };
 
-export const drinkTextures: DrinkTextures = {
-  b: PIXI.Texture.from('https://i.imgur.com/eNwKilN.png'),
-  c: PIXI.Texture.from('https://i.imgur.com/LMUTwgN.png'),
-  l: PIXI.Texture.from('https://i.imgur.com/6ilmUUU.png'),
+export type DrinkTexture = { [key: string]: PIXI.Texture };
+
+export type DrinkKind = {
+  texture: PIXI.Texture;
 };
 
-export const createDrinkSprite = (drinkType: keyof DrinkTextures) => {
-  const drink = new PIXI.Sprite(drinkTextures[drinkType]);
-  drink.width = ts - 4;
-  drink.height = ts - 4;
-  return drink;
+export const drinkKinds = {
+  b: { texture: PIXI.Texture.from('https://i.imgur.com/eNwKilN.png') },
+  c: { texture: PIXI.Texture.from('https://i.imgur.com/LMUTwgN.png') },
+  l: { texture: PIXI.Texture.from('https://i.imgur.com/6ilmUUU.png') },
 };
 
-export const addDrinkToBoard = (
-  app: PIXI.Application,
-  animations: Anim[],
-  board: Board,
-  i: number,
-  j: number,
-  key: keyof DrinkTextures
-) => {
-  const drink: Drink = {
-    i,
-    j,
-    w: 1,
-    h: 1,
-  };
-  board.drinks.push(drink);
-  const drinkSprite = createDrinkSprite(key);
-  drinkSprite.x = drink.i * ts + 3;
-  drinkSprite.y = drink.j * ts + 3;
-  board.container.addChild(drinkSprite);
+export const isDrink = (boardObject: BoardObject): boardObject is Drink => {
+  return (boardObject as Drink).kind !== undefined;
+};
+
+export const createDrinkSprite = (drink: Drink) => {
+  const drinkSprite = new PIXI.Sprite(drink.kind.texture);
+  drinkSprite.width = ts - 4;
+  drinkSprite.height = ts - 4;
+  return drinkSprite;
 };

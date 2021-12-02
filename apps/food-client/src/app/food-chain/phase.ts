@@ -1,9 +1,9 @@
 import * as PIXI from 'pixi.js';
-import { Anim } from './animation';
 import { Card, enableCardStructure, enableCardHire } from './card';
 import { Drawer } from './drawer';
 import { drawBoxIndicator, Indicator } from './indicators';
 import { Player } from './types';
+import { app } from './utils/singletons';
 
 export type Phase = {
   name: string;
@@ -41,8 +41,6 @@ export const drawPhaseIndicator = (
 };
 
 export const drawNextPhaseButton = (
-  app: PIXI.Application,
-  animations: Anim[],
   player: Player,
   hiresIndicator: Indicator,
   phases: { [key: string]: Phase },
@@ -73,7 +71,6 @@ export const drawNextPhaseButton = (
         enableCardStructure(app, beachDrawer, structureDrawer, card, ceoCard);
       else if (currentPhase === phases.hire) {
         enableCardHire(
-          animations,
           player,
           card,
           recruitDrawer,
