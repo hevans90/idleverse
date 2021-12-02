@@ -6,7 +6,12 @@ import {
   organiseMarketingDrawer,
   toggleOpen,
 } from './drawer';
-import { createFoodSelect, FoodKind, renderHouseFood } from './food';
+import {
+  createFoodSelect,
+  FoodKind,
+  renderHouseFood,
+  renderMarketingTileFood,
+} from './food';
 import { disablePlacement, enablePlacement, Tile } from './tile';
 import { Player } from './types';
 import { ts } from './utils/constants';
@@ -86,7 +91,7 @@ export type MarketingTileConfig = {
 
 export type MarketingTile = BoardObject &
   MarketingTileConfig & {
-    foodQuant?: number;
+    foodQuant: number;
     foodKind?: FoodKind;
     foodSprites?: PIXI.Sprite[];
     owner?: Player;
@@ -147,6 +152,7 @@ export const initMarketingTiles = (
       rotation: 0,
       container: new PIXI.Container(),
       owner: null,
+      foodQuant: 0,
       foodSprites: [],
     };
     marketingTile.sprite = createMarketTileSprite(config);
@@ -209,13 +215,18 @@ export const advertise = (board: Board, tile: MarketingTile) => {
     tile,
     tile as Tile
   );
-  board.houses.forEach((house) => {
-    house.sprite.tint = 0xffffff;
-    if (rangeOverlapsItem(house, tilesInRange))
-      house.food.push({
-        kind: tile.foodKind,
-        sprite: new PIXI.Sprite(tile.foodKind.texture),
-      });
-    renderHouseFood(house);
-  });
+  if (tile.foodQuant > 0) {
+    tile.foodQuant--;
+    renderMarketingTileFood(tile);
+    board.houses.forEach((house) => {
+      if (rangeOverlapsItem(house, tilesInRange) && house.food.length < 3) {
+        console.log(house.food.length);
+        house.food.push({
+          kind: tile.foodKind,
+          sprite: new PIXI.Sprite(tile.foodKind.texture),
+        });
+        renderHouseFood(house);
+      }
+    });
+  }
 };

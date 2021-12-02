@@ -99,7 +99,7 @@ export const renderHouseFood = (house: House) => {
 };
 
 export const renderMarketingTileFood = (tile: MarketingTile) => {
-  tile.foodSprites.forEach((sprite) => sprite.destroy(true));
+  tile.foodSprites.forEach((sprite) => sprite.destroy());
   tile.foodSprites = [];
   for (let i = 0; i < tile.foodQuant; i++) {
     const foodSprite = new PIXI.Sprite(tile.foodKind.texture);
