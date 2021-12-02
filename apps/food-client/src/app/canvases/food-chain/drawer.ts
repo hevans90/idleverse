@@ -59,6 +59,7 @@ export const removeFromDrawer = (card: Card, drawer: Drawer) => {
 
 export const renderDrawer = (app: PIXI.Application, drawer: Drawer) => {
   const drawerContainer = new PIXI.Container();
+  drawerContainer.interactive = true;
 
   // Render drawer body
   const drawerBody = new PIXI.Graphics();
@@ -87,43 +88,44 @@ export const renderDrawer = (app: PIXI.Application, drawer: Drawer) => {
   });
   drawerContainer.addChild(drawerBody, drawerTab);
 
-  const drawerContents = new PIXI.Graphics();
-  drawerContents.beginFill(baseColour);
-  drawerContents.drawRoundedRect(0, 0, drawer.width, drawer.height, 20);
-  drawerContents.endFill();
-  drawerContents.interactive = true;
+  const drawerContents = new PIXI.Container();
   drawerContainer.addChild(drawerContents);
-
   drawer.container = drawerContents;
 
   const start = { x: 0, y: 0 };
   const end = { x: 0, y: 0 };
+  let dragging = false;
 
   function onDragStart(event: PIXI.InteractionEvent) {
-    start.x =
-      event.data.getLocalPosition(this.parent).x - event.target.position.x;
-    start.y =
-      event.data.getLocalPosition(this.parent).y - event.target.position.y;
-    console.log(start);
-    this.data = event.data;
-    this.dragging = true;
+    start.x = event.data.global.x - drawerContents.position.x;
+    start.y = event.data.global.y - drawerContents.position.y;
+    dragging = true;
   }
 
   function onDragEnd() {
-    this.dragging = false;
-    this.data = null;
+    console.log(end);
+
+    console.log({
+      x: -drawerContents.width + drawerBody.width - 20,
+      y: -drawerContents.height + drawerBody.height - 20,
+    });
+    dragging = false;
   }
 
   function onDragMove(event: PIXI.InteractionEvent) {
-    if (this.dragging) {
-      end.x = this.data.getLocalPosition(this.parent).x - start.x;
-      end.y = this.data.getLocalPosition(this.parent).y - start.y;
-      if (end.x < 0) this.x = end.x;
-      if (end.y < 0) this.y = end.y;
+    if (dragging) {
+      end.x = event.data.global.x - start.x;
+      end.y = event.data.global.y - start.y;
+      if (end.x < 0 && end.x > -drawerContents.width + drawerBody.width - 20)
+        drawerContents.x = end.x;
+      if (end.y < 0 && end.y > -drawerContents.height + drawerBody.height - 20)
+        drawerContents.y = end.y;
+      if (-drawerContents.width + drawerBody.width - 20 > 0) drawerContents.x = 0;
+      if (-drawerContents.height + drawerBody.height - 20 > 0) drawerContents.y = 0;
     }
   }
 
-  drawerContents
+  drawerContainer
     .on('pointerdown', onDragStart)
     .on('pointerup', onDragEnd)
     .on('pointerupoutside', onDragEnd)
