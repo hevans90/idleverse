@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { Layer } from '@pixi/layers';
+import { Group, Layer } from '@pixi/layers';
 import { Anim } from '../animation';
 import { Board } from '../board';
 import { Card } from '../card';
@@ -28,10 +28,8 @@ export const board: Board = {
 export const mainLayer = new Layer();
 
 export const layers = {
-  base: new Layer(),
-  main: new Layer(),
-  indicator: new Layer(),
-  control: new Layer(),
+  board: new Layer(new Group(1, false)),
+  ui: new Layer(new Group(2, false)),
 };
 
 export const animations: Anim[] = [];

@@ -1,13 +1,13 @@
 import * as PIXI from 'pixi.js';
+import { getRandomValidPosition, isValidPosition } from './utils/utils';
+import { board } from './utils/singletons';
+import { ts } from './utils/constants';
+import { dinerTexture } from './utils/graphics';
 import { BoardObject } from './board';
 import { addDinerToDrawer, toggleDrawerOpen } from './drawer';
 import { Player } from './player';
 import { Road } from './road';
 import { disablePlacement, enablePlacement } from './tile';
-import { ts } from './utils/constants';
-import { dinerTexture } from './utils/graphics';
-import { app, board } from './utils/singletons';
-import { getRandomValidPosition, isValidPosition } from './utils/utils';
 
 export type Diner = BoardObject & {
   time?: number;
@@ -65,7 +65,9 @@ export const enableDinerPlacement = (player: Player) => {
         (square) => isValidPosition(diner, square),
         () => [],
         () => {
-          board.diners.push(diner);
+          if (!board.diners.includes(diner)) {
+            board.diners.push(diner);
+          }
           disablePlacement();
         }
       );

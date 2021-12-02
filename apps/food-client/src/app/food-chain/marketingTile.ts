@@ -224,6 +224,9 @@ export const enableMarketingTilePlacement = () => {
         () => {
           disablePlacement();
           selectMarketingTileFood(tile);
+          if (!board.marketingTiles.includes(tile)) {
+            board.marketingTiles.push(tile);
+          }
         }
       );
 
