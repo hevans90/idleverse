@@ -4,9 +4,9 @@ import {
   getConnectedRoads,
   getAdjacentRoads,
 } from '../board';
-import { Road } from '../road';
+import { isRoad, Road } from '../road';
 import { Tile } from '../tile';
-import { debug } from './constants';
+import { debug as debugConfig } from './constants';
 
 export type Vector2 = {
   x: number;
@@ -45,7 +45,12 @@ export const isValidPosition = (
   item1: BoardItem,
   adjacentRoadRequired: boolean
 ) => {
-  const itemsArray = [].concat(board.roads, board.houses, board.drinks);
+  const itemsArray = [].concat(
+    [board.diner],
+    board.roads,
+    board.houses,
+    board.drinks
+  );
 
   const collisionArray = itemsArray.filter((item2) => collides(item1, item2));
 
@@ -56,6 +61,14 @@ export const isValidPosition = (
   if (adjacentRoadRequired && getAdjacentRoads(board, item1).length === 0) {
     return false;
   }
+
+  if (
+    item1.i + item1.w > board.chunksWide * 5 ||
+    item1.j + item1.h > board.chunksHigh * 5 ||
+    item1.i < 0 ||
+    item1.j < 0
+  )
+    return false;
 
   return true;
 };
@@ -152,7 +165,7 @@ export const findPath = (
   const path = [];
   if (pathFound) {
     let currentRoad = lastRoad;
-    console.log(currentRoad.toGoal + currentRoad.fromStart);
+    console.log(`distance: ${currentRoad.toGoal + currentRoad.fromStart}`);
     while (!startRoads.includes(currentRoad)) {
       path.push(currentRoad);
       currentRoad = currentRoad.previousRoad;
@@ -162,6 +175,72 @@ export const findPath = (
   return path;
 };
 
+export const calcRectsDistance = (item1: BoardObject, item2: BoardObject) => {
+  const debug = debugConfig.enabled;
+  let distance: number;
+
+  const item1leftitem2 = item2.i >= item1.i + item1.w;
+  const item1rightitem2 = item2.i + item2.w <= item1.i;
+  const item1aboveitem2 = item2.j >= item1.j + item1.h;
+  const item1belowitem2 = item2.j + item2.h <= item1.j;
+
+  if (item1aboveitem2 && item1leftitem2) {
+    if (debug) item1.sprite.tint = 0xac3232;
+    distance =
+      calcDistance(
+        { i: item1.i + item1.w, j: item1.j + item1.h },
+        { i: item2.i, j: item2.j }
+      ) + 1;
+  } else if (item1aboveitem2 && item1rightitem2) {
+    if (debug) item1.sprite.tint = 0x37946e;
+    distance =
+      calcDistance(
+        { i: item1.i, j: item1.j + item1.h },
+        { i: item2.i + item2.w, j: item2.j }
+      ) + 1;
+  } else if (item1belowitem2 && item1leftitem2) {
+    if (debug) item1.sprite.tint = 0x5b6ee1;
+    distance =
+      calcDistance(
+        { i: item1.i + item1.w, j: item1.j },
+        { i: item2.i, j: item2.j + item2.h }
+      ) + 1;
+  } else if (item1belowitem2 && item1rightitem2) {
+    if (debug) item1.sprite.tint = 0xfbf236;
+    distance =
+      calcDistance(
+        { i: item1.i, j: item1.j },
+        { i: item2.i + item2.w, j: item2.j + item2.h }
+      ) + 1;
+  } else if (item1leftitem2) {
+    if (debug) item1.sprite.tint = 0xdf7126;
+    distance = calcDistance(
+      { i: item1.i + item1.w, j: item2.j },
+      { i: item2.i, j: item2.j }
+    );
+  } else if (item1rightitem2) {
+    if (debug) item1.sprite.tint = 0x76428a;
+    distance = calcDistance(
+      { i: item1.i, j: item2.j },
+      { i: item2.i + item2.w, j: item2.j }
+    );
+  } else if (item1aboveitem2) {
+    if (debug) item1.sprite.tint = 0xd77bba;
+    distance = calcDistance(
+      { i: item2.i, j: item1.j + item1.h },
+      { i: item2.i, j: item2.j }
+    );
+  } else if (item1belowitem2) {
+    if (debug) item1.sprite.tint = 0x222034;
+    distance = calcDistance(
+      { i: item2.i, j: item1.j },
+      { i: item2.i, j: item2.j + item2.h }
+    );
+  }
+
+  return distance;
+};
+
 export const getSquaresInRange = (
   board: Board,
   item2: BoardObject,
@@ -169,67 +248,40 @@ export const getSquaresInRange = (
 ) => {
   board.tiles.forEach((tile) => (tile.sprite.tint = 0xffffff));
   return board.tiles.filter((item1) => {
-    let distance: number;
-    const item1leftitem2 = item2.i >= item1.i + item1.w;
-    const item1rightitem2 = item2.i + item2.w <= item1.i;
-    const item1aboveitem2 = item2.j >= item1.j + item1.h;
-    const item1belowitem2 = item2.j + item2.h <= item1.j;
+    const distance = calcRectsDistance(item1, item2);
 
-    if (item1aboveitem2 && item1leftitem2) {
-      if (debug) item1.sprite.tint = 0xac3232;
-      distance = calcDistance(
-        { i: item1.i + item1.w, j: item1.j + item1.h },
-        { i: item2.i, j: item2.j }
-      );
-    } else if (item1aboveitem2 && item1rightitem2) {
-      if (debug) item1.sprite.tint = 0x37946e;
-      distance = calcDistance(
-        { i: item1.i, j: item1.j + item1.h },
-        { i: item2.i + item2.w, j: item2.j }
-      );
-    } else if (item1belowitem2 && item1leftitem2) {
-      if (debug) item1.sprite.tint = 0x5b6ee1;
-      distance = calcDistance(
-        { i: item1.i + item1.w, j: item1.j },
-        { i: item2.i, j: item2.j + item2.w }
-      );
-    } else if (item1belowitem2 && item1rightitem2) {
-      if (debug) item1.sprite.tint = 0xfbf236;
-      distance = calcDistance(
-        { i: item1.i, j: item1.j },
-        { i: item2.i + item2.w, j: item2.j + item2.h }
-      );
-    } else if (item1leftitem2) {
-      if (debug) item1.sprite.tint = 0xdf7126;
-      distance = calcDistance(
-        { i: item1.i + item1.w, j: item2.j },
-        { i: item2.i, j: item2.j }
-      );
-    } else if (item1rightitem2) {
-      if (debug) item1.sprite.tint = 0x76428a;
-      distance = calcDistance(
-        { i: item1.i, j: item2.j },
-        { i: item2.i + item2.w, j: item2.j }
-      );
-    } else if (item1aboveitem2) {
-      if (debug) item1.sprite.tint = 0xd77bba;
-      distance = calcDistance(
-        { i: item2.i, j: item1.j + item1.h },
-        { i: item2.i, j: item2.j }
-      );
-    } else if (item1belowitem2) {
-      if (debug) item1.sprite.tint = 0x222034;
-      distance = calcDistance(
-        { i: item2.i, j: item1.j },
-        { i: item2.i, j: item2.j + item2.h }
-      );
-    }
-
-    return distance <= range;
+    return distance < range;
   });
 };
 
-export const getConnectedSquares = (board: Board, startSquares: Tile[]) => {
+export const getAdjacentSquares = (tiles: Tile[], tile1: Tile) => {
+  return tiles.filter((tile2) => calcDistance(tile1, tile2) === 1);
+};
+
+export const getConnectedSquares = (
+  board: Board,
+  startSquares: Tile[]
+): Tile[] => {
+  const tilePool = [...board.tiles];
   const openSquares = [...startSquares];
-  const closedSquares = [];
+  const validSquares = [];
+
+  let i = 1000;
+  while (openSquares.length > 0 && i > 0) {
+    i--;
+    const currentSquare = openSquares[0];
+    openSquares.splice(openSquares.indexOf(currentSquare), 1);
+    validSquares.push(currentSquare);
+    const adjacentSquares = getAdjacentSquares(tilePool, currentSquare);
+    adjacentSquares.forEach((square) => {
+      let containsRoad = false;
+      square.occupants.forEach((occupant) => {
+        if (isRoad(occupant)) containsRoad = true;
+      });
+      if (!containsRoad) openSquares.push(square);
+      tilePool.splice(tilePool.indexOf(square), 1);
+    });
+  }
+
+  return validSquares;
 };

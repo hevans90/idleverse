@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { BoardObject } from './board';
+import { Board, BoardObject } from './board';
 import { ts } from './utils/constants';
 
 export type Drink = BoardObject & {
@@ -27,4 +27,23 @@ export const createDrinkSprite = (drink: Drink) => {
   drinkSprite.width = ts - 4;
   drinkSprite.height = ts - 4;
   return drinkSprite;
+};
+
+export const parseDrinkConfig = (config: RegExpExecArray, zOffset: number) => {
+  const drink: Drink = {
+    w: 1,
+    h: 1,
+    kind: drinkKinds[config[1]],
+    container: new PIXI.Container(),
+  };
+  drink.sprite = createDrinkSprite(drink);
+  drink.container.addChild(drink.sprite);
+  drink.sprite.zIndex = 10 + zOffset;
+  return drink;
+};
+
+export const addDrinkToBoard = (board: Board, drink: Drink) => {
+  drink.container.x += 2;
+  drink.container.y += 2;
+  board.drinks.push(drink);
 };

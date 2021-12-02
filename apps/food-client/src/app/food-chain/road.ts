@@ -116,6 +116,10 @@ export const createRoadSprite = (road: Road) => {
   return roadSprite;
 };
 
+const rotateRoad = (road) => {
+  return road;
+};
+
 export const tintAdjacentRoads = (board: Board, road: Road) => {
   const adjacentRoads = getAdjacentRoads(board, road);
   board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
@@ -141,12 +145,20 @@ const generatePlayNext = (
   };
 };
 
+const setCarZIndex = (road1, road2) => {
+  return road1.container.zIndex > road2.container.zIndex
+    ? road1.container.zIndex + 1
+    : road2.container.zIndex + 1;
+};
+
 export const triggerCarAnimation = (board: Board, road: Road) => {
   const path = findPath(board, getAdjacentRoads(board, board.diner), road);
   const carTexture = PIXI.Texture.from('https://i.imgur.com/01q7OGv.png');
   const carSprite = new PIXI.Sprite(carTexture);
   carSprite.anchor.x = 0.5;
   carSprite.anchor.y = 0.5;
+  //carSprite.scale.x = 0.5;
+  //carSprite.scale.y = 0.5;
   const queue: Anim[] = [];
   if (path.length > 1) {
     for (let i = 0; i < path.length - 1; i++) {
@@ -157,18 +169,19 @@ export const triggerCarAnimation = (board: Board, road: Road) => {
           animations,
           carSprite,
           {
-            x: road1.sprite.position.x + ts1_2,
-            y: road1.sprite.position.y + ts1_2,
+            x: road1.container.position.x + ts1_2,
+            y: road1.container.position.y + ts1_2,
           },
           {
-            x: road2.sprite.position.x + ts1_2,
-            y: road2.sprite.position.y + ts1_2,
+            x: road2.container.position.x + ts1_2,
+            y: road2.container.position.y + ts1_2,
           },
           Math.atan2(
-            road2.sprite.position.y - road1.sprite.position.y,
-            road2.sprite.position.x - road1.sprite.position.x
+            road2.container.position.y - road1.container.position.y,
+            road2.container.position.x - road1.container.position.x
           ),
           20,
+          setCarZIndex(road1, road2),
           generatePlayNext(board, queue, carSprite)
         )
       );
@@ -180,18 +193,19 @@ export const triggerCarAnimation = (board: Board, road: Road) => {
         animations,
         carSprite,
         {
-          x: road2.sprite.position.x + ts1_2,
-          y: road2.sprite.position.y + ts1_2,
+          x: road2.container.position.x + ts1_2,
+          y: road2.container.position.y + ts1_2,
         },
         {
-          x: road2.sprite.position.x + ts1_2,
-          y: road2.sprite.position.y + ts1_2,
+          x: road2.container.position.x + ts1_2,
+          y: road2.container.position.y + ts1_2,
         },
         Math.atan2(
-          road2.sprite.position.y - road1.sprite.position.y,
-          road2.sprite.position.x - road1.sprite.position.x
+          road2.container.position.y - road1.container.position.y,
+          road2.container.position.x - road1.container.position.x
         ),
         100,
+        setCarZIndex(road1, road2),
         generatePlayNext(board, queue, carSprite)
       )
     );
@@ -203,18 +217,19 @@ export const triggerCarAnimation = (board: Board, road: Road) => {
           animations,
           carSprite,
           {
-            x: road2.sprite.position.x + ts1_2,
-            y: road2.sprite.position.y + ts1_2,
+            x: road2.container.position.x + ts1_2,
+            y: road2.container.position.y + ts1_2,
           },
           {
-            x: road1.sprite.position.x + ts1_2,
-            y: road1.sprite.position.y + ts1_2,
+            x: road1.container.position.x + ts1_2,
+            y: road1.container.position.y + ts1_2,
           },
           Math.atan2(
-            road1.sprite.position.y - road2.sprite.position.y,
-            road1.sprite.position.x - road2.sprite.position.x
+            road1.container.position.y - road2.container.position.y,
+            road1.container.position.x - road2.container.position.x
           ),
           20,
+          setCarZIndex(road1, road2),
           generatePlayNext(board, queue, carSprite)
         )
       );
@@ -228,15 +243,16 @@ export const triggerCarAnimation = (board: Board, road: Road) => {
         animations,
         carSprite,
         {
-          x: road.sprite.position.x + ts1_2,
-          y: road.sprite.position.y + ts1_2,
+          x: road.container.position.x + ts1_2,
+          y: road.container.position.y + ts1_2,
         },
         {
-          x: road.sprite.position.x + ts1_2,
-          y: road.sprite.position.y + ts1_2,
+          x: road.container.position.x + ts1_2,
+          y: road.container.position.y + ts1_2,
         },
         0,
         200,
+        road.container.zIndex + 1,
         generatePlayNext(board, queue, carSprite)
       )
     );
@@ -246,6 +262,26 @@ export const triggerCarAnimation = (board: Board, road: Road) => {
   }
 };
 
-const rotateRoad = (road) => {
+export const parseRoadConfig = (config: RegExpExecArray, zOffset: number) => {
+  const road: Road = {
+    w: 1,
+    h: 1,
+    connections: config[2].split('').map((i) => parseInt(i)),
+    container: new PIXI.Container(),
+  };
+  road.sprite = createRoadSprite(road);
+  road.container.addChild(road.sprite);
+  road.container.zIndex = 10 + zOffset;
   return road;
+};
+
+export const addRoadToBoard = (board: Board, road: Road) => {
+  road.container.x -= 2;
+  road.container.y -= 2;
+  road.container.interactive = true;
+  road.container.buttonMode = true;
+  road.container.on('pointerdown', () => {
+    triggerCarAnimation(board, road);
+  });
+  board.roads.push(road);
 };

@@ -1,13 +1,17 @@
 import * as PIXI from 'pixi.js';
 import { Board, BoardObject } from './board';
-import { createDrinkSprite, Drink, drinkKinds } from './drink';
-import { createHouseSprite, House } from './house';
+import { drinkKinds, parseDrinkConfig } from './drink';
+import { parseHouseConfig } from './house';
 import { drawIndicator, IndicatorColour } from './indicators';
-import { createRoadSprite, Road } from './road';
+import { parseRoadConfig } from './road';
 import { lineColour } from './types';
 import { tileConfigRegex, ts } from './utils/constants';
-import { app } from './utils/singletons';
-import { getSquaresInRange, isValidPosition } from './utils/utils';
+import { app, keyEventMap } from './utils/singletons';
+import {
+  calcRectsDistance,
+  getSquaresInRange,
+  isValidPosition,
+} from './utils/utils';
 
 export type TileConfig = Array<Array<string | Array<string>>>;
 
@@ -34,33 +38,11 @@ export const parseTileContents = (contents: string, zOffset = 0) => {
   const match = tileConfigRegex.exec(contents);
 
   if (match[1] === 'r') {
-    const road: Road = {
-      w: 1,
-      h: 1,
-      connections: match[2].split('').map((i) => parseInt(i)),
-    };
-    road.sprite = createRoadSprite(road);
-    road.sprite.zIndex = 10 + zOffset;
-    return road;
+    return parseRoadConfig(match, zOffset);
   } else if (match[1] === 'h') {
-    const house: House = {
-      w: 2,
-      h: 2,
-      orient: parseInt(match[2]),
-      num: parseInt(match[3]),
-    };
-    house.sprite = createHouseSprite(house);
-    house.sprite.zIndex = 10 + zOffset;
-    return house;
+    return parseHouseConfig(match, zOffset);
   } else if (match[1] in drinkKinds) {
-    const drink: Drink = {
-      w: 1,
-      h: 1,
-      kind: drinkKinds[match[1]],
-    };
-    drink.sprite = createDrinkSprite(drink);
-    drink.sprite.zIndex = 10 + zOffset;
-    return drink;
+    return parseDrinkConfig(match, zOffset);
   }
 
   return null;
@@ -82,7 +64,7 @@ export const parseTileConfig = (tileConfig: TileConfig): Chunk => {
         if (element !== 'e') tile.occupants.push(parseTileContents(element));
       } else
         element.forEach((subElement, i) =>
-          tile.occupants.push(parseTileContents(subElement, i))
+          tile.occupants.push(parseTileContents(subElement, i * 2))
         );
       tileArray.push(tile);
     })
@@ -133,21 +115,72 @@ export const addTileToBoard = (
   board.container.addChild(tile.container);
 };
 
+export const disablePlacement = (board: Board) => {
+  board.tiles.forEach((square) => {
+    square.container.removeAllListeners();
+    square.container.interactive = true;
+    square.container.buttonMode = true;
+  });
+  removeChildrenByName(board.container, 'indicator');
+  board.tiles.forEach((tile) => removeChildrenByName(tile.container, 'tint'));
+  board.houses.forEach((house) => (house.sprite.tint = 0xffffff));
+  keyEventMap.Space = () => {
+    return;
+  };
+};
+
+export const removeChildrenByName = (
+  object: PIXI.Container,
+  childName: string
+) => {
+  let tint = object.getChildByName(childName);
+  while (tint) {
+    tint.destroy();
+    tint = object.getChildByName(childName);
+  }
+};
+
+export const applyRotation = (object: BoardObject) => {
+  object.sprite.rotation += 0.5 * Math.PI;
+  if (object.sprite.rotation === 2 * Math.PI) object.sprite.rotation = 0;
+
+  if (object.sprite.rotation === 0.5 * Math.PI) {
+    object.sprite.x = object.sprite.height;
+    object.sprite.y = 0;
+  } else if (object.sprite.rotation === 1.0 * Math.PI) {
+    object.sprite.x = object.sprite.width;
+    object.sprite.y = object.sprite.height;
+  } else if (object.sprite.rotation === 1.5 * Math.PI) {
+    object.sprite.x = 0;
+    object.sprite.y = object.sprite.width;
+  } else {
+    object.sprite.x = 0;
+    object.sprite.y = 0;
+  }
+
+  const w = object.w;
+  const h = object.h;
+
+  object.h = w;
+  object.w = h;
+};
+
 export const enablePlacement = (
   board: Board,
   item: BoardObject,
   adjacentRoadRequired: boolean,
   callback?: () => void
 ) => {
-  const invalidIndicator = drawIndicator(
-    item.w,
-    item.h,
-    IndicatorColour.invalid
-  );
-  const validIndicator = drawIndicator(item.w, item.h, IndicatorColour.valid);
+  let invalidIndicator = drawIndicator(item.w, item.h, IndicatorColour.invalid);
+  let validIndicator = drawIndicator(item.w, item.h, IndicatorColour.valid);
 
   let activeIndicator = validIndicator;
-  let inactiveIndicator = invalidIndicator;
+
+  keyEventMap.Space = () => {
+    applyRotation(item);
+    invalidIndicator = drawIndicator(item.w, item.h, IndicatorColour.invalid);
+    validIndicator = drawIndicator(item.w, item.h, IndicatorColour.valid);
+  };
 
   board.tiles.forEach((square) => {
     square.container.removeAllListeners();
@@ -162,34 +195,43 @@ export const enablePlacement = (
         )
       ) {
         activeIndicator = validIndicator;
-        inactiveIndicator = invalidIndicator;
       } else {
         activeIndicator = invalidIndicator;
-        inactiveIndicator = validIndicator;
       }
       activeIndicator.position.x = square.i * ts;
       activeIndicator.position.y = square.j * ts;
+      removeChildrenByName(board.container, 'indicator');
       board.container.addChild(activeIndicator);
-      board.container.removeChild(inactiveIndicator);
 
       getSquaresInRange(
         board,
         { ...item, i: square.i, j: square.j },
-        3
+        5
       ).forEach((_square) => {
         const tint = drawIndicator(1, 1, IndicatorColour.range);
         tint.name = 'tint';
         _square.container.addChild(tint);
       });
+
+      // getConnectedSquares(board, [square]).forEach((_square) => {
+      //   const tint = drawIndicator(1, 1, IndicatorColour.range);
+      //   tint.name = 'tint';
+      //   _square.container.addChild(tint);
+      // });
+
+      board.houses.forEach((house) => (house.sprite.tint = 0xffffff));
+      const housesInRange = board.houses.filter(
+        (house) =>
+          calcRectsDistance(house, { ...item, i: square.i, j: square.j }) < 1
+      );
+      housesInRange.forEach((house) => (house.sprite.tint = 0x5b6ee1));
     });
 
     square.container.on('mouseout', () => {
       board.container.removeChild(activeIndicator);
-
-      board.tiles.forEach((_square) => {
-        const tint = _square.container.getChildByName('tint');
-        if (tint) tint.destroy();
-      });
+      board.tiles.forEach((tile) =>
+        removeChildrenByName(tile.container, 'tint')
+      );
     });
 
     square.container.on('pointerdown', () => {

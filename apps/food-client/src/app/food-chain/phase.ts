@@ -1,8 +1,10 @@
 import * as PIXI from 'pixi.js';
+import { Board } from './board';
 import { Card, enableCardStructure, enableCardHire } from './card';
 import { Drawer } from './drawer';
 import { drawBoxIndicator, Indicator } from './indicators';
 import { Player } from './types';
+import { debug } from './utils/constants';
 import { app } from './utils/singletons';
 
 export type Phase = {
@@ -79,6 +81,27 @@ export const drawNextPhaseButton = (
         );
       }
     });
+  });
+  app.stage.addChild(nextPhaseButton);
+};
+
+export const drawDebugButton = (board: Board) => {
+  const nextPhaseButton = drawBoxIndicator({
+    height: 50,
+    width: 200,
+    borderColor: 0xffbd2e,
+    bgColor: 0xffd67d,
+    textColor: 0x000000,
+    text: 'Debug Mode',
+  });
+  nextPhaseButton.position.x = 20;
+  nextPhaseButton.position.y = 20;
+  nextPhaseButton.interactive = true;
+  nextPhaseButton.buttonMode = true;
+  nextPhaseButton.on('pointerdown', () => {
+    board.tiles.forEach((tile) => (tile.sprite.tint = 0xffffff));
+    debug.enabled = !debug.enabled;
+    console.log(debug);
   });
   app.stage.addChild(nextPhaseButton);
 };

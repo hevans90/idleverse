@@ -7,21 +7,25 @@ import { renderDrawer, Drawer } from './drawer';
 import { Card, createCardSprite, initCards } from './card';
 import { addBoardToStage, Board } from './board';
 import { tileConfigs } from './tileConfigs';
-import { drawChunks } from './chunk';
-import { drawNextPhaseButton, drawPhaseIndicator, Phase } from './phase';
+import { drawChunks, drawOuterSquares } from './chunk';
+import {
+  drawDebugButton,
+  drawNextPhaseButton,
+  drawPhaseIndicator,
+  Phase,
+} from './phase';
 import { cardConfigs, ceoCardConfig } from './cardConfigs';
 import { initCEOCard } from './ceo';
 import { initMarketingTiles, MarketingTile } from './marketingTile';
 import { marketingTileConfigs } from './marketingTileConfigs';
-import { enablePlacement } from './tile';
-import { animations, app } from './utils/singletons';
+import { disablePlacement, enablePlacement } from './tile';
+import { animations, app, keyEventMap } from './utils/singletons';
 
 export const FoodChain = () => {
   useEffect(() => {
     const gameElement = document.getElementById('game');
     app.resizeTo = gameElement;
     app.stage.sortableChildren = true;
-
     const cards: Card[] = [];
     const marketingTiles: MarketingTile[] = [];
 
@@ -67,11 +71,15 @@ export const FoodChain = () => {
 
     const currentPhase = phases.structure;
 
-    drawChunks(board, tileConfigs);
+    document.addEventListener('keydown', (e) => {
+      if (Object.keys(keyEventMap).includes(e.code)) keyEventMap[e.code]();
+    });
 
+    drawChunks(board, tileConfigs);
     addDinerToBoard(board);
     addBoardToStage(app, board);
-    enablePlacement(board, board.diner, true);
+    drawOuterSquares(board);
+    enablePlacement(board, board.diner, true, () => disablePlacement(board));
 
     const recruitDrawer: Drawer = {
       open: false,
@@ -155,11 +163,12 @@ export const FoodChain = () => {
       ceoCard,
       cards
     );
+    drawDebugButton(board);
     drawBoxIndicator(hiresIndicator);
     beachDrawer.contentsContainer.addChild(hiresIndicator.container);
     hiresIndicator.container.position.x = 620;
     hiresIndicator.container.position.y = 180;
-    
+
     app.stage.sortableChildren = true;
 
     app.ticker.add(() => {

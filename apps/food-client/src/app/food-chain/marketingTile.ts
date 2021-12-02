@@ -6,7 +6,7 @@ import {
   organiseMarketingDrawer,
   toggleOpen,
 } from './drawer';
-import { enablePlacement } from './tile';
+import { disablePlacement, enablePlacement } from './tile';
 import { Player } from './types';
 import { ts } from './utils/constants';
 import { app } from './utils/singletons';
@@ -41,11 +41,11 @@ export type MarketingTileConfig = {
 };
 
 export type MarketingTile = BoardObject &
-  MarketingTileConfig & { owner?: Player; container?: PIXI.Container };
+  MarketingTileConfig & {
+    owner?: Player;
+  };
 
 export const createMarketTileSprite = (config: MarketingTileConfig) => {
-  const container = new PIXI.Container();
-
   const graphic = new PIXI.Graphics();
   graphic.lineStyle(2, 0x000000);
   graphic.beginFill(0xa3e8f5);
@@ -75,9 +75,18 @@ export const createMarketTileSprite = (config: MarketingTileConfig) => {
   marketingSprite.y = (config.h * ts) / 2;
   marketingSprite.anchor.y = 0.5;
 
-  container.addChild(graphic, marketingSprite, tileNum);
+  const renderContainer = new PIXI.Container();
+  renderContainer.addChild(graphic, marketingSprite, tileNum);
 
-  return container;
+  const baseTexture = new PIXI.BaseRenderTexture({
+    width: ts * config.w,
+    height: ts * config.h,
+  });
+  const renderTexture = new PIXI.RenderTexture(baseTexture);
+
+  app.renderer.render(renderContainer, { renderTexture });
+
+  return new PIXI.Sprite(renderTexture);
 };
 
 export const initMarketingTiles = (
@@ -87,11 +96,14 @@ export const initMarketingTiles = (
   marketingTiles: MarketingTile[]
 ) => {
   configs.forEach((config) => {
-    marketingTiles.push({
+    const marketingTile: MarketingTile = {
       ...config,
-      container: createMarketTileSprite(config),
+      container: new PIXI.Container(),
       owner: null,
-    });
+    };
+    marketingTile.sprite = createMarketTileSprite(config);
+    marketingTile.container.addChild(marketingTile.sprite);
+    marketingTiles.push(marketingTile);
   });
 
   marketingTiles.forEach((tile) => {
@@ -110,7 +122,7 @@ export const enableMarketingTilePlacement = (
   tile.container.interactive = true;
   tile.container.buttonMode = true;
   tile.container.on('pointerdown', () => {
-    enablePlacement(board, tile, false);
-    toggleOpen(marketingDrawer);
+    enablePlacement(board, tile, false, () => disablePlacement(board));
+    if (marketingDrawer.open) toggleOpen(marketingDrawer);
   });
 };

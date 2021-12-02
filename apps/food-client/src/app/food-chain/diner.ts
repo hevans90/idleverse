@@ -23,28 +23,31 @@ export const createDinerSprite = (ts: number) => {
 };
 
 export const addDinerToBoard = (board: Board) => {
-  const dinerSprite = createDinerSprite(ts);
   const diner: Diner = {
     i: 0,
     j: 0,
     w: 2,
     h: 2,
-    container: dinerSprite,
+    rotation: 0,
+    container: new PIXI.Container(),
   };
+  board.diner = diner;
+  const dinerSprite = createDinerSprite(ts);
+  diner.sprite = dinerSprite;
+  diner.container.addChild(dinerSprite);
+
   const randomPosition = getRandomValidPosition(board, diner, 20, true);
   console.log(randomPosition);
   diner.i = randomPosition.i;
   diner.j = randomPosition.j;
-  dinerSprite.x = randomPosition.i * ts;
-  dinerSprite.y = randomPosition.j * ts;
-  dinerSprite.interactive = true;
-  dinerSprite.buttonMode = true;
-  dinerSprite.on('pointerdown', () => {
+  diner.container.x = randomPosition.i * ts;
+  diner.container.y = randomPosition.j * ts;
+  diner.container.interactive = true;
+  diner.container.buttonMode = true;
+  diner.container.on('pointerdown', () => {
     const adjacentRoads = getAdjacentRoads(board, diner);
     board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
     adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
   });
-  diner.zIndex = 20;
-  board.diner = diner;
-  board.container.addChild(dinerSprite);
+  board.container.addChild(diner.container);
 };

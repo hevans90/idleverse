@@ -6,3 +6,9 @@ export const app = new PIXI.Application({
 });
 
 export const animations: Anim[] = [];
+
+export const keyEventMap = {
+  Space: () => {
+    console.log('Space bar pressed');
+  },
+};

@@ -20,6 +20,7 @@ export const translateObject = (
   endPos: Vector2,
   rotation: number,
   duration: number,
+  zIndex: number,
   next?: (anim: Anim) => void
 ): Anim => {
   const anim: Anim = {
@@ -32,6 +33,7 @@ export const translateObject = (
   };
 
   anim.start = () => {
+    object.zIndex = zIndex;
     anim.object.rotation = anim.rotation;
     anim.time = 0;
     animations.push(anim);

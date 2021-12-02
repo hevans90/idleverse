@@ -1,5 +1,11 @@
 import { addObjectToBoard, Board } from './board';
-import { Chunk, addTileToBoard, parseTileConfig, TileConfig } from './tile';
+import {
+  Chunk,
+  addTileToBoard,
+  parseTileConfig,
+  TileConfig,
+  addOuterTileToBoard,
+} from './tile';
 import { rotationConstants } from './utils/constants';
 
 export const translateChunk = (chunk: Chunk, distance: number) => {
@@ -48,19 +54,21 @@ export const drawChunks = (board: Board, tileConfigs: TileConfig[]) => {
       drawChunk(board, p, q, chunk);
     }
   }
+};
 
+export const drawOuterSquares = (board: Board) => {
   for (let i = -2; i < board.chunksWide * 5 + 2; i++) {
-    //createOuterSquare(board, i, -2);
-    //createOuterSquare(board, i, -1);
-    //createOuterSquare(board, i, board.chunksHigh * 5);
-    //createOuterSquare(board, i, board.chunksHigh * 5 + 1);
+    addOuterTileToBoard(board, i, -2);
+    addOuterTileToBoard(board, i, -1);
+    addOuterTileToBoard(board, i, board.chunksHigh * 5);
+    addOuterTileToBoard(board, i, board.chunksHigh * 5 + 1);
   }
 
   for (let j = 0; j < board.chunksHigh * 5; j++) {
-    // createOuterSquare(board, -2, j);
-    // createOuterSquare(board, -1, j);
-    // createOuterSquare(board, board.chunksWide * 5, j);
-    // createOuterSquare(board, board.chunksWide * 5 + 1, j);
+    addOuterTileToBoard(board, -2, j);
+    addOuterTileToBoard(board, -1, j);
+    addOuterTileToBoard(board, board.chunksWide * 5, j);
+    addOuterTileToBoard(board, board.chunksWide * 5 + 1, j);
   }
 };
 

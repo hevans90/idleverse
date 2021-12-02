@@ -1,9 +1,9 @@
 import * as PIXI from 'pixi.js';
 import { Diner } from './diner';
-import { Drink, isDrink } from './drink';
-import { House, isHouse } from './house';
+import { addDrinkToBoard, Drink, isDrink } from './drink';
+import { addHouseToBoard, House, isHouse } from './house';
 import { MarketingTile } from './marketingTile';
-import { isRoad, Road, triggerCarAnimation } from './road';
+import { addRoadToBoard, isRoad, Road } from './road';
 import { Tile } from './tile';
 import { ts } from './utils/constants';
 import { BoardItem, collides } from './utils/utils';
@@ -81,42 +81,31 @@ export const getConnectedRoads = (board: Board, road: Road): Road[] => {
   return connectedRoads;
 };
 
+export const rotateObject = (object: BoardObject) => {
+  const width = object.w;
+  const height = object.h;
+  object.w = height;
+  object.h = width;
+  object.container.rotation += Math.PI / 2;
+};
+
 export const addObjectToBoard = (
   board: Board,
   tile: Tile,
   boardObject: BoardObject
 ) => {
   if (isHouse(boardObject)) {
-    boardObject.sprite.x += 2;
-    boardObject.sprite.y += 2;
-    boardObject.sprite.interactive = true;
-    boardObject.sprite.buttonMode = true;
-    boardObject.sprite.on('pointerdown', () => {
-      const adjacentRoads = getAdjacentRoads(board, boardObject);
-      board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
-      adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
-      console.log(boardObject);
-    });
-    board.houses.push(boardObject);
+    addHouseToBoard(board, boardObject);
   } else if (isRoad(boardObject)) {
-    boardObject.sprite.x -= 2;
-    boardObject.sprite.y -= 2;
-    boardObject.sprite.interactive = true;
-    boardObject.sprite.buttonMode = true;
-    boardObject.sprite.on('pointerdown', () => {
-      triggerCarAnimation(board, boardObject);
-    });
-    board.roads.push(boardObject);
+    addRoadToBoard(board, boardObject);
   } else if (isDrink(boardObject)) {
-    boardObject.sprite.x += 2;
-    boardObject.sprite.y += 2;
-    board.drinks.push(boardObject);
+    addDrinkToBoard(board, boardObject);
   }
   boardObject.i = tile.i;
   boardObject.j = tile.j;
-  boardObject.sprite.x += boardObject.i * ts;
-  boardObject.sprite.y += boardObject.j * ts;
-  board.container.addChild(boardObject.sprite);
+  boardObject.container.x += boardObject.i * ts;
+  boardObject.container.y += boardObject.j * ts;
+  board.container.addChild(boardObject.container);
 };
 
 export const addBoardToStage = (app: PIXI.Application, board: Board) => {

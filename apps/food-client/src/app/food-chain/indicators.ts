@@ -24,6 +24,7 @@ export const drawIndicator = (
   indicatorType: IndicatorColour
 ) => {
   const indicator = new PIXI.Graphics();
+  indicator.name = 'indicator';
   indicator.lineStyle(4, indicatorType, 1);
   indicator.beginFill(indicatorType, 0.25);
   indicator.drawRect(0, 0, ts * w - 2, ts * h - 2);
