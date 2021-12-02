@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { createCashSprite, createFoodSprite, foodKindConfigs } from './food';
+import { createCashSprite, createFoodSprite, foodKinds } from './food';
 import { Player } from './player';
 import { app } from './utils/singletons';
 
@@ -33,7 +33,7 @@ export const renderToolbar = (player: Player) => {
     const foodKindName = food[0];
     const foodAmount = food[1];
     const foodSprite = createFoodSprite(
-      foodKindConfigs.find((kind) => kind.name === foodKindName),
+      Object.values(foodKinds).find((kind) => kind.name === foodKindName),
       40
     );
     Object.assign(foodSprite, { x: 20 + (i + 1) * 100, y: 5 });

@@ -6,42 +6,40 @@ import { createSprite } from './utils/graphics-utils';
 import { app, mainLayer } from './utils/singletons';
 
 export type FoodKind = {
-  name: string;
+  name?: string;
   letter?: string;
   texture: PIXI.Texture;
   bg: number;
 };
 
-export const foodKindConfigs: FoodKind[] = [
-  {
-    name: 'beer',
+export const foodKinds: { [key: string]: FoodKind } = {
+  beer: {
     letter: 'b',
     texture: PIXI.Texture.from('https://i.imgur.com/1Ym9YX6.png'),
     bg: 0xa0e5af,
   },
-  {
-    name: 'cola',
+  cola: {
     letter: 'c',
     texture: PIXI.Texture.from('https://i.imgur.com/UaijMRU.png'),
     bg: 0xeeb4bf,
   },
-  {
-    name: 'lemonade',
+  lemonade: {
     letter: 'l',
     texture: PIXI.Texture.from('https://i.imgur.com/LesWWMh.png'),
     bg: 0xffe67d,
   },
-  {
-    name: 'pizza',
+  pizza: {
     texture: PIXI.Texture.from('https://i.imgur.com/pyw8386.png'),
     bg: 0xf0ddae,
   },
-  {
-    name: 'burger',
+  burger: {
     texture: PIXI.Texture.from('https://i.imgur.com/uQZeADM.png'),
     bg: 0xd0b0a5,
   },
-];
+};
+Object.entries(foodKinds).forEach((kind) => {
+  kind[1].name = kind[0];
+});
 
 export const createCashSprite = (size: number) => {
   return createSprite(cashTexture, size);

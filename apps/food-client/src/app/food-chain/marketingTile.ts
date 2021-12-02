@@ -5,7 +5,7 @@ import {
   renderMarketingDrawerContents,
   toggleDrawerOpen,
 } from './drawer';
-import { createFoodSelect, FoodKind, foodKindConfigs } from './food';
+import { createFoodSelect, FoodKind, foodKinds } from './food';
 import { addFoodToHouse, House } from './house';
 import {
   triggerBillBoardAnimation,
@@ -32,6 +32,7 @@ import {
 } from './utils/utils';
 
 type MarketingTileKind = {
+  name?: string;
   texture: PIXI.Texture;
   validTiles: Tile[];
   isValidPlacement: (tile: BoardObject, square: Tile) => boolean;
@@ -39,15 +40,8 @@ type MarketingTileKind = {
   advertise: (tile: MarketingTile, affectedHouses: House[]) => void;
 };
 
-export enum MarketingTileKinds {
-  billboard,
-  mailbox,
-  airplane,
-  radio,
-}
-
-export const marketingTileKindConfigs: { [key: number]: MarketingTileKind } = {
-  [MarketingTileKinds.billboard]: {
+export const marketingTileKinds: { [key: string]: MarketingTileKind } = {
+  billboard: {
     texture: PIXI.Texture.from('https://i.imgur.com/adBXURw.png'),
     validTiles: board.tiles,
     isValidPlacement: (tile: BoardObject, square: Tile) =>
@@ -57,7 +51,7 @@ export const marketingTileKindConfigs: { [key: number]: MarketingTileKind } = {
     advertise: (tile: MarketingTile, affectedHouses: House[]) =>
       triggerBillBoardAnimation(tile, affectedHouses),
   },
-  [MarketingTileKinds.mailbox]: {
+  mailbox: {
     texture: PIXI.Texture.from('https://i.imgur.com/uQuBooP.png'),
     validTiles: board.tiles,
     isValidPlacement: (tile: BoardObject, square: Tile) =>
@@ -67,7 +61,7 @@ export const marketingTileKindConfigs: { [key: number]: MarketingTileKind } = {
     advertise: (tile: MarketingTile, affectedHouses: House[]) =>
       triggerMailboxAnimation(tile, affectedHouses),
   },
-  [MarketingTileKinds.airplane]: {
+  airplane: {
     texture: PIXI.Texture.from('https://i.imgur.com/BDo38zP.png'),
     validTiles: board.outerTiles,
     isValidPlacement: (tile: BoardObject, square: Tile) =>
@@ -77,7 +71,7 @@ export const marketingTileKindConfigs: { [key: number]: MarketingTileKind } = {
     advertise: (tile: MarketingTile, affectedHouses: House[]) =>
       triggerPlaneAnimation(tile, affectedHouses),
   },
-  [MarketingTileKinds.radio]: {
+  radio: {
     texture: PIXI.Texture.from('https://i.imgur.com/m9ksWCR.png'),
     validTiles: board.tiles,
     isValidPlacement: (tile: BoardObject, square: Tile) =>
@@ -88,12 +82,15 @@ export const marketingTileKindConfigs: { [key: number]: MarketingTileKind } = {
       triggerRadioAnimation(tile, affectedHouses),
   },
 };
+Object.entries(marketingTileKinds).forEach((kind) => {
+  kind[1].name = kind[0];
+});
 
 export type MarketingTileConfig = {
   num: number;
   w: number;
   h: number;
-  kind: MarketingTileKinds;
+  kind: MarketingTileKind;
 };
 
 export type MarketingTile = BoardObject &
@@ -123,9 +120,7 @@ export const createMarketTileSprite = (config: MarketingTileConfig) => {
   tileNum.position.x = 5;
   tileNum.position.y = 5;
 
-  const marketingSprite = new PIXI.Sprite(
-    marketingTileKindConfigs[config.kind].texture
-  );
+  const marketingSprite = new PIXI.Sprite(config.kind.texture);
   const xScale = (config.h * ts) / marketingSprite.height;
   const yScale = (config.w * ts) / marketingSprite.width;
   const scale = 0.9 * (xScale > yScale ? yScale : xScale);
@@ -179,12 +174,15 @@ export const selectMarketingTileFood = (tile: MarketingTile) => {
   const oldFoodSelect = tile.container.getChildByName('foodSelect');
   tile.container.removeChild(oldFoodSelect);
 
-  const newFoodSelect = createFoodSelect(foodKindConfigs, (foodKind) => {
-    tile.foodKind = foodKind;
-    tile.foodQuant = 4;
-    renderMarketingTileFood(tile);
-    tile.container.removeChild(newFoodSelect);
-  });
+  const newFoodSelect = createFoodSelect(
+    Object.values(foodKinds),
+    (foodKind) => {
+      tile.foodKind = foodKind;
+      tile.foodQuant = 4;
+      renderMarketingTileFood(tile);
+      tile.container.removeChild(newFoodSelect);
+    }
+  );
   newFoodSelect.y = tile.h * ts;
   newFoodSelect.name = 'foodSelect';
 
@@ -216,11 +214,9 @@ export const enableMarketingTilePlacement = () => {
     tile.sprite.on('pointerdown', () => {
       enablePlacement(
         tile,
-        marketingTileKindConfigs[tile.kind].validTiles,
-        (square) =>
-          marketingTileKindConfigs[tile.kind].isValidPlacement(tile, square),
-        (square) =>
-          marketingTileKindConfigs[tile.kind].getTilesInRange(tile, square),
+        tile.kind.validTiles,
+        (square) => tile.kind.isValidPlacement(tile, square),
+        (square) => tile.kind.getTilesInRange(tile, square),
         () => {
           disablePlacement();
           selectMarketingTileFood(tile);
@@ -244,10 +240,7 @@ export const enableAdvertise = (tiles: MarketingTile[]) => {
 };
 
 export const advertise = (tile: MarketingTile) => {
-  const tilesInRange = marketingTileKindConfigs[tile.kind].getTilesInRange(
-    tile,
-    tile
-  );
+  const tilesInRange = tile.kind.getTilesInRange(tile, tile);
   console.log(tile);
   if (tile.foodQuant > 0) {
     tile.foodQuant--;
@@ -260,6 +253,6 @@ export const advertise = (tile: MarketingTile) => {
     affectedHouses.forEach((house) => {
       addFoodToHouse(house, tile.foodKind);
     });
-    marketingTileKindConfigs[tile.kind].advertise(tile, affectedHouses);
+    tile.kind.advertise(tile, affectedHouses);
   }
 };

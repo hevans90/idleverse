@@ -9,11 +9,7 @@ import {
 import { ShockwaveFilter } from '@pixi/filter-shockwave';
 import { Board, BoardObject } from './board';
 import { House, isHouse, renderHouseFood } from './house';
-import {
-  MarketingTile,
-  marketingTileKindConfigs,
-  MarketingTileKinds,
-} from './marketingTile';
+import { MarketingTile, marketingTileKinds } from './marketingTile';
 import { createPostmanSprite, ts } from './utils/constants';
 import { animations, board, mainLayer } from './utils/singletons';
 import { calcDistance, findTilePath, sleep } from './utils/utils';
@@ -123,8 +119,7 @@ export const triggerPlaneAnimation = async (
 ) => {
   const sin = Math.round(Math.sin(tile.rotation));
   const cos = Math.round(Math.cos(tile.rotation));
-  const planeTexture =
-    marketingTileKindConfigs[MarketingTileKinds.airplane].texture;
+  const planeTexture = marketingTileKinds.airplane.texture;
   const planeSprite = new PIXI.Sprite(planeTexture);
   planeSprite.parentLayer = mainLayer;
   planeSprite.zOrder = 10;

@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import { translateObject } from './animation';
 import { Card } from './card';
 import { Diner } from './diner';
-import { MarketingTile, MarketingTileKinds } from './marketingTile';
+import { MarketingTile } from './marketingTile';
 import { Player } from './player';
 import { baseColour, lineColour } from './types';
 import { ts } from './utils/constants';
@@ -118,16 +118,16 @@ export const renderRecruitDrawerContents = () => {
 export const renderMarketingDrawerContents = () => {
   const drawer = communalDrawers.market;
   const kindMap = {
-    [MarketingTileKinds.radio]: { x: 1, y: 1 },
-    [MarketingTileKinds.airplane]: { x: 1, y: 3 },
-    [MarketingTileKinds.mailbox]: { x: 1, y: 6 },
-    [MarketingTileKinds.billboard]: { x: 1, y: 9 },
+    radio: { x: 1, y: 1 },
+    airplane: { x: 1, y: 3 },
+    mailbox: { x: 1, y: 6 },
+    billboard: { x: 1, y: 9 },
   };
 
   drawer.marketingTiles.forEach((tile, i) => {
-    tile.container.position.x = kindMap[tile.kind].x * ts;
-    tile.container.position.y = kindMap[tile.kind].y * ts;
-    kindMap[tile.kind].x += tile.w + 1;
+    tile.container.position.x = kindMap[tile.kind.name].x * ts;
+    tile.container.position.y = kindMap[tile.kind.name].y * ts;
+    kindMap[tile.kind.name].x += tile.w + 1;
   });
 };
 

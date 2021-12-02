@@ -3,7 +3,7 @@ import { translateObject } from './animation';
 import { playProduceAnimation } from './card.animations';
 import { emptyCardConfig, emptyCardKind } from './card.configs';
 import { Drawer, renderRecruitDrawerContents } from './drawer';
-import { foodKindConfigs } from './food';
+import { foodKinds } from './food';
 import { Player } from './player';
 import { EmployeeType, EmployeeTypes } from './types';
 import { app, cards, communalDrawers, currentPlayer } from './utils/singletons';
@@ -391,11 +391,7 @@ export const enableFoodProduction = (player: Player) => {
           card.used = true;
           (async function () {
             for (let i = 0; i < 3; i++) {
-              await playProduceAnimation(
-                player,
-                card,
-                foodKindConfigs.find((kind) => kind.name === 'burger')
-              );
+              await playProduceAnimation(player, card, foodKinds.burger);
             }
           })();
         }
@@ -409,11 +405,7 @@ export const enableFoodProduction = (player: Player) => {
           card.used = true;
           (async function () {
             for (let i = 0; i < 8; i++) {
-              await playProduceAnimation(
-                player,
-                card,
-                foodKindConfigs.find((kind) => kind.name === 'pizza')
-              );
+              await playProduceAnimation(player, card, foodKinds.pizza);
             }
           })();
         }
