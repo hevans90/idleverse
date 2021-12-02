@@ -9,7 +9,7 @@ import {
   drawPhaseIndicator,
 } from './phase';
 import { drawChunks, drawOuterSquares } from './chunk';
-import { initCards, hireCard, manageCard } from './card';
+import { initCards } from './card';
 import { initMarketingTiles } from './marketingTile';
 import { renderToolbar } from './toolbar';
 import {

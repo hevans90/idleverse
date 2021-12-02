@@ -18,11 +18,11 @@ import { renderToolbar } from './toolbar';
 import { app, currentPlayer, players } from './utils/singletons';
 
 const playerColours = {
-  0: 0x37946e,
-  1: 0x5b6ee1,
+  0: 0x5b6ee1,
+  1: 0x37946e,
   2: 0xac3232,
-  3: 0xd77bba,
-  4: 0xdf7126,
+  3: 0xdf7126,
+  4: 0xd77bba,
 };
 
 export type Player = {
@@ -45,7 +45,7 @@ export type Player = {
 
 export const initPlayer = (number: number) => {
   const player: Player = {
-    name: `Player ${number}`,
+    name: `Player ${number + 1}`,
     colour: playerColours[number],
     diners: [],
     ceo: { card: null },
