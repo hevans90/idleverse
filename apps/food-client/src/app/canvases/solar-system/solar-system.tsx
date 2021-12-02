@@ -49,7 +49,7 @@ export const SolarSystem = () => {
 
     const tileConfig2 = [
       ['e', 'e', 'r24', 'e', 'e'],
-      ['e', 'h4', 'r24', 'e', 'e'],
+      ['e', 'e', 'r24', 'h4', 'e'],
       ['r13', 'r13', 'r124', 'e', 'e'],
       ['e', 'e', 'r24', 'e', 'e'],
       ['e', 'e', 'r24', 'e', 'e'],
@@ -64,10 +64,10 @@ export const SolarSystem = () => {
     ];
 
     const tileConfig4 = [
-      ['r34', 'r14', 'e', 'e', 'e'],
+      ['r34', 'r14', 'e', 'h4', 'e'],
       ['r24', 'r23', 'r14', 'e', 'e'],
       ['r12', 'e', 'r23', 'r14', 'e'],
-      ['e', 'e', 'h4', 'r23', 'r14'],
+      ['e', 'e', 'e', 'r23', 'r14'],
       ['e', 'e', 'e', 'e', 'r23'],
     ];
 
@@ -207,8 +207,8 @@ export const SolarSystem = () => {
             app.stage.addChild(occupant);
           } else if (match[1] === 'h') {
             const house = new Sprite(houseTextures[match[2]]);
-            house.width = ts - 2;
-            house.height = ts - 2;
+            house.width = ts * 2 - 2;
+            house.height = ts * 2 - 2;
             house.x = j * ts + p * 5 * ts + 2;
             house.y = i * ts + q * 5 * ts + 2;
             app.stage.addChild(house);
