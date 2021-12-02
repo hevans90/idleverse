@@ -175,7 +175,7 @@ const triggerCarAnimation = (animations, board, road) => {
           road2.sprite.position.y - road1.sprite.position.y,
           road2.sprite.position.x - road1.sprite.position.x
         ),
-        200
+        100
       )
     );
     for (let i = path.length - 2; i >= 0; i--) {

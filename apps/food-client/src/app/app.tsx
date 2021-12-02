@@ -1,4 +1,4 @@
-import { FoodChain } from './canvases/food-chain/food-chain';
+import { FoodChain } from './food-chain/food-chain';
 
 export const local = window.location.origin.includes('localhost');
 

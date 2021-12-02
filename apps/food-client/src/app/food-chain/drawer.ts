@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 import { Card } from './card';
-import { baseColour, lineColour, Player } from './types';
+import { baseColour, lineColour } from './types';
 
 export type Drawer = {
   open: boolean;
@@ -43,26 +43,16 @@ const getStacks = (drawer: Drawer) => {
   return sortedStacks;
 };
 
-export const addToDrawer = (
-  drawer: Drawer,
-  card: Card,
-  player: Player = null
-) => {
+export const addToDrawer = (drawer: Drawer, card: Card) => {
   drawer.cards.push(card);
   drawer.container.addChild(card.container);
-  card.owner = player;
 };
 
-export const removeFromDrawer = (
-  drawer: Drawer,
-  card: Card,
-  player: Player = null
-) => {
+export const removeFromDrawer = (drawer: Drawer, card: Card) => {
   const i = drawer.cards.indexOf(card);
   if (i > -1) {
     drawer.container.removeChild(card.container);
     drawer.cards.splice(drawer.cards.indexOf(card), 1);
-    card.owner = player;
   }
 };
 
