@@ -10,6 +10,13 @@ import { disablePlacement, enablePlacement } from './tile';
 import { Player } from './types';
 import { ts } from './utils/constants';
 import { app } from './utils/singletons';
+import {
+  getConnectedSquares,
+  getSquaresInLine,
+  getSquaresInRange,
+  isValidOuterPosition,
+  isValidPosition,
+} from './utils/utils';
 
 export enum MarketingTileKinds {
   'billboard',
@@ -98,6 +105,7 @@ export const initMarketingTiles = (
   configs.forEach((config) => {
     const marketingTile: MarketingTile = {
       ...config,
+      rotation: 0,
       container: new PIXI.Container(),
       owner: null,
     };
@@ -122,7 +130,42 @@ export const enableMarketingTilePlacement = (
   tile.container.interactive = true;
   tile.container.buttonMode = true;
   tile.container.on('pointerdown', () => {
-    enablePlacement(board, tile, false, () => disablePlacement(board));
+    if (tile.kind === MarketingTileKinds.billboard)
+      enablePlacement(
+        board,
+        tile,
+        board.tiles,
+        (square) => isValidPosition(board, tile, square, false),
+        (square) => getSquaresInRange(board, tile, square, 1),
+        () => disablePlacement(board, board.tiles)
+      );
+    else if (tile.kind === MarketingTileKinds.mailbox)
+      enablePlacement(
+        board,
+        tile,
+        board.tiles,
+        (square) => isValidPosition(board, tile, square, false),
+        (square) => getConnectedSquares(board, square),
+        () => disablePlacement(board, board.tiles)
+      );
+    else if (tile.kind === MarketingTileKinds.airplane)
+      enablePlacement(
+        board,
+        tile,
+        board.outerTiles,
+        (square) => isValidOuterPosition(board, tile, square),
+        (square) => getSquaresInLine(board, tile, square),
+        () => disablePlacement(board, board.outerTiles)
+      );
+    else if (tile.kind === MarketingTileKinds.radio)
+      enablePlacement(
+        board,
+        tile,
+        board.tiles,
+        (square) => isValidPosition(board, tile, square, false),
+        (square) => getSquaresInRange(board, tile, square, 10),
+        () => disablePlacement(board, board.tiles)
+      );
     if (marketingDrawer.open) toggleOpen(marketingDrawer);
   });
 };

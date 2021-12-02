@@ -20,6 +20,7 @@ import { initMarketingTiles, MarketingTile } from './marketingTile';
 import { marketingTileConfigs } from './marketingTileConfigs';
 import { disablePlacement, enablePlacement } from './tile';
 import { animations, app, keyEventMap } from './utils/singletons';
+import { getSquaresInRange, isValidPosition } from './utils/utils';
 
 export const FoodChain = () => {
   useEffect(() => {
@@ -45,6 +46,7 @@ export const FoodChain = () => {
       chunksWide: 5,
       chunksHigh: 4,
       tiles: [],
+      outerTiles: [],
       roads: [],
       houses: [],
       drinks: [],
@@ -79,7 +81,14 @@ export const FoodChain = () => {
     addDinerToBoard(board);
     addBoardToStage(app, board);
     drawOuterSquares(board);
-    enablePlacement(board, board.diner, true, () => disablePlacement(board));
+    enablePlacement(
+      board,
+      board.diner,
+      board.tiles,
+      (square) => isValidPosition(board, board.diner, square, true),
+      (square) => getSquaresInRange(board, board.diner, square, 1),
+      () => disablePlacement(board, board.tiles)
+    );
 
     const recruitDrawer: Drawer = {
       open: false,

@@ -12,6 +12,7 @@ export type Board = {
   chunksWide: number;
   chunksHigh: number;
   tiles: Tile[];
+  outerTiles: Tile[];
   roads: Road[];
   houses: House[];
   drinks: Drink[];

@@ -42,7 +42,8 @@ export const collides = (item1: BoardItem, item2: BoardItem) => {
 
 export const isValidPosition = (
   board: Board,
-  item1: BoardItem,
+  item: BoardItem,
+  position: BoardPosition,
   adjacentRoadRequired: boolean
 ) => {
   const itemsArray = [].concat(
@@ -51,6 +52,7 @@ export const isValidPosition = (
     board.houses,
     board.drinks
   );
+  const item1 = { ...item, i: position.i, j: position.j };
 
   const collisionArray = itemsArray.filter((item2) => collides(item1, item2));
 
@@ -73,6 +75,62 @@ export const isValidPosition = (
   return true;
 };
 
+export const isValidOuterPosition = (
+  board: Board,
+  item: BoardItem,
+  position: BoardPosition
+) => {
+  const itemsArray = [].concat(
+    [board.diner],
+    board.roads,
+    board.houses,
+    board.drinks
+  );
+  const item1 = { ...item, i: position.i, j: position.j };
+
+  const collisionArray = itemsArray.filter((item2) => collides(item1, item2));
+
+  if (collisionArray.length > 0) {
+    return false;
+  }
+
+  if (
+    collides(item1, {
+      i: 0,
+      j: 0,
+      w: board.chunksWide * 5,
+      h: board.chunksHigh * 5,
+    }) ||
+    collides(item1, {
+      i: board.chunksWide * 5 + 2,
+      j: -3,
+      w: 1,
+      h: board.chunksHigh * 5 + 4,
+    }) ||
+    collides(item1, {
+      i: -3,
+      j: -3,
+      w: 1,
+      h: board.chunksHigh * 5 + 4,
+    }) ||
+    collides(item1, {
+      i: -3,
+      j: -3,
+      w: board.chunksWide * 5 + 4,
+      h: 1,
+    }) ||
+    collides(item1, {
+      i: -3,
+      j: board.chunksHigh * 5 + 2,
+      w: board.chunksWide * 5 + 4,
+      h: 1,
+    })
+  )
+    return false;
+
+  return true;
+};
+
 export const getRandomPosition = (size: number) => {
   return {
     i: Math.floor(Math.random() * size),
@@ -89,13 +147,7 @@ export const getRandomValidPosition = (
   let randomPosition = getRandomPosition(size);
   let tries = 0;
   for (let i = 0; i < 1000; i++) {
-    if (
-      isValidPosition(
-        board,
-        { ...item, ...randomPosition },
-        adjacentRoadRequired
-      )
-    ) {
+    if (isValidPosition(board, item, randomPosition, adjacentRoadRequired)) {
       console.log(`tries: ${tries}`);
       return randomPosition;
     }
@@ -243,15 +295,36 @@ export const calcRectsDistance = (item1: BoardObject, item2: BoardObject) => {
 
 export const getSquaresInRange = (
   board: Board,
-  item2: BoardObject,
+  item: BoardObject,
+  position: BoardPosition,
   range: number
 ) => {
-  board.tiles.forEach((tile) => (tile.sprite.tint = 0xffffff));
+  const item2 = { ...item, i: position.i, j: position.j };
   return board.tiles.filter((item1) => {
     const distance = calcRectsDistance(item1, item2);
 
     return distance < range;
   });
+};
+
+export const getSquaresInLine = (
+  board: Board,
+  item: BoardObject,
+  position: BoardPosition
+) => {
+  const boardItem = { ...item, i: position.i, j: position.j };
+  console.log(boardItem.rotation);
+  const isVertical = [Math.PI / 2, (Math.PI * 3) / 2].includes(
+    boardItem.rotation
+  );
+  if (isVertical)
+    return board.tiles.filter(
+      (tile) => tile.j >= boardItem.j && tile.j < boardItem.j + boardItem.h
+    );
+  else
+    return board.tiles.filter(
+      (tile) => tile.i >= boardItem.i && tile.i < boardItem.i + boardItem.w
+    );
 };
 
 export const getAdjacentSquares = (tiles: Tile[], tile1: Tile) => {
@@ -260,10 +333,10 @@ export const getAdjacentSquares = (tiles: Tile[], tile1: Tile) => {
 
 export const getConnectedSquares = (
   board: Board,
-  startSquares: Tile[]
+  startSquare: Tile
 ): Tile[] => {
   const tilePool = [...board.tiles];
-  const openSquares = [...startSquares];
+  const openSquares = [startSquare];
   const validSquares = [];
 
   let i = 1000;
