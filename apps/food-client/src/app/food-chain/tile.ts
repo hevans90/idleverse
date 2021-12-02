@@ -7,15 +7,18 @@ import { parseRoadConfig } from './road';
 import { lineColour } from './types';
 import { tileConfigRegex, ts } from './utils/constants';
 import { app, keyEventMap } from './utils/singletons';
-import { rangeOverlapsItem } from './utils/utils';
+import { calcDistance, rangeOverlapsItem } from './utils/utils';
 
 export type TileConfig = Array<Array<string | Array<string>>>;
 
 export type Tile = {
-  i: number;
-  j: number;
+  i?: number;
+  j?: number;
   w: number;
   h: number;
+  toGoal?: number;
+  fromStart?: number;
+  previousTile?: Tile;
   occupants?: BoardObject[];
   container?: PIXI.Container;
   sprite?: PIXI.Sprite;
@@ -130,6 +133,10 @@ export const disablePlacement = (board: Board) => {
   keyEventMap.Space = () => {
     return;
   };
+};
+
+export const getAdjacentSquares = (tiles: Tile[], tile1: Tile) => {
+  return tiles.filter((tile2) => calcDistance(tile1, tile2) === 1);
 };
 
 export const removeChildrenByName = (

@@ -2,9 +2,21 @@ import * as PIXI from 'pixi.js';
 import { Anim, translateObject } from './animation';
 import { Board, getAdjacentRoads } from './board';
 import { Road } from './road';
-import { ts1_2 } from './utils/constants';
+import { ts, ts1_2 } from './utils/constants';
+import {
+  CreateAnimatedSprite,
+  SpriteSheetConfig,
+} from './utils/graphics-utils';
 import { animations } from './utils/singletons';
-import { findPath } from './utils/utils';
+import { findRoadPath } from './utils/utils';
+
+const carSpriteConfig: SpriteSheetConfig = {
+  url: 'https://i.imgur.com/RtZXue7.png',
+  rows: 1,
+  cols: 2,
+  lastRowItemCount: 2,
+  animationSpeed: 0.2,
+};
 
 const generatePlayNext = (
   board: Board,
@@ -19,7 +31,7 @@ const generatePlayNext = (
   };
 };
 
-const setCarZIndex = (carSprite, road1, road2) => {
+const setCarZIndex = (carSprite: PIXI.Sprite, road1: Road, road2: Road) => {
   carSprite.zIndex =
     road1.container.zIndex > road2.container.zIndex
       ? road1.container.zIndex + 1
@@ -27,13 +39,16 @@ const setCarZIndex = (carSprite, road1, road2) => {
 };
 
 export const triggerCarAnimation = (board: Board, road: Road) => {
-  const path = findPath(board, getAdjacentRoads(board, board.diner), road);
-  const carTexture = PIXI.Texture.from('https://i.imgur.com/01q7OGv.png');
-  const carSprite = new PIXI.Sprite(carTexture);
+  const path = findRoadPath(board, getAdjacentRoads(board, board.diner), road);
+  //const carTexture = PIXI.Texture.from('https://i.imgur.com/01q7OGv.png');
+  const carSprite = CreateAnimatedSprite(carSpriteConfig);
+  carSprite.play();
+  board.container.addChild(carSprite);
   carSprite.anchor.x = 0.5;
   carSprite.anchor.y = 0.5;
-  //carSprite.scale.x = 0.5;
-  //carSprite.scale.y = 0.5;
+  const scaleFactor = ts / carSprite.height;
+  carSprite.scale.x = scaleFactor;
+  carSprite.scale.y = scaleFactor;
   const queue: Anim[] = [];
   if (path.length > 1) {
     for (let i = 0; i < path.length - 1; i++) {
@@ -51,12 +66,16 @@ export const triggerCarAnimation = (board: Board, road: Road) => {
             x: road2.container.position.x + ts1_2,
             y: road2.container.position.y + ts1_2,
           },
-          Math.atan2(
-            road2.container.position.y - road1.container.position.y,
-            road2.container.position.x - road1.container.position.x
-          ),
           20,
-          () => setCarZIndex(carSprite, road1, road2),
+          () => {
+            carSprite.rotation =
+              Math.atan2(
+                road2.container.position.y - road1.container.position.y,
+                road2.container.position.x - road1.container.position.x
+              ) +
+              Math.PI / 2;
+            setCarZIndex(carSprite, road1, road2);
+          },
           generatePlayNext(board, queue, carSprite)
         )
       );
@@ -75,12 +94,16 @@ export const triggerCarAnimation = (board: Board, road: Road) => {
           x: road2.container.position.x + ts1_2,
           y: road2.container.position.y + ts1_2,
         },
-        Math.atan2(
-          road2.container.position.y - road1.container.position.y,
-          road2.container.position.x - road1.container.position.x
-        ),
         100,
-        () => setCarZIndex(carSprite, road1, road2),
+        () => {
+          carSprite.rotation =
+            Math.atan2(
+              road2.container.position.y - road1.container.position.y,
+              road2.container.position.x - road1.container.position.x
+            ) +
+            Math.PI / 2;
+          setCarZIndex(carSprite, road1, road2);
+        },
         generatePlayNext(board, queue, carSprite)
       )
     );
@@ -99,12 +122,16 @@ export const triggerCarAnimation = (board: Board, road: Road) => {
             x: road1.container.position.x + ts1_2,
             y: road1.container.position.y + ts1_2,
           },
-          Math.atan2(
-            road1.container.position.y - road2.container.position.y,
-            road1.container.position.x - road2.container.position.x
-          ),
           20,
-          () => setCarZIndex(carSprite, road1, road2),
+          () => {
+            carSprite.rotation =
+              Math.atan2(
+                road1.container.position.y - road2.container.position.y,
+                road1.container.position.x - road2.container.position.x
+              ) +
+              Math.PI / 2;
+            setCarZIndex(carSprite, road1, road2);
+          },
           generatePlayNext(board, queue, carSprite)
         )
       );
@@ -125,9 +152,11 @@ export const triggerCarAnimation = (board: Board, road: Road) => {
           x: road.container.position.x + ts1_2,
           y: road.container.position.y + ts1_2,
         },
-        0,
         200,
-        () => setCarZIndex(carSprite, road, road),
+        () => {
+          setCarZIndex(carSprite, road, road);
+          carSprite.rotation = Math.PI / 2;
+        },
         generatePlayNext(board, queue, carSprite)
       )
     );

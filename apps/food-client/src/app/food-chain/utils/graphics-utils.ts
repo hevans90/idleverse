@@ -7,23 +7,9 @@ export type SpriteSheetConfig = {
   rows: number;
   lastRowItemCount: number;
   animationSpeed: number;
-  spriteScale: number;
 };
 
-export const CreateBasicSprite = (
-  app: PIXI.Application,
-  graphic: PIXI.Graphics
-) => {
-  const sunTexture = app.renderer.generateTexture(graphic);
-  const sprite = new PIXI.Sprite(sunTexture);
-  app.stage.addChild(sprite);
-  return sprite;
-};
-
-export const CreateAnimatedSprite = (
-  app: PIXI.Application,
-  conf: SpriteSheetConfig
-) => {
+export const CreateAnimatedSprite = (conf: SpriteSheetConfig) => {
   const sheet = PIXI.BaseTexture.from(conf.url);
   const frames = [];
   const rowSpacing = sheet.width / conf.cols;
@@ -48,10 +34,6 @@ export const CreateAnimatedSprite = (
   }
   const sprite = new PIXI.AnimatedSprite(frames);
   sprite.animationSpeed = conf.animationSpeed;
-  sprite.height = sprite.height * conf.spriteScale;
-  sprite.width = sprite.width * conf.spriteScale;
-  sprite.play();
-  app.stage.addChild(sprite);
   return sprite;
 };
 

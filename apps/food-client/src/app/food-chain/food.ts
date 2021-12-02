@@ -1,5 +1,4 @@
 import * as PIXI from 'pixi.js';
-import { House } from './house';
 import { MarketingTile } from './marketingTile';
 import { ts } from './utils/constants';
 import { app } from './utils/singletons';
@@ -51,7 +50,6 @@ export const createFoodSpriteIcon = (foodKind: FoodKind) => {
   graphic.drawRect(0, 0, ts, ts);
   graphic.endFill();
 
-  console.log(foodKind);
   const foodSprite = new PIXI.Sprite(foodKind.texture);
   foodSprite.height = ts;
   foodSprite.width = ts;
@@ -93,16 +91,6 @@ export const createFoodSelect = (tile: MarketingTile) => {
   foodSelect.name = 'foodSelect';
 
   tile.container.addChild(foodSelect);
-};
-
-export const renderHouseFood = (house: House) => {
-  house.food.forEach((food, i) => {
-    food.sprite.height = ts;
-    food.sprite.width = ts;
-    food.sprite.position.x = i * 20 + (house.w * ts) / 2 - ts;
-    food.sprite.position.y = 10;
-    house.container.addChild(food.sprite);
-  });
 };
 
 export const renderMarketingTileFood = (tile: MarketingTile) => {

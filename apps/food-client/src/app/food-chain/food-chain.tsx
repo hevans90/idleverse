@@ -4,7 +4,7 @@ import { Box } from '@chakra-ui/react';
 import { addDinerToBoard } from './diner';
 import { drawBoxIndicator, Indicator } from './indicators';
 import { renderDrawer, Drawer } from './drawer';
-import { Card, createCardSprite, initCards } from './card';
+import { initCards } from './card';
 import { addBoardToStage, Board } from './board';
 import { tileConfigs } from './tile.configs';
 import { drawChunks, drawOuterSquares } from './chunk';
@@ -14,9 +14,9 @@ import {
   drawPhaseIndicator,
   Phase,
 } from './phase';
-import { cardConfigs, ceoCardConfig } from './card.configs';
+import { cardConfigs } from './card.configs';
 import { initCEOCard } from './ceo';
-import { initMarketingTiles, MarketingTile } from './marketingTile';
+import { initMarketingTiles } from './marketingTile';
 import { marketingTileConfigs } from './marketingTile.configs';
 import { disablePlacement, enablePlacement } from './tile';
 import { animations, app, keyEventMap } from './utils/singletons';

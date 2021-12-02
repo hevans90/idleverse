@@ -2,9 +2,6 @@ import * as PIXI from 'pixi.js';
 import { Vector2 } from './utils/utils';
 
 export type Anim = {
-  startPos?: { x: number; y: number };
-  endPos?: { x: number; y: number };
-  rotation?: number;
   time: number;
   duration: number;
   object: PIXI.DisplayObject;
@@ -18,15 +15,11 @@ export const translateObject = (
   object: PIXI.DisplayObject,
   startPos: Vector2,
   endPos: Vector2,
-  rotation: number,
   duration: number,
   start?: () => void,
   next?: (anim: Anim) => void
 ): Anim => {
   const anim: Anim = {
-    startPos,
-    endPos,
-    rotation,
     time: 0,
     duration,
     object,
@@ -34,7 +27,6 @@ export const translateObject = (
 
   anim.start = () => {
     start();
-    anim.object.rotation = anim.rotation;
     anim.time = 0;
     animations.push(anim);
   };
@@ -42,18 +34,16 @@ export const translateObject = (
     anim.time += 1;
     if (anim.time < anim.duration) {
       anim.object.x =
-        anim.startPos.x +
-        (anim.endPos.x - anim.startPos.x) * (anim.time / anim.duration);
+        startPos.x + (endPos.x - startPos.x) * (anim.time / anim.duration);
       anim.object.y =
-        anim.startPos.y +
-        (anim.endPos.y - anim.startPos.y) * (anim.time / anim.duration);
+        startPos.y + (endPos.y - startPos.y) * (anim.time / anim.duration);
     } else {
       anim.end();
     }
   };
   anim.end = () => {
-    anim.object.x = anim.endPos.x;
-    anim.object.y = anim.endPos.y;
+    anim.object.x = endPos.x;
+    anim.object.y = endPos.y;
     animations.splice(animations.indexOf(anim), 1);
     next(anim);
   };
@@ -78,7 +68,6 @@ export const scaleObject = (
 
   anim.start = () => {
     if (start) start();
-    console.log(startScale);
     anim.time = 0;
     animations.push(anim);
   };
@@ -96,6 +85,51 @@ export const scaleObject = (
   anim.end = () => {
     anim.object.scale.y = endScale;
     anim.object.scale.x = endScale;
+    animations.splice(animations.indexOf(anim), 1);
+    if (next) next(anim);
+  };
+
+  return anim;
+};
+
+export const bounceObject = (
+  animations: Anim[],
+  object: PIXI.DisplayObject,
+  startPos: Vector2,
+  endPos: Vector2,
+  duration: number,
+  start?: () => void,
+  next?: (anim: Anim) => void
+): Anim => {
+  const anim: Anim = {
+    time: 0,
+    duration,
+    object,
+  };
+
+  anim.start = () => {
+    if (start) start();
+    anim.time = 0;
+    animations.push(anim);
+  };
+  anim.update = () => {
+    anim.time += 1;
+    if (anim.time < anim.duration) {
+      anim.object.x =
+        startPos.x +
+        (endPos.x - startPos.x) *
+          Math.sin((anim.time / anim.duration) * Math.PI);
+      anim.object.y =
+        startPos.y +
+        (endPos.y - startPos.y) *
+          Math.sin((anim.time / anim.duration) * Math.PI);
+    } else {
+      anim.end();
+    }
+  };
+  anim.end = () => {
+    anim.object.x = startPos.x;
+    anim.object.y = startPos.y;
     animations.splice(animations.indexOf(anim), 1);
     if (next) next(anim);
   };

@@ -79,3 +79,13 @@ export const addHouseToBoard = (board: Board, house: House) => {
   });
   board.houses.push(house);
 };
+
+export const renderHouseFood = (house: House) => {
+  house.food.forEach((food, i) => {
+    food.sprite.height = ts;
+    food.sprite.width = ts;
+    food.sprite.position.x = i * 20 + (house.w * ts) / 2 - ts;
+    food.sprite.position.y = 10;
+    house.container.addChild(food.sprite);
+  });
+};

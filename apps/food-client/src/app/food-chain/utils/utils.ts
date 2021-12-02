@@ -1,11 +1,6 @@
-import {
-  BoardObject,
-  Board,
-  getConnectedRoads,
-  getAdjacentRoads,
-} from '../board';
-import { isRoad, Road } from '../road';
-import { Tile } from '../tile';
+import { BoardObject, Board, getAdjacentRoads } from '../board';
+import { getConnectedRoads, isRoad, Road } from '../road';
+import { getAdjacentSquares, Tile } from '../tile';
 import { debug as debugConfig } from './constants';
 
 export type Vector2 = {
@@ -14,8 +9,8 @@ export type Vector2 = {
 };
 
 export type BoardPosition = {
-  i: number;
-  j: number;
+  i?: number;
+  j?: number;
 };
 
 export type BoardItem = {
@@ -237,77 +232,20 @@ export const itemContainsTile = (item: BoardObject, tile: Tile) => {
   );
 };
 
+export const squareContainsRoad = (square: Tile) => {
+  for (let i = 0; i < square.occupants.length; i++) {
+    const occupant = square.occupants[i];
+    if (isRoad(occupant)) return true;
+  }
+  return false;
+};
+
 export const rangeOverlapsItem = (item: BoardObject, range: Tile[]) => {
   for (let i = 0; i < range.length; i++) {
     const tile = range[i];
     if (itemContainsTile(item, tile)) return true;
   }
   return false;
-};
-
-export const findPath = (
-  board: Board,
-  startRoads: Road[],
-  endRoad: Road
-): Road[] => {
-  board.roads.forEach((road) => {
-    road.toGoal = 99;
-    road.fromStart = 99;
-  });
-  const openRoads = [...startRoads];
-  const closedRoads = [];
-
-  openRoads.forEach((road) => {
-    road.toGoal = calcDistance(road as BoardPosition, endRoad as BoardPosition);
-    road.fromStart = 0;
-  });
-
-  let pathFound = false;
-  let lastRoad: Road;
-
-  while (!pathFound) {
-    if (openRoads.length === 0) break;
-    openRoads.sort(
-      (road1, road2) =>
-        road1.toGoal + road1.fromStart - (road2.toGoal + road2.fromStart)
-    );
-    const currentRoad = openRoads[0];
-    if (currentRoad === endRoad) {
-      pathFound = true;
-      lastRoad = currentRoad;
-      break;
-    }
-    openRoads.splice(openRoads.indexOf(currentRoad), 1);
-    closedRoads.push(currentRoad);
-
-    const connectedRoads = getConnectedRoads(board, currentRoad);
-    connectedRoads.forEach((road) => {
-      if (!closedRoads.includes(road)) {
-        road.toGoal = calcDistance(
-          road as BoardPosition,
-          endRoad as BoardPosition
-        );
-        const fromStart = currentRoad.fromStart + 1;
-        if (fromStart < road.fromStart) {
-          road.previousRoad = currentRoad;
-          road.fromStart = fromStart;
-        }
-        openRoads.push(road);
-      }
-    });
-  }
-
-  const path = [];
-  if (pathFound) {
-    let currentRoad = lastRoad;
-    console.log(`distance: ${currentRoad.toGoal + currentRoad.fromStart}`);
-    while (!startRoads.includes(currentRoad)) {
-      path.push(currentRoad);
-      currentRoad = currentRoad.previousRoad;
-    }
-    path.push(currentRoad);
-  }
-  return path;
 };
 
 export const getSquaresInRange = (
@@ -343,10 +281,6 @@ export const getSquaresInLine = (
     );
 };
 
-export const getAdjacentSquares = (tiles: Tile[], tile1: Tile) => {
-  return tiles.filter((tile2) => calcDistance(tile1, tile2) === 1);
-};
-
 export const getConnectedSquares = (
   board: Board,
   startSquare: Tile
@@ -363,14 +297,142 @@ export const getConnectedSquares = (
     validSquares.push(currentSquare);
     const adjacentSquares = getAdjacentSquares(tilePool, currentSquare);
     adjacentSquares.forEach((square) => {
-      let containsRoad = false;
-      square.occupants.forEach((occupant) => {
-        if (isRoad(occupant)) containsRoad = true;
-      });
-      if (!containsRoad) openSquares.push(square);
+      if (!squareContainsRoad(square)) openSquares.push(square);
       tilePool.splice(tilePool.indexOf(square), 1);
     });
   }
 
   return validSquares;
+};
+
+export const findRoadPath = (
+  board: Board,
+  startRoads: Road[],
+  endRoad: Road
+): Road[] => {
+  board.roads.forEach((road) => {
+    road.toGoal = 99;
+    road.fromStart = 99;
+  });
+  const openRoads = [...startRoads];
+  const closedRoads = [];
+
+  openRoads.forEach((road) => {
+    road.toGoal = calcDistance(road, endRoad);
+    road.fromStart = 0;
+  });
+
+  let pathFound = false;
+  let lastRoad: Road;
+
+  while (!pathFound) {
+    if (openRoads.length === 0) break;
+    openRoads.sort(
+      (road1, road2) =>
+        road1.toGoal + road1.fromStart - (road2.toGoal + road2.fromStart)
+    );
+    const currentRoad = openRoads[0];
+    if (currentRoad === endRoad) {
+      pathFound = true;
+      lastRoad = currentRoad;
+      break;
+    }
+    openRoads.splice(openRoads.indexOf(currentRoad), 1);
+    closedRoads.push(currentRoad);
+
+    const connectedRoads = getConnectedRoads(board.roads, currentRoad);
+    connectedRoads.forEach((road) => {
+      if (!closedRoads.includes(road)) {
+        road.toGoal = calcDistance(road, endRoad);
+        const fromStart = currentRoad.fromStart + 1;
+        if (fromStart < road.fromStart) {
+          road.previousRoad = currentRoad;
+          road.fromStart = fromStart;
+        }
+        openRoads.push(road);
+      }
+    });
+  }
+
+  const path = [];
+  if (pathFound) {
+    let currentRoad = lastRoad;
+    console.log(`distance: ${currentRoad.toGoal + currentRoad.fromStart}`);
+    while (!startRoads.includes(currentRoad)) {
+      path.push(currentRoad);
+      currentRoad = currentRoad.previousRoad;
+    }
+    path.push(currentRoad);
+  }
+  return path;
+};
+
+export const findTilePath = (
+  board: Board,
+  startTile: Tile,
+  endTile: Tile
+): Tile[] => {
+  const debug = debugConfig.enabled;
+  board.tiles.forEach((tile) => {
+    tile.toGoal = 99;
+    tile.fromStart = 99;
+  });
+  const openTiles = [startTile];
+  const closedTiles = [];
+
+  openTiles.forEach((tile) => {
+    tile.toGoal = calcDistance(tile, endTile);
+    tile.fromStart = 0;
+  });
+
+  let pathFound = false;
+  let lastTile: Tile;
+
+  let i = 0;
+  while (!pathFound && i < 5000) {
+    i++;
+    if (openTiles.length === 0) break;
+    openTiles.sort(
+      (tile1, tile2) =>
+        tile1.toGoal + tile1.fromStart - (tile2.toGoal + tile2.fromStart)
+    );
+    const currentTile = openTiles[0];
+    if (currentTile.i === endTile.i && currentTile.j === endTile.j) {
+      console.log('path found');
+      pathFound = true;
+      lastTile = currentTile;
+      break;
+    }
+    openTiles.splice(openTiles.indexOf(currentTile), 1);
+    closedTiles.push(currentTile);
+    if (debug) currentTile.sprite.tint = 0xb8312c;
+
+    const connectedTiles = getAdjacentSquares(board.tiles, currentTile);
+    connectedTiles.forEach((tile) => {
+      if (!closedTiles.includes(tile) && !squareContainsRoad(tile)) {
+        tile.toGoal = calcDistance(tile, endTile);
+        const fromStart = currentTile.fromStart + 1;
+        if (fromStart < tile.fromStart) {
+          tile.previousTile = currentTile;
+          tile.fromStart = fromStart;
+        }
+        openTiles.push(tile);
+        if (debug) tile.sprite.tint = 0xaecd84;
+      }
+    });
+  }
+
+  const path = [];
+  if (pathFound) {
+    let currentTile = lastTile;
+    console.log(`distance: ${currentTile.toGoal + currentTile.fromStart}`);
+    while (startTile !== currentTile) {
+      path.push(currentTile);
+      if (debug) currentTile.sprite.tint = 0x9fc8d0;
+      currentTile = currentTile.previousTile;
+    }
+    if (debug) currentTile.sprite.tint = 0x9fc8d0;
+    path.push(currentTile);
+  }
+  return path.reverse();
 };

@@ -1,11 +1,6 @@
 import * as PIXI from 'pixi.js';
 import { rls, ts, ts1_2, ts1_3, ts2_3 } from './utils/constants';
-import {
-  BoardObject,
-  Board,
-  getAdjacentRoads,
-  getConnectedRoads,
-} from './board';
+import { BoardObject, Board, getAdjacentRoads } from './board';
 import { drawLine, drawDottedLine } from './utils/graphics-utils';
 import { app } from './utils/singletons';
 import { triggerCarAnimation } from './road.animations';
@@ -115,6 +110,49 @@ export const createRoadSprite = (road: Road) => {
   return roadSprite;
 };
 
+export const getConnectedRoads = (roads: Road[], road: Road): Road[] => {
+  let connectedRoads: Road[] = [];
+
+  if (road.connections.includes(1))
+    connectedRoads = connectedRoads.concat(
+      roads.filter(
+        (_road) =>
+          _road.i === road.i - 1 &&
+          _road.j === road.j &&
+          _road.connections.includes(3)
+      )
+    );
+  if (road.connections.includes(2))
+    connectedRoads = connectedRoads.concat(
+      roads.filter(
+        (_road) =>
+          _road.i === road.i &&
+          _road.j === road.j - 1 &&
+          _road.connections.includes(4)
+      )
+    );
+  if (road.connections.includes(3))
+    connectedRoads = connectedRoads.concat(
+      roads.filter(
+        (_road) =>
+          _road.i === road.i + 1 &&
+          _road.j === road.j &&
+          _road.connections.includes(1)
+      )
+    );
+  if (road.connections.includes(4))
+    connectedRoads = connectedRoads.concat(
+      roads.filter(
+        (_road) =>
+          _road.i === road.i &&
+          _road.j === road.j + 1 &&
+          _road.connections.includes(2)
+      )
+    );
+
+  return connectedRoads;
+};
+
 const rotateRoad = (road) => {
   return road;
 };
@@ -126,7 +164,7 @@ export const tintAdjacentRoads = (board: Board, road: Road) => {
 };
 
 export const tintConnectedRoads = (board: Board, road: Road) => {
-  const adjacentRoads = getConnectedRoads(board, road);
+  const adjacentRoads = getConnectedRoads(board.roads, road);
   board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
   adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
 };

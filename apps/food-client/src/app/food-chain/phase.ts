@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
 import { Board } from './board';
 import { Card, enableCardStructure, enableCardHire } from './card';
-import { Drawer } from './drawer';
+import { Drawer, toggleOpen } from './drawer';
 import { drawBoxIndicator, Indicator } from './indicators';
 import {
   enableAdvertise,
@@ -97,9 +97,11 @@ export const drawNextPhaseButton = (
       tile.sprite.removeAllListeners();
       tile.sprite.interactive = false;
       tile.sprite.buttonMode = false;
-      if (currentPhase === phases.market)
+      if (currentPhase === phases.market) {
+        if (!marketingDrawer.open) toggleOpen(marketingDrawer);
         enableMarketingTilePlacement(board, marketingDrawer, tile);
-      else if (currentPhase === phases.advertise) enableAdvertise(board, tile);
+      } else if (currentPhase === phases.advertise)
+        enableAdvertise(board, tile);
     });
   });
   app.stage.addChild(nextPhaseButton);
@@ -119,7 +121,9 @@ export const drawDebugButton = (board: Board) => {
   nextPhaseButton.interactive = true;
   nextPhaseButton.buttonMode = true;
   nextPhaseButton.on('pointerdown', () => {
-    board.tiles.forEach((tile) => (tile.sprite.tint = 0xffffff));
+    board.tiles
+      .concat(board.roads, board.houses, board.drinks)
+      .forEach((tile) => (tile.sprite.tint = 0xffffff));
     debug.enabled = !debug.enabled;
     console.log(debug);
   });

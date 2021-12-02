@@ -39,49 +39,6 @@ export const getAdjacentRoads = (board: Board, object: BoardItem): Road[] => {
   });
 };
 
-export const getConnectedRoads = (board: Board, road: Road): Road[] => {
-  let connectedRoads: Road[] = [];
-
-  if (road.connections.includes(1))
-    connectedRoads = connectedRoads.concat(
-      board.roads.filter(
-        (_road) =>
-          _road.i === road.i - 1 &&
-          _road.j === road.j &&
-          _road.connections.includes(3)
-      )
-    );
-  if (road.connections.includes(2))
-    connectedRoads = connectedRoads.concat(
-      board.roads.filter(
-        (_road) =>
-          _road.i === road.i &&
-          _road.j === road.j - 1 &&
-          _road.connections.includes(4)
-      )
-    );
-  if (road.connections.includes(3))
-    connectedRoads = connectedRoads.concat(
-      board.roads.filter(
-        (_road) =>
-          _road.i === road.i + 1 &&
-          _road.j === road.j &&
-          _road.connections.includes(1)
-      )
-    );
-  if (road.connections.includes(4))
-    connectedRoads = connectedRoads.concat(
-      board.roads.filter(
-        (_road) =>
-          _road.i === road.i &&
-          _road.j === road.j + 1 &&
-          _road.connections.includes(2)
-      )
-    );
-
-  return connectedRoads;
-};
-
 export const rotateObject = (object: BoardObject) => {
   const width = object.w;
   const height = object.h;
