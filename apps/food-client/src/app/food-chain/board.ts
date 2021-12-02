@@ -149,14 +149,19 @@ export const dinnerTime = async () => {
   for (let i = 0; i < sortedHouses.length; i++) {
     const house = sortedHouses[i];
     const diner = chooseDiner(board.diners, house);
-
-    house.sprite.filters = [new GlowFilter({ distance: 30, outerStrength: 2 })];
-    diner.sprite.filters = [new GlowFilter({ distance: 30, outerStrength: 2 })];
-    console.log(`Diner of player ${diner.owner.name} chosen`);
-    if (diner) await feedHouse(diner, house);
-    else
+    if (diner) {
+      console.log(`Diner of player ${diner.owner.name} chosen`);
+      house.sprite.filters = [
+        new GlowFilter({ distance: 30, outerStrength: 2 }),
+      ];
+      diner.sprite.filters = [
+        new GlowFilter({ distance: 30, outerStrength: 2 }),
+      ];
+      await feedHouse(diner, house);
+      house.sprite.filters = [];
+      diner.sprite.filters = [];
+    } else {
       console.log(`No house diner suitable diner found for house ${house.num}`);
-    house.sprite.filters = [];
-    diner.sprite.filters = [];
+    }
   }
 };
