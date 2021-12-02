@@ -41,6 +41,11 @@ type Diner = {
   update?: () => void;
 };
 
+type Animation = {
+  time: number;
+  update?: () => void;
+};
+
 export const SolarSystem = () => {
   useEffect(() => {
     const gameElement = document.getElementById('game');
@@ -69,8 +74,7 @@ export const SolarSystem = () => {
       if (
         roads.filter(
           (road) =>
-            Math.abs(road.i - position.i) +
-            Math.abs(road.j - position.j) < 2
+            Math.abs(road.i - position.i) + Math.abs(road.j - position.j) < 2
         ).length === 0
       )
         return false;
@@ -91,36 +95,28 @@ export const SolarSystem = () => {
     const ts2_3 = (7 * ts) / 8;
     const rls = 2;
 
-    const tileConfig = [
-      ['e', 'e', 'r24', 'h1', 'e'],
-      ['e', 'e', 'r24', 'e', 'e'],
-      ['r13', 'r13', 'r1234', 'r13', 'r13'],
-      ['e', 'e', 'r24', 'e', 'e'],
-      ['e', 'e', 'r24', 'e', 'e'],
-    ];
-
-    const tileConfig2 = [
-      ['e', 'e', 'r24', 'e', 'e'],
-      ['e', 'e', 'r24', 'h4', 'e'],
-      ['r13', 'r13', 'r124', 'e', 'e'],
-      ['d', 'e', 'r24', 'e', 'e'],
-      ['e', 'e', 'r24', 'e', 'e'],
-    ];
-
-    const tileConfig3 = [
-      ['r34', 'r13', 'r123', 'r13', 'r14'],
-      ['r24', 'e', 'h2', 'e', 'r24'],
-      ['r12', 'e', 'e', 'e', 'r23'],
-      ['e', 'e', 'e', 'e', 'e'],
-      ['e', 'e', 'e', 'e', 'e'],
-    ];
-
-    const tileConfig4 = [
-      ['r34', 'r14', 'e', 'h4', 'e'],
-      ['r24', 'r23', 'r14', 'e', 'e'],
-      ['r12', 'e', 'r23', 'r14', 'e'],
-      ['e', 'e', 'e', 'r23', 'r14'],
-      ['e', 'e', 'e', 'e', 'r23'],
+    const tileConfigs = [
+      [
+        ['e', 'e', 'r24', 'h1', 'e'],
+        ['e', 'e', 'r24', 'e', 'e'],
+        ['r13', 'r13', 'r1234', 'r13', 'r13'],
+        ['e', 'e', 'r24', 'e', 'e'],
+        ['e', 'e', 'r24', 'e', 'e'],
+      ],
+      [
+        ['e', 'e', 'r24', 'e', 'e'],
+        ['e', 'e', 'r24', 'h4', 'e'],
+        ['r13', 'r13', 'r124', 'e', 'e'],
+        ['d', 'e', 'r24', 'e', 'e'],
+        ['e', 'e', 'r24', 'e', 'e'],
+      ],
+      [
+        ['r34', 'r13', 'r123', 'r13', 'r14'],
+        ['r24', 'e', 'h2', 'e', 'r24'],
+        ['r12', 'e', 'e', 'e', 'r23'],
+        ['e', 'e', 'e', 'e', 'e'],
+        ['e', 'e', 'e', 'e', 'e'],
+      ],
     ];
 
     const drawEmptySquare = (x: number, y: number) => {
@@ -292,9 +288,16 @@ export const SolarSystem = () => {
           if (match[1] === 'd') {
             const diner = new PIXI.Sprite(dinerTexture);
 
+            diner.width = ts - 2;
+            diner.height = ts - 2;
+            diner.x = j * ts + p * 5 * ts + 2;
+            diner.y = i * ts + q * 5 * ts + 2;
+            diner.name = 'diner1';
+            container.addChild(diner);
+
             const _diner = {
               time: 0,
-              duration: 60,
+              duration: 240,
               prevPosition: {
                 x: 0,
                 y: 0,
@@ -303,15 +306,10 @@ export const SolarSystem = () => {
                 x: 0,
                 y: 0,
               },
-              update: () => {},
+              displayItem: {
+                diner,
+              },
             };
-
-            diner.width = ts - 2;
-            diner.height = ts - 2;
-            diner.x = j * ts + p * 5 * ts + 2;
-            diner.y = i * ts + q * 5 * ts + 2;
-            diner.name = 'diner1';
-            container.addChild(diner);
 
             diner.interactive = true;
             diner.buttonMode = true;
@@ -359,10 +357,10 @@ export const SolarSystem = () => {
 
     const board = new PIXI.Container();
 
-    drawChunk(0, 0, board, tileConfig);
-    drawChunk(0, 1, board, tileConfig3);
-    drawChunk(1, 1, board, tileConfig3);
-    drawChunk(1, 0, board, tileConfig2);
+    drawChunk(0, 0, board, tileConfigs[0]);
+    drawChunk(0, 1, board, tileConfigs[2]);
+    drawChunk(1, 1, board, tileConfigs[2]);
+    drawChunk(1, 0, board, tileConfigs[1]);
 
     console.log(JSON.stringify(roads));
 
@@ -458,15 +456,25 @@ export const SolarSystem = () => {
       tabWidth: 40,
     });
 
-    const translate = (container, startPos, endPos, duration) => {
-      return {
-        startPos: startPos,
-        timeElapsed: 0,
-        render: (timeElapsed) => {
-          container.x = (endPos.x - startPos.x) * (duration / timeElapsed);
-          container.y = (endPos.y - startPos.y) * (duration / timeElapsed);
-        },
-      };
+    const translate = (item, endPos: Vector2D, duration) => {
+      let time = 0;
+      const startPos: Vector2D = { ...item.displayItem.position };
+      function animate() {
+        time += 1;
+        if (time < duration) {
+          item.displayItem.x =
+            startPos.x + (startPos.x - endPos.x) * (time / duration);
+          item.displayItem.y =
+            startPos.y + (startPos.y - endPos.y) * (time / duration);
+        } else {
+          console.log(`start position: ${JSON.stringify(startPos)}`);
+          console.log(`end position: ${JSON.stringify(endPos)}`);
+          item.displayItem.x = endPos.x;
+          item.displayItem.y = endPos.y;
+          animations.splice(this);
+        }
+      }
+      animations.push(animate);
     };
 
     const updateAnimation = (delta, animation) => {
@@ -477,7 +485,7 @@ export const SolarSystem = () => {
     };
 
     app.ticker.add((delta) => {
-      animations.forEach((animation) => animation());
+      animations.forEach((animate) => animate());
     });
 
     gameElement.appendChild(app.view);
