@@ -1,4 +1,5 @@
-import { BoardItem, collides } from './utils';
+import { BoardItem } from '../board';
+import { collides } from './utils';
 
 const item1: BoardItem = {
   i: 6,
