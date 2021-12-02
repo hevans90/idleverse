@@ -1,4 +1,12 @@
 import * as PIXI from 'pixi.js';
+import {
+  removeFromDrawer,
+  addToDrawer,
+  Drawer,
+  organiseBeachDrawer,
+  organiseRecruitDrawer,
+} from './drawer';
+import { Indicator } from './indicators';
 import { EmployeeType, EmployeeTypes, lineColour, Player } from './types';
 
 export type CardConfig = {
@@ -11,15 +19,11 @@ export type CardConfig = {
   managementSlots?: number;
 };
 
-export type Card = {
-  title: string;
-  type: EmployeeType;
-  description: string;
-  count: number;
-  row: number;
-  position: number;
-  owner: Player;
+export type Card = CardConfig & {
+  owner?: Player;
   container?: PIXI.Container;
+  managing?: Card[];
+  managingContainer?: PIXI.Container;
   countText?: PIXI.Text;
   onClick?: () => void;
 };
@@ -27,18 +31,29 @@ export type Card = {
 export const createCardSprite = (cardConfig: CardConfig) => {
   const cardContainer = new PIXI.Container();
 
+  const topAlpha =
+    cardConfig.type.topAlpha !== null ? cardConfig.type.topAlpha : 1;
+  const bottomAlpha =
+    cardConfig.type.bottomAlpha !== null ? cardConfig.type.bottomAlpha : 1;
+
   const cardGraphic = new PIXI.Graphics();
-  cardGraphic.beginFill(lineColour);
+  cardGraphic.lineStyle(2, 0x0, 0);
+  cardGraphic.beginFill(cardConfig.type.topColour, topAlpha);
   cardGraphic.drawRoundedRect(0, 0, 200, 72, 12);
   cardGraphic.endFill();
 
-  cardGraphic.beginFill(cardConfig.type.bgColour);
+  cardGraphic.beginFill(cardConfig.type.bottomColour, bottomAlpha);
   cardGraphic.drawRoundedRect(0, 56, 200, 136, 12);
   cardGraphic.endFill();
 
-  cardGraphic.beginFill(lineColour);
+  cardGraphic.beginFill(cardConfig.type.topColour, topAlpha);
   cardGraphic.drawRect(0, 56, 200, 12);
   cardGraphic.endFill();
+
+  if (cardConfig.type.borderColor) {
+    cardGraphic.lineStyle(2, cardConfig.type.borderColor, 1);
+    cardGraphic.drawRoundedRect(0, 0, 200, 192, 12);
+  }
 
   cardContainer.addChild(cardGraphic);
 
@@ -85,6 +100,128 @@ export const createCardSprite = (cardConfig: CardConfig) => {
   return cardContainer;
 };
 
+export const addToCard = (parentCard: Card, childCard: Card) => {
+  parentCard.managing.push(childCard);
+  parentCard.managingContainer.addChild(childCard.container);
+};
+
+export const removeFromCard = (parentCard: Card, childCard: Card) => {
+  const i = parentCard.managing.indexOf(childCard);
+  if (i > -1) {
+    parentCard.managing.splice(i, 1);
+    parentCard.managingContainer.removeChild(childCard.container);
+  }
+};
+
+export const organiseCards = (card: Card) => {
+  card.managing.forEach((childCard, i) => {
+    childCard.container.position.x = 3 * (i - 1) * (card.container.width + 20);
+    childCard.container.position.y = 0;
+  });
+};
+
+export const enableCardHire = (
+  player: Player,
+  card: Card,
+  srcDrawer: Drawer,
+  destDrawer: Drawer,
+  indicator: Indicator
+) => {
+  card.container.on('pointerdown', () => {
+    if (!card.owner) {
+      if (player.hiresAvailable > 0) {
+        removeFromDrawer(srcDrawer, card);
+        addToDrawer(destDrawer, card, player);
+        organiseRecruitDrawer(srcDrawer);
+        organiseBeachDrawer(destDrawer);
+        player.hiresAvailable--;
+      }
+    } else {
+      removeFromDrawer(destDrawer, card, player);
+      addToDrawer(srcDrawer, card);
+      organiseRecruitDrawer(srcDrawer);
+      organiseBeachDrawer(destDrawer);
+      player.hiresAvailable++;
+    }
+    indicator.textGraphic.text = `Hires Available: ${player.hiresAvailable.toString()}`;
+  });
+};
+
+export const enableCardStructure = (
+  app: PIXI.Application,
+  srcDrawer: Drawer,
+  card: Card,
+  targetCard: Card
+) => {
+  let global: PIXI.Point;
+  const start = { x: 0, y: 0 };
+  const click = { x: 0, y: 0 };
+  const cursor = { x: 0, y: 0 };
+  let dragging = false;
+
+  function onDragStart(event: PIXI.InteractionEvent) {
+    start.x = card.container.position.x;
+    start.y = card.container.position.y;
+    click.x = event.data.global.x;
+    click.y = event.data.global.y;
+    global = card.container.getGlobalPosition();
+
+    app.stage.addChild(card.container);
+    card.container.position.x = global.x;
+    card.container.position.y = global.y;
+
+    //app.stage.addChild(card.container);
+    dragging = true;
+  }
+
+  function onDragMove(event: PIXI.InteractionEvent) {
+    if (dragging) {
+      cursor.x = event.data.global.x - click.x;
+      cursor.y = event.data.global.y - click.y;
+      card.container.position.x = global.x + cursor.x;
+      card.container.position.y = global.y + cursor.y;
+      if (
+        targetCard.container
+          .getBounds()
+          .contains(event.data.global.x, event.data.global.y)
+      ) {
+        targetCard.container.emit('pointerover');
+      } else {
+        targetCard.container.emit('pointerout');
+      }
+    }
+  }
+
+  function onDragEnd(event: PIXI.InteractionEvent) {
+    if (dragging) {
+      removeFromDrawer(srcDrawer, card);
+      removeFromCard(targetCard, card);
+      if (
+        targetCard.container
+          .getBounds()
+          .contains(event.data.global.x, event.data.global.y) &&
+        targetCard.managing.length < targetCard.managementSlots
+      ) {
+        addToCard(targetCard, card);
+        organiseCards(targetCard);
+        console.log(targetCard.managing);
+      } else {
+        addToDrawer(srcDrawer, card);
+        organiseRecruitDrawer(srcDrawer);
+        targetCard.container.emit('pointerout');
+      }
+
+      dragging = false;
+    }
+  }
+
+  card.container
+    .on('pointerdown', onDragStart)
+    .on('pointerup', onDragEnd)
+    .on('pointerupoutside', onDragEnd)
+    .on('pointermove', onDragMove);
+};
+
 export const renderCardCount = (count) => {
   const cardCount = new PIXI.Text(
     `x ${count.toString()}`,
@@ -109,6 +246,12 @@ export const ceoCardConfig: CardConfig = {
   type: EmployeeTypes.manager,
   description: 'This is you!',
   managementSlots: 3,
+};
+
+export const emptyCardConfig: CardConfig = {
+  title: '',
+  type: EmployeeTypes.empty,
+  description: '',
 };
 
 export const cardConfigs: { [key: string]: CardConfig } = {

@@ -17,8 +17,22 @@ import { createHouseSprite } from './house';
 import { createDrinkSprite, drinkTextures, DrinkTextures } from './drink';
 import { createDinerSprite } from './diner';
 import { drawBoxIndicator, drawIndicator, Indicator } from './indicators';
-import { renderDrawer, Drawer, addToDrawer, removeFromDrawer } from './drawer';
-import { cardConfigs, createCardSprite } from './card';
+import {
+  renderDrawer,
+  Drawer,
+  addToDrawer,
+  removeFromDrawer,
+  organiseRecruitDrawer,
+} from './drawer';
+import {
+  Card,
+  cardConfigs,
+  ceoCardConfig,
+  createCardSprite,
+  emptyCardConfig,
+  enableCardHire,
+  enableCardStructure,
+} from './card';
 
 export const FoodChain = () => {
   useEffect(() => {
@@ -204,7 +218,7 @@ export const FoodChain = () => {
 
     const player = {
       cards: [],
-      hiresAvailable: 10,
+      hiresAvailable: 3,
     };
 
     const phases = ['Structure', 'Hire', 'Train'];
@@ -222,7 +236,7 @@ export const FoodChain = () => {
     const structureDrawer: Drawer = {
       open: false,
       y: 0,
-      width: 900,
+      width: 1500,
       height: app.screen.height * 0.8,
       tabWidth: 40,
       orient: 'left',
@@ -232,7 +246,7 @@ export const FoodChain = () => {
     const beachDrawer: Drawer = {
       open: false,
       y: app.screen.height * 0.8,
-      width: 900,
+      width: 1500,
       height: app.screen.height * 0.2,
       tabWidth: 40,
       orient: 'left',
@@ -255,6 +269,58 @@ export const FoodChain = () => {
       )
     );
 
+    const validCardTint = new PIXI.Graphics();
+    validCardTint.beginFill(0x37946e, 0.25);
+    validCardTint.drawRoundedRect(0, 0, 200, 192, 12);
+    validCardTint.endFill();
+
+    const invalidCardTint = new PIXI.Graphics();
+    invalidCardTint.beginFill(0xd3002c, 0.25);
+    invalidCardTint.drawRoundedRect(0, 0, 200, 192, 12);
+    invalidCardTint.endFill();
+
+    const ceoCard: Card = {
+      ...ceoCardConfig,
+      container: createCardSprite(ceoCardConfig),
+      owner: player,
+      managing: [],
+    };
+
+    ceoCard.container.on('pointerover', () => {
+      if (ceoCard.managing.length < ceoCard.managementSlots) {
+        ceoCard.container.addChild(validCardTint);
+      } else ceoCard.container.addChild(invalidCardTint);
+    });
+
+    ceoCard.container.on('pointerout', () => {
+      ceoCard.container.removeChild(validCardTint);
+      ceoCard.container.removeChild(invalidCardTint);
+    });
+
+    ceoCard.container.position.x =
+      structureDrawer.width / 2 - ceoCard.container.width / 2;
+    ceoCard.container.position.y = 200;
+    structureDrawer.container.addChild(ceoCard.container);
+
+    ceoCard.managingContainer = new PIXI.Container();
+    ceoCard.managingContainer.x = ceoCard.container.position.x;
+    ceoCard.managingContainer.y =
+      ceoCard.container.position.y + ceoCard.container.height + 60;
+
+    for (let i = -1; i < 2; i++) {
+      const emptyCard = {
+        ...emptyCardConfig,
+        container: createCardSprite(emptyCardConfig),
+      };
+      emptyCard.container.position.x = 3 * i * (ceoCard.container.width + 20);
+
+      ceoCard.managingContainer.addChild(emptyCard.container);
+    }
+
+    structureDrawer.container.addChild(ceoCard.managingContainer);
+
+    const divisionLine = PIXI.Graphics;
+
     const hiresIndicator: Indicator = {
       height: 50,
       width: 250,
@@ -269,22 +335,11 @@ export const FoodChain = () => {
     hiresIndicator.container.position.y = 180;
 
     cards.forEach((card) => {
-      addToDrawer(card, recruitDrawer);
-      card.container.on('pointerdown', () => {
-        if (!card.owner) {
-          if (player.hiresAvailable > 0) {
-            removeFromDrawer(card, recruitDrawer);
-            addToDrawer(card, beachDrawer, player);
-            player.hiresAvailable--;
-          }
-        } else {
-          removeFromDrawer(card, beachDrawer, player);
-          addToDrawer(card, recruitDrawer);
-          player.hiresAvailable++;
-        }
-        hiresIndicator.textGraphic.text = `Hires Available: ${player.hiresAvailable.toString()}`;
-      });
+      addToDrawer(recruitDrawer, card);
+      //enableCardHire(player, card, recruitDrawer, beachDrawer, hiresIndicator);
+      enableCardStructure(app, recruitDrawer, card, ceoCard);
     });
+    organiseRecruitDrawer(recruitDrawer);
 
     const phaseIndicatorContainer = new PIXI.Container();
     phases.forEach((phase, i) => {
