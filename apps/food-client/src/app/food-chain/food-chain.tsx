@@ -78,12 +78,15 @@ export const FoodChain = () => {
       initExtraHouseTiles();
 
       (async () => {
-        let card = cards.find((card) => card.kind === 'cartOperator');
+        let card = cards.find((card) => card.kind === 'truckDriver');
         await hireCard(currentPlayer, card);
         manageCard(currentPlayer.ceo.card, card, 0);
         card = cards.find((card) => card.kind === 'trainer');
         await hireCard(currentPlayer, card);
         manageCard(currentPlayer.ceo.card, card, 1);
+        card = cards.find((card) => card.kind === 'brandDirector');
+        await hireCard(currentPlayer, card);
+        manageCard(currentPlayer.ceo.card, card, 2);
         card = cards.find((card) => card.kind === 'managementTrainee');
         await hireCard(currentPlayer, card);
       })();

@@ -1,4 +1,9 @@
-import { BoardObject, getAdjacentRoads } from '../board';
+import {
+  BoardItem,
+  BoardObject,
+  BoardPosition,
+  getAdjacentRoads,
+} from '../board';
 import { getConnectedRoads, isRoad, Road } from '../road';
 import { getAdjacentSquares, Tile } from '../tile';
 import { debug as debugConfig } from './constants';
@@ -7,20 +12,6 @@ import { board } from './singletons';
 export type Vector2 = {
   x: number;
   y: number;
-};
-
-export type BoardPosition = {
-  i?: number;
-  j?: number;
-};
-
-export type BoardItem = {
-  name?: string;
-  i?: number;
-  j?: number;
-  w: number;
-  h: number;
-  rotation?: number;
 };
 
 export function sleep(ms: number) {

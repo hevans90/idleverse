@@ -37,42 +37,31 @@ export const translateObject = (
 };
 
 export const scaleObject = (
-  animations: Anim[],
   object: PIXI.DisplayObject,
   startScale: number,
   endScale: number,
-  duration: number,
-  start?: () => void,
-  next?: (anim: Anim) => void
-): Anim => {
-  const anim: Anim = {
-    time: 0,
-  };
-
-  anim.start = () => {
-    if (start) start();
-    anim.time = 0;
+  duration: number
+) => {
+  return new Promise((resolve, reject) => {
+    let time = 0;
+    const anim: Anim = {
+      update: () => {
+        time += 1;
+        if (time < duration) {
+          object.scale.x =
+            startScale + (endScale - startScale) * (time / duration);
+          object.scale.y =
+            startScale + (endScale - startScale) * (time / duration);
+        } else {
+          object.scale.y = endScale;
+          object.scale.x = endScale;
+          animations.splice(animations.indexOf(anim), 1);
+          resolve('');
+        }
+      },
+    };
     animations.push(anim);
-  };
-  anim.update = () => {
-    anim.time += 1;
-    if (anim.time < duration) {
-      object.scale.x =
-        startScale + (endScale - startScale) * (anim.time / duration);
-      object.scale.y =
-        startScale + (endScale - startScale) * (anim.time / duration);
-    } else {
-      anim.end();
-    }
-  };
-  anim.end = () => {
-    object.scale.y = endScale;
-    object.scale.x = endScale;
-    animations.splice(animations.indexOf(anim), 1);
-    if (next) next(anim);
-  };
-
-  return anim;
+  });
 };
 
 export const bounceObject = (

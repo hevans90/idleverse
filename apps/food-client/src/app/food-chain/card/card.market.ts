@@ -1,7 +1,13 @@
+import { openDrawer, toggleDrawerOpen } from '../drawer';
 import { enableMarketingTilePlacement } from '../marketingTile';
 import { Player } from '../player';
 import { addGlow } from '../utils/graphics-utils';
-import { currentPlayer, cards, marketingTiles } from '../utils/singletons';
+import {
+  currentPlayer,
+  cards,
+  marketingTiles,
+  communalDrawers,
+} from '../utils/singletons';
 import { Card } from './card';
 
 export const getAllMarketers = (player: Player) => {
@@ -18,6 +24,7 @@ export const getAllMarketers = (player: Player) => {
 };
 
 export const startMarketing = () => {
+  openDrawer(currentPlayer.player.drawers.structure);
   const marketers = getAllMarketers(currentPlayer.player);
   marketers.forEach((marketer) => {
     marketer.used = false;
@@ -43,6 +50,8 @@ export const enableMarketing = (
       });
     } else {
       marketer.container.on('pointerdown', () => {
+        toggleDrawerOpen(player.drawers.structure);
+        openDrawer(communalDrawers.market);
         enableMarketing(player, marketer);
       });
     }

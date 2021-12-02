@@ -234,6 +234,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 6,
     row: 5,
     position: 1,
+    range: 10,
     promotesFrom: 'errandBoy',
   },
   truckDriver: {
@@ -243,6 +244,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 6,
     row: 5,
     position: 2,
+    range: 15,
     promotesFrom: 'cartOperator',
   },
   zeppelinPilot: {

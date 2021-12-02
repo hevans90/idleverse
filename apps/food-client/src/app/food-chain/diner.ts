@@ -11,7 +11,14 @@ import { addDinerToDrawer, toggleDrawerOpen } from './drawer';
 import { Player } from './player';
 import { Road } from './road';
 import { disablePlacement, enablePlacement } from './tile';
-import { createSprite } from './utils/graphics-utils';
+import {
+  addGlow,
+  createSprite,
+  deactivate,
+  driveDrinksPath,
+} from './utils/graphics-utils';
+import { Card } from './card/card';
+import { enableProduction } from './card/card.produce';
 
 export type Diner = BoardObject & {
   time?: number;
@@ -59,9 +66,9 @@ export const enableDinerPlacement = (player: Player) => {
   const dinersDrawer = player.drawers.diners;
   diners.forEach((diner) => {
     console.log('diner placement enabled');
-    diner.sprite.interactive = true;
-    diner.sprite.buttonMode = true;
-    diner.sprite.on('pointerdown', () => {
+    diner.container.interactive = true;
+    diner.container.buttonMode = true;
+    diner.container.on('pointerdown', () => {
       enablePlacement(
         diner,
         board.tiles,
@@ -73,10 +80,7 @@ export const enableDinerPlacement = (player: Player) => {
           }
           diner.drinksPath = [];
           disablePlacement();
-          diner.sprite.removeAllListeners();
-          diner.sprite.on('pointerdown', () => {
-            enableDrinksPath(diner);
-          });
+          deactivate(diner);
         }
       );
 
@@ -85,34 +89,34 @@ export const enableDinerPlacement = (player: Player) => {
   });
 };
 
-//export const getDrinks = (diner: Diner) => {};
-
-export const enableDrinksPath = (diner: Diner) => {
-  let validRoads = board.roads.filter(
+export const enableDrawPath = (diner: Diner, length: number) => {
+  console.log('Enabling path drawing mode');
+  disableDrawPath(diner);
+  addGlow(diner.sprite);
+  const validRoads = board.roads.filter(
     (road) => !diner.drinksPath.includes(road)
   );
-  diner.sprite.on('pointerdown', () => {
-    board.roads.forEach((road) => {
-      road.container.removeAllListeners();
-      road.sprite.tint = 0xffffff;
-    });
-  });
+  diner.drinksPath.forEach(
+    (road, i) => (road.sprite.tint = i < length ? 0x00ff00 : 0xff0000)
+  );
+  validRoads.forEach((road) => (road.sprite.tint = 0xffffff));
   board.roads.forEach((road) => {
+    road.container.interactive = true;
+    road.container.buttonMode = true;
     road.container.on('pointerover', () => {
+      let path = [];
       if (diner.drinksPath.length === 0)
-        findShortestRoadPath(validRoads, diner, road).forEach(
-          (road) => (road.sprite.tint = 0xffff00)
-        );
+        path = findShortestRoadPath(validRoads, diner, road);
       else {
-        const path = findShortestRoadPath(
+        path = findShortestRoadPath(
           validRoads,
           diner.drinksPath[diner.drinksPath.length - 1],
           road
         );
-        path
-          .slice(1, path.length)
-          .forEach((road) => (road.sprite.tint = 0xffff00));
+        path = path.slice(1, path.length);
       }
+      console.log(path);
+      path.forEach((road) => (road.sprite.tint = 0xffff00));
     });
     road.container.on('pointerout', () => {
       validRoads.forEach((road) => (road.sprite.tint = 0xffffff));
@@ -134,11 +138,38 @@ export const enableDrinksPath = (diner: Diner) => {
           )
         );
       }
-      validRoads = board.roads.filter(
-        (road) => !diner.drinksPath.includes(road)
-      );
-      diner.drinksPath.forEach((road) => (road.sprite.tint = 0xff0000));
-      validRoads.forEach((road) => (road.sprite.tint = 0xffffff));
+      enableDrawPath(diner, length);
+    });
+  });
+};
+
+export const disableDrawPath = (diner: Diner) => {
+  diner.sprite.filters = [];
+  board.roads.forEach((road) => {
+    road.sprite.tint = 0xffffff;
+    deactivate(road);
+  });
+};
+
+export const enableDrinksPath = (driver: Card) => {
+  const playerDiners = driver.owner.diners;
+  playerDiners.forEach((diner) => {
+    diner.container.interactive = true;
+    diner.container.buttonMode = true;
+    diner.container.on('pointerdown', () => {
+      playerDiners.forEach((diner) => {
+        deactivate(diner);
+      });
+      enableDrawPath(diner, driver.range);
+      diner.container.interactive = true;
+      diner.container.buttonMode = true;
+      diner.container.on('pointerdown', () => {
+        driver.used = true;
+        disableDrawPath(diner);
+        deactivate(diner);
+        driveDrinksPath(diner, driver);
+        enableProduction(driver.owner);
+      });
     });
   });
 };

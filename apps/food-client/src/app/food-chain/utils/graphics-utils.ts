@@ -1,11 +1,13 @@
 import * as PIXI from 'pixi.js';
 import { GlowFilter } from '@pixi/filter-glow';
-import { translateObject } from '../animation';
-import { BoardObject } from '../board';
-import { ts1_2 } from './constants';
+import { scaleObject, translateObject } from '../animation';
+import { BaseObject, BoardObject, getAdjacentDrinks } from '../board';
+import { ts, ts1_2 } from './constants';
 import { board, mainLayer } from './singletons';
 import { Vector2 } from './utils';
 import { Card } from '../card/card';
+import { playProduceAnimation } from '../card/card.animations';
+import { Diner } from '../diner';
 
 export type SpriteSheetConfig = {
   url: string;
@@ -164,12 +166,14 @@ export const addSpriteToBoard = (spriteName: string, size: number) => {
 export const setSpriteZOrder = (
   container: PIXI.DisplayObject,
   item1: BoardObject,
-  item2: BoardObject
+  item2: BoardObject = null
 ) => {
-  container.zOrder =
-    item1.container.zOrder > item2.container.zOrder
-      ? item1.container.zOrder + 1
-      : item2.container.zOrder + 1;
+  if (!item2) container.zOrder = item1.container.zOrder + 1;
+  else
+    container.zOrder =
+      item1.container.zOrder > item2.container.zOrder
+        ? item1.container.zOrder + 1
+        : item2.container.zOrder + 1;
 };
 
 export const travelPath = async (
@@ -186,7 +190,7 @@ export const travelPath = async (
         item2.container.position.y - item1.container.position.y,
         item2.container.position.x - item1.container.position.x
       );
-    setSpriteZOrder(container, item1, item2);
+    setSpriteZOrder(container, item1);
     await translateObject(
       container,
       {
@@ -200,4 +204,59 @@ export const travelPath = async (
       stepDuration
     );
   }
+};
+
+export const driveDrinksPath = async (diner: Diner, driver: Card) => {
+  console.log('Driving drinks path');
+  const player = diner.owner;
+  const collectedDrinks = [];
+  if (diner.drinksPath.length > 1) {
+    const truck = addSpriteToBoard('truck', ts * 2);
+    const firstRoad = diner.drinksPath[0];
+    truck.container.x = firstRoad.container.x + ts1_2;
+    truck.container.y = firstRoad.container.y + ts1_2;
+    setSpriteZOrder(truck.container, firstRoad, firstRoad);
+    await scaleObject(truck.sprite, 0, truck.sprite.scale.x, 50);
+    for (let i = 0; i < diner.drinksPath.length - 1; i++) {
+      if (i < driver.range) {
+        const item1 = diner.drinksPath[i];
+        const item2 = diner.drinksPath[i + 1];
+        if (item1 !== item2)
+          truck.sprite.rotation = Math.atan2(
+            item2.container.position.y - item1.container.position.y,
+            item2.container.position.x - item1.container.position.x
+          );
+        await translateObject(
+          truck.container,
+          {
+            x: item1.container.position.x + ts1_2,
+            y: item1.container.position.y + ts1_2,
+          },
+          {
+            x: item2.container.position.x + ts1_2,
+            y: item2.container.position.y + ts1_2,
+          },
+          20
+        );
+        const drinks = getAdjacentDrinks(item2);
+        for (let j = 0; j < drinks.length; j++) {
+          const drink = drinks[j];
+          if (!collectedDrinks.includes(drink)) {
+            collectedDrinks.push(drink);
+            await playProduceAnimation(player, drink.container, drink.kind);
+            await playProduceAnimation(player, drink.container, drink.kind);
+            await playProduceAnimation(player, drink.container, drink.kind);
+          }
+        }
+      }
+    }
+    await scaleObject(truck.sprite, truck.sprite.scale.x, 0, 50);
+    board.container.removeChild(truck.container, truck.sprite);
+  }
+};
+
+export const deactivate = (object: BaseObject) => {
+  object.container.interactive = false;
+  object.container.buttonMode = false;
+  object.container.removeAllListeners();
 };

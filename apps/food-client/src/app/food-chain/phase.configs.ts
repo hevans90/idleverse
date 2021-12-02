@@ -2,7 +2,7 @@ import { enableDinnerTime } from './board';
 import { untapCards } from './card/card';
 import { startHire } from './card/card.hire';
 import { startMarketing } from './card/card.market';
-import { enablePlayerFoodProduction } from './card/card.produce';
+import { enableProduction } from './card/card.produce';
 import { enableCardStructure } from './card/card.structure';
 import { startTrain } from './card/card.train';
 import { enableDinerPlacement } from './diner';
@@ -65,10 +65,7 @@ export const initPhases = () => {
   });
   phases.push({
     name: 'Market',
-    start: () => {
-      openDrawer(communalDrawers.market);
-      startMarketing();
-    },
+    start: () => startMarketing(),
     nextPhase: 'Produce',
   });
   phases.push({
@@ -76,7 +73,7 @@ export const initPhases = () => {
     start: () => {
       players.forEach((player) => {
         openDrawer(player.drawers.structure);
-        enablePlayerFoodProduction(player);
+        enableProduction(player);
       });
       untapCards();
     },

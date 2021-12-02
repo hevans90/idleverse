@@ -127,10 +127,10 @@ export const triggerPlaneAnimation = async (
   planeSprite.scale.x = scale;
   planeSprite.scale.y = scale;
   board.container.addChild(planeSprite);
-  for (let k = 0; k < 35; k++) {
+  for (let i = 0; i < 35; i++) {
     planeSprite.rotation = tile.rotation;
-    const starti = tile.i + k * sin;
-    const startj = tile.j - k * cos;
+    const starti = tile.i + i * sin;
+    const startj = tile.j - i * cos;
     const endi = starti + sin;
     const endj = startj - cos;
     await translateObject(
@@ -146,35 +146,34 @@ export const triggerPlaneAnimation = async (
       10
     );
 
-    affectedHouses.forEach((house) => {
-      if (
-        (cos === 0 && house.i === starti - sin * 2) ||
-        (sin === 0 && house.j === startj + cos * 2)
-      ) {
-        const foodSprite = createSprite(tile.foodKind.name, ts);
-        foodSprite.parentLayer = mainLayer;
-        foodSprite.zOrder = 9;
-        foodSprite.anchor.x = 0.5;
-        foodSprite.anchor.y = 0.5;
-        foodSprite.position.x =
-          house.container.position.x + house.container.width / 2;
-        foodSprite.position.y =
-          house.container.position.y + house.container.height / 2;
-        board.container.addChild(foodSprite);
-        scaleObject(
-          animations,
-          foodSprite,
-          foodSprite.scale.x * 3,
-          foodSprite.scale.x,
-          100,
-          null,
-          () => {
-            board.container.removeChild(foodSprite);
-            renderHouseFood(house);
-          }
-        ).start();
+    (async () => {
+      for (let j = 0; j < affectedHouses.length; j++) {
+        const house = affectedHouses[j];
+        if (
+          (cos === 0 && house.i === starti - sin * 2) ||
+          (sin === 0 && house.j === startj + cos * 2)
+        ) {
+          const foodSprite = createSprite(tile.foodKind.name, ts);
+          foodSprite.parentLayer = mainLayer;
+          foodSprite.zOrder = 9;
+          foodSprite.anchor.x = 0.5;
+          foodSprite.anchor.y = 0.5;
+          foodSprite.position.x =
+            house.container.position.x + house.container.width / 2;
+          foodSprite.position.y =
+            house.container.position.y + house.container.height / 2;
+          board.container.addChild(foodSprite);
+          await scaleObject(
+            foodSprite,
+            foodSprite.scale.x * 3,
+            foodSprite.scale.x,
+            100
+          );
+          board.container.removeChild(foodSprite);
+          renderHouseFood(house);
+        }
       }
-    });
+    })();
   }
   board.container.removeChild(planeSprite);
 };

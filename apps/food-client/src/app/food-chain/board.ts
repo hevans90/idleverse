@@ -10,8 +10,29 @@ import { Tile } from './tile';
 import { renderToolbar } from './toolbar';
 import { ts } from './utils/constants';
 import { app, board, currentPlayer } from './utils/singletons';
-import { BoardItem, collides, findShortestRoadPath } from './utils/utils';
+import { collides, findShortestRoadPath } from './utils/utils';
 import { addSpriteToBoard, travelPath } from './utils/graphics-utils';
+
+export type BaseObject = {
+  sprite?: PIXI.Sprite;
+  container?: PIXI.Container;
+};
+
+export type BoardPosition = {
+  i?: number;
+  j?: number;
+};
+
+export type BoardItem = {
+  name?: string;
+  i?: number;
+  j?: number;
+  w: number;
+  h: number;
+  rotation?: number;
+};
+
+export type BoardObject = BaseObject & BoardItem;
 
 export type Board = {
   chunksWide: number;
@@ -25,11 +46,6 @@ export type Board = {
   marketingTiles: MarketingTile[];
   container: PIXI.Container;
   deliverFood?: () => void;
-};
-
-export type BoardObject = BoardItem & {
-  sprite?: PIXI.Sprite;
-  container?: PIXI.Container;
 };
 
 export const getAdjacentRoads = (object: BoardItem): Road[] => {
