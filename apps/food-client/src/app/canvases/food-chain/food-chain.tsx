@@ -2,12 +2,8 @@ import * as PIXI from 'pixi.js';
 import { useEffect } from 'react';
 import { Box } from '@chakra-ui/react';
 import { tileConfigRegex, ts } from './utils/constants';
-import {
-  getRandomValidPosition,
-  isValidPosition,
-  translate,
-} from './utils/utils';
-import { Diner, Drink, EmployeeTypes, House, Road } from './types';
+import { getRandomValidPosition, isValidPosition } from './utils/utils';
+import { Diner, Drink, House, lineColour, Road } from './types';
 import { createEmptySquareSprite } from './emptySquare';
 import {
   Tile,
@@ -21,8 +17,8 @@ import { createHouseSprite } from './house';
 import { createDrinkSprite, drinkTextures, DrinkTextures } from './drink';
 import { createDinerSprite } from './diner';
 import { drawIndicator } from './indicators';
-import { addDrawer } from './drawer';
-import { drawCard } from './card';
+import { renderDrawer, Drawer, addToDrawer, removeFromDrawer } from './drawer';
+import { cardConfigs, createCardSprite } from './card';
 
 export const FoodChain = () => {
   useEffect(() => {
@@ -198,14 +194,6 @@ export const FoodChain = () => {
     dinerSprite.y = randomPosition.j * ts;
     dinerSprite.interactive = true;
     dinerSprite.buttonMode = true;
-    // dinerSprite.on('pointerdown', () => {
-    //   translate(
-    //     diner,
-    //     getRandomValidPosition(diner, collisionArray, boardItems, 20),
-    //     500,
-    //     animations
-    //   );
-    // });
     board.addChild(dinerSprite);
 
     board.pivot.x = board.width / 2;
@@ -214,67 +202,79 @@ export const FoodChain = () => {
     board.position.y = app.screen.height / 2;
     app.stage.addChild(board);
 
-    const drawer = addDrawer({
-      app: app,
-      x: 0,
-      y: 0,
-      width: 1000,
+    const player = {
+      cards: [],
+      hiresAvailable: 8,
+    };
+
+    const phases = ['structure', 'hire', 'train'];
+    const currentPhase = 'hire';
+
+    const hireCountText = new PIXI.Text(
+      `Hires Available: ${player.hiresAvailable.toString()}`,
+      new PIXI.TextStyle({
+        fontFamily: 'consolas',
+        fill: lineColour,
+        align: 'center',
+        fontSize: 20,
+      })
+    );
+
+    hireCountText.position.x = 25;
+    hireCountText.position.y = app.screen.height - 50;
+    hireCountText.zIndex = 50;
+    app.stage.addChild(hireCountText);
+
+    const recruitDrawer: Drawer = {
+      open: true,
+      width: 900,
       height: app.screen.height,
       tabWidth: 40,
-    });
+      orient: 'right',
+      cards: [],
+    };
 
-    const executiveVP1 = drawCard({
-      title: 'CFO',
-      colour: EmployeeTypes.finance.color,
-      description: 'Add +50% to cash\nearned this round',
-    });
-    executiveVP1.position.x = 10;
-    executiveVP1.position.y = 10;
-    drawer.addChild(executiveVP1);
+    const playerDrawer: Drawer = {
+      open: false,
+      width: 900,
+      height: app.screen.height,
+      tabWidth: 40,
+      orient: 'left',
+      cards: [],
+    };
 
-    const executiveVP2 = drawCard({
-      title: 'CFO',
-      colour: EmployeeTypes.finance.color,
-      description: 'Add +50% to cash\nearned this round',
-    });
-    executiveVP2.position.x = 20;
-    executiveVP2.position.y = 20;
-    drawer.addChild(executiveVP2);
+    renderDrawer(app, playerDrawer);
+    renderDrawer(app, recruitDrawer);
 
-    const executiveVP3 = drawCard({
-      title: 'CFO',
-      colour: EmployeeTypes.finance.color,
-      description: 'Add +50% to cash\nearned this round',
-    });
-    executiveVP3.position.x = 30;
-    executiveVP3.position.y = 30;
-    executiveVP3.interactive = true;
-    executiveVP3.buttonMode = true;
-    drawer.addChild(executiveVP3);
+    const cards = [];
 
-    const errandBoy = drawCard({
-      title: 'Errand\nBoy',
-      colour: EmployeeTypes.drinks.color,
-      description: 'Get 1 drink of\nany type',
-    });
-    errandBoy.position.x = 250;
-    errandBoy.position.y = 10;
-    errandBoy.interactive = true;
-    errandBoy.buttonMode = true;
-    drawer.addChild(errandBoy);
+    Object.values(cardConfigs).forEach((card) =>
+      Array.from({ length: card.count }, () =>
+        cards.push({
+          ...card,
+          container: createCardSprite(card),
+          owner: null,
+        })
+      )
+    );
 
-    const recruitingGirl = drawCard({
-      title: 'Recruiting\nGirl',
-      colour: EmployeeTypes.humanResources.color,
-      description: 'Hire 1 Person',
+    cards.forEach((card) => {
+      addToDrawer(card, recruitDrawer);
+      card.container.on('pointerdown', () => {
+        if (!card.owner) {
+          if (player.hiresAvailable > 0) {
+            removeFromDrawer(card, recruitDrawer);
+            addToDrawer(card, playerDrawer, player);
+            player.hiresAvailable--;
+          }
+        } else {
+          removeFromDrawer(card, playerDrawer);
+          addToDrawer(card, recruitDrawer);
+          player.hiresAvailable++;
+        }
+        hireCountText.text = `Hires Available: ${player.hiresAvailable.toString()}`;
+      });
     });
-    recruitingGirl.position.x = 470;
-    recruitingGirl.position.y = 10;
-    recruitingGirl.interactive = true;
-    recruitingGirl.buttonMode = true;
-    drawer.addChild(recruitingGirl);
-
-    app.stage.addChild(drawer);
 
     app.ticker.add((delta) => {
       animations.forEach((animate) => animate());
@@ -285,6 +285,5 @@ export const FoodChain = () => {
     return () => app.destroy(true, true);
   }, []);
 
-  // eslint-disable-next-line react/jsx-no-useless-fragment
   return <Box id="game" mx="2vw" w="96vw" my="2vh" h="96vh"></Box>;
 };
