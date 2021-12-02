@@ -28,6 +28,13 @@
     ]
   },
   "projects": {
+    "food-client": {
+      "tags": []
+    },
+    "food-client-e2e": {
+      "tags": [],
+      "implicitDependencies": ["food-client"]
+    },
     "galaxy-gen": {
       "tags": []
     },
