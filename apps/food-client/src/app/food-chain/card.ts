@@ -206,6 +206,7 @@ export const removeCardFromParent = (parent: Drawer | Card, card: Card) => {
 export const hireCard = async (player: Player, card: Card) => {
   const beachDrawer = player.drawers.beach;
   card.container.position.x = card.container.getGlobalPosition().x;
+  card.container.position.y = card.container.getGlobalPosition().y;
   app.stage.addChild(card.container);
   await translateObject(
     card.container,
