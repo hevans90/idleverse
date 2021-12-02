@@ -51,16 +51,8 @@ const item7: BoardItem = {
 };
 
 describe('collision', () => {
-  it('item1 should collide with item2', () => {
-    expect(collides(item1, item2)).toBeTruthy();
-  });
-
   it('item1 should not collide with item3', () => {
     expect(collides(item1, item3)).toBeFalsy();
-  });
-
-  it('item4 should collide with item5', () => {
-    expect(collides(item4, item5)).toBeTruthy();
   });
 
   it('item4 should not collide with item6', () => {
