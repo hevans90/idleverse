@@ -58,11 +58,11 @@ export const initPlayer = (number: number) => {
     hiresIndicator: null,
     cash: 0,
     food: {
-      beer: { amount: 5 },
-      lemonade: { amount: 10 },
-      cola: { amount: 15 },
-      burger: { amount: 20 },
-      pizza: { amount: 25 },
+      beer: { amount: 0 },
+      lemonade: { amount: 0 },
+      cola: { amount: 0 },
+      burger: { amount: 0 },
+      pizza: { amount: 0 },
     },
   };
 
@@ -87,17 +87,34 @@ export const initCEOCard = (player: Player) => {
   const structureDrawer = player.drawers.structure;
   player.ceo.card = {
     ...ceoCardConfig,
-    container: createCardSprite(ceoCardConfig),
+    container: new PIXI.Container(),
+    sprite: createCardSprite(ceoCardConfig),
     owner: player,
     parent: structureDrawer,
     active: false,
     used: false,
     employees: [],
+    maxHires: 1,
     managementSlots: 3,
     contentsSpacing: 3,
     renderContents: () => renderManagerCards(player.ceo.card),
   };
   const ceoCard = player.ceo.card;
+  ceoCard.hiresText = new PIXI.Text(
+    '',
+    new PIXI.TextStyle({
+      fontFamily: 'consolas',
+      fontWeight: 'bold',
+      fill: '#ff00af',
+      align: 'center',
+      fontSize: 72,
+    })
+  );
+  ceoCard.hiresText.anchor.x = 0.5;
+  ceoCard.hiresText.anchor.y = 0.5;
+  ceoCard.hiresText.x = ceoCard.sprite.width / 2;
+  ceoCard.hiresText.y = ceoCard.sprite.height / 2;
+  ceoCard.container.addChild(ceoCard.sprite, ceoCard.hiresText);
 
   ceoCard.container.position.x =
     structureDrawer.width / 2 - ceoCard.container.width / 2;

@@ -2,11 +2,12 @@ import { enableDinnerTime } from './board';
 import {
   untapCards,
   enableCardStructure,
-  enableCardHire,
   enableFoodProduction,
+  startHire,
 } from './card';
 import { enableDinerPlacement } from './diner';
 import { openDrawer } from './drawer';
+import { enableExtraHousePlacement } from './house';
 import { enableMarketingTilePlacement, enableAdvertise } from './marketingTile';
 import {
   communalDrawers,
@@ -42,11 +43,13 @@ export const initPhases = () => {
     name: 'Hire',
     start: () => {
       openDrawer(communalDrawers.recruit);
-      enableCardHire();
+      startHire();
       players.forEach((player) => {
+        openDrawer(player.drawers.structure);
         openDrawer(player.drawers.beach);
       });
     },
+    //end: () => deactivateCardHire(),
     nextPhase: 'Market',
   });
   phases.push({
@@ -65,6 +68,14 @@ export const initPhases = () => {
         enableFoodProduction(player);
       });
       untapCards();
+    },
+    nextPhase: 'Development',
+  });
+  phases.push({
+    name: 'Development',
+    start: () => {
+      openDrawer(communalDrawers.development);
+      enableExtraHousePlacement();
     },
     nextPhase: 'Dinner Time',
   });

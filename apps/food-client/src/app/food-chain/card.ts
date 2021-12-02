@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import { GlowFilter } from '@pixi/filter-glow';
 import { translateObject } from './animation';
 import { getAdjacentDrinks } from './board';
 import { playProduceAnimation } from './card.animations';
@@ -19,6 +20,7 @@ import {
   cards,
   communalDrawers,
   currentPlayer,
+  players,
 } from './utils/singletons';
 
 export type CardConfig = {
@@ -26,19 +28,26 @@ export type CardConfig = {
   title: string;
   type: EmployeeType;
   description: string;
+  promotesFrom?: string;
   count?: number;
   row?: number;
   position?: number;
+  maxHires?: number;
+  maxTrains?: number;
   managementSlots?: number;
 };
 
 export type Card = CardConfig & {
   owner?: Player;
   parent?: Drawer | Card;
+  hiredBy?: Card;
   employees?: Card[];
+  hiresAvailable?: number;
+  hiresText?: PIXI.Text;
   active: boolean;
   used: boolean;
   container?: PIXI.Container;
+  sprite?: PIXI.Sprite;
   contentsContainer?: PIXI.Container;
   contentsSpacing?: number;
   contentsSlot?: number;
@@ -46,8 +55,6 @@ export type Card = CardConfig & {
 };
 
 export const createCardSprite = (cardConfig: CardConfig) => {
-  const cardContainer = new PIXI.Container();
-
   const topAlpha =
     cardConfig.type.topAlpha !== null ? cardConfig.type.topAlpha : 1;
   const bottomAlpha =
@@ -72,8 +79,6 @@ export const createCardSprite = (cardConfig: CardConfig) => {
     cardGraphic.drawRoundedRect(0, 0, 200, 192, 12);
   }
 
-  cardContainer.addChild(cardGraphic);
-
   const cardTitleText = new PIXI.Text(
     cardConfig.title,
     new PIXI.TextStyle({
@@ -90,8 +95,6 @@ export const createCardSprite = (cardConfig: CardConfig) => {
   cardTitleText.position.y = 8;
   cardTitleText.anchor.x = 0.5;
 
-  cardContainer.addChild(cardTitleText);
-
   const cardDescText = new PIXI.Text(
     cardConfig.description,
     new PIXI.TextStyle({
@@ -107,12 +110,23 @@ export const createCardSprite = (cardConfig: CardConfig) => {
   cardDescText.position.y = 80;
   cardDescText.anchor.x = 0.5;
 
-  cardContainer.addChild(cardDescText);
+  const renderContainer = new PIXI.Container();
+  renderContainer.addChild(cardGraphic, cardTitleText, cardDescText);
 
-  cardContainer.scale.x = 0.65;
-  cardContainer.scale.y = 0.65;
+  const baseTexture = new PIXI.BaseRenderTexture({
+    width: 200,
+    height: 192,
+  });
+  const renderTexture = new PIXI.RenderTexture(baseTexture);
 
-  return cardContainer;
+  app.renderer.render(renderContainer, { renderTexture });
+
+  const cardSprite = new PIXI.Sprite(renderTexture);
+
+  cardSprite.scale.x = 0.65;
+  cardSprite.scale.y = 0.65;
+
+  return cardSprite;
 };
 
 export const initCards = (cardConfigs: CardConfig[], cards: Card[]) => {
@@ -121,16 +135,35 @@ export const initCards = (cardConfigs: CardConfig[], cards: Card[]) => {
     for (let i = 0; i < cardConfig.count; i++) {
       const card: Card = {
         ...cardConfig,
-        container: createCardSprite(cardConfig),
+        container: new PIXI.Container(),
+        sprite: createCardSprite(cardConfig),
         owner: null,
         parent: recruitDrawer,
         employees: [],
         active: false,
         used: false,
       };
+      card.container.addChild(card.sprite);
       if (card.type === EmployeeTypes.manager) {
         card.contentsSpacing = 1;
         card.renderContents = () => renderManagerCards(card);
+      }
+      if (card.maxHires) {
+        card.hiresText = new PIXI.Text(
+          '',
+          new PIXI.TextStyle({
+            fontFamily: 'consolas',
+            fontWeight: 'bold',
+            fill: '#ff00af',
+            align: 'center',
+            fontSize: 72,
+          })
+        );
+        card.hiresText.anchor.x = 0.5;
+        card.hiresText.anchor.y = 0.5;
+        card.hiresText.x = card.sprite.width / 2;
+        card.hiresText.y = card.sprite.height / 2;
+        card.container.addChild(card.hiresText);
       }
       cards.push(card);
       addCardToParent(recruitDrawer, card);
@@ -185,27 +218,27 @@ export const renderManagerCards = (card: Card) => {
   });
 };
 
+export const getAllCards = () => {
+  const ceoCards = [];
+  players.forEach((player) => ceoCards.push(player.ceo.card));
+  return [].concat(ceoCards, cards);
+};
+
 export const moveCardToParent = (
   parent: Drawer | Card,
   card: Card,
   slot?: number
 ) => {
-  const oldParent = card.parent;
   if (slot) card.contentsSlot = slot;
   removeCardFromParent(card.parent, card);
   addCardToParent(parent, card);
-  oldParent.renderContents();
-  parent.renderContents();
 };
 
 export const addCardToParent = (parent: Drawer | Card, card: Card) => {
   card.parent = parent;
   parent.employees.push(card);
   parent.contentsContainer.addChild(card.container);
-  if (parent['title']) {
-    console.log('added card to parent');
-    console.log(parent, card);
-  }
+  parent.renderContents();
 };
 
 export const removeCardFromParent = (parent: Drawer | Card, card: Card) => {
@@ -214,6 +247,7 @@ export const removeCardFromParent = (parent: Drawer | Card, card: Card) => {
     parent.employees.splice(i, 1);
     parent.contentsContainer.removeChild(card.container);
   }
+  parent.renderContents();
 };
 
 export const hireCard = async (player: Player, card: Card) => {
@@ -230,15 +264,14 @@ export const hireCard = async (player: Player, card: Card) => {
     },
     50
   );
+  beachDrawer.contentsContainer.addChild(card.container);
   moveCardToParent(beachDrawer, card);
   card.owner = player;
-  player.hiresAvailable--;
 };
 
-export const fireCard = (player: Player, recruitDrawer: Drawer, card: Card) => {
+export const fireCard = (recruitDrawer: Drawer, card: Card) => {
   moveCardToParent(recruitDrawer, card);
   card.owner = null;
-  player.hiresAvailable++;
 };
 
 export const manageCard = (manager: Card, card: Card, slot: number) => {
@@ -255,23 +288,109 @@ export const unmanageCard = () => (beachDrawer: Drawer, card: Card) => {
   card.active = false;
 };
 
-export const enableCardHire = () => {
+export const getAllRecruiters = (player: Player) => {
+  const ceoCard = player.ceo.card;
+  const recruiters: Card[] = [];
+  recruiters.push(ceoCard);
+  ceoCard.employees.forEach((employee1) => {
+    if (employee1.maxHires) recruiters.push(employee1);
+    else if (employee1.employees && employee1.employees.length > 0)
+      employee1.employees.forEach((employee2) => {
+        if (employee2.maxHires) recruiters.push(employee2);
+      });
+  });
+  return recruiters;
+};
+
+export const startHire = () => {
+  const recruiters = getAllRecruiters(currentPlayer.player);
+  recruiters.forEach((recruiter) => {
+    recruiter.hiresAvailable = recruiter.maxHires;
+    recruiter.hiresText.text = `${recruiter.hiresAvailable}`;
+  });
+  cards.forEach((card) => (card.hiredBy = null));
+  enableHire(currentPlayer.player);
+};
+
+export const enableHire = (player: Player, activeRecruiter: Card = null) => {
+  const recruiters = getAllRecruiters(currentPlayer.player);
+  deactivateCardHire(player);
+  recruiters.forEach((recruiter) => {
+    recruiter.container.interactive = true;
+    recruiter.container.buttonMode = true;
+    if (recruiter === activeRecruiter) {
+      recruiter.container.on('pointerdown', () => {
+        enableHire(player);
+      });
+    } else {
+      recruiter.container.on('pointerdown', () => {
+        enableHire(player, recruiter);
+      });
+    }
+  });
+  if (activeRecruiter) activateCardHire(activeRecruiter);
+};
+
+export const activateCardHire = (employer: Card) => {
+  employer.container.filters = [
+    new GlowFilter({ distance: 30, outerStrength: 2 }),
+  ];
+  const player = currentPlayer.player;
   const recruitDrawer = communalDrawers.recruit;
-  cards.forEach((card) => {
-    card.container.interactive = true;
-    card.container.buttonMode = true;
-    card.container.on('pointerdown', () => {
-      const player = currentPlayer.player;
-      const beachDrawer = player.drawers.beach;
-      if (card.parent === recruitDrawer) {
-        if (player.hiresAvailable > 0) {
-          hireCard(player, card);
-        }
-      } else if (card.parent === beachDrawer) {
-        fireCard(player, recruitDrawer, card);
-      }
-      player.hiresIndicator.textGraphic.text = `Hires Available: ${player.hiresAvailable.toString()}`;
-    });
+  const beachDrawer = player.drawers.beach;
+  recruitDrawer.employees.forEach((card) => {
+    if (!card.promotesFrom && employer.hiresAvailable > 0) {
+      card.container.interactive = true;
+      card.container.buttonMode = true;
+      card.container.on('pointerdown', async () => {
+        deactivateCardHire(player);
+        employer.hiresAvailable--;
+        employer.hiresText.text = `${employer.hiresAvailable}`;
+        card.hiredBy = employer;
+        await hireCard(player, card);
+        enableHire(player, employer);
+      });
+    } else {
+      card.sprite.alpha = 0.25;
+      const bwFilter = new PIXI.filters.ColorMatrixFilter();
+      bwFilter.blackAndWhite(false);
+      card.container.filters = [bwFilter];
+    }
+  });
+  beachDrawer.employees.forEach((card) => {
+    if (card.hiredBy === employer) {
+      card.container.interactive = true;
+      card.container.buttonMode = true;
+      card.container.on('pointerdown', () => {
+        deactivateCardHire(player);
+        employer.hiresAvailable++;
+        employer.hiresText.text = `${employer.hiresAvailable}`;
+        card.hiredBy = null;
+        fireCard(recruitDrawer, card);
+        enableHire(player, employer);
+      });
+    } else {
+      card.sprite.alpha = 0.25;
+      const bwFilter = new PIXI.filters.ColorMatrixFilter();
+      bwFilter.blackAndWhite(false);
+      card.container.filters = [bwFilter];
+    }
+  });
+};
+
+export const deactivateCardHire = (player: Player) => {
+  const recruitDrawer = communalDrawers.recruit;
+  const beachDrawer = player.drawers.beach;
+  getAllRecruiters(player).forEach((recruiter) => {
+    recruiter.container.filters = [];
+    recruiter.container.removeAllListeners();
+  });
+  [].concat(recruitDrawer.employees, beachDrawer.employees).forEach((card) => {
+    card.sprite.alpha = 1;
+    card.container.filters = [];
+    card.container.interactive = false;
+    card.container.buttonMode = false;
+    card.container.removeAllListeners();
   });
 };
 

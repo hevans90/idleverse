@@ -8,6 +8,7 @@ export const ceoCardConfig: CardConfig = {
   type: EmployeeTypes.manager,
   description: 'This is you!',
   managementSlots: 3,
+  maxHires: 1,
 };
 
 export const emptyCardConfig: CardConfig = {
@@ -34,6 +35,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 6,
     row: 0,
     position: 1,
+    promotesFrom: 'managementTrainee',
   },
   localManager: {
     title: 'Local\nManager',
@@ -42,6 +44,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 6,
     row: 0,
     position: 2,
+    promotesFrom: 'juniorVP',
   },
   regionalManager: {
     title: 'Regional\nManager',
@@ -51,6 +54,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 3,
     row: 0,
     position: 3,
+    promotesFrom: 'VP',
   },
   cfo: {
     title: 'CFO',
@@ -59,6 +63,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 3,
     row: 0,
     position: 4,
+    promotesFrom: 'SeniorVP',
   },
   managementTrainee: {
     title: 'Management\nTrainee',
@@ -77,6 +82,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     row: 1,
     position: 1,
     managementSlots: 3,
+    promotesFrom: 'managementTrainee',
   },
   VP: {
     title: 'Vice\nPresident',
@@ -86,6 +92,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     row: 1,
     position: 2,
     managementSlots: 4,
+    promotesFrom: 'juniorVP',
   },
   seniorVP: {
     title: 'Senior\nVice President',
@@ -95,6 +102,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     row: 1,
     position: 3,
     managementSlots: 5,
+    promotesFrom: 'VP',
   },
   executiveVP: {
     title: 'Executive\nVice President',
@@ -104,6 +112,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     row: 1,
     position: 4,
     managementSlots: 10,
+    promotesFrom: 'seniorVP',
   },
   pricingManager: {
     title: 'Pricing\nManager',
@@ -120,6 +129,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 3,
     row: 2,
     position: 1,
+    promotesFrom: 'managementTrainee',
   },
   discountManager: {
     title: 'Discount\nManager',
@@ -128,6 +138,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 6,
     row: 2,
     position: 2,
+    promotesFrom: 'juniorVP',
   },
   recruitingGirl: {
     title: 'Recruiting\nGirl',
@@ -136,6 +147,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 12,
     row: 3,
     position: 0,
+    maxHires: 1,
   },
   recruitingManager: {
     title: 'Recruiting\nManager',
@@ -144,6 +156,8 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 6,
     row: 3,
     position: 2,
+    promotesFrom: 'juniorVP',
+    maxHires: 2,
   },
   hrDirector: {
     title: 'HR\nDirector',
@@ -152,6 +166,8 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 3,
     row: 3,
     position: 4,
+    promotesFrom: 'seniorVP',
+    maxHires: 4,
   },
   trainer: {
     title: 'Trainer',
@@ -160,6 +176,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 12,
     row: 4,
     position: 0,
+    maxTrains: 1,
   },
   coach: {
     title: 'Coach',
@@ -168,6 +185,8 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 6,
     row: 4,
     position: 2,
+    promotesFrom: 'juniorVP',
+    maxTrains: 2,
   },
   guru: {
     title: 'Guru',
@@ -177,6 +196,8 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 3,
     row: 4,
     position: 3,
+    promotesFrom: 'seniorVP',
+    maxTrains: 3,
   },
   errandBoy: {
     title: 'Errand\nBoy',
@@ -193,6 +214,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 6,
     row: 5,
     position: 1,
+    promotesFrom: 'errandBoy',
   },
   truckDriver: {
     title: 'Truck\nDriver',
@@ -201,6 +223,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 6,
     row: 5,
     position: 2,
+    promotesFrom: 'cartOperator',
   },
   zeppelinPilot: {
     title: 'Zeppelin\nPilot',
@@ -209,6 +232,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 3,
     row: 5,
     position: 3,
+    promotesFrom: 'truckDriver',
   },
   marketingTrainee: {
     title: 'Marketing\nTrainee',
@@ -225,6 +249,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 6,
     row: 6,
     position: 1,
+    promotesFrom: 'marketingTrainee',
   },
   brandManager: {
     title: 'Brand\nManager',
@@ -233,6 +258,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 6,
     row: 6,
     position: 2,
+    promotesFrom: 'campaignManager',
   },
   brandDirector: {
     title: 'Brand\nDirector',
@@ -241,6 +267,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 3,
     row: 6,
     position: 3,
+    promotesFrom: 'brandManager',
   },
   kitchenTrainee: {
     title: 'Kitchen\nTrainee',
@@ -257,6 +284,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 6,
     row: 7,
     position: 1,
+    promotesFrom: 'kitchenTrainee',
   },
   burgerChef: {
     title: 'Burger\nChef',
@@ -265,6 +293,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 3,
     row: 7,
     position: 2,
+    promotesFrom: 'burgerCook',
   },
   pizzaCook: {
     title: 'Pizza\nCook',
@@ -273,6 +302,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 6,
     row: 8,
     position: 1,
+    promotesFrom: 'kitchenTrainee',
   },
   pizzaChef: {
     title: 'Pizza\nChef',
@@ -281,6 +311,7 @@ export const cardConfigs: { [key: string]: CardConfig } = {
     count: 3,
     row: 8,
     position: 2,
+    promotesFrom: 'pizzaCook',
   },
 };
 

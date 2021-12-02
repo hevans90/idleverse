@@ -164,6 +164,7 @@ export const applyRotation = (object: BoardObject) => {
 
   object.sprite.x = (object.w * ts) / 2;
   object.sprite.y = (object.h * ts) / 2;
+  console.log(object.rotation, object.w, object.h);
 };
 
 export const enablePlacement = (

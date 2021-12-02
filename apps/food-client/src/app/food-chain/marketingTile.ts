@@ -184,7 +184,7 @@ export const selectMarketingTileFood = (tile: MarketingTile) => {
     Object.values(foodKinds),
     (foodKind) => {
       tile.foodKind = foodKind;
-      tile.foodQuant = 4;
+      tile.foodQuant = 5;
       renderMarketingTileFood(tile);
       tile.container.removeChild(newFoodSelect);
     }
@@ -202,7 +202,8 @@ export const renderMarketingTileFood = (tile: MarketingTile) => {
     const foodSprite = createSprite(tile.foodKind.name, ts / 2);
     const xSpacing = 15 * tile.h;
     const xOffset =
-      tile.sprite.width / 2 - (xSpacing * 1.5 + foodSprite.width / 2);
+      tile.sprite.width / 2 -
+      (xSpacing * (tile.foodQuant / 2 - 0.5) + foodSprite.width / 2);
     foodSprite.position.x = xOffset + xSpacing * i;
     foodSprite.position.y = (tile.h * ts) / 3 - foodSprite.height / 2 + 5;
     tile.container.addChild(foodSprite);
@@ -251,7 +252,10 @@ export const advertise = (tile: MarketingTile) => {
     renderMarketingTileFood(tile);
     const affectedHouses = [];
     board.houses.forEach((house) => {
-      if (rangeOverlapsItem(house, tilesInRange) && house.food.length < 3)
+      if (
+        rangeOverlapsItem(house, tilesInRange) &&
+        house.food.length < house.maxFood
+      )
         affectedHouses.push(house);
     });
     affectedHouses.forEach((house) => {

@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js';
 import { translateObject } from './animation';
 import { Card } from './card';
 import { Diner } from './diner';
+import { House } from './house';
 import { MarketingTile } from './marketingTile';
 import { Player } from './player';
 import { baseColour, lineColour } from './types';
@@ -22,6 +23,7 @@ export type Drawer = {
   owner?: Player;
   employees?: Card[];
   marketingTiles?: MarketingTile[];
+  houses?: House[];
   diners?: Diner[];
   container?: PIXI.Container;
   contentsContainer?: PIXI.Container;
@@ -96,6 +98,12 @@ export const addMarketingTileToDrawer = (tile: MarketingTile) => {
   drawer.contentsContainer.addChild(tile.container);
 };
 
+export const addHouseToDrawer = (house: House) => {
+  const drawer = communalDrawers.development;
+  drawer.houses.push(house);
+  drawer.contentsContainer.addChild(house.container);
+};
+
 export const addDinerToDrawer = (player: Player, diner: Diner) => {
   const drawer = player.drawers.diners;
   drawer.diners.push(diner);
@@ -128,6 +136,15 @@ export const renderMarketingDrawerContents = () => {
     tile.container.position.x = kindMap[tile.kind.name].x * ts;
     tile.container.position.y = kindMap[tile.kind.name].y * ts;
     kindMap[tile.kind.name].x += tile.w + 1;
+  });
+};
+
+export const renderDevelopmentDrawerContents = () => {
+  const drawer = communalDrawers.development;
+
+  drawer.houses.forEach((house, i) => {
+    house.container.position.x = ts * (4 * i + 1);
+    house.container.position.y = ts;
   });
 };
 

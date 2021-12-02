@@ -9,7 +9,7 @@ import { addRoadToBoard, isRoad, Road } from './road';
 import { Tile } from './tile';
 import { renderToolbar } from './toolbar';
 import { ts } from './utils/constants';
-import { app, board } from './utils/singletons';
+import { app, board, currentPlayer } from './utils/singletons';
 import { BoardItem, collides, findShortestRoadPath } from './utils/utils';
 import { addSpriteToBoard, travelPath } from './utils/graphics-utils';
 
@@ -131,7 +131,7 @@ export const feedHouse = async (diner: Diner, house: House) => {
       await travelPath([firstRoad, firstRoad], car.container, car.sprite, 200);
       await travelPath(path, car.container, car.sprite, 20);
       playCashAnimation(diner, cashReward);
-      renderToolbar(player);
+      renderToolbar(currentPlayer.player);
       car.container.removeChild(house.demandContainer);
       const lastRoad = path[path.length - 1];
       await travelPath([lastRoad, lastRoad], car.container, car.sprite, 100);

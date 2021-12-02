@@ -1,4 +1,9 @@
 export const assetMaps: { name: string; url: string }[] = [
+  { name: 'houseWest', url: 'https://i.imgur.com/Oy8pcaB.png' },
+  { name: 'houseNorth', url: 'https://i.imgur.com/kYdPrX7.png' },
+  { name: 'houseEast', url: 'https://i.imgur.com/Oy8pcaB.png' },
+  { name: 'houseSouth', url: 'https://i.imgur.com/Rngqwb3.png' },
+  { name: 'garden', url: 'https://i.imgur.com/mZsRF8R.png' },
   { name: 'diner', url: 'https://i.imgur.com/0QgedqC.png' },
   { name: 'car', url: 'https://i.imgur.com/6ADHQAp.png' },
   { name: 'truck', url: 'https://i.imgur.com/3a3og7T.png' },

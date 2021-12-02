@@ -10,6 +10,7 @@ import {
   marketingTiles,
   phases,
   currentPhase,
+  players,
 } from './utils/singletons';
 
 export type Phase = {
@@ -111,7 +112,10 @@ export const startPhase = (phase: Phase) => {
 
 const endCurrentPhase = async () => {
   console.log('Ending phase');
-  [].concat(board.diners, cards, marketingTiles).forEach((object) => {
+  const ceoCards = [];
+  players.forEach((player) => ceoCards.push(player.ceo.card));
+  if (currentPhase.phase && currentPhase.phase.end) currentPhase.phase.end();
+  [].concat(board.diners, ceoCards, cards, marketingTiles).forEach((object) => {
     object.container.removeAllListeners();
     object.container.interactive = false;
     object.container.buttonMode = false;
@@ -119,6 +123,11 @@ const endCurrentPhase = async () => {
       object.sprite.removeAllListeners();
       object.sprite.interactive = false;
       object.sprite.buttonMode = false;
+      object.sprite.alpha = 1;
+    }
+    object.container.filters = [];
+    if (object.hiresText) {
+      object.hiresText.text = '';
     }
   });
   disablePlacement();

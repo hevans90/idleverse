@@ -29,6 +29,7 @@ import { initCommunalDrawers } from './drawer.configs';
 import { initPhases } from './phase.configs';
 import { Stage } from '@pixi/layers';
 import { assetMaps } from './utils/asset-loader';
+import { initExtraHouseTiles } from './house';
 
 export const FoodChain = () => {
   useEffect(() => {
@@ -72,6 +73,7 @@ export const FoodChain = () => {
 
       initCards(Object.values(cardConfigs), cards);
       initMarketingTiles(marketingTileConfigs, marketingTiles);
+      initExtraHouseTiles();
 
       (async () => {
         const card = cards.find((card) => card.kind === 'cartOperator');
