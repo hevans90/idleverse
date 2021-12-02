@@ -7,6 +7,7 @@ import { parseRoadConfig } from './road';
 import { lineColour } from './types';
 import { tileConfigRegex, ts } from './utils/constants';
 import { app, keyEventMap } from './utils/singletons';
+import { itemContainsTile, rangeOverlapsItem } from './utils/utils';
 
 export type TileConfig = Array<Array<string | Array<string>>>;
 
@@ -199,18 +200,19 @@ export const enablePlacement = (
       removeChildrenByName(board.container, 'indicator');
       board.container.addChild(activeIndicator);
 
-      rangeFunction(square).forEach((_square) => {
+      const tilesInRange = rangeFunction(square);
+
+      tilesInRange.forEach((_square) => {
         const tint = drawIndicator(1, 1, IndicatorColour.range);
         tint.name = 'tint';
         _square.container.addChild(tint);
       });
 
-      // board.houses.forEach((house) => (house.sprite.tint = 0xffffff));
-      // const housesInRange = board.houses.filter(
-      //   (house) =>
-      //     calcRectsDistance(house, { ...item, i: square.i, j: square.j }) < 1
-      // );
-      // housesInRange.forEach((house) => (house.sprite.tint = 0x5b6ee1));
+      board.houses.forEach((house) => {
+        house.sprite.tint = 0xffffff;
+        if (rangeOverlapsItem(house, tilesInRange))
+          house.sprite.tint = 0x5b6ee1;
+      });
     });
 
     square.container.on('mouseout', () => {
@@ -218,6 +220,9 @@ export const enablePlacement = (
       board.tiles.forEach((tile) =>
         removeChildrenByName(tile.container, 'tint')
       );
+      board.houses.forEach((house) => {
+        house.sprite.tint = 0xffffff;
+      });
     });
 
     square.container.on('pointerdown', () => {
