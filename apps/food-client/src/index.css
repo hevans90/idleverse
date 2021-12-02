@@ -1,0 +1,17 @@
+@font-face {
+  font-family: 'zx spectrum';
+  src: local('zx spectrum'), url(assets/zx-spectrum.ttf) format('truetype');
+}
+
+div#stats {
+  position: fixed;
+  top: 50px;
+  right: 0;
+  z-index: 500;
+  opacity: 0.8;
+  user-select: none;
+}
+
+#stats > canvas {
+  margin: unset;
+}
