@@ -168,7 +168,7 @@ export const enableCardHire = (
     card.container.interactive = true;
     card.container.buttonMode = true;
     card.container.on('pointerdown', () => {
-      if (!card.owner) {
+      if (recruitDrawer.cards.includes(card)) {
         if (player.hiresAvailable > 0) {
           removeCardFromDrawer(recruitDrawer, card);
           addCardToDrawer(beachDrawer, card);
@@ -177,7 +177,7 @@ export const enableCardHire = (
           card.owner = player;
           player.hiresAvailable--;
         }
-      } else {
+      } else if (beachDrawer.cards.includes(card)) {
         removeCardFromDrawer(beachDrawer, card);
         addCardToDrawer(recruitDrawer, card);
         organiseRecruitDrawer(recruitDrawer);

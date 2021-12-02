@@ -50,6 +50,7 @@ export const FoodChain = () => {
     app.stage.sortableChildren = true;
 
     const player: Player = {
+      diner: null,
       ceo: { card: null },
       cards: [],
       hiresAvailable: 10,
@@ -69,8 +70,7 @@ export const FoodChain = () => {
           board.diner,
           board.tiles,
           (square) => isValidPosition(board, board.diner, square, true),
-          (square) => getSquaresInRange(board, board.diner, square, 1),
-          () => disablePlacement(board)
+          (square) => getSquaresInRange(board, board.diner, square, 1)
         );
       },
       nextPhase: 'Structure',
@@ -182,7 +182,7 @@ export const FoodChain = () => {
     drawers.push(recruitDrawer, marketDrawer, structureDrawer, beachDrawer);
 
     drawChunks(tileConfigs);
-    addDinerToBoard();
+    addDinerToBoard(player);
     addBoardToStage();
     drawOuterSquares();
 

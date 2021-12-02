@@ -1,13 +1,19 @@
 import * as PIXI from 'pixi.js';
 import { Card, createCardSprite } from './card';
 import { ceoCardConfig, emptyCardConfig } from './card.configs';
+import { Diner } from './diner';
 import { Drawer } from './drawer';
 
 export type Player = {
+  diner: Diner;
   ceo: { card: Card };
   cards: Card[];
   food: {
-    [key: number]: { amount: number; sprite?: PIXI.Sprite; textSprite?: PIXI.Text };
+    [key: number]: {
+      amount: number;
+      sprite?: PIXI.Sprite;
+      textSprite?: PIXI.Text;
+    };
   };
   hiresAvailable: number;
 };

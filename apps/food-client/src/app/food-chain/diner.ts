@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
 import { BoardObject, getAdjacentRoads } from './board';
+import { Player } from './player';
 import { ts } from './utils/constants';
 import { board } from './utils/singletons';
 import { getRandomValidPosition } from './utils/utils';
@@ -23,7 +24,7 @@ export const createDinerSprite = (ts: number) => {
   return dinerSprite;
 };
 
-export const addDinerToBoard = () => {
+export const addDinerToBoard = (player: Player) => {
   const diner: Diner = {
     i: 0,
     j: 0,
@@ -33,6 +34,7 @@ export const addDinerToBoard = () => {
     container: new PIXI.Container(),
   };
   board.diner = diner;
+  player.diner = diner;
   const dinerSprite = createDinerSprite(ts);
   diner.sprite = dinerSprite;
   diner.container.addChild(dinerSprite);

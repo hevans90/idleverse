@@ -395,7 +395,6 @@ export const findTilePath = (
       (tile1, tile2) =>
         tile1.toGoal + tile1.fromStart - (tile2.toGoal + tile2.fromStart)
     );
-    console.log(openTiles);
     const currentTile = openTiles[0];
     if (currentTile.i === endTile.i && currentTile.j === endTile.j) {
       console.log('path found');

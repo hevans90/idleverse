@@ -1,6 +1,8 @@
 import * as PIXI from 'pixi.js';
 import { closeAllDrawers } from './drawer';
 import { initBoxIndicator } from './indicators';
+import { Player } from './player';
+import { disablePlacement } from './tile';
 import { debug } from './utils/constants';
 import {
   app,
@@ -111,6 +113,7 @@ const endCurrentPhase = () => {
     tile.sprite.interactive = false;
     tile.sprite.buttonMode = false;
   });
+  disablePlacement(board);
   closeAllDrawers();
   currentPhase.phase = getPhase(currentPhase.phase.nextPhase);
   if (currentPhase.phase.start) currentPhase.phase.start();
