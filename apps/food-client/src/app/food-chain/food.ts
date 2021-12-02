@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
 import { MarketingTile, renderMarketingTileFood } from './marketingTile';
+import { Player } from './player';
 import { ts } from './utils/constants';
 import { app } from './utils/singletons';
 
@@ -100,4 +101,14 @@ export const createFoodSelect = (tile: MarketingTile) => {
   foodSelect.name = 'foodSelect';
 
   tile.container.addChild(foodSelect);
+};
+
+export const produceFood = (
+  player: Player,
+  foodKind: number,
+  amount: number
+) => {
+  const playerFood = player.food[foodKind];
+  playerFood.amount += amount;
+  playerFood.textSprite.text = `x ${playerFood.amount}`;
 };

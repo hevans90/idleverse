@@ -20,7 +20,7 @@ export const drawToolbar = (player: Player) => {
     Object.assign(foodSprite, { x: 20 + i * 100, y: 5 });
 
     const foodAmountText = new PIXI.Text(
-      `x ${foodAmount}`,
+      `x ${foodAmount.amount}`,
       new PIXI.TextStyle({
         fontFamily: 'zx-spectrum',
         fontSize: 24,
@@ -28,6 +28,7 @@ export const drawToolbar = (player: Player) => {
         fill: '#ffffff',
       })
     );
+    player.food[foodKind].textSprite = foodAmountText;
     Object.assign(foodAmountText, { x: 70 + i * 100, y: 15 });
     toolbar.addChild(foodSprite, foodAmountText);
   });

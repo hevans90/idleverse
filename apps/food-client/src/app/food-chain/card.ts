@@ -7,10 +7,11 @@ import {
   organiseBeachDrawer,
   organiseRecruitDrawer,
 } from './drawer';
+import { FoodKinds, produceFood } from './food';
 import { Indicator } from './indicators';
 import { Player } from './player';
-import { EmployeeType, EmployeeTypes, lineColour } from './types';
-import { animations, app, cards } from './utils/singletons';
+import { EmployeeType, EmployeeTypes } from './types';
+import { app, cards } from './utils/singletons';
 
 export type CardConfig = {
   title: string;
@@ -24,8 +25,10 @@ export type CardConfig = {
 
 export type Card = CardConfig & {
   owner?: Player;
-  container?: PIXI.Container;
   employees?: Card[];
+  active: boolean;
+  used: boolean;
+  container?: PIXI.Container;
   managingContainer?: PIXI.Container;
   onClick?: () => void;
 };
@@ -112,6 +115,8 @@ export const initCards = (
         container: createCardSprite(card),
         owner: null,
         employees: [],
+        active: false,
+        used: false,
       })
     )
   );
@@ -125,6 +130,7 @@ export const initCards = (
 export const addToCard = (parentCard: Card, childCard: Card) => {
   parentCard.employees.push(childCard);
   parentCard.managingContainer.addChild(childCard.container);
+  childCard.active = true;
 };
 
 export const removeFromCard = (parentCard: Card, childCard: Card) => {
@@ -133,6 +139,7 @@ export const removeFromCard = (parentCard: Card, childCard: Card) => {
     parentCard.employees.splice(i, 1);
     parentCard.managingContainer.removeChild(childCard.container);
   }
+  childCard.active = false;
 };
 
 export const organiseCEOCards = (card: Card) => {
@@ -164,7 +171,6 @@ export const enableCardHire = (
       if (!card.owner) {
         if (player.hiresAvailable > 0) {
           removeCardFromDrawer(recruitDrawer, card);
-          animations.push();
           addCardToDrawer(beachDrawer, card);
           organiseRecruitDrawer(recruitDrawer);
           organiseBeachDrawer(beachDrawer);
@@ -234,6 +240,7 @@ export const enableCardStructure = (
 
     function onDragEnd(event: PIXI.InteractionEvent) {
       if (dragging) {
+        ceoCard.container.emit('pointerout');
         removeCardFromDrawer(beachDrawer, card);
         removeFromCard(ceoCard, card);
         ceoCard.employees.forEach((manager) => {
@@ -298,7 +305,6 @@ export const enableCardStructure = (
 
         addCardToDrawer(beachDrawer, card);
         organiseBeachDrawer(beachDrawer);
-        ceoCard.container.emit('pointerout');
         dragging = false;
       }
     }
@@ -315,21 +321,21 @@ export const enableCardStructure = (
   });
 };
 
-export const renderCardCount = (count) => {
-  const cardCount = new PIXI.Text(
-    `x ${count.toString()}`,
-    new PIXI.TextStyle({
-      fontFamily: 'consolas',
-      fill: lineColour,
-      align: 'center',
-      fontSize: 20,
-      wordWrap: true,
-      wordWrapWidth: 190,
-    })
-  );
-  cardCount.position.x = 100;
-  cardCount.position.y = 200;
-  cardCount.anchor.x = 0.5;
+export const untapCards = () => {
+  cards.forEach((card) => (card.used = false));
+};
 
-  return cardCount;
+export const enableFoodProduction = (player: Player) => {
+  cards.forEach((card) => {
+    if (card.owner === player && card.active && card.title === 'Burger\nCook') {
+      card.container.interactive = true;
+      card.container.buttonMode = true;
+      card.container.on('pointerdown', () => {
+        if (!card.used) {
+          produceFood(player, FoodKinds.burger, 3);
+          card.used = true;
+        }
+      });
+    }
+  });
 };

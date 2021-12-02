@@ -14,7 +14,13 @@ import {
 import { drawChunks, drawOuterSquares } from './chunk';
 import { FoodKinds } from './food';
 import { disablePlacement, enablePlacement } from './tile';
-import { enableCardHire, enableCardStructure, initCards } from './card';
+import {
+  enableCardHire,
+  enableCardStructure,
+  enableFoodProduction,
+  initCards,
+  untapCards,
+} from './card';
 import {
   enableAdvertise,
   enableMarketingTilePlacement,
@@ -48,11 +54,11 @@ export const FoodChain = () => {
       cards: [],
       hiresAvailable: 10,
       food: {
-        [FoodKinds.beer]: 0,
-        [FoodKinds.lemonade]: 0,
-        [FoodKinds.cola]: 0,
-        [FoodKinds.pizza]: 0,
-        [FoodKinds.burger]: 0,
+        [FoodKinds.beer]: { amount: 0 },
+        [FoodKinds.lemonade]: { amount: 0 },
+        [FoodKinds.cola]: { amount: 0 },
+        [FoodKinds.pizza]: { amount: 0 },
+        [FoodKinds.burger]: { amount: 0 },
       },
     };
 
@@ -74,6 +80,7 @@ export const FoodChain = () => {
       start: () => {
         if (!structureDrawer.open) toggleOpen(structureDrawer);
         if (!beachDrawer.open) toggleOpen(beachDrawer);
+        untapCards();
         enableCardStructure(player, beachDrawer, structureDrawer, cards);
       },
       nextPhase: 'Hire',
@@ -91,10 +98,6 @@ export const FoodChain = () => {
           hiresIndicator
         );
       },
-      nextPhase: 'Train',
-    });
-    phases.push({
-      name: 'Train',
       nextPhase: 'Market',
     });
     phases.push({
@@ -102,6 +105,14 @@ export const FoodChain = () => {
       start: () => {
         if (!marketDrawer.open) toggleOpen(marketDrawer);
         enableMarketingTilePlacement(marketDrawer, marketingTiles);
+      },
+      nextPhase: 'Produce',
+    });
+    phases.push({
+      name: 'Produce',
+      start: () => {
+        enableFoodProduction(player);
+        if (!structureDrawer.open) toggleOpen(structureDrawer);
       },
       nextPhase: 'Advertise',
     });

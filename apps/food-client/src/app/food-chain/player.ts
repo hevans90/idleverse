@@ -6,7 +6,9 @@ import { Drawer } from './drawer';
 export type Player = {
   ceo: { card: Card };
   cards: Card[];
-  food: { [key: number]: number };
+  food: {
+    [key: number]: { amount: number; sprite?: PIXI.Sprite; textSprite?: PIXI.Text };
+  };
   hiresAvailable: number;
 };
 
@@ -25,6 +27,8 @@ export const initCEOCard = (player: Player, structureDrawer: Drawer) => {
     ...ceoCardConfig,
     container: createCardSprite(ceoCardConfig),
     owner: player,
+    active: false,
+    used: false,
     employees: [],
   };
   const ceoCard = player.ceo.card;
