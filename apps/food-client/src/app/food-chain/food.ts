@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js';
 import { Player } from './player';
 import { ts } from './utils/constants';
+import { cashTexture } from './utils/graphics';
 import { createSprite } from './utils/graphics-utils';
 import { app } from './utils/singletons';
 
@@ -41,6 +42,10 @@ export const foodKindConfigs: FoodKind[] = [
     bg: 0xd0b0a5,
   },
 ];
+
+export const createCashSprite = (size: number) => {
+  return createSprite(cashTexture, size);
+};
 
 export const createFoodSprite = (foodKind: FoodKind, size: number) => {
   return createSprite(foodKind.texture, size);

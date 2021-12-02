@@ -43,7 +43,7 @@ export const createSprite = (texture: PIXI.Texture, size: number) => {
   const sprite = new PIXI.Sprite(texture);
   const xScale = size / sprite.height;
   const yScale = size / sprite.width;
-  const scale = xScale > yScale ? yScale : xScale;
+  const scale = xScale < yScale ? yScale : xScale;
   sprite.scale.x = sprite.scale.y = scale;
   return sprite;
 };
@@ -82,7 +82,7 @@ export const drawDottedLine = (
   }
 };
 
-const setSpriteZIndex = (
+export const setSpriteZIndex = (
   sprite: PIXI.DisplayObject,
   item1: BoardObject,
   item2: BoardObject

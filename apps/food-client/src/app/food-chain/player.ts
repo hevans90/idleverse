@@ -55,7 +55,7 @@ export const initCEOCard = (player: Player, structureDrawer: Drawer) => {
   ceoCard.container.position.x =
     structureDrawer.width / 2 - ceoCard.container.width / 2;
   ceoCard.container.position.y = 50;
-  structureDrawer.container.addChild(ceoCard.container);
+  structureDrawer.contentsContainer.addChild(ceoCard.container);
 
   ceoCard.contentsContainer = new PIXI.Container();
   ceoCard.contentsContainer.x = ceoCard.container.position.x;
@@ -72,5 +72,5 @@ export const initCEOCard = (player: Player, structureDrawer: Drawer) => {
     ceoCard.contentsContainer.addChild(emptyCard.container);
   }
 
-  structureDrawer.container.addChild(ceoCard.contentsContainer);
+  structureDrawer.contentsContainer.addChild(ceoCard.contentsContainer);
 };

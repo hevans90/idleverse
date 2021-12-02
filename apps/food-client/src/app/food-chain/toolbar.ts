@@ -1,10 +1,7 @@
 import * as PIXI from 'pixi.js';
-import { createFoodSprite, foodKindConfigs } from './food';
+import { createCashSprite, createFoodSprite, foodKindConfigs } from './food';
 import { Player } from './player';
-import { createSprite } from './utils/graphics-utils';
 import { app } from './utils/singletons';
-
-const cashTexture = PIXI.Texture.from('https://i.imgur.com/G0H9hpe.png');
 
 export const drawToolbar = (player: Player) => {
   const previousToolbar = app.stage.getChildByName('toolbar');
@@ -18,7 +15,7 @@ export const drawToolbar = (player: Player) => {
   graphic.endFill();
   toolbar.addChild(graphic);
 
-  const cashSprite = createSprite(cashTexture, 40);
+  const cashSprite = createCashSprite(40);
   Object.assign(cashSprite, { x: 20, y: 5 });
   const cashText = new PIXI.Text(
     `$${player.cash}`,

@@ -123,6 +123,7 @@ export const FoodChain = () => {
       name: 'Produce',
       start: () => {
         enableFoodProduction(player);
+        untapCards();
         if (!structureDrawer.open) toggleOpen(structureDrawer);
       },
       nextPhase: 'Dinner Time',
@@ -225,7 +226,7 @@ export const FoodChain = () => {
 
     drawToolbar(player);
 
-    currentPhase.phase = getPhase('Produce');
+    currentPhase.phase = getPhase('Advertise');
     currentPhase.phase.start();
     drawPhaseIndicator();
 

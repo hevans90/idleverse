@@ -126,9 +126,13 @@ export const initCards = (
 };
 
 export const moveCardToParent = (parent: Drawer | Card, card: Card) => {
+  console.log(parent);
+  console.log(card);
   const oldParent = card.parent;
   removeCardFromParent(card.parent, card);
   addCardToParent(parent, card);
+  console.log(parent);
+  console.log(card);
   oldParent.organiseContents();
   parent.organiseContents();
 };
@@ -315,7 +319,7 @@ export const enableCardStructure = (
         }
 
         // Check if card dragged to manager card
-        ceoCard.employees.forEach((manager, i) => {
+        ceoCard.employees.forEach((manager) => {
           if (
             manager !== card &&
             card.type !== EmployeeTypes.manager &&

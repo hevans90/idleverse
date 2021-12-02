@@ -119,9 +119,9 @@ const endCurrentPhase = () => {
     tile.sprite.interactive = false;
     tile.sprite.buttonMode = false;
   });
-  board.diner.sprite.removeAllListeners();
-  board.diner.sprite.interactive = false;
-  board.diner.sprite.buttonMode = false;
+  // board.diner.container.removeAllListeners();
+  // board.diner.container.interactive = false;
+  // board.diner.container.buttonMode = false;
   disablePlacement(board);
   closeAllDrawers();
 };

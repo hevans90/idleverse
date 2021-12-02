@@ -1,6 +1,8 @@
+import { carTexture } from './graphics';
 import {
   createAnimatedSprite,
   createAnimatedTexture,
+  createSprite,
   SpriteSheetConfig,
 } from './graphics-utils';
 
@@ -42,5 +44,8 @@ const carSpriteConfig: SpriteSheetConfig = {
 };
 
 const carFrames = createAnimatedTexture(carSpriteConfig);
-export const createCarSprite = () =>
+
+export const createCarSprite = () => createSprite(carTexture, ts);
+
+export const createAnimatedCarSprite = () =>
   createAnimatedSprite(carSpriteConfig, carFrames);

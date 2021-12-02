@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
 import { BoardObject, getAdjacentRoads } from './board';
+import { playCashAnimation } from './diner.animations';
 import { Player } from './player';
 import { ts } from './utils/constants';
 import { board } from './utils/singletons';
@@ -38,6 +39,7 @@ export const addDinerToBoard = (player: Player) => {
   const dinerSprite = createDinerSprite(ts);
   diner.sprite = dinerSprite;
   diner.container.addChild(dinerSprite);
+  diner.container.zIndex = 50;
 
   const randomPosition = getRandomValidPosition(board, diner, 20, true);
   console.log(randomPosition);
@@ -48,9 +50,10 @@ export const addDinerToBoard = (player: Player) => {
   diner.container.interactive = true;
   diner.container.buttonMode = true;
   diner.container.on('pointerdown', () => {
-    const adjacentRoads = getAdjacentRoads(board, diner);
-    board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
-    adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
+    // const adjacentRoads = getAdjacentRoads(board, diner);
+    // board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
+    // adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
+    playCashAnimation(diner, 10);
   });
   board.container.addChild(diner.container);
 };
