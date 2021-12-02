@@ -1,9 +1,9 @@
 import * as PIXI from 'pixi.js';
+import { GlowFilter } from '@pixi/filter-glow';
 import { Diner } from './diner';
 import { playCashAnimation } from './diner.animations';
 import { addDrinkToBoard, Drink, isDrink } from './drink';
 import { addHouseToBoard, House, isHouse, satisfiesFood } from './house';
-import { addCarToBoard, travelPath } from './house.animations';
 import { MarketingTile } from './marketingTile';
 import { addRoadToBoard, isRoad, Road } from './road';
 import { Tile } from './tile';
@@ -11,6 +11,7 @@ import { renderToolbar } from './toolbar';
 import { ts } from './utils/constants';
 import { app, board } from './utils/singletons';
 import { BoardItem, collides, findShortestRoadPath } from './utils/utils';
+import { addCarToBoard, travelPath } from './utils/graphics-utils';
 
 export type Board = {
   chunksWide: number;
@@ -74,8 +75,6 @@ export const addBoardToStage = () => {
   board.container.pivot.y = board.container.height / 2;
   board.container.position.x = app.screen.width / 2;
   board.container.position.y = app.screen.height / 2;
-  // board.container.scale.x = 0.8;
-  // board.container.scale.y = 0.8;
   board.container.sortableChildren = true;
   board.container.filters = [];
   app.stage.addChild(board.container);
@@ -93,6 +92,7 @@ export const enableDinnerTime = () => {
 
 export const chooseDiner = (diners: Diner[], house: House) => {
   const validDiners = diners.filter((diner) => satisfiesFood(diner, house));
+  console.log(`found ${validDiners.length}`);
   if (validDiners.length === 0) return null;
   validDiners.forEach(
     (diner) => (diner.path = findShortestRoadPath(house, diner))
@@ -112,51 +112,34 @@ export const feedHouse = async (diner: Diner, house: House) => {
       player.food[food.kind.name].amount--;
       cashReward += 10;
     });
+    player.cash += cashReward;
     house.food = [];
     renderToolbar(player);
     const car = addCarToBoard();
-    car.carContainer.addChild(house.demandContainer);
+    car.container.addChild(house.demandContainer);
     if (path.length > 1) {
       const firstRoad = path[0];
-      await travelPath(
-        [firstRoad, firstRoad],
-        car.carContainer,
-        car.carSprite,
-        200
-      );
-      await travelPath(path, car.carContainer, car.carSprite, 20);
-      player.cash += cashReward;
+      await travelPath([firstRoad, firstRoad], car.container, car.sprite, 200);
+      await travelPath(path, car.container, car.sprite, 20);
       playCashAnimation(diner, cashReward);
-      car.carContainer.removeChild(house.demandContainer);
+      car.container.removeChild(house.demandContainer);
       const lastRoad = path[path.length - 1];
-      await travelPath(
-        [lastRoad, lastRoad],
-        car.carContainer,
-        car.carSprite,
-        100
-      );
+      await travelPath([lastRoad, lastRoad], car.container, car.sprite, 100);
       path.reverse();
-      await travelPath(path, car.carContainer, car.carSprite, 20);
-      await travelPath(
-        [firstRoad, firstRoad],
-        car.carContainer,
-        car.carSprite,
-        100
-      );
+      await travelPath(path, car.container, car.sprite, 20);
+      await travelPath([firstRoad, firstRoad], car.container, car.sprite, 100);
     } else if (path.length === 1) {
-      await travelPath(
-        [path[0], path[0]],
-        car.carContainer,
-        car.carSprite,
-        400
-      );
+      await travelPath([path[0], path[0]], car.container, car.sprite, 200);
+      playCashAnimation(diner, cashReward);
+      car.container.removeChild(house.demandContainer);
+      await travelPath([path[0], path[0]], car.container, car.sprite, 200);
     }
-    board.container.removeChild(car.carContainer, car.carSprite);
+    board.container.removeChild(car.container, car.sprite);
   }
 };
 
 export const dinnerTime = async () => {
-  console.log('dinner time activated');
+  console.log('Dinner time activated');
   const housesWithDemand = board.houses.filter(
     (house) => house.food.length > 0
   );
@@ -166,8 +149,14 @@ export const dinnerTime = async () => {
   for (let i = 0; i < sortedHouses.length; i++) {
     const house = sortedHouses[i];
     const diner = chooseDiner(board.diners, house);
+
+    house.sprite.filters = [new GlowFilter({ distance: 30, outerStrength: 2 })];
+    diner.sprite.filters = [new GlowFilter({ distance: 30, outerStrength: 2 })];
+    console.log(`Diner of player ${diner.owner.name} chosen`);
     if (diner) await feedHouse(diner, house);
     else
       console.log(`No house diner suitable diner found for house ${house.num}`);
+    house.sprite.filters = [];
+    diner.sprite.filters = [];
   }
 };

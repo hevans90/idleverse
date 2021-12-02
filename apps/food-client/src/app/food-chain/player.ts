@@ -26,6 +26,7 @@ const playerColours = {
 };
 
 export type Player = {
+  name: string;
   colour: number;
   diners: Diner[];
   drawers: { [key: string]: Drawer };
@@ -44,6 +45,7 @@ export type Player = {
 
 export const initPlayer = (number: number) => {
   const player: Player = {
+    name: `Player ${number}`,
     colour: playerColours[number],
     diners: [],
     ceo: { card: null },

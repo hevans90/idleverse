@@ -6,7 +6,7 @@ import { Road } from './road';
 import { disablePlacement, enablePlacement } from './tile';
 import { ts } from './utils/constants';
 import { dinerTexture } from './utils/graphics';
-import { app, board, mainLayer } from './utils/singletons';
+import { app, board } from './utils/singletons';
 import { getRandomValidPosition, isValidPosition } from './utils/utils';
 
 export type Diner = BoardObject & {
@@ -25,24 +25,7 @@ export const createDinerSprite = (player: Player) => {
   dinerSprite.width = ts * 2;
   dinerSprite.height = ts * 2;
 
-  const graphic = new PIXI.Graphics();
-  graphic.lineStyle(2, 0x000000);
-  graphic.beginFill(player.colour);
-  graphic.drawRect(0, 0, ts * 2, ts * 2);
-  graphic.endFill();
-
-  const renderContainer = new PIXI.Container();
-  renderContainer.addChild(graphic, dinerSprite);
-
-  const baseTexture = new PIXI.BaseRenderTexture({
-    width: ts * 2,
-    height: ts * 2,
-  });
-  const renderTexture = new PIXI.RenderTexture(baseTexture);
-
-  app.renderer.render(renderContainer, { renderTexture });
-
-  return new PIXI.Sprite(renderTexture);
+  return dinerSprite;
 };
 
 export const createDiner = (player: Player) => {
@@ -57,11 +40,16 @@ export const createDiner = (player: Player) => {
   };
   player.diners.push(diner);
   addDinerToDrawer(player, diner);
+
+  const background = new PIXI.Graphics();
+  background.lineStyle(2, 0x000000);
+  background.beginFill(player.colour);
+  background.drawRect(0, 0, ts * 2, ts * 2);
+  background.endFill();
+
   const dinerSprite = createDinerSprite(player);
   diner.sprite = dinerSprite;
-  diner.container.addChild(dinerSprite);
-  //diner.container.parentLayer = mainLayer;
-  //diner.container.zOrder = 1;
+  diner.container.addChild(background, dinerSprite);
 };
 
 export const enableDinerPlacement = (player: Player) => {

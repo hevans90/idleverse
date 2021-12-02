@@ -2,9 +2,12 @@ import * as PIXI from 'pixi.js';
 import { translateObject } from './animation';
 import { Diner } from './diner';
 import { createCashSprite } from './food';
+import { mainLayer } from './utils/singletons';
 
 export const playCashAnimation = async (diner: Diner, amount: number) => {
   const cashAnimContainer = new PIXI.Container();
+  cashAnimContainer.parentLayer = mainLayer;
+  cashAnimContainer.zOrder = 5;
   const cashSprite = createCashSprite(40);
   const cashNum = new PIXI.Text(
     `+$${amount.toString()}`,

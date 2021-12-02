@@ -4,7 +4,6 @@ import { playProduceAnimation } from './card.animations';
 import { emptyCardConfig, emptyCardKind } from './card.configs';
 import { Drawer, renderRecruitDrawerContents } from './drawer';
 import { foodKindConfigs } from './food';
-import { Indicator } from './indicators';
 import { Player } from './player';
 import { EmployeeType, EmployeeTypes } from './types';
 import { app, cards, communalDrawers, currentPlayer } from './utils/singletons';

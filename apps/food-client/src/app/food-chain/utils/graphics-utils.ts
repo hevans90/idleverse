@@ -1,8 +1,8 @@
 import * as PIXI from 'pixi.js';
 import { translateObject } from '../animation';
 import { BoardObject } from '../board';
-import { ts1_2 } from './constants';
-import { app, mainLayer } from './singletons';
+import { createCarSprite, ts, ts1_2 } from './constants';
+import { board, mainLayer } from './singletons';
 import { Vector2 } from './utils';
 
 export type SpriteSheetConfig = {
@@ -83,21 +83,36 @@ export const drawDottedLine = (
   }
 };
 
+export const addCarToBoard = () => {
+  const container = new PIXI.Container();
+  const sprite = createCarSprite();
+  board.container.addChild(sprite);
+  sprite.anchor.x = 0.5;
+  sprite.anchor.y = 0.5;
+  const scaleFactor = ts / sprite.height;
+  sprite.scale.x = scaleFactor;
+  sprite.scale.y = scaleFactor;
+  container.addChild(sprite);
+  board.container.addChild(container);
+  container.parentLayer = mainLayer;
+  return { container: container, sprite: sprite };
+};
+
 export const setSpriteZOrder = (
-  sprite: PIXI.DisplayObject,
+  container: PIXI.DisplayObject,
   item1: BoardObject,
   item2: BoardObject
 ) => {
-  sprite.zOrder =
-    item1.sprite.zOrder > item2.sprite.zOrder
-      ? item1.sprite.zOrder + 1
-      : item2.sprite.zOrder + 1;
-  console.log(sprite.zOrder, item1.sprite.zOrder, item2.sprite.zOrder);
+  container.zOrder =
+    item1.container.zOrder > item2.container.zOrder
+      ? item1.container.zOrder + 1
+      : item2.container.zOrder + 1;
 };
 
 export const travelPath = async (
   path: BoardObject[],
-  sprite: PIXI.DisplayObject,
+  container: PIXI.Container,
+  sprite: PIXI.Sprite,
   stepDuration: number
 ) => {
   for (let i = 0; i < path.length - 1; i++) {
@@ -108,9 +123,9 @@ export const travelPath = async (
         item2.container.position.y - item1.container.position.y,
         item2.container.position.x - item1.container.position.x
       );
-    setSpriteZOrder(sprite, item1, item2);
+    setSpriteZOrder(container, item1, item2);
     await translateObject(
-      sprite,
+      container,
       {
         x: item1.container.position.x + ts1_2,
         y: item1.container.position.y + ts1_2,

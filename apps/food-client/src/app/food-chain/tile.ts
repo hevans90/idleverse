@@ -109,6 +109,8 @@ export const addOuterTileToBoard = (board: Board, i: number, j: number) => {
   };
   const squareSprite = new PIXI.Sprite(outerTileTexture);
   tile.container = new PIXI.Container();
+  tile.container.parentLayer = mainLayer;
+  tile.container.zOrder = 0;
   tile.container.position.x = tile.i * ts;
   tile.container.position.y = tile.j * ts;
   tile.container.addChild(squareSprite);

@@ -128,7 +128,7 @@ export const addShockwave = (
   };
 
   anim.start = () => {
-    object.filters.push(shockwave);
+    object.filters = [shockwave];
     anim.time = 0;
     shockwave.time = 0;
     animations.push(anim);
@@ -144,7 +144,7 @@ export const addShockwave = (
   };
   anim.end = () => {
     shockwave.time = 0;
-    object.filters.splice(object.filters.indexOf(shockwave), 1);
+    object.filters = [];
     animations.splice(animations.indexOf(anim), 1);
   };
 

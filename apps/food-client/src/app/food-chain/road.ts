@@ -179,8 +179,8 @@ export const parseRoadConfig = (config: RegExpExecArray, zOffset: number) => {
   };
   road.sprite = createRoadSprite(road);
   road.container.addChild(road.sprite);
-  road.sprite.parentLayer = mainLayer;
-  road.sprite.zOrder = 2 + zOffset;
+  road.container.parentLayer = mainLayer;
+  road.container.zOrder = 2 + zOffset;
   return road;
 };
 

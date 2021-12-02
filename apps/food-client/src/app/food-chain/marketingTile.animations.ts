@@ -70,13 +70,15 @@ export const triggerMailboxAnimation = async (
   tile: MarketingTile,
   affectedHouses: House[]
 ) => {
-  await walkBetween(tile, affectedHouses[0]);
-  await sleep(500);
-  for (let i = 0; i < affectedHouses.length - 1; i++) {
-    await walkBetween(affectedHouses[i], affectedHouses[i + 1]);
+  if (affectedHouses.length > 0) {
+    await walkBetween(tile, affectedHouses[0]);
     await sleep(500);
+    for (let i = 0; i < affectedHouses.length - 1; i++) {
+      await walkBetween(affectedHouses[i], affectedHouses[i + 1]);
+      await sleep(500);
+    }
+    await walkBetween(affectedHouses[affectedHouses.length - 1], tile);
   }
-  await walkBetween(affectedHouses[affectedHouses.length - 1], tile);
 };
 
 export const walkBetween = async (item1: BoardObject, item2: BoardObject) => {
@@ -220,7 +222,7 @@ export const triggerRadioAnimation = (
 
   const shockwave = addShockwave(
     animations,
-    board.container,
+    mainLayer,
     shockwaveFilter,
     (pixelRadius / shockwaveFilter.speed) * 60,
     update

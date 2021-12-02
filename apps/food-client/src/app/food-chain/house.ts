@@ -97,8 +97,6 @@ export const renderHouseFood = (house: House) => {
   if (house.demandContainer) house.demandContainer.destroy();
   if (house.food.length > 0) {
     house.demandContainer = new PIXI.Container();
-    house.demandContainer.parentLayer = mainLayer;
-    house.demandContainer.zOrder = 5;
     const demandBubbleSprite = createSprite(demandBubbleTexture, 100);
     house.demandContainer.addChild(demandBubbleSprite);
     house.food.forEach((food, i) => {
@@ -111,6 +109,8 @@ export const renderHouseFood = (house: House) => {
     });
     house.demandContainer.position.y = -105;
     house.container.addChild(house.demandContainer);
+    house.demandContainer.parentLayer = mainLayer;
+    house.demandContainer.zOrder = 6;
   }
 };
 
@@ -125,7 +125,9 @@ export const aggregateFood = (house: House) => {
 };
 
 export const satisfiesFood = (diner: Diner, house: House) => {
-  console.log(`Checking if house ${house.num} is satisfied by diner`);
+  console.log(
+    `Checking if house ${house.num} is satisfied by diner of ${diner.owner.name}`
+  );
   const houseFood = aggregateFood(house);
   if (Object.keys(houseFood).length === 0) return false;
   let satisfies = true;
@@ -136,6 +138,5 @@ export const satisfiesFood = (diner: Diner, house: House) => {
       satisfies = false;
     }
   });
-  console.log(satisfies);
   return satisfies;
 };

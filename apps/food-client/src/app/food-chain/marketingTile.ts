@@ -257,8 +257,6 @@ export const advertise = (tile: MarketingTile) => {
     affectedHouses.forEach((house) => {
       addFoodToHouse(house, tile.foodKind);
     });
-    if (affectedHouses.length > 0) {
-      marketingTileKindConfigs[tile.kind].advertise(tile, affectedHouses);
-    }
+    marketingTileKindConfigs[tile.kind].advertise(tile, affectedHouses);
   }
 };
