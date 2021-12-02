@@ -12,6 +12,8 @@ import { drawChunks } from './chunk';
 import { drawNextPhaseButton, drawPhaseIndicator, Phase } from './phase';
 import { cardConfigs, ceoCardConfig } from './cardConfigs';
 import { addCEOCardToDrawer } from './ceo';
+import { initMarketingTiles, MarketingTile } from './marketingTile';
+import { marketingTileConfigs } from './marketingTileConfigs';
 
 export const FoodChain = () => {
   useEffect(() => {
@@ -24,6 +26,7 @@ export const FoodChain = () => {
 
     const animations: Anim[] = [];
     const cards: Card[] = [];
+    const marketingTiles: MarketingTile[] = [];
 
     const player = {
       cards: [],
@@ -41,6 +44,7 @@ export const FoodChain = () => {
       roads: [],
       houses: [],
       drinks: [],
+      marketingTiles: [],
       diner: null,
       container: new PIXI.Container(),
     };
@@ -65,7 +69,7 @@ export const FoodChain = () => {
 
     drawChunks(app, animations, board, tileConfigs);
 
-    addDinerToBoard(board, animations);
+    addDinerToBoard(board);
 
     board.container.pivot.x = board.container.width / 2;
     board.container.pivot.y = board.container.height / 2;
@@ -80,11 +84,28 @@ export const FoodChain = () => {
       y: 100,
       width: 900,
       height: app.screen.height - 100,
+      tabY: 0,
       tabWidth: 40,
+      tabHeight: (app.screen.height - 100) / 2,
       orient: 'right',
       cards: [],
+      marketingTiles: [],
     };
     renderDrawer(app, recruitDrawer);
+
+    const marketingDrawer: Drawer = {
+      open: false,
+      y: 100,
+      width: 900,
+      height: app.screen.height - 100,
+      tabY: (app.screen.height - 100) / 2,
+      tabWidth: 40,
+      tabHeight: (app.screen.height - 100) / 2,
+      orient: 'right',
+      cards: [],
+      marketingTiles: [],
+    };
+    renderDrawer(app, marketingDrawer);
 
     const structureDrawer: Drawer = {
       open: false,
@@ -94,6 +115,7 @@ export const FoodChain = () => {
       tabWidth: 40,
       orient: 'left',
       cards: [],
+      marketingTiles: [],
     };
     renderDrawer(app, structureDrawer);
 
@@ -105,19 +127,9 @@ export const FoodChain = () => {
       tabWidth: 40,
       orient: 'left',
       cards: [],
+      marketingTiles: [],
     };
     renderDrawer(app, beachDrawer);
-
-    Object.values(cardConfigs).forEach((card) =>
-      Array.from({ length: card.count }, () =>
-        cards.push({
-          ...card,
-          container: createCardSprite(card),
-          owner: null,
-          employees: [],
-        })
-      )
-    );
 
     const hiresIndicator: Indicator = {
       height: 50,
@@ -135,6 +147,7 @@ export const FoodChain = () => {
     addCEOCardToDrawer(ceoCard, structureDrawer);
     initCards(
       app,
+      animations,
       player,
       hiresIndicator,
       phases,
@@ -142,13 +155,17 @@ export const FoodChain = () => {
       recruitDrawer,
       beachDrawer,
       structureDrawer,
+      Object.values(cardConfigs),
       ceoCard,
       cards
     );
 
+    initMarketingTiles(marketingDrawer, marketingTileConfigs, marketingTiles);
+
     drawPhaseIndicator(app, Object.values(phases), currentPhase);
     drawNextPhaseButton(
       app,
+      animations,
       player,
       hiresIndicator,
       phases,

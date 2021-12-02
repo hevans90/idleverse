@@ -1,5 +1,4 @@
 import * as PIXI from 'pixi.js';
-import { Board } from './board';
 import { Vector2D } from './utils/utils';
 
 export type Anim = {
@@ -8,7 +7,7 @@ export type Anim = {
   rotation: number;
   time: number;
   duration: number;
-  object: PIXI.Sprite;
+  object: PIXI.DisplayObject;
   start?: () => void;
   update?: () => void;
   end?: () => void;
@@ -16,13 +15,12 @@ export type Anim = {
 
 export const translateObject = (
   animations: Anim[],
-  queue: Anim[],
-  board: Board,
-  object: PIXI.Sprite,
+  object: PIXI.DisplayObject,
   startPos: Vector2D,
   endPos: Vector2D,
   rotation: number,
-  duration: number
+  duration: number,
+  next?: (anim: Anim) => void
 ): Anim => {
   const anim: Anim = {
     startPos,
@@ -55,10 +53,7 @@ export const translateObject = (
     anim.object.x = anim.endPos.x;
     anim.object.y = anim.endPos.y;
     animations.splice(animations.indexOf(anim), 1);
-    queue.splice(queue.indexOf(anim), 1);
-    if (queue.length > 0) {
-      queue[0].start();
-    } else board.container.removeChild(object);
+    next(anim);
   };
 
   return anim;

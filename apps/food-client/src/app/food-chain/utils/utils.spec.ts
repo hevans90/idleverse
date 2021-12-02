@@ -1,50 +1,48 @@
-import { BoardObject } from '../board';
-import { Road } from '../road';
-import { collides } from './utils';
+import { BoardItem, collides } from './utils';
 
-const item1: BoardObject = {
+const item1: BoardItem = {
   i: 6,
   j: 11,
   w: 1,
   h: 1,
 };
 
-const item2: BoardObject = {
+const item2: BoardItem = {
   i: 7,
   j: 12,
   w: 1,
   h: 1,
 };
 
-const item3: BoardObject = {
+const item3: BoardItem = {
   i: 7,
   j: 13,
   w: 1,
   h: 1,
 };
 
-const item4: BoardObject = {
+const item4: BoardItem = {
   i: 12,
   j: 12,
   w: 1,
   h: 1,
 };
 
-const item5: BoardObject = {
+const item5: BoardItem = {
   i: 12,
   j: 12,
   w: 0,
   h: 0,
 };
 
-const item6: BoardObject = {
+const item6: BoardItem = {
   i: 14,
   j: 12,
   w: 0,
   h: 0,
 };
 
-const item7: BoardObject = {
+const item7: BoardItem = {
   i: 12,
   j: 14,
   w: 0,

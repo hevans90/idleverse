@@ -35,8 +35,8 @@ export const addDrinkToBoard = (
   const drink: Drink = {
     i,
     j,
-    w: 0,
-    h: 0,
+    w: 1,
+    h: 1,
   };
   board.drinks.push(drink);
   const drinkSprite = createDrinkSprite(key);

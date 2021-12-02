@@ -1,8 +1,9 @@
 import * as PIXI from 'pixi.js';
+import { Anim } from './animation';
 import { emptyCardConfig } from './cardConfigs';
 import {
-  removeFromDrawer,
-  addToDrawer,
+  removeCardFromDrawer,
+  addCardToDrawer,
   Drawer,
   organiseBeachDrawer,
   organiseRecruitDrawer,
@@ -26,7 +27,6 @@ export type Card = CardConfig & {
   container?: PIXI.Container;
   employees?: Card[];
   managingContainer?: PIXI.Container;
-  countText?: PIXI.Text;
   onClick?: () => void;
 };
 
@@ -104,6 +104,7 @@ export const createCardSprite = (cardConfig: CardConfig) => {
 
 export const initCards = (
   app: PIXI.Application,
+  animations: Anim[],
   player: Player,
   hiresIndicator: Indicator,
   phases: { [key: string]: Phase },
@@ -111,15 +112,33 @@ export const initCards = (
   recruitDrawer: Drawer,
   beachDrawer: Drawer,
   structureDrawer: Drawer,
+  cardConfigs: CardConfig[],
   ceoCard: Card,
   cards: Card[]
 ) => {
+  Object.values(cardConfigs).forEach((card) =>
+    Array.from({ length: card.count }, () =>
+      cards.push({
+        ...card,
+        container: createCardSprite(card),
+        owner: null,
+        employees: [],
+      })
+    )
+  );
   cards.forEach((card) => {
-    addToDrawer(recruitDrawer, card);
+    addCardToDrawer(recruitDrawer, card);
     if (currentPhase === phases.structure)
       enableCardStructure(app, beachDrawer, structureDrawer, card, ceoCard);
-    else
-      enableCardHire(player, card, recruitDrawer, beachDrawer, hiresIndicator);
+    else if (currentPhase === phases.hire)
+      enableCardHire(
+        animations,
+        player,
+        card,
+        recruitDrawer,
+        beachDrawer,
+        hiresIndicator
+      );
   });
   organiseRecruitDrawer(recruitDrawer);
 };
@@ -153,6 +172,7 @@ export const organiseManagerCards = (card: Card) => {
 };
 
 export const enableCardHire = (
+  animations: Anim[],
   player: Player,
   card: Card,
   recruitDrawer: Drawer,
@@ -163,16 +183,17 @@ export const enableCardHire = (
   card.container.on('pointerdown', () => {
     if (!card.owner) {
       if (player.hiresAvailable > 0) {
-        removeFromDrawer(recruitDrawer, card);
-        addToDrawer(beachDrawer, card);
+        removeCardFromDrawer(recruitDrawer, card);
+        animations.push()
+        addCardToDrawer(beachDrawer, card);
         organiseRecruitDrawer(recruitDrawer);
         organiseBeachDrawer(beachDrawer);
         card.owner = player;
         player.hiresAvailable--;
       }
     } else {
-      removeFromDrawer(beachDrawer, card);
-      addToDrawer(recruitDrawer, card);
+      removeCardFromDrawer(beachDrawer, card);
+      addCardToDrawer(recruitDrawer, card);
       organiseRecruitDrawer(recruitDrawer);
       organiseBeachDrawer(beachDrawer);
       card.owner = null;
@@ -233,7 +254,7 @@ export const enableCardStructure = (
 
   function onDragEnd(event: PIXI.InteractionEvent) {
     if (dragging) {
-      removeFromDrawer(beachDrawer, card);
+      removeCardFromDrawer(beachDrawer, card);
       removeFromCard(ceoCard, card);
       ceoCard.employees.forEach((manager) => {
         removeFromCard(manager, card);
@@ -299,7 +320,7 @@ export const enableCardStructure = (
         }
       }
 
-      addToDrawer(beachDrawer, card);
+      addCardToDrawer(beachDrawer, card);
       organiseBeachDrawer(beachDrawer);
       ceoCard.container.emit('pointerout');
       dragging = false;
@@ -313,6 +334,10 @@ export const enableCardStructure = (
       .on('pointerupoutside', onDragEnd)
       .on('pointermove', onDragMove);
   }
+};
+
+export const enableCardMarket = () => {
+  return;
 };
 
 export const renderCardCount = (count) => {

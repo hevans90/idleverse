@@ -3,26 +3,23 @@ import { Anim } from './animation';
 import { Diner } from './diner';
 import { addDrinkToBoard, Drink, DrinkTextures, drinkTextures } from './drink';
 import { addHouseToBoard, House } from './house';
+import { MarketingTile } from './marketingTile';
 import { addRoadToBoard, Road } from './road';
 import { Tile } from './tile';
 import { tileConfigRegex } from './utils/constants';
-import { collides } from './utils/utils';
+import { BoardItem, collides } from './utils/utils';
 
 export type Board = {
   roads: Road[];
   houses: House[];
   drinks: Drink[];
+  marketingTiles: MarketingTile[];
   diner: Diner;
   container: PIXI.Container;
   deliverFood?: () => void;
 };
 
-export type BoardObject = {
-  name?: string;
-  i: number;
-  j: number;
-  w: number;
-  h: number;
+export type BoardObject = BoardItem & {
   sprite?: PIXI.Sprite;
 };
 
@@ -103,8 +100,6 @@ export const addTileContentsToBoard = (
     );
   } else if (match[1] === 'h') {
     addHouseToBoard(
-      app,
-      animations,
       board,
       i + p * 5,
       j + q * 5,

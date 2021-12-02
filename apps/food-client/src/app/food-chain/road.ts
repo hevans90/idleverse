@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { drawDottedLine, drawLine, findPath } from './utils/utils';
+import { findPath } from './utils/utils';
 import { rls, ts, ts1_2, ts1_3, ts2_3 } from './utils/constants';
 import {
   BoardObject,
@@ -8,6 +8,7 @@ import {
   getConnectedRoads,
 } from './board';
 import { Anim, translateObject } from './animation';
+import { drawLine, drawDottedLine } from './utils/graphics-utils';
 
 export type Road = BoardObject & {
   fromStart?: number;
@@ -110,19 +111,32 @@ export const createRoadSprite = (app: PIXI.Application, road: Road) => {
   return roadSprite;
 };
 
-const tintAdjacentRoads = (board: Board, road: Road) => {
+export const tintAdjacentRoads = (board: Board, road: Road) => {
   const adjacentRoads = getAdjacentRoads(board, road);
   board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
   adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
 };
 
-const tintConnectedRoads = (board: Board, road: Road) => {
+export const tintConnectedRoads = (board: Board, road: Road) => {
   const adjacentRoads = getConnectedRoads(board, road);
   board.roads.forEach((road) => (road.sprite.tint = 0xffffff));
   adjacentRoads.forEach((road) => (road.sprite.tint = 0x9b39f7));
 };
 
-const triggerCarAnimation = (animations, board, road) => {
+const generatePlayNext = (
+  board: Board,
+  queue: Anim[],
+  object: PIXI.DisplayObject
+) => {
+  return (anim: Anim) => {
+    queue.splice(queue.indexOf(anim), 1);
+    if (queue.length > 0) {
+      queue[0].start();
+    } else board.container.removeChild(object);
+  };
+};
+
+const triggerCarAnimation = (animations: Anim[], board: Board, road: Road) => {
   const path = findPath(board, getAdjacentRoads(board, board.diner), road);
   const carTexture = PIXI.Texture.from('https://i.imgur.com/01q7OGv.png');
   const carSprite = new PIXI.Sprite(carTexture);
@@ -136,8 +150,6 @@ const triggerCarAnimation = (animations, board, road) => {
       queue.push(
         translateObject(
           animations,
-          queue,
-          board,
           carSprite,
           {
             x: road1.sprite.position.x + ts1_2,
@@ -151,7 +163,8 @@ const triggerCarAnimation = (animations, board, road) => {
             road2.sprite.position.y - road1.sprite.position.y,
             road2.sprite.position.x - road1.sprite.position.x
           ),
-          20
+          20,
+          generatePlayNext(board, queue, carSprite)
         )
       );
     }
@@ -160,8 +173,6 @@ const triggerCarAnimation = (animations, board, road) => {
     queue.push(
       translateObject(
         animations,
-        queue,
-        board,
         carSprite,
         {
           x: road2.sprite.position.x + ts1_2,
@@ -175,7 +186,8 @@ const triggerCarAnimation = (animations, board, road) => {
           road2.sprite.position.y - road1.sprite.position.y,
           road2.sprite.position.x - road1.sprite.position.x
         ),
-        100
+        100,
+        generatePlayNext(board, queue, carSprite)
       )
     );
     for (let i = path.length - 2; i >= 0; i--) {
@@ -184,8 +196,6 @@ const triggerCarAnimation = (animations, board, road) => {
       queue.push(
         translateObject(
           animations,
-          queue,
-          board,
           carSprite,
           {
             x: road2.sprite.position.x + ts1_2,
@@ -199,10 +209,32 @@ const triggerCarAnimation = (animations, board, road) => {
             road1.sprite.position.y - road2.sprite.position.y,
             road1.sprite.position.x - road2.sprite.position.x
           ),
-          20
+          20,
+          generatePlayNext(board, queue, carSprite)
         )
       );
     }
+
+    board.container.addChild(carSprite);
+    queue[0].start();
+  } else if (path.length === 1) {
+    queue.push(
+      translateObject(
+        animations,
+        carSprite,
+        {
+          x: road.sprite.position.x + ts1_2,
+          y: road.sprite.position.y + ts1_2,
+        },
+        {
+          x: road.sprite.position.x + ts1_2,
+          y: road.sprite.position.y + ts1_2,
+        },
+        0,
+        200,
+        generatePlayNext(board, queue, carSprite)
+      )
+    );
 
     board.container.addChild(carSprite);
     queue[0].start();
@@ -220,8 +252,8 @@ export const addRoadToBoard = (
   const road: Road = {
     i: i,
     j: j,
-    w: 0,
-    h: 0,
+    w: 1,
+    h: 1,
     connections: connections,
   };
   board.roads.push(road);

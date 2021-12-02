@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import { Anim } from './animation';
 import { Card, enableCardStructure, enableCardHire } from './card';
 import { Drawer } from './drawer';
 import { drawBoxIndicator, Indicator } from './indicators';
@@ -24,8 +25,8 @@ export const drawPhaseIndicator = (
     const phaseIndicatorElement = drawBoxIndicator({
       height: 50,
       width: 200,
-      borderColor: phase === currentPhase ? 0x000000 : 0x27684d,
-      bgColor: phase === currentPhase ? 0x000000 : 0x37946e,
+      borderColor: phase === currentPhase ? 0x27684d : 0x27684d,
+      bgColor: phase === currentPhase ? 0x27b46e : 0x37946e,
       textColor: 0xffffff,
       text: phase.name,
     });
@@ -41,6 +42,7 @@ export const drawPhaseIndicator = (
 
 export const drawNextPhaseButton = (
   app: PIXI.Application,
+  animations: Anim[],
   player: Player,
   hiresIndicator: Indicator,
   phases: { [key: string]: Phase },
@@ -71,6 +73,7 @@ export const drawNextPhaseButton = (
         enableCardStructure(app, beachDrawer, structureDrawer, card, ceoCard);
       else if (currentPhase === phases.hire) {
         enableCardHire(
+          animations,
           player,
           card,
           recruitDrawer,

@@ -1,5 +1,4 @@
 import * as PIXI from 'pixi.js';
-import { Anim } from './animation';
 import { Board, BoardObject, getAdjacentRoads } from './board';
 import { ts } from './utils/constants';
 
@@ -39,8 +38,6 @@ export const createHouseSprite = (house: House) => {
 };
 
 export const addHouseToBoard = (
-  app: PIXI.Application,
-  animations: Anim[],
   board: Board,
   i: number,
   j: number,
@@ -50,8 +47,8 @@ export const addHouseToBoard = (
   const house: House = {
     i,
     j,
-    w: 1,
-    h: 1,
+    w: 2,
+    h: 2,
     orient,
     num,
   };

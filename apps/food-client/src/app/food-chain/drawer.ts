@@ -1,24 +1,31 @@
 import * as PIXI from 'pixi.js';
 import { Card } from './card';
+import { MarketingTile, MarketingTileKinds } from './marketingTile';
 import { baseColour, lineColour } from './types';
+import { ts } from './utils/constants';
 
 export type Drawer = {
   open: boolean;
   y: number;
   width: number;
   height: number;
+  tabY?: number;
+  tabHeight?: number;
   tabWidth: number;
   orient: string;
   cards: Card[];
+  marketingTiles: MarketingTile[];
   container?: PIXI.Container;
   fixedContainer?: PIXI.Container;
 };
 
 const getX = (app: PIXI.Application, drawer: Drawer) => {
   if (drawer.orient === 'left') {
-    return drawer.open ? 0 : -drawer.width;
+    return drawer.open ? drawer.tabWidth : -drawer.width;
   } else {
-    return drawer.open ? app.screen.width - drawer.width : app.screen.width;
+    return drawer.open
+      ? app.screen.width - drawer.width - drawer.tabWidth
+      : app.screen.width;
   }
 };
 
@@ -43,12 +50,20 @@ const getStacks = (drawer: Drawer) => {
   return sortedStacks;
 };
 
-export const addToDrawer = (drawer: Drawer, card: Card) => {
+export const addMarketingTileToDrawer = (
+  drawer: Drawer,
+  tile: MarketingTile
+) => {
+  drawer.marketingTiles.push(tile);
+  drawer.container.addChild(tile.container);
+};
+
+export const addCardToDrawer = (drawer: Drawer, card: Card) => {
   drawer.cards.push(card);
   drawer.container.addChild(card.container);
 };
 
-export const removeFromDrawer = (drawer: Drawer, card: Card) => {
+export const removeCardFromDrawer = (drawer: Drawer, card: Card) => {
   const i = drawer.cards.indexOf(card);
   if (i > -1) {
     drawer.container.removeChild(card.container);
@@ -76,6 +91,21 @@ export const organiseBeachDrawer = (drawer: Drawer) => {
   });
 };
 
+export const organiseMarketingDrawer = (drawer: Drawer) => {
+  const kindMap = {
+    [MarketingTileKinds.radio]: { x: 1, y: 1 },
+    [MarketingTileKinds.airplane]: { x: 1, y: 3 },
+    [MarketingTileKinds.mailbox]: { x: 1, y: 6 },
+    [MarketingTileKinds.billboard]: { x: 1, y: 9 },
+  };
+
+  drawer.marketingTiles.forEach((tile, i) => {
+    tile.container.position.x = kindMap[tile.kind].x * ts;
+    tile.container.position.y = kindMap[tile.kind].y * ts;
+    kindMap[tile.kind].x += tile.w + 1;
+  });
+};
+
 export const renderDrawer = (app: PIXI.Application, drawer: Drawer) => {
   const drawerContainer = new PIXI.Container();
 
@@ -92,9 +122,9 @@ export const renderDrawer = (app: PIXI.Application, drawer: Drawer) => {
   drawerTab.beginFill(baseColour);
   drawerTab.drawRoundedRect(
     drawer.orient === 'left' ? drawer.width : -40,
-    0,
+    drawer.tabY ? drawer.tabY : 0,
     40,
-    drawer.height,
+    drawer.tabHeight ? drawer.tabHeight : drawer.height,
     20
   );
   drawerTab.endFill();

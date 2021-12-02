@@ -1,12 +1,5 @@
-import {
-  Application,
-  BaseTexture,
-  Texture,
-  Rectangle,
-  AnimatedSprite,
-  Sprite,
-  Graphics,
-} from 'pixi.js';
+import * as PIXI from 'pixi.js';
+import { Vector2D } from './utils';
 
 export type SpriteSheetConfig = {
   url: string;
@@ -17,18 +10,21 @@ export type SpriteSheetConfig = {
   spriteScale: number;
 };
 
-export const CreateBasicSprite = (app: Application, graphic: Graphics) => {
+export const CreateBasicSprite = (
+  app: PIXI.Application,
+  graphic: PIXI.Graphics
+) => {
   const sunTexture = app.renderer.generateTexture(graphic);
-  const sprite = new Sprite(sunTexture);
+  const sprite = new PIXI.Sprite(sunTexture);
   app.stage.addChild(sprite);
   return sprite;
 };
 
 export const CreateAnimatedSprite = (
-  app: Application,
+  app: PIXI.Application,
   conf: SpriteSheetConfig
 ) => {
-  const sheet = BaseTexture.from(conf.url);
+  const sheet = PIXI.BaseTexture.from(conf.url);
   const frames = [];
   const rowSpacing = sheet.width / conf.cols;
   const colSpacing = sheet.height / conf.rows;
@@ -37,9 +33,9 @@ export const CreateAnimatedSprite = (
     for (let i = 0; i < conf.cols; i++) {
       if (!(j === conf.rows - 1 && i > conf.lastRowItemCount - 1)) {
         frames.push(
-          new Texture(
+          new PIXI.Texture(
             sheet,
-            new Rectangle(
+            new PIXI.Rectangle(
               rowSpacing * i,
               colSpacing * j,
               rowSpacing,
@@ -50,11 +46,36 @@ export const CreateAnimatedSprite = (
       }
     }
   }
-  const sprite = new AnimatedSprite(frames);
+  const sprite = new PIXI.AnimatedSprite(frames);
   sprite.animationSpeed = conf.animationSpeed;
   sprite.height = sprite.height * conf.spriteScale;
   sprite.width = sprite.width * conf.spriteScale;
   sprite.play();
   app.stage.addChild(sprite);
   return sprite;
+};
+
+export const drawLine = (
+  graphic: PIXI.Graphics,
+  start: Vector2D,
+  end: Vector2D
+) => {
+  graphic.moveTo(start.x, start.y);
+  graphic.lineTo(end.x, end.y);
+};
+
+export const drawDottedLine = (
+  graphic: PIXI.Graphics,
+  start: Vector2D,
+  end: Vector2D,
+  sections: number
+) => {
+  const step = sections * 2 + (sections - 1) * 2 + 2;
+  const xStep = (end.x - start.x) / step;
+  const yStep = (end.y - start.y) / step;
+  graphic.moveTo(start.x + xStep, start.y + yStep);
+  for (let i = 0; i < step; i += 1) {
+    if (i % 4 > 1) graphic.lineTo(start.x + xStep * i, start.y + yStep * i);
+    else graphic.moveTo(start.x + xStep * i, start.y + yStep * i);
+  }
 };
