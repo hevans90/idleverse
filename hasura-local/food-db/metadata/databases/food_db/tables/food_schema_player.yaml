@@ -1,0 +1,3 @@
+table:
+  name: player
+  schema: food_schema
