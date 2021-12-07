@@ -116,7 +116,7 @@ export const createFoodSelect = (
   };
   foodSelect.container = new PIXI.Container();
   foodSelect.container.parentLayer = mainLayer;
-  foodSelect.container.zOrder = 5;
+  foodSelect.container.zOrder = 20;
   foodKinds.forEach((foodKind, i) => {
     const foodSprite = createFoodSpriteIcon(foodKind);
     foodSprite.position.x = ts * i;
@@ -155,8 +155,10 @@ export const createFoodSelect = (
   tickSprite.buttonMode = true;
   tickSprite.position.x = ts * 5;
   tickSprite.on('pointerdown', () => {
-    if (foodSelect.foodKind && foodSelect.foodQuantity)
+    if (foodSelect.foodKind && foodSelect.foodQuantity) {
+      foodSelect.container.destroy();
       onConfirm(foodSelect.foodKind, foodSelect.foodQuantity);
+    }
   });
   foodSelect.container.addChild(tickSprite);
 
@@ -166,6 +168,7 @@ export const createFoodSelect = (
   crossSprite.position.x = ts * 5;
   crossSprite.position.y = ts;
   crossSprite.on('pointerdown', () => {
+    foodSelect.container.destroy();
     onCancel();
   });
   foodSelect.container.addChild(crossSprite);

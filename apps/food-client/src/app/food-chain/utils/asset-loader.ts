@@ -1,4 +1,5 @@
 export const assetMaps: { name: string; url: string }[] = [
+  { name: 'arrow', url: 'https://i.imgur.com/PVNz6yA.png' },
   { name: 'tick', url: 'https://i.imgur.com/qVEuw8m.png' },
   { name: 'cross', url: 'https://i.imgur.com/XV8NlLa.png' },
   { name: 'houseWest', url: 'https://i.imgur.com/Oy8pcaB.png' },
@@ -6,6 +7,7 @@ export const assetMaps: { name: string; url: string }[] = [
   { name: 'houseEast', url: 'https://i.imgur.com/Oy8pcaB.png' },
   { name: 'houseSouth', url: 'https://i.imgur.com/Rngqwb3.png' },
   { name: 'garden', url: 'https://i.imgur.com/mZsRF8R.png' },
+  { name: 'smallGarden', url: 'https://i.imgur.com/DExEpCB.png' },
   { name: 'diner', url: 'https://i.imgur.com/0QgedqC.png' },
   { name: 'car', url: 'https://i.imgur.com/6ADHQAp.png' },
   { name: 'truck', url: 'https://i.imgur.com/3a3og7T.png' },

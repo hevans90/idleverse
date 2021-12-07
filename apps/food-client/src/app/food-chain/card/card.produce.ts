@@ -1,6 +1,9 @@
+import { getAdjacentDrinks } from '../board';
 import { enableDrinksPath } from '../diner';
 import { toggleDrawerOpen } from '../drawer';
+import { Drink } from '../drink';
 import { Player } from '../player';
+import { Road } from '../road';
 import { deactivate } from '../utils/graphics-utils';
 import { cards } from '../utils/singletons';
 import { Card } from './card';
@@ -48,4 +51,21 @@ export const enableDrinksProduction = (card: Card) => {
       deactivate(card);
     });
   });
+};
+
+export const pickupDrinks = async (
+  driver: Card,
+  road: Road,
+  collectedDrinks: Drink[]
+) => {
+  const drinks = getAdjacentDrinks(road);
+  for (let j = 0; j < drinks.length; j++) {
+    const drink = drinks[j];
+    if (!collectedDrinks.includes(drink)) {
+      collectedDrinks.push(drink);
+      for (let k = 0; k < driver.foodQuantity; k++) {
+        await playProduceAnimation(driver.owner, drink.container, drink.kind);
+      }
+    }
+  }
 };

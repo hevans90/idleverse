@@ -115,8 +115,9 @@ export const triggerPlaneAnimation = async (
   tile: MarketingTile,
   affectedHouses: House[]
 ) => {
-  const sin = Math.round(Math.sin(tile.rotation));
-  const cos = Math.round(Math.cos(tile.rotation));
+  const rotation = (tile.rotation * Math.PI) / 2;
+  const sin = Math.round(Math.sin(rotation));
+  const cos = Math.round(Math.cos(rotation));
   const planeTexture = marketingTileKinds.airplane.texture;
   const planeSprite = new PIXI.Sprite(planeTexture);
   planeSprite.parentLayer = mainLayer;
@@ -128,7 +129,7 @@ export const triggerPlaneAnimation = async (
   planeSprite.scale.y = scale;
   board.container.addChild(planeSprite);
   for (let i = 0; i < 35; i++) {
-    planeSprite.rotation = tile.rotation;
+    planeSprite.rotation = rotation;
     const starti = tile.i + i * sin;
     const startj = tile.j - i * cos;
     const endi = starti + sin;
@@ -158,10 +159,8 @@ export const triggerPlaneAnimation = async (
           foodSprite.zOrder = 9;
           foodSprite.anchor.x = 0.5;
           foodSprite.anchor.y = 0.5;
-          foodSprite.position.x =
-            house.container.position.x + house.container.width / 2;
-          foodSprite.position.y =
-            house.container.position.y + house.container.height / 2;
+          foodSprite.position.x = (house.i + 1) * ts;
+          foodSprite.position.y = (house.j + 1) * ts;
           board.container.addChild(foodSprite);
           await scaleObject(
             foodSprite,

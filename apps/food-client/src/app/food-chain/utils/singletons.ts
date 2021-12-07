@@ -19,6 +19,7 @@ export const board: Board = {
   outerTiles: [],
   roads: [],
   houses: [],
+  gardens: [],
   drinks: [],
   marketingTiles: [],
   diners: [],

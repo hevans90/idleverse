@@ -1,7 +1,9 @@
+import { GlowFilter } from '@pixi/filter-glow';
 import * as PIXI from 'pixi.js';
 import { BoardObject } from './board';
 import { Diner } from './diner';
 import {
+  addGardenToDrawer,
   addHouseToDrawer,
   renderDevelopmentDrawerContents,
   toggleDrawerOpen,
@@ -9,9 +11,9 @@ import {
 import { FoodKind } from './food';
 import { disablePlacement, enablePlacement, Tile } from './tile';
 import { rotationConstants, ts } from './utils/constants';
-import { createSprite } from './utils/graphics-utils';
+import { createSprite, drawDottedLine } from './utils/graphics-utils';
 import { app, board, communalDrawers, mainLayer } from './utils/singletons';
-import { isValidPosition } from './utils/utils';
+import { HouseAdjacentToGarden, isValidPosition } from './utils/utils';
 
 const houseTextureMap: { [key: number]: string } = {
   1: 'houseWest',
@@ -26,8 +28,14 @@ export type House = BoardObject & {
   orient: number;
   num: number;
   food: { kind: FoodKind; sprite: PIXI.Sprite }[];
+  baseFoodCost: number;
   maxFood: number;
+  hasGarden: boolean;
   demandContainer?: PIXI.Container;
+};
+
+export type Garden = BoardObject & {
+  house?: House;
 };
 
 export const isHouse = (boardObject: BoardObject): boardObject is House => {
@@ -62,45 +70,21 @@ export const createHouseSprite = (house: House) => {
   return new PIXI.Sprite(renderTexture);
 };
 
-export const createHouseWithGardenSprite = (house: House) => {
-  const houseSprite = createSprite(houseTextureMap[house.orient], ts * 2);
-  const houseNum = new PIXI.Text(
-    house.num.toString(),
-    new PIXI.TextStyle({
-      fontFamily: 'zx-spectrum',
-      fontSize: 24,
-      fontWeight: 'bold',
-      fill: '#ffffff',
-    })
-  );
-  houseNum.position.x = 5;
-  houseNum.position.y = 5;
-  const renderContainer = new PIXI.Container();
-
-  const gardenSprite = new PIXI.Sprite(
-    PIXI.Loader.shared.resources['garden'].texture
-  );
-  gardenSprite.width = ts;
-  gardenSprite.height = ts * 1.4;
-  gardenSprite.x = ts * 2;
-  gardenSprite.y = ts * 0.5;
-  renderContainer.addChild(houseSprite, gardenSprite, houseNum);
-
-  const baseTexture = new PIXI.BaseRenderTexture({
-    width: ts * 3,
-    height: ts * 2,
+export const setHouseTint = (house: House, colour: number) => {
+  house.container.children.forEach((child) => {
+    (child as PIXI.Sprite).tint = colour;
   });
-  const renderTexture = new PIXI.RenderTexture(baseTexture);
+};
 
-  app.renderer.render(renderContainer, { renderTexture });
+export const addHouseGlow = (house: House) => {
+  house.container.children.forEach(
+    (child) =>
+      (child.filters = [new GlowFilter({ distance: 30, outerStrength: 2 })])
+  );
+};
 
-  const sprite = new PIXI.Sprite(renderTexture);
-  sprite.anchor.x = 0.5;
-  sprite.anchor.y = 0.5;
-  sprite.position.x = sprite.width / 2;
-  sprite.position.y = sprite.height / 2;
-
-  return sprite;
+export const removeHouseGlow = (house: House) => {
+  house.container.children.forEach((child) => (child.filters = []));
 };
 
 export const rotateHouse = (
@@ -129,6 +113,8 @@ export const parseHouseConfig = (config: RegExpExecArray) => {
     num: parseInt(config[3]),
     container: new PIXI.Container(),
     food: [],
+    hasGarden: false,
+    baseFoodCost: 10,
     maxFood: 3,
   };
   return house;
@@ -152,12 +138,116 @@ export const initExtraHouseTiles = () => {
       rotation: 0,
       container: new PIXI.Container(),
       food: [],
+      hasGarden: true,
+      baseFoodCost: 20,
       maxFood: 5,
     };
-    house.sprite = createHouseWithGardenSprite(house);
-    house.container.addChild(house.sprite);
+    const houseSprite = createHouseSprite(house);
+    houseSprite.anchor.x = houseSprite.anchor.y = 0.5;
+    houseSprite.x = houseSprite.y = ts;
+    const gardenSprite1 = createSprite('smallGarden', ts);
+    gardenSprite1.anchor.x = gardenSprite1.anchor.y = 0.5;
+    gardenSprite1.x = ts * 2.5;
+    gardenSprite1.y = ts * 0.5;
+    const gardenSprite2 = createSprite('smallGarden', ts);
+    gardenSprite2.anchor.x = gardenSprite2.anchor.y = 0.5;
+    gardenSprite2.x = ts * 2.5;
+    gardenSprite2.y = ts * 1.5;
+    house.container.addChild(houseSprite, gardenSprite1, gardenSprite2);
+    house.rotate = (rotation: number) => {
+      house.container.children.forEach(
+        (child) => (child.rotation = (-Math.PI / 2) * rotation)
+      );
+    };
     addHouseToDrawer(house);
   });
+};
+
+export const initGardens = () => {
+  for (let i = 0; i < 8; i++) {
+    const garden: Garden = {
+      w: 1,
+      h: 2,
+      rotation: 0,
+      container: new PIXI.Container(),
+    };
+    const gardenSprite1 = createSprite('smallGarden', ts);
+    gardenSprite1.anchor.x = gardenSprite1.anchor.y = 0.5;
+    gardenSprite1.x = ts * 0.5;
+    gardenSprite1.y = ts * 0.5;
+    const gardenSprite2 = createSprite('smallGarden', ts);
+    gardenSprite2.anchor.x = gardenSprite2.anchor.y = 0.5;
+    gardenSprite2.x = ts * 0.5;
+    gardenSprite2.y = ts * 1.5;
+    const fenceGraphic = new PIXI.Graphics();
+    drawDottedLine(
+      fenceGraphic,
+      { x: 0, y: 0 },
+      { x: 0, y: ts * 2 },
+      0xfafafa,
+      1,
+      0xcfcfcf,
+      1,
+      5
+    );
+    drawDottedLine(
+      fenceGraphic,
+      { x: 0, y: 0 },
+      { x: ts, y: 0 },
+      0xfafafa,
+      1,
+      0xcfcfcf,
+      1,
+      3
+    );
+    drawDottedLine(
+      fenceGraphic,
+      { x: 0, y: ts * 2 },
+      { x: ts, y: ts * 2 },
+      0xfafafa,
+      1,
+      0xcfcfcf,
+      1,
+      3
+    );
+    drawDottedLine(
+      fenceGraphic,
+      { x: ts, y: 0 },
+      { x: ts, y: ts * 0.75 },
+      0xfafafa,
+      1,
+      0xcfcfcf,
+      1,
+      2
+    );
+    drawDottedLine(
+      fenceGraphic,
+      { x: ts, y: ts * 1.25 },
+      { x: ts, y: ts * 2 },
+      0xfafafa,
+      1,
+      0xcfcfcf,
+      1,
+      2
+    );
+    const fenceTexture = app.renderer.generateTexture(fenceGraphic);
+    const fenceSprite = new PIXI.Sprite(fenceTexture);
+    fenceSprite.anchor.x = fenceSprite.anchor.y = 0.5;
+    fenceSprite.x = ts * 0.5;
+    fenceSprite.y = ts;
+    garden.container.addChild(gardenSprite1, gardenSprite2, fenceSprite);
+    garden.rotate = (rotation: number) => {
+      garden.container.children.forEach((child, i) => {
+        if (i < 2) child.rotation = (-Math.PI / 2) * rotation;
+      });
+    };
+    addGardenToDrawer(garden);
+  }
+};
+
+export const initDevelopmentItems = () => {
+  initExtraHouseTiles();
+  initGardens();
   renderDevelopmentDrawerContents();
 };
 
@@ -168,12 +258,12 @@ export const addFoodToHouse = (house: House, foodKind: FoodKind) => {
   });
 };
 
-export const enableExtraHousePlacement = () => {
+export const enableDevelopment = () => {
   const developmentDrawer = communalDrawers.development;
   developmentDrawer.houses.forEach((house) => {
-    house.sprite.interactive = true;
-    house.sprite.buttonMode = true;
-    house.sprite.on('pointerdown', () => {
+    house.container.interactive = true;
+    house.container.buttonMode = true;
+    house.container.on('pointerdown', () => {
       enablePlacement(
         house,
         board.tiles,
@@ -186,7 +276,40 @@ export const enableExtraHousePlacement = () => {
             1
           );
           board.houses.push(house);
-          house.sprite.removeAllListeners();
+          house.container.removeAllListeners();
+        }
+      );
+
+      if (developmentDrawer.open) toggleDrawerOpen(developmentDrawer);
+    });
+  });
+
+  developmentDrawer.gardens.forEach((garden) => {
+    garden.container.interactive = true;
+    garden.container.buttonMode = true;
+    garden.container.on('pointerdown', () => {
+      enablePlacement(
+        garden,
+        board.tiles,
+        (square) => {
+          return (
+            isValidPosition(garden, square) &&
+            !(HouseAdjacentToGarden(garden, square) === null)
+          );
+        },
+        () => [],
+        () => {
+          disablePlacement();
+          developmentDrawer.gardens.splice(
+            developmentDrawer.gardens.indexOf(garden),
+            1
+          );
+          board.gardens.push(garden);
+          const house = HouseAdjacentToGarden(garden, garden);
+          house.maxFood = 5;
+          house.baseFoodCost = 20;
+          house.hasGarden = true;
+          garden.container.removeAllListeners();
         }
       );
 

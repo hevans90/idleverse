@@ -1,4 +1,4 @@
-import { addObjectToBoard, Board } from './board';
+import { addObjectToBoard } from './board';
 import { isHouse, rotateHouse } from './house';
 import { isRoad, rotateRoad } from './road';
 import {
@@ -71,7 +71,7 @@ export const drawChunks = (tileConfigs: TileConfig[]) => {
       );
 
       chunks.splice(chunks.indexOf(chunk), 1);
-      drawChunk(board, p, q, rotatedChunk);
+      drawChunk(p, q, rotatedChunk);
     }
   }
 };
@@ -92,7 +92,7 @@ export const drawOuterSquares = () => {
   }
 };
 
-export const drawChunk = (board: Board, p: number, q: number, chunk: Chunk) => {
+export const drawChunk = (p: number, q: number, chunk: Chunk) => {
   chunk.forEach((tile) => {
     addTileToBoard(tile, p * 5, q * 5);
     tile.occupants.forEach((occupant, i) => {

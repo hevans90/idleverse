@@ -1,6 +1,9 @@
 import * as PIXI from 'pixi.js';
 import { Player } from './player';
 import { ts } from './utils/constants';
+import { createSprite } from './utils/graphics-utils';
+import { app } from './utils/singletons';
+import { Vector2 } from './utils/utils';
 
 export enum PlacementIndicatorColour {
   invalid = 0x8b0000,
@@ -8,18 +11,56 @@ export enum PlacementIndicatorColour {
   range = 0x9b39f7,
 }
 
+export const drawRangeIndicator = () => {
+  const indicatorGraphic = new PIXI.Graphics();
+  indicatorGraphic.name = 'indicator';
+  indicatorGraphic.lineStyle(4, PlacementIndicatorColour.range, 1);
+  indicatorGraphic.beginFill(PlacementIndicatorColour.range, 0.25);
+  indicatorGraphic.drawRect(0, 0, ts - 2, ts - 2);
+  indicatorGraphic.endFill();
+
+  const indicatorTexture = app.renderer.generateTexture(indicatorGraphic);
+  const indicatorSprite = new PIXI.Sprite(indicatorTexture);
+  indicatorGraphic.destroy();
+
+  return indicatorSprite;
+};
+
 export const drawPlacementIndicator = (
   w: number,
   h: number,
+  rotation: number,
   indicatorType: PlacementIndicatorColour
 ) => {
-  const indicator = new PIXI.Graphics();
-  indicator.name = 'indicator';
-  indicator.lineStyle(4, indicatorType, 1);
-  indicator.beginFill(indicatorType, 0.25);
-  indicator.drawRect(0, 0, ts * w - 2, ts * h - 2);
-  indicator.endFill();
-  return indicator;
+  rotation = (rotation + 3) % 4;
+  const indicatorGraphic = new PIXI.Graphics();
+  indicatorGraphic.name = 'indicator';
+  indicatorGraphic.lineStyle(4, indicatorType, 1);
+  indicatorGraphic.beginFill(indicatorType, 0.25);
+  indicatorGraphic.drawRect(0, 0, ts * w - 2, ts * h - 2);
+  indicatorGraphic.endFill();
+
+  const indicatorTexture = app.renderer.generateTexture(indicatorGraphic);
+  const indicatorSprite = new PIXI.Sprite(indicatorTexture);
+  indicatorGraphic.destroy();
+
+  const arrowSprite = createSprite('arrow', ts / 2);
+  arrowSprite.anchor.x = arrowSprite.anchor.y = 0.5;
+  const rotMap: { [key: number]: Vector2 } = {
+    0: { x: w * ts + arrowSprite.width / 2, y: h * ts * 0.5 },
+    1: { x: w * ts * 0.5, y: h * ts + arrowSprite.height / 2 },
+    2: { x: -w - arrowSprite.width / 2, y: h * ts * 0.5 },
+    3: { x: w * ts * 0.5, y: -arrowSprite.height / 2 },
+  };
+  const arrowPos = rotMap[rotation];
+  arrowSprite.x = arrowPos.x;
+  arrowSprite.y = arrowPos.y;
+  arrowSprite.rotation = (rotation * Math.PI) / 2;
+
+  const indicatorContainer = new PIXI.Container();
+  indicatorContainer.addChild(indicatorSprite, arrowSprite);
+  indicatorContainer.name = 'indicator';
+  return indicatorContainer;
 };
 
 export type Indicator = {

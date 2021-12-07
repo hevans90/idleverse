@@ -15,7 +15,7 @@ import {
   addGlow,
   createSprite,
   deactivate,
-  driveDrinksPath,
+  travelDrinksPath,
 } from './utils/graphics-utils';
 import { Card } from './card/card';
 import { enableProduction } from './card/card.produce';
@@ -72,7 +72,7 @@ export const enableDinerPlacement = (player: Player) => {
       enablePlacement(
         diner,
         board.tiles,
-        (square) => isValidPosition(diner, square),
+        (square) => isValidPosition(diner, square, true),
         () => [],
         () => {
           if (!board.diners.includes(diner)) {
@@ -167,7 +167,7 @@ export const enableDrinksPath = (driver: Card) => {
         driver.used = true;
         disableDrawPath(diner);
         deactivate(diner);
-        driveDrinksPath(diner, driver);
+        travelDrinksPath(diner, driver);
         enableProduction(driver.owner);
       });
     });

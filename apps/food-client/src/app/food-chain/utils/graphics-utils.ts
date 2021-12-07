@@ -1,13 +1,13 @@
 import * as PIXI from 'pixi.js';
 import { GlowFilter } from '@pixi/filter-glow';
 import { scaleObject, translateObject } from '../animation';
-import { BaseObject, BoardObject, getAdjacentDrinks } from '../board';
+import { BaseObject, BoardObject } from '../board';
 import { ts, ts1_2 } from './constants';
 import { board, mainLayer } from './singletons';
 import { Vector2 } from './utils';
 import { Card } from '../card/card';
-import { playProduceAnimation } from '../card/card.animations';
 import { Diner } from '../diner';
+import { pickupDrinks } from '../card/card.produce';
 
 export type SpriteSheetConfig = {
   url: string;
@@ -35,7 +35,7 @@ export const greyOut = (card: Card) => {
   card.container.filters = [bwFilter];
 };
 
-export const drawArrow = (card1: Card, card2: Card) => {
+export const drawPromotionIndicator = (card1: Card, card2: Card) => {
   //containers
   const c1 = card1.container;
   const c2 = card2.container;
@@ -138,16 +138,29 @@ export const drawDottedLine = (
   graphic: PIXI.Graphics,
   start: Vector2,
   end: Vector2,
+  color1: number,
+  alpha1: number,
+  color2: number,
+  alpha2: number,
   sections: number
 ) => {
   const step = sections * 2 + (sections - 1) * 2 + 2;
   const xStep = (end.x - start.x) / step;
   const yStep = (end.y - start.y) / step;
-  graphic.moveTo(start.x + xStep, start.y + yStep);
+  graphic.moveTo(start.x, start.y);
+  graphic.lineStyle(4, color1, alpha1, 0.5);
+  graphic.lineTo(start.x + xStep, start.y + yStep);
   for (let i = 0; i < step; i += 1) {
-    if (i % 4 > 1) graphic.lineTo(start.x + xStep * i, start.y + yStep * i);
-    else graphic.moveTo(start.x + xStep * i, start.y + yStep * i);
+    if (i % 4 > 1) {
+      graphic.lineStyle(4, color2, alpha2, 0.5);
+      graphic.lineTo(start.x + xStep * i, start.y + yStep * i);
+    } else {
+      graphic.lineStyle(4, color1, alpha1, 0.5);
+      graphic.lineTo(start.x + xStep * i, start.y + yStep * i);
+    }
   }
+  graphic.lineStyle(4, color1, alpha1, 0.5);
+  graphic.lineTo(end.x, end.y);
 };
 
 export const addSpriteToBoard = (spriteName: string, size: number) => {
@@ -177,22 +190,21 @@ export const setSpriteZOrder = (
 };
 
 export const travelPath = async (
+  object: BaseObject,
   path: BoardObject[],
-  container: PIXI.Container,
-  sprite: PIXI.Sprite,
   stepDuration: number
 ) => {
   for (let i = 0; i < path.length - 1; i++) {
     const item1 = path[i];
     const item2 = path[i + 1];
     if (item1 !== item2)
-      sprite.rotation = Math.atan2(
+      object.sprite.rotation = Math.atan2(
         item2.container.position.y - item1.container.position.y,
         item2.container.position.x - item1.container.position.x
       );
-    setSpriteZOrder(container, item1);
+    setSpriteZOrder(object.container, item1, item2);
     await translateObject(
-      container,
+      object.container,
       {
         x: item1.container.position.x + ts1_2,
         y: item1.container.position.y + ts1_2,
@@ -206,9 +218,8 @@ export const travelPath = async (
   }
 };
 
-export const driveDrinksPath = async (diner: Diner, driver: Card) => {
+export const travelDrinksPath = async (diner: Diner, driver: Card) => {
   console.log('Driving drinks path');
-  const player = diner.owner;
   const collectedDrinks = [];
   if (diner.drinksPath.length > 1) {
     const truck = addSpriteToBoard('truck', ts * 2);
@@ -226,6 +237,8 @@ export const driveDrinksPath = async (diner: Diner, driver: Card) => {
             item2.container.position.y - item1.container.position.y,
             item2.container.position.x - item1.container.position.x
           );
+        setSpriteZOrder(truck.container, item1, item2);
+        await pickupDrinks(driver, item1, collectedDrinks);
         await translateObject(
           truck.container,
           {
@@ -238,16 +251,6 @@ export const driveDrinksPath = async (diner: Diner, driver: Card) => {
           },
           20
         );
-        const drinks = getAdjacentDrinks(item2);
-        for (let j = 0; j < drinks.length; j++) {
-          const drink = drinks[j];
-          if (!collectedDrinks.includes(drink)) {
-            collectedDrinks.push(drink);
-            await playProduceAnimation(player, drink.container, drink.kind);
-            await playProduceAnimation(player, drink.container, drink.kind);
-            await playProduceAnimation(player, drink.container, drink.kind);
-          }
-        }
       }
     }
     await scaleObject(truck.sprite, truck.sprite.scale.x, 0, 50);

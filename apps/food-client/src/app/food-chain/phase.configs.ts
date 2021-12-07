@@ -7,7 +7,7 @@ import { enableCardStructure } from './card/card.structure';
 import { startTrain } from './card/card.train';
 import { enableDinerPlacement } from './diner';
 import { openDrawer } from './drawer';
-import { enableExtraHousePlacement } from './house';
+import { enableDevelopment } from './house';
 import { enableAdvertise } from './marketingTile';
 import {
   phases,
@@ -83,7 +83,7 @@ export const initPhases = () => {
     name: 'Development',
     start: () => {
       openDrawer(communalDrawers.development);
-      enableExtraHousePlacement();
+      enableDevelopment();
     },
     nextPhase: 'Dinner Time',
   });
