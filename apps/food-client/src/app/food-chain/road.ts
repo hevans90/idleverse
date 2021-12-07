@@ -45,8 +45,13 @@ export const createRoadSprite = (road: Road) => {
       roadGraphic,
       { x: 0, y: ts1_2 },
       { x: ts1_2, y: ts1_2 },
+      0x000000,
+      0,
+      0x000000,
+      1,
       rls
     );
+    roadGraphic.lineStyle(4, 0x0, 1);
     drawLine(roadGraphic, { x: 0, y: ts2_3 }, { x: ts1_3, y: ts2_3 });
   } else {
     drawLine(roadGraphic, { x: ts1_3, y: ts1_3 }, { x: ts1_3, y: ts2_3 });
@@ -64,8 +69,13 @@ export const createRoadSprite = (road: Road) => {
       roadGraphic,
       { x: ts1_2, y: 0 },
       { x: ts1_2, y: ts1_2 },
+      0x000000,
+      0,
+      0x000000,
+      1,
       rls
     );
+    roadGraphic.lineStyle(4, 0x0, 1);
     drawLine(roadGraphic, { x: ts2_3, y: ts1_3 }, { x: ts2_3, y: 0 });
   } else {
     drawLine(roadGraphic, { x: ts1_3, y: ts1_3 }, { x: ts2_3, y: ts1_3 });
@@ -83,8 +93,13 @@ export const createRoadSprite = (road: Road) => {
       roadGraphic,
       { x: ts, y: ts1_2 },
       { x: ts1_2, y: ts1_2 },
+      0x000000,
+      0,
+      0x000000,
+      1,
       rls
     );
+    roadGraphic.lineStyle(4, 0x0, 1);
     drawLine(roadGraphic, { x: ts2_3, y: ts2_3 }, { x: ts, y: ts2_3 });
   } else {
     drawLine(roadGraphic, { x: ts2_3, y: ts1_3 }, { x: ts2_3, y: ts2_3 });
@@ -102,8 +117,13 @@ export const createRoadSprite = (road: Road) => {
       roadGraphic,
       { x: ts1_2, y: ts },
       { x: ts1_2, y: ts1_2 },
+      0x000000,
+      0,
+      0x000000,
+      1,
       rls
     );
+    roadGraphic.lineStyle(4, 0x0, 1);
     drawLine(roadGraphic, { x: ts2_3, y: ts2_3 }, { x: ts2_3, y: ts });
   } else {
     drawLine(roadGraphic, { x: ts2_3, y: ts2_3 }, { x: ts1_3, y: ts2_3 });
@@ -198,19 +218,9 @@ export const parseRoadConfig = (config: RegExpExecArray, zOffset: number) => {
 export const addRoadToBoard = (road: Road) => {
   road.sprite = createRoadSprite(road);
   road.container.addChild(road.sprite);
-  road.container.x -= 2;
-  road.container.y -= 2;
+  road.container.x -= 4;
+  road.container.y -= 4;
   road.container.interactive = true;
   road.container.buttonMode = true;
-  road.container.on('pointerdown', () => {
-    // if (board.diners.length > 0) {
-    //   const path = findRoadPath(
-    //     board.roads,
-    //     getAdjacentRoads(board.diners[0]),
-    //     road
-    //   );
-    //   triggerCarAnimation(path, road as BoardObject);
-    // }
-  });
   board.roads.push(road);
 };

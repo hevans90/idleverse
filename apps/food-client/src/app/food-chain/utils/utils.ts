@@ -4,6 +4,7 @@ import {
   BoardPosition,
   getAdjacentRoads,
 } from '../board';
+import { Garden } from '../house';
 import { getConnectedRoads, isRoad, Road } from '../road';
 import { getAdjacentSquares, Tile } from '../tile';
 import { debug as debugConfig } from './constants';
@@ -65,6 +66,26 @@ export const isValidPosition = (
   return true;
 };
 
+export const HouseAdjacentToGarden = (garden: Garden, square: Tile) => {
+  const rotMap = {
+    0: { i: 1, j: 0 },
+    1: { i: 0, j: 1 },
+    2: { i: -2, j: 0 },
+    3: { i: 0, j: -2 },
+  };
+
+  const housePos: BoardPosition = {
+    i: square.i + rotMap[garden.rotation].i,
+    j: square.j + rotMap[garden.rotation].j,
+  };
+  for (let i = 0; i < board.houses.length; i++) {
+    const house = board.houses[i];
+    if (housePos.i === house.i && housePos.j === house.j && !house.hasGarden)
+      return house;
+  }
+  return null;
+};
+
 export const isValidOuterPosition = (
   item: BoardItem,
   position: BoardPosition
@@ -114,6 +135,14 @@ export const isValidOuterPosition = (
       w: board.chunksWide * 5 + 4,
       h: 1,
     })
+  )
+    return false;
+
+  if (
+    (item1.j >= board.chunksHigh * 5 && item1.rotation !== 0) ||
+    (item1.i < 0 && item1.rotation !== 1) ||
+    (item1.j < 0 && item1.rotation !== 2) ||
+    (item1.i >= board.chunksWide * 5 && item1.rotation !== 3)
   )
     return false;
 
@@ -259,7 +288,7 @@ export const getSquaresInLine = (
 ) => {
   const boardItem = { ...item, i: position.i, j: position.j };
   const isVertical = [Math.PI / 2, (Math.PI * 3) / 2].includes(
-    boardItem.rotation
+    (boardItem.rotation * Math.PI) / 2
   );
   if (isVertical)
     return board.tiles.filter(

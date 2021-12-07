@@ -27,7 +27,7 @@ import { cardConfigs } from './card/card.configs';
 import { hireCard } from './card/card.hire';
 import { manageCard } from './card/card.structure';
 import { initCommunalDrawers } from './drawer.configs';
-import { initExtraHouseTiles } from './house';
+import { initDevelopmentItems } from './house';
 import { marketingTileConfigs } from './marketingTile.configs';
 import { initPhases } from './phase.configs';
 import { tileConfigs } from './tile.configs';
@@ -75,7 +75,7 @@ export const FoodChain = () => {
 
       initCards(Object.values(cardConfigs), cards);
       initMarketingTiles(marketingTileConfigs, marketingTiles);
-      initExtraHouseTiles();
+      initDevelopmentItems();
 
       (async () => {
         let card = cards.find((card) => card.kind === 'truckDriver');

@@ -19,6 +19,7 @@ export type Card = CardConfig & {
   active: boolean;
   used: boolean;
   container?: PIXI.Container;
+  spriteContainer?: PIXI.Container;
   sprite?: PIXI.Sprite;
   contentsContainer?: PIXI.Container;
   contentsSpacing?: number;
@@ -103,7 +104,7 @@ export const createCardSprite = (cardConfig: CardConfig) => {
 
 export const initCards = (cardConfigs: CardConfig[], cards: Card[]) => {
   const recruitDrawer = communalDrawers.recruit;
-  Object.values(cardConfigs).forEach((cardConfig) => {
+  cardConfigs.forEach((cardConfig) => {
     for (let i = 0; i < cardConfig.count; i++) {
       const card: Card = {
         ...cardConfig,

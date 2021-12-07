@@ -1,13 +1,13 @@
 import * as PIXI from 'pixi.js';
 import { translateObject } from './animation';
 import { Diner } from './diner';
-import { House } from './house';
+import { Garden, House } from './house';
 import { MarketingTile } from './marketingTile';
 import { Player } from './player';
 import { baseColour, lineColour } from './types';
 import { ts } from './utils/constants';
 import { app, communalDrawers, players } from './utils/singletons';
-import { drawArrow } from './utils/graphics-utils';
+import { drawPromotionIndicator } from './utils/graphics-utils';
 import { Card } from './card/card';
 
 export type Drawer = {
@@ -25,6 +25,7 @@ export type Drawer = {
   employees?: Card[];
   marketingTiles?: MarketingTile[];
   houses?: House[];
+  gardens?: Garden[];
   diners?: Diner[];
   container?: PIXI.Container;
   contentsContainer?: PIXI.Container;
@@ -100,6 +101,12 @@ export const addMarketingTileToDrawer = (tile: MarketingTile) => {
   drawer.contentsContainer.addChild(tile.container);
 };
 
+export const addGardenToDrawer = (garden: Garden) => {
+  const drawer = communalDrawers.development;
+  drawer.gardens.push(garden);
+  drawer.contentsContainer.addChild(garden.container);
+};
+
 export const addHouseToDrawer = (house: House) => {
   const drawer = communalDrawers.development;
   drawer.houses.push(house);
@@ -129,7 +136,7 @@ export const renderRecruitDrawerContents = () => {
       const card1 = stacks.find(
         (stack) => stack[0].kind === card2.promotesFrom
       )[0];
-      const arrow = drawArrow(card1, card2);
+      const arrow = drawPromotionIndicator(card1, card2);
       arrow.zIndex = 0;
       drawer.contentsContainer.addChild(arrow);
     }
@@ -158,6 +165,11 @@ export const renderDevelopmentDrawerContents = () => {
   drawer.houses.forEach((house, i) => {
     house.container.position.x = ts * (4 * i + 1);
     house.container.position.y = ts;
+  });
+
+  drawer.gardens.forEach((garden, i) => {
+    garden.container.position.x = ts * (2 * i + 1);
+    garden.container.position.y = ts * 4;
   });
 };
 

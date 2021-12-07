@@ -50,6 +50,7 @@ export const initCommunalDrawers = () => {
     tabWidth: 40,
     orient: 'right',
     houses: [],
+    gardens: [],
     renderContents: () => renderDevelopmentDrawerContents(),
   };
   const dDrawer = communalDrawers.development;

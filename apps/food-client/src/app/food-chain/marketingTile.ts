@@ -182,7 +182,7 @@ export const selectMarketingTileFood = (
   tile: MarketingTile
 ) => {
   const oldFoodSelect = tile.container.getChildByName('foodSelect');
-  tile.container.removeChild(oldFoodSelect);
+  board.container.removeChild(oldFoodSelect);
 
   const newFoodSelect = createFoodSelect(
     Object.values(foodKinds),
@@ -191,7 +191,6 @@ export const selectMarketingTileFood = (
       tile.foodKind = foodKind;
       tile.foodQuant = foodQuantity;
       renderMarketingTileFood(tile);
-      tile.container.removeChild(newFoodSelect.container);
       marketer.used = true;
     },
     () => {
@@ -204,12 +203,14 @@ export const selectMarketingTileFood = (
       communalDrawers.market.marketingTiles.push(tile);
       communalDrawers.market.contentsContainer.addChild(tile.container);
       communalDrawers.market.renderContents();
+      enableMarketingTilePlacement(marketer);
     }
   );
-  newFoodSelect.container.y = tile.h * ts;
+  newFoodSelect.container.x = tile.baseX;
+  newFoodSelect.container.y = tile.baseY + tile.h * ts;
   newFoodSelect.container.name = 'foodSelect';
 
-  tile.container.addChild(newFoodSelect.container);
+  board.container.addChild(newFoodSelect.container);
 };
 
 export const renderMarketingTileFood = (tile: MarketingTile) => {
@@ -231,10 +232,14 @@ export const renderMarketingTileFood = (tile: MarketingTile) => {
 export const enableMarketingTilePlacement = (marketer: Card) => {
   const marketingDrawer = communalDrawers.market;
   marketingTiles.forEach((tile) => {
-    if (marketer.marketingKinds.includes(tile.kind)) {
+    if (
+      marketer.marketingKinds.includes(tile.kind) &&
+      marketingDrawer.marketingTiles.includes(tile)
+    ) {
       tile.sprite.interactive = true;
       tile.sprite.buttonMode = true;
       tile.sprite.on('pointerdown', () => {
+        disableMarketingTilePlacement();
         enablePlacement(
           tile,
           tile.kind.validTiles,
@@ -260,6 +265,14 @@ export const enableMarketingTilePlacement = (marketer: Card) => {
     } else {
       darken(tile.container);
     }
+  });
+};
+
+export const disableMarketingTilePlacement = () => {
+  marketingTiles.forEach((tile) => {
+    tile.sprite.interactive = false;
+    tile.sprite.buttonMode = false;
+    tile.sprite.removeAllListeners();
   });
 };
 

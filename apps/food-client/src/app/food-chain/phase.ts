@@ -11,6 +11,7 @@ import {
   phases,
   currentPhase,
   players,
+  mainLayer,
 } from './utils/singletons';
 
 export type Phase = {
@@ -51,6 +52,8 @@ export const drawPhaseIndicator = () => {
   phaseIndicatorContainer.x = app.screen.width * 0.5;
   phaseIndicatorContainer.y = app.screen.height - 50;
   phaseIndicatorContainer.name = 'phaseIndicator';
+  phaseIndicatorContainer.parentLayer = mainLayer;
+  phaseIndicatorContainer.zOrder = 15;
 
   app.stage.addChild(phaseIndicatorContainer);
 };
