@@ -6,6 +6,7 @@
   "scripts": {
     "start": "nx serve",
     "console": "cd hasura-local/food-db && hasura console",
+    "status": "cd hasura-local/food-db && hasura migrate status --database-name default",
     "build": "nx build",
     "test": "nx test",
     "generate": "graphql-codegen --config codegen.js -r dotenv/config && npx nx format:write --files ./libs/graphql/src/lib/api.ts",
