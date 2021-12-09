@@ -1,0 +1,37 @@
+table:
+  name: user_info
+  schema: public
+array_relationships:
+- name: chat_messages
+  using:
+    foreign_key_constraint_on:
+      column: poster_id
+      table:
+        name: chat_message
+        schema: public
+- name: systems
+  using:
+    foreign_key_constraint_on:
+      column: owner_id
+      table:
+        name: celestial
+        schema: public
+select_permissions:
+- permission:
+    columns:
+    - avatar_url
+    - display_name
+    - free_claims
+    - id
+    - name
+    - nickname
+    filter: {}
+  role: user
+update_permissions:
+- permission:
+    check: {}
+    columns: []
+    filter:
+      id:
+        _eq: X-Hasura-User-Id
+  role: user
