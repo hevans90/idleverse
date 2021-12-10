@@ -1,0 +1,1 @@
+CREATE TABLE "food"."house" ("id" uuid NOT NULL, "has_garden" boolean NOT NULL, "is_extra" boolean NOT NULL, "number" integer NOT NULL, "orient" integer NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("id") REFERENCES "food"."board_object"("id") ON UPDATE restrict ON DELETE restrict);
