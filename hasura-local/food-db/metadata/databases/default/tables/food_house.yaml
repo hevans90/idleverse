@@ -1,0 +1,15 @@
+table:
+  name: house
+  schema: food
+object_relationships:
+- name: boardObject
+  using:
+    foreign_key_constraint_on: board_object
+array_relationships:
+- name: house_food_demands
+  using:
+    foreign_key_constraint_on:
+      column: house
+      table:
+        name: house_food_demand
+        schema: food

@@ -1,0 +1,7 @@
+table:
+  name: player_food
+  schema: food
+object_relationships:
+- name: player_food_player
+  using:
+    foreign_key_constraint_on: player

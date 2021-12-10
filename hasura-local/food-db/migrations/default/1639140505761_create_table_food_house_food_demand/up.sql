@@ -1,0 +1,1 @@
+CREATE TABLE "food"."house_food_demand" ("house" uuid NOT NULL, "food_kind" uuid NOT NULL, "food_quantity" integer NOT NULL, PRIMARY KEY ("house","food_kind") , FOREIGN KEY ("house") REFERENCES "food"."house"("id") ON UPDATE restrict ON DELETE restrict);
