@@ -1,1 +1,0 @@
-drop schema "food" cascade;

@@ -1,2 +1,0 @@
-CREATE TABLE "food"."employee" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "kind" text NOT NULL, "promotes_from" uuid NOT NULL, "hires_available" integer NOT NULL, "trains_available" integer NOT NULL, "hired_by" uuid NOT NULL, "trained_by" uuid NOT NULL, "trained_from" uuid NOT NULL, "used" bool NOT NULL, "owner" uuid NOT NULL, "manager" uuid NOT NULL, PRIMARY KEY ("id") );
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
