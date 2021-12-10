@@ -1,1 +1,0 @@
-CREATE TABLE "food"."player_food" ("player" uuid NOT NULL, "food_kind" uuid NOT NULL, "food_quantity" integer NOT NULL, PRIMARY KEY ("player","food_kind") , FOREIGN KEY ("player") REFERENCES "food"."player"("id") ON UPDATE restrict ON DELETE restrict);
