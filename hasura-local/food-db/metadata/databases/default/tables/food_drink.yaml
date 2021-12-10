@@ -1,0 +1,7 @@
+table:
+  name: drink
+  schema: food
+object_relationships:
+- name: board_object
+  using:
+    foreign_key_constraint_on: id

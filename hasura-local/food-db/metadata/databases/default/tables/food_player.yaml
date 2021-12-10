@@ -1,0 +1,18 @@
+table:
+  name: player
+  schema: food
+array_relationships:
+- name: diners
+  using:
+    foreign_key_constraint_on:
+      column: owner
+      table:
+        name: diner
+        schema: food
+- name: player_foods
+  using:
+    foreign_key_constraint_on:
+      column: player
+      table:
+        name: player_food
+        schema: food
