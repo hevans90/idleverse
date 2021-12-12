@@ -1,7 +1,7 @@
 module.exports = {
   schema: [
     {
-      'https://idleverse.herokuapp.com/v1/graphql': {
+      'https://idleverse-hasura.herokuapp.com/v1/graphql': {
         headers: {
           'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET,
         },
