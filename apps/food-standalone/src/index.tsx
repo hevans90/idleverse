@@ -1,7 +1,7 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { App } from './app/app';
+import { FoodApp } from './app/FoodApp';
 import { theme } from './app/_theme/theme';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
@@ -13,7 +13,7 @@ export const redirectUri = window.location.origin.includes('localhost')
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
-      <App />
+      <FoodApp />
     </ChakraProvider>
   </React.StrictMode>,
   document.getElementById('root')
