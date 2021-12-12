@@ -13,7 +13,7 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { OperationDefinitionNode } from 'graphql';
 // import ws from 'websocket';
 
-const uri = 'idleverse.herokuapp.com/v1/graphql';
+const uri = 'idleverse-hasura.herokuapp.com/v1/graphql';
 
 export const apolloBootstrapper = (
   access: 'user' | 'admin-secret',
