@@ -10,6 +10,7 @@
 - "!include food_player.yaml"
 - "!include food_player_food.yaml"
 - "!include food_road.yaml"
+- "!include food_road_connection.yaml"
 - "!include public_celestial.yaml"
 - "!include public_chat_message.yaml"
 - "!include public_galaxy.yaml"
