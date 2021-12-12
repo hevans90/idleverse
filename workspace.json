@@ -12,7 +12,7 @@
           "options": {
             "outputPath": "dist/apps/food-client",
             "index": "apps/food-client/src/index.html",
-            "main": "apps/food-client/src/index.tsx",
+            "main": "apps/food-client/src/main.tsx",
             "polyfills": "apps/food-client/src/polyfills.ts",
             "tsConfig": "apps/food-client/tsconfig.app.json",
             "assets": [
@@ -100,6 +100,134 @@
           "outputs": ["{options.outputFile}"],
           "options": {
             "lintFilePatterns": ["apps/food-client-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "food-server": {
+      "root": "apps/food-server",
+      "sourceRoot": "apps/food-server/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/food-server",
+            "main": "apps/food-server/src/main.ts",
+            "tsConfig": "apps/food-server/tsconfig.app.json",
+            "assets": ["apps/food-server/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/food-server/src/environments/environment.ts",
+                  "with": "apps/food-server/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "food-server:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/food-server/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/food-server"],
+          "options": {
+            "jestConfig": "apps/food-server/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "food-standalone": {
+      "root": "apps/food-standalone",
+      "sourceRoot": "apps/food-standalone/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/food-standalone",
+            "index": "apps/food-standalone/src/index.html",
+            "main": "apps/food-standalone/src/index.tsx",
+            "polyfills": "apps/food-standalone/src/polyfills.ts",
+            "tsConfig": "apps/food-standalone/tsconfig.app.json",
+            "assets": [
+              "apps/food-standalone/src/favicon.ico",
+              "apps/food-standalone/src/assets"
+            ],
+            "styles": ["apps/food-standalone/src/styles.css"],
+            "scripts": [],
+            "webpackConfig": "@nrwl/react/plugins/webpack"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/food-standalone/src/environments/environment.ts",
+                  "with": "apps/food-standalone/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "food-standalone:build",
+            "hmr": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "food-standalone:build:production",
+              "hmr": false
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/food-standalone/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/food-standalone"],
+          "options": {
+            "jestConfig": "apps/food-standalone/jest.config.js",
+            "passWithNoTests": true
           }
         }
       }

@@ -35,6 +35,12 @@
       "tags": [],
       "implicitDependencies": ["food-client"]
     },
+    "food-server": {
+      "tags": []
+    },
+    "food-standalone": {
+      "tags": []
+    },
     "galaxy-gen": {
       "tags": []
     },
