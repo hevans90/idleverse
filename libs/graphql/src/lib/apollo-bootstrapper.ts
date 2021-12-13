@@ -11,13 +11,12 @@ import {
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { OperationDefinitionNode } from 'graphql';
-// import ws from 'websocket';
 
 const uri = 'idleverse-hasura.herokuapp.com/v1/graphql';
 
 export const apolloBootstrapper = (
   access: 'user' | 'admin-secret',
-  token: string,
+  token: () => string,
   cacheConfig: InMemoryCacheConfig = {},
   customFetch: HttpOptions['fetch'] = fetch,
   customWs: unknown = WebSocket,
@@ -25,8 +24,8 @@ export const apolloBootstrapper = (
 ) => {
   const headers =
     access === 'user'
-      ? { Authorization: `Bearer ${token}` }
-      : { 'x-hasura-admin-secret': `${token}` };
+      ? { Authorization: `Bearer ${token()}` }
+      : { 'x-hasura-admin-secret': `${token()}` };
 
   const httpLink = createHttpLink({
     uri: `https://${uri}`,

@@ -77,3 +77,5 @@ export const animateVar = makeVar(false);
 type Self = SelfQuery['user_me'][0];
 export const selfVar = makeVar<Self>(null!);
 export const roleVar = makeVar<string>(null);
+
+export const accessTokenVar = makeVar<string>(null);
