@@ -7,7 +7,7 @@ import jwt from 'express-jwt';
 import jwksRsa from 'jwks-rsa';
 import { buildSchema } from 'type-graphql';
 import { authChecker } from './authChecker';
-import { Auth0API } from './datasources/auth0-api';
+import { Auth0API } from './datasources/auth0';
 import { Context } from './datasources/context';
 import { HasuraAPI } from './datasources/hasura-api';
 import { GalaxyManagementResolver } from './entities/galaxy-management';
@@ -17,7 +17,7 @@ import ws = require('ws');
 (async () => {
   const client = apolloBootstrapper(
     'admin-secret',
-    process.env.HASURA_ADMIN_SECRET,
+    () => process.env.HASURA_ADMIN_SECRET,
     {},
     fetch,
     ws,
@@ -76,11 +76,7 @@ import ws = require('ws');
     dataSources: (): DataSources<Partial<Context['dataSources']>> => {
       return {
         hasuraAPI: new HasuraAPI(client),
-        auth0API: new Auth0API(
-          process.env.AUTH0_MANAGEMENT_API,
-          process.env.AUTH0_MANAGEMENT_API_PATH,
-          process.env.AUTH0_MANAGEMENT_API_TOKEN
-        ),
+        auth0API: new Auth0API(),
       };
     },
     introspection: true,
@@ -102,7 +98,7 @@ import ws = require('ws');
       }),
 
       // Validate the audience and the issuer.
-      audience: process.env.AUTH0_AUDIENCE,
+      audience: process.env.AUTH0_CLIENT_ID,
       issuer: [`https://${process.env.AUTH0_DOMAIN}/`],
       algorithms: ['RS256'],
     })

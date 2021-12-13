@@ -1,4 +1,4 @@
-import { ApolloProvider } from '@apollo/client';
+import { ApolloProvider, useReactiveVar } from '@apollo/client';
 import { useAuth0 } from '@auth0/auth0-react';
 import { apolloBootstrapper } from '@idleverse/graphql';
 import jwt_decode from 'jwt-decode';
@@ -16,6 +16,7 @@ import {
   galaxyConfigVar,
   galaxyRotationVar,
   roleVar,
+  accessTokenVar,
 } from './_state/reactive-variables';
 
 export const local = window.location.origin.includes('localhost');
@@ -24,16 +25,17 @@ export const App = () => {
   const { getIdTokenClaims, isLoading, loginWithRedirect, isAuthenticated } =
     useAuth0();
 
-  const [idToken, setIdToken] = useState<string>('');
+  const accessToken = useReactiveVar(accessTokenVar);
 
   useEffect(() => {
     async function fetchMyToken() {
-      const x = await getIdTokenClaims();
+      const tokenClaims = await getIdTokenClaims();
 
-      if (x?.__raw) {
-        setIdToken(`${x.__raw}`);
+      if (tokenClaims?.__raw) {
+        accessTokenVar(tokenClaims.__raw);
+
         roleVar(
-          jwt_decode(x.__raw)['https://hasura.io/jwt/claims'][
+          jwt_decode(tokenClaims.__raw)['https://hasura.io/jwt/claims'][
             'x-hasura-default-role'
           ]
         );
@@ -41,15 +43,15 @@ export const App = () => {
     }
 
     fetchMyToken();
-  }, [getIdTokenClaims, isLoading]);
+  }, [getIdTokenClaims, isLoading, accessToken]);
 
   if (isLoading) return <Loading></Loading>;
 
-  if (idToken === '' && !isAuthenticated) loginWithRedirect();
+  if (!accessToken && !isAuthenticated) loginWithRedirect();
 
-  if (idToken === '') return <Loading></Loading>;
+  if (!accessToken) return <Loading></Loading>;
 
-  const client = apolloBootstrapper('user', idToken, {
+  const client = apolloBootstrapper('user', accessTokenVar, {
     typePolicies: {
       Query: {
         fields: {
