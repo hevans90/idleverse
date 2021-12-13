@@ -75,6 +75,16 @@
             "jestConfig": "apps/food-client/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "deploy": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npx push-dir --dir=dist/apps/web --branch=food-client-heroku-deploy --force"
+              }
+            ]
+          }
         }
       }
     },
@@ -151,6 +161,16 @@
           "options": {
             "jestConfig": "apps/food-server/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "deploy": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npx push-dir --dir=dist/apps/food-server --branch=food-server-heroku-deploy --force"
+              }
+            ]
           }
         }
       }
