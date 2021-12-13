@@ -2,7 +2,7 @@ table:
   name: player
   schema: food
 object_relationships:
-- name: playerGame
+- name: gameByGame
   using:
     foreign_key_constraint_on: game
 array_relationships:

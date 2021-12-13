@@ -2,6 +2,6 @@ table:
   name: employee
   schema: food
 object_relationships:
-- name: employeeGame
+- name: gameByGame
   using:
     foreign_key_constraint_on: game
