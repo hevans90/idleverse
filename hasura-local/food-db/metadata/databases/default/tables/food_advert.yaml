@@ -2,9 +2,9 @@ table:
   name: advert
   schema: food
 object_relationships:
-- name: advertGame
-  using:
-    foreign_key_constraint_on: game
-- name: boardObject
+- name: boardObjectByBoardObject
   using:
     foreign_key_constraint_on: board_object
+- name: gameByGame
+  using:
+    foreign_key_constraint_on: game

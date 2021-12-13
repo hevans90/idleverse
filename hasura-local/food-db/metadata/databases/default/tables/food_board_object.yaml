@@ -1,3 +1,47 @@
 table:
   name: board_object
   schema: food
+object_relationships:
+- name: drink
+  using:
+    foreign_key_constraint_on:
+      column: id
+      table:
+        name: drink
+        schema: food
+- name: house
+  using:
+    foreign_key_constraint_on:
+      column: id
+      table:
+        name: house
+        schema: food
+- name: road
+  using:
+    foreign_key_constraint_on:
+      column: id
+      table:
+        name: road
+        schema: food
+array_relationships:
+- name: adverts
+  using:
+    foreign_key_constraint_on:
+      column: board_object
+      table:
+        name: advert
+        schema: food
+- name: diners
+  using:
+    foreign_key_constraint_on:
+      column: board_object
+      table:
+        name: diner
+        schema: food
+- name: gardens
+  using:
+    foreign_key_constraint_on:
+      column: board_object
+      table:
+        name: garden
+        schema: food

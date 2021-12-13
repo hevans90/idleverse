@@ -2,6 +2,6 @@ table:
   name: house_food_demand
   schema: food
 object_relationships:
-- name: house_food_demand_house
+- name: houseByHouse
   using:
     foreign_key_constraint_on: house

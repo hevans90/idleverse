@@ -5,6 +5,13 @@ object_relationships:
 - name: board_object
   using:
     foreign_key_constraint_on: id
-- name: roadGame
+- name: gameByGame
   using:
     foreign_key_constraint_on: game
+- name: road_connection
+  using:
+    foreign_key_constraint_on:
+      column: id
+      table:
+        name: road_connection
+        schema: food
