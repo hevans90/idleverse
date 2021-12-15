@@ -1,2 +1,2 @@
-export * from './lib/api';
-export * from './lib/apollo-bootstrapper';
+export * from './libs/idleverse/galaxy-api';
+export * from './libs/apollo-bootstrapper';

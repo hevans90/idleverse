@@ -1,0 +1,8 @@
+query Self {
+  user_me {
+    display_name
+    id
+    name
+    nickname
+  }
+}
