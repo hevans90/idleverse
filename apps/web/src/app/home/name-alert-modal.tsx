@@ -16,7 +16,7 @@ import {
   SetNameByUserIdDocument,
   SetNameByUserIdMutation,
   SetNameByUserIdMutationVariables,
-} from '@idleverse/graphql';
+} from '@idleverse/galaxy-gql';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { selfVar } from '../_state/reactive-variables';
 

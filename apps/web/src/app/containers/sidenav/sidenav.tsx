@@ -10,7 +10,7 @@ import {
 import {
   GetChatMessagesDocument,
   GetChatMessagesSubscription,
-} from '@idleverse/graphql';
+} from '@idleverse/galaxy-gql';
 import { useEffect, useRef, useState } from 'react';
 import { ChatSubmit } from '../../components/chat-submit';
 import { Loading } from '../../components/loading';

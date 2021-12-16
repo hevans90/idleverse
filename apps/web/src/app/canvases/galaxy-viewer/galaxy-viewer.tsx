@@ -6,7 +6,7 @@ import {
   generateCelestialsWithClaimed,
   getCelestialPosition,
 } from '@idleverse/galaxy-gen';
-import { CelestialsByGalaxyIdSubscription } from '@idleverse/graphql';
+import { CelestialsByGalaxyIdSubscription } from '@idleverse/galaxy-gql';
 import { useApp } from '@inlet/react-pixi';
 import { Container, Graphics } from 'pixi.js';
 import { useEffect, useRef } from 'react';

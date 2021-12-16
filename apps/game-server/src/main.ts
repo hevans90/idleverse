@@ -1,4 +1,4 @@
-import { apolloBootstrapper } from '@idleverse/graphql';
+import { apolloBootstrapper } from '@idleverse/galaxy-gql';
 import { DataSources } from 'apollo-server-core/dist/requestPipeline';
 import { ApolloServer } from 'apollo-server-express';
 import fetch from 'cross-fetch';

@@ -11,7 +11,7 @@ import {
   GalaxiesDocument,
   GalaxiesSubscription,
   Galaxy_Insert_Input,
-} from '@idleverse/graphql';
+} from '@idleverse/galaxy-gql';
 import { Stage } from '@inlet/react-pixi';
 import { useEffect, useRef } from 'react';
 import {

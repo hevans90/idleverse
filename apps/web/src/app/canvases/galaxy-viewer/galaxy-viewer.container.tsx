@@ -16,7 +16,7 @@ import {
   RequestRandomCelestialByGalaxyIdMutation,
   RequestRandomCelestialByGalaxyIdMutationVariables,
   SelfDocument,
-} from '@idleverse/graphql';
+} from '@idleverse/galaxy-gql';
 import { Stage } from '@inlet/react-pixi';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
