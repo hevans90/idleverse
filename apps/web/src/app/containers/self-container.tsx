@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { SelfDocument, SelfQuery } from '@idleverse/graphql';
+import { SelfDocument, SelfQuery } from '@idleverse/galaxy-gql';
 import { Loading } from '../components/loading';
 import { selfVar } from '../_state/reactive-variables';
 

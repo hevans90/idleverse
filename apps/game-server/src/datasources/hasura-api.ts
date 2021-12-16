@@ -12,7 +12,7 @@ import {
   UpdateFreeClaimsDocument,
   UpdateFreeClaimsMutation,
   UpdateFreeClaimsMutationVariables,
-} from '@idleverse/graphql';
+} from '@idleverse/galaxy-gql';
 import { DataSource } from 'apollo-datasource';
 
 export class HasuraAPI extends DataSource {

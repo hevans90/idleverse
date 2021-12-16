@@ -2,7 +2,7 @@ import {
   Celestial,
   CelestialsByGalaxyIdSubscription,
   User_Info,
-} from '@idleverse/graphql';
+} from '@idleverse/galaxy-gql';
 
 export type CelestialOwner = Pick<User_Info, 'display_name' | 'avatar_url'> & {
   ownedCount: number;

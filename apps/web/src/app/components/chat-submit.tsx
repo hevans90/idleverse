@@ -3,7 +3,7 @@ import { Box, Button, Input, useColorModeValue } from '@chakra-ui/react';
 import {
   SendNewMessageDocument,
   SendNewMessageMutation,
-} from '@idleverse/graphql';
+} from '@idleverse/galaxy-gql';
 import React from 'react';
 import { sideNavWidth } from './layout';
 

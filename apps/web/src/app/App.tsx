@@ -1,6 +1,6 @@
 import { ApolloProvider, useReactiveVar } from '@apollo/client';
 import { useAuth0 } from '@auth0/auth0-react';
-import { apolloBootstrapper } from '@idleverse/graphql';
+import { apolloBootstrapper } from '@idleverse/galaxy-gql';
 import jwt_decode from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';

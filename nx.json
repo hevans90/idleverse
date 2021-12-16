@@ -47,15 +47,18 @@
     "game-server": {
       "tags": []
     },
-    "graphql": {
-      "tags": []
-    },
     "web": {
       "tags": []
     },
     "web-e2e": {
       "tags": [],
       "implicitDependencies": ["web"]
+    },
+    "food-gql": {
+      "tags": []
+    },
+    "galaxy-gql": {
+      "tags": []
     }
   }
 }

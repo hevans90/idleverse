@@ -1,7 +1,7 @@
 import { useSubscription } from '@apollo/client';
 import { Box, Link, Text, TextProps } from '@chakra-ui/layout';
 import { useColorModeValue } from '@chakra-ui/react';
-import { GalaxiesDocument, GalaxiesSubscription } from '@idleverse/graphql';
+import { GalaxiesDocument, GalaxiesSubscription } from '@idleverse/galaxy-gql';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { dbGalaxyToGalaxyConfig } from '../canvases/common-utils/db-galaxy-to-galaxy-config';
 import { GalaxyThumbnail } from '../canvases/galaxy-thumbnail/galaxy-thumbnail';
