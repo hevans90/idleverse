@@ -81,7 +81,7 @@
           "options": {
             "commands": [
               {
-                "command": "npx push-dir --dir=dist/apps/web --branch=food-client-heroku-deploy --force"
+                "command": "npx push-dir --dir=dist/apps/food-client --branch=food-client-heroku-deploy --force"
               }
             ]
           }
