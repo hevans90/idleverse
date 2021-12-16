@@ -16,7 +16,9 @@
     "baseUrl": ".",
     "paths": {
       "@idleverse/galaxy-gen": ["libs/galaxy-gen/src/index.ts"],
-      "@idleverse/graphql": ["libs/graphql/src/index.ts"]
+      "@idleverse/galaxy-gql": ["libs/galaxy-gql/src/index.ts"],
+      "@idleverse/food-gql": ["libs/food-gql/src/index.ts"],
+      "@idleverse/test-lib": ["libs/test-lib/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

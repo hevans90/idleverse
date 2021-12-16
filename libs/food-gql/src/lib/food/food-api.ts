@@ -1,16 +1,10 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
-const defaultOptions = {};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+const defaultOptions =  {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -114,6 +108,7 @@ export type Advert_Aggregate_Fields = {
   variance?: Maybe<Advert_Variance_Fields>;
 };
 
+
 /** aggregate fields of "advert" */
 export type Advert_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<Advert_Select_Column>>;
@@ -142,7 +137,7 @@ export type Advert_Bool_Exp = {
 /** unique or primary key constraints on table "advert" */
 export enum Advert_Constraint {
   /** unique or primary key constraint */
-  AdvertPkey = 'advert_pkey',
+  AdvertPkey = 'advert_pkey'
 }
 
 /** input type for incrementing numeric columns in table "advert" */
@@ -226,7 +221,7 @@ export enum Advert_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Kind = 'kind',
+  Kind = 'kind'
 }
 
 /** input type for updating data in table "advert" */
@@ -276,7 +271,7 @@ export enum Advert_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Kind = 'kind',
+  Kind = 'kind'
 }
 
 /** aggregate var_pop on columns */
@@ -330,6 +325,7 @@ export type Board_Object_Aggregate_Fields = {
   variance?: Maybe<Board_Object_Variance_Fields>;
 };
 
+
 /** aggregate fields of "board_object" */
 export type Board_Object_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<Board_Object_Select_Column>>;
@@ -359,7 +355,7 @@ export type Board_Object_Bool_Exp = {
 /** unique or primary key constraints on table "board_object" */
 export enum Board_Object_Constraint {
   /** unique or primary key constraint */
-  BoardObjectPkey = 'board_object_pkey',
+  BoardObjectPkey = 'board_object_pkey'
 }
 
 /** input type for incrementing numeric columns in table "board_object" */
@@ -439,7 +435,7 @@ export enum Board_Object_Select_Column {
   /** column name */
   Kind = 'kind',
   /** column name */
-  Rotation = 'rotation',
+  Rotation = 'rotation'
 }
 
 /** input type for updating data in table "board_object" */
@@ -494,7 +490,7 @@ export enum Board_Object_Update_Column {
   /** column name */
   Kind = 'kind',
   /** column name */
-  Rotation = 'rotation',
+  Rotation = 'rotation'
 }
 
 /** aggregate var_pop on columns */
@@ -544,6 +540,7 @@ export type Diner_Aggregate_Fields = {
   min?: Maybe<Diner_Min_Fields>;
 };
 
+
 /** aggregate fields of "diner" */
 export type Diner_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<Diner_Select_Column>>;
@@ -563,7 +560,7 @@ export type Diner_Bool_Exp = {
 /** unique or primary key constraints on table "diner" */
 export enum Diner_Constraint {
   /** unique or primary key constraint */
-  DinerPkey = 'diner_pkey',
+  DinerPkey = 'diner_pkey'
 }
 
 /** input type for inserting data into table "diner" */
@@ -624,7 +621,7 @@ export enum Diner_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Owner = 'owner',
+  Owner = 'owner'
 }
 
 /** input type for updating data in table "diner" */
@@ -641,7 +638,7 @@ export enum Diner_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Owner = 'owner',
+  Owner = 'owner'
 }
 
 /** columns and relationships of "drink" */
@@ -667,6 +664,7 @@ export type Drink_Aggregate_Fields = {
   min?: Maybe<Drink_Min_Fields>;
 };
 
+
 /** aggregate fields of "drink" */
 export type Drink_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<Drink_Select_Column>>;
@@ -686,7 +684,7 @@ export type Drink_Bool_Exp = {
 /** unique or primary key constraints on table "drink" */
 export enum Drink_Constraint {
   /** unique or primary key constraint */
-  DrinkPkey = 'drink_pkey',
+  DrinkPkey = 'drink_pkey'
 }
 
 /** input type for inserting data into table "drink" */
@@ -747,7 +745,7 @@ export enum Drink_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Kind = 'kind',
+  Kind = 'kind'
 }
 
 /** input type for updating data in table "drink" */
@@ -764,7 +762,7 @@ export enum Drink_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Kind = 'kind',
+  Kind = 'kind'
 }
 
 /** columns and relationships of "employee" */
@@ -807,6 +805,7 @@ export type Employee_Aggregate_Fields = {
   variance?: Maybe<Employee_Variance_Fields>;
 };
 
+
 /** aggregate fields of "employee" */
 export type Employee_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<Employee_Select_Column>>;
@@ -842,7 +841,7 @@ export type Employee_Bool_Exp = {
 /** unique or primary key constraints on table "employee" */
 export enum Employee_Constraint {
   /** unique or primary key constraint */
-  EmployeePkey = 'employee_pkey',
+  EmployeePkey = 'employee_pkey'
 }
 
 /** input type for incrementing numeric columns in table "employee" */
@@ -961,7 +960,7 @@ export enum Employee_Select_Column {
   /** column name */
   TrainsAvailable = 'trains_available',
   /** column name */
-  Used = 'used',
+  Used = 'used'
 }
 
 /** input type for updating data in table "employee" */
@@ -1033,7 +1032,7 @@ export enum Employee_Update_Column {
   /** column name */
   TrainsAvailable = 'trains_available',
   /** column name */
-  Used = 'used',
+  Used = 'used'
 }
 
 /** aggregate var_pop on columns */
@@ -1078,6 +1077,7 @@ export type Game_Aggregate_Fields = {
   min?: Maybe<Game_Min_Fields>;
 };
 
+
 /** aggregate fields of "game" */
 export type Game_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<Game_Select_Column>>;
@@ -1095,7 +1095,7 @@ export type Game_Bool_Exp = {
 /** unique or primary key constraints on table "game" */
 export enum Game_Constraint {
   /** unique or primary key constraint */
-  GamePkey = 'game_pkey',
+  GamePkey = 'game_pkey'
 }
 
 /** input type for inserting data into table "game" */
@@ -1144,7 +1144,7 @@ export type Game_Pk_Columns_Input = {
 /** select columns of table "game" */
 export enum Game_Select_Column {
   /** column name */
-  Id = 'id',
+  Id = 'id'
 }
 
 /** input type for updating data in table "game" */
@@ -1155,7 +1155,7 @@ export type Game_Set_Input = {
 /** update columns of table "game" */
 export enum Game_Update_Column {
   /** column name */
-  Id = 'id',
+  Id = 'id'
 }
 
 /** columns and relationships of "garden" */
@@ -1181,6 +1181,7 @@ export type Garden_Aggregate_Fields = {
   min?: Maybe<Garden_Min_Fields>;
 };
 
+
 /** aggregate fields of "garden" */
 export type Garden_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<Garden_Select_Column>>;
@@ -1200,7 +1201,7 @@ export type Garden_Bool_Exp = {
 /** unique or primary key constraints on table "garden" */
 export enum Garden_Constraint {
   /** unique or primary key constraint */
-  GardenPkey = 'garden_pkey',
+  GardenPkey = 'garden_pkey'
 }
 
 /** input type for inserting data into table "garden" */
@@ -1261,7 +1262,7 @@ export enum Garden_Select_Column {
   /** column name */
   Game = 'game',
   /** column name */
-  Id = 'id',
+  Id = 'id'
 }
 
 /** input type for updating data in table "garden" */
@@ -1278,7 +1279,7 @@ export enum Garden_Update_Column {
   /** column name */
   Game = 'game',
   /** column name */
-  Id = 'id',
+  Id = 'id'
 }
 
 /** columns and relationships of "house" */
@@ -1316,6 +1317,7 @@ export type House_Aggregate_Fields = {
   variance?: Maybe<House_Variance_Fields>;
 };
 
+
 /** aggregate fields of "house" */
 export type House_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<House_Select_Column>>;
@@ -1346,7 +1348,7 @@ export type House_Bool_Exp = {
 /** unique or primary key constraints on table "house" */
 export enum House_Constraint {
   /** unique or primary key constraint */
-  HousePkey = 'house_pkey',
+  HousePkey = 'house_pkey'
 }
 
 /** columns and relationships of "house_food_demand" */
@@ -1380,6 +1382,7 @@ export type House_Food_Demand_Aggregate_Fields = {
   variance?: Maybe<House_Food_Demand_Variance_Fields>;
 };
 
+
 /** aggregate fields of "house_food_demand" */
 export type House_Food_Demand_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<House_Food_Demand_Select_Column>>;
@@ -1405,7 +1408,7 @@ export type House_Food_Demand_Bool_Exp = {
 /** unique or primary key constraints on table "house_food_demand" */
 export enum House_Food_Demand_Constraint {
   /** unique or primary key constraint */
-  HouseFoodDemandPkey = 'house_food_demand_pkey',
+  HouseFoodDemandPkey = 'house_food_demand_pkey'
 }
 
 /** input type for incrementing numeric columns in table "house_food_demand" */
@@ -1472,7 +1475,7 @@ export enum House_Food_Demand_Select_Column {
   /** column name */
   FoodQuantity = 'food_quantity',
   /** column name */
-  House = 'house',
+  House = 'house'
 }
 
 /** input type for updating data in table "house_food_demand" */
@@ -1513,7 +1516,7 @@ export enum House_Food_Demand_Update_Column {
   /** column name */
   FoodQuantity = 'food_quantity',
   /** column name */
-  House = 'house',
+  House = 'house'
 }
 
 /** aggregate var_pop on columns */
@@ -1618,7 +1621,7 @@ export enum House_Select_Column {
   /** column name */
   Number = 'number',
   /** column name */
-  Orient = 'orient',
+  Orient = 'orient'
 }
 
 /** input type for updating data in table "house" */
@@ -1675,7 +1678,7 @@ export enum House_Update_Column {
   /** column name */
   Number = 'number',
   /** column name */
-  Orient = 'orient',
+  Orient = 'orient'
 }
 
 /** aggregate var_pop on columns */
@@ -1880,90 +1883,108 @@ export type Mutation_Root = {
   update_user_me?: Maybe<User_Me_Mutation_Response>;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_AdvertArgs = {
   where: Advert_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Advert_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Board_ObjectArgs = {
   where: Board_Object_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Board_Object_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_DinerArgs = {
   where: Diner_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Diner_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_DrinkArgs = {
   where: Drink_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Drink_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_EmployeeArgs = {
   where: Employee_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Employee_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_GameArgs = {
   where: Game_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Game_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_GardenArgs = {
   where: Garden_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Garden_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_HouseArgs = {
   where: House_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_House_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_House_Food_DemandArgs = {
   where: House_Food_Demand_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_House_Food_Demand_By_PkArgs = {
@@ -1971,20 +1992,24 @@ export type Mutation_RootDelete_House_Food_Demand_By_PkArgs = {
   house: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_PlayerArgs = {
   where: Player_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Player_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Player_FoodArgs = {
   where: Player_Food_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Player_Food_By_PkArgs = {
@@ -1992,40 +2017,48 @@ export type Mutation_RootDelete_Player_Food_By_PkArgs = {
   player: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_RoadArgs = {
   where: Road_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Road_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Road_ConnectionArgs = {
   where: Road_Connection_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Road_Connection_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_User_InfoArgs = {
   where: User_Info_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_User_Info_By_PkArgs = {
   id: Scalars['String'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_User_MeArgs = {
   where: User_Me_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_AdvertArgs = {
@@ -2033,11 +2066,13 @@ export type Mutation_RootInsert_AdvertArgs = {
   on_conflict?: Maybe<Advert_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Advert_OneArgs = {
   object: Advert_Insert_Input;
   on_conflict?: Maybe<Advert_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Board_ObjectArgs = {
@@ -2045,11 +2080,13 @@ export type Mutation_RootInsert_Board_ObjectArgs = {
   on_conflict?: Maybe<Board_Object_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Board_Object_OneArgs = {
   object: Board_Object_Insert_Input;
   on_conflict?: Maybe<Board_Object_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_DinerArgs = {
@@ -2057,11 +2094,13 @@ export type Mutation_RootInsert_DinerArgs = {
   on_conflict?: Maybe<Diner_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Diner_OneArgs = {
   object: Diner_Insert_Input;
   on_conflict?: Maybe<Diner_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_DrinkArgs = {
@@ -2069,11 +2108,13 @@ export type Mutation_RootInsert_DrinkArgs = {
   on_conflict?: Maybe<Drink_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Drink_OneArgs = {
   object: Drink_Insert_Input;
   on_conflict?: Maybe<Drink_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_EmployeeArgs = {
@@ -2081,11 +2122,13 @@ export type Mutation_RootInsert_EmployeeArgs = {
   on_conflict?: Maybe<Employee_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Employee_OneArgs = {
   object: Employee_Insert_Input;
   on_conflict?: Maybe<Employee_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_GameArgs = {
@@ -2093,11 +2136,13 @@ export type Mutation_RootInsert_GameArgs = {
   on_conflict?: Maybe<Game_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Game_OneArgs = {
   object: Game_Insert_Input;
   on_conflict?: Maybe<Game_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_GardenArgs = {
@@ -2105,11 +2150,13 @@ export type Mutation_RootInsert_GardenArgs = {
   on_conflict?: Maybe<Garden_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Garden_OneArgs = {
   object: Garden_Insert_Input;
   on_conflict?: Maybe<Garden_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_HouseArgs = {
@@ -2117,11 +2164,13 @@ export type Mutation_RootInsert_HouseArgs = {
   on_conflict?: Maybe<House_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_House_Food_DemandArgs = {
   objects: Array<House_Food_Demand_Insert_Input>;
   on_conflict?: Maybe<House_Food_Demand_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_House_Food_Demand_OneArgs = {
@@ -2129,11 +2178,13 @@ export type Mutation_RootInsert_House_Food_Demand_OneArgs = {
   on_conflict?: Maybe<House_Food_Demand_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_House_OneArgs = {
   object: House_Insert_Input;
   on_conflict?: Maybe<House_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_PlayerArgs = {
@@ -2141,11 +2192,13 @@ export type Mutation_RootInsert_PlayerArgs = {
   on_conflict?: Maybe<Player_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Player_FoodArgs = {
   objects: Array<Player_Food_Insert_Input>;
   on_conflict?: Maybe<Player_Food_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Player_Food_OneArgs = {
@@ -2153,11 +2206,13 @@ export type Mutation_RootInsert_Player_Food_OneArgs = {
   on_conflict?: Maybe<Player_Food_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Player_OneArgs = {
   object: Player_Insert_Input;
   on_conflict?: Maybe<Player_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_RoadArgs = {
@@ -2165,11 +2220,13 @@ export type Mutation_RootInsert_RoadArgs = {
   on_conflict?: Maybe<Road_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Road_ConnectionArgs = {
   objects: Array<Road_Connection_Insert_Input>;
   on_conflict?: Maybe<Road_Connection_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Road_Connection_OneArgs = {
@@ -2177,11 +2234,13 @@ export type Mutation_RootInsert_Road_Connection_OneArgs = {
   on_conflict?: Maybe<Road_Connection_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Road_OneArgs = {
   object: Road_Insert_Input;
   on_conflict?: Maybe<Road_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_User_InfoArgs = {
@@ -2189,21 +2248,25 @@ export type Mutation_RootInsert_User_InfoArgs = {
   on_conflict?: Maybe<User_Info_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_User_Info_OneArgs = {
   object: User_Info_Insert_Input;
   on_conflict?: Maybe<User_Info_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_User_MeArgs = {
   objects: Array<User_Me_Insert_Input>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_User_Me_OneArgs = {
   object: User_Me_Insert_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_AdvertArgs = {
@@ -2212,12 +2275,14 @@ export type Mutation_RootUpdate_AdvertArgs = {
   where: Advert_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Advert_By_PkArgs = {
   _inc?: Maybe<Advert_Inc_Input>;
   _set?: Maybe<Advert_Set_Input>;
   pk_columns: Advert_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Board_ObjectArgs = {
@@ -2226,6 +2291,7 @@ export type Mutation_RootUpdate_Board_ObjectArgs = {
   where: Board_Object_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Board_Object_By_PkArgs = {
   _inc?: Maybe<Board_Object_Inc_Input>;
@@ -2233,11 +2299,13 @@ export type Mutation_RootUpdate_Board_Object_By_PkArgs = {
   pk_columns: Board_Object_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_DinerArgs = {
   _set?: Maybe<Diner_Set_Input>;
   where: Diner_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Diner_By_PkArgs = {
@@ -2245,17 +2313,20 @@ export type Mutation_RootUpdate_Diner_By_PkArgs = {
   pk_columns: Diner_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_DrinkArgs = {
   _set?: Maybe<Drink_Set_Input>;
   where: Drink_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Drink_By_PkArgs = {
   _set?: Maybe<Drink_Set_Input>;
   pk_columns: Drink_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_EmployeeArgs = {
@@ -2264,6 +2335,7 @@ export type Mutation_RootUpdate_EmployeeArgs = {
   where: Employee_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Employee_By_PkArgs = {
   _inc?: Maybe<Employee_Inc_Input>;
@@ -2271,11 +2343,13 @@ export type Mutation_RootUpdate_Employee_By_PkArgs = {
   pk_columns: Employee_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_GameArgs = {
   _set?: Maybe<Game_Set_Input>;
   where: Game_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Game_By_PkArgs = {
@@ -2283,17 +2357,20 @@ export type Mutation_RootUpdate_Game_By_PkArgs = {
   pk_columns: Game_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_GardenArgs = {
   _set?: Maybe<Garden_Set_Input>;
   where: Garden_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Garden_By_PkArgs = {
   _set?: Maybe<Garden_Set_Input>;
   pk_columns: Garden_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_HouseArgs = {
@@ -2302,12 +2379,14 @@ export type Mutation_RootUpdate_HouseArgs = {
   where: House_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_House_By_PkArgs = {
   _inc?: Maybe<House_Inc_Input>;
   _set?: Maybe<House_Set_Input>;
   pk_columns: House_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_House_Food_DemandArgs = {
@@ -2316,12 +2395,14 @@ export type Mutation_RootUpdate_House_Food_DemandArgs = {
   where: House_Food_Demand_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_House_Food_Demand_By_PkArgs = {
   _inc?: Maybe<House_Food_Demand_Inc_Input>;
   _set?: Maybe<House_Food_Demand_Set_Input>;
   pk_columns: House_Food_Demand_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_PlayerArgs = {
@@ -2330,12 +2411,14 @@ export type Mutation_RootUpdate_PlayerArgs = {
   where: Player_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Player_By_PkArgs = {
   _inc?: Maybe<Player_Inc_Input>;
   _set?: Maybe<Player_Set_Input>;
   pk_columns: Player_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Player_FoodArgs = {
@@ -2344,6 +2427,7 @@ export type Mutation_RootUpdate_Player_FoodArgs = {
   where: Player_Food_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Player_Food_By_PkArgs = {
   _inc?: Maybe<Player_Food_Inc_Input>;
@@ -2351,17 +2435,20 @@ export type Mutation_RootUpdate_Player_Food_By_PkArgs = {
   pk_columns: Player_Food_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_RoadArgs = {
   _set?: Maybe<Road_Set_Input>;
   where: Road_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Road_By_PkArgs = {
   _set?: Maybe<Road_Set_Input>;
   pk_columns: Road_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Road_ConnectionArgs = {
@@ -2370,6 +2457,7 @@ export type Mutation_RootUpdate_Road_ConnectionArgs = {
   where: Road_Connection_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Road_Connection_By_PkArgs = {
   _inc?: Maybe<Road_Connection_Inc_Input>;
@@ -2377,17 +2465,20 @@ export type Mutation_RootUpdate_Road_Connection_By_PkArgs = {
   pk_columns: Road_Connection_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_User_InfoArgs = {
   _set?: Maybe<User_Info_Set_Input>;
   where: User_Info_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_User_Info_By_PkArgs = {
   _set?: Maybe<User_Info_Set_Input>;
   pk_columns: User_Info_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_User_MeArgs = {
@@ -2408,7 +2499,7 @@ export enum Order_By {
   /** in descending order, nulls first */
   DescNullsFirst = 'desc_nulls_first',
   /** in descending order, nulls last */
-  DescNullsLast = 'desc_nulls_last',
+  DescNullsLast = 'desc_nulls_last'
 }
 
 /** columns and relationships of "player" */
@@ -2444,6 +2535,7 @@ export type Player_Aggregate_Fields = {
   variance?: Maybe<Player_Variance_Fields>;
 };
 
+
 /** aggregate fields of "player" */
 export type Player_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<Player_Select_Column>>;
@@ -2471,7 +2563,7 @@ export type Player_Bool_Exp = {
 /** unique or primary key constraints on table "player" */
 export enum Player_Constraint {
   /** unique or primary key constraint */
-  PlayerPkey = 'player_pkey',
+  PlayerPkey = 'player_pkey'
 }
 
 /** columns and relationships of "player_food" */
@@ -2505,6 +2597,7 @@ export type Player_Food_Aggregate_Fields = {
   variance?: Maybe<Player_Food_Variance_Fields>;
 };
 
+
 /** aggregate fields of "player_food" */
 export type Player_Food_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<Player_Food_Select_Column>>;
@@ -2530,7 +2623,7 @@ export type Player_Food_Bool_Exp = {
 /** unique or primary key constraints on table "player_food" */
 export enum Player_Food_Constraint {
   /** unique or primary key constraint */
-  PlayerFoodPkey = 'player_food_pkey',
+  PlayerFoodPkey = 'player_food_pkey'
 }
 
 /** input type for incrementing numeric columns in table "player_food" */
@@ -2597,7 +2690,7 @@ export enum Player_Food_Select_Column {
   /** column name */
   FoodQuantity = 'food_quantity',
   /** column name */
-  Player = 'player',
+  Player = 'player'
 }
 
 /** input type for updating data in table "player_food" */
@@ -2638,7 +2731,7 @@ export enum Player_Food_Update_Column {
   /** column name */
   FoodQuantity = 'food_quantity',
   /** column name */
-  Player = 'player',
+  Player = 'player'
 }
 
 /** aggregate var_pop on columns */
@@ -2734,7 +2827,7 @@ export enum Player_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Name = 'name',
+  Name = 'name'
 }
 
 /** input type for updating data in table "player" */
@@ -2781,7 +2874,7 @@ export enum Player_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Name = 'name',
+  Name = 'name'
 }
 
 /** aggregate var_pop on columns */
@@ -2894,6 +2987,7 @@ export type Query_Root = {
   user_me_aggregate: User_Me_Aggregate;
 };
 
+
 export type Query_RootAdvertArgs = {
   distinct_on?: Maybe<Array<Advert_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -2901,6 +2995,7 @@ export type Query_RootAdvertArgs = {
   order_by?: Maybe<Array<Advert_Order_By>>;
   where?: Maybe<Advert_Bool_Exp>;
 };
+
 
 export type Query_RootAdvert_AggregateArgs = {
   distinct_on?: Maybe<Array<Advert_Select_Column>>;
@@ -2910,9 +3005,11 @@ export type Query_RootAdvert_AggregateArgs = {
   where?: Maybe<Advert_Bool_Exp>;
 };
 
+
 export type Query_RootAdvert_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootBoard_ObjectArgs = {
   distinct_on?: Maybe<Array<Board_Object_Select_Column>>;
@@ -2922,6 +3019,7 @@ export type Query_RootBoard_ObjectArgs = {
   where?: Maybe<Board_Object_Bool_Exp>;
 };
 
+
 export type Query_RootBoard_Object_AggregateArgs = {
   distinct_on?: Maybe<Array<Board_Object_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -2930,9 +3028,11 @@ export type Query_RootBoard_Object_AggregateArgs = {
   where?: Maybe<Board_Object_Bool_Exp>;
 };
 
+
 export type Query_RootBoard_Object_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootDinerArgs = {
   distinct_on?: Maybe<Array<Diner_Select_Column>>;
@@ -2942,6 +3042,7 @@ export type Query_RootDinerArgs = {
   where?: Maybe<Diner_Bool_Exp>;
 };
 
+
 export type Query_RootDiner_AggregateArgs = {
   distinct_on?: Maybe<Array<Diner_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -2950,9 +3051,11 @@ export type Query_RootDiner_AggregateArgs = {
   where?: Maybe<Diner_Bool_Exp>;
 };
 
+
 export type Query_RootDiner_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootDrinkArgs = {
   distinct_on?: Maybe<Array<Drink_Select_Column>>;
@@ -2962,6 +3065,7 @@ export type Query_RootDrinkArgs = {
   where?: Maybe<Drink_Bool_Exp>;
 };
 
+
 export type Query_RootDrink_AggregateArgs = {
   distinct_on?: Maybe<Array<Drink_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -2970,9 +3074,11 @@ export type Query_RootDrink_AggregateArgs = {
   where?: Maybe<Drink_Bool_Exp>;
 };
 
+
 export type Query_RootDrink_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootEmployeeArgs = {
   distinct_on?: Maybe<Array<Employee_Select_Column>>;
@@ -2982,6 +3088,7 @@ export type Query_RootEmployeeArgs = {
   where?: Maybe<Employee_Bool_Exp>;
 };
 
+
 export type Query_RootEmployee_AggregateArgs = {
   distinct_on?: Maybe<Array<Employee_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -2990,9 +3097,11 @@ export type Query_RootEmployee_AggregateArgs = {
   where?: Maybe<Employee_Bool_Exp>;
 };
 
+
 export type Query_RootEmployee_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootGameArgs = {
   distinct_on?: Maybe<Array<Game_Select_Column>>;
@@ -3002,6 +3111,7 @@ export type Query_RootGameArgs = {
   where?: Maybe<Game_Bool_Exp>;
 };
 
+
 export type Query_RootGame_AggregateArgs = {
   distinct_on?: Maybe<Array<Game_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3010,9 +3120,11 @@ export type Query_RootGame_AggregateArgs = {
   where?: Maybe<Game_Bool_Exp>;
 };
 
+
 export type Query_RootGame_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootGardenArgs = {
   distinct_on?: Maybe<Array<Garden_Select_Column>>;
@@ -3022,6 +3134,7 @@ export type Query_RootGardenArgs = {
   where?: Maybe<Garden_Bool_Exp>;
 };
 
+
 export type Query_RootGarden_AggregateArgs = {
   distinct_on?: Maybe<Array<Garden_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3030,9 +3143,11 @@ export type Query_RootGarden_AggregateArgs = {
   where?: Maybe<Garden_Bool_Exp>;
 };
 
+
 export type Query_RootGarden_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootHouseArgs = {
   distinct_on?: Maybe<Array<House_Select_Column>>;
@@ -3042,6 +3157,7 @@ export type Query_RootHouseArgs = {
   where?: Maybe<House_Bool_Exp>;
 };
 
+
 export type Query_RootHouse_AggregateArgs = {
   distinct_on?: Maybe<Array<House_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3050,9 +3166,11 @@ export type Query_RootHouse_AggregateArgs = {
   where?: Maybe<House_Bool_Exp>;
 };
 
+
 export type Query_RootHouse_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootHouse_Food_DemandArgs = {
   distinct_on?: Maybe<Array<House_Food_Demand_Select_Column>>;
@@ -3062,6 +3180,7 @@ export type Query_RootHouse_Food_DemandArgs = {
   where?: Maybe<House_Food_Demand_Bool_Exp>;
 };
 
+
 export type Query_RootHouse_Food_Demand_AggregateArgs = {
   distinct_on?: Maybe<Array<House_Food_Demand_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3070,10 +3189,12 @@ export type Query_RootHouse_Food_Demand_AggregateArgs = {
   where?: Maybe<House_Food_Demand_Bool_Exp>;
 };
 
+
 export type Query_RootHouse_Food_Demand_By_PkArgs = {
   food_kind: Scalars['String'];
   house: Scalars['uuid'];
 };
+
 
 export type Query_RootPlayerArgs = {
   distinct_on?: Maybe<Array<Player_Select_Column>>;
@@ -3083,6 +3204,7 @@ export type Query_RootPlayerArgs = {
   where?: Maybe<Player_Bool_Exp>;
 };
 
+
 export type Query_RootPlayer_AggregateArgs = {
   distinct_on?: Maybe<Array<Player_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3091,9 +3213,11 @@ export type Query_RootPlayer_AggregateArgs = {
   where?: Maybe<Player_Bool_Exp>;
 };
 
+
 export type Query_RootPlayer_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootPlayer_FoodArgs = {
   distinct_on?: Maybe<Array<Player_Food_Select_Column>>;
@@ -3103,6 +3227,7 @@ export type Query_RootPlayer_FoodArgs = {
   where?: Maybe<Player_Food_Bool_Exp>;
 };
 
+
 export type Query_RootPlayer_Food_AggregateArgs = {
   distinct_on?: Maybe<Array<Player_Food_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3111,10 +3236,12 @@ export type Query_RootPlayer_Food_AggregateArgs = {
   where?: Maybe<Player_Food_Bool_Exp>;
 };
 
+
 export type Query_RootPlayer_Food_By_PkArgs = {
   food_kind: Scalars['String'];
   player: Scalars['uuid'];
 };
+
 
 export type Query_RootRoadArgs = {
   distinct_on?: Maybe<Array<Road_Select_Column>>;
@@ -3124,6 +3251,7 @@ export type Query_RootRoadArgs = {
   where?: Maybe<Road_Bool_Exp>;
 };
 
+
 export type Query_RootRoad_AggregateArgs = {
   distinct_on?: Maybe<Array<Road_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3132,9 +3260,11 @@ export type Query_RootRoad_AggregateArgs = {
   where?: Maybe<Road_Bool_Exp>;
 };
 
+
 export type Query_RootRoad_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootRoad_ConnectionArgs = {
   distinct_on?: Maybe<Array<Road_Connection_Select_Column>>;
@@ -3144,6 +3274,7 @@ export type Query_RootRoad_ConnectionArgs = {
   where?: Maybe<Road_Connection_Bool_Exp>;
 };
 
+
 export type Query_RootRoad_Connection_AggregateArgs = {
   distinct_on?: Maybe<Array<Road_Connection_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3152,9 +3283,11 @@ export type Query_RootRoad_Connection_AggregateArgs = {
   where?: Maybe<Road_Connection_Bool_Exp>;
 };
 
+
 export type Query_RootRoad_Connection_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootUser_InfoArgs = {
   distinct_on?: Maybe<Array<User_Info_Select_Column>>;
@@ -3164,6 +3297,7 @@ export type Query_RootUser_InfoArgs = {
   where?: Maybe<User_Info_Bool_Exp>;
 };
 
+
 export type Query_RootUser_Info_AggregateArgs = {
   distinct_on?: Maybe<Array<User_Info_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3172,9 +3306,11 @@ export type Query_RootUser_Info_AggregateArgs = {
   where?: Maybe<User_Info_Bool_Exp>;
 };
 
+
 export type Query_RootUser_Info_By_PkArgs = {
   id: Scalars['String'];
 };
+
 
 export type Query_RootUser_MeArgs = {
   distinct_on?: Maybe<Array<User_Me_Select_Column>>;
@@ -3183,6 +3319,7 @@ export type Query_RootUser_MeArgs = {
   order_by?: Maybe<Array<User_Me_Order_By>>;
   where?: Maybe<User_Me_Bool_Exp>;
 };
+
 
 export type Query_RootUser_Me_AggregateArgs = {
   distinct_on?: Maybe<Array<User_Me_Select_Column>>;
@@ -3213,6 +3350,7 @@ export type Road_Aggregate_Fields = {
   max?: Maybe<Road_Max_Fields>;
   min?: Maybe<Road_Min_Fields>;
 };
+
 
 /** aggregate fields of "road" */
 export type Road_Aggregate_FieldsCountArgs = {
@@ -3259,6 +3397,7 @@ export type Road_Connection_Aggregate_Fields = {
   variance?: Maybe<Road_Connection_Variance_Fields>;
 };
 
+
 /** aggregate fields of "road_connection" */
 export type Road_Connection_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<Road_Connection_Select_Column>>;
@@ -3283,7 +3422,7 @@ export type Road_Connection_Bool_Exp = {
 /** unique or primary key constraints on table "road_connection" */
 export enum Road_Connection_Constraint {
   /** unique or primary key constraint */
-  RoadConnectionPkey = 'road_connection_pkey',
+  RoadConnectionPkey = 'road_connection_pkey'
 }
 
 /** input type for incrementing numeric columns in table "road_connection" */
@@ -3343,7 +3482,7 @@ export enum Road_Connection_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Number = 'number',
+  Number = 'number'
 }
 
 /** input type for updating data in table "road_connection" */
@@ -3381,7 +3520,7 @@ export enum Road_Connection_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Number = 'number',
+  Number = 'number'
 }
 
 /** aggregate var_pop on columns */
@@ -3405,7 +3544,7 @@ export type Road_Connection_Variance_Fields = {
 /** unique or primary key constraints on table "road" */
 export enum Road_Constraint {
   /** unique or primary key constraint */
-  RoadPkey = 'road_pkey',
+  RoadPkey = 'road_pkey'
 }
 
 /** input type for inserting data into table "road" */
@@ -3460,7 +3599,7 @@ export enum Road_Select_Column {
   /** column name */
   Game = 'game',
   /** column name */
-  Id = 'id',
+  Id = 'id'
 }
 
 /** input type for updating data in table "road" */
@@ -3474,7 +3613,7 @@ export enum Road_Update_Column {
   /** column name */
   Game = 'game',
   /** column name */
-  Id = 'id',
+  Id = 'id'
 }
 
 export type Subscription_Root = {
@@ -3569,6 +3708,7 @@ export type Subscription_Root = {
   user_me_aggregate: User_Me_Aggregate;
 };
 
+
 export type Subscription_RootAdvertArgs = {
   distinct_on?: Maybe<Array<Advert_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3576,6 +3716,7 @@ export type Subscription_RootAdvertArgs = {
   order_by?: Maybe<Array<Advert_Order_By>>;
   where?: Maybe<Advert_Bool_Exp>;
 };
+
 
 export type Subscription_RootAdvert_AggregateArgs = {
   distinct_on?: Maybe<Array<Advert_Select_Column>>;
@@ -3585,9 +3726,11 @@ export type Subscription_RootAdvert_AggregateArgs = {
   where?: Maybe<Advert_Bool_Exp>;
 };
 
+
 export type Subscription_RootAdvert_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootBoard_ObjectArgs = {
   distinct_on?: Maybe<Array<Board_Object_Select_Column>>;
@@ -3597,6 +3740,7 @@ export type Subscription_RootBoard_ObjectArgs = {
   where?: Maybe<Board_Object_Bool_Exp>;
 };
 
+
 export type Subscription_RootBoard_Object_AggregateArgs = {
   distinct_on?: Maybe<Array<Board_Object_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3605,9 +3749,11 @@ export type Subscription_RootBoard_Object_AggregateArgs = {
   where?: Maybe<Board_Object_Bool_Exp>;
 };
 
+
 export type Subscription_RootBoard_Object_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootDinerArgs = {
   distinct_on?: Maybe<Array<Diner_Select_Column>>;
@@ -3617,6 +3763,7 @@ export type Subscription_RootDinerArgs = {
   where?: Maybe<Diner_Bool_Exp>;
 };
 
+
 export type Subscription_RootDiner_AggregateArgs = {
   distinct_on?: Maybe<Array<Diner_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3625,9 +3772,11 @@ export type Subscription_RootDiner_AggregateArgs = {
   where?: Maybe<Diner_Bool_Exp>;
 };
 
+
 export type Subscription_RootDiner_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootDrinkArgs = {
   distinct_on?: Maybe<Array<Drink_Select_Column>>;
@@ -3637,6 +3786,7 @@ export type Subscription_RootDrinkArgs = {
   where?: Maybe<Drink_Bool_Exp>;
 };
 
+
 export type Subscription_RootDrink_AggregateArgs = {
   distinct_on?: Maybe<Array<Drink_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3645,9 +3795,11 @@ export type Subscription_RootDrink_AggregateArgs = {
   where?: Maybe<Drink_Bool_Exp>;
 };
 
+
 export type Subscription_RootDrink_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootEmployeeArgs = {
   distinct_on?: Maybe<Array<Employee_Select_Column>>;
@@ -3657,6 +3809,7 @@ export type Subscription_RootEmployeeArgs = {
   where?: Maybe<Employee_Bool_Exp>;
 };
 
+
 export type Subscription_RootEmployee_AggregateArgs = {
   distinct_on?: Maybe<Array<Employee_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3665,9 +3818,11 @@ export type Subscription_RootEmployee_AggregateArgs = {
   where?: Maybe<Employee_Bool_Exp>;
 };
 
+
 export type Subscription_RootEmployee_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootGameArgs = {
   distinct_on?: Maybe<Array<Game_Select_Column>>;
@@ -3677,6 +3832,7 @@ export type Subscription_RootGameArgs = {
   where?: Maybe<Game_Bool_Exp>;
 };
 
+
 export type Subscription_RootGame_AggregateArgs = {
   distinct_on?: Maybe<Array<Game_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3685,9 +3841,11 @@ export type Subscription_RootGame_AggregateArgs = {
   where?: Maybe<Game_Bool_Exp>;
 };
 
+
 export type Subscription_RootGame_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootGardenArgs = {
   distinct_on?: Maybe<Array<Garden_Select_Column>>;
@@ -3697,6 +3855,7 @@ export type Subscription_RootGardenArgs = {
   where?: Maybe<Garden_Bool_Exp>;
 };
 
+
 export type Subscription_RootGarden_AggregateArgs = {
   distinct_on?: Maybe<Array<Garden_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3705,9 +3864,11 @@ export type Subscription_RootGarden_AggregateArgs = {
   where?: Maybe<Garden_Bool_Exp>;
 };
 
+
 export type Subscription_RootGarden_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootHouseArgs = {
   distinct_on?: Maybe<Array<House_Select_Column>>;
@@ -3717,6 +3878,7 @@ export type Subscription_RootHouseArgs = {
   where?: Maybe<House_Bool_Exp>;
 };
 
+
 export type Subscription_RootHouse_AggregateArgs = {
   distinct_on?: Maybe<Array<House_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3725,9 +3887,11 @@ export type Subscription_RootHouse_AggregateArgs = {
   where?: Maybe<House_Bool_Exp>;
 };
 
+
 export type Subscription_RootHouse_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootHouse_Food_DemandArgs = {
   distinct_on?: Maybe<Array<House_Food_Demand_Select_Column>>;
@@ -3737,6 +3901,7 @@ export type Subscription_RootHouse_Food_DemandArgs = {
   where?: Maybe<House_Food_Demand_Bool_Exp>;
 };
 
+
 export type Subscription_RootHouse_Food_Demand_AggregateArgs = {
   distinct_on?: Maybe<Array<House_Food_Demand_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3745,10 +3910,12 @@ export type Subscription_RootHouse_Food_Demand_AggregateArgs = {
   where?: Maybe<House_Food_Demand_Bool_Exp>;
 };
 
+
 export type Subscription_RootHouse_Food_Demand_By_PkArgs = {
   food_kind: Scalars['String'];
   house: Scalars['uuid'];
 };
+
 
 export type Subscription_RootPlayerArgs = {
   distinct_on?: Maybe<Array<Player_Select_Column>>;
@@ -3758,6 +3925,7 @@ export type Subscription_RootPlayerArgs = {
   where?: Maybe<Player_Bool_Exp>;
 };
 
+
 export type Subscription_RootPlayer_AggregateArgs = {
   distinct_on?: Maybe<Array<Player_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3766,9 +3934,11 @@ export type Subscription_RootPlayer_AggregateArgs = {
   where?: Maybe<Player_Bool_Exp>;
 };
 
+
 export type Subscription_RootPlayer_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootPlayer_FoodArgs = {
   distinct_on?: Maybe<Array<Player_Food_Select_Column>>;
@@ -3778,6 +3948,7 @@ export type Subscription_RootPlayer_FoodArgs = {
   where?: Maybe<Player_Food_Bool_Exp>;
 };
 
+
 export type Subscription_RootPlayer_Food_AggregateArgs = {
   distinct_on?: Maybe<Array<Player_Food_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3786,10 +3957,12 @@ export type Subscription_RootPlayer_Food_AggregateArgs = {
   where?: Maybe<Player_Food_Bool_Exp>;
 };
 
+
 export type Subscription_RootPlayer_Food_By_PkArgs = {
   food_kind: Scalars['String'];
   player: Scalars['uuid'];
 };
+
 
 export type Subscription_RootRoadArgs = {
   distinct_on?: Maybe<Array<Road_Select_Column>>;
@@ -3799,6 +3972,7 @@ export type Subscription_RootRoadArgs = {
   where?: Maybe<Road_Bool_Exp>;
 };
 
+
 export type Subscription_RootRoad_AggregateArgs = {
   distinct_on?: Maybe<Array<Road_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3807,9 +3981,11 @@ export type Subscription_RootRoad_AggregateArgs = {
   where?: Maybe<Road_Bool_Exp>;
 };
 
+
 export type Subscription_RootRoad_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootRoad_ConnectionArgs = {
   distinct_on?: Maybe<Array<Road_Connection_Select_Column>>;
@@ -3819,6 +3995,7 @@ export type Subscription_RootRoad_ConnectionArgs = {
   where?: Maybe<Road_Connection_Bool_Exp>;
 };
 
+
 export type Subscription_RootRoad_Connection_AggregateArgs = {
   distinct_on?: Maybe<Array<Road_Connection_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3827,9 +4004,11 @@ export type Subscription_RootRoad_Connection_AggregateArgs = {
   where?: Maybe<Road_Connection_Bool_Exp>;
 };
 
+
 export type Subscription_RootRoad_Connection_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootUser_InfoArgs = {
   distinct_on?: Maybe<Array<User_Info_Select_Column>>;
@@ -3839,6 +4018,7 @@ export type Subscription_RootUser_InfoArgs = {
   where?: Maybe<User_Info_Bool_Exp>;
 };
 
+
 export type Subscription_RootUser_Info_AggregateArgs = {
   distinct_on?: Maybe<Array<User_Info_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3847,9 +4027,11 @@ export type Subscription_RootUser_Info_AggregateArgs = {
   where?: Maybe<User_Info_Bool_Exp>;
 };
 
+
 export type Subscription_RootUser_Info_By_PkArgs = {
   id: Scalars['String'];
 };
+
 
 export type Subscription_RootUser_MeArgs = {
   distinct_on?: Maybe<Array<User_Me_Select_Column>>;
@@ -3858,6 +4040,7 @@ export type Subscription_RootUser_MeArgs = {
   order_by?: Maybe<Array<User_Me_Order_By>>;
   where?: Maybe<User_Me_Bool_Exp>;
 };
+
 
 export type Subscription_RootUser_Me_AggregateArgs = {
   distinct_on?: Maybe<Array<User_Me_Select_Column>>;
@@ -3892,6 +4075,7 @@ export type User_Info_Aggregate_Fields = {
   min?: Maybe<User_Info_Min_Fields>;
 };
 
+
 /** aggregate fields of "user_info" */
 export type User_Info_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<User_Info_Select_Column>>;
@@ -3915,7 +4099,7 @@ export enum User_Info_Constraint {
   /** unique or primary key constraint */
   UserInfoDisplayNameKey = 'user_info_display_name_key',
   /** unique or primary key constraint */
-  UserPkey = 'user_pkey',
+  UserPkey = 'user_pkey'
 }
 
 /** input type for inserting data into table "user_info" */
@@ -3988,7 +4172,7 @@ export enum User_Info_Select_Column {
   /** column name */
   Name = 'name',
   /** column name */
-  Nickname = 'nickname',
+  Nickname = 'nickname'
 }
 
 /** input type for updating data in table "user_info" */
@@ -4011,7 +4195,7 @@ export enum User_Info_Update_Column {
   /** column name */
   Name = 'name',
   /** column name */
-  Nickname = 'nickname',
+  Nickname = 'nickname'
 }
 
 /** columns and relationships of "user_me" */
@@ -4037,6 +4221,7 @@ export type User_Me_Aggregate_Fields = {
   max?: Maybe<User_Me_Max_Fields>;
   min?: Maybe<User_Me_Min_Fields>;
 };
+
 
 /** aggregate fields of "user_me" */
 export type User_Me_Aggregate_FieldsCountArgs = {
@@ -4107,7 +4292,7 @@ export enum User_Me_Select_Column {
   /** column name */
   Name = 'name',
   /** column name */
-  Nickname = 'nickname',
+  Nickname = 'nickname'
 }
 
 /** input type for updating data in table "user_me" */
@@ -4131,29 +4316,30 @@ export type Uuid_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
-export type SelfQueryVariables = Exact<{ [key: string]: never }>;
+export type SelfQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type SelfQuery = {
-  __typename?: 'query_root';
-  user_me: Array<{
-    __typename?: 'user_me';
-    display_name?: Maybe<string>;
-    id?: Maybe<string>;
-    name?: Maybe<string>;
-    nickname?: Maybe<string>;
-  }>;
-};
+
+export type SelfQuery = { __typename?: 'query_root', user_me: Array<{ __typename?: 'user_me', display_name?: Maybe<string>, id?: Maybe<string>, name?: Maybe<string>, nickname?: Maybe<string> }> };
+
+export type SetDisplayNameByUserIdMutationVariables = Exact<{
+  id: Scalars['String'];
+  display_name: Scalars['String'];
+}>;
+
+
+export type SetDisplayNameByUserIdMutation = { __typename?: 'mutation_root', update_user_info_by_pk?: Maybe<{ __typename?: 'user_info', display_name?: Maybe<string> }> };
+
 
 export const SelfDocument = gql`
-  query Self {
-    user_me {
-      display_name
-      id
-      name
-      nickname
-    }
+    query Self {
+  user_me {
+    display_name
+    id
+    name
+    nickname
   }
-`;
+}
+    `;
 
 /**
  * __useSelfQuery__
@@ -4170,21 +4356,51 @@ export const SelfDocument = gql`
  *   },
  * });
  */
-export function useSelfQuery(
-  baseOptions?: Apollo.QueryHookOptions<SelfQuery, SelfQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<SelfQuery, SelfQueryVariables>(SelfDocument, options);
-}
-export function useSelfLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<SelfQuery, SelfQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<SelfQuery, SelfQueryVariables>(
-    SelfDocument,
-    options
-  );
-}
+export function useSelfQuery(baseOptions?: Apollo.QueryHookOptions<SelfQuery, SelfQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SelfQuery, SelfQueryVariables>(SelfDocument, options);
+      }
+export function useSelfLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SelfQuery, SelfQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SelfQuery, SelfQueryVariables>(SelfDocument, options);
+        }
 export type SelfQueryHookResult = ReturnType<typeof useSelfQuery>;
 export type SelfLazyQueryHookResult = ReturnType<typeof useSelfLazyQuery>;
 export type SelfQueryResult = Apollo.QueryResult<SelfQuery, SelfQueryVariables>;
+export const SetDisplayNameByUserIdDocument = gql`
+    mutation SetDisplayNameByUserID($id: String!, $display_name: String!) {
+  update_user_info_by_pk(
+    pk_columns: {id: $id}
+    _set: {display_name: $display_name}
+  ) {
+    display_name
+  }
+}
+    `;
+export type SetDisplayNameByUserIdMutationFn = Apollo.MutationFunction<SetDisplayNameByUserIdMutation, SetDisplayNameByUserIdMutationVariables>;
+
+/**
+ * __useSetDisplayNameByUserIdMutation__
+ *
+ * To run a mutation, you first call `useSetDisplayNameByUserIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetDisplayNameByUserIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [setDisplayNameByUserIdMutation, { data, loading, error }] = useSetDisplayNameByUserIdMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      display_name: // value for 'display_name'
+ *   },
+ * });
+ */
+export function useSetDisplayNameByUserIdMutation(baseOptions?: Apollo.MutationHookOptions<SetDisplayNameByUserIdMutation, SetDisplayNameByUserIdMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SetDisplayNameByUserIdMutation, SetDisplayNameByUserIdMutationVariables>(SetDisplayNameByUserIdDocument, options);
+      }
+export type SetDisplayNameByUserIdMutationHookResult = ReturnType<typeof useSetDisplayNameByUserIdMutation>;
+export type SetDisplayNameByUserIdMutationResult = Apollo.MutationResult<SetDisplayNameByUserIdMutation>;
+export type SetDisplayNameByUserIdMutationOptions = Apollo.BaseMutationOptions<SetDisplayNameByUserIdMutation, SetDisplayNameByUserIdMutationVariables>;

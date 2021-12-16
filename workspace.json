@@ -342,23 +342,45 @@
         }
       }
     },
-    "graphql": {
-      "root": "libs/graphql",
-      "sourceRoot": "libs/graphql/src",
+    "galaxy-gql": {
+      "root": "libs/galaxy-gql",
+      "sourceRoot": "libs/galaxy-gql/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["libs/graphql/**/*.{ts,tsx,js,jsx}"]
+            "lintFilePatterns": ["libs/galaxy-gql/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/graphql"],
+          "outputs": ["coverage/libs/galaxy-gql"],
           "options": {
-            "jestConfig": "libs/graphql/jest.config.js",
+            "jestConfig": "libs/galaxy-gql/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "food-gql": {
+      "root": "libs/food-gql",
+      "sourceRoot": "libs/food-gql/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/food-gql/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/food-gql"],
+          "options": {
+            "jestConfig": "libs/food-gql/jest.config.js",
             "passWithNoTests": true
           }
         }
