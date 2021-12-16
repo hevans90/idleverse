@@ -1,10 +1,16 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions =  {}
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
+const defaultOptions = {};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -114,7 +120,6 @@ export type Celestial_Aggregate_Fields = {
   min?: Maybe<Celestial_Min_Fields>;
 };
 
-
 /** aggregate fields of "celestial" */
 export type Celestial_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<Celestial_Select_Column>>;
@@ -151,7 +156,7 @@ export type Celestial_Bool_Exp = {
 /** unique or primary key constraints on table "celestial" */
 export enum Celestial_Constraint {
   /** unique or primary key constraint */
-  SystemPkey = 'system_pkey'
+  SystemPkey = 'system_pkey',
 }
 
 /** input type for inserting data into table "celestial" */
@@ -238,7 +243,7 @@ export enum Celestial_Select_Column {
   /** column name */
   Name = 'name',
   /** column name */
-  OwnerId = 'owner_id'
+  OwnerId = 'owner_id',
 }
 
 /** input type for updating data in table "celestial" */
@@ -258,7 +263,7 @@ export enum Celestial_Update_Column {
   /** column name */
   Name = 'name',
   /** column name */
-  OwnerId = 'owner_id'
+  OwnerId = 'owner_id',
 }
 
 /** columns and relationships of "chat_message" */
@@ -286,7 +291,6 @@ export type Chat_Message_Aggregate_Fields = {
   max?: Maybe<Chat_Message_Max_Fields>;
   min?: Maybe<Chat_Message_Min_Fields>;
 };
-
 
 /** aggregate fields of "chat_message" */
 export type Chat_Message_Aggregate_FieldsCountArgs = {
@@ -323,7 +327,7 @@ export type Chat_Message_Bool_Exp = {
 /** unique or primary key constraints on table "chat_message" */
 export enum Chat_Message_Constraint {
   /** unique or primary key constraint */
-  ChatMessagesPkey = 'chat_messages_pkey'
+  ChatMessagesPkey = 'chat_messages_pkey',
 }
 
 /** input type for inserting data into table "chat_message" */
@@ -408,7 +412,7 @@ export enum Chat_Message_Select_Column {
   /** column name */
   PosterId = 'poster_id',
   /** column name */
-  Timestamp = 'timestamp'
+  Timestamp = 'timestamp',
 }
 
 /** input type for updating data in table "chat_message" */
@@ -428,7 +432,7 @@ export enum Chat_Message_Update_Column {
   /** column name */
   PosterId = 'poster_id',
   /** column name */
-  Timestamp = 'timestamp'
+  Timestamp = 'timestamp',
 }
 
 /** columns and relationships of "food.advert" */
@@ -468,7 +472,6 @@ export type Food_Advert_Aggregate_Fields = {
   var_samp?: Maybe<Food_Advert_Var_Samp_Fields>;
   variance?: Maybe<Food_Advert_Variance_Fields>;
 };
-
 
 /** aggregate fields of "food.advert" */
 export type Food_Advert_Aggregate_FieldsCountArgs = {
@@ -527,7 +530,7 @@ export type Food_Advert_Bool_Exp = {
 /** unique or primary key constraints on table "food.advert" */
 export enum Food_Advert_Constraint {
   /** unique or primary key constraint */
-  AdvertPkey = 'advert_pkey'
+  AdvertPkey = 'advert_pkey',
 }
 
 /** input type for incrementing numeric columns in table "food.advert" */
@@ -635,7 +638,7 @@ export enum Food_Advert_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Kind = 'kind'
+  Kind = 'kind',
 }
 
 /** input type for updating data in table "food.advert" */
@@ -705,7 +708,7 @@ export enum Food_Advert_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Kind = 'kind'
+  Kind = 'kind',
 }
 
 /** aggregate var_pop on columns */
@@ -769,7 +772,6 @@ export type Food_Board_Object = {
   rotation: Scalars['Int'];
 };
 
-
 /** columns and relationships of "food.board_object" */
 export type Food_Board_ObjectAdvertsArgs = {
   distinct_on?: Maybe<Array<Food_Advert_Select_Column>>;
@@ -778,7 +780,6 @@ export type Food_Board_ObjectAdvertsArgs = {
   order_by?: Maybe<Array<Food_Advert_Order_By>>;
   where?: Maybe<Food_Advert_Bool_Exp>;
 };
-
 
 /** columns and relationships of "food.board_object" */
 export type Food_Board_ObjectAdverts_AggregateArgs = {
@@ -789,7 +790,6 @@ export type Food_Board_ObjectAdverts_AggregateArgs = {
   where?: Maybe<Food_Advert_Bool_Exp>;
 };
 
-
 /** columns and relationships of "food.board_object" */
 export type Food_Board_ObjectDinersArgs = {
   distinct_on?: Maybe<Array<Food_Diner_Select_Column>>;
@@ -798,7 +798,6 @@ export type Food_Board_ObjectDinersArgs = {
   order_by?: Maybe<Array<Food_Diner_Order_By>>;
   where?: Maybe<Food_Diner_Bool_Exp>;
 };
-
 
 /** columns and relationships of "food.board_object" */
 export type Food_Board_ObjectDiners_AggregateArgs = {
@@ -809,7 +808,6 @@ export type Food_Board_ObjectDiners_AggregateArgs = {
   where?: Maybe<Food_Diner_Bool_Exp>;
 };
 
-
 /** columns and relationships of "food.board_object" */
 export type Food_Board_ObjectGardensArgs = {
   distinct_on?: Maybe<Array<Food_Garden_Select_Column>>;
@@ -818,7 +816,6 @@ export type Food_Board_ObjectGardensArgs = {
   order_by?: Maybe<Array<Food_Garden_Order_By>>;
   where?: Maybe<Food_Garden_Bool_Exp>;
 };
-
 
 /** columns and relationships of "food.board_object" */
 export type Food_Board_ObjectGardens_AggregateArgs = {
@@ -851,7 +848,6 @@ export type Food_Board_Object_Aggregate_Fields = {
   var_samp?: Maybe<Food_Board_Object_Var_Samp_Fields>;
   variance?: Maybe<Food_Board_Object_Variance_Fields>;
 };
-
 
 /** aggregate fields of "food.board_object" */
 export type Food_Board_Object_Aggregate_FieldsCountArgs = {
@@ -888,7 +884,7 @@ export type Food_Board_Object_Bool_Exp = {
 /** unique or primary key constraints on table "food.board_object" */
 export enum Food_Board_Object_Constraint {
   /** unique or primary key constraint */
-  BoardObjectPkey = 'board_object_pkey'
+  BoardObjectPkey = 'board_object_pkey',
 }
 
 /** input type for incrementing numeric columns in table "food.board_object" */
@@ -987,7 +983,7 @@ export enum Food_Board_Object_Select_Column {
   /** column name */
   Kind = 'kind',
   /** column name */
-  Rotation = 'rotation'
+  Rotation = 'rotation',
 }
 
 /** input type for updating data in table "food.board_object" */
@@ -1042,7 +1038,7 @@ export enum Food_Board_Object_Update_Column {
   /** column name */
   Kind = 'kind',
   /** column name */
-  Rotation = 'rotation'
+  Rotation = 'rotation',
 }
 
 /** aggregate var_pop on columns */
@@ -1096,7 +1092,6 @@ export type Food_Diner_Aggregate_Fields = {
   min?: Maybe<Food_Diner_Min_Fields>;
 };
 
-
 /** aggregate fields of "food.diner" */
 export type Food_Diner_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<Food_Diner_Select_Column>>;
@@ -1132,7 +1127,7 @@ export type Food_Diner_Bool_Exp = {
 /** unique or primary key constraints on table "food.diner" */
 export enum Food_Diner_Constraint {
   /** unique or primary key constraint */
-  DinerPkey = 'diner_pkey'
+  DinerPkey = 'diner_pkey',
 }
 
 /** input type for inserting data into table "food.diner" */
@@ -1211,7 +1206,7 @@ export enum Food_Diner_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Owner = 'owner'
+  Owner = 'owner',
 }
 
 /** input type for updating data in table "food.diner" */
@@ -1228,7 +1223,7 @@ export enum Food_Diner_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Owner = 'owner'
+  Owner = 'owner',
 }
 
 /** columns and relationships of "food.drink" */
@@ -1257,7 +1252,6 @@ export type Food_Drink_Aggregate_Fields = {
   max?: Maybe<Food_Drink_Max_Fields>;
   min?: Maybe<Food_Drink_Min_Fields>;
 };
-
 
 /** aggregate fields of "food.drink" */
 export type Food_Drink_Aggregate_FieldsCountArgs = {
@@ -1294,7 +1288,7 @@ export type Food_Drink_Bool_Exp = {
 /** unique or primary key constraints on table "food.drink" */
 export enum Food_Drink_Constraint {
   /** unique or primary key constraint */
-  DrinkPkey = 'drink_pkey'
+  DrinkPkey = 'drink_pkey',
 }
 
 /** input type for inserting data into table "food.drink" */
@@ -1380,7 +1374,7 @@ export enum Food_Drink_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Kind = 'kind'
+  Kind = 'kind',
 }
 
 /** input type for updating data in table "food.drink" */
@@ -1397,7 +1391,7 @@ export enum Food_Drink_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Kind = 'kind'
+  Kind = 'kind',
 }
 
 /** columns and relationships of "food.employee" */
@@ -1441,7 +1435,6 @@ export type Food_Employee_Aggregate_Fields = {
   var_samp?: Maybe<Food_Employee_Var_Samp_Fields>;
   variance?: Maybe<Food_Employee_Variance_Fields>;
 };
-
 
 /** aggregate fields of "food.employee" */
 export type Food_Employee_Aggregate_FieldsCountArgs = {
@@ -1507,7 +1500,7 @@ export type Food_Employee_Bool_Exp = {
 /** unique or primary key constraints on table "food.employee" */
 export enum Food_Employee_Constraint {
   /** unique or primary key constraint */
-  EmployeePkey = 'employee_pkey'
+  EmployeePkey = 'employee_pkey',
 }
 
 /** input type for incrementing numeric columns in table "food.employee" */
@@ -1658,7 +1651,7 @@ export enum Food_Employee_Select_Column {
   /** column name */
   TrainsAvailable = 'trains_available',
   /** column name */
-  Used = 'used'
+  Used = 'used',
 }
 
 /** input type for updating data in table "food.employee" */
@@ -1754,7 +1747,7 @@ export enum Food_Employee_Update_Column {
   /** column name */
   TrainsAvailable = 'trains_available',
   /** column name */
-  Used = 'used'
+  Used = 'used',
 }
 
 /** aggregate var_pop on columns */
@@ -1830,7 +1823,6 @@ export type Food_Game = {
   roads_aggregate: Food_Road_Aggregate;
 };
 
-
 /** columns and relationships of "food.game" */
 export type Food_GameAdvertsArgs = {
   distinct_on?: Maybe<Array<Food_Advert_Select_Column>>;
@@ -1839,7 +1831,6 @@ export type Food_GameAdvertsArgs = {
   order_by?: Maybe<Array<Food_Advert_Order_By>>;
   where?: Maybe<Food_Advert_Bool_Exp>;
 };
-
 
 /** columns and relationships of "food.game" */
 export type Food_GameAdverts_AggregateArgs = {
@@ -1850,7 +1841,6 @@ export type Food_GameAdverts_AggregateArgs = {
   where?: Maybe<Food_Advert_Bool_Exp>;
 };
 
-
 /** columns and relationships of "food.game" */
 export type Food_GameDrinksArgs = {
   distinct_on?: Maybe<Array<Food_Drink_Select_Column>>;
@@ -1859,7 +1849,6 @@ export type Food_GameDrinksArgs = {
   order_by?: Maybe<Array<Food_Drink_Order_By>>;
   where?: Maybe<Food_Drink_Bool_Exp>;
 };
-
 
 /** columns and relationships of "food.game" */
 export type Food_GameDrinks_AggregateArgs = {
@@ -1870,7 +1859,6 @@ export type Food_GameDrinks_AggregateArgs = {
   where?: Maybe<Food_Drink_Bool_Exp>;
 };
 
-
 /** columns and relationships of "food.game" */
 export type Food_GameEmployeesArgs = {
   distinct_on?: Maybe<Array<Food_Employee_Select_Column>>;
@@ -1879,7 +1867,6 @@ export type Food_GameEmployeesArgs = {
   order_by?: Maybe<Array<Food_Employee_Order_By>>;
   where?: Maybe<Food_Employee_Bool_Exp>;
 };
-
 
 /** columns and relationships of "food.game" */
 export type Food_GameEmployees_AggregateArgs = {
@@ -1890,7 +1877,6 @@ export type Food_GameEmployees_AggregateArgs = {
   where?: Maybe<Food_Employee_Bool_Exp>;
 };
 
-
 /** columns and relationships of "food.game" */
 export type Food_GameGardensArgs = {
   distinct_on?: Maybe<Array<Food_Garden_Select_Column>>;
@@ -1899,7 +1885,6 @@ export type Food_GameGardensArgs = {
   order_by?: Maybe<Array<Food_Garden_Order_By>>;
   where?: Maybe<Food_Garden_Bool_Exp>;
 };
-
 
 /** columns and relationships of "food.game" */
 export type Food_GameGardens_AggregateArgs = {
@@ -1910,7 +1895,6 @@ export type Food_GameGardens_AggregateArgs = {
   where?: Maybe<Food_Garden_Bool_Exp>;
 };
 
-
 /** columns and relationships of "food.game" */
 export type Food_GameHousesArgs = {
   distinct_on?: Maybe<Array<Food_House_Select_Column>>;
@@ -1919,7 +1903,6 @@ export type Food_GameHousesArgs = {
   order_by?: Maybe<Array<Food_House_Order_By>>;
   where?: Maybe<Food_House_Bool_Exp>;
 };
-
 
 /** columns and relationships of "food.game" */
 export type Food_GameHouses_AggregateArgs = {
@@ -1930,7 +1913,6 @@ export type Food_GameHouses_AggregateArgs = {
   where?: Maybe<Food_House_Bool_Exp>;
 };
 
-
 /** columns and relationships of "food.game" */
 export type Food_GamePlayersArgs = {
   distinct_on?: Maybe<Array<Food_Player_Select_Column>>;
@@ -1939,7 +1921,6 @@ export type Food_GamePlayersArgs = {
   order_by?: Maybe<Array<Food_Player_Order_By>>;
   where?: Maybe<Food_Player_Bool_Exp>;
 };
-
 
 /** columns and relationships of "food.game" */
 export type Food_GamePlayers_AggregateArgs = {
@@ -1950,7 +1931,6 @@ export type Food_GamePlayers_AggregateArgs = {
   where?: Maybe<Food_Player_Bool_Exp>;
 };
 
-
 /** columns and relationships of "food.game" */
 export type Food_GameRoadsArgs = {
   distinct_on?: Maybe<Array<Food_Road_Select_Column>>;
@@ -1959,7 +1939,6 @@ export type Food_GameRoadsArgs = {
   order_by?: Maybe<Array<Food_Road_Order_By>>;
   where?: Maybe<Food_Road_Bool_Exp>;
 };
-
 
 /** columns and relationships of "food.game" */
 export type Food_GameRoads_AggregateArgs = {
@@ -1985,7 +1964,6 @@ export type Food_Game_Aggregate_Fields = {
   min?: Maybe<Food_Game_Min_Fields>;
 };
 
-
 /** aggregate fields of "food.game" */
 export type Food_Game_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<Food_Game_Select_Column>>;
@@ -2010,7 +1988,7 @@ export type Food_Game_Bool_Exp = {
 /** unique or primary key constraints on table "food.game" */
 export enum Food_Game_Constraint {
   /** unique or primary key constraint */
-  GamePkey = 'game_pkey'
+  GamePkey = 'game_pkey',
 }
 
 /** input type for inserting data into table "food.game" */
@@ -2080,7 +2058,7 @@ export type Food_Game_Pk_Columns_Input = {
 /** select columns of table "food.game" */
 export enum Food_Game_Select_Column {
   /** column name */
-  Id = 'id'
+  Id = 'id',
 }
 
 /** input type for updating data in table "food.game" */
@@ -2091,7 +2069,7 @@ export type Food_Game_Set_Input = {
 /** update columns of table "food.game" */
 export enum Food_Game_Update_Column {
   /** column name */
-  Id = 'id'
+  Id = 'id',
 }
 
 /** columns and relationships of "food.garden" */
@@ -2120,7 +2098,6 @@ export type Food_Garden_Aggregate_Fields = {
   max?: Maybe<Food_Garden_Max_Fields>;
   min?: Maybe<Food_Garden_Min_Fields>;
 };
-
 
 /** aggregate fields of "food.garden" */
 export type Food_Garden_Aggregate_FieldsCountArgs = {
@@ -2157,7 +2134,7 @@ export type Food_Garden_Bool_Exp = {
 /** unique or primary key constraints on table "food.garden" */
 export enum Food_Garden_Constraint {
   /** unique or primary key constraint */
-  GardenPkey = 'garden_pkey'
+  GardenPkey = 'garden_pkey',
 }
 
 /** input type for inserting data into table "food.garden" */
@@ -2236,7 +2213,7 @@ export enum Food_Garden_Select_Column {
   /** column name */
   Game = 'game',
   /** column name */
-  Id = 'id'
+  Id = 'id',
 }
 
 /** input type for updating data in table "food.garden" */
@@ -2253,7 +2230,7 @@ export enum Food_Garden_Update_Column {
   /** column name */
   Game = 'game',
   /** column name */
-  Id = 'id'
+  Id = 'id',
 }
 
 /** columns and relationships of "food.house" */
@@ -2276,7 +2253,6 @@ export type Food_House = {
   orient: Scalars['Int'];
 };
 
-
 /** columns and relationships of "food.house" */
 export type Food_HouseHouse_Food_DemandsArgs = {
   distinct_on?: Maybe<Array<Food_House_Food_Demand_Select_Column>>;
@@ -2285,7 +2261,6 @@ export type Food_HouseHouse_Food_DemandsArgs = {
   order_by?: Maybe<Array<Food_House_Food_Demand_Order_By>>;
   where?: Maybe<Food_House_Food_Demand_Bool_Exp>;
 };
-
 
 /** columns and relationships of "food.house" */
 export type Food_HouseHouse_Food_Demands_AggregateArgs = {
@@ -2318,7 +2293,6 @@ export type Food_House_Aggregate_Fields = {
   var_samp?: Maybe<Food_House_Var_Samp_Fields>;
   variance?: Maybe<Food_House_Variance_Fields>;
 };
-
 
 /** aggregate fields of "food.house" */
 export type Food_House_Aggregate_FieldsCountArgs = {
@@ -2381,7 +2355,7 @@ export type Food_House_Bool_Exp = {
 /** unique or primary key constraints on table "food.house" */
 export enum Food_House_Constraint {
   /** unique or primary key constraint */
-  HousePkey = 'house_pkey'
+  HousePkey = 'house_pkey',
 }
 
 /** columns and relationships of "food.house_food_demand" */
@@ -2416,7 +2390,6 @@ export type Food_House_Food_Demand_Aggregate_Fields = {
   var_samp?: Maybe<Food_House_Food_Demand_Var_Samp_Fields>;
   variance?: Maybe<Food_House_Food_Demand_Variance_Fields>;
 };
-
 
 /** aggregate fields of "food.house_food_demand" */
 export type Food_House_Food_Demand_Aggregate_FieldsCountArgs = {
@@ -2471,7 +2444,7 @@ export type Food_House_Food_Demand_Bool_Exp = {
 /** unique or primary key constraints on table "food.house_food_demand" */
 export enum Food_House_Food_Demand_Constraint {
   /** unique or primary key constraint */
-  HouseFoodDemandPkey = 'house_food_demand_pkey'
+  HouseFoodDemandPkey = 'house_food_demand_pkey',
 }
 
 /** input type for incrementing numeric columns in table "food.house_food_demand" */
@@ -2554,7 +2527,7 @@ export enum Food_House_Food_Demand_Select_Column {
   /** column name */
   FoodQuantity = 'food_quantity',
   /** column name */
-  House = 'house'
+  House = 'house',
 }
 
 /** input type for updating data in table "food.house_food_demand" */
@@ -2615,7 +2588,7 @@ export enum Food_House_Food_Demand_Update_Column {
   /** column name */
   FoodQuantity = 'food_quantity',
   /** column name */
-  House = 'house'
+  House = 'house',
 }
 
 /** aggregate var_pop on columns */
@@ -2766,7 +2739,7 @@ export enum Food_House_Select_Column {
   /** column name */
   Number = 'number',
   /** column name */
-  Orient = 'orient'
+  Orient = 'orient',
 }
 
 /** input type for updating data in table "food.house" */
@@ -2847,7 +2820,7 @@ export enum Food_House_Update_Column {
   /** column name */
   Number = 'number',
   /** column name */
-  Orient = 'orient'
+  Orient = 'orient',
 }
 
 /** aggregate var_pop on columns */
@@ -2909,7 +2882,6 @@ export type Food_Player = {
   player_foods_aggregate: Food_Player_Food_Aggregate;
 };
 
-
 /** columns and relationships of "food.player" */
 export type Food_PlayerDinersArgs = {
   distinct_on?: Maybe<Array<Food_Diner_Select_Column>>;
@@ -2918,7 +2890,6 @@ export type Food_PlayerDinersArgs = {
   order_by?: Maybe<Array<Food_Diner_Order_By>>;
   where?: Maybe<Food_Diner_Bool_Exp>;
 };
-
 
 /** columns and relationships of "food.player" */
 export type Food_PlayerDiners_AggregateArgs = {
@@ -2929,7 +2900,6 @@ export type Food_PlayerDiners_AggregateArgs = {
   where?: Maybe<Food_Diner_Bool_Exp>;
 };
 
-
 /** columns and relationships of "food.player" */
 export type Food_PlayerPlayer_FoodsArgs = {
   distinct_on?: Maybe<Array<Food_Player_Food_Select_Column>>;
@@ -2938,7 +2908,6 @@ export type Food_PlayerPlayer_FoodsArgs = {
   order_by?: Maybe<Array<Food_Player_Food_Order_By>>;
   where?: Maybe<Food_Player_Food_Bool_Exp>;
 };
-
 
 /** columns and relationships of "food.player" */
 export type Food_PlayerPlayer_Foods_AggregateArgs = {
@@ -2971,7 +2940,6 @@ export type Food_Player_Aggregate_Fields = {
   var_samp?: Maybe<Food_Player_Var_Samp_Fields>;
   variance?: Maybe<Food_Player_Variance_Fields>;
 };
-
 
 /** aggregate fields of "food.player" */
 export type Food_Player_Aggregate_FieldsCountArgs = {
@@ -3030,7 +2998,7 @@ export type Food_Player_Bool_Exp = {
 /** unique or primary key constraints on table "food.player" */
 export enum Food_Player_Constraint {
   /** unique or primary key constraint */
-  PlayerPkey = 'player_pkey'
+  PlayerPkey = 'player_pkey',
 }
 
 /** columns and relationships of "food.player_food" */
@@ -3065,7 +3033,6 @@ export type Food_Player_Food_Aggregate_Fields = {
   var_samp?: Maybe<Food_Player_Food_Var_Samp_Fields>;
   variance?: Maybe<Food_Player_Food_Variance_Fields>;
 };
-
 
 /** aggregate fields of "food.player_food" */
 export type Food_Player_Food_Aggregate_FieldsCountArgs = {
@@ -3120,7 +3087,7 @@ export type Food_Player_Food_Bool_Exp = {
 /** unique or primary key constraints on table "food.player_food" */
 export enum Food_Player_Food_Constraint {
   /** unique or primary key constraint */
-  PlayerFoodPkey = 'player_food_pkey'
+  PlayerFoodPkey = 'player_food_pkey',
 }
 
 /** input type for incrementing numeric columns in table "food.player_food" */
@@ -3203,7 +3170,7 @@ export enum Food_Player_Food_Select_Column {
   /** column name */
   FoodQuantity = 'food_quantity',
   /** column name */
-  Player = 'player'
+  Player = 'player',
 }
 
 /** input type for updating data in table "food.player_food" */
@@ -3264,7 +3231,7 @@ export enum Food_Player_Food_Update_Column {
   /** column name */
   FoodQuantity = 'food_quantity',
   /** column name */
-  Player = 'player'
+  Player = 'player',
 }
 
 /** aggregate var_pop on columns */
@@ -3406,7 +3373,7 @@ export enum Food_Player_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Name = 'name'
+  Name = 'name',
 }
 
 /** input type for updating data in table "food.player" */
@@ -3473,7 +3440,7 @@ export enum Food_Player_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Name = 'name'
+  Name = 'name',
 }
 
 /** aggregate var_pop on columns */
@@ -3536,7 +3503,6 @@ export type Food_Road_Aggregate_Fields = {
   max?: Maybe<Food_Road_Max_Fields>;
   min?: Maybe<Food_Road_Min_Fields>;
 };
-
 
 /** aggregate fields of "food.road" */
 export type Food_Road_Aggregate_FieldsCountArgs = {
@@ -3602,7 +3568,6 @@ export type Food_Road_Connection_Aggregate_Fields = {
   variance?: Maybe<Food_Road_Connection_Variance_Fields>;
 };
 
-
 /** aggregate fields of "food.road_connection" */
 export type Food_Road_Connection_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<Food_Road_Connection_Select_Column>>;
@@ -3628,7 +3593,7 @@ export type Food_Road_Connection_Bool_Exp = {
 /** unique or primary key constraints on table "food.road_connection" */
 export enum Food_Road_Connection_Constraint {
   /** unique or primary key constraint */
-  RoadConnectionPkey = 'road_connection_pkey'
+  RoadConnectionPkey = 'road_connection_pkey',
 }
 
 /** input type for incrementing numeric columns in table "food.road_connection" */
@@ -3697,7 +3662,7 @@ export enum Food_Road_Connection_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Number = 'number'
+  Number = 'number',
 }
 
 /** input type for updating data in table "food.road_connection" */
@@ -3735,7 +3700,7 @@ export enum Food_Road_Connection_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Number = 'number'
+  Number = 'number',
 }
 
 /** aggregate var_pop on columns */
@@ -3759,7 +3724,7 @@ export type Food_Road_Connection_Variance_Fields = {
 /** unique or primary key constraints on table "food.road" */
 export enum Food_Road_Constraint {
   /** unique or primary key constraint */
-  RoadPkey = 'road_pkey'
+  RoadPkey = 'road_pkey',
 }
 
 /** input type for inserting data into table "food.road" */
@@ -3839,7 +3804,7 @@ export enum Food_Road_Select_Column {
   /** column name */
   Game = 'game',
   /** column name */
-  Id = 'id'
+  Id = 'id',
 }
 
 /** input type for updating data in table "food.road" */
@@ -3853,7 +3818,7 @@ export enum Food_Road_Update_Column {
   /** column name */
   Game = 'game',
   /** column name */
-  Id = 'id'
+  Id = 'id',
 }
 
 /** columns and relationships of "galaxy" */
@@ -3874,7 +3839,6 @@ export type Galaxy = {
   stars: Scalars['Int'];
 };
 
-
 /** columns and relationships of "galaxy" */
 export type GalaxyCelestialsArgs = {
   distinct_on?: Maybe<Array<Celestial_Select_Column>>;
@@ -3883,7 +3847,6 @@ export type GalaxyCelestialsArgs = {
   order_by?: Maybe<Array<Celestial_Order_By>>;
   where?: Maybe<Celestial_Bool_Exp>;
 };
-
 
 /** columns and relationships of "galaxy" */
 export type GalaxyCelestials_AggregateArgs = {
@@ -3916,7 +3879,6 @@ export type Galaxy_Aggregate_Fields = {
   var_samp?: Maybe<Galaxy_Var_Samp_Fields>;
   variance?: Maybe<Galaxy_Variance_Fields>;
 };
-
 
 /** aggregate fields of "galaxy" */
 export type Galaxy_Aggregate_FieldsCountArgs = {
@@ -3956,7 +3918,7 @@ export type Galaxy_Bool_Exp = {
 /** unique or primary key constraints on table "galaxy" */
 export enum Galaxy_Constraint {
   /** unique or primary key constraint */
-  GalaxyPkey = 'galaxy_pkey'
+  GalaxyPkey = 'galaxy_pkey',
 }
 
 /** input type for incrementing numeric columns in table "galaxy" */
@@ -4073,7 +4035,7 @@ export enum Galaxy_Select_Column {
   /** column name */
   Radius = 'radius',
   /** column name */
-  Stars = 'stars'
+  Stars = 'stars',
 }
 
 /** input type for updating data in table "galaxy" */
@@ -4156,7 +4118,7 @@ export enum Galaxy_Update_Column {
   /** column name */
   Radius = 'radius',
   /** column name */
-  Stars = 'stars'
+  Stars = 'stars',
 }
 
 /** aggregate var_pop on columns */
@@ -4422,132 +4384,110 @@ export type Mutation_Root = {
   update_user_private?: Maybe<User_Private_Mutation_Response>;
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_CelestialArgs = {
   where: Celestial_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Celestial_By_PkArgs = {
   id: Scalars['String'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Chat_MessageArgs = {
   where: Chat_Message_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Chat_Message_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Food_AdvertArgs = {
   where: Food_Advert_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Food_Advert_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Food_Board_ObjectArgs = {
   where: Food_Board_Object_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Food_Board_Object_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Food_DinerArgs = {
   where: Food_Diner_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Food_Diner_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Food_DrinkArgs = {
   where: Food_Drink_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Food_Drink_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Food_EmployeeArgs = {
   where: Food_Employee_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Food_Employee_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Food_GameArgs = {
   where: Food_Game_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Food_Game_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Food_GardenArgs = {
   where: Food_Garden_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Food_Garden_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Food_HouseArgs = {
   where: Food_House_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Food_House_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Food_House_Food_DemandArgs = {
   where: Food_House_Food_Demand_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Food_House_Food_Demand_By_PkArgs = {
@@ -4555,24 +4495,20 @@ export type Mutation_RootDelete_Food_House_Food_Demand_By_PkArgs = {
   house: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Food_PlayerArgs = {
   where: Food_Player_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Food_Player_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Food_Player_FoodArgs = {
   where: Food_Player_Food_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Food_Player_Food_By_PkArgs = {
@@ -4580,66 +4516,55 @@ export type Mutation_RootDelete_Food_Player_Food_By_PkArgs = {
   player: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Food_RoadArgs = {
   where: Food_Road_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Food_Road_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Food_Road_ConnectionArgs = {
   where: Food_Road_Connection_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Food_Road_Connection_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_GalaxyArgs = {
   where: Galaxy_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_Galaxy_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_User_InfoArgs = {
   where: User_Info_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDelete_User_Info_By_PkArgs = {
   id: Scalars['String'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_User_MeArgs = {
   where: User_Me_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_User_PrivateArgs = {
   where: User_Private_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_CelestialArgs = {
@@ -4647,13 +4572,11 @@ export type Mutation_RootInsert_CelestialArgs = {
   on_conflict?: Maybe<Celestial_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Celestial_OneArgs = {
   object: Celestial_Insert_Input;
   on_conflict?: Maybe<Celestial_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_Chat_MessageArgs = {
@@ -4661,13 +4584,11 @@ export type Mutation_RootInsert_Chat_MessageArgs = {
   on_conflict?: Maybe<Chat_Message_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Chat_Message_OneArgs = {
   object: Chat_Message_Insert_Input;
   on_conflict?: Maybe<Chat_Message_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_Food_AdvertArgs = {
@@ -4675,13 +4596,11 @@ export type Mutation_RootInsert_Food_AdvertArgs = {
   on_conflict?: Maybe<Food_Advert_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Food_Advert_OneArgs = {
   object: Food_Advert_Insert_Input;
   on_conflict?: Maybe<Food_Advert_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_Food_Board_ObjectArgs = {
@@ -4689,13 +4608,11 @@ export type Mutation_RootInsert_Food_Board_ObjectArgs = {
   on_conflict?: Maybe<Food_Board_Object_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Food_Board_Object_OneArgs = {
   object: Food_Board_Object_Insert_Input;
   on_conflict?: Maybe<Food_Board_Object_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_Food_DinerArgs = {
@@ -4703,13 +4620,11 @@ export type Mutation_RootInsert_Food_DinerArgs = {
   on_conflict?: Maybe<Food_Diner_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Food_Diner_OneArgs = {
   object: Food_Diner_Insert_Input;
   on_conflict?: Maybe<Food_Diner_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_Food_DrinkArgs = {
@@ -4717,13 +4632,11 @@ export type Mutation_RootInsert_Food_DrinkArgs = {
   on_conflict?: Maybe<Food_Drink_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Food_Drink_OneArgs = {
   object: Food_Drink_Insert_Input;
   on_conflict?: Maybe<Food_Drink_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_Food_EmployeeArgs = {
@@ -4731,13 +4644,11 @@ export type Mutation_RootInsert_Food_EmployeeArgs = {
   on_conflict?: Maybe<Food_Employee_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Food_Employee_OneArgs = {
   object: Food_Employee_Insert_Input;
   on_conflict?: Maybe<Food_Employee_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_Food_GameArgs = {
@@ -4745,13 +4656,11 @@ export type Mutation_RootInsert_Food_GameArgs = {
   on_conflict?: Maybe<Food_Game_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Food_Game_OneArgs = {
   object: Food_Game_Insert_Input;
   on_conflict?: Maybe<Food_Game_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_Food_GardenArgs = {
@@ -4759,13 +4668,11 @@ export type Mutation_RootInsert_Food_GardenArgs = {
   on_conflict?: Maybe<Food_Garden_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Food_Garden_OneArgs = {
   object: Food_Garden_Insert_Input;
   on_conflict?: Maybe<Food_Garden_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_Food_HouseArgs = {
@@ -4773,13 +4680,11 @@ export type Mutation_RootInsert_Food_HouseArgs = {
   on_conflict?: Maybe<Food_House_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Food_House_Food_DemandArgs = {
   objects: Array<Food_House_Food_Demand_Insert_Input>;
   on_conflict?: Maybe<Food_House_Food_Demand_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_Food_House_Food_Demand_OneArgs = {
@@ -4787,13 +4692,11 @@ export type Mutation_RootInsert_Food_House_Food_Demand_OneArgs = {
   on_conflict?: Maybe<Food_House_Food_Demand_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Food_House_OneArgs = {
   object: Food_House_Insert_Input;
   on_conflict?: Maybe<Food_House_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_Food_PlayerArgs = {
@@ -4801,13 +4704,11 @@ export type Mutation_RootInsert_Food_PlayerArgs = {
   on_conflict?: Maybe<Food_Player_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Food_Player_FoodArgs = {
   objects: Array<Food_Player_Food_Insert_Input>;
   on_conflict?: Maybe<Food_Player_Food_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_Food_Player_Food_OneArgs = {
@@ -4815,13 +4716,11 @@ export type Mutation_RootInsert_Food_Player_Food_OneArgs = {
   on_conflict?: Maybe<Food_Player_Food_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Food_Player_OneArgs = {
   object: Food_Player_Insert_Input;
   on_conflict?: Maybe<Food_Player_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_Food_RoadArgs = {
@@ -4829,13 +4728,11 @@ export type Mutation_RootInsert_Food_RoadArgs = {
   on_conflict?: Maybe<Food_Road_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Food_Road_ConnectionArgs = {
   objects: Array<Food_Road_Connection_Insert_Input>;
   on_conflict?: Maybe<Food_Road_Connection_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_Food_Road_Connection_OneArgs = {
@@ -4843,13 +4740,11 @@ export type Mutation_RootInsert_Food_Road_Connection_OneArgs = {
   on_conflict?: Maybe<Food_Road_Connection_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Food_Road_OneArgs = {
   object: Food_Road_Insert_Input;
   on_conflict?: Maybe<Food_Road_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_GalaxyArgs = {
@@ -4857,13 +4752,11 @@ export type Mutation_RootInsert_GalaxyArgs = {
   on_conflict?: Maybe<Galaxy_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Galaxy_OneArgs = {
   object: Galaxy_Insert_Input;
   on_conflict?: Maybe<Galaxy_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_User_InfoArgs = {
@@ -4871,49 +4764,41 @@ export type Mutation_RootInsert_User_InfoArgs = {
   on_conflict?: Maybe<User_Info_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_User_Info_OneArgs = {
   object: User_Info_Insert_Input;
   on_conflict?: Maybe<User_Info_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_User_MeArgs = {
   objects: Array<User_Me_Insert_Input>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_User_Me_OneArgs = {
   object: User_Me_Insert_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_User_PrivateArgs = {
   objects: Array<User_Private_Insert_Input>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_User_Private_OneArgs = {
   object: User_Private_Insert_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootRequestRandomCelestialArgs = {
   galaxy_id: Scalars['String'];
 };
 
-
 /** mutation root */
 export type Mutation_RootSetDisplayNameArgs = {
   display_name: Scalars['String'];
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_CelestialArgs = {
@@ -4921,13 +4806,11 @@ export type Mutation_RootUpdate_CelestialArgs = {
   where: Celestial_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Celestial_By_PkArgs = {
   _set?: Maybe<Celestial_Set_Input>;
   pk_columns: Celestial_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_Chat_MessageArgs = {
@@ -4935,13 +4818,11 @@ export type Mutation_RootUpdate_Chat_MessageArgs = {
   where: Chat_Message_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Chat_Message_By_PkArgs = {
   _set?: Maybe<Chat_Message_Set_Input>;
   pk_columns: Chat_Message_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_Food_AdvertArgs = {
@@ -4950,14 +4831,12 @@ export type Mutation_RootUpdate_Food_AdvertArgs = {
   where: Food_Advert_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Food_Advert_By_PkArgs = {
   _inc?: Maybe<Food_Advert_Inc_Input>;
   _set?: Maybe<Food_Advert_Set_Input>;
   pk_columns: Food_Advert_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_Food_Board_ObjectArgs = {
@@ -4966,7 +4845,6 @@ export type Mutation_RootUpdate_Food_Board_ObjectArgs = {
   where: Food_Board_Object_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Food_Board_Object_By_PkArgs = {
   _inc?: Maybe<Food_Board_Object_Inc_Input>;
@@ -4974,13 +4852,11 @@ export type Mutation_RootUpdate_Food_Board_Object_By_PkArgs = {
   pk_columns: Food_Board_Object_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Food_DinerArgs = {
   _set?: Maybe<Food_Diner_Set_Input>;
   where: Food_Diner_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_Food_Diner_By_PkArgs = {
@@ -4988,20 +4864,17 @@ export type Mutation_RootUpdate_Food_Diner_By_PkArgs = {
   pk_columns: Food_Diner_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Food_DrinkArgs = {
   _set?: Maybe<Food_Drink_Set_Input>;
   where: Food_Drink_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Food_Drink_By_PkArgs = {
   _set?: Maybe<Food_Drink_Set_Input>;
   pk_columns: Food_Drink_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_Food_EmployeeArgs = {
@@ -5010,7 +4883,6 @@ export type Mutation_RootUpdate_Food_EmployeeArgs = {
   where: Food_Employee_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Food_Employee_By_PkArgs = {
   _inc?: Maybe<Food_Employee_Inc_Input>;
@@ -5018,13 +4890,11 @@ export type Mutation_RootUpdate_Food_Employee_By_PkArgs = {
   pk_columns: Food_Employee_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Food_GameArgs = {
   _set?: Maybe<Food_Game_Set_Input>;
   where: Food_Game_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_Food_Game_By_PkArgs = {
@@ -5032,20 +4902,17 @@ export type Mutation_RootUpdate_Food_Game_By_PkArgs = {
   pk_columns: Food_Game_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Food_GardenArgs = {
   _set?: Maybe<Food_Garden_Set_Input>;
   where: Food_Garden_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Food_Garden_By_PkArgs = {
   _set?: Maybe<Food_Garden_Set_Input>;
   pk_columns: Food_Garden_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_Food_HouseArgs = {
@@ -5054,14 +4921,12 @@ export type Mutation_RootUpdate_Food_HouseArgs = {
   where: Food_House_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Food_House_By_PkArgs = {
   _inc?: Maybe<Food_House_Inc_Input>;
   _set?: Maybe<Food_House_Set_Input>;
   pk_columns: Food_House_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_Food_House_Food_DemandArgs = {
@@ -5070,14 +4935,12 @@ export type Mutation_RootUpdate_Food_House_Food_DemandArgs = {
   where: Food_House_Food_Demand_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Food_House_Food_Demand_By_PkArgs = {
   _inc?: Maybe<Food_House_Food_Demand_Inc_Input>;
   _set?: Maybe<Food_House_Food_Demand_Set_Input>;
   pk_columns: Food_House_Food_Demand_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_Food_PlayerArgs = {
@@ -5086,14 +4949,12 @@ export type Mutation_RootUpdate_Food_PlayerArgs = {
   where: Food_Player_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Food_Player_By_PkArgs = {
   _inc?: Maybe<Food_Player_Inc_Input>;
   _set?: Maybe<Food_Player_Set_Input>;
   pk_columns: Food_Player_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_Food_Player_FoodArgs = {
@@ -5102,7 +4963,6 @@ export type Mutation_RootUpdate_Food_Player_FoodArgs = {
   where: Food_Player_Food_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Food_Player_Food_By_PkArgs = {
   _inc?: Maybe<Food_Player_Food_Inc_Input>;
@@ -5110,20 +4970,17 @@ export type Mutation_RootUpdate_Food_Player_Food_By_PkArgs = {
   pk_columns: Food_Player_Food_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Food_RoadArgs = {
   _set?: Maybe<Food_Road_Set_Input>;
   where: Food_Road_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Food_Road_By_PkArgs = {
   _set?: Maybe<Food_Road_Set_Input>;
   pk_columns: Food_Road_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_Food_Road_ConnectionArgs = {
@@ -5132,14 +4989,12 @@ export type Mutation_RootUpdate_Food_Road_ConnectionArgs = {
   where: Food_Road_Connection_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Food_Road_Connection_By_PkArgs = {
   _inc?: Maybe<Food_Road_Connection_Inc_Input>;
   _set?: Maybe<Food_Road_Connection_Set_Input>;
   pk_columns: Food_Road_Connection_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_GalaxyArgs = {
@@ -5148,14 +5003,12 @@ export type Mutation_RootUpdate_GalaxyArgs = {
   where: Galaxy_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_Galaxy_By_PkArgs = {
   _inc?: Maybe<Galaxy_Inc_Input>;
   _set?: Maybe<Galaxy_Set_Input>;
   pk_columns: Galaxy_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_User_InfoArgs = {
@@ -5164,7 +5017,6 @@ export type Mutation_RootUpdate_User_InfoArgs = {
   where: User_Info_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_User_Info_By_PkArgs = {
   _inc?: Maybe<User_Info_Inc_Input>;
@@ -5172,14 +5024,12 @@ export type Mutation_RootUpdate_User_Info_By_PkArgs = {
   pk_columns: User_Info_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_User_MeArgs = {
   _inc?: Maybe<User_Me_Inc_Input>;
   _set?: Maybe<User_Me_Set_Input>;
   where: User_Me_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_User_PrivateArgs = {
@@ -5213,7 +5063,7 @@ export enum Order_By {
   /** in descending order, nulls first */
   DescNullsFirst = 'desc_nulls_first',
   /** in descending order, nulls last */
-  DescNullsLast = 'desc_nulls_last'
+  DescNullsLast = 'desc_nulls_last',
 }
 
 export type Query_Root = {
@@ -5331,7 +5181,6 @@ export type Query_Root = {
   user_private_aggregate: User_Private_Aggregate;
 };
 
-
 export type Query_RootCelestialArgs = {
   distinct_on?: Maybe<Array<Celestial_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5339,7 +5188,6 @@ export type Query_RootCelestialArgs = {
   order_by?: Maybe<Array<Celestial_Order_By>>;
   where?: Maybe<Celestial_Bool_Exp>;
 };
-
 
 export type Query_RootCelestial_AggregateArgs = {
   distinct_on?: Maybe<Array<Celestial_Select_Column>>;
@@ -5349,11 +5197,9 @@ export type Query_RootCelestial_AggregateArgs = {
   where?: Maybe<Celestial_Bool_Exp>;
 };
 
-
 export type Query_RootCelestial_By_PkArgs = {
   id: Scalars['String'];
 };
-
 
 export type Query_RootChat_MessageArgs = {
   distinct_on?: Maybe<Array<Chat_Message_Select_Column>>;
@@ -5363,7 +5209,6 @@ export type Query_RootChat_MessageArgs = {
   where?: Maybe<Chat_Message_Bool_Exp>;
 };
 
-
 export type Query_RootChat_Message_AggregateArgs = {
   distinct_on?: Maybe<Array<Chat_Message_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5372,11 +5217,9 @@ export type Query_RootChat_Message_AggregateArgs = {
   where?: Maybe<Chat_Message_Bool_Exp>;
 };
 
-
 export type Query_RootChat_Message_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Query_RootFood_AdvertArgs = {
   distinct_on?: Maybe<Array<Food_Advert_Select_Column>>;
@@ -5386,7 +5229,6 @@ export type Query_RootFood_AdvertArgs = {
   where?: Maybe<Food_Advert_Bool_Exp>;
 };
 
-
 export type Query_RootFood_Advert_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_Advert_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5395,11 +5237,9 @@ export type Query_RootFood_Advert_AggregateArgs = {
   where?: Maybe<Food_Advert_Bool_Exp>;
 };
 
-
 export type Query_RootFood_Advert_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Query_RootFood_Board_ObjectArgs = {
   distinct_on?: Maybe<Array<Food_Board_Object_Select_Column>>;
@@ -5409,7 +5249,6 @@ export type Query_RootFood_Board_ObjectArgs = {
   where?: Maybe<Food_Board_Object_Bool_Exp>;
 };
 
-
 export type Query_RootFood_Board_Object_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_Board_Object_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5418,11 +5257,9 @@ export type Query_RootFood_Board_Object_AggregateArgs = {
   where?: Maybe<Food_Board_Object_Bool_Exp>;
 };
 
-
 export type Query_RootFood_Board_Object_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Query_RootFood_DinerArgs = {
   distinct_on?: Maybe<Array<Food_Diner_Select_Column>>;
@@ -5432,7 +5269,6 @@ export type Query_RootFood_DinerArgs = {
   where?: Maybe<Food_Diner_Bool_Exp>;
 };
 
-
 export type Query_RootFood_Diner_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_Diner_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5441,11 +5277,9 @@ export type Query_RootFood_Diner_AggregateArgs = {
   where?: Maybe<Food_Diner_Bool_Exp>;
 };
 
-
 export type Query_RootFood_Diner_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Query_RootFood_DrinkArgs = {
   distinct_on?: Maybe<Array<Food_Drink_Select_Column>>;
@@ -5455,7 +5289,6 @@ export type Query_RootFood_DrinkArgs = {
   where?: Maybe<Food_Drink_Bool_Exp>;
 };
 
-
 export type Query_RootFood_Drink_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_Drink_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5464,11 +5297,9 @@ export type Query_RootFood_Drink_AggregateArgs = {
   where?: Maybe<Food_Drink_Bool_Exp>;
 };
 
-
 export type Query_RootFood_Drink_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Query_RootFood_EmployeeArgs = {
   distinct_on?: Maybe<Array<Food_Employee_Select_Column>>;
@@ -5478,7 +5309,6 @@ export type Query_RootFood_EmployeeArgs = {
   where?: Maybe<Food_Employee_Bool_Exp>;
 };
 
-
 export type Query_RootFood_Employee_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_Employee_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5487,11 +5317,9 @@ export type Query_RootFood_Employee_AggregateArgs = {
   where?: Maybe<Food_Employee_Bool_Exp>;
 };
 
-
 export type Query_RootFood_Employee_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Query_RootFood_GameArgs = {
   distinct_on?: Maybe<Array<Food_Game_Select_Column>>;
@@ -5501,7 +5329,6 @@ export type Query_RootFood_GameArgs = {
   where?: Maybe<Food_Game_Bool_Exp>;
 };
 
-
 export type Query_RootFood_Game_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_Game_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5510,11 +5337,9 @@ export type Query_RootFood_Game_AggregateArgs = {
   where?: Maybe<Food_Game_Bool_Exp>;
 };
 
-
 export type Query_RootFood_Game_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Query_RootFood_GardenArgs = {
   distinct_on?: Maybe<Array<Food_Garden_Select_Column>>;
@@ -5524,7 +5349,6 @@ export type Query_RootFood_GardenArgs = {
   where?: Maybe<Food_Garden_Bool_Exp>;
 };
 
-
 export type Query_RootFood_Garden_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_Garden_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5533,11 +5357,9 @@ export type Query_RootFood_Garden_AggregateArgs = {
   where?: Maybe<Food_Garden_Bool_Exp>;
 };
 
-
 export type Query_RootFood_Garden_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Query_RootFood_HouseArgs = {
   distinct_on?: Maybe<Array<Food_House_Select_Column>>;
@@ -5547,7 +5369,6 @@ export type Query_RootFood_HouseArgs = {
   where?: Maybe<Food_House_Bool_Exp>;
 };
 
-
 export type Query_RootFood_House_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_House_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5556,11 +5377,9 @@ export type Query_RootFood_House_AggregateArgs = {
   where?: Maybe<Food_House_Bool_Exp>;
 };
 
-
 export type Query_RootFood_House_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Query_RootFood_House_Food_DemandArgs = {
   distinct_on?: Maybe<Array<Food_House_Food_Demand_Select_Column>>;
@@ -5570,7 +5389,6 @@ export type Query_RootFood_House_Food_DemandArgs = {
   where?: Maybe<Food_House_Food_Demand_Bool_Exp>;
 };
 
-
 export type Query_RootFood_House_Food_Demand_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_House_Food_Demand_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5579,12 +5397,10 @@ export type Query_RootFood_House_Food_Demand_AggregateArgs = {
   where?: Maybe<Food_House_Food_Demand_Bool_Exp>;
 };
 
-
 export type Query_RootFood_House_Food_Demand_By_PkArgs = {
   food_kind: Scalars['String'];
   house: Scalars['uuid'];
 };
-
 
 export type Query_RootFood_PlayerArgs = {
   distinct_on?: Maybe<Array<Food_Player_Select_Column>>;
@@ -5594,7 +5410,6 @@ export type Query_RootFood_PlayerArgs = {
   where?: Maybe<Food_Player_Bool_Exp>;
 };
 
-
 export type Query_RootFood_Player_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_Player_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5603,11 +5418,9 @@ export type Query_RootFood_Player_AggregateArgs = {
   where?: Maybe<Food_Player_Bool_Exp>;
 };
 
-
 export type Query_RootFood_Player_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Query_RootFood_Player_FoodArgs = {
   distinct_on?: Maybe<Array<Food_Player_Food_Select_Column>>;
@@ -5617,7 +5430,6 @@ export type Query_RootFood_Player_FoodArgs = {
   where?: Maybe<Food_Player_Food_Bool_Exp>;
 };
 
-
 export type Query_RootFood_Player_Food_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_Player_Food_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5626,12 +5438,10 @@ export type Query_RootFood_Player_Food_AggregateArgs = {
   where?: Maybe<Food_Player_Food_Bool_Exp>;
 };
 
-
 export type Query_RootFood_Player_Food_By_PkArgs = {
   food_kind: Scalars['String'];
   player: Scalars['uuid'];
 };
-
 
 export type Query_RootFood_RoadArgs = {
   distinct_on?: Maybe<Array<Food_Road_Select_Column>>;
@@ -5641,7 +5451,6 @@ export type Query_RootFood_RoadArgs = {
   where?: Maybe<Food_Road_Bool_Exp>;
 };
 
-
 export type Query_RootFood_Road_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_Road_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5650,11 +5459,9 @@ export type Query_RootFood_Road_AggregateArgs = {
   where?: Maybe<Food_Road_Bool_Exp>;
 };
 
-
 export type Query_RootFood_Road_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Query_RootFood_Road_ConnectionArgs = {
   distinct_on?: Maybe<Array<Food_Road_Connection_Select_Column>>;
@@ -5664,7 +5471,6 @@ export type Query_RootFood_Road_ConnectionArgs = {
   where?: Maybe<Food_Road_Connection_Bool_Exp>;
 };
 
-
 export type Query_RootFood_Road_Connection_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_Road_Connection_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5673,11 +5479,9 @@ export type Query_RootFood_Road_Connection_AggregateArgs = {
   where?: Maybe<Food_Road_Connection_Bool_Exp>;
 };
 
-
 export type Query_RootFood_Road_Connection_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Query_RootGalaxyArgs = {
   distinct_on?: Maybe<Array<Galaxy_Select_Column>>;
@@ -5687,7 +5491,6 @@ export type Query_RootGalaxyArgs = {
   where?: Maybe<Galaxy_Bool_Exp>;
 };
 
-
 export type Query_RootGalaxy_AggregateArgs = {
   distinct_on?: Maybe<Array<Galaxy_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5696,11 +5499,9 @@ export type Query_RootGalaxy_AggregateArgs = {
   where?: Maybe<Galaxy_Bool_Exp>;
 };
 
-
 export type Query_RootGalaxy_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Query_RootUser_InfoArgs = {
   distinct_on?: Maybe<Array<User_Info_Select_Column>>;
@@ -5710,7 +5511,6 @@ export type Query_RootUser_InfoArgs = {
   where?: Maybe<User_Info_Bool_Exp>;
 };
 
-
 export type Query_RootUser_Info_AggregateArgs = {
   distinct_on?: Maybe<Array<User_Info_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5719,11 +5519,9 @@ export type Query_RootUser_Info_AggregateArgs = {
   where?: Maybe<User_Info_Bool_Exp>;
 };
 
-
 export type Query_RootUser_Info_By_PkArgs = {
   id: Scalars['String'];
 };
-
 
 export type Query_RootUser_MeArgs = {
   distinct_on?: Maybe<Array<User_Me_Select_Column>>;
@@ -5733,7 +5531,6 @@ export type Query_RootUser_MeArgs = {
   where?: Maybe<User_Me_Bool_Exp>;
 };
 
-
 export type Query_RootUser_Me_AggregateArgs = {
   distinct_on?: Maybe<Array<User_Me_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5742,7 +5539,6 @@ export type Query_RootUser_Me_AggregateArgs = {
   where?: Maybe<User_Me_Bool_Exp>;
 };
 
-
 export type Query_RootUser_PrivateArgs = {
   distinct_on?: Maybe<Array<User_Private_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5750,7 +5546,6 @@ export type Query_RootUser_PrivateArgs = {
   order_by?: Maybe<Array<User_Private_Order_By>>;
   where?: Maybe<User_Private_Bool_Exp>;
 };
-
 
 export type Query_RootUser_Private_AggregateArgs = {
   distinct_on?: Maybe<Array<User_Private_Select_Column>>;
@@ -5874,7 +5669,6 @@ export type Subscription_Root = {
   user_private_aggregate: User_Private_Aggregate;
 };
 
-
 export type Subscription_RootCelestialArgs = {
   distinct_on?: Maybe<Array<Celestial_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5882,7 +5676,6 @@ export type Subscription_RootCelestialArgs = {
   order_by?: Maybe<Array<Celestial_Order_By>>;
   where?: Maybe<Celestial_Bool_Exp>;
 };
-
 
 export type Subscription_RootCelestial_AggregateArgs = {
   distinct_on?: Maybe<Array<Celestial_Select_Column>>;
@@ -5892,11 +5685,9 @@ export type Subscription_RootCelestial_AggregateArgs = {
   where?: Maybe<Celestial_Bool_Exp>;
 };
 
-
 export type Subscription_RootCelestial_By_PkArgs = {
   id: Scalars['String'];
 };
-
 
 export type Subscription_RootChat_MessageArgs = {
   distinct_on?: Maybe<Array<Chat_Message_Select_Column>>;
@@ -5906,7 +5697,6 @@ export type Subscription_RootChat_MessageArgs = {
   where?: Maybe<Chat_Message_Bool_Exp>;
 };
 
-
 export type Subscription_RootChat_Message_AggregateArgs = {
   distinct_on?: Maybe<Array<Chat_Message_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5915,11 +5705,9 @@ export type Subscription_RootChat_Message_AggregateArgs = {
   where?: Maybe<Chat_Message_Bool_Exp>;
 };
 
-
 export type Subscription_RootChat_Message_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Subscription_RootFood_AdvertArgs = {
   distinct_on?: Maybe<Array<Food_Advert_Select_Column>>;
@@ -5929,7 +5717,6 @@ export type Subscription_RootFood_AdvertArgs = {
   where?: Maybe<Food_Advert_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_Advert_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_Advert_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5938,11 +5725,9 @@ export type Subscription_RootFood_Advert_AggregateArgs = {
   where?: Maybe<Food_Advert_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_Advert_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Subscription_RootFood_Board_ObjectArgs = {
   distinct_on?: Maybe<Array<Food_Board_Object_Select_Column>>;
@@ -5952,7 +5737,6 @@ export type Subscription_RootFood_Board_ObjectArgs = {
   where?: Maybe<Food_Board_Object_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_Board_Object_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_Board_Object_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5961,11 +5745,9 @@ export type Subscription_RootFood_Board_Object_AggregateArgs = {
   where?: Maybe<Food_Board_Object_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_Board_Object_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Subscription_RootFood_DinerArgs = {
   distinct_on?: Maybe<Array<Food_Diner_Select_Column>>;
@@ -5975,7 +5757,6 @@ export type Subscription_RootFood_DinerArgs = {
   where?: Maybe<Food_Diner_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_Diner_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_Diner_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5984,11 +5765,9 @@ export type Subscription_RootFood_Diner_AggregateArgs = {
   where?: Maybe<Food_Diner_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_Diner_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Subscription_RootFood_DrinkArgs = {
   distinct_on?: Maybe<Array<Food_Drink_Select_Column>>;
@@ -5998,7 +5777,6 @@ export type Subscription_RootFood_DrinkArgs = {
   where?: Maybe<Food_Drink_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_Drink_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_Drink_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -6007,11 +5785,9 @@ export type Subscription_RootFood_Drink_AggregateArgs = {
   where?: Maybe<Food_Drink_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_Drink_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Subscription_RootFood_EmployeeArgs = {
   distinct_on?: Maybe<Array<Food_Employee_Select_Column>>;
@@ -6021,7 +5797,6 @@ export type Subscription_RootFood_EmployeeArgs = {
   where?: Maybe<Food_Employee_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_Employee_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_Employee_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -6030,11 +5805,9 @@ export type Subscription_RootFood_Employee_AggregateArgs = {
   where?: Maybe<Food_Employee_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_Employee_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Subscription_RootFood_GameArgs = {
   distinct_on?: Maybe<Array<Food_Game_Select_Column>>;
@@ -6044,7 +5817,6 @@ export type Subscription_RootFood_GameArgs = {
   where?: Maybe<Food_Game_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_Game_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_Game_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -6053,11 +5825,9 @@ export type Subscription_RootFood_Game_AggregateArgs = {
   where?: Maybe<Food_Game_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_Game_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Subscription_RootFood_GardenArgs = {
   distinct_on?: Maybe<Array<Food_Garden_Select_Column>>;
@@ -6067,7 +5837,6 @@ export type Subscription_RootFood_GardenArgs = {
   where?: Maybe<Food_Garden_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_Garden_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_Garden_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -6076,11 +5845,9 @@ export type Subscription_RootFood_Garden_AggregateArgs = {
   where?: Maybe<Food_Garden_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_Garden_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Subscription_RootFood_HouseArgs = {
   distinct_on?: Maybe<Array<Food_House_Select_Column>>;
@@ -6090,7 +5857,6 @@ export type Subscription_RootFood_HouseArgs = {
   where?: Maybe<Food_House_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_House_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_House_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -6099,11 +5865,9 @@ export type Subscription_RootFood_House_AggregateArgs = {
   where?: Maybe<Food_House_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_House_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Subscription_RootFood_House_Food_DemandArgs = {
   distinct_on?: Maybe<Array<Food_House_Food_Demand_Select_Column>>;
@@ -6113,7 +5877,6 @@ export type Subscription_RootFood_House_Food_DemandArgs = {
   where?: Maybe<Food_House_Food_Demand_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_House_Food_Demand_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_House_Food_Demand_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -6122,12 +5885,10 @@ export type Subscription_RootFood_House_Food_Demand_AggregateArgs = {
   where?: Maybe<Food_House_Food_Demand_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_House_Food_Demand_By_PkArgs = {
   food_kind: Scalars['String'];
   house: Scalars['uuid'];
 };
-
 
 export type Subscription_RootFood_PlayerArgs = {
   distinct_on?: Maybe<Array<Food_Player_Select_Column>>;
@@ -6137,7 +5898,6 @@ export type Subscription_RootFood_PlayerArgs = {
   where?: Maybe<Food_Player_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_Player_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_Player_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -6146,11 +5906,9 @@ export type Subscription_RootFood_Player_AggregateArgs = {
   where?: Maybe<Food_Player_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_Player_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Subscription_RootFood_Player_FoodArgs = {
   distinct_on?: Maybe<Array<Food_Player_Food_Select_Column>>;
@@ -6160,7 +5918,6 @@ export type Subscription_RootFood_Player_FoodArgs = {
   where?: Maybe<Food_Player_Food_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_Player_Food_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_Player_Food_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -6169,12 +5926,10 @@ export type Subscription_RootFood_Player_Food_AggregateArgs = {
   where?: Maybe<Food_Player_Food_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_Player_Food_By_PkArgs = {
   food_kind: Scalars['String'];
   player: Scalars['uuid'];
 };
-
 
 export type Subscription_RootFood_RoadArgs = {
   distinct_on?: Maybe<Array<Food_Road_Select_Column>>;
@@ -6184,7 +5939,6 @@ export type Subscription_RootFood_RoadArgs = {
   where?: Maybe<Food_Road_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_Road_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_Road_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -6193,11 +5947,9 @@ export type Subscription_RootFood_Road_AggregateArgs = {
   where?: Maybe<Food_Road_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_Road_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Subscription_RootFood_Road_ConnectionArgs = {
   distinct_on?: Maybe<Array<Food_Road_Connection_Select_Column>>;
@@ -6207,7 +5959,6 @@ export type Subscription_RootFood_Road_ConnectionArgs = {
   where?: Maybe<Food_Road_Connection_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_Road_Connection_AggregateArgs = {
   distinct_on?: Maybe<Array<Food_Road_Connection_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -6216,11 +5967,9 @@ export type Subscription_RootFood_Road_Connection_AggregateArgs = {
   where?: Maybe<Food_Road_Connection_Bool_Exp>;
 };
 
-
 export type Subscription_RootFood_Road_Connection_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Subscription_RootGalaxyArgs = {
   distinct_on?: Maybe<Array<Galaxy_Select_Column>>;
@@ -6230,7 +5979,6 @@ export type Subscription_RootGalaxyArgs = {
   where?: Maybe<Galaxy_Bool_Exp>;
 };
 
-
 export type Subscription_RootGalaxy_AggregateArgs = {
   distinct_on?: Maybe<Array<Galaxy_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -6239,11 +5987,9 @@ export type Subscription_RootGalaxy_AggregateArgs = {
   where?: Maybe<Galaxy_Bool_Exp>;
 };
 
-
 export type Subscription_RootGalaxy_By_PkArgs = {
   id: Scalars['uuid'];
 };
-
 
 export type Subscription_RootUser_InfoArgs = {
   distinct_on?: Maybe<Array<User_Info_Select_Column>>;
@@ -6253,7 +5999,6 @@ export type Subscription_RootUser_InfoArgs = {
   where?: Maybe<User_Info_Bool_Exp>;
 };
 
-
 export type Subscription_RootUser_Info_AggregateArgs = {
   distinct_on?: Maybe<Array<User_Info_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -6262,11 +6007,9 @@ export type Subscription_RootUser_Info_AggregateArgs = {
   where?: Maybe<User_Info_Bool_Exp>;
 };
 
-
 export type Subscription_RootUser_Info_By_PkArgs = {
   id: Scalars['String'];
 };
-
 
 export type Subscription_RootUser_MeArgs = {
   distinct_on?: Maybe<Array<User_Me_Select_Column>>;
@@ -6276,7 +6019,6 @@ export type Subscription_RootUser_MeArgs = {
   where?: Maybe<User_Me_Bool_Exp>;
 };
 
-
 export type Subscription_RootUser_Me_AggregateArgs = {
   distinct_on?: Maybe<Array<User_Me_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -6285,7 +6027,6 @@ export type Subscription_RootUser_Me_AggregateArgs = {
   where?: Maybe<User_Me_Bool_Exp>;
 };
 
-
 export type Subscription_RootUser_PrivateArgs = {
   distinct_on?: Maybe<Array<User_Private_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -6293,7 +6034,6 @@ export type Subscription_RootUser_PrivateArgs = {
   order_by?: Maybe<Array<User_Private_Order_By>>;
   where?: Maybe<User_Private_Bool_Exp>;
 };
-
 
 export type Subscription_RootUser_Private_AggregateArgs = {
   distinct_on?: Maybe<Array<User_Private_Select_Column>>;
@@ -6336,7 +6076,6 @@ export type User_Info = {
   systems_aggregate: Celestial_Aggregate;
 };
 
-
 /** columns and relationships of "user_info" */
 export type User_InfoChat_MessagesArgs = {
   distinct_on?: Maybe<Array<Chat_Message_Select_Column>>;
@@ -6345,7 +6084,6 @@ export type User_InfoChat_MessagesArgs = {
   order_by?: Maybe<Array<Chat_Message_Order_By>>;
   where?: Maybe<Chat_Message_Bool_Exp>;
 };
-
 
 /** columns and relationships of "user_info" */
 export type User_InfoChat_Messages_AggregateArgs = {
@@ -6356,7 +6094,6 @@ export type User_InfoChat_Messages_AggregateArgs = {
   where?: Maybe<Chat_Message_Bool_Exp>;
 };
 
-
 /** columns and relationships of "user_info" */
 export type User_InfoSystemsArgs = {
   distinct_on?: Maybe<Array<Celestial_Select_Column>>;
@@ -6365,7 +6102,6 @@ export type User_InfoSystemsArgs = {
   order_by?: Maybe<Array<Celestial_Order_By>>;
   where?: Maybe<Celestial_Bool_Exp>;
 };
-
 
 /** columns and relationships of "user_info" */
 export type User_InfoSystems_AggregateArgs = {
@@ -6398,7 +6134,6 @@ export type User_Info_Aggregate_Fields = {
   var_samp?: Maybe<User_Info_Var_Samp_Fields>;
   variance?: Maybe<User_Info_Variance_Fields>;
 };
-
 
 /** aggregate fields of "user_info" */
 export type User_Info_Aggregate_FieldsCountArgs = {
@@ -6433,7 +6168,7 @@ export enum User_Info_Constraint {
   /** unique or primary key constraint */
   UserInfoDisplayNameKey = 'user_info_display_name_key',
   /** unique or primary key constraint */
-  UserPkey = 'user_pkey'
+  UserPkey = 'user_pkey',
 }
 
 /** input type for incrementing numeric columns in table "user_info" */
@@ -6534,7 +6269,7 @@ export enum User_Info_Select_Column {
   /** column name */
   Nickname = 'nickname',
   /** column name */
-  SecretSettingTest = 'secret_setting_test'
+  SecretSettingTest = 'secret_setting_test',
 }
 
 /** input type for updating data in table "user_info" */
@@ -6587,7 +6322,7 @@ export enum User_Info_Update_Column {
   /** column name */
   Nickname = 'nickname',
   /** column name */
-  SecretSettingTest = 'secret_setting_test'
+  SecretSettingTest = 'secret_setting_test',
 }
 
 /** aggregate var_pop on columns */
@@ -6641,7 +6376,6 @@ export type User_Me_Aggregate_Fields = {
   var_samp?: Maybe<User_Me_Var_Samp_Fields>;
   variance?: Maybe<User_Me_Variance_Fields>;
 };
-
 
 /** aggregate fields of "user_me" */
 export type User_Me_Aggregate_FieldsCountArgs = {
@@ -6737,7 +6471,7 @@ export enum User_Me_Select_Column {
   /** column name */
   Nickname = 'nickname',
   /** column name */
-  SecretSettingTest = 'secret_setting_test'
+  SecretSettingTest = 'secret_setting_test',
 }
 
 /** input type for updating data in table "user_me" */
@@ -6814,7 +6548,6 @@ export type User_Private_Aggregate_Fields = {
   min?: Maybe<User_Private_Min_Fields>;
 };
 
-
 /** aggregate fields of "user_private" */
 export type User_Private_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<User_Private_Select_Column>>;
@@ -6870,7 +6603,7 @@ export enum User_Private_Select_Column {
   /** column name */
   SecretSettingTest = 'secret_setting_test',
   /** column name */
-  UserId = 'user_id'
+  UserId = 'user_id',
 }
 
 /** input type for updating data in table "user_private" */
@@ -6892,28 +6625,99 @@ export type Uuid_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
-export type CelestialFieldsFragment = { __typename?: 'celestial', id: string, name?: Maybe<string>, owner_id?: Maybe<string>, user_info?: Maybe<{ __typename?: 'user_info', display_name?: Maybe<string>, name?: Maybe<string> }> };
+export type CelestialFieldsFragment = {
+  __typename?: 'celestial';
+  id: string;
+  name?: Maybe<string>;
+  owner_id?: Maybe<string>;
+  user_info?: Maybe<{
+    __typename?: 'user_info';
+    display_name?: Maybe<string>;
+    name?: Maybe<string>;
+  }>;
+};
 
-export type GalaxyFieldsFragment = { __typename?: 'galaxy', id: any, name?: Maybe<string>, curvature: any, core_radius_factor: any, core_concentration_factor: any, arms: any, arm_width: any, radius: number, stars: number, celestials: Array<{ __typename?: 'celestial', id: string, name?: Maybe<string>, owner_id?: Maybe<string>, user_info?: Maybe<{ __typename?: 'user_info', display_name?: Maybe<string>, name?: Maybe<string> }> }> };
+export type GalaxyFieldsFragment = {
+  __typename?: 'galaxy';
+  id: any;
+  name?: Maybe<string>;
+  curvature: any;
+  core_radius_factor: any;
+  core_concentration_factor: any;
+  arms: any;
+  arm_width: any;
+  radius: number;
+  stars: number;
+  celestials: Array<{
+    __typename?: 'celestial';
+    id: string;
+    name?: Maybe<string>;
+    owner_id?: Maybe<string>;
+    user_info?: Maybe<{
+      __typename?: 'user_info';
+      display_name?: Maybe<string>;
+      name?: Maybe<string>;
+    }>;
+  }>;
+};
 
-export type CelestialsSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type CelestialsSubscriptionVariables = Exact<{ [key: string]: never }>;
 
-
-export type CelestialsSubscription = { __typename?: 'subscription_root', celestial: Array<{ __typename?: 'celestial', id: string, name?: Maybe<string>, owner_id?: Maybe<string>, user_info?: Maybe<{ __typename?: 'user_info', display_name?: Maybe<string>, name?: Maybe<string> }> }> };
+export type CelestialsSubscription = {
+  __typename?: 'subscription_root';
+  celestial: Array<{
+    __typename?: 'celestial';
+    id: string;
+    name?: Maybe<string>;
+    owner_id?: Maybe<string>;
+    user_info?: Maybe<{
+      __typename?: 'user_info';
+      display_name?: Maybe<string>;
+      name?: Maybe<string>;
+    }>;
+  }>;
+};
 
 export type CelestialsByGalaxyIdSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
-
-export type CelestialsByGalaxyIdSubscription = { __typename?: 'subscription_root', galaxy_by_pk?: Maybe<{ __typename?: 'galaxy', celestials: Array<{ __typename?: 'celestial', name?: Maybe<string>, id: string, owner_id?: Maybe<string> }>, celestials_aggregate: { __typename?: 'celestial_aggregate', nodes: Array<{ __typename?: 'celestial', owner_id?: Maybe<string>, user_info?: Maybe<{ __typename?: 'user_info', display_name?: Maybe<string>, avatar_url?: Maybe<string> }> }> } }> };
+export type CelestialsByGalaxyIdSubscription = {
+  __typename?: 'subscription_root';
+  galaxy_by_pk?: Maybe<{
+    __typename?: 'galaxy';
+    celestials: Array<{
+      __typename?: 'celestial';
+      name?: Maybe<string>;
+      id: string;
+      owner_id?: Maybe<string>;
+    }>;
+    celestials_aggregate: {
+      __typename?: 'celestial_aggregate';
+      nodes: Array<{
+        __typename?: 'celestial';
+        owner_id?: Maybe<string>;
+        user_info?: Maybe<{
+          __typename?: 'user_info';
+          display_name?: Maybe<string>;
+          avatar_url?: Maybe<string>;
+        }>;
+      }>;
+    };
+  }>;
+};
 
 export type RequestRandomCelestialByGalaxyIdMutationVariables = Exact<{
   galaxy_id: Scalars['String'];
 }>;
 
-
-export type RequestRandomCelestialByGalaxyIdMutation = { __typename?: 'mutation_root', requestRandomCelestial?: Maybe<{ __typename?: 'GalaxyManagement', freeClaimsLeft: number }> };
+export type RequestRandomCelestialByGalaxyIdMutation = {
+  __typename?: 'mutation_root';
+  requestRandomCelestial?: Maybe<{
+    __typename?: 'GalaxyManagement';
+    freeClaimsLeft: number;
+  }>;
+};
 
 export type TryInsertClaimedCelestialMutationVariables = Exact<{
   galaxy_id: Scalars['uuid'];
@@ -6923,122 +6727,259 @@ export type TryInsertClaimedCelestialMutationVariables = Exact<{
   free_claims: Scalars['Int'];
 }>;
 
+export type TryInsertClaimedCelestialMutation = {
+  __typename?: 'mutation_root';
+  insert_celestial_one?: Maybe<{
+    __typename?: 'celestial';
+    galaxy_id: any;
+    id: string;
+    name?: Maybe<string>;
+    owner_id?: Maybe<string>;
+  }>;
+  update_user_info_by_pk?: Maybe<{
+    __typename?: 'user_info';
+    free_claims: number;
+  }>;
+};
 
-export type TryInsertClaimedCelestialMutation = { __typename?: 'mutation_root', insert_celestial_one?: Maybe<{ __typename?: 'celestial', galaxy_id: any, id: string, name?: Maybe<string>, owner_id?: Maybe<string> }>, update_user_info_by_pk?: Maybe<{ __typename?: 'user_info', free_claims: number }> };
+export type GetChatMessagesSubscriptionVariables = Exact<{
+  [key: string]: never;
+}>;
 
-export type GetChatMessagesSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type GetChatMessagesSubscription = {
+  __typename?: 'subscription_root';
+  chat_message: Array<{
+    __typename?: 'chat_message';
+    timestamp: any;
+    id: any;
+    message: string;
+    poster_id: string;
+    user_info: {
+      __typename?: 'user_info';
+      nickname: string;
+      id: string;
+      display_name?: Maybe<string>;
+    };
+  }>;
+};
 
+export type LatestMessageSubscriptionVariables = Exact<{
+  [key: string]: never;
+}>;
 
-export type GetChatMessagesSubscription = { __typename?: 'subscription_root', chat_message: Array<{ __typename?: 'chat_message', timestamp: any, id: any, message: string, poster_id: string, user_info: { __typename?: 'user_info', nickname: string, id: string, display_name?: Maybe<string> } }> };
-
-export type LatestMessageSubscriptionVariables = Exact<{ [key: string]: never; }>;
-
-
-export type LatestMessageSubscription = { __typename?: 'subscription_root', chat_message: Array<{ __typename?: 'chat_message', id: any, message: string }> };
+export type LatestMessageSubscription = {
+  __typename?: 'subscription_root';
+  chat_message: Array<{
+    __typename?: 'chat_message';
+    id: any;
+    message: string;
+  }>;
+};
 
 export type SendNewMessageMutationVariables = Exact<{
   message?: Maybe<Scalars['String']>;
 }>;
 
-
-export type SendNewMessageMutation = { __typename?: 'mutation_root', insert_chat_message_one?: Maybe<{ __typename?: 'chat_message', message: string }> };
+export type SendNewMessageMutation = {
+  __typename?: 'mutation_root';
+  insert_chat_message_one?: Maybe<{
+    __typename?: 'chat_message';
+    message: string;
+  }>;
+};
 
 export type CreateGalaxyMutationVariables = Exact<{
   input: Galaxy_Insert_Input;
 }>;
 
-
-export type CreateGalaxyMutation = { __typename?: 'mutation_root', insert_galaxy_one?: Maybe<{ __typename?: 'galaxy', id: any, name?: Maybe<string>, curvature: any, core_radius_factor: any, core_concentration_factor: any, arms: any, arm_width: any, radius: number, stars: number, celestials: Array<{ __typename?: 'celestial', id: string, name?: Maybe<string>, owner_id?: Maybe<string>, user_info?: Maybe<{ __typename?: 'user_info', display_name?: Maybe<string>, name?: Maybe<string> }> }> }> };
+export type CreateGalaxyMutation = {
+  __typename?: 'mutation_root';
+  insert_galaxy_one?: Maybe<{
+    __typename?: 'galaxy';
+    id: any;
+    name?: Maybe<string>;
+    curvature: any;
+    core_radius_factor: any;
+    core_concentration_factor: any;
+    arms: any;
+    arm_width: any;
+    radius: number;
+    stars: number;
+    celestials: Array<{
+      __typename?: 'celestial';
+      id: string;
+      name?: Maybe<string>;
+      owner_id?: Maybe<string>;
+      user_info?: Maybe<{
+        __typename?: 'user_info';
+        display_name?: Maybe<string>;
+        name?: Maybe<string>;
+      }>;
+    }>;
+  }>;
+};
 
 export type DeleteGalaxyByIdMutationVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
+export type DeleteGalaxyByIdMutation = {
+  __typename?: 'mutation_root';
+  delete_galaxy_by_pk?: Maybe<{
+    __typename?: 'galaxy';
+    id: any;
+    name?: Maybe<string>;
+  }>;
+};
 
-export type DeleteGalaxyByIdMutation = { __typename?: 'mutation_root', delete_galaxy_by_pk?: Maybe<{ __typename?: 'galaxy', id: any, name?: Maybe<string> }> };
+export type GalaxiesSubscriptionVariables = Exact<{ [key: string]: never }>;
 
-export type GalaxiesSubscriptionVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GalaxiesSubscription = { __typename?: 'subscription_root', galaxy: Array<{ __typename?: 'galaxy', id: any, name?: Maybe<string>, curvature: any, core_radius_factor: any, core_concentration_factor: any, arms: any, arm_width: any, radius: number, stars: number, celestials: Array<{ __typename?: 'celestial', id: string, name?: Maybe<string>, owner_id?: Maybe<string>, user_info?: Maybe<{ __typename?: 'user_info', display_name?: Maybe<string>, name?: Maybe<string> }> }> }> };
+export type GalaxiesSubscription = {
+  __typename?: 'subscription_root';
+  galaxy: Array<{
+    __typename?: 'galaxy';
+    id: any;
+    name?: Maybe<string>;
+    curvature: any;
+    core_radius_factor: any;
+    core_concentration_factor: any;
+    arms: any;
+    arm_width: any;
+    radius: number;
+    stars: number;
+    celestials: Array<{
+      __typename?: 'celestial';
+      id: string;
+      name?: Maybe<string>;
+      owner_id?: Maybe<string>;
+      user_info?: Maybe<{
+        __typename?: 'user_info';
+        display_name?: Maybe<string>;
+        name?: Maybe<string>;
+      }>;
+    }>;
+  }>;
+};
 
 export type GalaxyByIdQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
+export type GalaxyByIdQuery = {
+  __typename?: 'query_root';
+  galaxy_by_pk?: Maybe<{
+    __typename?: 'galaxy';
+    arm_width: any;
+    arms: any;
+    core_concentration_factor: any;
+    core_radius_factor: any;
+    curvature: any;
+    id: any;
+    name?: Maybe<string>;
+    radius: number;
+    stars: number;
+  }>;
+};
 
-export type GalaxyByIdQuery = { __typename?: 'query_root', galaxy_by_pk?: Maybe<{ __typename?: 'galaxy', arm_width: any, arms: any, core_concentration_factor: any, core_radius_factor: any, curvature: any, id: any, name?: Maybe<string>, radius: number, stars: number }> };
+export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables =
+  Exact<{
+    userId: Scalars['String'];
+    galaxyId: Scalars['uuid'];
+  }>;
 
-export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables = Exact<{
-  userId: Scalars['String'];
-  galaxyId: Scalars['uuid'];
-}>;
+export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery = {
+  __typename?: 'query_root';
+  user_info_by_pk?: Maybe<{ __typename?: 'user_info'; free_claims: number }>;
+  galaxy_by_pk?: Maybe<{ __typename?: 'galaxy'; id: any; stars: number }>;
+  celestial: Array<{ __typename?: 'celestial'; id: string }>;
+};
 
+export type SelfQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery = { __typename?: 'query_root', user_info_by_pk?: Maybe<{ __typename?: 'user_info', free_claims: number }>, galaxy_by_pk?: Maybe<{ __typename?: 'galaxy', id: any, stars: number }>, celestial: Array<{ __typename?: 'celestial', id: string }> };
-
-export type SelfQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type SelfQuery = { __typename?: 'query_root', user_me: Array<{ __typename?: 'user_me', display_name?: Maybe<string>, id?: Maybe<string>, name?: Maybe<string>, nickname?: Maybe<string>, secret_setting_test?: Maybe<string>, free_claims?: Maybe<number> }> };
+export type SelfQuery = {
+  __typename?: 'query_root';
+  user_me: Array<{
+    __typename?: 'user_me';
+    display_name?: Maybe<string>;
+    id?: Maybe<string>;
+    name?: Maybe<string>;
+    nickname?: Maybe<string>;
+    secret_setting_test?: Maybe<string>;
+    free_claims?: Maybe<number>;
+  }>;
+};
 
 export type SetDisplayNameByUserIdMutationVariables = Exact<{
   id: Scalars['String'];
   display_name: Scalars['String'];
 }>;
 
-
-export type SetDisplayNameByUserIdMutation = { __typename?: 'mutation_root', update_user_info_by_pk?: Maybe<{ __typename?: 'user_info', display_name?: Maybe<string> }> };
+export type SetDisplayNameByUserIdMutation = {
+  __typename?: 'mutation_root';
+  update_user_info_by_pk?: Maybe<{
+    __typename?: 'user_info';
+    display_name?: Maybe<string>;
+  }>;
+};
 
 export type SetNameByUserIdMutationVariables = Exact<{
   display_name?: Maybe<Scalars['String']>;
 }>;
 
-
-export type SetNameByUserIdMutation = { __typename?: 'mutation_root', setDisplayName?: Maybe<{ __typename?: 'Register', updatedName: string }> };
+export type SetNameByUserIdMutation = {
+  __typename?: 'mutation_root';
+  setDisplayName?: Maybe<{ __typename?: 'Register'; updatedName: string }>;
+};
 
 export type UpdateFreeClaimsMutationVariables = Exact<{
   id: Scalars['String'];
   free_claims: Scalars['Int'];
 }>;
 
-
-export type UpdateFreeClaimsMutation = { __typename?: 'mutation_root', update_user_info_by_pk?: Maybe<{ __typename?: 'user_info', free_claims: number }> };
+export type UpdateFreeClaimsMutation = {
+  __typename?: 'mutation_root';
+  update_user_info_by_pk?: Maybe<{
+    __typename?: 'user_info';
+    free_claims: number;
+  }>;
+};
 
 export const CelestialFieldsFragmentDoc = gql`
-    fragment CelestialFields on celestial {
-  id
-  name
-  owner_id
-  user_info {
-    display_name
+  fragment CelestialFields on celestial {
+    id
     name
+    owner_id
+    user_info {
+      display_name
+      name
+    }
   }
-}
-    `;
+`;
 export const GalaxyFieldsFragmentDoc = gql`
-    fragment GalaxyFields on galaxy {
-  id
-  name
-  curvature
-  core_radius_factor
-  core_concentration_factor
-  arms
-  arm_width
-  radius
-  stars
-  celestials {
-    ...CelestialFields
+  fragment GalaxyFields on galaxy {
+    id
+    name
+    curvature
+    core_radius_factor
+    core_concentration_factor
+    arms
+    arm_width
+    radius
+    stars
+    celestials {
+      ...CelestialFields
+    }
   }
-}
-    ${CelestialFieldsFragmentDoc}`;
+  ${CelestialFieldsFragmentDoc}
+`;
 export const CelestialsDocument = gql`
-    subscription Celestials {
-  celestial {
-    ...CelestialFields
+  subscription Celestials {
+    celestial {
+      ...CelestialFields
+    }
   }
-}
-    ${CelestialFieldsFragmentDoc}`;
+  ${CelestialFieldsFragmentDoc}
+`;
 
 /**
  * __useCelestialsSubscription__
@@ -7055,32 +6996,43 @@ export const CelestialsDocument = gql`
  *   },
  * });
  */
-export function useCelestialsSubscription(baseOptions?: Apollo.SubscriptionHookOptions<CelestialsSubscription, CelestialsSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<CelestialsSubscription, CelestialsSubscriptionVariables>(CelestialsDocument, options);
-      }
-export type CelestialsSubscriptionHookResult = ReturnType<typeof useCelestialsSubscription>;
-export type CelestialsSubscriptionResult = Apollo.SubscriptionResult<CelestialsSubscription>;
+export function useCelestialsSubscription(
+  baseOptions?: Apollo.SubscriptionHookOptions<
+    CelestialsSubscription,
+    CelestialsSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSubscription<
+    CelestialsSubscription,
+    CelestialsSubscriptionVariables
+  >(CelestialsDocument, options);
+}
+export type CelestialsSubscriptionHookResult = ReturnType<
+  typeof useCelestialsSubscription
+>;
+export type CelestialsSubscriptionResult =
+  Apollo.SubscriptionResult<CelestialsSubscription>;
 export const CelestialsByGalaxyIdDocument = gql`
-    subscription CelestialsByGalaxyId($id: uuid!) {
-  galaxy_by_pk(id: $id) {
-    celestials {
-      name
-      id
-      owner_id
-    }
-    celestials_aggregate(distinct_on: owner_id) {
-      nodes {
+  subscription CelestialsByGalaxyId($id: uuid!) {
+    galaxy_by_pk(id: $id) {
+      celestials {
+        name
+        id
         owner_id
-        user_info {
-          display_name
-          avatar_url
+      }
+      celestials_aggregate(distinct_on: owner_id) {
+        nodes {
+          owner_id
+          user_info {
+            display_name
+            avatar_url
+          }
         }
       }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useCelestialsByGalaxyIdSubscription__
@@ -7098,20 +7050,35 @@ export const CelestialsByGalaxyIdDocument = gql`
  *   },
  * });
  */
-export function useCelestialsByGalaxyIdSubscription(baseOptions: Apollo.SubscriptionHookOptions<CelestialsByGalaxyIdSubscription, CelestialsByGalaxyIdSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<CelestialsByGalaxyIdSubscription, CelestialsByGalaxyIdSubscriptionVariables>(CelestialsByGalaxyIdDocument, options);
-      }
-export type CelestialsByGalaxyIdSubscriptionHookResult = ReturnType<typeof useCelestialsByGalaxyIdSubscription>;
-export type CelestialsByGalaxyIdSubscriptionResult = Apollo.SubscriptionResult<CelestialsByGalaxyIdSubscription>;
-export const RequestRandomCelestialByGalaxyIdDocument = gql`
-    mutation RequestRandomCelestialByGalaxyId($galaxy_id: String!) {
-  requestRandomCelestial(galaxy_id: $galaxy_id) {
-    freeClaimsLeft
-  }
+export function useCelestialsByGalaxyIdSubscription(
+  baseOptions: Apollo.SubscriptionHookOptions<
+    CelestialsByGalaxyIdSubscription,
+    CelestialsByGalaxyIdSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSubscription<
+    CelestialsByGalaxyIdSubscription,
+    CelestialsByGalaxyIdSubscriptionVariables
+  >(CelestialsByGalaxyIdDocument, options);
 }
-    `;
-export type RequestRandomCelestialByGalaxyIdMutationFn = Apollo.MutationFunction<RequestRandomCelestialByGalaxyIdMutation, RequestRandomCelestialByGalaxyIdMutationVariables>;
+export type CelestialsByGalaxyIdSubscriptionHookResult = ReturnType<
+  typeof useCelestialsByGalaxyIdSubscription
+>;
+export type CelestialsByGalaxyIdSubscriptionResult =
+  Apollo.SubscriptionResult<CelestialsByGalaxyIdSubscription>;
+export const RequestRandomCelestialByGalaxyIdDocument = gql`
+  mutation RequestRandomCelestialByGalaxyId($galaxy_id: String!) {
+    requestRandomCelestial(galaxy_id: $galaxy_id) {
+      freeClaimsLeft
+    }
+  }
+`;
+export type RequestRandomCelestialByGalaxyIdMutationFn =
+  Apollo.MutationFunction<
+    RequestRandomCelestialByGalaxyIdMutation,
+    RequestRandomCelestialByGalaxyIdMutationVariables
+  >;
 
 /**
  * __useRequestRandomCelestialByGalaxyIdMutation__
@@ -7130,33 +7097,62 @@ export type RequestRandomCelestialByGalaxyIdMutationFn = Apollo.MutationFunction
  *   },
  * });
  */
-export function useRequestRandomCelestialByGalaxyIdMutation(baseOptions?: Apollo.MutationHookOptions<RequestRandomCelestialByGalaxyIdMutation, RequestRandomCelestialByGalaxyIdMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<RequestRandomCelestialByGalaxyIdMutation, RequestRandomCelestialByGalaxyIdMutationVariables>(RequestRandomCelestialByGalaxyIdDocument, options);
-      }
-export type RequestRandomCelestialByGalaxyIdMutationHookResult = ReturnType<typeof useRequestRandomCelestialByGalaxyIdMutation>;
-export type RequestRandomCelestialByGalaxyIdMutationResult = Apollo.MutationResult<RequestRandomCelestialByGalaxyIdMutation>;
-export type RequestRandomCelestialByGalaxyIdMutationOptions = Apollo.BaseMutationOptions<RequestRandomCelestialByGalaxyIdMutation, RequestRandomCelestialByGalaxyIdMutationVariables>;
-export const TryInsertClaimedCelestialDocument = gql`
-    mutation TryInsertClaimedCelestial($galaxy_id: uuid!, $id: String!, $name: String!, $owner_id: String!, $free_claims: Int!) {
-  insert_celestial_one(
-    object: {galaxy_id: $galaxy_id, id: $id, name: $name, owner_id: $owner_id}
-    on_conflict: {constraint: system_pkey, update_columns: owner_id}
-  ) {
-    galaxy_id
-    id
-    name
-    owner_id
-  }
-  update_user_info_by_pk(
-    pk_columns: {id: $owner_id}
-    _set: {free_claims: $free_claims}
-  ) {
-    free_claims
-  }
+export function useRequestRandomCelestialByGalaxyIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    RequestRandomCelestialByGalaxyIdMutation,
+    RequestRandomCelestialByGalaxyIdMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    RequestRandomCelestialByGalaxyIdMutation,
+    RequestRandomCelestialByGalaxyIdMutationVariables
+  >(RequestRandomCelestialByGalaxyIdDocument, options);
 }
-    `;
-export type TryInsertClaimedCelestialMutationFn = Apollo.MutationFunction<TryInsertClaimedCelestialMutation, TryInsertClaimedCelestialMutationVariables>;
+export type RequestRandomCelestialByGalaxyIdMutationHookResult = ReturnType<
+  typeof useRequestRandomCelestialByGalaxyIdMutation
+>;
+export type RequestRandomCelestialByGalaxyIdMutationResult =
+  Apollo.MutationResult<RequestRandomCelestialByGalaxyIdMutation>;
+export type RequestRandomCelestialByGalaxyIdMutationOptions =
+  Apollo.BaseMutationOptions<
+    RequestRandomCelestialByGalaxyIdMutation,
+    RequestRandomCelestialByGalaxyIdMutationVariables
+  >;
+export const TryInsertClaimedCelestialDocument = gql`
+  mutation TryInsertClaimedCelestial(
+    $galaxy_id: uuid!
+    $id: String!
+    $name: String!
+    $owner_id: String!
+    $free_claims: Int!
+  ) {
+    insert_celestial_one(
+      object: {
+        galaxy_id: $galaxy_id
+        id: $id
+        name: $name
+        owner_id: $owner_id
+      }
+      on_conflict: { constraint: system_pkey, update_columns: owner_id }
+    ) {
+      galaxy_id
+      id
+      name
+      owner_id
+    }
+    update_user_info_by_pk(
+      pk_columns: { id: $owner_id }
+      _set: { free_claims: $free_claims }
+    ) {
+      free_claims
+    }
+  }
+`;
+export type TryInsertClaimedCelestialMutationFn = Apollo.MutationFunction<
+  TryInsertClaimedCelestialMutation,
+  TryInsertClaimedCelestialMutationVariables
+>;
 
 /**
  * __useTryInsertClaimedCelestialMutation__
@@ -7179,28 +7175,43 @@ export type TryInsertClaimedCelestialMutationFn = Apollo.MutationFunction<TryIns
  *   },
  * });
  */
-export function useTryInsertClaimedCelestialMutation(baseOptions?: Apollo.MutationHookOptions<TryInsertClaimedCelestialMutation, TryInsertClaimedCelestialMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<TryInsertClaimedCelestialMutation, TryInsertClaimedCelestialMutationVariables>(TryInsertClaimedCelestialDocument, options);
-      }
-export type TryInsertClaimedCelestialMutationHookResult = ReturnType<typeof useTryInsertClaimedCelestialMutation>;
-export type TryInsertClaimedCelestialMutationResult = Apollo.MutationResult<TryInsertClaimedCelestialMutation>;
-export type TryInsertClaimedCelestialMutationOptions = Apollo.BaseMutationOptions<TryInsertClaimedCelestialMutation, TryInsertClaimedCelestialMutationVariables>;
+export function useTryInsertClaimedCelestialMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    TryInsertClaimedCelestialMutation,
+    TryInsertClaimedCelestialMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    TryInsertClaimedCelestialMutation,
+    TryInsertClaimedCelestialMutationVariables
+  >(TryInsertClaimedCelestialDocument, options);
+}
+export type TryInsertClaimedCelestialMutationHookResult = ReturnType<
+  typeof useTryInsertClaimedCelestialMutation
+>;
+export type TryInsertClaimedCelestialMutationResult =
+  Apollo.MutationResult<TryInsertClaimedCelestialMutation>;
+export type TryInsertClaimedCelestialMutationOptions =
+  Apollo.BaseMutationOptions<
+    TryInsertClaimedCelestialMutation,
+    TryInsertClaimedCelestialMutationVariables
+  >;
 export const GetChatMessagesDocument = gql`
-    subscription GetChatMessages {
-  chat_message(order_by: {timestamp: desc}, limit: 200) {
-    timestamp
-    id
-    message
-    poster_id
-    user_info {
-      nickname
+  subscription GetChatMessages {
+    chat_message(order_by: { timestamp: desc }, limit: 200) {
+      timestamp
       id
-      display_name
+      message
+      poster_id
+      user_info {
+        nickname
+        id
+        display_name
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useGetChatMessagesSubscription__
@@ -7217,20 +7228,31 @@ export const GetChatMessagesDocument = gql`
  *   },
  * });
  */
-export function useGetChatMessagesSubscription(baseOptions?: Apollo.SubscriptionHookOptions<GetChatMessagesSubscription, GetChatMessagesSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<GetChatMessagesSubscription, GetChatMessagesSubscriptionVariables>(GetChatMessagesDocument, options);
-      }
-export type GetChatMessagesSubscriptionHookResult = ReturnType<typeof useGetChatMessagesSubscription>;
-export type GetChatMessagesSubscriptionResult = Apollo.SubscriptionResult<GetChatMessagesSubscription>;
-export const LatestMessageDocument = gql`
-    subscription LatestMessage {
-  chat_message(limit: 1, order_by: {timestamp: desc}) {
-    id
-    message
-  }
+export function useGetChatMessagesSubscription(
+  baseOptions?: Apollo.SubscriptionHookOptions<
+    GetChatMessagesSubscription,
+    GetChatMessagesSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSubscription<
+    GetChatMessagesSubscription,
+    GetChatMessagesSubscriptionVariables
+  >(GetChatMessagesDocument, options);
 }
-    `;
+export type GetChatMessagesSubscriptionHookResult = ReturnType<
+  typeof useGetChatMessagesSubscription
+>;
+export type GetChatMessagesSubscriptionResult =
+  Apollo.SubscriptionResult<GetChatMessagesSubscription>;
+export const LatestMessageDocument = gql`
+  subscription LatestMessage {
+    chat_message(limit: 1, order_by: { timestamp: desc }) {
+      id
+      message
+    }
+  }
+`;
 
 /**
  * __useLatestMessageSubscription__
@@ -7247,20 +7269,34 @@ export const LatestMessageDocument = gql`
  *   },
  * });
  */
-export function useLatestMessageSubscription(baseOptions?: Apollo.SubscriptionHookOptions<LatestMessageSubscription, LatestMessageSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<LatestMessageSubscription, LatestMessageSubscriptionVariables>(LatestMessageDocument, options);
-      }
-export type LatestMessageSubscriptionHookResult = ReturnType<typeof useLatestMessageSubscription>;
-export type LatestMessageSubscriptionResult = Apollo.SubscriptionResult<LatestMessageSubscription>;
-export const SendNewMessageDocument = gql`
-    mutation SendNewMessage($message: String) {
-  insert_chat_message_one(object: {message: $message}) {
-    message
-  }
+export function useLatestMessageSubscription(
+  baseOptions?: Apollo.SubscriptionHookOptions<
+    LatestMessageSubscription,
+    LatestMessageSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSubscription<
+    LatestMessageSubscription,
+    LatestMessageSubscriptionVariables
+  >(LatestMessageDocument, options);
 }
-    `;
-export type SendNewMessageMutationFn = Apollo.MutationFunction<SendNewMessageMutation, SendNewMessageMutationVariables>;
+export type LatestMessageSubscriptionHookResult = ReturnType<
+  typeof useLatestMessageSubscription
+>;
+export type LatestMessageSubscriptionResult =
+  Apollo.SubscriptionResult<LatestMessageSubscription>;
+export const SendNewMessageDocument = gql`
+  mutation SendNewMessage($message: String) {
+    insert_chat_message_one(object: { message: $message }) {
+      message
+    }
+  }
+`;
+export type SendNewMessageMutationFn = Apollo.MutationFunction<
+  SendNewMessageMutation,
+  SendNewMessageMutationVariables
+>;
 
 /**
  * __useSendNewMessageMutation__
@@ -7279,21 +7315,39 @@ export type SendNewMessageMutationFn = Apollo.MutationFunction<SendNewMessageMut
  *   },
  * });
  */
-export function useSendNewMessageMutation(baseOptions?: Apollo.MutationHookOptions<SendNewMessageMutation, SendNewMessageMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<SendNewMessageMutation, SendNewMessageMutationVariables>(SendNewMessageDocument, options);
-      }
-export type SendNewMessageMutationHookResult = ReturnType<typeof useSendNewMessageMutation>;
-export type SendNewMessageMutationResult = Apollo.MutationResult<SendNewMessageMutation>;
-export type SendNewMessageMutationOptions = Apollo.BaseMutationOptions<SendNewMessageMutation, SendNewMessageMutationVariables>;
-export const CreateGalaxyDocument = gql`
-    mutation CreateGalaxy($input: galaxy_insert_input!) {
-  insert_galaxy_one(object: $input) {
-    ...GalaxyFields
-  }
+export function useSendNewMessageMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    SendNewMessageMutation,
+    SendNewMessageMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    SendNewMessageMutation,
+    SendNewMessageMutationVariables
+  >(SendNewMessageDocument, options);
 }
-    ${GalaxyFieldsFragmentDoc}`;
-export type CreateGalaxyMutationFn = Apollo.MutationFunction<CreateGalaxyMutation, CreateGalaxyMutationVariables>;
+export type SendNewMessageMutationHookResult = ReturnType<
+  typeof useSendNewMessageMutation
+>;
+export type SendNewMessageMutationResult =
+  Apollo.MutationResult<SendNewMessageMutation>;
+export type SendNewMessageMutationOptions = Apollo.BaseMutationOptions<
+  SendNewMessageMutation,
+  SendNewMessageMutationVariables
+>;
+export const CreateGalaxyDocument = gql`
+  mutation CreateGalaxy($input: galaxy_insert_input!) {
+    insert_galaxy_one(object: $input) {
+      ...GalaxyFields
+    }
+  }
+  ${GalaxyFieldsFragmentDoc}
+`;
+export type CreateGalaxyMutationFn = Apollo.MutationFunction<
+  CreateGalaxyMutation,
+  CreateGalaxyMutationVariables
+>;
 
 /**
  * __useCreateGalaxyMutation__
@@ -7312,22 +7366,39 @@ export type CreateGalaxyMutationFn = Apollo.MutationFunction<CreateGalaxyMutatio
  *   },
  * });
  */
-export function useCreateGalaxyMutation(baseOptions?: Apollo.MutationHookOptions<CreateGalaxyMutation, CreateGalaxyMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateGalaxyMutation, CreateGalaxyMutationVariables>(CreateGalaxyDocument, options);
-      }
-export type CreateGalaxyMutationHookResult = ReturnType<typeof useCreateGalaxyMutation>;
-export type CreateGalaxyMutationResult = Apollo.MutationResult<CreateGalaxyMutation>;
-export type CreateGalaxyMutationOptions = Apollo.BaseMutationOptions<CreateGalaxyMutation, CreateGalaxyMutationVariables>;
-export const DeleteGalaxyByIdDocument = gql`
-    mutation DeleteGalaxyById($id: uuid!) {
-  delete_galaxy_by_pk(id: $id) {
-    id
-    name
-  }
+export function useCreateGalaxyMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateGalaxyMutation,
+    CreateGalaxyMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateGalaxyMutation,
+    CreateGalaxyMutationVariables
+  >(CreateGalaxyDocument, options);
 }
-    `;
-export type DeleteGalaxyByIdMutationFn = Apollo.MutationFunction<DeleteGalaxyByIdMutation, DeleteGalaxyByIdMutationVariables>;
+export type CreateGalaxyMutationHookResult = ReturnType<
+  typeof useCreateGalaxyMutation
+>;
+export type CreateGalaxyMutationResult =
+  Apollo.MutationResult<CreateGalaxyMutation>;
+export type CreateGalaxyMutationOptions = Apollo.BaseMutationOptions<
+  CreateGalaxyMutation,
+  CreateGalaxyMutationVariables
+>;
+export const DeleteGalaxyByIdDocument = gql`
+  mutation DeleteGalaxyById($id: uuid!) {
+    delete_galaxy_by_pk(id: $id) {
+      id
+      name
+    }
+  }
+`;
+export type DeleteGalaxyByIdMutationFn = Apollo.MutationFunction<
+  DeleteGalaxyByIdMutation,
+  DeleteGalaxyByIdMutationVariables
+>;
 
 /**
  * __useDeleteGalaxyByIdMutation__
@@ -7346,20 +7417,35 @@ export type DeleteGalaxyByIdMutationFn = Apollo.MutationFunction<DeleteGalaxyByI
  *   },
  * });
  */
-export function useDeleteGalaxyByIdMutation(baseOptions?: Apollo.MutationHookOptions<DeleteGalaxyByIdMutation, DeleteGalaxyByIdMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteGalaxyByIdMutation, DeleteGalaxyByIdMutationVariables>(DeleteGalaxyByIdDocument, options);
-      }
-export type DeleteGalaxyByIdMutationHookResult = ReturnType<typeof useDeleteGalaxyByIdMutation>;
-export type DeleteGalaxyByIdMutationResult = Apollo.MutationResult<DeleteGalaxyByIdMutation>;
-export type DeleteGalaxyByIdMutationOptions = Apollo.BaseMutationOptions<DeleteGalaxyByIdMutation, DeleteGalaxyByIdMutationVariables>;
-export const GalaxiesDocument = gql`
-    subscription Galaxies {
-  galaxy {
-    ...GalaxyFields
-  }
+export function useDeleteGalaxyByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteGalaxyByIdMutation,
+    DeleteGalaxyByIdMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteGalaxyByIdMutation,
+    DeleteGalaxyByIdMutationVariables
+  >(DeleteGalaxyByIdDocument, options);
 }
-    ${GalaxyFieldsFragmentDoc}`;
+export type DeleteGalaxyByIdMutationHookResult = ReturnType<
+  typeof useDeleteGalaxyByIdMutation
+>;
+export type DeleteGalaxyByIdMutationResult =
+  Apollo.MutationResult<DeleteGalaxyByIdMutation>;
+export type DeleteGalaxyByIdMutationOptions = Apollo.BaseMutationOptions<
+  DeleteGalaxyByIdMutation,
+  DeleteGalaxyByIdMutationVariables
+>;
+export const GalaxiesDocument = gql`
+  subscription Galaxies {
+    galaxy {
+      ...GalaxyFields
+    }
+  }
+  ${GalaxyFieldsFragmentDoc}
+`;
 
 /**
  * __useGalaxiesSubscription__
@@ -7376,27 +7462,38 @@ export const GalaxiesDocument = gql`
  *   },
  * });
  */
-export function useGalaxiesSubscription(baseOptions?: Apollo.SubscriptionHookOptions<GalaxiesSubscription, GalaxiesSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<GalaxiesSubscription, GalaxiesSubscriptionVariables>(GalaxiesDocument, options);
-      }
-export type GalaxiesSubscriptionHookResult = ReturnType<typeof useGalaxiesSubscription>;
-export type GalaxiesSubscriptionResult = Apollo.SubscriptionResult<GalaxiesSubscription>;
-export const GalaxyByIdDocument = gql`
-    query GalaxyById($id: uuid!) {
-  galaxy_by_pk(id: $id) {
-    arm_width
-    arms
-    core_concentration_factor
-    core_radius_factor
-    curvature
-    id
-    name
-    radius
-    stars
-  }
+export function useGalaxiesSubscription(
+  baseOptions?: Apollo.SubscriptionHookOptions<
+    GalaxiesSubscription,
+    GalaxiesSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSubscription<
+    GalaxiesSubscription,
+    GalaxiesSubscriptionVariables
+  >(GalaxiesDocument, options);
 }
-    `;
+export type GalaxiesSubscriptionHookResult = ReturnType<
+  typeof useGalaxiesSubscription
+>;
+export type GalaxiesSubscriptionResult =
+  Apollo.SubscriptionResult<GalaxiesSubscription>;
+export const GalaxyByIdDocument = gql`
+  query GalaxyById($id: uuid!) {
+    galaxy_by_pk(id: $id) {
+      arm_width
+      arms
+      core_concentration_factor
+      core_radius_factor
+      curvature
+      id
+      name
+      radius
+      stars
+    }
+  }
+`;
 
 /**
  * __useGalaxyByIdQuery__
@@ -7414,33 +7511,60 @@ export const GalaxyByIdDocument = gql`
  *   },
  * });
  */
-export function useGalaxyByIdQuery(baseOptions: Apollo.QueryHookOptions<GalaxyByIdQuery, GalaxyByIdQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GalaxyByIdQuery, GalaxyByIdQueryVariables>(GalaxyByIdDocument, options);
-      }
-export function useGalaxyByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GalaxyByIdQuery, GalaxyByIdQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GalaxyByIdQuery, GalaxyByIdQueryVariables>(GalaxyByIdDocument, options);
-        }
-export type GalaxyByIdQueryHookResult = ReturnType<typeof useGalaxyByIdQuery>;
-export type GalaxyByIdLazyQueryHookResult = ReturnType<typeof useGalaxyByIdLazyQuery>;
-export type GalaxyByIdQueryResult = Apollo.QueryResult<GalaxyByIdQuery, GalaxyByIdQueryVariables>;
-export const GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsDocument = gql`
-    query GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestials($userId: String!, $galaxyId: uuid!) {
-  user_info_by_pk(id: $userId) {
-    free_claims
-  }
-  galaxy_by_pk(id: $galaxyId) {
-    id
-    stars
-  }
-  celestial(
-    where: {galaxy_id: {_eq: $galaxyId}, _and: {owner_id: {_is_null: true}}}
-  ) {
-    id
-  }
+export function useGalaxyByIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GalaxyByIdQuery,
+    GalaxyByIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GalaxyByIdQuery, GalaxyByIdQueryVariables>(
+    GalaxyByIdDocument,
+    options
+  );
 }
-    `;
+export function useGalaxyByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GalaxyByIdQuery,
+    GalaxyByIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GalaxyByIdQuery, GalaxyByIdQueryVariables>(
+    GalaxyByIdDocument,
+    options
+  );
+}
+export type GalaxyByIdQueryHookResult = ReturnType<typeof useGalaxyByIdQuery>;
+export type GalaxyByIdLazyQueryHookResult = ReturnType<
+  typeof useGalaxyByIdLazyQuery
+>;
+export type GalaxyByIdQueryResult = Apollo.QueryResult<
+  GalaxyByIdQuery,
+  GalaxyByIdQueryVariables
+>;
+export const GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsDocument = gql`
+  query GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestials(
+    $userId: String!
+    $galaxyId: uuid!
+  ) {
+    user_info_by_pk(id: $userId) {
+      free_claims
+    }
+    galaxy_by_pk(id: $galaxyId) {
+      id
+      stars
+    }
+    celestial(
+      where: {
+        galaxy_id: { _eq: $galaxyId }
+        _and: { owner_id: { _is_null: true } }
+      }
+    ) {
+      id
+    }
+  }
+`;
 
 /**
  * __useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery__
@@ -7459,29 +7583,55 @@ export const GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsDocument = gql`
  *   },
  * });
  */
-export function useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery(baseOptions: Apollo.QueryHookOptions<GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery, GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery, GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables>(GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsDocument, options);
-      }
-export function useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery, GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery, GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables>(GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsDocument, options);
-        }
-export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryHookResult = ReturnType<typeof useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery>;
-export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsLazyQueryHookResult = ReturnType<typeof useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsLazyQuery>;
-export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryResult = Apollo.QueryResult<GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery, GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables>;
-export const SelfDocument = gql`
-    query Self {
-  user_me {
-    display_name
-    id
-    name
-    nickname
-    secret_setting_test
-    free_claims
-  }
+export function useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery,
+    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery,
+    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables
+  >(GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsDocument, options);
 }
-    `;
+export function useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery,
+    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery,
+    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables
+  >(GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsDocument, options);
+}
+export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryHookResult =
+  ReturnType<
+    typeof useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery
+  >;
+export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsLazyQueryHookResult =
+  ReturnType<
+    typeof useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsLazyQuery
+  >;
+export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryResult =
+  Apollo.QueryResult<
+    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery,
+    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables
+  >;
+export const SelfDocument = gql`
+  query Self {
+    user_me {
+      display_name
+      id
+      name
+      nickname
+      secret_setting_test
+      free_claims
+    }
+  }
+`;
 
 /**
  * __useSelfQuery__
@@ -7498,28 +7648,38 @@ export const SelfDocument = gql`
  *   },
  * });
  */
-export function useSelfQuery(baseOptions?: Apollo.QueryHookOptions<SelfQuery, SelfQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<SelfQuery, SelfQueryVariables>(SelfDocument, options);
-      }
-export function useSelfLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SelfQuery, SelfQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<SelfQuery, SelfQueryVariables>(SelfDocument, options);
-        }
+export function useSelfQuery(
+  baseOptions?: Apollo.QueryHookOptions<SelfQuery, SelfQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<SelfQuery, SelfQueryVariables>(SelfDocument, options);
+}
+export function useSelfLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<SelfQuery, SelfQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<SelfQuery, SelfQueryVariables>(
+    SelfDocument,
+    options
+  );
+}
 export type SelfQueryHookResult = ReturnType<typeof useSelfQuery>;
 export type SelfLazyQueryHookResult = ReturnType<typeof useSelfLazyQuery>;
 export type SelfQueryResult = Apollo.QueryResult<SelfQuery, SelfQueryVariables>;
 export const SetDisplayNameByUserIdDocument = gql`
-    mutation SetDisplayNameByUserID($id: String!, $display_name: String!) {
-  update_user_info_by_pk(
-    pk_columns: {id: $id}
-    _set: {display_name: $display_name}
-  ) {
-    display_name
+  mutation SetDisplayNameByUserID($id: String!, $display_name: String!) {
+    update_user_info_by_pk(
+      pk_columns: { id: $id }
+      _set: { display_name: $display_name }
+    ) {
+      display_name
+    }
   }
-}
-    `;
-export type SetDisplayNameByUserIdMutationFn = Apollo.MutationFunction<SetDisplayNameByUserIdMutation, SetDisplayNameByUserIdMutationVariables>;
+`;
+export type SetDisplayNameByUserIdMutationFn = Apollo.MutationFunction<
+  SetDisplayNameByUserIdMutation,
+  SetDisplayNameByUserIdMutationVariables
+>;
 
 /**
  * __useSetDisplayNameByUserIdMutation__
@@ -7539,21 +7699,38 @@ export type SetDisplayNameByUserIdMutationFn = Apollo.MutationFunction<SetDispla
  *   },
  * });
  */
-export function useSetDisplayNameByUserIdMutation(baseOptions?: Apollo.MutationHookOptions<SetDisplayNameByUserIdMutation, SetDisplayNameByUserIdMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<SetDisplayNameByUserIdMutation, SetDisplayNameByUserIdMutationVariables>(SetDisplayNameByUserIdDocument, options);
-      }
-export type SetDisplayNameByUserIdMutationHookResult = ReturnType<typeof useSetDisplayNameByUserIdMutation>;
-export type SetDisplayNameByUserIdMutationResult = Apollo.MutationResult<SetDisplayNameByUserIdMutation>;
-export type SetDisplayNameByUserIdMutationOptions = Apollo.BaseMutationOptions<SetDisplayNameByUserIdMutation, SetDisplayNameByUserIdMutationVariables>;
-export const SetNameByUserIdDocument = gql`
-    mutation SetNameByUserID($display_name: String = "") {
-  setDisplayName(display_name: $display_name) {
-    updatedName
-  }
+export function useSetDisplayNameByUserIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    SetDisplayNameByUserIdMutation,
+    SetDisplayNameByUserIdMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    SetDisplayNameByUserIdMutation,
+    SetDisplayNameByUserIdMutationVariables
+  >(SetDisplayNameByUserIdDocument, options);
 }
-    `;
-export type SetNameByUserIdMutationFn = Apollo.MutationFunction<SetNameByUserIdMutation, SetNameByUserIdMutationVariables>;
+export type SetDisplayNameByUserIdMutationHookResult = ReturnType<
+  typeof useSetDisplayNameByUserIdMutation
+>;
+export type SetDisplayNameByUserIdMutationResult =
+  Apollo.MutationResult<SetDisplayNameByUserIdMutation>;
+export type SetDisplayNameByUserIdMutationOptions = Apollo.BaseMutationOptions<
+  SetDisplayNameByUserIdMutation,
+  SetDisplayNameByUserIdMutationVariables
+>;
+export const SetNameByUserIdDocument = gql`
+  mutation SetNameByUserID($display_name: String = "") {
+    setDisplayName(display_name: $display_name) {
+      updatedName
+    }
+  }
+`;
+export type SetNameByUserIdMutationFn = Apollo.MutationFunction<
+  SetNameByUserIdMutation,
+  SetNameByUserIdMutationVariables
+>;
 
 /**
  * __useSetNameByUserIdMutation__
@@ -7572,21 +7749,41 @@ export type SetNameByUserIdMutationFn = Apollo.MutationFunction<SetNameByUserIdM
  *   },
  * });
  */
-export function useSetNameByUserIdMutation(baseOptions?: Apollo.MutationHookOptions<SetNameByUserIdMutation, SetNameByUserIdMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<SetNameByUserIdMutation, SetNameByUserIdMutationVariables>(SetNameByUserIdDocument, options);
-      }
-export type SetNameByUserIdMutationHookResult = ReturnType<typeof useSetNameByUserIdMutation>;
-export type SetNameByUserIdMutationResult = Apollo.MutationResult<SetNameByUserIdMutation>;
-export type SetNameByUserIdMutationOptions = Apollo.BaseMutationOptions<SetNameByUserIdMutation, SetNameByUserIdMutationVariables>;
-export const UpdateFreeClaimsDocument = gql`
-    mutation UpdateFreeClaims($id: String!, $free_claims: Int!) {
-  update_user_info_by_pk(pk_columns: {id: $id}, _set: {free_claims: $free_claims}) {
-    free_claims
-  }
+export function useSetNameByUserIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    SetNameByUserIdMutation,
+    SetNameByUserIdMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    SetNameByUserIdMutation,
+    SetNameByUserIdMutationVariables
+  >(SetNameByUserIdDocument, options);
 }
-    `;
-export type UpdateFreeClaimsMutationFn = Apollo.MutationFunction<UpdateFreeClaimsMutation, UpdateFreeClaimsMutationVariables>;
+export type SetNameByUserIdMutationHookResult = ReturnType<
+  typeof useSetNameByUserIdMutation
+>;
+export type SetNameByUserIdMutationResult =
+  Apollo.MutationResult<SetNameByUserIdMutation>;
+export type SetNameByUserIdMutationOptions = Apollo.BaseMutationOptions<
+  SetNameByUserIdMutation,
+  SetNameByUserIdMutationVariables
+>;
+export const UpdateFreeClaimsDocument = gql`
+  mutation UpdateFreeClaims($id: String!, $free_claims: Int!) {
+    update_user_info_by_pk(
+      pk_columns: { id: $id }
+      _set: { free_claims: $free_claims }
+    ) {
+      free_claims
+    }
+  }
+`;
+export type UpdateFreeClaimsMutationFn = Apollo.MutationFunction<
+  UpdateFreeClaimsMutation,
+  UpdateFreeClaimsMutationVariables
+>;
 
 /**
  * __useUpdateFreeClaimsMutation__
@@ -7606,10 +7803,24 @@ export type UpdateFreeClaimsMutationFn = Apollo.MutationFunction<UpdateFreeClaim
  *   },
  * });
  */
-export function useUpdateFreeClaimsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateFreeClaimsMutation, UpdateFreeClaimsMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateFreeClaimsMutation, UpdateFreeClaimsMutationVariables>(UpdateFreeClaimsDocument, options);
-      }
-export type UpdateFreeClaimsMutationHookResult = ReturnType<typeof useUpdateFreeClaimsMutation>;
-export type UpdateFreeClaimsMutationResult = Apollo.MutationResult<UpdateFreeClaimsMutation>;
-export type UpdateFreeClaimsMutationOptions = Apollo.BaseMutationOptions<UpdateFreeClaimsMutation, UpdateFreeClaimsMutationVariables>;
+export function useUpdateFreeClaimsMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateFreeClaimsMutation,
+    UpdateFreeClaimsMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateFreeClaimsMutation,
+    UpdateFreeClaimsMutationVariables
+  >(UpdateFreeClaimsDocument, options);
+}
+export type UpdateFreeClaimsMutationHookResult = ReturnType<
+  typeof useUpdateFreeClaimsMutation
+>;
+export type UpdateFreeClaimsMutationResult =
+  Apollo.MutationResult<UpdateFreeClaimsMutation>;
+export type UpdateFreeClaimsMutationOptions = Apollo.BaseMutationOptions<
+  UpdateFreeClaimsMutation,
+  UpdateFreeClaimsMutationVariables
+>;

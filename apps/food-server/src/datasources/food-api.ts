@@ -9,6 +9,4 @@ export class FoodAPI extends DataSource {
   }
 
   client: ApolloClient<NormalizedCacheObject>;
-
-  
 }
