@@ -1,2 +1,2 @@
-export * from './lib/food/food-api';
+export * from './lib/food-api';
 export * from './lib/apollo-bootstrapper';
