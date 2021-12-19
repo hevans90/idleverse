@@ -2,7 +2,8 @@
   kind: postgres
   configuration:
     connection_info:
-      database_url: postgres://ypbxjuysqlusdy:6a8cdae94e13ba12d4c304ffa26381da2f8b3eede40a8c702821bdbbb76109fb@ec2-52-208-221-89.eu-west-1.compute.amazonaws.com:5432/d1fq18artgdc7s
+      database_url:   
+        from_env: HASURA_GRAPHQL_DATABASE_URL
       isolation_level: read-committed
       pool_settings:
         connection_lifetime: 600

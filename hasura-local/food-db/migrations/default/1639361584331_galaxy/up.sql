@@ -1,4 +1,4 @@
-CREATE SCHEMA PUBLIC;
+
 SET check_function_bodies = false;
 CREATE TABLE public.celestial (
     name character varying,
