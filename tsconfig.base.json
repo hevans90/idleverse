@@ -15,9 +15,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@idleverse/food-gql": ["libs/food-gql/src/index.ts"],
       "@idleverse/galaxy-gen": ["libs/galaxy-gen/src/index.ts"],
       "@idleverse/galaxy-gql": ["libs/galaxy-gql/src/index.ts"],
-      "@idleverse/food-gql": ["libs/food-gql/src/index.ts"],
+      "@idleverse/graphql-utils": ["libs/graphql-utils/src/index.ts"],
       "@idleverse/test-lib": ["libs/test-lib/src/index.ts"]
     }
   },
