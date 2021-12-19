@@ -28,6 +28,7 @@ services:
       HASURA_GRAPHQL_EXPERIMENTAL_FEATURES: inherited_roles
       ## uncomment next line to set an admin secret
       # HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+      REMOTE_SCHEMA_ENDPOINT: http://host.docker.internal:4000/graphql
 
 volumes:
   db-data:
