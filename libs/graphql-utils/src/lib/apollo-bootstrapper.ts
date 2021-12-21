@@ -12,9 +12,8 @@ import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { OperationDefinitionNode } from 'graphql';
 
-const uri = 'idleverse-hasura.herokuapp.com/v1/graphql';
-
 export const apolloBootstrapper = (
+  uri: string,
   access: 'user' | 'admin-secret',
   token: () => string,
   cacheConfig: InMemoryCacheConfig = {},

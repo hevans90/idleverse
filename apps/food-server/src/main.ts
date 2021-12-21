@@ -2,7 +2,7 @@ import fetch from 'cross-fetch';
 import express from 'express';
 import jwt from 'express-jwt';
 import jwksRsa from 'jwks-rsa';
-import { apolloBootstrapper } from '@idleverse/galaxy-gql';
+
 import { ApolloServer } from 'apollo-server-express';
 import { DataSources } from 'apollo-server-core/dist/requestPipeline';
 import { buildSchema } from 'type-graphql';
@@ -12,9 +12,11 @@ import { Context } from './datasources/context';
 import { FoodAPI } from './datasources/food-api';
 import ws = require('ws');
 import { RegisterResolver } from './entities/register';
+import { apolloBootstrapper } from '@idleverse/graphql-utils';
 
 (async () => {
   const client = apolloBootstrapper(
+    process.env.HASURA_URI,
     'admin-secret',
     () => process.env.HASURA_ADMIN_SECRET,
     {},

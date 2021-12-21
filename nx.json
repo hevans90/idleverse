@@ -35,6 +35,9 @@
       "tags": [],
       "implicitDependencies": ["food-client"]
     },
+    "food-gql": {
+      "tags": []
+    },
     "food-server": {
       "tags": []
     },
@@ -44,7 +47,13 @@
     "galaxy-gen": {
       "tags": []
     },
+    "galaxy-gql": {
+      "tags": []
+    },
     "game-server": {
+      "tags": []
+    },
+    "graphql-utils": {
       "tags": []
     },
     "web": {
@@ -53,12 +62,6 @@
     "web-e2e": {
       "tags": [],
       "implicitDependencies": ["web"]
-    },
-    "food-gql": {
-      "tags": []
-    },
-    "galaxy-gql": {
-      "tags": []
     }
   }
 }

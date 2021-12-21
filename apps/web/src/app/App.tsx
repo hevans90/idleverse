@@ -1,9 +1,10 @@
 import { ApolloProvider, useReactiveVar } from '@apollo/client';
 import { useAuth0 } from '@auth0/auth0-react';
-import { apolloBootstrapper } from '@idleverse/galaxy-gql';
+import { apolloBootstrapper } from '@idleverse/graphql-utils';
 import jwt_decode from 'jwt-decode';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { environment } from '../environments/environment';
 import { GalaxyGenContainer } from './canvases/galaxy-generator/galaxy-generator.container';
 import { GalaxyViewerContainer } from './canvases/galaxy-viewer/galaxy-viewer.container';
 import { SolarSystemContainer } from './canvases/solar-system/solar-system.container';
@@ -13,10 +14,10 @@ import { SelfContainer } from './containers/self-container';
 import { GalaxyGalleryContainer } from './galaxy-gallery/galaxy-gallery.container';
 import { Home } from './home/home';
 import {
+  accessTokenVar,
   galaxyConfigVar,
   galaxyRotationVar,
   roleVar,
-  accessTokenVar,
 } from './_state/reactive-variables';
 
 export const local = window.location.origin.includes('localhost');
@@ -51,20 +52,25 @@ export const App = () => {
 
   if (!accessToken) return <Loading></Loading>;
 
-  const client = apolloBootstrapper('user', accessTokenVar, {
-    typePolicies: {
-      Query: {
-        fields: {
-          galaxyConfig: {
-            read: () => galaxyConfigVar(),
-          },
-          galaxyRotation: {
-            read: () => galaxyRotationVar(),
+  const client = apolloBootstrapper(
+    environment.hasuraUri,
+    'user',
+    accessTokenVar,
+    {
+      typePolicies: {
+        Query: {
+          fields: {
+            galaxyConfig: {
+              read: () => galaxyConfigVar(),
+            },
+            galaxyRotation: {
+              read: () => galaxyRotationVar(),
+            },
           },
         },
       },
-    },
-  });
+    }
+  );
 
   return (
     <ApolloProvider client={client}>

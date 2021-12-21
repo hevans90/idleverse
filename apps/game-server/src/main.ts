@@ -1,4 +1,4 @@
-import { apolloBootstrapper } from '@idleverse/galaxy-gql';
+import { apolloBootstrapper } from '@idleverse/graphql-utils';
 import { DataSources } from 'apollo-server-core/dist/requestPipeline';
 import { ApolloServer } from 'apollo-server-express';
 import fetch from 'cross-fetch';
@@ -16,6 +16,7 @@ import ws = require('ws');
 
 (async () => {
   const client = apolloBootstrapper(
+    process.env.HASURA_URI,
     'admin-secret',
     () => process.env.HASURA_ADMIN_SECRET,
     {},

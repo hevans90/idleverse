@@ -3,4 +3,5 @@
 
 export const environment = {
   production: false,
+  hasuraUri: 'localhost:8080/v1/graphql',
 };
