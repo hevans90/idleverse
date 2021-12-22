@@ -1,8 +1,8 @@
 module.exports = {
   overwrite: true,
   generates: {
-    'libs/graphql/src/libs/idleverse/galaxy-api.ts': {
-      documents: 'libs/graphql/src/libs/idleverse/**/*.graphql',
+    'libs/galaxy-gql/src/lib/galaxy-api.ts': {
+      documents: 'libs/galaxy-gql/src/lib/**/*.graphql',
       schema: [
         {
           'https://idleverse-hasura.herokuapp.com/v1/graphql': {
@@ -24,8 +24,8 @@ module.exports = {
         withComponent: false,
       },
     },
-    'libs/graphql/src/libs/food/food-api.ts': {
-      documents: 'libs/graphql/src/libs/food/**/*.graphql',
+    'libs/food-gql/src/lib/food-api.ts': {
+      documents: 'libs/food-gql/src/lib/**/*.graphql',
       schema: [
         {
           'https://food-hasura.herokuapp.com/v1/graphql': {
