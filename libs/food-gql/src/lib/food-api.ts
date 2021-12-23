@@ -83,10 +83,14 @@ export type String_Comparison_Exp = {
 /** columns and relationships of "advert" */
 export type Advert = {
   __typename?: 'advert';
+  /** An object relationship */
+  boardObjectByBoardObject: Board_Object;
   board_object: Scalars['uuid'];
   food_kind: Scalars['uuid'];
   food_quantity: Scalars['Int'];
   game: Scalars['uuid'];
+  /** An object relationship */
+  gameByGame: Game;
   id: Scalars['uuid'];
   kind: Scalars['uuid'];
 };
@@ -120,10 +124,37 @@ export type Advert_Aggregate_FieldsCountArgs = {
   distinct?: Maybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "advert" */
+export type Advert_Aggregate_Order_By = {
+  avg?: Maybe<Advert_Avg_Order_By>;
+  count?: Maybe<Order_By>;
+  max?: Maybe<Advert_Max_Order_By>;
+  min?: Maybe<Advert_Min_Order_By>;
+  stddev?: Maybe<Advert_Stddev_Order_By>;
+  stddev_pop?: Maybe<Advert_Stddev_Pop_Order_By>;
+  stddev_samp?: Maybe<Advert_Stddev_Samp_Order_By>;
+  sum?: Maybe<Advert_Sum_Order_By>;
+  var_pop?: Maybe<Advert_Var_Pop_Order_By>;
+  var_samp?: Maybe<Advert_Var_Samp_Order_By>;
+  variance?: Maybe<Advert_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "advert" */
+export type Advert_Arr_Rel_Insert_Input = {
+  data: Array<Advert_Insert_Input>;
+  /** on conflict condition */
+  on_conflict?: Maybe<Advert_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Advert_Avg_Fields = {
   __typename?: 'advert_avg_fields';
   food_quantity?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "advert" */
+export type Advert_Avg_Order_By = {
+  food_quantity?: Maybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "advert". All fields are combined with a logical 'AND'. */
@@ -131,10 +162,12 @@ export type Advert_Bool_Exp = {
   _and?: Maybe<Array<Advert_Bool_Exp>>;
   _not?: Maybe<Advert_Bool_Exp>;
   _or?: Maybe<Array<Advert_Bool_Exp>>;
+  boardObjectByBoardObject?: Maybe<Board_Object_Bool_Exp>;
   board_object?: Maybe<Uuid_Comparison_Exp>;
   food_kind?: Maybe<Uuid_Comparison_Exp>;
   food_quantity?: Maybe<Int_Comparison_Exp>;
   game?: Maybe<Uuid_Comparison_Exp>;
+  gameByGame?: Maybe<Game_Bool_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
   kind?: Maybe<Uuid_Comparison_Exp>;
 };
@@ -152,10 +185,12 @@ export type Advert_Inc_Input = {
 
 /** input type for inserting data into table "advert" */
 export type Advert_Insert_Input = {
+  boardObjectByBoardObject?: Maybe<Board_Object_Obj_Rel_Insert_Input>;
   board_object?: Maybe<Scalars['uuid']>;
   food_kind?: Maybe<Scalars['uuid']>;
   food_quantity?: Maybe<Scalars['Int']>;
   game?: Maybe<Scalars['uuid']>;
+  gameByGame?: Maybe<Game_Obj_Rel_Insert_Input>;
   id?: Maybe<Scalars['uuid']>;
   kind?: Maybe<Scalars['uuid']>;
 };
@@ -171,6 +206,16 @@ export type Advert_Max_Fields = {
   kind?: Maybe<Scalars['uuid']>;
 };
 
+/** order by max() on columns of table "advert" */
+export type Advert_Max_Order_By = {
+  board_object?: Maybe<Order_By>;
+  food_kind?: Maybe<Order_By>;
+  food_quantity?: Maybe<Order_By>;
+  game?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  kind?: Maybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Advert_Min_Fields = {
   __typename?: 'advert_min_fields';
@@ -180,6 +225,16 @@ export type Advert_Min_Fields = {
   game?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
   kind?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "advert" */
+export type Advert_Min_Order_By = {
+  board_object?: Maybe<Order_By>;
+  food_kind?: Maybe<Order_By>;
+  food_quantity?: Maybe<Order_By>;
+  game?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  kind?: Maybe<Order_By>;
 };
 
 /** response of any mutation on the table "advert" */
@@ -200,10 +255,12 @@ export type Advert_On_Conflict = {
 
 /** Ordering options when selecting data from "advert". */
 export type Advert_Order_By = {
+  boardObjectByBoardObject?: Maybe<Board_Object_Order_By>;
   board_object?: Maybe<Order_By>;
   food_kind?: Maybe<Order_By>;
   food_quantity?: Maybe<Order_By>;
   game?: Maybe<Order_By>;
+  gameByGame?: Maybe<Game_Order_By>;
   id?: Maybe<Order_By>;
   kind?: Maybe<Order_By>;
 };
@@ -245,10 +302,20 @@ export type Advert_Stddev_Fields = {
   food_quantity?: Maybe<Scalars['Float']>;
 };
 
+/** order by stddev() on columns of table "advert" */
+export type Advert_Stddev_Order_By = {
+  food_quantity?: Maybe<Order_By>;
+};
+
 /** aggregate stddev_pop on columns */
 export type Advert_Stddev_Pop_Fields = {
   __typename?: 'advert_stddev_pop_fields';
   food_quantity?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "advert" */
+export type Advert_Stddev_Pop_Order_By = {
+  food_quantity?: Maybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -257,10 +324,20 @@ export type Advert_Stddev_Samp_Fields = {
   food_quantity?: Maybe<Scalars['Float']>;
 };
 
+/** order by stddev_samp() on columns of table "advert" */
+export type Advert_Stddev_Samp_Order_By = {
+  food_quantity?: Maybe<Order_By>;
+};
+
 /** aggregate sum on columns */
 export type Advert_Sum_Fields = {
   __typename?: 'advert_sum_fields';
   food_quantity?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "advert" */
+export type Advert_Sum_Order_By = {
+  food_quantity?: Maybe<Order_By>;
 };
 
 /** update columns of table "advert" */
@@ -285,10 +362,20 @@ export type Advert_Var_Pop_Fields = {
   food_quantity?: Maybe<Scalars['Float']>;
 };
 
+/** order by var_pop() on columns of table "advert" */
+export type Advert_Var_Pop_Order_By = {
+  food_quantity?: Maybe<Order_By>;
+};
+
 /** aggregate var_samp on columns */
 export type Advert_Var_Samp_Fields = {
   __typename?: 'advert_var_samp_fields';
   food_quantity?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "advert" */
+export type Advert_Var_Samp_Order_By = {
+  food_quantity?: Maybe<Order_By>;
 };
 
 /** aggregate variance on columns */
@@ -297,14 +384,91 @@ export type Advert_Variance_Fields = {
   food_quantity?: Maybe<Scalars['Float']>;
 };
 
+/** order by variance() on columns of table "advert" */
+export type Advert_Variance_Order_By = {
+  food_quantity?: Maybe<Order_By>;
+};
+
 /** columns and relationships of "board_object" */
 export type Board_Object = {
   __typename?: 'board_object';
+  /** An array relationship */
+  adverts: Array<Advert>;
+  /** An aggregate relationship */
+  adverts_aggregate: Advert_Aggregate;
+  /** An array relationship */
+  diners: Array<Diner>;
+  /** An aggregate relationship */
+  diners_aggregate: Diner_Aggregate;
+  /** An object relationship */
+  drink?: Maybe<Drink>;
+  /** An array relationship */
+  gardens: Array<Garden>;
+  /** An aggregate relationship */
+  gardens_aggregate: Garden_Aggregate;
+  /** An object relationship */
+  house?: Maybe<House>;
   i: Scalars['Int'];
   id: Scalars['uuid'];
   j: Scalars['Int'];
   kind: Scalars['String'];
+  /** An object relationship */
+  road?: Maybe<Road>;
   rotation: Scalars['Int'];
+};
+
+/** columns and relationships of "board_object" */
+export type Board_ObjectAdvertsArgs = {
+  distinct_on?: Maybe<Array<Advert_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Advert_Order_By>>;
+  where?: Maybe<Advert_Bool_Exp>;
+};
+
+/** columns and relationships of "board_object" */
+export type Board_ObjectAdverts_AggregateArgs = {
+  distinct_on?: Maybe<Array<Advert_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Advert_Order_By>>;
+  where?: Maybe<Advert_Bool_Exp>;
+};
+
+/** columns and relationships of "board_object" */
+export type Board_ObjectDinersArgs = {
+  distinct_on?: Maybe<Array<Diner_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Diner_Order_By>>;
+  where?: Maybe<Diner_Bool_Exp>;
+};
+
+/** columns and relationships of "board_object" */
+export type Board_ObjectDiners_AggregateArgs = {
+  distinct_on?: Maybe<Array<Diner_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Diner_Order_By>>;
+  where?: Maybe<Diner_Bool_Exp>;
+};
+
+/** columns and relationships of "board_object" */
+export type Board_ObjectGardensArgs = {
+  distinct_on?: Maybe<Array<Garden_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Garden_Order_By>>;
+  where?: Maybe<Garden_Bool_Exp>;
+};
+
+/** columns and relationships of "board_object" */
+export type Board_ObjectGardens_AggregateArgs = {
+  distinct_on?: Maybe<Array<Garden_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Garden_Order_By>>;
+  where?: Maybe<Garden_Bool_Exp>;
 };
 
 /** aggregated selection of "board_object" */
@@ -349,10 +513,16 @@ export type Board_Object_Bool_Exp = {
   _and?: Maybe<Array<Board_Object_Bool_Exp>>;
   _not?: Maybe<Board_Object_Bool_Exp>;
   _or?: Maybe<Array<Board_Object_Bool_Exp>>;
+  adverts?: Maybe<Advert_Bool_Exp>;
+  diners?: Maybe<Diner_Bool_Exp>;
+  drink?: Maybe<Drink_Bool_Exp>;
+  gardens?: Maybe<Garden_Bool_Exp>;
+  house?: Maybe<House_Bool_Exp>;
   i?: Maybe<Int_Comparison_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
   j?: Maybe<Int_Comparison_Exp>;
   kind?: Maybe<String_Comparison_Exp>;
+  road?: Maybe<Road_Bool_Exp>;
   rotation?: Maybe<Int_Comparison_Exp>;
 };
 
@@ -371,10 +541,16 @@ export type Board_Object_Inc_Input = {
 
 /** input type for inserting data into table "board_object" */
 export type Board_Object_Insert_Input = {
+  adverts?: Maybe<Advert_Arr_Rel_Insert_Input>;
+  diners?: Maybe<Diner_Arr_Rel_Insert_Input>;
+  drink?: Maybe<Drink_Obj_Rel_Insert_Input>;
+  gardens?: Maybe<Garden_Arr_Rel_Insert_Input>;
+  house?: Maybe<House_Obj_Rel_Insert_Input>;
   i?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['uuid']>;
   j?: Maybe<Scalars['Int']>;
   kind?: Maybe<Scalars['String']>;
+  road?: Maybe<Road_Obj_Rel_Insert_Input>;
   rotation?: Maybe<Scalars['Int']>;
 };
 
@@ -407,6 +583,13 @@ export type Board_Object_Mutation_Response = {
   returning: Array<Board_Object>;
 };
 
+/** input type for inserting object relation for remote table "board_object" */
+export type Board_Object_Obj_Rel_Insert_Input = {
+  data: Board_Object_Insert_Input;
+  /** on conflict condition */
+  on_conflict?: Maybe<Board_Object_On_Conflict>;
+};
+
 /** on conflict condition type for table "board_object" */
 export type Board_Object_On_Conflict = {
   constraint: Board_Object_Constraint;
@@ -416,10 +599,16 @@ export type Board_Object_On_Conflict = {
 
 /** Ordering options when selecting data from "board_object". */
 export type Board_Object_Order_By = {
+  adverts_aggregate?: Maybe<Advert_Aggregate_Order_By>;
+  diners_aggregate?: Maybe<Diner_Aggregate_Order_By>;
+  drink?: Maybe<Drink_Order_By>;
+  gardens_aggregate?: Maybe<Garden_Aggregate_Order_By>;
+  house?: Maybe<House_Order_By>;
   i?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   j?: Maybe<Order_By>;
   kind?: Maybe<Order_By>;
+  road?: Maybe<Road_Order_By>;
   rotation?: Maybe<Order_By>;
 };
 
@@ -524,9 +713,13 @@ export type Board_Object_Variance_Fields = {
 /** columns and relationships of "diner" */
 export type Diner = {
   __typename?: 'diner';
+  /** An object relationship */
+  boardObjectByBoardObject?: Maybe<Board_Object>;
   board_object?: Maybe<Scalars['uuid']>;
   id: Scalars['uuid'];
   owner: Scalars['uuid'];
+  /** An object relationship */
+  player: Player;
 };
 
 /** aggregated selection of "diner" */
@@ -550,14 +743,30 @@ export type Diner_Aggregate_FieldsCountArgs = {
   distinct?: Maybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "diner" */
+export type Diner_Aggregate_Order_By = {
+  count?: Maybe<Order_By>;
+  max?: Maybe<Diner_Max_Order_By>;
+  min?: Maybe<Diner_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "diner" */
+export type Diner_Arr_Rel_Insert_Input = {
+  data: Array<Diner_Insert_Input>;
+  /** on conflict condition */
+  on_conflict?: Maybe<Diner_On_Conflict>;
+};
+
 /** Boolean expression to filter rows from the table "diner". All fields are combined with a logical 'AND'. */
 export type Diner_Bool_Exp = {
   _and?: Maybe<Array<Diner_Bool_Exp>>;
   _not?: Maybe<Diner_Bool_Exp>;
   _or?: Maybe<Array<Diner_Bool_Exp>>;
+  boardObjectByBoardObject?: Maybe<Board_Object_Bool_Exp>;
   board_object?: Maybe<Uuid_Comparison_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
   owner?: Maybe<Uuid_Comparison_Exp>;
+  player?: Maybe<Player_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "diner" */
@@ -568,9 +777,11 @@ export enum Diner_Constraint {
 
 /** input type for inserting data into table "diner" */
 export type Diner_Insert_Input = {
+  boardObjectByBoardObject?: Maybe<Board_Object_Obj_Rel_Insert_Input>;
   board_object?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
   owner?: Maybe<Scalars['uuid']>;
+  player?: Maybe<Player_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -581,12 +792,26 @@ export type Diner_Max_Fields = {
   owner?: Maybe<Scalars['uuid']>;
 };
 
+/** order by max() on columns of table "diner" */
+export type Diner_Max_Order_By = {
+  board_object?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  owner?: Maybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Diner_Min_Fields = {
   __typename?: 'diner_min_fields';
   board_object?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
   owner?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "diner" */
+export type Diner_Min_Order_By = {
+  board_object?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  owner?: Maybe<Order_By>;
 };
 
 /** response of any mutation on the table "diner" */
@@ -607,9 +832,11 @@ export type Diner_On_Conflict = {
 
 /** Ordering options when selecting data from "diner". */
 export type Diner_Order_By = {
+  boardObjectByBoardObject?: Maybe<Board_Object_Order_By>;
   board_object?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   owner?: Maybe<Order_By>;
+  player?: Maybe<Player_Order_By>;
 };
 
 /** primary key columns input for table: diner */
@@ -647,7 +874,11 @@ export enum Diner_Update_Column {
 /** columns and relationships of "drink" */
 export type Drink = {
   __typename?: 'drink';
+  /** An object relationship */
+  board_object: Board_Object;
   game: Scalars['uuid'];
+  /** An object relationship */
+  gameByGame: Game;
   id: Scalars['uuid'];
   kind: Scalars['uuid'];
 };
@@ -673,12 +904,28 @@ export type Drink_Aggregate_FieldsCountArgs = {
   distinct?: Maybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "drink" */
+export type Drink_Aggregate_Order_By = {
+  count?: Maybe<Order_By>;
+  max?: Maybe<Drink_Max_Order_By>;
+  min?: Maybe<Drink_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "drink" */
+export type Drink_Arr_Rel_Insert_Input = {
+  data: Array<Drink_Insert_Input>;
+  /** on conflict condition */
+  on_conflict?: Maybe<Drink_On_Conflict>;
+};
+
 /** Boolean expression to filter rows from the table "drink". All fields are combined with a logical 'AND'. */
 export type Drink_Bool_Exp = {
   _and?: Maybe<Array<Drink_Bool_Exp>>;
   _not?: Maybe<Drink_Bool_Exp>;
   _or?: Maybe<Array<Drink_Bool_Exp>>;
+  board_object?: Maybe<Board_Object_Bool_Exp>;
   game?: Maybe<Uuid_Comparison_Exp>;
+  gameByGame?: Maybe<Game_Bool_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
   kind?: Maybe<Uuid_Comparison_Exp>;
 };
@@ -691,7 +938,9 @@ export enum Drink_Constraint {
 
 /** input type for inserting data into table "drink" */
 export type Drink_Insert_Input = {
+  board_object?: Maybe<Board_Object_Obj_Rel_Insert_Input>;
   game?: Maybe<Scalars['uuid']>;
+  gameByGame?: Maybe<Game_Obj_Rel_Insert_Input>;
   id?: Maybe<Scalars['uuid']>;
   kind?: Maybe<Scalars['uuid']>;
 };
@@ -704,12 +953,26 @@ export type Drink_Max_Fields = {
   kind?: Maybe<Scalars['uuid']>;
 };
 
+/** order by max() on columns of table "drink" */
+export type Drink_Max_Order_By = {
+  game?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  kind?: Maybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Drink_Min_Fields = {
   __typename?: 'drink_min_fields';
   game?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
   kind?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "drink" */
+export type Drink_Min_Order_By = {
+  game?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  kind?: Maybe<Order_By>;
 };
 
 /** response of any mutation on the table "drink" */
@@ -721,6 +984,13 @@ export type Drink_Mutation_Response = {
   returning: Array<Drink>;
 };
 
+/** input type for inserting object relation for remote table "drink" */
+export type Drink_Obj_Rel_Insert_Input = {
+  data: Drink_Insert_Input;
+  /** on conflict condition */
+  on_conflict?: Maybe<Drink_On_Conflict>;
+};
+
 /** on conflict condition type for table "drink" */
 export type Drink_On_Conflict = {
   constraint: Drink_Constraint;
@@ -730,7 +1000,9 @@ export type Drink_On_Conflict = {
 
 /** Ordering options when selecting data from "drink". */
 export type Drink_Order_By = {
+  board_object?: Maybe<Board_Object_Order_By>;
   game?: Maybe<Order_By>;
+  gameByGame?: Maybe<Game_Order_By>;
   id?: Maybe<Order_By>;
   kind?: Maybe<Order_By>;
 };
@@ -771,6 +1043,8 @@ export enum Drink_Update_Column {
 export type Employee = {
   __typename?: 'employee';
   game: Scalars['uuid'];
+  /** An object relationship */
+  gameByGame: Game;
   hired_by: Scalars['uuid'];
   hires_available: Scalars['Int'];
   id: Scalars['uuid'];
@@ -813,11 +1087,39 @@ export type Employee_Aggregate_FieldsCountArgs = {
   distinct?: Maybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "employee" */
+export type Employee_Aggregate_Order_By = {
+  avg?: Maybe<Employee_Avg_Order_By>;
+  count?: Maybe<Order_By>;
+  max?: Maybe<Employee_Max_Order_By>;
+  min?: Maybe<Employee_Min_Order_By>;
+  stddev?: Maybe<Employee_Stddev_Order_By>;
+  stddev_pop?: Maybe<Employee_Stddev_Pop_Order_By>;
+  stddev_samp?: Maybe<Employee_Stddev_Samp_Order_By>;
+  sum?: Maybe<Employee_Sum_Order_By>;
+  var_pop?: Maybe<Employee_Var_Pop_Order_By>;
+  var_samp?: Maybe<Employee_Var_Samp_Order_By>;
+  variance?: Maybe<Employee_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "employee" */
+export type Employee_Arr_Rel_Insert_Input = {
+  data: Array<Employee_Insert_Input>;
+  /** on conflict condition */
+  on_conflict?: Maybe<Employee_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Employee_Avg_Fields = {
   __typename?: 'employee_avg_fields';
   hires_available?: Maybe<Scalars['Float']>;
   trains_available?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "employee" */
+export type Employee_Avg_Order_By = {
+  hires_available?: Maybe<Order_By>;
+  trains_available?: Maybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "employee". All fields are combined with a logical 'AND'. */
@@ -826,6 +1128,7 @@ export type Employee_Bool_Exp = {
   _not?: Maybe<Employee_Bool_Exp>;
   _or?: Maybe<Array<Employee_Bool_Exp>>;
   game?: Maybe<Uuid_Comparison_Exp>;
+  gameByGame?: Maybe<Game_Bool_Exp>;
   hired_by?: Maybe<Uuid_Comparison_Exp>;
   hires_available?: Maybe<Int_Comparison_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
@@ -854,6 +1157,7 @@ export type Employee_Inc_Input = {
 /** input type for inserting data into table "employee" */
 export type Employee_Insert_Input = {
   game?: Maybe<Scalars['uuid']>;
+  gameByGame?: Maybe<Game_Obj_Rel_Insert_Input>;
   hired_by?: Maybe<Scalars['uuid']>;
   hires_available?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['uuid']>;
@@ -883,6 +1187,21 @@ export type Employee_Max_Fields = {
   trains_available?: Maybe<Scalars['Int']>;
 };
 
+/** order by max() on columns of table "employee" */
+export type Employee_Max_Order_By = {
+  game?: Maybe<Order_By>;
+  hired_by?: Maybe<Order_By>;
+  hires_available?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  kind?: Maybe<Order_By>;
+  manager?: Maybe<Order_By>;
+  owner?: Maybe<Order_By>;
+  promoted_from?: Maybe<Order_By>;
+  trained_by?: Maybe<Order_By>;
+  trained_from?: Maybe<Order_By>;
+  trains_available?: Maybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Employee_Min_Fields = {
   __typename?: 'employee_min_fields';
@@ -897,6 +1216,21 @@ export type Employee_Min_Fields = {
   trained_by?: Maybe<Scalars['uuid']>;
   trained_from?: Maybe<Scalars['uuid']>;
   trains_available?: Maybe<Scalars['Int']>;
+};
+
+/** order by min() on columns of table "employee" */
+export type Employee_Min_Order_By = {
+  game?: Maybe<Order_By>;
+  hired_by?: Maybe<Order_By>;
+  hires_available?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  kind?: Maybe<Order_By>;
+  manager?: Maybe<Order_By>;
+  owner?: Maybe<Order_By>;
+  promoted_from?: Maybe<Order_By>;
+  trained_by?: Maybe<Order_By>;
+  trained_from?: Maybe<Order_By>;
+  trains_available?: Maybe<Order_By>;
 };
 
 /** response of any mutation on the table "employee" */
@@ -918,6 +1252,7 @@ export type Employee_On_Conflict = {
 /** Ordering options when selecting data from "employee". */
 export type Employee_Order_By = {
   game?: Maybe<Order_By>;
+  gameByGame?: Maybe<Game_Order_By>;
   hired_by?: Maybe<Order_By>;
   hires_available?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
@@ -987,11 +1322,23 @@ export type Employee_Stddev_Fields = {
   trains_available?: Maybe<Scalars['Float']>;
 };
 
+/** order by stddev() on columns of table "employee" */
+export type Employee_Stddev_Order_By = {
+  hires_available?: Maybe<Order_By>;
+  trains_available?: Maybe<Order_By>;
+};
+
 /** aggregate stddev_pop on columns */
 export type Employee_Stddev_Pop_Fields = {
   __typename?: 'employee_stddev_pop_fields';
   hires_available?: Maybe<Scalars['Float']>;
   trains_available?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "employee" */
+export type Employee_Stddev_Pop_Order_By = {
+  hires_available?: Maybe<Order_By>;
+  trains_available?: Maybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -1001,11 +1348,23 @@ export type Employee_Stddev_Samp_Fields = {
   trains_available?: Maybe<Scalars['Float']>;
 };
 
+/** order by stddev_samp() on columns of table "employee" */
+export type Employee_Stddev_Samp_Order_By = {
+  hires_available?: Maybe<Order_By>;
+  trains_available?: Maybe<Order_By>;
+};
+
 /** aggregate sum on columns */
 export type Employee_Sum_Fields = {
   __typename?: 'employee_sum_fields';
   hires_available?: Maybe<Scalars['Int']>;
   trains_available?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "employee" */
+export type Employee_Sum_Order_By = {
+  hires_available?: Maybe<Order_By>;
+  trains_available?: Maybe<Order_By>;
 };
 
 /** update columns of table "employee" */
@@ -1043,11 +1402,23 @@ export type Employee_Var_Pop_Fields = {
   trains_available?: Maybe<Scalars['Float']>;
 };
 
+/** order by var_pop() on columns of table "employee" */
+export type Employee_Var_Pop_Order_By = {
+  hires_available?: Maybe<Order_By>;
+  trains_available?: Maybe<Order_By>;
+};
+
 /** aggregate var_samp on columns */
 export type Employee_Var_Samp_Fields = {
   __typename?: 'employee_var_samp_fields';
   hires_available?: Maybe<Scalars['Float']>;
   trains_available?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "employee" */
+export type Employee_Var_Samp_Order_By = {
+  hires_available?: Maybe<Order_By>;
+  trains_available?: Maybe<Order_By>;
 };
 
 /** aggregate variance on columns */
@@ -1057,10 +1428,171 @@ export type Employee_Variance_Fields = {
   trains_available?: Maybe<Scalars['Float']>;
 };
 
+/** order by variance() on columns of table "employee" */
+export type Employee_Variance_Order_By = {
+  hires_available?: Maybe<Order_By>;
+  trains_available?: Maybe<Order_By>;
+};
+
 /** columns and relationships of "game" */
 export type Game = {
   __typename?: 'game';
+  /** An array relationship */
+  adverts: Array<Advert>;
+  /** An aggregate relationship */
+  adverts_aggregate: Advert_Aggregate;
+  /** An array relationship */
+  drinks: Array<Drink>;
+  /** An aggregate relationship */
+  drinks_aggregate: Drink_Aggregate;
+  /** An array relationship */
+  employees: Array<Employee>;
+  /** An aggregate relationship */
+  employees_aggregate: Employee_Aggregate;
+  /** An array relationship */
+  gardens: Array<Garden>;
+  /** An aggregate relationship */
+  gardens_aggregate: Garden_Aggregate;
+  /** An array relationship */
+  houses: Array<House>;
+  /** An aggregate relationship */
+  houses_aggregate: House_Aggregate;
   id: Scalars['uuid'];
+  name?: Maybe<Scalars['String']>;
+  /** An array relationship */
+  players: Array<Player>;
+  /** An aggregate relationship */
+  players_aggregate: Player_Aggregate;
+  /** An array relationship */
+  roads: Array<Road>;
+  /** An aggregate relationship */
+  roads_aggregate: Road_Aggregate;
+};
+
+/** columns and relationships of "game" */
+export type GameAdvertsArgs = {
+  distinct_on?: Maybe<Array<Advert_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Advert_Order_By>>;
+  where?: Maybe<Advert_Bool_Exp>;
+};
+
+/** columns and relationships of "game" */
+export type GameAdverts_AggregateArgs = {
+  distinct_on?: Maybe<Array<Advert_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Advert_Order_By>>;
+  where?: Maybe<Advert_Bool_Exp>;
+};
+
+/** columns and relationships of "game" */
+export type GameDrinksArgs = {
+  distinct_on?: Maybe<Array<Drink_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Drink_Order_By>>;
+  where?: Maybe<Drink_Bool_Exp>;
+};
+
+/** columns and relationships of "game" */
+export type GameDrinks_AggregateArgs = {
+  distinct_on?: Maybe<Array<Drink_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Drink_Order_By>>;
+  where?: Maybe<Drink_Bool_Exp>;
+};
+
+/** columns and relationships of "game" */
+export type GameEmployeesArgs = {
+  distinct_on?: Maybe<Array<Employee_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Employee_Order_By>>;
+  where?: Maybe<Employee_Bool_Exp>;
+};
+
+/** columns and relationships of "game" */
+export type GameEmployees_AggregateArgs = {
+  distinct_on?: Maybe<Array<Employee_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Employee_Order_By>>;
+  where?: Maybe<Employee_Bool_Exp>;
+};
+
+/** columns and relationships of "game" */
+export type GameGardensArgs = {
+  distinct_on?: Maybe<Array<Garden_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Garden_Order_By>>;
+  where?: Maybe<Garden_Bool_Exp>;
+};
+
+/** columns and relationships of "game" */
+export type GameGardens_AggregateArgs = {
+  distinct_on?: Maybe<Array<Garden_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Garden_Order_By>>;
+  where?: Maybe<Garden_Bool_Exp>;
+};
+
+/** columns and relationships of "game" */
+export type GameHousesArgs = {
+  distinct_on?: Maybe<Array<House_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<House_Order_By>>;
+  where?: Maybe<House_Bool_Exp>;
+};
+
+/** columns and relationships of "game" */
+export type GameHouses_AggregateArgs = {
+  distinct_on?: Maybe<Array<House_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<House_Order_By>>;
+  where?: Maybe<House_Bool_Exp>;
+};
+
+/** columns and relationships of "game" */
+export type GamePlayersArgs = {
+  distinct_on?: Maybe<Array<Player_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Player_Order_By>>;
+  where?: Maybe<Player_Bool_Exp>;
+};
+
+/** columns and relationships of "game" */
+export type GamePlayers_AggregateArgs = {
+  distinct_on?: Maybe<Array<Player_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Player_Order_By>>;
+  where?: Maybe<Player_Bool_Exp>;
+};
+
+/** columns and relationships of "game" */
+export type GameRoadsArgs = {
+  distinct_on?: Maybe<Array<Road_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Road_Order_By>>;
+  where?: Maybe<Road_Bool_Exp>;
+};
+
+/** columns and relationships of "game" */
+export type GameRoads_AggregateArgs = {
+  distinct_on?: Maybe<Array<Road_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Road_Order_By>>;
+  where?: Maybe<Road_Bool_Exp>;
 };
 
 /** aggregated selection of "game" */
@@ -1089,7 +1621,15 @@ export type Game_Bool_Exp = {
   _and?: Maybe<Array<Game_Bool_Exp>>;
   _not?: Maybe<Game_Bool_Exp>;
   _or?: Maybe<Array<Game_Bool_Exp>>;
+  adverts?: Maybe<Advert_Bool_Exp>;
+  drinks?: Maybe<Drink_Bool_Exp>;
+  employees?: Maybe<Employee_Bool_Exp>;
+  gardens?: Maybe<Garden_Bool_Exp>;
+  houses?: Maybe<House_Bool_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
+  name?: Maybe<String_Comparison_Exp>;
+  players?: Maybe<Player_Bool_Exp>;
+  roads?: Maybe<Road_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "game" */
@@ -1100,19 +1640,29 @@ export enum Game_Constraint {
 
 /** input type for inserting data into table "game" */
 export type Game_Insert_Input = {
+  adverts?: Maybe<Advert_Arr_Rel_Insert_Input>;
+  drinks?: Maybe<Drink_Arr_Rel_Insert_Input>;
+  employees?: Maybe<Employee_Arr_Rel_Insert_Input>;
+  gardens?: Maybe<Garden_Arr_Rel_Insert_Input>;
+  houses?: Maybe<House_Arr_Rel_Insert_Input>;
   id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  players?: Maybe<Player_Arr_Rel_Insert_Input>;
+  roads?: Maybe<Road_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
 export type Game_Max_Fields = {
   __typename?: 'game_max_fields';
   id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
 };
 
 /** aggregate min on columns */
 export type Game_Min_Fields = {
   __typename?: 'game_min_fields';
   id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
 };
 
 /** response of any mutation on the table "game" */
@@ -1124,6 +1674,13 @@ export type Game_Mutation_Response = {
   returning: Array<Game>;
 };
 
+/** input type for inserting object relation for remote table "game" */
+export type Game_Obj_Rel_Insert_Input = {
+  data: Game_Insert_Input;
+  /** on conflict condition */
+  on_conflict?: Maybe<Game_On_Conflict>;
+};
+
 /** on conflict condition type for table "game" */
 export type Game_On_Conflict = {
   constraint: Game_Constraint;
@@ -1133,7 +1690,15 @@ export type Game_On_Conflict = {
 
 /** Ordering options when selecting data from "game". */
 export type Game_Order_By = {
+  adverts_aggregate?: Maybe<Advert_Aggregate_Order_By>;
+  drinks_aggregate?: Maybe<Drink_Aggregate_Order_By>;
+  employees_aggregate?: Maybe<Employee_Aggregate_Order_By>;
+  gardens_aggregate?: Maybe<Garden_Aggregate_Order_By>;
+  houses_aggregate?: Maybe<House_Aggregate_Order_By>;
   id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+  players_aggregate?: Maybe<Player_Aggregate_Order_By>;
+  roads_aggregate?: Maybe<Road_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: game */
@@ -1145,24 +1710,33 @@ export type Game_Pk_Columns_Input = {
 export enum Game_Select_Column {
   /** column name */
   Id = 'id',
+  /** column name */
+  Name = 'name',
 }
 
 /** input type for updating data in table "game" */
 export type Game_Set_Input = {
   id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
 };
 
 /** update columns of table "game" */
 export enum Game_Update_Column {
   /** column name */
   Id = 'id',
+  /** column name */
+  Name = 'name',
 }
 
 /** columns and relationships of "garden" */
 export type Garden = {
   __typename?: 'garden';
+  /** An object relationship */
+  boardObjectByBoardObject: Board_Object;
   board_object: Scalars['uuid'];
   game: Scalars['uuid'];
+  /** An object relationship */
+  gameByGame: Game;
   id: Scalars['uuid'];
 };
 
@@ -1187,13 +1761,29 @@ export type Garden_Aggregate_FieldsCountArgs = {
   distinct?: Maybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "garden" */
+export type Garden_Aggregate_Order_By = {
+  count?: Maybe<Order_By>;
+  max?: Maybe<Garden_Max_Order_By>;
+  min?: Maybe<Garden_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "garden" */
+export type Garden_Arr_Rel_Insert_Input = {
+  data: Array<Garden_Insert_Input>;
+  /** on conflict condition */
+  on_conflict?: Maybe<Garden_On_Conflict>;
+};
+
 /** Boolean expression to filter rows from the table "garden". All fields are combined with a logical 'AND'. */
 export type Garden_Bool_Exp = {
   _and?: Maybe<Array<Garden_Bool_Exp>>;
   _not?: Maybe<Garden_Bool_Exp>;
   _or?: Maybe<Array<Garden_Bool_Exp>>;
+  boardObjectByBoardObject?: Maybe<Board_Object_Bool_Exp>;
   board_object?: Maybe<Uuid_Comparison_Exp>;
   game?: Maybe<Uuid_Comparison_Exp>;
+  gameByGame?: Maybe<Game_Bool_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
 };
 
@@ -1205,8 +1795,10 @@ export enum Garden_Constraint {
 
 /** input type for inserting data into table "garden" */
 export type Garden_Insert_Input = {
+  boardObjectByBoardObject?: Maybe<Board_Object_Obj_Rel_Insert_Input>;
   board_object?: Maybe<Scalars['uuid']>;
   game?: Maybe<Scalars['uuid']>;
+  gameByGame?: Maybe<Game_Obj_Rel_Insert_Input>;
   id?: Maybe<Scalars['uuid']>;
 };
 
@@ -1218,12 +1810,26 @@ export type Garden_Max_Fields = {
   id?: Maybe<Scalars['uuid']>;
 };
 
+/** order by max() on columns of table "garden" */
+export type Garden_Max_Order_By = {
+  board_object?: Maybe<Order_By>;
+  game?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Garden_Min_Fields = {
   __typename?: 'garden_min_fields';
   board_object?: Maybe<Scalars['uuid']>;
   game?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "garden" */
+export type Garden_Min_Order_By = {
+  board_object?: Maybe<Order_By>;
+  game?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
 };
 
 /** response of any mutation on the table "garden" */
@@ -1244,8 +1850,10 @@ export type Garden_On_Conflict = {
 
 /** Ordering options when selecting data from "garden". */
 export type Garden_Order_By = {
+  boardObjectByBoardObject?: Maybe<Board_Object_Order_By>;
   board_object?: Maybe<Order_By>;
   game?: Maybe<Order_By>;
+  gameByGame?: Maybe<Game_Order_By>;
   id?: Maybe<Order_By>;
 };
 
@@ -1284,13 +1892,39 @@ export enum Garden_Update_Column {
 /** columns and relationships of "house" */
 export type House = {
   __typename?: 'house';
+  /** An object relationship */
+  boardObjectById: Board_Object;
   board_object?: Maybe<Scalars['uuid']>;
   game: Scalars['uuid'];
+  /** An object relationship */
+  gameByGame: Game;
   has_garden: Scalars['Boolean'];
+  /** An array relationship */
+  house_food_demands: Array<House_Food_Demand>;
+  /** An aggregate relationship */
+  house_food_demands_aggregate: House_Food_Demand_Aggregate;
   id: Scalars['uuid'];
   is_extra: Scalars['Boolean'];
   number: Scalars['Int'];
   orient: Scalars['Int'];
+};
+
+/** columns and relationships of "house" */
+export type HouseHouse_Food_DemandsArgs = {
+  distinct_on?: Maybe<Array<House_Food_Demand_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<House_Food_Demand_Order_By>>;
+  where?: Maybe<House_Food_Demand_Bool_Exp>;
+};
+
+/** columns and relationships of "house" */
+export type HouseHouse_Food_Demands_AggregateArgs = {
+  distinct_on?: Maybe<Array<House_Food_Demand_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<House_Food_Demand_Order_By>>;
+  where?: Maybe<House_Food_Demand_Bool_Exp>;
 };
 
 /** aggregated selection of "house" */
@@ -1322,6 +1956,28 @@ export type House_Aggregate_FieldsCountArgs = {
   distinct?: Maybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "house" */
+export type House_Aggregate_Order_By = {
+  avg?: Maybe<House_Avg_Order_By>;
+  count?: Maybe<Order_By>;
+  max?: Maybe<House_Max_Order_By>;
+  min?: Maybe<House_Min_Order_By>;
+  stddev?: Maybe<House_Stddev_Order_By>;
+  stddev_pop?: Maybe<House_Stddev_Pop_Order_By>;
+  stddev_samp?: Maybe<House_Stddev_Samp_Order_By>;
+  sum?: Maybe<House_Sum_Order_By>;
+  var_pop?: Maybe<House_Var_Pop_Order_By>;
+  var_samp?: Maybe<House_Var_Samp_Order_By>;
+  variance?: Maybe<House_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "house" */
+export type House_Arr_Rel_Insert_Input = {
+  data: Array<House_Insert_Input>;
+  /** on conflict condition */
+  on_conflict?: Maybe<House_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type House_Avg_Fields = {
   __typename?: 'house_avg_fields';
@@ -1329,14 +1985,23 @@ export type House_Avg_Fields = {
   orient?: Maybe<Scalars['Float']>;
 };
 
+/** order by avg() on columns of table "house" */
+export type House_Avg_Order_By = {
+  number?: Maybe<Order_By>;
+  orient?: Maybe<Order_By>;
+};
+
 /** Boolean expression to filter rows from the table "house". All fields are combined with a logical 'AND'. */
 export type House_Bool_Exp = {
   _and?: Maybe<Array<House_Bool_Exp>>;
   _not?: Maybe<House_Bool_Exp>;
   _or?: Maybe<Array<House_Bool_Exp>>;
+  boardObjectById?: Maybe<Board_Object_Bool_Exp>;
   board_object?: Maybe<Uuid_Comparison_Exp>;
   game?: Maybe<Uuid_Comparison_Exp>;
+  gameByGame?: Maybe<Game_Bool_Exp>;
   has_garden?: Maybe<Boolean_Comparison_Exp>;
+  house_food_demands?: Maybe<House_Food_Demand_Bool_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
   is_extra?: Maybe<Boolean_Comparison_Exp>;
   number?: Maybe<Int_Comparison_Exp>;
@@ -1355,6 +2020,8 @@ export type House_Food_Demand = {
   food_kind: Scalars['String'];
   food_quantity: Scalars['Int'];
   house: Scalars['uuid'];
+  /** An object relationship */
+  houseByHouse: House;
 };
 
 /** aggregated selection of "house_food_demand" */
@@ -1386,10 +2053,37 @@ export type House_Food_Demand_Aggregate_FieldsCountArgs = {
   distinct?: Maybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "house_food_demand" */
+export type House_Food_Demand_Aggregate_Order_By = {
+  avg?: Maybe<House_Food_Demand_Avg_Order_By>;
+  count?: Maybe<Order_By>;
+  max?: Maybe<House_Food_Demand_Max_Order_By>;
+  min?: Maybe<House_Food_Demand_Min_Order_By>;
+  stddev?: Maybe<House_Food_Demand_Stddev_Order_By>;
+  stddev_pop?: Maybe<House_Food_Demand_Stddev_Pop_Order_By>;
+  stddev_samp?: Maybe<House_Food_Demand_Stddev_Samp_Order_By>;
+  sum?: Maybe<House_Food_Demand_Sum_Order_By>;
+  var_pop?: Maybe<House_Food_Demand_Var_Pop_Order_By>;
+  var_samp?: Maybe<House_Food_Demand_Var_Samp_Order_By>;
+  variance?: Maybe<House_Food_Demand_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "house_food_demand" */
+export type House_Food_Demand_Arr_Rel_Insert_Input = {
+  data: Array<House_Food_Demand_Insert_Input>;
+  /** on conflict condition */
+  on_conflict?: Maybe<House_Food_Demand_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type House_Food_Demand_Avg_Fields = {
   __typename?: 'house_food_demand_avg_fields';
   food_quantity?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "house_food_demand" */
+export type House_Food_Demand_Avg_Order_By = {
+  food_quantity?: Maybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "house_food_demand". All fields are combined with a logical 'AND'. */
@@ -1400,6 +2094,7 @@ export type House_Food_Demand_Bool_Exp = {
   food_kind?: Maybe<String_Comparison_Exp>;
   food_quantity?: Maybe<Int_Comparison_Exp>;
   house?: Maybe<Uuid_Comparison_Exp>;
+  houseByHouse?: Maybe<House_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "house_food_demand" */
@@ -1418,6 +2113,7 @@ export type House_Food_Demand_Insert_Input = {
   food_kind?: Maybe<Scalars['String']>;
   food_quantity?: Maybe<Scalars['Int']>;
   house?: Maybe<Scalars['uuid']>;
+  houseByHouse?: Maybe<House_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -1428,12 +2124,26 @@ export type House_Food_Demand_Max_Fields = {
   house?: Maybe<Scalars['uuid']>;
 };
 
+/** order by max() on columns of table "house_food_demand" */
+export type House_Food_Demand_Max_Order_By = {
+  food_kind?: Maybe<Order_By>;
+  food_quantity?: Maybe<Order_By>;
+  house?: Maybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type House_Food_Demand_Min_Fields = {
   __typename?: 'house_food_demand_min_fields';
   food_kind?: Maybe<Scalars['String']>;
   food_quantity?: Maybe<Scalars['Int']>;
   house?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "house_food_demand" */
+export type House_Food_Demand_Min_Order_By = {
+  food_kind?: Maybe<Order_By>;
+  food_quantity?: Maybe<Order_By>;
+  house?: Maybe<Order_By>;
 };
 
 /** response of any mutation on the table "house_food_demand" */
@@ -1457,6 +2167,7 @@ export type House_Food_Demand_Order_By = {
   food_kind?: Maybe<Order_By>;
   food_quantity?: Maybe<Order_By>;
   house?: Maybe<Order_By>;
+  houseByHouse?: Maybe<House_Order_By>;
 };
 
 /** primary key columns input for table: house_food_demand */
@@ -1488,10 +2199,20 @@ export type House_Food_Demand_Stddev_Fields = {
   food_quantity?: Maybe<Scalars['Float']>;
 };
 
+/** order by stddev() on columns of table "house_food_demand" */
+export type House_Food_Demand_Stddev_Order_By = {
+  food_quantity?: Maybe<Order_By>;
+};
+
 /** aggregate stddev_pop on columns */
 export type House_Food_Demand_Stddev_Pop_Fields = {
   __typename?: 'house_food_demand_stddev_pop_fields';
   food_quantity?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "house_food_demand" */
+export type House_Food_Demand_Stddev_Pop_Order_By = {
+  food_quantity?: Maybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -1500,10 +2221,20 @@ export type House_Food_Demand_Stddev_Samp_Fields = {
   food_quantity?: Maybe<Scalars['Float']>;
 };
 
+/** order by stddev_samp() on columns of table "house_food_demand" */
+export type House_Food_Demand_Stddev_Samp_Order_By = {
+  food_quantity?: Maybe<Order_By>;
+};
+
 /** aggregate sum on columns */
 export type House_Food_Demand_Sum_Fields = {
   __typename?: 'house_food_demand_sum_fields';
   food_quantity?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "house_food_demand" */
+export type House_Food_Demand_Sum_Order_By = {
+  food_quantity?: Maybe<Order_By>;
 };
 
 /** update columns of table "house_food_demand" */
@@ -1522,16 +2253,31 @@ export type House_Food_Demand_Var_Pop_Fields = {
   food_quantity?: Maybe<Scalars['Float']>;
 };
 
+/** order by var_pop() on columns of table "house_food_demand" */
+export type House_Food_Demand_Var_Pop_Order_By = {
+  food_quantity?: Maybe<Order_By>;
+};
+
 /** aggregate var_samp on columns */
 export type House_Food_Demand_Var_Samp_Fields = {
   __typename?: 'house_food_demand_var_samp_fields';
   food_quantity?: Maybe<Scalars['Float']>;
 };
 
+/** order by var_samp() on columns of table "house_food_demand" */
+export type House_Food_Demand_Var_Samp_Order_By = {
+  food_quantity?: Maybe<Order_By>;
+};
+
 /** aggregate variance on columns */
 export type House_Food_Demand_Variance_Fields = {
   __typename?: 'house_food_demand_variance_fields';
   food_quantity?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "house_food_demand" */
+export type House_Food_Demand_Variance_Order_By = {
+  food_quantity?: Maybe<Order_By>;
 };
 
 /** input type for incrementing numeric columns in table "house" */
@@ -1542,9 +2288,12 @@ export type House_Inc_Input = {
 
 /** input type for inserting data into table "house" */
 export type House_Insert_Input = {
+  boardObjectById?: Maybe<Board_Object_Obj_Rel_Insert_Input>;
   board_object?: Maybe<Scalars['uuid']>;
   game?: Maybe<Scalars['uuid']>;
+  gameByGame?: Maybe<Game_Obj_Rel_Insert_Input>;
   has_garden?: Maybe<Scalars['Boolean']>;
+  house_food_demands?: Maybe<House_Food_Demand_Arr_Rel_Insert_Input>;
   id?: Maybe<Scalars['uuid']>;
   is_extra?: Maybe<Scalars['Boolean']>;
   number?: Maybe<Scalars['Int']>;
@@ -1561,6 +2310,15 @@ export type House_Max_Fields = {
   orient?: Maybe<Scalars['Int']>;
 };
 
+/** order by max() on columns of table "house" */
+export type House_Max_Order_By = {
+  board_object?: Maybe<Order_By>;
+  game?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  number?: Maybe<Order_By>;
+  orient?: Maybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type House_Min_Fields = {
   __typename?: 'house_min_fields';
@@ -1569,6 +2327,15 @@ export type House_Min_Fields = {
   id?: Maybe<Scalars['uuid']>;
   number?: Maybe<Scalars['Int']>;
   orient?: Maybe<Scalars['Int']>;
+};
+
+/** order by min() on columns of table "house" */
+export type House_Min_Order_By = {
+  board_object?: Maybe<Order_By>;
+  game?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  number?: Maybe<Order_By>;
+  orient?: Maybe<Order_By>;
 };
 
 /** response of any mutation on the table "house" */
@@ -1580,6 +2347,13 @@ export type House_Mutation_Response = {
   returning: Array<House>;
 };
 
+/** input type for inserting object relation for remote table "house" */
+export type House_Obj_Rel_Insert_Input = {
+  data: House_Insert_Input;
+  /** on conflict condition */
+  on_conflict?: Maybe<House_On_Conflict>;
+};
+
 /** on conflict condition type for table "house" */
 export type House_On_Conflict = {
   constraint: House_Constraint;
@@ -1589,9 +2363,12 @@ export type House_On_Conflict = {
 
 /** Ordering options when selecting data from "house". */
 export type House_Order_By = {
+  boardObjectById?: Maybe<Board_Object_Order_By>;
   board_object?: Maybe<Order_By>;
   game?: Maybe<Order_By>;
+  gameByGame?: Maybe<Game_Order_By>;
   has_garden?: Maybe<Order_By>;
+  house_food_demands_aggregate?: Maybe<House_Food_Demand_Aggregate_Order_By>;
   id?: Maybe<Order_By>;
   is_extra?: Maybe<Order_By>;
   number?: Maybe<Order_By>;
@@ -1639,11 +2416,23 @@ export type House_Stddev_Fields = {
   orient?: Maybe<Scalars['Float']>;
 };
 
+/** order by stddev() on columns of table "house" */
+export type House_Stddev_Order_By = {
+  number?: Maybe<Order_By>;
+  orient?: Maybe<Order_By>;
+};
+
 /** aggregate stddev_pop on columns */
 export type House_Stddev_Pop_Fields = {
   __typename?: 'house_stddev_pop_fields';
   number?: Maybe<Scalars['Float']>;
   orient?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "house" */
+export type House_Stddev_Pop_Order_By = {
+  number?: Maybe<Order_By>;
+  orient?: Maybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -1653,11 +2442,23 @@ export type House_Stddev_Samp_Fields = {
   orient?: Maybe<Scalars['Float']>;
 };
 
+/** order by stddev_samp() on columns of table "house" */
+export type House_Stddev_Samp_Order_By = {
+  number?: Maybe<Order_By>;
+  orient?: Maybe<Order_By>;
+};
+
 /** aggregate sum on columns */
 export type House_Sum_Fields = {
   __typename?: 'house_sum_fields';
   number?: Maybe<Scalars['Int']>;
   orient?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "house" */
+export type House_Sum_Order_By = {
+  number?: Maybe<Order_By>;
+  orient?: Maybe<Order_By>;
 };
 
 /** update columns of table "house" */
@@ -1685,6 +2486,12 @@ export type House_Var_Pop_Fields = {
   orient?: Maybe<Scalars['Float']>;
 };
 
+/** order by var_pop() on columns of table "house" */
+export type House_Var_Pop_Order_By = {
+  number?: Maybe<Order_By>;
+  orient?: Maybe<Order_By>;
+};
+
 /** aggregate var_samp on columns */
 export type House_Var_Samp_Fields = {
   __typename?: 'house_var_samp_fields';
@@ -1692,11 +2499,23 @@ export type House_Var_Samp_Fields = {
   orient?: Maybe<Scalars['Float']>;
 };
 
+/** order by var_samp() on columns of table "house" */
+export type House_Var_Samp_Order_By = {
+  number?: Maybe<Order_By>;
+  orient?: Maybe<Order_By>;
+};
+
 /** aggregate variance on columns */
 export type House_Variance_Fields = {
   __typename?: 'house_variance_fields';
   number?: Maybe<Scalars['Float']>;
   orient?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "house" */
+export type House_Variance_Order_By = {
+  number?: Maybe<Order_By>;
+  orient?: Maybe<Order_By>;
 };
 
 /** mutation root */
@@ -2416,9 +3235,55 @@ export type Player = {
   __typename?: 'player';
   cash?: Maybe<Scalars['Int']>;
   colour?: Maybe<Scalars['String']>;
+  /** An array relationship */
+  diners: Array<Diner>;
+  /** An aggregate relationship */
+  diners_aggregate: Diner_Aggregate;
   game: Scalars['uuid'];
+  /** An object relationship */
+  gameByGame: Game;
   id: Scalars['uuid'];
   name: Scalars['String'];
+  /** An array relationship */
+  player_foods: Array<Player_Food>;
+  /** An aggregate relationship */
+  player_foods_aggregate: Player_Food_Aggregate;
+};
+
+/** columns and relationships of "player" */
+export type PlayerDinersArgs = {
+  distinct_on?: Maybe<Array<Diner_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Diner_Order_By>>;
+  where?: Maybe<Diner_Bool_Exp>;
+};
+
+/** columns and relationships of "player" */
+export type PlayerDiners_AggregateArgs = {
+  distinct_on?: Maybe<Array<Diner_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Diner_Order_By>>;
+  where?: Maybe<Diner_Bool_Exp>;
+};
+
+/** columns and relationships of "player" */
+export type PlayerPlayer_FoodsArgs = {
+  distinct_on?: Maybe<Array<Player_Food_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Player_Food_Order_By>>;
+  where?: Maybe<Player_Food_Bool_Exp>;
+};
+
+/** columns and relationships of "player" */
+export type PlayerPlayer_Foods_AggregateArgs = {
+  distinct_on?: Maybe<Array<Player_Food_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Player_Food_Order_By>>;
+  where?: Maybe<Player_Food_Bool_Exp>;
 };
 
 /** aggregated selection of "player" */
@@ -2450,10 +3315,37 @@ export type Player_Aggregate_FieldsCountArgs = {
   distinct?: Maybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "player" */
+export type Player_Aggregate_Order_By = {
+  avg?: Maybe<Player_Avg_Order_By>;
+  count?: Maybe<Order_By>;
+  max?: Maybe<Player_Max_Order_By>;
+  min?: Maybe<Player_Min_Order_By>;
+  stddev?: Maybe<Player_Stddev_Order_By>;
+  stddev_pop?: Maybe<Player_Stddev_Pop_Order_By>;
+  stddev_samp?: Maybe<Player_Stddev_Samp_Order_By>;
+  sum?: Maybe<Player_Sum_Order_By>;
+  var_pop?: Maybe<Player_Var_Pop_Order_By>;
+  var_samp?: Maybe<Player_Var_Samp_Order_By>;
+  variance?: Maybe<Player_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "player" */
+export type Player_Arr_Rel_Insert_Input = {
+  data: Array<Player_Insert_Input>;
+  /** on conflict condition */
+  on_conflict?: Maybe<Player_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Player_Avg_Fields = {
   __typename?: 'player_avg_fields';
   cash?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "player" */
+export type Player_Avg_Order_By = {
+  cash?: Maybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "player". All fields are combined with a logical 'AND'. */
@@ -2463,9 +3355,12 @@ export type Player_Bool_Exp = {
   _or?: Maybe<Array<Player_Bool_Exp>>;
   cash?: Maybe<Int_Comparison_Exp>;
   colour?: Maybe<String_Comparison_Exp>;
+  diners?: Maybe<Diner_Bool_Exp>;
   game?: Maybe<Uuid_Comparison_Exp>;
+  gameByGame?: Maybe<Game_Bool_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
   name?: Maybe<String_Comparison_Exp>;
+  player_foods?: Maybe<Player_Food_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "player" */
@@ -2480,6 +3375,8 @@ export type Player_Food = {
   food_kind: Scalars['String'];
   food_quantity: Scalars['Int'];
   player: Scalars['uuid'];
+  /** An object relationship */
+  playerByPlayer: Player;
 };
 
 /** aggregated selection of "player_food" */
@@ -2511,10 +3408,37 @@ export type Player_Food_Aggregate_FieldsCountArgs = {
   distinct?: Maybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "player_food" */
+export type Player_Food_Aggregate_Order_By = {
+  avg?: Maybe<Player_Food_Avg_Order_By>;
+  count?: Maybe<Order_By>;
+  max?: Maybe<Player_Food_Max_Order_By>;
+  min?: Maybe<Player_Food_Min_Order_By>;
+  stddev?: Maybe<Player_Food_Stddev_Order_By>;
+  stddev_pop?: Maybe<Player_Food_Stddev_Pop_Order_By>;
+  stddev_samp?: Maybe<Player_Food_Stddev_Samp_Order_By>;
+  sum?: Maybe<Player_Food_Sum_Order_By>;
+  var_pop?: Maybe<Player_Food_Var_Pop_Order_By>;
+  var_samp?: Maybe<Player_Food_Var_Samp_Order_By>;
+  variance?: Maybe<Player_Food_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "player_food" */
+export type Player_Food_Arr_Rel_Insert_Input = {
+  data: Array<Player_Food_Insert_Input>;
+  /** on conflict condition */
+  on_conflict?: Maybe<Player_Food_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Player_Food_Avg_Fields = {
   __typename?: 'player_food_avg_fields';
   food_quantity?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "player_food" */
+export type Player_Food_Avg_Order_By = {
+  food_quantity?: Maybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "player_food". All fields are combined with a logical 'AND'. */
@@ -2525,6 +3449,7 @@ export type Player_Food_Bool_Exp = {
   food_kind?: Maybe<String_Comparison_Exp>;
   food_quantity?: Maybe<Int_Comparison_Exp>;
   player?: Maybe<Uuid_Comparison_Exp>;
+  playerByPlayer?: Maybe<Player_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "player_food" */
@@ -2543,6 +3468,7 @@ export type Player_Food_Insert_Input = {
   food_kind?: Maybe<Scalars['String']>;
   food_quantity?: Maybe<Scalars['Int']>;
   player?: Maybe<Scalars['uuid']>;
+  playerByPlayer?: Maybe<Player_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -2553,12 +3479,26 @@ export type Player_Food_Max_Fields = {
   player?: Maybe<Scalars['uuid']>;
 };
 
+/** order by max() on columns of table "player_food" */
+export type Player_Food_Max_Order_By = {
+  food_kind?: Maybe<Order_By>;
+  food_quantity?: Maybe<Order_By>;
+  player?: Maybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Player_Food_Min_Fields = {
   __typename?: 'player_food_min_fields';
   food_kind?: Maybe<Scalars['String']>;
   food_quantity?: Maybe<Scalars['Int']>;
   player?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "player_food" */
+export type Player_Food_Min_Order_By = {
+  food_kind?: Maybe<Order_By>;
+  food_quantity?: Maybe<Order_By>;
+  player?: Maybe<Order_By>;
 };
 
 /** response of any mutation on the table "player_food" */
@@ -2582,6 +3522,7 @@ export type Player_Food_Order_By = {
   food_kind?: Maybe<Order_By>;
   food_quantity?: Maybe<Order_By>;
   player?: Maybe<Order_By>;
+  playerByPlayer?: Maybe<Player_Order_By>;
 };
 
 /** primary key columns input for table: player_food */
@@ -2613,10 +3554,20 @@ export type Player_Food_Stddev_Fields = {
   food_quantity?: Maybe<Scalars['Float']>;
 };
 
+/** order by stddev() on columns of table "player_food" */
+export type Player_Food_Stddev_Order_By = {
+  food_quantity?: Maybe<Order_By>;
+};
+
 /** aggregate stddev_pop on columns */
 export type Player_Food_Stddev_Pop_Fields = {
   __typename?: 'player_food_stddev_pop_fields';
   food_quantity?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "player_food" */
+export type Player_Food_Stddev_Pop_Order_By = {
+  food_quantity?: Maybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -2625,10 +3576,20 @@ export type Player_Food_Stddev_Samp_Fields = {
   food_quantity?: Maybe<Scalars['Float']>;
 };
 
+/** order by stddev_samp() on columns of table "player_food" */
+export type Player_Food_Stddev_Samp_Order_By = {
+  food_quantity?: Maybe<Order_By>;
+};
+
 /** aggregate sum on columns */
 export type Player_Food_Sum_Fields = {
   __typename?: 'player_food_sum_fields';
   food_quantity?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "player_food" */
+export type Player_Food_Sum_Order_By = {
+  food_quantity?: Maybe<Order_By>;
 };
 
 /** update columns of table "player_food" */
@@ -2647,16 +3608,31 @@ export type Player_Food_Var_Pop_Fields = {
   food_quantity?: Maybe<Scalars['Float']>;
 };
 
+/** order by var_pop() on columns of table "player_food" */
+export type Player_Food_Var_Pop_Order_By = {
+  food_quantity?: Maybe<Order_By>;
+};
+
 /** aggregate var_samp on columns */
 export type Player_Food_Var_Samp_Fields = {
   __typename?: 'player_food_var_samp_fields';
   food_quantity?: Maybe<Scalars['Float']>;
 };
 
+/** order by var_samp() on columns of table "player_food" */
+export type Player_Food_Var_Samp_Order_By = {
+  food_quantity?: Maybe<Order_By>;
+};
+
 /** aggregate variance on columns */
 export type Player_Food_Variance_Fields = {
   __typename?: 'player_food_variance_fields';
   food_quantity?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "player_food" */
+export type Player_Food_Variance_Order_By = {
+  food_quantity?: Maybe<Order_By>;
 };
 
 /** input type for incrementing numeric columns in table "player" */
@@ -2668,9 +3644,12 @@ export type Player_Inc_Input = {
 export type Player_Insert_Input = {
   cash?: Maybe<Scalars['Int']>;
   colour?: Maybe<Scalars['String']>;
+  diners?: Maybe<Diner_Arr_Rel_Insert_Input>;
   game?: Maybe<Scalars['uuid']>;
+  gameByGame?: Maybe<Game_Obj_Rel_Insert_Input>;
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
+  player_foods?: Maybe<Player_Food_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -2683,6 +3662,15 @@ export type Player_Max_Fields = {
   name?: Maybe<Scalars['String']>;
 };
 
+/** order by max() on columns of table "player" */
+export type Player_Max_Order_By = {
+  cash?: Maybe<Order_By>;
+  colour?: Maybe<Order_By>;
+  game?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Player_Min_Fields = {
   __typename?: 'player_min_fields';
@@ -2693,6 +3681,15 @@ export type Player_Min_Fields = {
   name?: Maybe<Scalars['String']>;
 };
 
+/** order by min() on columns of table "player" */
+export type Player_Min_Order_By = {
+  cash?: Maybe<Order_By>;
+  colour?: Maybe<Order_By>;
+  game?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+};
+
 /** response of any mutation on the table "player" */
 export type Player_Mutation_Response = {
   __typename?: 'player_mutation_response';
@@ -2700,6 +3697,13 @@ export type Player_Mutation_Response = {
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
   returning: Array<Player>;
+};
+
+/** input type for inserting object relation for remote table "player" */
+export type Player_Obj_Rel_Insert_Input = {
+  data: Player_Insert_Input;
+  /** on conflict condition */
+  on_conflict?: Maybe<Player_On_Conflict>;
 };
 
 /** on conflict condition type for table "player" */
@@ -2713,9 +3717,12 @@ export type Player_On_Conflict = {
 export type Player_Order_By = {
   cash?: Maybe<Order_By>;
   colour?: Maybe<Order_By>;
+  diners_aggregate?: Maybe<Diner_Aggregate_Order_By>;
   game?: Maybe<Order_By>;
+  gameByGame?: Maybe<Game_Order_By>;
   id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
+  player_foods_aggregate?: Maybe<Player_Food_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: player */
@@ -2752,10 +3759,20 @@ export type Player_Stddev_Fields = {
   cash?: Maybe<Scalars['Float']>;
 };
 
+/** order by stddev() on columns of table "player" */
+export type Player_Stddev_Order_By = {
+  cash?: Maybe<Order_By>;
+};
+
 /** aggregate stddev_pop on columns */
 export type Player_Stddev_Pop_Fields = {
   __typename?: 'player_stddev_pop_fields';
   cash?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "player" */
+export type Player_Stddev_Pop_Order_By = {
+  cash?: Maybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -2764,10 +3781,20 @@ export type Player_Stddev_Samp_Fields = {
   cash?: Maybe<Scalars['Float']>;
 };
 
+/** order by stddev_samp() on columns of table "player" */
+export type Player_Stddev_Samp_Order_By = {
+  cash?: Maybe<Order_By>;
+};
+
 /** aggregate sum on columns */
 export type Player_Sum_Fields = {
   __typename?: 'player_sum_fields';
   cash?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "player" */
+export type Player_Sum_Order_By = {
+  cash?: Maybe<Order_By>;
 };
 
 /** update columns of table "player" */
@@ -2790,16 +3817,31 @@ export type Player_Var_Pop_Fields = {
   cash?: Maybe<Scalars['Float']>;
 };
 
+/** order by var_pop() on columns of table "player" */
+export type Player_Var_Pop_Order_By = {
+  cash?: Maybe<Order_By>;
+};
+
 /** aggregate var_samp on columns */
 export type Player_Var_Samp_Fields = {
   __typename?: 'player_var_samp_fields';
   cash?: Maybe<Scalars['Float']>;
 };
 
+/** order by var_samp() on columns of table "player" */
+export type Player_Var_Samp_Order_By = {
+  cash?: Maybe<Order_By>;
+};
+
 /** aggregate variance on columns */
 export type Player_Variance_Fields = {
   __typename?: 'player_variance_fields';
   cash?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "player" */
+export type Player_Variance_Order_By = {
+  cash?: Maybe<Order_By>;
 };
 
 export type Query_Root = {
@@ -3195,8 +4237,14 @@ export type Query_RootUser_Me_AggregateArgs = {
 /** columns and relationships of "road" */
 export type Road = {
   __typename?: 'road';
+  /** An object relationship */
+  board_object: Board_Object;
   game: Scalars['uuid'];
+  /** An object relationship */
+  gameByGame: Game;
   id: Scalars['uuid'];
+  /** An object relationship */
+  road_connection?: Maybe<Road_Connection>;
 };
 
 /** aggregated selection of "road" */
@@ -3220,13 +4268,30 @@ export type Road_Aggregate_FieldsCountArgs = {
   distinct?: Maybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "road" */
+export type Road_Aggregate_Order_By = {
+  count?: Maybe<Order_By>;
+  max?: Maybe<Road_Max_Order_By>;
+  min?: Maybe<Road_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "road" */
+export type Road_Arr_Rel_Insert_Input = {
+  data: Array<Road_Insert_Input>;
+  /** on conflict condition */
+  on_conflict?: Maybe<Road_On_Conflict>;
+};
+
 /** Boolean expression to filter rows from the table "road". All fields are combined with a logical 'AND'. */
 export type Road_Bool_Exp = {
   _and?: Maybe<Array<Road_Bool_Exp>>;
   _not?: Maybe<Road_Bool_Exp>;
   _or?: Maybe<Array<Road_Bool_Exp>>;
+  board_object?: Maybe<Board_Object_Bool_Exp>;
   game?: Maybe<Uuid_Comparison_Exp>;
+  gameByGame?: Maybe<Game_Bool_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
+  road_connection?: Maybe<Road_Connection_Bool_Exp>;
 };
 
 /** columns and relationships of "road_connection" */
@@ -3234,6 +4299,8 @@ export type Road_Connection = {
   __typename?: 'road_connection';
   id: Scalars['uuid'];
   number: Scalars['Int'];
+  /** An object relationship */
+  road: Road;
 };
 
 /** aggregated selection of "road_connection" */
@@ -3278,6 +4345,7 @@ export type Road_Connection_Bool_Exp = {
   _or?: Maybe<Array<Road_Connection_Bool_Exp>>;
   id?: Maybe<Uuid_Comparison_Exp>;
   number?: Maybe<Int_Comparison_Exp>;
+  road?: Maybe<Road_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "road_connection" */
@@ -3295,6 +4363,7 @@ export type Road_Connection_Inc_Input = {
 export type Road_Connection_Insert_Input = {
   id?: Maybe<Scalars['uuid']>;
   number?: Maybe<Scalars['Int']>;
+  road?: Maybe<Road_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -3320,6 +4389,13 @@ export type Road_Connection_Mutation_Response = {
   returning: Array<Road_Connection>;
 };
 
+/** input type for inserting object relation for remote table "road_connection" */
+export type Road_Connection_Obj_Rel_Insert_Input = {
+  data: Road_Connection_Insert_Input;
+  /** on conflict condition */
+  on_conflict?: Maybe<Road_Connection_On_Conflict>;
+};
+
 /** on conflict condition type for table "road_connection" */
 export type Road_Connection_On_Conflict = {
   constraint: Road_Connection_Constraint;
@@ -3331,6 +4407,7 @@ export type Road_Connection_On_Conflict = {
 export type Road_Connection_Order_By = {
   id?: Maybe<Order_By>;
   number?: Maybe<Order_By>;
+  road?: Maybe<Road_Order_By>;
 };
 
 /** primary key columns input for table: road_connection */
@@ -3410,8 +4487,11 @@ export enum Road_Constraint {
 
 /** input type for inserting data into table "road" */
 export type Road_Insert_Input = {
+  board_object?: Maybe<Board_Object_Obj_Rel_Insert_Input>;
   game?: Maybe<Scalars['uuid']>;
+  gameByGame?: Maybe<Game_Obj_Rel_Insert_Input>;
   id?: Maybe<Scalars['uuid']>;
+  road_connection?: Maybe<Road_Connection_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -3421,11 +4501,23 @@ export type Road_Max_Fields = {
   id?: Maybe<Scalars['uuid']>;
 };
 
+/** order by max() on columns of table "road" */
+export type Road_Max_Order_By = {
+  game?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Road_Min_Fields = {
   __typename?: 'road_min_fields';
   game?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "road" */
+export type Road_Min_Order_By = {
+  game?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
 };
 
 /** response of any mutation on the table "road" */
@@ -3437,6 +4529,13 @@ export type Road_Mutation_Response = {
   returning: Array<Road>;
 };
 
+/** input type for inserting object relation for remote table "road" */
+export type Road_Obj_Rel_Insert_Input = {
+  data: Road_Insert_Input;
+  /** on conflict condition */
+  on_conflict?: Maybe<Road_On_Conflict>;
+};
+
 /** on conflict condition type for table "road" */
 export type Road_On_Conflict = {
   constraint: Road_Constraint;
@@ -3446,8 +4545,11 @@ export type Road_On_Conflict = {
 
 /** Ordering options when selecting data from "road". */
 export type Road_Order_By = {
+  board_object?: Maybe<Board_Object_Order_By>;
   game?: Maybe<Order_By>;
+  gameByGame?: Maybe<Game_Order_By>;
   id?: Maybe<Order_By>;
+  road_connection?: Maybe<Road_Connection_Order_By>;
 };
 
 /** primary key columns input for table: road */
