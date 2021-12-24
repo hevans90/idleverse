@@ -21,6 +21,7 @@ import {
   unclaimStar,
 } from '../galaxy-generator/graphics/star';
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
+import { CelestialOwner } from './celestial-owner';
 import {
   claimedCelestials,
   diffOwnedCelestials,
@@ -29,11 +30,13 @@ import {
 type GalaxyViewerProps = {
   galaxyConfig: GalaxyConfig;
   claimedCelestials: claimedCelestials;
+  owners: CelestialOwner[];
 };
 
 export const GalaxyViewer = ({
   galaxyConfig,
   claimedCelestials,
+  owners,
 }: GalaxyViewerProps) => {
   const app = useApp();
 
@@ -79,11 +82,26 @@ export const GalaxyViewer = ({
     stars.current.forEach((star) => {
       const { x, y, id } = getCelestialPositionAndId(star, galaxyConfigVar());
 
+      let avatarUrl: string;
+
+      if (star.isClaimed) {
+        const celestial = claimedCelestialsRef.current.find(
+          ({ id: celestialId }) => celestialId === id
+        );
+
+        const { avatar_url } = owners.find(
+          ({ id }) => id === celestial.owner_id
+        );
+
+        avatarUrl = avatar_url;
+      }
+
       const _star = Star({
         x,
         y,
         id,
         isClaimed: star.isClaimed,
+        avatarUrl,
       });
 
       galaxyContainer.current.addChild(_star);

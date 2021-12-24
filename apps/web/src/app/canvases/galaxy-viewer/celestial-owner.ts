@@ -4,7 +4,10 @@ import {
   User_Info,
 } from '@idleverse/galaxy-gql';
 
-export type CelestialOwner = Pick<User_Info, 'display_name' | 'avatar_url'> & {
+export type CelestialOwner = Pick<
+  User_Info,
+  'display_name' | 'avatar_url' | 'id'
+> & {
   ownedCount: number;
   celestials: Partial<Celestial>[];
 };
@@ -25,6 +28,7 @@ export const celestialOwnerMapper = ({
 
     return {
       ...user_info,
+      id: currentOwnerId,
       ownedCount: ownedCelestials.length,
       celestials: ownedCelestials,
     };
