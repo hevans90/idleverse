@@ -32,7 +32,7 @@ export const PlayerPanel = ({
   const { free_claims } = useReactiveVar(selfVar);
 
   if (loading) {
-    return <Loading text="Loading players..."></Loading>;
+    return <Loading text="Loading players"></Loading>;
   }
 
   if (error) {

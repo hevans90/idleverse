@@ -19,7 +19,7 @@ export const GalaxyGalleryContainer = () => {
 
   if (loading) {
     return (
-      <Loading text="Loading Galaxies..." height="100%" width="100%"></Loading>
+      <Loading text="Loading Galaxies" height="100%" width="100%"></Loading>
     );
   }
 

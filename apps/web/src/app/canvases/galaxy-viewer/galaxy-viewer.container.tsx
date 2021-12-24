@@ -92,8 +92,8 @@ export const GalaxyViewerContainer = () => {
 
   const size = useResize();
 
-  if (loading && celestialLoading) {
-    return <Loading text="Loading Galaxy"></Loading>;
+  if (loading || celestialLoading) {
+    return <Loading width="100%" height="100%" text="Loading Galaxy"></Loading>;
   } else if (data && celestialData) {
     return (
       <Box position="relative">
