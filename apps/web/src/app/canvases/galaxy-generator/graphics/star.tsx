@@ -20,8 +20,12 @@ export const Star = ({ x, y, isClaimed, id }: Partial<StarProps>) => {
   const g = new PIXI.Graphics()
     .clear()
     .beginFill(isClaimed ? claimedCol : unclaimedCol)
-    .drawCircle(r / 2, r / 2, r)
+    .drawCircle(0, 0, r)
     .endFill();
+
+  if (isClaimed) {
+    g.lineStyle({ width: 2, color: claimedCol }).moveTo(0, 0).lineTo(0, -20);
+  }
 
   g.name = id;
   g.x = x;
@@ -37,7 +41,7 @@ export const claimStar = (
   (container.getChildByName(id) as PIXI.Graphics)
     .clear()
     .beginFill(claimedCol)
-    .drawCircle(claimedRadius / 2, claimedRadius / 2, claimedRadius)
+    .drawCircle(0, 0, claimedRadius)
     .endFill();
 
 export const unclaimStar = (
@@ -47,5 +51,5 @@ export const unclaimStar = (
   (container.getChildByName(id) as PIXI.Graphics)
     .clear()
     .beginFill(unclaimedCol)
-    .drawCircle(unclaimedRadius / 2, unclaimedRadius / 2, unclaimedRadius)
+    .drawCircle(0, 0, unclaimedRadius)
     .endFill();

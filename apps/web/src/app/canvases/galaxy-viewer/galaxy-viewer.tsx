@@ -44,6 +44,8 @@ export const GalaxyViewer = ({
 
   const updateGalaxyRotation = (galaxy: Container) => (delta: number) => {
     galaxy.rotation += delta * galaxyRotationVar();
+
+    galaxy.children.forEach((child) => (child.rotation = -galaxy.rotation));
   };
 
   const size = useResize(false);
