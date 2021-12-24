@@ -27,16 +27,19 @@ export const Star = ({ x, y, isClaimed, id }: Partial<StarProps>) => {
 export const claimStar = (
   { x, y, id }: ReturnType<typeof getCelestialPositionAndId>,
   container: Container
-) => {
-  const g = container.getChildByName(id) as PIXI.Graphics;
-
-  g.clear().beginFill(claimedCol).drawCircle(x, y, 3).endFill();
-};
+) =>
+  (container.getChildByName(id) as PIXI.Graphics)
+    .clear()
+    .beginFill(claimedCol)
+    .drawCircle(x, y, 3)
+    .endFill();
 
 export const unclaimStar = (
   { x, y, id }: ReturnType<typeof getCelestialPositionAndId>,
   container: Container
-) => {
-  const g = container.getChildByName(id) as PIXI.Graphics;
-  g.clear().beginFill(unclaimedCol).drawCircle(x, y, 1).endFill();
-};
+) =>
+  (container.getChildByName(id) as PIXI.Graphics)
+    .clear()
+    .beginFill(unclaimedCol)
+    .drawCircle(x, y, 1)
+    .endFill();
