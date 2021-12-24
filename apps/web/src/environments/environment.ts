@@ -3,5 +3,5 @@
 
 export const environment = {
   production: false,
-  hasuraUri: 'localhost:8080/v1/graphql',
+  hasuraUri: 'idleverse-hasura.herokuapp.com/v1/graphql',
 };
