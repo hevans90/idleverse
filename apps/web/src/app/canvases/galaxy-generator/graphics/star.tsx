@@ -45,7 +45,10 @@ export const Star = ({
       .endFill();
 
     g2.y = -44;
+    container.zIndex = 2;
     container.addChild(g2);
+  } else {
+    container.zIndex = 1;
   }
 
   g.name = id;

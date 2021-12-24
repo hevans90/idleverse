@@ -40,6 +40,8 @@ export const GalaxyViewer = ({
 }: GalaxyViewerProps) => {
   const app = useApp();
 
+  app.stage.sortableChildren = true;
+
   const claimedCelestialsRef = useRef<claimedCelestials>(claimedCelestials);
 
   const galaxyContainer = useRef(new Container());
