@@ -3,7 +3,7 @@ import { Box } from '@chakra-ui/react';
 import {
   GalaxyConfig,
   generateCelestials,
-  getCelestialPosition,
+  getCelestialPositionAndId,
 } from '@idleverse/galaxy-gen';
 import { Application, Container } from 'pixi.js';
 import { useEffect } from 'react';
@@ -39,7 +39,7 @@ export const GalaxyThumbnail = ({
     celestials.forEach((celestial, i) => {
       galaxyContainer.addChild(
         Star({
-          ...getCelestialPosition(celestial, galaxyConfig),
+          ...getCelestialPositionAndId(celestial, galaxyConfig),
         })
       );
     });

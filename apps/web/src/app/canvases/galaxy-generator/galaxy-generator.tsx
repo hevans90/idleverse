@@ -4,7 +4,7 @@ import {
   Celestial,
   GalaxyConfig,
   generateCelestials,
-  getCelestialPosition,
+  getCelestialPositionAndId,
 } from '@idleverse/galaxy-gen';
 import { useApp } from '@inlet/react-pixi';
 import { Container, Graphics, TickerCallback } from 'pixi.js';
@@ -40,7 +40,7 @@ export const GalaxyGenerator = () => {
   const reposition = (config: GalaxyConfig) => {
     stars.current.forEach((star, i) => {
       const _star = galaxyContainer.current.getChildAt(i) as Graphics;
-      const position = getCelestialPosition(star, config);
+      const position = getCelestialPositionAndId(star, config);
       _star.x = position.x;
       _star.y = position.y;
     });
@@ -105,12 +105,12 @@ export const GalaxyGenerator = () => {
     stars.current = generateCelestials(galaxyConfig.stars, galaxyConfig.seed);
 
     stars.current.forEach((star) => {
-      const _star = Star(getCelestialPosition(star, galaxyConfigVar()));
+      const _star = Star(getCelestialPositionAndId(star, galaxyConfigVar()));
       galaxyContainer.current.addChild(_star);
     });
   }, [galaxyConfig.stars, galaxyConfig.seed]);
 
-  useViewport(app, size, galaxyContainer, true);
+  useViewport(app, size, galaxyContainer, false);
   useFpsTracker(app, size);
 
   // eslint-disable-next-line react/jsx-no-useless-fragment

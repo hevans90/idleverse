@@ -4,9 +4,8 @@ import {
   ClaimedCelestialAttributes,
   GalaxyConfig,
   generateCelestialsWithClaimed,
-  getCelestialPosition,
+  getCelestialPositionAndId,
 } from '@idleverse/galaxy-gen';
-import { CelestialsByGalaxyIdSubscription } from '@idleverse/galaxy-gql';
 import { useApp } from '@inlet/react-pixi';
 import { Container, Graphics } from 'pixi.js';
 import { useEffect, useRef } from 'react';
@@ -16,25 +15,40 @@ import {
 } from '../../_state/reactive-variables';
 import { useResize } from '../common-utils/use-resize.hook';
 import { useViewport } from '../common-utils/use-viewport';
-import { Star } from '../galaxy-generator/graphics/star';
+import {
+  claimStar,
+  Star,
+  unclaimStar,
+} from '../galaxy-generator/graphics/star';
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
+import { CelestialOwner } from './celestial-owner';
+import {
+  claimedCelestials,
+  diffOwnedCelestials,
+} from './utils/diff-owned-celestials';
 
 type GalaxyViewerProps = {
   galaxyConfig: GalaxyConfig;
-  claimedCelestials: CelestialsByGalaxyIdSubscription['galaxy_by_pk']['celestials'];
+  claimedCelestials: claimedCelestials;
+  owners: CelestialOwner[];
 };
 
 export const GalaxyViewer = ({
   galaxyConfig,
   claimedCelestials,
+  owners,
 }: GalaxyViewerProps) => {
   const app = useApp();
+
+  const claimedCelestialsRef = useRef<claimedCelestials>(claimedCelestials);
 
   const galaxyContainer = useRef(new Container());
   const stars = useRef<(Celestial & ClaimedCelestialAttributes)[]>(null);
 
   const updateGalaxyRotation = (galaxy: Container) => (delta: number) => {
     galaxy.rotation += delta * galaxyRotationVar();
+
+    galaxy.children.forEach((child) => (child.rotation = -galaxy.rotation));
   };
 
   const size = useResize(false);
@@ -42,12 +56,12 @@ export const GalaxyViewer = ({
   const reposition = () =>
     stars.current.forEach((star, i) => {
       const _star = galaxyContainer.current.getChildAt(i) as Graphics;
-      const position = getCelestialPosition(star, galaxyConfig);
+      const position = getCelestialPositionAndId(star, galaxyConfig);
       _star.x = position.x;
       _star.y = position.y;
     });
 
-  useViewport(app, size, galaxyContainer, true);
+  useViewport(app, size, galaxyContainer, false);
 
   useFpsTracker(app, size);
 
@@ -57,27 +71,68 @@ export const GalaxyViewer = ({
     galaxyContainer.current.x = size.width / 2;
     galaxyContainer.current.y = size.height / 2;
 
+    galaxyContainer.current.sortableChildren = true;
+
     app.ticker.add(updateGalaxyRotation(galaxyContainer.current));
 
-    //todo draw dynamic
     stars.current = generateCelestialsWithClaimed(
       galaxyConfig.stars,
       galaxyConfig.seed,
-      claimedCelestials.map((x) => x.id)
+      claimedCelestialsRef.current.map((x) => x.id)
     );
 
     stars.current.forEach((star) => {
+      const { x, y, id } = getCelestialPositionAndId(star, galaxyConfigVar());
+
+      let ownerId: string;
+
+      if (star.isClaimed) {
+        const celestial = claimedCelestialsRef.current.find(
+          ({ id: celestialId }) => celestialId === id
+        );
+
+        ownerId = celestial.owner_id;
+      }
+
       const _star = Star({
-        ...getCelestialPosition(star, galaxyConfigVar()),
+        x,
+        y,
+        id,
         isClaimed: star.isClaimed,
+        ownerId,
       });
+
       galaxyContainer.current.addChild(_star);
     });
 
     reposition();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    const findStar = (id: string) =>
+      stars.current.find(({ hashedConstants }) => id === hashedConstants);
+
+    const { additions, deletions } = diffOwnedCelestials(
+      claimedCelestialsRef.current,
+      claimedCelestials
+    );
+
+    claimedCelestialsRef.current = claimedCelestials;
+
+    additions?.forEach(({ id, owner_id }) =>
+      claimStar(
+        getCelestialPositionAndId(findStar(id), galaxyConfigVar()),
+        owner_id,
+        galaxyContainer.current
+      )
+    );
+    deletions?.forEach(({ id }) =>
+      unclaimStar(
+        getCelestialPositionAndId(findStar(id), galaxyConfigVar()),
+        galaxyContainer.current
+      )
+    );
+  }, [claimedCelestials]);
 
   // eslint-disable-next-line react/jsx-no-useless-fragment
   return <></>;

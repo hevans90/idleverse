@@ -34,7 +34,7 @@ export const SolarSystem = () => {
     timeVar(timeVar() + 1);
   });
 
-  useViewport(app, size, systemContainer, true);
+  useViewport(app, size, systemContainer, false);
   useFpsTracker(app, size);
 
   const basicSunSprite = CreateBasicPlanetSprite(

@@ -1,7 +1,8 @@
 import { makeVar } from '@apollo/client';
 import { GalaxyConfig } from '@idleverse/galaxy-gen';
-import { SelfQuery } from '@idleverse/galaxy-gql';
+import { UserInfoQuery } from '@idleverse/galaxy-gql';
 import { v4 as uuidv4 } from 'uuid';
+import { AssetCollection, Self } from './models';
 
 export type sliderType = {
   name: keyof GalaxyConfig;
@@ -74,8 +75,11 @@ export const timeVar = makeVar(0);
 export const rotateVar = makeVar(false);
 export const animateVar = makeVar(false);
 
-type Self = SelfQuery['user_me'][0];
-export const selfVar = makeVar<Self>(null!);
+export const selfVar = makeVar<Self>(null);
 export const roleVar = makeVar<string>(null);
 
 export const accessTokenVar = makeVar<string>(null);
+
+export const usersVar = makeVar<UserInfoQuery['user_info']>([]);
+
+export const userAvatarResourcesVar = makeVar<AssetCollection>(null);

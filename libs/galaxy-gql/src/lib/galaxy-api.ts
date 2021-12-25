@@ -10,7 +10,6 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
   [SubKey in K]: Maybe<T[SubKey]>;
 };
-const defaultOptions = {};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -6944,6 +6943,19 @@ export type UpdateFreeClaimsMutation = {
   }>;
 };
 
+export type UserInfoQueryVariables = Exact<{ [key: string]: never }>;
+
+export type UserInfoQuery = {
+  __typename?: 'query_root';
+  user_info: Array<{
+    __typename?: 'user_info';
+    avatar_url?: Maybe<string>;
+    id: string;
+    name?: Maybe<string>;
+    display_name?: Maybe<string>;
+  }>;
+};
+
 export const CelestialFieldsFragmentDoc = gql`
   fragment CelestialFields on celestial {
     id
@@ -6980,37 +6992,6 @@ export const CelestialsDocument = gql`
   }
   ${CelestialFieldsFragmentDoc}
 `;
-
-/**
- * __useCelestialsSubscription__
- *
- * To run a query within a React component, call `useCelestialsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useCelestialsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useCelestialsSubscription({
- *   variables: {
- *   },
- * });
- */
-export function useCelestialsSubscription(
-  baseOptions?: Apollo.SubscriptionHookOptions<
-    CelestialsSubscription,
-    CelestialsSubscriptionVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    CelestialsSubscription,
-    CelestialsSubscriptionVariables
-  >(CelestialsDocument, options);
-}
-export type CelestialsSubscriptionHookResult = ReturnType<
-  typeof useCelestialsSubscription
->;
 export type CelestialsSubscriptionResult =
   Apollo.SubscriptionResult<CelestialsSubscription>;
 export const CelestialsByGalaxyIdDocument = gql`
@@ -7033,38 +7014,6 @@ export const CelestialsByGalaxyIdDocument = gql`
     }
   }
 `;
-
-/**
- * __useCelestialsByGalaxyIdSubscription__
- *
- * To run a query within a React component, call `useCelestialsByGalaxyIdSubscription` and pass it any options that fit your needs.
- * When your component renders, `useCelestialsByGalaxyIdSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useCelestialsByGalaxyIdSubscription({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useCelestialsByGalaxyIdSubscription(
-  baseOptions: Apollo.SubscriptionHookOptions<
-    CelestialsByGalaxyIdSubscription,
-    CelestialsByGalaxyIdSubscriptionVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    CelestialsByGalaxyIdSubscription,
-    CelestialsByGalaxyIdSubscriptionVariables
-  >(CelestialsByGalaxyIdDocument, options);
-}
-export type CelestialsByGalaxyIdSubscriptionHookResult = ReturnType<
-  typeof useCelestialsByGalaxyIdSubscription
->;
 export type CelestialsByGalaxyIdSubscriptionResult =
   Apollo.SubscriptionResult<CelestialsByGalaxyIdSubscription>;
 export const RequestRandomCelestialByGalaxyIdDocument = gql`
@@ -7079,39 +7028,6 @@ export type RequestRandomCelestialByGalaxyIdMutationFn =
     RequestRandomCelestialByGalaxyIdMutation,
     RequestRandomCelestialByGalaxyIdMutationVariables
   >;
-
-/**
- * __useRequestRandomCelestialByGalaxyIdMutation__
- *
- * To run a mutation, you first call `useRequestRandomCelestialByGalaxyIdMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useRequestRandomCelestialByGalaxyIdMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [requestRandomCelestialByGalaxyIdMutation, { data, loading, error }] = useRequestRandomCelestialByGalaxyIdMutation({
- *   variables: {
- *      galaxy_id: // value for 'galaxy_id'
- *   },
- * });
- */
-export function useRequestRandomCelestialByGalaxyIdMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    RequestRandomCelestialByGalaxyIdMutation,
-    RequestRandomCelestialByGalaxyIdMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    RequestRandomCelestialByGalaxyIdMutation,
-    RequestRandomCelestialByGalaxyIdMutationVariables
-  >(RequestRandomCelestialByGalaxyIdDocument, options);
-}
-export type RequestRandomCelestialByGalaxyIdMutationHookResult = ReturnType<
-  typeof useRequestRandomCelestialByGalaxyIdMutation
->;
 export type RequestRandomCelestialByGalaxyIdMutationResult =
   Apollo.MutationResult<RequestRandomCelestialByGalaxyIdMutation>;
 export type RequestRandomCelestialByGalaxyIdMutationOptions =
@@ -7153,43 +7069,6 @@ export type TryInsertClaimedCelestialMutationFn = Apollo.MutationFunction<
   TryInsertClaimedCelestialMutation,
   TryInsertClaimedCelestialMutationVariables
 >;
-
-/**
- * __useTryInsertClaimedCelestialMutation__
- *
- * To run a mutation, you first call `useTryInsertClaimedCelestialMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useTryInsertClaimedCelestialMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [tryInsertClaimedCelestialMutation, { data, loading, error }] = useTryInsertClaimedCelestialMutation({
- *   variables: {
- *      galaxy_id: // value for 'galaxy_id'
- *      id: // value for 'id'
- *      name: // value for 'name'
- *      owner_id: // value for 'owner_id'
- *      free_claims: // value for 'free_claims'
- *   },
- * });
- */
-export function useTryInsertClaimedCelestialMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    TryInsertClaimedCelestialMutation,
-    TryInsertClaimedCelestialMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    TryInsertClaimedCelestialMutation,
-    TryInsertClaimedCelestialMutationVariables
-  >(TryInsertClaimedCelestialDocument, options);
-}
-export type TryInsertClaimedCelestialMutationHookResult = ReturnType<
-  typeof useTryInsertClaimedCelestialMutation
->;
 export type TryInsertClaimedCelestialMutationResult =
   Apollo.MutationResult<TryInsertClaimedCelestialMutation>;
 export type TryInsertClaimedCelestialMutationOptions =
@@ -7212,37 +7091,6 @@ export const GetChatMessagesDocument = gql`
     }
   }
 `;
-
-/**
- * __useGetChatMessagesSubscription__
- *
- * To run a query within a React component, call `useGetChatMessagesSubscription` and pass it any options that fit your needs.
- * When your component renders, `useGetChatMessagesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetChatMessagesSubscription({
- *   variables: {
- *   },
- * });
- */
-export function useGetChatMessagesSubscription(
-  baseOptions?: Apollo.SubscriptionHookOptions<
-    GetChatMessagesSubscription,
-    GetChatMessagesSubscriptionVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    GetChatMessagesSubscription,
-    GetChatMessagesSubscriptionVariables
-  >(GetChatMessagesDocument, options);
-}
-export type GetChatMessagesSubscriptionHookResult = ReturnType<
-  typeof useGetChatMessagesSubscription
->;
 export type GetChatMessagesSubscriptionResult =
   Apollo.SubscriptionResult<GetChatMessagesSubscription>;
 export const LatestMessageDocument = gql`
@@ -7253,37 +7101,6 @@ export const LatestMessageDocument = gql`
     }
   }
 `;
-
-/**
- * __useLatestMessageSubscription__
- *
- * To run a query within a React component, call `useLatestMessageSubscription` and pass it any options that fit your needs.
- * When your component renders, `useLatestMessageSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useLatestMessageSubscription({
- *   variables: {
- *   },
- * });
- */
-export function useLatestMessageSubscription(
-  baseOptions?: Apollo.SubscriptionHookOptions<
-    LatestMessageSubscription,
-    LatestMessageSubscriptionVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    LatestMessageSubscription,
-    LatestMessageSubscriptionVariables
-  >(LatestMessageDocument, options);
-}
-export type LatestMessageSubscriptionHookResult = ReturnType<
-  typeof useLatestMessageSubscription
->;
 export type LatestMessageSubscriptionResult =
   Apollo.SubscriptionResult<LatestMessageSubscription>;
 export const SendNewMessageDocument = gql`
@@ -7296,39 +7113,6 @@ export const SendNewMessageDocument = gql`
 export type SendNewMessageMutationFn = Apollo.MutationFunction<
   SendNewMessageMutation,
   SendNewMessageMutationVariables
->;
-
-/**
- * __useSendNewMessageMutation__
- *
- * To run a mutation, you first call `useSendNewMessageMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSendNewMessageMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [sendNewMessageMutation, { data, loading, error }] = useSendNewMessageMutation({
- *   variables: {
- *      message: // value for 'message'
- *   },
- * });
- */
-export function useSendNewMessageMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    SendNewMessageMutation,
-    SendNewMessageMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    SendNewMessageMutation,
-    SendNewMessageMutationVariables
-  >(SendNewMessageDocument, options);
-}
-export type SendNewMessageMutationHookResult = ReturnType<
-  typeof useSendNewMessageMutation
 >;
 export type SendNewMessageMutationResult =
   Apollo.MutationResult<SendNewMessageMutation>;
@@ -7348,39 +7132,6 @@ export type CreateGalaxyMutationFn = Apollo.MutationFunction<
   CreateGalaxyMutation,
   CreateGalaxyMutationVariables
 >;
-
-/**
- * __useCreateGalaxyMutation__
- *
- * To run a mutation, you first call `useCreateGalaxyMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateGalaxyMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createGalaxyMutation, { data, loading, error }] = useCreateGalaxyMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useCreateGalaxyMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateGalaxyMutation,
-    CreateGalaxyMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    CreateGalaxyMutation,
-    CreateGalaxyMutationVariables
-  >(CreateGalaxyDocument, options);
-}
-export type CreateGalaxyMutationHookResult = ReturnType<
-  typeof useCreateGalaxyMutation
->;
 export type CreateGalaxyMutationResult =
   Apollo.MutationResult<CreateGalaxyMutation>;
 export type CreateGalaxyMutationOptions = Apollo.BaseMutationOptions<
@@ -7399,39 +7150,6 @@ export type DeleteGalaxyByIdMutationFn = Apollo.MutationFunction<
   DeleteGalaxyByIdMutation,
   DeleteGalaxyByIdMutationVariables
 >;
-
-/**
- * __useDeleteGalaxyByIdMutation__
- *
- * To run a mutation, you first call `useDeleteGalaxyByIdMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteGalaxyByIdMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteGalaxyByIdMutation, { data, loading, error }] = useDeleteGalaxyByIdMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useDeleteGalaxyByIdMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteGalaxyByIdMutation,
-    DeleteGalaxyByIdMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeleteGalaxyByIdMutation,
-    DeleteGalaxyByIdMutationVariables
-  >(DeleteGalaxyByIdDocument, options);
-}
-export type DeleteGalaxyByIdMutationHookResult = ReturnType<
-  typeof useDeleteGalaxyByIdMutation
->;
 export type DeleteGalaxyByIdMutationResult =
   Apollo.MutationResult<DeleteGalaxyByIdMutation>;
 export type DeleteGalaxyByIdMutationOptions = Apollo.BaseMutationOptions<
@@ -7446,37 +7164,6 @@ export const GalaxiesDocument = gql`
   }
   ${GalaxyFieldsFragmentDoc}
 `;
-
-/**
- * __useGalaxiesSubscription__
- *
- * To run a query within a React component, call `useGalaxiesSubscription` and pass it any options that fit your needs.
- * When your component renders, `useGalaxiesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGalaxiesSubscription({
- *   variables: {
- *   },
- * });
- */
-export function useGalaxiesSubscription(
-  baseOptions?: Apollo.SubscriptionHookOptions<
-    GalaxiesSubscription,
-    GalaxiesSubscriptionVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSubscription<
-    GalaxiesSubscription,
-    GalaxiesSubscriptionVariables
-  >(GalaxiesDocument, options);
-}
-export type GalaxiesSubscriptionHookResult = ReturnType<
-  typeof useGalaxiesSubscription
->;
 export type GalaxiesSubscriptionResult =
   Apollo.SubscriptionResult<GalaxiesSubscription>;
 export const GalaxyByIdDocument = gql`
@@ -7494,51 +7181,6 @@ export const GalaxyByIdDocument = gql`
     }
   }
 `;
-
-/**
- * __useGalaxyByIdQuery__
- *
- * To run a query within a React component, call `useGalaxyByIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGalaxyByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGalaxyByIdQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useGalaxyByIdQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GalaxyByIdQuery,
-    GalaxyByIdQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GalaxyByIdQuery, GalaxyByIdQueryVariables>(
-    GalaxyByIdDocument,
-    options
-  );
-}
-export function useGalaxyByIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GalaxyByIdQuery,
-    GalaxyByIdQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GalaxyByIdQuery, GalaxyByIdQueryVariables>(
-    GalaxyByIdDocument,
-    options
-  );
-}
-export type GalaxyByIdQueryHookResult = ReturnType<typeof useGalaxyByIdQuery>;
-export type GalaxyByIdLazyQueryHookResult = ReturnType<
-  typeof useGalaxyByIdLazyQuery
->;
 export type GalaxyByIdQueryResult = Apollo.QueryResult<
   GalaxyByIdQuery,
   GalaxyByIdQueryVariables
@@ -7565,56 +7207,6 @@ export const GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsDocument = gql`
     }
   }
 `;
-
-/**
- * __useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery__
- *
- * To run a query within a React component, call `useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery({
- *   variables: {
- *      userId: // value for 'userId'
- *      galaxyId: // value for 'galaxyId'
- *   },
- * });
- */
-export function useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery,
-    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery,
-    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables
-  >(GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsDocument, options);
-}
-export function useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery,
-    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery,
-    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables
-  >(GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsDocument, options);
-}
-export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryHookResult =
-  ReturnType<
-    typeof useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery
-  >;
-export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsLazyQueryHookResult =
-  ReturnType<
-    typeof useGetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsLazyQuery
-  >;
 export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryResult =
   Apollo.QueryResult<
     GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery,
@@ -7632,39 +7224,6 @@ export const SelfDocument = gql`
     }
   }
 `;
-
-/**
- * __useSelfQuery__
- *
- * To run a query within a React component, call `useSelfQuery` and pass it any options that fit your needs.
- * When your component renders, `useSelfQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useSelfQuery({
- *   variables: {
- *   },
- * });
- */
-export function useSelfQuery(
-  baseOptions?: Apollo.QueryHookOptions<SelfQuery, SelfQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<SelfQuery, SelfQueryVariables>(SelfDocument, options);
-}
-export function useSelfLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<SelfQuery, SelfQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<SelfQuery, SelfQueryVariables>(
-    SelfDocument,
-    options
-  );
-}
-export type SelfQueryHookResult = ReturnType<typeof useSelfQuery>;
-export type SelfLazyQueryHookResult = ReturnType<typeof useSelfLazyQuery>;
 export type SelfQueryResult = Apollo.QueryResult<SelfQuery, SelfQueryVariables>;
 export const SetDisplayNameByUserIdDocument = gql`
   mutation SetDisplayNameByUserID($id: String!, $display_name: String!) {
@@ -7679,40 +7238,6 @@ export const SetDisplayNameByUserIdDocument = gql`
 export type SetDisplayNameByUserIdMutationFn = Apollo.MutationFunction<
   SetDisplayNameByUserIdMutation,
   SetDisplayNameByUserIdMutationVariables
->;
-
-/**
- * __useSetDisplayNameByUserIdMutation__
- *
- * To run a mutation, you first call `useSetDisplayNameByUserIdMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSetDisplayNameByUserIdMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [setDisplayNameByUserIdMutation, { data, loading, error }] = useSetDisplayNameByUserIdMutation({
- *   variables: {
- *      id: // value for 'id'
- *      display_name: // value for 'display_name'
- *   },
- * });
- */
-export function useSetDisplayNameByUserIdMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    SetDisplayNameByUserIdMutation,
-    SetDisplayNameByUserIdMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    SetDisplayNameByUserIdMutation,
-    SetDisplayNameByUserIdMutationVariables
-  >(SetDisplayNameByUserIdDocument, options);
-}
-export type SetDisplayNameByUserIdMutationHookResult = ReturnType<
-  typeof useSetDisplayNameByUserIdMutation
 >;
 export type SetDisplayNameByUserIdMutationResult =
   Apollo.MutationResult<SetDisplayNameByUserIdMutation>;
@@ -7730,39 +7255,6 @@ export const SetNameByUserIdDocument = gql`
 export type SetNameByUserIdMutationFn = Apollo.MutationFunction<
   SetNameByUserIdMutation,
   SetNameByUserIdMutationVariables
->;
-
-/**
- * __useSetNameByUserIdMutation__
- *
- * To run a mutation, you first call `useSetNameByUserIdMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSetNameByUserIdMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [setNameByUserIdMutation, { data, loading, error }] = useSetNameByUserIdMutation({
- *   variables: {
- *      display_name: // value for 'display_name'
- *   },
- * });
- */
-export function useSetNameByUserIdMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    SetNameByUserIdMutation,
-    SetNameByUserIdMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    SetNameByUserIdMutation,
-    SetNameByUserIdMutationVariables
-  >(SetNameByUserIdDocument, options);
-}
-export type SetNameByUserIdMutationHookResult = ReturnType<
-  typeof useSetNameByUserIdMutation
 >;
 export type SetNameByUserIdMutationResult =
   Apollo.MutationResult<SetNameByUserIdMutation>;
@@ -7784,43 +7276,23 @@ export type UpdateFreeClaimsMutationFn = Apollo.MutationFunction<
   UpdateFreeClaimsMutation,
   UpdateFreeClaimsMutationVariables
 >;
-
-/**
- * __useUpdateFreeClaimsMutation__
- *
- * To run a mutation, you first call `useUpdateFreeClaimsMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateFreeClaimsMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateFreeClaimsMutation, { data, loading, error }] = useUpdateFreeClaimsMutation({
- *   variables: {
- *      id: // value for 'id'
- *      free_claims: // value for 'free_claims'
- *   },
- * });
- */
-export function useUpdateFreeClaimsMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateFreeClaimsMutation,
-    UpdateFreeClaimsMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateFreeClaimsMutation,
-    UpdateFreeClaimsMutationVariables
-  >(UpdateFreeClaimsDocument, options);
-}
-export type UpdateFreeClaimsMutationHookResult = ReturnType<
-  typeof useUpdateFreeClaimsMutation
->;
 export type UpdateFreeClaimsMutationResult =
   Apollo.MutationResult<UpdateFreeClaimsMutation>;
 export type UpdateFreeClaimsMutationOptions = Apollo.BaseMutationOptions<
   UpdateFreeClaimsMutation,
   UpdateFreeClaimsMutationVariables
+>;
+export const UserInfoDocument = gql`
+  query UserInfo {
+    user_info {
+      avatar_url
+      id
+      name
+      display_name
+    }
+  }
+`;
+export type UserInfoQueryResult = Apollo.QueryResult<
+  UserInfoQuery,
+  UserInfoQueryVariables
 >;

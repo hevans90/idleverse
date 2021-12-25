@@ -21,6 +21,7 @@ export type Celestial = {
 };
 
 export type GalaxyConfig = {
+  id?: string;
   seed: string;
   name: string;
   radius: number;
@@ -57,7 +58,7 @@ export const generateCelestials = (count: number, seed: string) => {
 };
 
 export const getRandomUnclaimedCelestialId = (
-  galaxyConfig: any,
+  galaxyConfig: Partial<GalaxyConfig>,
   claimedCelestialsId: string[]
 ) => {
   const celestials = generateCelestials(galaxyConfig.stars, galaxyConfig.id);
@@ -107,7 +108,10 @@ export const generateCelestialsWithClaimed = (
   return celestials;
 };
 
-export const getCelestialPosition = (cel: Celestial, config: GalaxyConfig) => {
+export const getCelestialPositionAndId = (
+  cel: Celestial,
+  config: GalaxyConfig
+) => {
   // Pick galactic arm for celestial body.
   const arm = Math.floor(cel.constants.arm * config.arms);
 
@@ -139,5 +143,5 @@ export const getCelestialPosition = (cel: Celestial, config: GalaxyConfig) => {
   const y = Math.sin(theta) * r;
 
   // Now we can assign xy coords.
-  return { x, y };
+  return { x, y, id: objectHash(cel.constants) };
 };
