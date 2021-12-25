@@ -40,8 +40,6 @@ export const GalaxyViewer = ({
 }: GalaxyViewerProps) => {
   const app = useApp();
 
-  app.stage.sortableChildren = true;
-
   const claimedCelestialsRef = useRef<claimedCelestials>(claimedCelestials);
 
   const galaxyContainer = useRef(new Container());
@@ -72,6 +70,8 @@ export const GalaxyViewer = ({
 
     galaxyContainer.current.x = size.width / 2;
     galaxyContainer.current.y = size.height / 2;
+
+    galaxyContainer.current.sortableChildren = true;
 
     app.ticker.add(updateGalaxyRotation(galaxyContainer.current));
 
