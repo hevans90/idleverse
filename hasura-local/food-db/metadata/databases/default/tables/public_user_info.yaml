@@ -26,6 +26,16 @@ select_permissions:
     - name
     - nickname
     filter: {}
+  role: unregistered
+- permission:
+    columns:
+    - avatar_url
+    - display_name
+    - free_claims
+    - id
+    - name
+    - nickname
+    filter: {}
   role: user
 update_permissions:
 - permission:

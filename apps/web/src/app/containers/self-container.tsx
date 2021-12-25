@@ -26,7 +26,7 @@ export const SelfContainer = (props: any) => {
     useQuery<UserInfoQuery>(UserInfoDocument);
 
   useEffect(() => {
-    if (!usersLoading) {
+    if (!usersLoading && userInfo) {
       loadUserInfo(userInfo).then(() => setUserAvatarsLoading(false));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

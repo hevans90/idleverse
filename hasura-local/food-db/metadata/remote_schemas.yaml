@@ -1,6 +1,6 @@
 - name: game-server
   definition:
-    url_from_env: REMOTE_SCHEMA_ENDPOINT
+    url: https://idleverse-game-server.herokuapp.com/graphql
     timeout_seconds: 60
     forward_client_headers: true
   comment: ""
