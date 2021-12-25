@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { SelfDocument, SelfQuery } from '@idleverse/galaxy-gql';
 import { Loading } from '../components/loading';
+import { useUserPreload } from '../hooks/use-user-preload';
 import { selfVar } from '../_state/reactive-variables';
 
 export const SelfContainer = (props: any) => {
@@ -12,6 +13,8 @@ export const SelfContainer = (props: any) => {
     },
     fetchPolicy: 'network-only',
   });
+
+  useUserPreload();
 
   if (loading || !data) return <Loading></Loading>;
   return props.children;

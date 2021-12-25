@@ -19,7 +19,7 @@ module.exports = {
       ],
       config: {
         skipTypename: false,
-        withHooks: true,
+        withHooks: false,
         withHOC: false,
         withComponent: false,
       },
