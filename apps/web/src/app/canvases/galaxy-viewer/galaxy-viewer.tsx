@@ -117,9 +117,12 @@ export const GalaxyViewer = ({
       claimedCelestials
     );
 
-    additions?.forEach(({ id }) =>
+    claimedCelestialsRef.current = claimedCelestials;
+
+    additions?.forEach(({ id, owner_id }) =>
       claimStar(
         getCelestialPositionAndId(findStar(id), galaxyConfigVar()),
+        owner_id,
         galaxyContainer.current
       )
     );
