@@ -1,13 +1,14 @@
 import { getCelestialPositionAndId } from '@idleverse/galaxy-gen';
 import * as PIXI from 'pixi.js';
 import { Container } from 'pixi.js';
+import { userAvatarResourcesVar } from '../../../_state/reactive-variables';
 
 export type StarProps = {
   id: string;
   x: number;
   y: number;
   isClaimed?: boolean;
-  avatarUrl?: string;
+  ownerId?: string;
 };
 
 const claimedCol = 0xff0000;
@@ -15,13 +16,7 @@ const claimedRadius = 4;
 const unclaimedCol = 0xffffff;
 const unclaimedRadius = 2;
 
-export const Star = ({
-  x,
-  y,
-  isClaimed,
-  id,
-  avatarUrl,
-}: Partial<StarProps>) => {
+export const Star = ({ x, y, isClaimed, id, ownerId }: Partial<StarProps>) => {
   const container = new PIXI.Container();
 
   const r = isClaimed ? claimedRadius : unclaimedRadius;
@@ -34,11 +29,18 @@ export const Star = ({
 
   if (isClaimed) {
     g.lineStyle({ width: 2, color: claimedCol }).moveTo(0, 0).lineTo(0, -20);
-    const texture = PIXI.Texture.from(avatarUrl);
+
+    const avatarTexture = userAvatarResourcesVar()[ownerId]?.texture;
+
+    if (!avatarTexture) {
+      throw new Error(`no texture found for ${ownerId}`);
+    }
+
+    const { height, width } = avatarTexture;
 
     const g2 = new PIXI.Graphics()
       .beginTextureFill({
-        texture,
+        texture: avatarTexture,
         matrix: new PIXI.Matrix(0.5, 0, 0, 0.5, 24, 24),
       })
       .drawCircle(0, 0, 24)

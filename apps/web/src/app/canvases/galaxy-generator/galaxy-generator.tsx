@@ -110,7 +110,7 @@ export const GalaxyGenerator = () => {
     });
   }, [galaxyConfig.stars, galaxyConfig.seed]);
 
-  useViewport(app, size, galaxyContainer, true);
+  useViewport(app, size, galaxyContainer, false);
   useFpsTracker(app, size);
 
   // eslint-disable-next-line react/jsx-no-useless-fragment

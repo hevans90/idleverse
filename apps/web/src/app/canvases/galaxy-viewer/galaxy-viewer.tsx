@@ -61,7 +61,7 @@ export const GalaxyViewer = ({
       _star.y = position.y;
     });
 
-  useViewport(app, size, galaxyContainer, true);
+  useViewport(app, size, galaxyContainer, false);
 
   useFpsTracker(app, size);
 
@@ -84,18 +84,14 @@ export const GalaxyViewer = ({
     stars.current.forEach((star) => {
       const { x, y, id } = getCelestialPositionAndId(star, galaxyConfigVar());
 
-      let avatarUrl: string;
+      let ownerId: string;
 
       if (star.isClaimed) {
         const celestial = claimedCelestialsRef.current.find(
           ({ id: celestialId }) => celestialId === id
         );
 
-        const { avatar_url } = owners.find(
-          ({ id }) => id === celestial.owner_id
-        );
-
-        avatarUrl = avatar_url;
+        ownerId = celestial.owner_id;
       }
 
       const _star = Star({
@@ -103,7 +99,7 @@ export const GalaxyViewer = ({
         y,
         id,
         isClaimed: star.isClaimed,
-        avatarUrl,
+        ownerId,
       });
 
       galaxyContainer.current.addChild(_star);
