@@ -36,7 +36,7 @@ const loadUserAvatars = async (
       console.error(e);
       rej('Failed to load resources.');
     });
-    PIXI.Loader.shared.onProgress.add((loader, resource) =>
-      console.log(loader.progress, resource.name)
-    );
+    PIXI.Loader.shared.onProgress.add((loader, resource) => {
+      // console.log(loader.progress, resource.name)
+    });
   });
