@@ -61,7 +61,7 @@ export const galaxySlidersConfig: sliderType[] = [
 export const galaxyConfigVar = makeVar<GalaxyConfig>({
   seed: uuidv4(),
   name: 'new galaxy',
-  radius: 1,
+  radius: 200,
   arms: 2,
   curvature: 1,
   armWidth: 0.1,

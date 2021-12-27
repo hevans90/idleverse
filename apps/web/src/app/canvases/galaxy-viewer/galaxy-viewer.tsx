@@ -4,7 +4,8 @@ import {
   ClaimedCelestialAttributes,
   GalaxyConfig,
   generateCelestialsWithClaimed,
-  getCelestialPositionAndId,
+  getCelestialIdHash,
+  getCelestialPosition,
 } from '@idleverse/galaxy-gen';
 import { useApp } from '@inlet/react-pixi';
 import { Container, Graphics } from 'pixi.js';
@@ -56,7 +57,7 @@ export const GalaxyViewer = ({
   const reposition = () =>
     stars.current.forEach((star, i) => {
       const _star = galaxyContainer.current.getChildAt(i) as Graphics;
-      const position = getCelestialPositionAndId(star, galaxyConfig);
+      const position = getCelestialPosition(star, galaxyConfig);
       _star.x = position.x;
       _star.y = position.y;
     });
@@ -82,7 +83,10 @@ export const GalaxyViewer = ({
     );
 
     stars.current.forEach((star) => {
-      const { x, y, id } = getCelestialPositionAndId(star, galaxyConfigVar());
+      const { x, y } = getCelestialPosition(star, galaxyConfigVar());
+
+      // THIS IS EXPENSIVE
+      const id = getCelestialIdHash(star.constants);
 
       let ownerId: string;
 
@@ -109,9 +113,6 @@ export const GalaxyViewer = ({
   }, []);
 
   useEffect(() => {
-    const findStar = (id: string) =>
-      stars.current.find(({ hashedConstants }) => id === hashedConstants);
-
     const { additions, deletions } = diffOwnedCelestials(
       claimedCelestialsRef.current,
       claimedCelestials
@@ -120,18 +121,9 @@ export const GalaxyViewer = ({
     claimedCelestialsRef.current = claimedCelestials;
 
     additions?.forEach(({ id, owner_id }) =>
-      claimStar(
-        getCelestialPositionAndId(findStar(id), galaxyConfigVar()),
-        owner_id,
-        galaxyContainer.current
-      )
+      claimStar(id, owner_id, galaxyContainer.current)
     );
-    deletions?.forEach(({ id }) =>
-      unclaimStar(
-        getCelestialPositionAndId(findStar(id), galaxyConfigVar()),
-        galaxyContainer.current
-      )
-    );
+    deletions?.forEach(({ id }) => unclaimStar(id, galaxyContainer.current));
   }, [claimedCelestials]);
 
   // eslint-disable-next-line react/jsx-no-useless-fragment

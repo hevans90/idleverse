@@ -4,7 +4,7 @@ import {
   Celestial,
   GalaxyConfig,
   generateCelestials,
-  getCelestialPositionAndId,
+  getCelestialPosition,
 } from '@idleverse/galaxy-gen';
 import { useApp } from '@inlet/react-pixi';
 import { Container, Graphics, TickerCallback } from 'pixi.js';
@@ -40,7 +40,7 @@ export const GalaxyGenerator = () => {
   const reposition = (config: GalaxyConfig) => {
     stars.current.forEach((star, i) => {
       const _star = galaxyContainer.current.getChildAt(i) as Graphics;
-      const position = getCelestialPositionAndId(star, config);
+      const position = getCelestialPosition(star, config);
       _star.x = position.x;
       _star.y = position.y;
     });
@@ -105,7 +105,7 @@ export const GalaxyGenerator = () => {
     stars.current = generateCelestials(galaxyConfig.stars, galaxyConfig.seed);
 
     stars.current.forEach((star) => {
-      const _star = Star(getCelestialPositionAndId(star, galaxyConfigVar()));
+      const _star = Star(getCelestialPosition(star, galaxyConfigVar()));
       galaxyContainer.current.addChild(_star);
     });
   }, [galaxyConfig.stars, galaxyConfig.seed]);

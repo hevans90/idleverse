@@ -108,10 +108,7 @@ export const generateCelestialsWithClaimed = (
   return celestials;
 };
 
-export const getCelestialPositionAndId = (
-  cel: Celestial,
-  config: GalaxyConfig
-) => {
+export const getCelestialPosition = (cel: Celestial, config: GalaxyConfig) => {
   // Pick galactic arm for celestial body.
   const arm = Math.floor(cel.constants.arm * config.arms);
 
@@ -143,5 +140,11 @@ export const getCelestialPositionAndId = (
   const y = Math.sin(theta) * r;
 
   // Now we can assign xy coords.
-  return { x, y, id: objectHash(cel.constants) };
+  return { x, y };
 };
+
+/**
+ * **WARNING**: THIS IS EXPENSIVE. DO NOT USE THIS IN TICKER FUNCTIONS
+ */
+export const getCelestialIdHash = (constants: Celestial['constants']) =>
+  objectHash(constants);
