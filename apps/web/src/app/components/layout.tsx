@@ -8,24 +8,31 @@ import { Back } from './back';
 export const sideNavWidth = 450;
 export const topBarHeight = 50;
 
-const ResponsiveGrid = styled.div`
+type ResponsiveGridProps = {
+  sideNav: boolean;
+};
+
+export const ResponsiveGrid = styled.div`
   height: 100vh;
 
   display: grid;
 
-  grid-template-columns: ${sideNavWidth}px auto;
+  grid-template-columns: ${({ sideNav }: ResponsiveGridProps) =>
+    sideNav ? `${sideNavWidth}px auto` : `auto`};
+
   grid-template-rows: ${topBarHeight}px auto;
 
-  grid-template-areas:
-    'side-nav   toolbar'
-    'side-nav   main';
-
-  div.toolbar {
-    grid-area: toolbar;
-  }
-
+  grid-template-areas: ${({ sideNav }: ResponsiveGridProps) =>
+    sideNav
+      ? `'side-nav   toolbar'
+         'side-nav   main   '`
+      : `'toolbar'
+        ' main   '`};
   div.sidenav {
     grid-area: side-nav;
+  }
+  div.toolbar {
+    grid-area: toolbar;
   }
 
   main {
@@ -46,7 +53,7 @@ export const Layout = (props: { children: JSX.Element }) => {
   const { pathname } = useLocation();
 
   return (
-    <ResponsiveGrid>
+    <ResponsiveGrid sideNav={true}>
       <SideNav></SideNav>
       <ToolBar></ToolBar>
       <main>
