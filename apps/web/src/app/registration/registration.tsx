@@ -19,6 +19,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { ResponsiveGrid } from '../components/layout';
 import { ToolBar } from '../containers/toolbar/toolbar';
+import { layoutVar } from '../_state/persisted-reactive-variables';
 import { selfVar } from '../_state/reactive-variables';
 
 type Inputs = {
@@ -42,6 +43,7 @@ export const Registration = () => {
     });
 
   const self = useReactiveVar(selfVar);
+  const layoutConfig = useReactiveVar(layoutVar);
 
   const [setDisplayName, { data, loading, error }] = useMutation<
     SetNameByUserIdMutation,
@@ -58,7 +60,7 @@ export const Registration = () => {
   });
 
   return (
-    <ResponsiveGrid sideNav={false}>
+    <ResponsiveGrid {...layoutConfig} sideNav={false}>
       <ToolBar></ToolBar>
       <main>
         <Box

@@ -17,10 +17,8 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import {
-  galaxyConfigVar,
-  galaxySlidersConfig,
-} from '../../../_state/reactive-variables';
+import { galaxyConfigVar } from '../../../_state/reactive-variables';
+import { galaxySlidersConfig } from './sliders';
 
 export const generatorControlsHeight = 350;
 
