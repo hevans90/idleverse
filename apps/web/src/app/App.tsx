@@ -13,6 +13,7 @@ import { Loading } from './components/loading';
 import { SelfContainer } from './containers/self-container';
 import { GalaxyGalleryContainer } from './galaxy-gallery/galaxy-gallery.container';
 import { Home } from './home/home';
+import { Registration } from './registration/registration';
 import {
   accessTokenVar,
   galaxyConfigVar,
@@ -23,10 +24,16 @@ import {
 export const local = window.location.origin.includes('localhost');
 
 export const App = () => {
-  const { getIdTokenClaims, isLoading, loginWithRedirect, isAuthenticated } =
-    useAuth0();
+  const {
+    getIdTokenClaims,
+    isLoading: authLoading,
+    loginWithRedirect,
+    isAuthenticated,
+  } = useAuth0();
 
   const accessToken = useReactiveVar(accessTokenVar);
+
+  const role = useReactiveVar(roleVar);
 
   useEffect(() => {
     async function fetchMyToken() {
@@ -44,13 +51,27 @@ export const App = () => {
     }
 
     fetchMyToken();
-  }, [getIdTokenClaims, isLoading, accessToken]);
+  }, [getIdTokenClaims, authLoading, accessToken, role]);
 
-  if (isLoading) return <Loading></Loading>;
+  if (authLoading) return <Loading text="Authenticating"></Loading>;
 
   if (!accessToken && !isAuthenticated) loginWithRedirect();
 
-  if (!accessToken) return <Loading></Loading>;
+  if (!accessToken || !role)
+    return <Loading text="Getting permissions"></Loading>;
+
+  if (role === 'unregistered')
+    return (
+      <ApolloProvider
+        client={apolloBootstrapper(
+          environment.hasuraUri,
+          'user',
+          accessTokenVar
+        )}
+      >
+        <Registration />
+      </ApolloProvider>
+    );
 
   const client = apolloBootstrapper(
     environment.hasuraUri,
