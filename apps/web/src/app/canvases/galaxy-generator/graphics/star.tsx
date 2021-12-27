@@ -1,4 +1,3 @@
-import { getCelestialPositionAndId } from '@idleverse/galaxy-gen';
 import * as PIXI from 'pixi.js';
 import { Container } from 'pixi.js';
 import { userAvatarResourcesVar } from '../../../_state/reactive-variables';
@@ -90,7 +89,7 @@ export const Star = ({ x, y, isClaimed, id, ownerId }: Partial<StarProps>) => {
 };
 
 export const claimStar = (
-  { id }: ReturnType<typeof getCelestialPositionAndId>,
+  id: string,
   ownerId: string,
   parentContainer: Container
 ) => {
@@ -103,10 +102,7 @@ export const claimStar = (
   starContainer.addChild(starGraphic, avatarGraphic);
 };
 
-export const unclaimStar = (
-  { id }: ReturnType<typeof getCelestialPositionAndId>,
-  parentContainer: Container
-) => {
+export const unclaimStar = (id: string, parentContainer: Container) => {
   const starContainer = parentContainer.getChildByName(id, true) as Container;
   starContainer.removeChildren();
 
