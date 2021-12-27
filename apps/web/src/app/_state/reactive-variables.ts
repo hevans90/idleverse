@@ -2,7 +2,7 @@ import { makeVar } from '@apollo/client';
 import { GalaxyConfig } from '@idleverse/galaxy-gen';
 import { UserInfoQuery } from '@idleverse/galaxy-gql';
 import { v4 as uuidv4 } from 'uuid';
-import { AssetCollection, LayoutConfig, Self } from './models';
+import { AssetCollection, Self } from './models';
 
 export const galaxyConfigVar = makeVar<GalaxyConfig>({
   seed: uuidv4(),
@@ -27,8 +27,3 @@ export const accessTokenVar = makeVar<string>(null);
 
 export const usersVar = makeVar<UserInfoQuery['user_info']>([]);
 export const userAvatarResourcesVar = makeVar<AssetCollection>(null);
-
-export const layoutVar = makeVar<LayoutConfig>({
-  sideNav: true,
-  toolBar: true,
-});

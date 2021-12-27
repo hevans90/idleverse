@@ -19,7 +19,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { ResponsiveGrid } from '../components/layout';
 import { ToolBar } from '../containers/toolbar/toolbar';
-import { layoutVar, selfVar } from '../_state/reactive-variables';
+import { layoutVar } from '../_state/persisted-reactive-variables';
+import { selfVar } from '../_state/reactive-variables';
 
 type Inputs = {
   displayName: string;

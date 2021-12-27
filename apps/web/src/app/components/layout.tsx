@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { SideNav } from '../containers/sidenav/sidenav';
 import { ToolBar } from '../containers/toolbar/toolbar';
 import { LayoutConfig } from '../_state/models';
-import { layoutVar } from '../_state/reactive-variables';
+import { layoutVar } from '../_state/persisted-reactive-variables';
 import { Back } from './back';
 
 export const sideNavWidth = 450;
@@ -51,7 +51,7 @@ export const Layout = (props: { children: JSX.Element }) => {
 
   return (
     <ResponsiveGrid {...layoutConfig}>
-      <SideNav></SideNav>
+      {layoutConfig.sideNav ? <SideNav></SideNav> : null}
       <ToolBar></ToolBar>
       <main>
         {pathname === '/' ? null : <Back></Back>}
