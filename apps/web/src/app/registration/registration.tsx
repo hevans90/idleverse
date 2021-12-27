@@ -17,6 +17,8 @@ import {
 } from '@idleverse/galaxy-gql';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
+import { ResponsiveGrid } from '../components/layout';
+import { ToolBar } from '../containers/toolbar/toolbar';
 import { selfVar } from '../_state/reactive-variables';
 
 type Inputs = {
@@ -56,58 +58,66 @@ export const Registration = () => {
   });
 
   return (
-    <Box
-      height="100vh"
-      display="flex"
-      flexDir="column"
-      justifyContent="center"
-      alignItems="center"
-    >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <VStack
-          divider={<StackDivider borderColor="gray.500" />}
-          spacing={5}
-          align="stretch"
-          maxWidth={450}
+    <ResponsiveGrid sideNav={false}>
+      <ToolBar></ToolBar>
+      <main>
+        <Box
+          height="100%"
+          display="flex"
+          flexDir="column"
+          justifyContent="center"
+          alignItems="center"
         >
-          <Text fontSize="3xl" textAlign="center">
-            Registration
-          </Text>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <VStack
+              divider={<StackDivider borderColor="gray.500" />}
+              spacing={5}
+              align="stretch"
+              maxWidth={450}
+            >
+              <Text fontSize="3xl" textAlign="center">
+                Registration
+              </Text>
 
-          <Text>
-            Welcome to Idleverse! Please submit some basic user information to
-            begin.
-          </Text>
+              <Text>
+                Welcome to Idleverse! Please submit some basic user information
+                to begin.
+              </Text>
 
-          <FormControl
-            isInvalid={!!errors.displayName || false}
-            marginTop={3}
-            marginBottom={3}
-          >
-            <FormLabel htmlFor="displayName">Display Name</FormLabel>
-            <Input
-              id="displayName"
-              placeholder="Enter display name"
-              {...register('displayName', {
-                required: 'A display name is required',
-                minLength: { value: 3, message: 'Minimum length should be 3' },
-              })}
-            />
-            <FormErrorMessage>
-              {errors.displayName && errors.displayName.message}
-            </FormErrorMessage>
-          </FormControl>
+              <FormControl
+                isInvalid={!!errors.displayName || false}
+                marginTop={3}
+                marginBottom={3}
+              >
+                <FormLabel htmlFor="displayName">Display Name</FormLabel>
+                <Input
+                  id="displayName"
+                  placeholder="Enter display name"
+                  {...register('displayName', {
+                    required: 'A display name is required',
+                    minLength: {
+                      value: 3,
+                      message: 'Minimum length should be 3',
+                    },
+                  })}
+                />
+                <FormErrorMessage>
+                  {errors.displayName && errors.displayName.message}
+                </FormErrorMessage>
+              </FormControl>
 
-          <Button
-            mt={4}
-            colorScheme="blue"
-            isLoading={isSubmitting}
-            type="submit"
-          >
-            Submit
-          </Button>
-        </VStack>
-      </form>
-    </Box>
+              <Button
+                mt={4}
+                colorScheme="blue"
+                isLoading={isSubmitting}
+                type="submit"
+              >
+                Submit
+              </Button>
+            </VStack>
+          </form>
+        </Box>
+      </main>
+    </ResponsiveGrid>
   );
 };
