@@ -17,9 +17,9 @@ export const ResponsiveGrid = styled.div`
 
   display: grid;
 
-  /* ${sideNavWidth}px auto */
   grid-template-columns: ${({ sideNav }: ResponsiveGridProps) =>
     sideNav ? `${sideNavWidth}px auto` : `auto`};
+
   grid-template-rows: ${topBarHeight}px auto;
 
   grid-template-areas: ${({ sideNav }: ResponsiveGridProps) =>
