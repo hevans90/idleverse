@@ -31,8 +31,8 @@ export const useViewport = (
       interaction: app.renderer.plugins.interaction,
     });
 
-    viewportRef.current.pinch().wheel().decelerate();
-    viewportRef.current.clampZoom({ minWidth: 300, maxWidth: 2000 });
+    viewportRef.current.drag().pinch().wheel().decelerate();
+    viewportRef.current.clampZoom({ minWidth: 500, maxWidth: 5000 });
     viewportRef.current.clamp({ direction: 'all' });
 
     viewportRef.current.screenHeight = size.height;
@@ -74,6 +74,6 @@ export const useViewport = (
         // this can throw if react-pixi destroys the stage, from routing etc.
       }
     };
-    // viewport.moveCenter(size.width / 2, size.height / 2);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [app.stage, containerRef, size, debug]);
 };

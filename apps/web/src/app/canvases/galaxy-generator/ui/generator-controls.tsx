@@ -32,8 +32,7 @@ export const GeneratorControls = () => {
   const [localConfigValues, setLocalValues] = useState(initialGalaxyConfig);
 
   useEffect(() => {
-    galaxyConfigVar({ ...initialGalaxyConfig, radius: 200 });
-    setLocalValues({ ...initialGalaxyConfig, radius: 200 });
+    setLocalValues({ ...initialGalaxyConfig });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
