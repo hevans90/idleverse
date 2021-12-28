@@ -10,7 +10,10 @@ import { loadUserInfo } from '../asset-loading/load-users';
 import { Loading } from '../components/loading';
 import { selfVar } from '../_state/reactive-variables';
 
-export const SelfContainer = (props: any) => {
+/**
+ * Performs all async loading and blocks any children rendering until complete.
+ */
+export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
   const [userAvatarsLoading, setUserAvatarsLoading] = useState(true);
 
   const { loading: profileLoading, data } = useQuery<SelfQuery>(SelfDocument, {
@@ -37,5 +40,6 @@ export const SelfContainer = (props: any) => {
   if (userAvatarsLoading) return <Loading text="Loading Avatars"></Loading>;
 
   if (profileLoading) return <Loading text="Loading Profile"></Loading>;
-  return props.children;
+
+  return children;
 };

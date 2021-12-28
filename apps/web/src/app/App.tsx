@@ -10,7 +10,7 @@ import { GalaxyViewerContainer } from './canvases/galaxy-viewer/galaxy-viewer.co
 import { SolarSystemContainer } from './canvases/solar-system/solar-system.container';
 import { Layout } from './components/layout';
 import { Loading } from './components/loading';
-import { SelfContainer } from './containers/self-container';
+import { PreloadContainer } from './containers/preload.container';
 import { GalaxyGalleryContainer } from './galaxy-gallery/galaxy-gallery.container';
 import { Home } from './home/home';
 import { Registration } from './registration/registration';
@@ -95,7 +95,7 @@ export const App = () => {
 
   return (
     <ApolloProvider client={client}>
-      <SelfContainer>
+      <PreloadContainer>
         <BrowserRouter basename={local ? '/' : '/idle-game'}>
           <Layout>
             <Switch>
@@ -111,7 +111,7 @@ export const App = () => {
             </Switch>
           </Layout>
         </BrowserRouter>
-      </SelfContainer>
+      </PreloadContainer>
     </ApolloProvider>
   );
 };
