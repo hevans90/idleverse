@@ -14,6 +14,7 @@ import { OperationDefinitionNode } from 'graphql';
 
 export const apolloBootstrapper = (
   uri: string,
+  secure: boolean,
   access: 'user' | 'admin-secret',
   token: () => string,
   cacheConfig: InMemoryCacheConfig = {},
@@ -27,13 +28,13 @@ export const apolloBootstrapper = (
       : { 'x-hasura-admin-secret': `${token()}` };
 
   const httpLink = createHttpLink({
-    uri: `https://${uri}`,
+    uri: `${secure ? 'https' : 'http'}://${uri}`,
     headers: { ...headers },
     fetch: customFetch,
   });
 
   const wsLink = new WebSocketLink({
-    uri: `wss://${uri}`,
+    uri: `${secure ? 'wss' : 'ws'}://${uri}`,
     options: {
       lazy: true,
       reconnect: true,

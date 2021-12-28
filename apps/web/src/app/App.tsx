@@ -62,6 +62,7 @@ export const App = () => {
       <ApolloProvider
         client={apolloBootstrapper(
           environment.hasuraUri,
+          environment.secure,
           'user',
           accessTokenVar
         )}
@@ -72,6 +73,7 @@ export const App = () => {
 
   const client = apolloBootstrapper(
     environment.hasuraUri,
+    environment.secure,
     'user',
     accessTokenVar,
     {

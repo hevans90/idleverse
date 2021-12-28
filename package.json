@@ -5,12 +5,14 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve",
-    "console": "cd hasura-local/food-db && hasura console",
+    "console": "cd apps/idleverse-hasura/db && hasura console",
     "status": "cd hasura-local/food-db && hasura migrate status --database-name default",
     "build": "nx build",
     "test": "nx test",
     "generate": "graphql-codegen --config codegen.js -r dotenv/config && npx nx format:write --files ./libs/galaxy-gql/src/lib/galaxy-api.ts ./libs/food-gql/src/lib/food-api.ts",
-    "generate:watch": "yarn generate --watch"
+    "generate:watch": "yarn generate --watch",
+    "docker-build": "cd dist/apps/game-server && docker build -t game-server -f ../../../apps/game-server/Dockerfile .",
+    "docker-up": "cd apps/idleverse-hasura && docker compose --env-file ../../.docker.env up -d"
   },
   "private": true,
   "dependencies": {

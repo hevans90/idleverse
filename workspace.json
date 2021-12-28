@@ -136,6 +136,57 @@
         }
       }
     },
+    "food-hasura": {
+      "root": "apps/food-hasura",
+      "sourceRoot": "apps/food-hasura/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/food-hasura",
+            "main": "apps/food-hasura/src/main.ts",
+            "tsConfig": "apps/food-hasura/tsconfig.app.json",
+            "assets": ["apps/food-hasura/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/food-hasura/src/environments/environment.ts",
+                  "with": "apps/food-hasura/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "food-hasura:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/food-hasura/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/food-hasura"],
+          "options": {
+            "jestConfig": "apps/food-hasura/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "food-server": {
       "root": "apps/food-server",
       "sourceRoot": "apps/food-server/src",
@@ -408,6 +459,57 @@
         }
       }
     },
+    "idleverse-hasura": {
+      "root": "apps/idleverse-hasura",
+      "sourceRoot": "apps/idleverse-hasura/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/idleverse-hasura",
+            "main": "apps/idleverse-hasura/src/main.ts",
+            "tsConfig": "apps/idleverse-hasura/tsconfig.app.json",
+            "assets": ["apps/idleverse-hasura/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/idleverse-hasura/src/environments/environment.ts",
+                  "with": "apps/idleverse-hasura/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "idleverse-hasura:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/idleverse-hasura/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/idleverse-hasura"],
+          "options": {
+            "jestConfig": "apps/idleverse-hasura/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "web": {
       "root": "apps/web",
       "sourceRoot": "apps/web/src",
@@ -464,6 +566,14 @@
                   "maximumError": "3mb"
                 }
               ]
+            },
+            "docker": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/web/src/environments/environment.ts",
+                  "with": "apps/web/src/environments/environment.docker.ts"
+                }
+              ]
             }
           }
         },
@@ -477,6 +587,10 @@
           "configurations": {
             "production": {
               "buildTarget": "web:build:production",
+              "hmr": false
+            },
+            "docker": {
+              "buildTarget": "web:build:docker",
               "hmr": false
             }
           }
