@@ -1,4 +1,7 @@
-import { getRandomUnclaimedCelestialId } from '@idleverse/galaxy-gen';
+import {
+  generateCelestialName,
+  getRandomUnclaimedCelestialId,
+} from '@idleverse/galaxy-gen';
 import 'reflect-metadata';
 import {
   Arg,
@@ -60,7 +63,7 @@ export class GalaxyManagementResolver {
           context.id,
           randomCelestialId,
           galaxyId,
-          'randomname',
+          generateCelestialName(),
           freeClaims - 1
         )
       ).data.update_user_info_by_pk.free_claims;
