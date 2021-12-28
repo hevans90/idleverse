@@ -55,5 +55,5 @@ const genNames = (amount: number) => {
   return names;
 };
 
-export const generateCelestialName =
+export const generateCelestialName = () =>
   genNames(100)[Math.floor(Math.random() * 100)];
