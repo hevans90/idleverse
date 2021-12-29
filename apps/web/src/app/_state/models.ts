@@ -24,3 +24,9 @@ export type LayoutConfig = {
   sideNav: boolean;
   toolBar: boolean;
 };
+
+export type SolarSystemConfig = {
+  viewAngle: number;
+  viewDistance: number;
+  simulationSpeed: number;
+};

@@ -2,7 +2,6 @@ import {
   AnimatedSprite,
   Application,
   BaseTexture,
-  Container,
   Graphics,
   Rectangle,
   Sprite,
@@ -19,7 +18,7 @@ export type SpriteSheetConfig = {
 };
 
 export const CreateAnimatedPlanetSprite = (
-  container: Container,
+  app: Application,
   conf: SpriteSheetConfig
 ) => {
   const sheet = BaseTexture.from(conf.url);
@@ -49,17 +48,16 @@ export const CreateAnimatedPlanetSprite = (
   sprite.height = sprite.height * conf.spriteScale;
   sprite.width = sprite.width * conf.spriteScale;
   sprite.play();
-  container.addChild(sprite);
+  app.stage.addChild(sprite);
   return sprite;
 };
 
 export const CreateBasicPlanetSprite = (
   app: Application,
-  container: Container,
   graphic: Graphics
 ) => {
   const sunTexture = app.renderer.generateTexture(graphic);
   const sprite = new Sprite(sunTexture);
-  container.addChild(sprite);
+  app.stage.addChild(sprite);
   return sprite;
 };
