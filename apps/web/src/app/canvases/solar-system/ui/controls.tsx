@@ -24,7 +24,7 @@ export type SolarSystemSliderType = {
   step: number;
 };
 
-export const controlsHeight = 160;
+export const solarSystemControlsHeight = 160;
 
 export const solarSystemSlidersConfig: SolarSystemSliderType[] = [
   {
@@ -73,7 +73,7 @@ export const SolarSystemControls = () => {
       position="absolute"
       bottom="0"
       left="0"
-      height={`${controlsHeight}px`}
+      height={`${solarSystemControlsHeight}px`}
       width="100%"
     >
       {solarSystemSlidersConfig.map((slider, index) => (
