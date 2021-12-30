@@ -107,7 +107,9 @@ export const SolarSystem = () => {
 
     app.ticker.add(() => {
       // eslint-disable-next-line prefer-const
-      let { viewAngle, viewDistance, simulationSpeed } = solarSystemConfigVar();
+      let { viewAngle, simulationSpeed } = solarSystemConfigVar();
+
+      const viewDistance = size.height;
 
       viewAngle = (viewAngle * Math.PI) / 180;
 

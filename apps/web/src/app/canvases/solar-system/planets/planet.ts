@@ -114,7 +114,17 @@ export const getPlanetPositionOffset = (
   scale: 1,
 });
 
-export const createPlanet = ({ name, config, sprite, parent = null }) => ({
+export const createPlanet = ({
+  name,
+  config,
+  sprite,
+  parent = null,
+}: {
+  name: string;
+  config: PlanetConfig;
+  sprite: AnimatedSprite;
+  parent?: Planet;
+}) => ({
   name,
   config,
   sprite,

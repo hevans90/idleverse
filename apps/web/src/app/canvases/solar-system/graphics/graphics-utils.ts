@@ -10,6 +10,7 @@ import {
 } from 'pixi.js';
 
 export type SpriteSheetConfig = {
+  name: string;
   url: string;
   cols: number;
   rows: number;
@@ -22,7 +23,8 @@ export const createAnimatedPlanetSprite = (
   container: Container,
   conf: SpriteSheetConfig
 ) => {
-  const sheet = BaseTexture.from(conf.url);
+  const sheet = BaseTexture.from(conf.name);
+
   const frames = [];
   const rowSpacing = sheet.width / conf.cols;
   const colSpacing = sheet.height / conf.rows;
@@ -49,6 +51,7 @@ export const createAnimatedPlanetSprite = (
   sprite.height = sprite.height * conf.spriteScale;
   sprite.width = sprite.width * conf.spriteScale;
   sprite.play();
+
   container.addChild(sprite);
   return sprite;
 };

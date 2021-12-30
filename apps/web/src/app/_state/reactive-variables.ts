@@ -29,7 +29,8 @@ export const usersVar = makeVar<UserInfoQuery['user_info']>([]);
 export const userAvatarResourcesVar = makeVar<AssetCollection>(null);
 
 export const solarSystemConfigVar = makeVar<SolarSystemConfig>({
-  viewAngle: 45,
-  viewDistance: 800,
-  simulationSpeed: 5,
+  viewAngle: 0,
+  simulationSpeed: 1,
 });
+
+export const planetResourcesVar = makeVar<AssetCollection>(null);

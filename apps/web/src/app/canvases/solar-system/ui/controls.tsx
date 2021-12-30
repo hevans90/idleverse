@@ -34,13 +34,6 @@ export const solarSystemSlidersConfig: SolarSystemSliderType[] = [
     step: 1,
   },
   {
-    name: 'viewDistance',
-    displayName: 'View Distance',
-    min: 50,
-    max: 1000,
-    step: 50,
-  },
-  {
     name: 'simulationSpeed',
     displayName: 'Simulation Speed',
     min: 1,
@@ -61,6 +54,8 @@ export const SolarSystemControls = () => {
   useEffect(() => {
     setLocalValues({ ...initialSolarSystemConfig });
     // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    console.log();
   }, []);
 
   return (
