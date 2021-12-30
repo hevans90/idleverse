@@ -52,7 +52,7 @@ export const GalaxyViewer = ({
     galaxy.children.forEach((child) => (child.rotation = -galaxy.rotation));
   };
 
-  const size = useResize(false);
+  const size = useResize();
 
   const reposition = () =>
     stars.current.forEach((star, i) => {

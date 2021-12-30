@@ -1,134 +1,126 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useApp } from '@inlet/react-pixi';
 import { Container } from 'pixi.js';
-import { useRef } from 'react';
-import { timeVar } from '../../_state/reactive-variables';
+import { useEffect, useRef } from 'react';
+import { solarSystemConfigVar, timeVar } from '../../_state/reactive-variables';
 import { useResize } from '../common-utils/use-resize.hook';
 import { useViewport } from '../common-utils/use-viewport';
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
 import {
-  CreateAnimatedPlanetSprite,
-  CreateBasicPlanetSprite,
-  SpriteSheetConfig,
-} from './graphics/graphics-utils';
-import { Sun } from './graphics/sun';
+  earthSpriteConfig,
+  marsSpriteConfig,
+  moonSpriteConfig,
+  sunSpriteConfig,
+} from './graphics/config';
+import { createAnimatedPlanetSprite } from './graphics/graphics-utils';
 import {
-  CreatePlanet,
-  DrawPlanet,
+  createPlanet,
+  drawPlanet,
   Planet,
   PlanetConfig,
-  UpdatePlanetPosition,
+  updatePlanetPosition,
 } from './planets/planet';
 
 export const SolarSystem = () => {
   const app = useApp();
-  const size = useResize(false);
 
-  const systemContainer = useRef(new Container());
+  const size = useResize('solar-system');
 
-  systemContainer.current.sortableChildren = true;
+  const solarSystemContainerRef = useRef(new Container());
 
-  const systemOrigin = 200;
-  const systemRange = 50;
-
-  app.ticker.add(() => {
-    timeVar(timeVar() + 1);
-  });
-
-  useViewport(app, size, systemContainer, false);
   useFpsTracker(app, size);
 
-  const basicSunSprite = CreateBasicPlanetSprite(
-    app,
-    systemContainer.current,
-    Sun({ x: 0, y: 0 })
-  );
-  const sunConfig: PlanetConfig = {
-    origin: { x: 400, y: systemOrigin },
-    orbit: { x: 0, y: 0, speed: 1 },
-  };
-  const sun: Planet = CreatePlanet({
-    name: 'sun',
-    config: sunConfig,
-    sprite: basicSunSprite,
-  });
+  useViewport(app, size, solarSystemContainerRef, false);
 
-  const earthSpriteConfig: SpriteSheetConfig = {
-    url: 'https://i.imgur.com/bLmw7RZ.png',
-    cols: 5,
-    rows: 18,
-    lastRowItemCount: 1,
-    animationSpeed: 0.25,
-    spriteScale: 0.25,
-  };
-  const earthConfig: PlanetConfig = {
-    origin: { x: 0, y: 0 },
-    orbit: { x: 150, y: 30, speed: 5 },
-  };
-  const earthSprite = CreateAnimatedPlanetSprite(
-    systemContainer.current,
-    earthSpriteConfig
-  );
-  const earth: Planet = CreatePlanet({
-    name: 'earth',
-    config: earthConfig,
-    sprite: earthSprite,
-    parent: sun,
-  });
+  useEffect(() => {
+    solarSystemContainerRef.current.x = size.width / 2;
+    solarSystemContainerRef.current.y = size.height / 2;
 
-  const marsSpriteConfig: SpriteSheetConfig = {
-    url: 'https://i.imgur.com/OlbT0Sx.png',
-    cols: 5,
-    rows: 22,
-    lastRowItemCount: 3,
-    animationSpeed: 0.25,
-    spriteScale: 0.125,
-  };
-  const marsSprite = CreateAnimatedPlanetSprite(
-    systemContainer.current,
-    marsSpriteConfig
-  );
-  const marsConfig: PlanetConfig = {
-    origin: { x: 0, y: 0 },
-    orbit: { x: 300, y: 40, speed: 2 },
-  };
-  const mars: Planet = CreatePlanet({
-    name: 'mars',
-    config: marsConfig,
-    sprite: marsSprite,
-    parent: sun,
-  });
+    solarSystemContainerRef.current.sortableChildren = true;
 
-  const moonSpriteConfig: SpriteSheetConfig = {
-    url: 'https://i.imgur.com/58Qt1Pj.png',
-    cols: 5,
-    rows: 24,
-    lastRowItemCount: 5,
-    animationSpeed: 0.25,
-    spriteScale: 0.125,
-  };
-  const moonSprite = CreateAnimatedPlanetSprite(
-    systemContainer.current,
-    moonSpriteConfig
-  );
-  const moonConfig: PlanetConfig = {
-    origin: { x: 0, y: 0 },
-    orbit: { x: 50, y: 5, speed: 10 },
-  };
-  const moon: Planet = CreatePlanet({
-    name: 'moon',
-    config: moonConfig,
-    sprite: moonSprite,
-    parent: earth,
-  });
+    const systemOrigin = { x: 0, y: 0 };
 
-  const planets = [sun, earth, mars, moon];
+    app.ticker.add(() => {
+      timeVar(timeVar() + 1);
+    });
 
-  app.ticker.add(() => {
-    planets.forEach((planet) =>
-      UpdatePlanetPosition(timeVar(), planet, systemOrigin, systemRange)
+    const sunSprite = createAnimatedPlanetSprite(
+      solarSystemContainerRef.current,
+      sunSpriteConfig
     );
-    planets.forEach((planet) => DrawPlanet(planet));
-  });
+    const sunConfig: PlanetConfig = {
+      origin: { x: systemOrigin.x, y: systemOrigin.y },
+      orbit: { x: 0, y: 0, speed: 1 },
+    };
+    const sun: Planet = createPlanet({
+      name: 'sun',
+      config: sunConfig,
+      sprite: sunSprite,
+    });
+
+    const earthConfig: PlanetConfig = {
+      origin: { x: 0, y: 0 },
+      orbit: { x: 200, y: 200, speed: 1 },
+    };
+    const earthSprite = createAnimatedPlanetSprite(
+      solarSystemContainerRef.current,
+      earthSpriteConfig
+    );
+    const earth: Planet = createPlanet({
+      name: 'earth',
+      config: earthConfig,
+      sprite: earthSprite,
+      parent: sun,
+    });
+
+    const marsSprite = createAnimatedPlanetSprite(
+      solarSystemContainerRef.current,
+      marsSpriteConfig
+    );
+    const marsConfig: PlanetConfig = {
+      origin: { x: 0, y: 0 },
+      orbit: { x: 300, y: 300, speed: 0.53 },
+    };
+    const mars: Planet = createPlanet({
+      name: 'mars',
+      config: marsConfig,
+      sprite: marsSprite,
+      parent: sun,
+    });
+
+    const moonSprite = createAnimatedPlanetSprite(
+      solarSystemContainerRef.current,
+      moonSpriteConfig
+    );
+    const moonConfig: PlanetConfig = {
+      origin: { x: 0, y: 0 },
+      orbit: { x: 50, y: 50, speed: 12.36 },
+    };
+    const moon: Planet = createPlanet({
+      name: 'Moon',
+      config: moonConfig,
+      sprite: moonSprite,
+      parent: earth,
+    });
+
+    const planets = [sun, earth, mars, moon];
+
+    app.ticker.add(() => {
+      // eslint-disable-next-line prefer-const
+      let { viewAngle, simulationSpeed } = solarSystemConfigVar();
+
+      const viewDistance = size.height;
+
+      viewAngle = (viewAngle * Math.PI) / 180;
+
+      planets.forEach((planet) =>
+        updatePlanetPosition(timeVar(), planet, simulationSpeed)
+      );
+      planets.forEach((planet) =>
+        drawPlanet(planet, systemOrigin, viewDistance, viewAngle)
+      );
+    });
+  }, []);
 
   // eslint-disable-next-line react/jsx-no-useless-fragment
   return <></>;

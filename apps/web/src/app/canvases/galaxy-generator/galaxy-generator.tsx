@@ -31,7 +31,7 @@ export const GalaxyGenerator = () => {
 
   const app = useApp();
 
-  const size = useResize(true);
+  const size = useResize('galaxy-gen');
 
   const stars = useRef<Celestial[]>(null);
 

@@ -2,7 +2,7 @@ import { makeVar } from '@apollo/client';
 import { GalaxyConfig } from '@idleverse/galaxy-gen';
 import { UserInfoQuery } from '@idleverse/galaxy-gql';
 import { v4 as uuidv4 } from 'uuid';
-import { AssetCollection, Self } from './models';
+import { AssetCollection, Self, SolarSystemConfig } from './models';
 
 export const galaxyConfigVar = makeVar<GalaxyConfig>({
   seed: uuidv4(),
@@ -27,3 +27,10 @@ export const accessTokenVar = makeVar<string>(null);
 
 export const usersVar = makeVar<UserInfoQuery['user_info']>([]);
 export const userAvatarResourcesVar = makeVar<AssetCollection>(null);
+
+export const solarSystemConfigVar = makeVar<SolarSystemConfig>({
+  viewAngle: 0,
+  simulationSpeed: 1,
+});
+
+export const planetResourcesVar = makeVar<AssetCollection>(null);
