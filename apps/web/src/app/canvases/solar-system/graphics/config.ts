@@ -1,7 +1,7 @@
 import { SpriteSheetConfig } from './graphics-utils';
 
 export const sunSpriteConfig: SpriteSheetConfig = {
-  url: 'https://i.imgur.com/ZVd1Ikf.png',
+  url: 'sun_sprite_sheet.png',
   cols: 5,
   rows: 12,
   lastRowItemCount: 5,
@@ -10,7 +10,7 @@ export const sunSpriteConfig: SpriteSheetConfig = {
 };
 
 export const earthSpriteConfig: SpriteSheetConfig = {
-  url: 'https://i.imgur.com/bLmw7RZ.png',
+  url: 'earth_sprite_sheet.png',
   cols: 5,
   rows: 18,
   lastRowItemCount: 1,
@@ -19,7 +19,7 @@ export const earthSpriteConfig: SpriteSheetConfig = {
 };
 
 export const marsSpriteConfig: SpriteSheetConfig = {
-  url: 'https://i.imgur.com/OlbT0Sx.png',
+  url: 'mars_sprite_sheet.png',
   cols: 5,
   rows: 22,
   lastRowItemCount: 3,
@@ -28,7 +28,7 @@ export const marsSpriteConfig: SpriteSheetConfig = {
 };
 
 export const moonSpriteConfig: SpriteSheetConfig = {
-  url: 'https://i.imgur.com/58Qt1Pj.png',
+  url: 'moon_sprite_sheet.png',
   cols: 5,
   rows: 24,
   lastRowItemCount: 5,

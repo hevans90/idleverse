@@ -20,7 +20,7 @@ export type Planet = {
   };
 };
 
-export const DrawPlanet = (
+export const drawPlanet = (
   planet: Planet,
   systemOrigin: Vector2D,
   viewDistance: number,
@@ -45,12 +45,12 @@ export const DrawPlanet = (
   planet.sprite.y = drawPosition.y - planet.sprite.width / 2;
 };
 
-export const UpdatePlanetPosition = (
+export const updatePlanetPosition = (
   time: number,
   planet: Planet,
   simulationSpeed: number
 ) => {
-  const planetOffset = GetPlanetPositionOffset(time, planet, simulationSpeed);
+  const planetOffset = getPlanetPositionOffset(time, planet, simulationSpeed);
   const parentPosition = planet.parent
     ? planet.parent.position
     : { x: 0, y: 0 };
@@ -100,7 +100,7 @@ export const transformPosition = (
   };
 };
 
-export const GetPlanetPositionOffset = (
+export const getPlanetPositionOffset = (
   time: number,
   planet: Planet,
   simulationSpeed: number
@@ -114,7 +114,7 @@ export const GetPlanetPositionOffset = (
   scale: 1,
 });
 
-export const CreatePlanet = ({ name, config, sprite, parent = null }) => ({
+export const createPlanet = ({ name, config, sprite, parent = null }) => ({
   name,
   config,
   sprite,

@@ -18,7 +18,7 @@ export type SpriteSheetConfig = {
   spriteScale: number;
 };
 
-export const CreateAnimatedPlanetSprite = (
+export const createAnimatedPlanetSprite = (
   container: Container,
   conf: SpriteSheetConfig
 ) => {
@@ -53,7 +53,7 @@ export const CreateAnimatedPlanetSprite = (
   return sprite;
 };
 
-export const CreateBasicPlanetSprite = (
+const createBasicPlanetSprite = (
   container: Container,
   renderer: Renderer,
   graphic: Graphics

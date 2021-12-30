@@ -12,13 +12,13 @@ import {
   moonSpriteConfig,
   sunSpriteConfig,
 } from './graphics/config';
-import { CreateAnimatedPlanetSprite } from './graphics/graphics-utils';
+import { createAnimatedPlanetSprite } from './graphics/graphics-utils';
 import {
-  CreatePlanet,
-  DrawPlanet,
+  createPlanet,
+  drawPlanet,
   Planet,
   PlanetConfig,
-  UpdatePlanetPosition,
+  updatePlanetPosition,
 } from './planets/planet';
 
 export const SolarSystem = () => {
@@ -44,7 +44,7 @@ export const SolarSystem = () => {
       timeVar(timeVar() + 1);
     });
 
-    const sunSprite = CreateAnimatedPlanetSprite(
+    const sunSprite = createAnimatedPlanetSprite(
       solarSystemContainerRef.current,
       sunSpriteConfig
     );
@@ -52,7 +52,7 @@ export const SolarSystem = () => {
       origin: { x: systemOrigin.x, y: systemOrigin.y },
       orbit: { x: 0, y: 0, speed: 1 },
     };
-    const sun: Planet = CreatePlanet({
+    const sun: Planet = createPlanet({
       name: 'sun',
       config: sunConfig,
       sprite: sunSprite,
@@ -62,18 +62,18 @@ export const SolarSystem = () => {
       origin: { x: 0, y: 0 },
       orbit: { x: 200, y: 200, speed: 1 },
     };
-    const earthSprite = CreateAnimatedPlanetSprite(
+    const earthSprite = createAnimatedPlanetSprite(
       solarSystemContainerRef.current,
       earthSpriteConfig
     );
-    const earth: Planet = CreatePlanet({
+    const earth: Planet = createPlanet({
       name: 'earth',
       config: earthConfig,
       sprite: earthSprite,
       parent: sun,
     });
 
-    const marsSprite = CreateAnimatedPlanetSprite(
+    const marsSprite = createAnimatedPlanetSprite(
       solarSystemContainerRef.current,
       marsSpriteConfig
     );
@@ -81,14 +81,14 @@ export const SolarSystem = () => {
       origin: { x: 0, y: 0 },
       orbit: { x: 300, y: 300, speed: 0.53 },
     };
-    const mars: Planet = CreatePlanet({
+    const mars: Planet = createPlanet({
       name: 'mars',
       config: marsConfig,
       sprite: marsSprite,
       parent: sun,
     });
 
-    const moonSprite = CreateAnimatedPlanetSprite(
+    const moonSprite = createAnimatedPlanetSprite(
       solarSystemContainerRef.current,
       moonSpriteConfig
     );
@@ -96,7 +96,7 @@ export const SolarSystem = () => {
       origin: { x: 0, y: 0 },
       orbit: { x: 50, y: 50, speed: 12.36 },
     };
-    const moon: Planet = CreatePlanet({
+    const moon: Planet = createPlanet({
       name: 'Moon',
       config: moonConfig,
       sprite: moonSprite,
@@ -112,10 +112,10 @@ export const SolarSystem = () => {
       viewAngle = (viewAngle * Math.PI) / 180;
 
       planets.forEach((planet) =>
-        UpdatePlanetPosition(timeVar(), planet, simulationSpeed)
+        updatePlanetPosition(timeVar(), planet, simulationSpeed)
       );
       planets.forEach((planet) =>
-        DrawPlanet(planet, systemOrigin, viewDistance, viewAngle)
+        drawPlanet(planet, systemOrigin, viewDistance, viewAngle)
       );
     });
   }, []);
