@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`layout should render 1`] = `
+<body
+  class="chakra-ui-dark"
+>
+  <div>
+    <div
+      class="sc-bdfBQB gYala"
+    >
+      __MOCK TOOLBAR__
+    </div>
+  </div>
+</body>
+`;

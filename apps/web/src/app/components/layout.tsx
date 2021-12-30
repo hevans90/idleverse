@@ -44,7 +44,7 @@ export const ResponsiveGrid = styled.div`
   }
 `;
 
-export const Layout = (props: { children: JSX.Element }) => {
+export const Layout = (props: { children?: JSX.Element }) => {
   const { pathname } = useLocation();
 
   const layoutConfig = useReactiveVar(layoutVar);
@@ -56,7 +56,7 @@ export const Layout = (props: { children: JSX.Element }) => {
       <main>
         {pathname === '/' ? null : <Back></Back>}
         <Box className="container" overflow="auto">
-          {props.children}
+          {props?.children}
         </Box>
       </main>
     </ResponsiveGrid>
