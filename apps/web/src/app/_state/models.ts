@@ -30,3 +30,9 @@ export type SolarSystemConfig = {
 
   simulationSpeed: number;
 };
+
+export type BreadCrumb = {
+  name: string;
+  component: () => JSX.Element;
+  path: string;
+};

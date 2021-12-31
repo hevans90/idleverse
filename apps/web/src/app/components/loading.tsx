@@ -29,7 +29,7 @@ export const Loading = ({
 }
 `;
 
-  const some = {
+  const loadingEllipsis = {
     _after: {
       overflow: 'hidden',
       position: 'absolute',
@@ -54,7 +54,7 @@ export const Loading = ({
       justifyContent="center"
       textAlign="center"
     >
-      <Text fontSize={fontSize} position="relative" {...some}>
+      <Text fontSize={fontSize} position="relative" {...loadingEllipsis}>
         {text}
       </Text>
     </Box>

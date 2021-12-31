@@ -21,7 +21,7 @@ import { Stage } from '@inlet/react-pixi';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Loading } from '../../components/loading';
-import { selfVar } from '../../_state/reactive-variables';
+import { galaxyConfigVar, selfVar } from '../../_state/reactive-variables';
 import { dbGalaxyToGalaxyConfig } from '../common-utils/db-galaxy-to-galaxy-config';
 import { useResize } from '../common-utils/use-resize.hook';
 import { celestialOwnerMapper } from './celestial-owner';
@@ -62,6 +62,10 @@ export const GalaxyViewerContainer = () => {
   const claimCelestialFn = useRef<() => unknown>(null);
 
   useEffect(() => {
+    if (data) {
+      galaxyConfigVar(dbGalaxyToGalaxyConfig(data.galaxy_by_pk));
+    }
+
     claimCelestialFn.current = async () => {
       let claimed: FetchResult<RequestRandomCelestialByGalaxyIdMutation>;
 

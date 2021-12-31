@@ -1,5 +1,5 @@
-import { GalaxyConfig } from '@idleverse/galaxy-gen';
 import { GalaxyByIdQuery } from '@idleverse/galaxy-gql';
+import { GalaxyConfig } from './generate-galaxy';
 
 export const dbGalaxyToGalaxyConfig = ({
   arm_width,
