@@ -2,7 +2,9 @@ import { makeVar } from '@apollo/client';
 import { GalaxyConfig } from '@idleverse/galaxy-gen';
 import { UserInfoQuery } from '@idleverse/galaxy-gql';
 import { v4 as uuidv4 } from 'uuid';
-import { AssetCollection, Self, SolarSystemConfig } from './models';
+import { AssetCollection, BreadCrumb, Self, SolarSystemConfig } from './models';
+
+export const breadCrumbsVar = makeVar<BreadCrumb[]>([]);
 
 export const galaxyConfigVar = makeVar<GalaxyConfig>({
   seed: uuidv4(),

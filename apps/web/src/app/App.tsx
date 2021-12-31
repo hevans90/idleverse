@@ -5,17 +5,14 @@ import jwt_decode from 'jwt-decode';
 import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { environment } from '../environments/environment';
-import { GalaxyGenContainer } from './canvases/galaxy-generator/galaxy-generator.container';
-import { GalaxyViewerContainer } from './canvases/galaxy-viewer/galaxy-viewer.container';
-import { SolarSystemContainer } from './canvases/solar-system/solar-system.container';
 import { Layout } from './components/layout';
 import { Loading } from './components/loading';
 import { PreloadContainer } from './containers/preload.container';
-import { GalaxyGalleryContainer } from './galaxy-gallery/galaxy-gallery.container';
-import { Home } from './home/home';
 import { Registration } from './registration/registration';
+import { routes } from './routes';
 import {
   accessTokenVar,
+  breadCrumbsVar,
   galaxyConfigVar,
   galaxyRotationVar,
   roleVar,
@@ -99,15 +96,39 @@ export const App = () => {
         <BrowserRouter basename={local ? '/' : '/idle-game'}>
           <Layout>
             <Switch>
-              <Route
-                path="/galaxies/:id"
-                exact
-                component={GalaxyViewerContainer}
-              />
-              <Route path="/galaxies" component={GalaxyGalleryContainer} />
-              <Route path="/galaxy-gen" component={GalaxyGenContainer} />
-              <Route path="/solar-system" component={SolarSystemContainer} />
-              <Route path="/" component={Home} />
+              {routes.map(({ path, component: Component }, key) => (
+                <Route
+                  exact
+                  path={path}
+                  key={key}
+                  render={(props) => {
+                    const crumbs = routes
+                      // Get all routes that contain the current one.
+                      .filter(({ path }) => props.match.path.includes(path))
+                      // Swap out any dynamic routes with their param values.
+                      // E.g. "/galaxy/:id" will become "/galaxy/id"
+                      .map(({ path, ...rest }) => ({
+                        path: Object.keys(props.match.params).length
+                          ? Object.keys(props.match.params).reduce(
+                              (path, param) =>
+                                path.replace(
+                                  `:${param}`,
+                                  props.match.params[param]
+                                ),
+                              path
+                            )
+                          : path,
+                        ...rest,
+                      }));
+
+                    breadCrumbsVar(crumbs);
+
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    return <Component {...props} />;
+                  }}
+                />
+              ))}
             </Switch>
           </Layout>
         </BrowserRouter>

@@ -6,7 +6,7 @@ import { SideNav } from '../containers/sidenav/sidenav';
 import { ToolBar } from '../containers/toolbar/toolbar';
 import { LayoutConfig } from '../_state/models';
 import { layoutVar } from '../_state/persisted-reactive-variables';
-import { Back } from './back';
+import { Breadcrumb } from './breadcrumb';
 
 export const sideNavWidth = 450;
 export const topBarHeight = 50;
@@ -54,7 +54,7 @@ export const Layout = (props: { children?: JSX.Element }) => {
       {layoutConfig.sideNav ? <SideNav></SideNav> : null}
       <ToolBar></ToolBar>
       <main>
-        {pathname === '/' ? null : <Back></Back>}
+        <Breadcrumb />
         <Box className="container" overflow="auto">
           {props?.children}
         </Box>

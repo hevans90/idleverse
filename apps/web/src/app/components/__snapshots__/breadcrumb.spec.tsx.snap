@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`breadcrumb should render 1`] = `
+<div>
+  <div
+    class="css-2el05k"
+  >
+    <a
+      href="/nice"
+    >
+      nice
+       &gt; 
+    </a>
+    <span>
+      one
+    </span>
+  </div>
+</div>
+`;
