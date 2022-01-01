@@ -1,6 +1,5 @@
 import { AnimatedSprite, Sprite } from 'pixi.js';
-
-type Vector2D = { x: number; y: number };
+import { Vector2D } from '../../../_state/models';
 
 export type PlanetConfig = {
   origin: { x: number; y: number };

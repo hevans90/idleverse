@@ -3,6 +3,7 @@ import { Stage } from '@inlet/react-pixi';
 import { animateVar } from '../../_state/reactive-variables';
 import { useResize } from '../common-utils/use-resize.hook';
 import { GravitySimulation } from './gravity-simulation';
+import { GravitySimulationControls } from './ui/gravity-simulation-controls';
 
 export const GravitySimulationContainer = () => {
   const size = useResize();
@@ -19,6 +20,7 @@ export const GravitySimulationContainer = () => {
       >
         <GravitySimulation />
       </Stage>
+      <GravitySimulationControls />
     </Box>
   );
 };

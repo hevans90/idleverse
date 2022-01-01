@@ -36,3 +36,5 @@ export const solarSystemConfigVar = makeVar<SolarSystemConfig>({
 });
 
 export const planetResourcesVar = makeVar<AssetCollection>(null);
+
+export const simulationPaused = makeVar(true);

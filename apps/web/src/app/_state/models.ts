@@ -36,3 +36,5 @@ export type BreadCrumb = {
   component: () => JSX.Element;
   path: string;
 };
+
+export type Vector2D = { x: number; y: number };
