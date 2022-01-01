@@ -43,7 +43,7 @@ export const GalaxyViewer = ({
 
   const claimedCelestialsRef = useRef<claimedCelestials>(claimedCelestials);
 
-  const galaxyContainer = useRef(new Container());
+  const galaxyContainerRef = useRef(new Container());
   const stars = useRef<(Celestial & ClaimedCelestialAttributes)[]>(null);
 
   const updateGalaxyRotation = (galaxy: Container) => (delta: number) => {
@@ -56,25 +56,25 @@ export const GalaxyViewer = ({
 
   const reposition = () =>
     stars.current.forEach((star, i) => {
-      const _star = galaxyContainer.current.getChildAt(i) as Graphics;
+      const _star = galaxyContainerRef.current.getChildAt(i) as Graphics;
       const position = getCelestialPosition(star, galaxyConfig);
       _star.x = position.x;
       _star.y = position.y;
     });
 
-  useViewport(app, size, galaxyContainer, false);
+  useViewport(app, size, galaxyContainerRef, false);
 
   useFpsTracker(app, size);
 
   useEffect(() => {
-    galaxyContainer.current.name = 'galaxy';
+    galaxyContainerRef.current.name = 'galaxy';
 
-    galaxyContainer.current.x = size.width / 2;
-    galaxyContainer.current.y = size.height / 2;
+    galaxyContainerRef.current.x = size.width / 2;
+    galaxyContainerRef.current.y = size.height / 2;
 
-    galaxyContainer.current.sortableChildren = true;
+    galaxyContainerRef.current.sortableChildren = true;
 
-    app.ticker.add(updateGalaxyRotation(galaxyContainer.current));
+    app.ticker.add(updateGalaxyRotation(galaxyContainerRef.current));
 
     stars.current = generateCelestialsWithClaimed(
       galaxyConfig.stars,
@@ -106,7 +106,7 @@ export const GalaxyViewer = ({
         ownerId,
       });
 
-      galaxyContainer.current.addChild(_star);
+      galaxyContainerRef.current.addChild(_star);
     });
 
     reposition();
@@ -121,9 +121,9 @@ export const GalaxyViewer = ({
     claimedCelestialsRef.current = claimedCelestials;
 
     additions?.forEach(({ id, owner_id }) =>
-      claimStar(id, owner_id, galaxyContainer.current)
+      claimStar(id, owner_id, galaxyContainerRef.current)
     );
-    deletions?.forEach(({ id }) => unclaimStar(id, galaxyContainer.current));
+    deletions?.forEach(({ id }) => unclaimStar(id, galaxyContainerRef.current));
   }, [claimedCelestials]);
 
   // eslint-disable-next-line react/jsx-no-useless-fragment
