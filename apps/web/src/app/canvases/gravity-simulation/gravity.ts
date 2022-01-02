@@ -5,7 +5,11 @@ export const calculateGravity = (
   center: NewtonianGraphics,
   ball: NewtonianGraphics
 ) => {
-  const { theta, hyp } = generateHypotenuse(center.position, ball.position);
+  const { theta, hyp } = generateHypotenuse(
+    center.position,
+    ball.position,
+    ball.id
+  );
   ball.hyp = hyp;
   ball.theta = theta;
 

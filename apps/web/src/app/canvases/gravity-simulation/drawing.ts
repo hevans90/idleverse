@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
 import { Vector2D } from '../../_state/models';
 import { indicatorFactory } from '../galaxy-generator/utils/indicator-factory';
-import { NewtonianGraphics } from './models';
+import { BallConfig, NewtonianGraphics } from './models';
 
 const getOffsetPosition = ({ x, y }: Vector2D, centerRadius: number) => ({
   x: centerRadius / 2 + x,
@@ -14,37 +14,43 @@ export const generateGravitationalCenter = (
 ) => {
   const center = new PIXI.Graphics()
     .beginFill(0xd69e4f)
-    .drawCircle(0, 0, centerRadius);
+    .drawCircle(0, 0, centerRadius) as NewtonianGraphics;
 
   center.name = 'center';
-  center['mass'] = centerMass;
+  center.mass = centerMass;
   center.position.x = 0;
   center.position.y = 0;
 
   return center;
 };
 
-const generateBall = (mass: number, { x, y }: Vector2D, radius: number) => {
-  const ball = new PIXI.Graphics();
+const generateBall = (
+  mass: number,
+  { x, y, id }: BallConfig,
+  radius: number
+) => {
+  const ball = new PIXI.Graphics() as NewtonianGraphics;
 
   ball.beginFill(0xffffff).drawCircle(0, 0, radius);
   ball.name = 'ball';
-  ball['mass'] = mass;
-  ball['velocity'] = { vx: 0, vy: 1 };
+  ball.mass = mass;
+  ball.velocity = { vx: 0, vy: 1 };
   ball.position.x = x;
   ball.position.y = y;
+  ball.id = id;
 
   return ball as NewtonianGraphics;
 };
 
-export const generateBalls = (configs: Vector2D[], centerRadius: number) => {
+export const generateBalls = (configs: BallConfig[], centerRadius: number) => {
   const balls: NewtonianGraphics[] = [];
 
-  const ballConfigs = configs.map(({ x, y }) =>
-    getOffsetPosition({ x, y }, centerRadius)
-  );
+  const ballConfigs = configs.map(({ x, y, id }) => ({
+    ...getOffsetPosition({ x, y }, centerRadius),
+    id,
+  }));
 
-  ballConfigs.forEach(({ x, y }) => balls.push(generateBall(1, { x, y }, 20)));
+  ballConfigs.forEach((config) => balls.push(generateBall(1, config, 20)));
   return balls;
 };
 
@@ -53,7 +59,8 @@ export const calculateHypotenuse = (a: number, b: number) =>
 
 export const generateHypotenuse = (
   { x: x1, y: y1 }: Vector2D,
-  { x: x2, y: y2 }: Vector2D
+  { x: x2, y: y2 }: Vector2D,
+  ballId: string
 ) => {
   const a = x1 - x2;
   const b = y1 - y2;
@@ -64,7 +71,7 @@ export const generateHypotenuse = (
 
   const container = new PIXI.Container();
 
-  container.name = 'triangle';
+  container.name = ballId;
 
   const hypotenuse = new PIXI.Graphics()
     .lineStyle({ width: 1, color: 0xff0000 })

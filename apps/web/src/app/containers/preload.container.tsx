@@ -37,9 +37,9 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
 
   if (usersLoading) return <Loading text="Loading Users"></Loading>;
 
-  if (userAvatarsLoading) return <Loading text="Loading Avatars"></Loading>;
-
   if (profileLoading) return <Loading text="Loading Profile"></Loading>;
+
+  if (userAvatarsLoading) return <Loading text="Loading Avatars"></Loading>;
 
   return children;
 };

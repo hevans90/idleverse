@@ -3,7 +3,7 @@ import { useReactiveVar } from '@apollo/client';
 import { useApp } from '@inlet/react-pixi';
 import { Container, TickerCallback } from 'pixi.js';
 import { useEffect, useRef } from 'react';
-import { Vector2D } from '../../_state/models';
+import { v4 as uuidv4 } from 'uuid';
 import { simulationPaused, timeVar } from '../../_state/reactive-variables';
 import { useResize } from '../common-utils/use-resize.hook';
 import { useViewport } from '../common-utils/use-viewport';
@@ -14,7 +14,7 @@ import {
   generateHypotenuse,
 } from './drawing';
 import { calculateGravity } from './gravity';
-import { NewtonianGraphics } from './models';
+import { BallConfig, NewtonianGraphics } from './models';
 
 export const GravitySimulation = () => {
   const app = useApp();
@@ -32,7 +32,7 @@ export const GravitySimulation = () => {
   const centerRadius = 20;
   const centerMass = 200;
 
-  const ballConfigs: Vector2D[] = [
+  const ballConfigs: BallConfig[] = [
     {
       x: 150,
       y: -100,
@@ -53,46 +53,58 @@ export const GravitySimulation = () => {
       x: 100,
       y: -200,
     },
-  ];
+  ].map(({ x, y }) => ({ x, y, id: uuidv4() as string }));
+
+  const ballContainer = useRef<Container>(new Container());
 
   const balls = useRef<NewtonianGraphics[]>(
     generateBalls(ballConfigs, centerRadius)
   );
 
-  const center = generateGravitationalCenter(centerRadius, centerMass);
+  const center = useRef<NewtonianGraphics>(
+    generateGravitationalCenter(centerRadius, centerMass)
+  );
 
-  const removeBalls = () =>
-    gravitySimContainerRef.current.children.forEach((child) =>
-      child.name === 'center' ? null : child.destroy(true)
-    );
+  const removeBalls = () => {
+    ballContainer.current.destroy(true);
+  };
 
-  const addBalls = () =>
+  const addBalls = () => {
+    ballContainer.current = new Container();
+
+    gravitySimContainerRef.current.addChild(ballContainer.current);
+
     balls.current.forEach((ball) => {
       const { container, hyp, theta } = generateHypotenuse(
-        center.position,
-        ball.position
+        center.current.position,
+        ball.position,
+        ball.id
       );
 
       ball.hyp = hyp;
       ball.theta = theta;
 
-      gravitySimContainerRef.current.addChild(ball);
-      gravitySimContainerRef.current.addChild(container);
+      ballContainer.current.addChild(ball, container);
     });
+  };
 
   const processGracityCalculations = (dt: number) => {
     timeVar(Math.round(timeVar() + dt));
 
     balls.current.forEach((ball) => {
-      gravitySimContainerRef.current.getChildByName('triangle')?.destroy();
+      ballContainer.current.getChildByName(ball.id).destroy(true);
 
-      calculateGravity(center, ball);
+      calculateGravity(center.current, ball);
       ball.velocity.vx += ball.resultantForce.fx;
       ball.velocity.vy += ball.resultantForce.fy;
       ball.position.x += ball.velocity.vx * dt;
       ball.position.y += ball.velocity.vy * dt;
-      const { container } = generateHypotenuse(center.position, ball.position);
-      gravitySimContainerRef.current.addChild(container);
+      const { container } = generateHypotenuse(
+        center.current.position,
+        ball.position,
+        ball.id
+      );
+      ballContainer.current.addChild(container);
     });
   };
 
@@ -101,7 +113,8 @@ export const GravitySimulation = () => {
    */
   useEffect(() => {
     gravitySimContainerRef.current.sortableChildren = true;
-    gravitySimContainerRef.current.addChild(center);
+    gravitySimContainerRef.current.addChild(center.current);
+    gravitySimContainerRef.current.addChild(ballContainer.current);
   }, []);
 
   useEffect(() => {

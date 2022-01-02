@@ -1,6 +1,8 @@
 import * as PIXI from 'pixi.js';
+import { Vector2D } from '../../_state/models';
 
 export type NewtonianGraphics = PIXI.Graphics & {
+  id?: string;
   mass?: number;
   hyp?: number;
   theta?: number;
@@ -13,3 +15,5 @@ export type NewtonianGraphics = PIXI.Graphics & {
     vy: number;
   };
 };
+
+export type BallConfig = Vector2D & { id: string };
