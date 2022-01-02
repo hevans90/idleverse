@@ -6,13 +6,17 @@
   "scripts": {
     "start": "nx serve",
     "console": "cd apps/idleverse-hasura/db && hasura console",
-    "status": "cd hasura-local/food-db && hasura migrate status --database-name default",
+    "status": "cd hasura-local/idleverse-hasura/db && hasura migrate status --database-name default",
     "build": "nx build",
     "test": "nx test",
     "generate": "graphql-codegen --config codegen.js -r dotenv/config && npx nx format:write --files ./libs/galaxy-gql/src/lib/galaxy-api.ts ./libs/food-gql/src/lib/food-api.ts",
     "generate:watch": "yarn generate --watch",
+    "migrate-apply": "cd apps/idleverse-hasura/db && hasura migrate apply --database-name default --admin-secret myadminsecretkey",
+    "metadata-apply": "cd apps/idleverse-hasura/db && hasura metadata apply --admin-secret myadminsecretkey",
+    "metadata-reload": "cd apps/idleverse-hasura/db && hasura metadata reload --admin-secret myadminsecretkey",
     "docker-build": "cd dist/apps/game-server && docker build -t game-server -f ../../../apps/game-server/Dockerfile .",
-    "docker-up": "cd apps/idleverse-hasura && docker compose --env-file ../../.docker.env up -d"
+    "docker-up": "cd apps/idleverse-hasura && docker compose --env-file ../../.docker.env up -d",
+    "docker-down": "cd apps/idleverse-hasura && docker compose down"
   },
   "private": true,
   "dependencies": {

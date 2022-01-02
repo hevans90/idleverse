@@ -568,6 +568,10 @@
               ]
             },
             "docker": {
+              "sourceMap": {
+                "scripts": true,
+                "vendor": true
+              },
               "fileReplacements": [
                 {
                   "replace": "apps/web/src/environments/environment.ts",

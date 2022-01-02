@@ -1,7 +1,6 @@
 - name: game-server
   definition:
-    url:
-      from_env: REMOTE_SCHEMA_ENDPOINT
+    url_from_env: REMOTE_SCHEMA_ENDPOINT
     timeout_seconds: 60
     forward_client_headers: true
   comment: ""
