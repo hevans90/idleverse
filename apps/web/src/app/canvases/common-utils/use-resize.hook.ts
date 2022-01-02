@@ -3,31 +3,28 @@ import { useEffect, useState } from 'react';
 import { sideNavWidth, topBarHeight } from '../../components/layout';
 import { layoutVar } from '../../_state/persisted-reactive-variables';
 import { generatorControlsHeight } from '../galaxy-generator/ui/generator-controls';
+import { galaxySimControlsHeight } from '../gravity-simulation/ui/gravity-simulation-controls';
 import { solarSystemControlsHeight } from '../solar-system/ui/controls';
 
-type controls = 'galaxy-gen' | 'solar-system' | 'none';
+type controls = 'galaxy-gen' | 'solar-system' | 'gravity-sim' | 'none';
 
 const controlValue = (controls: controls) => {
   const map: { [key in controls]: number } = {
     'galaxy-gen': generatorControlsHeight,
     'solar-system': solarSystemControlsHeight,
+    'gravity-sim': galaxySimControlsHeight,
     none: 0,
   };
 
   return map[controls];
 };
 
-const getScreenSize = (
-  controls: 'galaxy-gen' | 'solar-system' | 'none' = 'none',
-  sideNav: boolean
-) => ({
+const getScreenSize = (controls: controls = 'none', sideNav: boolean) => ({
   width: window.innerWidth - (sideNav ? sideNavWidth : 0),
   height: window.innerHeight - topBarHeight - controlValue(controls),
 });
 
-export const useResize = (
-  controls: 'galaxy-gen' | 'solar-system' | 'none' = 'none'
-) => {
+export const useResize = (controls: controls = 'none') => {
   const { sideNav } = useReactiveVar(layoutVar);
 
   const [screenSize, setScreenSize] = useState(

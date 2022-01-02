@@ -16,7 +16,8 @@ export const Home = () => {
       </Text>
       <Text fontSize="l" textAlign="center" marginBottom="2rem">
         There is no game yet, just proof-of-concepts for realtime software
-        architecture, but stay tuned!
+        architecture. Check out the galaxy gallery to see the beginnings of the
+        multiplayer experience.
       </Text>
 
       <Box mt="1rem">
@@ -29,14 +30,21 @@ export const Home = () => {
       <Box mt="1rem">
         <Link to="/galaxy-gen">
           <Button colorScheme="teal" height="40px">
-            Try out the galaxy gen!
+            Galaxy Generator
           </Button>
         </Link>
       </Box>
       <Box mt="1rem">
         <Link to="/solar-system">
           <Button colorScheme="teal" height="40px">
-            View the solar system!
+            Solar System Viewer
+          </Button>
+        </Link>
+      </Box>
+      <Box mt="1rem">
+        <Link to="/gravity-sim">
+          <Button colorScheme="teal" height="40px">
+            Gravity Simulation
           </Button>
         </Link>
       </Box>
