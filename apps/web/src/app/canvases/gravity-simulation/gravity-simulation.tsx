@@ -29,31 +29,24 @@ export const GravitySimulation = () => {
     processGracityCalculations(dt)
   );
 
-  const centerRadius = 20;
-  const centerMass = 200;
+  const centerRadius = 50;
+  const centerMass = 1000;
 
   const ballConfigs: BallConfig[] = [
     {
-      x: 150,
+      x: 125,
+      y: 100,
+    },
+    {
+      x: -100,
       y: -100,
     },
-    {
-      x: -200,
-      y: 100,
-    },
-    {
-      x: 100,
-      y: 100,
-    },
-    {
-      x: 300,
-      y: 100,
-    },
-    {
-      x: 100,
-      y: -200,
-    },
-  ].map(({ x, y }) => ({ x, y, id: uuidv4() as string }));
+  ].map(({ x, y }) => ({
+    x,
+    y,
+    id: uuidv4() as string,
+    velocity: { vx: x > 0 ? -2 : 2, vy: y > 0 ? -2 : 2 },
+  }));
 
   const ballContainer = useRef<Container>(new Container());
 
@@ -94,7 +87,14 @@ export const GravitySimulation = () => {
     balls.current.forEach((ball) => {
       ballContainer.current.getChildByName(ball.id).destroy(true);
 
-      calculateGravity(center.current, ball);
+      const force = calculateGravity(center.current, ball);
+
+      if (isNaN(force.fx)) {
+        console.log('oops');
+      } else {
+        ball.resultantForce = force;
+      }
+
       ball.velocity.vx += ball.resultantForce.fx;
       ball.velocity.vy += ball.resultantForce.fy;
       ball.position.x += ball.velocity.vx * dt;

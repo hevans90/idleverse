@@ -16,4 +16,6 @@ export type NewtonianGraphics = PIXI.Graphics & {
   };
 };
 
-export type BallConfig = Vector2D & { id: string };
+export type BallConfig = Vector2D & {
+  id: string;
+} & Required<Pick<NewtonianGraphics, 'velocity'>>;

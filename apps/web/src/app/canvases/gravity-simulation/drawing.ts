@@ -4,8 +4,8 @@ import { indicatorFactory } from '../galaxy-generator/utils/indicator-factory';
 import { BallConfig, NewtonianGraphics } from './models';
 
 const getOffsetPosition = ({ x, y }: Vector2D, centerRadius: number) => ({
-  x: centerRadius / 2 + x,
-  y: centerRadius / 2 + y,
+  x: x > 0 ? x + centerRadius / 2 : x - centerRadius / 2,
+  y: y > 0 ? y + centerRadius / 2 : y - centerRadius / 2,
 });
 
 export const generateGravitationalCenter = (
@@ -26,7 +26,7 @@ export const generateGravitationalCenter = (
 
 const generateBall = (
   mass: number,
-  { x, y, id }: BallConfig,
+  { x, y, id, velocity }: BallConfig,
   radius: number
 ) => {
   const ball = new PIXI.Graphics() as NewtonianGraphics;
@@ -34,9 +34,9 @@ const generateBall = (
   ball.beginFill(0xffffff).drawCircle(0, 0, radius);
   ball.name = 'ball';
   ball.mass = mass;
-  ball.velocity = { vx: 0, vy: 1 };
+  ball.velocity = velocity;
   ball.position.x = x;
-  ball.position.y = y;
+  ball.position.y = -y;
   ball.id = id;
 
   return ball as NewtonianGraphics;
@@ -45,9 +45,10 @@ const generateBall = (
 export const generateBalls = (configs: BallConfig[], centerRadius: number) => {
   const balls: NewtonianGraphics[] = [];
 
-  const ballConfigs = configs.map(({ x, y, id }) => ({
+  const ballConfigs = configs.map(({ x, y, id, velocity }) => ({
     ...getOffsetPosition({ x, y }, centerRadius),
     id,
+    velocity,
   }));
 
   ballConfigs.forEach((config) => balls.push(generateBall(1, config, 20)));

@@ -14,10 +14,12 @@ export const calculateGravity = (
   ball.theta = theta;
 
   const G = 2;
-  const force = (G * center['mass'] * ball.mass) / Math.pow(hyp, 2);
+  const force = (G * center.mass * ball.mass) / Math.pow(hyp, 2);
 
-  ball.resultantForce = {
+  const fyMulti = ball.position.y > 0 ? -1 : 1;
+
+  return {
     fx: force * Math.cos(ball.theta),
-    fy: -force * Math.sin(ball.theta),
+    fy: force * Math.sin(ball.theta) * fyMulti,
   };
 };
