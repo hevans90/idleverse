@@ -1,9 +1,0 @@
-- role_name: dev
-  role_set:
-  - user
-- role_name: unregistered
-  role_set:
-  - public
-- role_name: user
-  role_set:
-  - unregistered
