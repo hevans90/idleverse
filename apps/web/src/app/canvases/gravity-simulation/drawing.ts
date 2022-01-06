@@ -68,7 +68,7 @@ export const generateHypotenuse = (
 
   const hyp = calculateHypotenuse(a, b);
 
-  const theta = Math.acos(a / hyp);
+  const theta = Math.atan2(b, a);
 
   const container = new PIXI.Container();
 
