@@ -87,18 +87,12 @@ export const GravitySimulation = () => {
     balls.current.forEach((ball) => {
       ballContainer.current.getChildByName(ball.id).destroy(true);
 
-      const force = calculateGravity(center.current, ball);
-
-      if (isNaN(force.fx)) {
-        console.log('oops');
-      } else {
-        ball.resultantForce = force;
-      }
-
+      ball.resultantForce = calculateGravity(center.current, ball);
       ball.velocity.vx += ball.resultantForce.fx;
       ball.velocity.vy += ball.resultantForce.fy;
       ball.position.x += ball.velocity.vx * dt;
       ball.position.y += ball.velocity.vy * dt;
+
       const { container } = generateHypotenuse(
         center.current.position,
         ball.position,
