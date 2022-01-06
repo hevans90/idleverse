@@ -3,5 +3,6 @@
 
 export const environment = {
   production: false,
+  secure: true,
   hasuraUri: 'idleverse-hasura.herokuapp.com/v1/graphql',
 };

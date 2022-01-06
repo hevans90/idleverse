@@ -38,6 +38,9 @@
     "food-gql": {
       "tags": []
     },
+    "food-hasura": {
+      "tags": []
+    },
     "food-server": {
       "tags": []
     },
@@ -54,6 +57,9 @@
       "tags": []
     },
     "graphql-utils": {
+      "tags": []
+    },
+    "idleverse-hasura": {
       "tags": []
     },
     "web": {

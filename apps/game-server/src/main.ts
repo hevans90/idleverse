@@ -17,6 +17,7 @@ import ws = require('ws');
 (async () => {
   const client = apolloBootstrapper(
     process.env.HASURA_URI,
+    process.env.SECURE_HASURA === 'secure',
     'admin-secret',
     () => process.env.HASURA_ADMIN_SECRET,
     {},
