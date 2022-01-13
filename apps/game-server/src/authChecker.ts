@@ -7,6 +7,9 @@ export const authChecker: AuthChecker<any> = async (
   { context },
   roles
 ) => {
+  console.log('context', context);
+  console.log('roles', roles);
+
   if (roles.length === 0) return true;
   if (!context?.roles) return false;
 

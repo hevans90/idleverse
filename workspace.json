@@ -386,7 +386,8 @@
                 "glob": "**/*",
                 "input": "apps/game-server/src/assets",
                 "output": "./"
-              }
+              },
+              "apps/game-server/src/Dockerfile"
             ],
             "generatePackageJson": true
           },
