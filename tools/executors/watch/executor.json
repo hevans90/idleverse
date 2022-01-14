@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "watch": {
+      "implementation": "./impl",
+      "schema": "./schema.json",
+      "description": "Runs given commands when files in given directories change."
+    }
+  }
+}

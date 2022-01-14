@@ -41,6 +41,9 @@ node_modules
 
 .env
 .env.local
+.env.idleverse
+.env.food
+
 .env.development.local
 .env.test.local
 .env.production.local

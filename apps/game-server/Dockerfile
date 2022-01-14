@@ -1,5 +1,3 @@
-FROM node:lts-alpine
-WORKDIR /src
-COPY . .
-RUN yarn install
-CMD node main.js
+FROM node:17-alpine
+
+CMD node dist/main.js

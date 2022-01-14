@@ -19,7 +19,7 @@ import ws = require('ws');
     process.env.HASURA_URI,
     process.env.SECURE_HASURA === 'secure',
     'admin-secret',
-    () => process.env.HASURA_ADMIN_SECRET,
+    () => process.env.HASURA_ADMIN_SECRET_GALAXY,
     {},
     fetch,
     ws,
@@ -114,9 +114,9 @@ import ws = require('ws');
   // Launch the express server
   app.listen({ port: process.env.PORT || 4000 }, () =>
     console.log(
-      `🚀 Server ready at http://localhost:${process.env.PORT || 4000}${
-        server.graphqlPath
-      }`
+      `🚀 Idleverse Game Server ready at http://localhost:${
+        process.env.PORT || 4000
+      }${server.graphqlPath}`
     )
   );
 })();

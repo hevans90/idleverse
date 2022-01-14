@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "outDir": "__generated__/",
+    "rootDir": ".",
+    "module": "commonjs",
+    "target": "es2015",
+    "types": ["node"],
+    "esModuleInterop": true
+  },
+  "include": ["impl.ts"]
+}

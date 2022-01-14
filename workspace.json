@@ -374,6 +374,16 @@
       "sourceRoot": "apps/game-server/src",
       "projectType": "application",
       "targets": {
+        "watch": {
+          "executor": "./tools/executors/watch:watch",
+          "options": {
+            "sources": ["apps/game-server/src"],
+            "commands": [
+              "nx build game-server && docker restart idleverse-game-server",
+              "echo Successfully rebuilt idleverse game server docker volume"
+            ]
+          }
+        },
         "build": {
           "executor": "@nrwl/node:build",
           "outputs": ["{options.outputPath}"],
@@ -390,8 +400,10 @@
             ],
             "generatePackageJson": true
           },
+
           "configurations": {
             "production": {
+              "sourceMap": false,
               "optimization": true,
               "extractLicenses": true,
               "inspect": false,

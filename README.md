@@ -1,67 +1,48 @@
 # Idleverse Monorepo
 
-This project was generated using [Nx](https://nx.dev).
+**Prerequisites:**
 
-## Adding capabilities to your workspace
+- [docker](https://docs.docker.com/get-docker/)
+- [docker compose](https://docs.docker.com/compose/install/)
+- [nvm](https://github.com/nvm-sh/nvm#installing-and-updating) (and run `nvm use` at the root)
+- [yarn](https://classic.yarnpkg.com/lang/en/docs/install/)
 
-Add some [community plugins](https://nx.dev/community) if you like.
+Once done with prereqs, run a `yarn` at the root to bootstrap your environment.
 
-## Generate an application
+After all of this, talk to one of the code owners about setting up your .env files. Various secrets are required to develop the application against our various cloud services. You will need `.env` and `.env.idleverse`.
 
-Run `nx g @nrwl/react:app my-app` to generate a react application.
+---
 
-Run `nx generate @nrwl/node:application node-app` to generate a node application.
+## Running against production
 
-> You can use any of the plugins above to generate applications as well.
+`nx serve web` will serve the client against prod.
 
-When using Nx, you can create multiple applications and libraries in the same workspace.
+---
 
-## Generate a library
+## Running locally using Docker
 
-Run `nx g @nrwl/react:lib my-lib` to generate a library.
+Ensure you have created a `.env.idleverse` at the root with the following variables (talk to a code owner for values):
 
-> You can also use any of the plugins above to generate libraries as well.
+```bash
+COMPOSE_PROJECT_NAME=idleverse
+SECURE_HASURA=secure
+AUTH0_DOMAIN=dev-uyer-vun.us.auth0.com
+REMOTE_SCHEMA_URI=host.docker.internal
 
-Libraries are shareable across libraries and applications. They can be imported from `@idleverse/mylib`.
+AUTH0_CLIENT_ID=<talk_to_owners>
+AUTH0_MANAGEMENT_API_CLIENT_ID=<talk_to_owners>
+AUTH0_MANAGEMENT_API_CLIENT_SECRET=<talk_to_owners>
+```
 
-## Development server
+Now:
 
-Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+1. `yarn docker-up:idleverse` will build and bring up the `idleverse` stack.
+2. `yarn hasura:idleverse` will apply all the Hasura metadata & migrations
 
-## Code scaffolding
+Now you can decide what you want to work on:
 
-Run `nx g @nrwl/react:component my-component --project=my-app` to generate a new component.
-
-## Build
-
-Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `nx affected:test` to execute the unit tests affected by a change.
-
-## Running end-to-end tests
-
-Run `ng e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
-
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
-
-## Understand your workspace
-
-Run `nx dep-graph` to see a diagram of the dependencies of your projects.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev) to learn more.
-
-## ☁ Nx Cloud
-
-### Distributed Computation Caching & Distributed Task Execution
-
-Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
-
-Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
-
-Visit [Nx Cloud](https://nx.app/) to learn more.
+| App         | Command                    | Result                                                                                                |
+| ----------- | -------------------------- | ----------------------------------------------------------------------------------------------------- |
+| Client      | `nx serve web -c docker`   | Serves at <http://localhost:4200>                                                                     |
+| Game Server | `nx run game-server:watch` | Will restart the `idleverse-game-server` docker container when code changes in `apps/game-server/src` |
+| Hasura      | `yarn console:idleverse`   | Runs the Hasura console at <http://localhost:9695/>                                                   |
