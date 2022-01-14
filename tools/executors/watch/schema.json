@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "type": "object",
+  "cli": "nx",
+  "properties": {
+    "sources": {
+      "type": "array",
+      "description": "Source directories to watch for changes",
+      "items": {
+        "oneOf": [
+          {
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "commands": {
+      "type": "array",
+      "description": "Commands to run in child process",
+      "items": {
+        "oneOf": [
+          {
+            "type": "string"
+          }
+        ]
+      }
+    }
+  },
+  "required": ["sources", "commands"]
+}
