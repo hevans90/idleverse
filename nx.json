@@ -15,7 +15,8 @@
       "runner": "@nrwl/nx-cloud",
       "options": {
         "cacheableOperations": ["build", "lint", "test", "e2e"],
-        "accessToken": "NWMzNGRmM2MtM2QzZi00MzkwLWEzMDAtNjI0ZWJkZTJkMzQ0fHJlYWQtd3JpdGU="
+        "accessToken": "NWMzNGRmM2MtM2QzZi00MzkwLWEzMDAtNjI0ZWJkZTJkMzQ0fHJlYWQtd3JpdGU=",
+        "parallel": 1
       }
     }
   },
@@ -27,47 +28,24 @@
       }
     ]
   },
-  "projects": {
-    "food-client": {
-      "tags": []
-    },
-    "food-client-e2e": {
-      "tags": [],
-      "implicitDependencies": ["food-client"]
-    },
-    "food-gql": {
-      "tags": []
-    },
-    "food-hasura": {
-      "tags": []
-    },
-    "food-server": {
-      "tags": []
-    },
-    "food-standalone": {
-      "tags": []
-    },
-    "galaxy-gen": {
-      "tags": []
-    },
-    "galaxy-gql": {
-      "tags": []
-    },
-    "game-server": {
-      "tags": []
-    },
-    "graphql-utils": {
-      "tags": []
-    },
-    "idleverse-hasura": {
-      "tags": []
-    },
-    "web": {
-      "tags": []
-    },
-    "web-e2e": {
-      "tags": [],
-      "implicitDependencies": ["web"]
+  "cli": {
+    "defaultCollection": "@nrwl/react"
+  },
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "style": "css",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "css"
+      },
+      "library": {
+        "style": "css",
+        "linter": "eslint"
+      }
     }
-  }
+  },
+  "defaultProject": "web"
 }

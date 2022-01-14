@@ -7,7 +7,7 @@
       "projectType": "application",
       "targets": {
         "build": {
-          "executor": "@nrwl/web:build",
+          "executor": "@nrwl/web:webpack",
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/food-client",
@@ -86,7 +86,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": []
     },
     "food-client-e2e": {
       "root": "apps/food-client-e2e",
@@ -112,7 +113,9 @@
             "lintFilePatterns": ["apps/food-client-e2e/**/*.{js,ts}"]
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["food-client"]
     },
     "food-gql": {
       "root": "libs/food-gql",
@@ -134,7 +137,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "food-hasura": {
       "root": "apps/food-hasura",
@@ -185,7 +189,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "food-server": {
       "root": "apps/food-server",
@@ -246,7 +251,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": []
     },
     "food-standalone": {
       "root": "apps/food-standalone",
@@ -254,7 +260,7 @@
       "projectType": "application",
       "targets": {
         "build": {
-          "executor": "@nrwl/web:build",
+          "executor": "@nrwl/web:webpack",
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/food-standalone",
@@ -323,7 +329,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "galaxy-gen": {
       "root": "libs/galaxy-gen",
@@ -345,7 +352,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "galaxy-gql": {
       "root": "libs/galaxy-gql",
@@ -367,7 +375,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "game-server": {
       "root": "apps/game-server",
@@ -400,7 +409,6 @@
             ],
             "generatePackageJson": true
           },
-
           "configurations": {
             "production": {
               "sourceMap": false,
@@ -447,7 +455,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": []
     },
     "graphql-utils": {
       "root": "libs/graphql-utils",
@@ -469,7 +478,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "idleverse-hasura": {
       "root": "apps/idleverse-hasura",
@@ -520,7 +530,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "web": {
       "root": "apps/web",
@@ -528,7 +539,7 @@
       "projectType": "application",
       "targets": {
         "build": {
-          "executor": "@nrwl/web:build",
+          "executor": "@nrwl/web:webpack",
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/web",
@@ -636,7 +647,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": []
     },
     "web-e2e": {
       "root": "apps/web-e2e",
@@ -662,27 +674,9 @@
             "lintFilePatterns": ["apps/web-e2e/**/*.{js,ts}"]
           }
         }
-      }
-    }
-  },
-  "cli": {
-    "defaultCollection": "@nrwl/react"
-  },
-  "generators": {
-    "@nrwl/react": {
-      "application": {
-        "style": "css",
-        "linter": "eslint",
-        "babel": true
       },
-      "component": {
-        "style": "css"
-      },
-      "library": {
-        "style": "css",
-        "linter": "eslint"
-      }
+      "tags": [],
+      "implicitDependencies": ["web"]
     }
-  },
-  "defaultProject": "web"
+  }
 }
