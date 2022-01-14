@@ -1,4 +1,4 @@
-# Nx Plugin - nx-watch
+# Nx Plugin - watch
 
 ALL CREDIT GOES TO [THIS GUY](https://gist.github.com/jhesgodi/2d530753c551ace665a8c3010d3a719c)
 

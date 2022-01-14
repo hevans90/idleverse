@@ -4,7 +4,7 @@ import { execSync } from 'child_process';
 const watch = require('node-watch');
 const treekill = require('tree-kill');
 
-const NAME = 'nx-watch';
+const NAME = 'watch';
 
 const getTitle = (key: string = '') => [NAME, key].filter(Boolean).join(': ');
 
