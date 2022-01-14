@@ -379,8 +379,7 @@
           "options": {
             "sources": ["apps/game-server/src"],
             "commands": [
-              "nx build game-server && yarn --cwd dist/apps/game-server install --no-lockfile",
-              "yarn run docker-up:idleverse",
+              "nx build game-server && docker restart idleverse-game-server",
               "echo Successfully rebuilt idleverse game server docker volume"
             ]
           }

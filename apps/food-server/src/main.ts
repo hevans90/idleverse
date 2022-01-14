@@ -1,25 +1,25 @@
+import { apolloBootstrapper } from '@idleverse/graphql-utils';
+import { DataSources } from 'apollo-server-core/dist/requestPipeline';
+import { ApolloServer } from 'apollo-server-express';
 import fetch from 'cross-fetch';
 import express from 'express';
 import jwt from 'express-jwt';
 import jwksRsa from 'jwks-rsa';
-
-import { ApolloServer } from 'apollo-server-express';
-import { DataSources } from 'apollo-server-core/dist/requestPipeline';
 import { buildSchema } from 'type-graphql';
 import { authChecker } from './authChecker';
 import { Auth0API } from './datasources/auth0-api';
 import { Context } from './datasources/context';
 import { FoodAPI } from './datasources/food-api';
-import ws = require('ws');
 import { RegisterResolver } from './entities/register';
-import { apolloBootstrapper } from '@idleverse/graphql-utils';
+
+import ws = require('ws');
 
 (async () => {
   const client = apolloBootstrapper(
     process.env.HASURA_URI,
     process.env.SECURE_HASURA === 'secure',
     'admin-secret',
-    () => process.env.HASURA_ADMIN_SECRET,
+    () => process.env.HASURA_ADMIN_SECRET_FOOD,
     {},
     fetch,
     ws,

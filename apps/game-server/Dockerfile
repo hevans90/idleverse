@@ -1,2 +1,3 @@
-FROM node:lts-alpine
-CMD npx nodemon --delay 500ms dist/main.js
+FROM node:17-alpine
+
+CMD node dist/main.js
