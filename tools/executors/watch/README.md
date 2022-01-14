@@ -24,9 +24,9 @@ npx tsc tools/executors/watch/impl
 
 ### Usage
 
-Simply add a new task entry to `workspace.json` under the project's target.
+Simply add a new task entry to `workspace.json` under the project's targets array.
 
-The following task will re-build `ui-tokens` for `ui-kit` everytime on changes:
+The following task will re-build `my-app` and run a post-build script everytime there are changes to `apps/my-app/src`:
 
 ```json
 // workspace.json
@@ -37,12 +37,12 @@ The following task will re-build `ui-tokens` for `ui-kit` everytime on changes:
       "my-app": {
         "targets": {
           "watch": {
-            "executor": "./tools/executors/nx-watch:run",
+            "executor": "./tools/executors/watch:watch",
             "options": {
               "sources": ["apps/my-app/src"],
               "commands": [
-                "nx build my-app && some-post-build-step",
-                "echo rebulding cause of changes"
+                "nx build my-app && some-post-build-script",
+                "echo Successfully rebuilt my-app & ran some-post-build-script"
               ]
             }
           },
