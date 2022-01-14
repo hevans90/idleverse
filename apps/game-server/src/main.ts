@@ -114,9 +114,9 @@ import ws = require('ws');
   // Launch the express server
   app.listen({ port: process.env.PORT || 4000 }, () =>
     console.log(
-      `🚀 Server ready eeeeeee at http://localhost:${process.env.PORT || 4000}${
-        server.graphqlPath
-      }`
+      `🚀 Idleverse Game Server ready at http://localhost:${
+        process.env.PORT || 4000
+      }${server.graphqlPath}`
     )
   );
 })();

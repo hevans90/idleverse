@@ -33,8 +33,7 @@ services:
 
   game-server:
     build:
-      context: ../../dist/apps/game-server
-      # dockerfile: ../game-server/Dockerfile
+      dockerfile: $PWD/apps/game-server/Dockerfile
     ports:
       - '4000:4000'
     restart: always
@@ -44,6 +43,8 @@ services:
       AUTH0_CLIENT_ID: $AUTH0_CLIENT_ID
       AUTH0_MANAGEMENT_API_CLIENT_ID: $AUTH0_MANAGEMENT_API_CLIENT_ID
       AUTH0_MANAGEMENT_API_CLIENT_SECRET: $AUTH0_MANAGEMENT_API_CLIENT_SECRET
+    volumes:
+      - $PWD/dist/apps/game-server:/dist
 
 volumes:
   db-data:

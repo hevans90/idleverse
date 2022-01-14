@@ -380,6 +380,7 @@
             "sources": ["apps/game-server/src"],
             "commands": [
               "nx build game-server && yarn --cwd dist/apps/game-server install --no-lockfile",
+              "yarn run docker-up:idleverse",
               "echo Successfully rebuilt idleverse game server docker volume"
             ]
           }
@@ -396,13 +397,14 @@
                 "glob": "**/*",
                 "input": "apps/game-server/src/assets",
                 "output": "./"
-              },
-              "apps/game-server/src/Dockerfile"
+              }
             ],
             "generatePackageJson": true
           },
+
           "configurations": {
             "production": {
+              "sourceMap": false,
               "optimization": true,
               "extractLicenses": true,
               "inspect": false,
