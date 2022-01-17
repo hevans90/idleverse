@@ -38,11 +38,12 @@ Now:
 
 1. `yarn docker-up:idleverse` will build and bring up the `idleverse` stack.
 2. `yarn hasura:idleverse` will apply all the Hasura metadata & migrations
+3. `yarn prepare-watch` will build the game server and install deps (only need to run once)
 
 Now you can decide what you want to work on:
 
-| App         | Command                    | Result                                                                                                |
-| ----------- | -------------------------- | ----------------------------------------------------------------------------------------------------- |
-| Client      | `nx serve web -c docker`   | Serves at <http://localhost:4200>                                                                     |
-| Game Server | `nx run game-server:watch` | Will restart the `idleverse-game-server` docker container when code changes in `apps/game-server/src` |
-| Hasura      | `yarn console:idleverse`   | Runs the Hasura console at <http://localhost:9695/>                                                   |
+| App         | Command                         | Result                                                                               |
+| ----------- | ------------------------------- | -------------------------------------------------------------------------------------|
+| Client      | `nx serve web -c docker`        | Serves at <http://localhost:4200>                                                    |
+| Game Server | `nx run game-server:watch`      | Watches `idleverse-game-server` container for code changes in `apps/game-server/src` |
+| Hasura      | `yarn console:idleverse`        | Runs the Hasura console at <http://localhost:9695/>                                  |
