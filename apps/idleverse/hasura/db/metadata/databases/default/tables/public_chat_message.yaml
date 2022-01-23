@@ -1,0 +1,35 @@
+table:
+  name: chat_message
+  schema: public
+object_relationships:
+  - name: user_info
+    using:
+      foreign_key_constraint_on: poster_id
+insert_permissions:
+  - permission:
+      backend_only: false
+      check:
+        poster_id:
+          _eq: X-Hasura-User-Id
+      columns:
+        - message
+      set:
+        poster_id: x-hasura-User-Id
+    role: user
+select_permissions:
+  - permission:
+      columns:
+        - id
+        - message
+        - poster_id
+        - timestamp
+      filter: {}
+    role: public
+  - permission:
+      columns:
+        - id
+        - message
+        - poster_id
+        - timestamp
+      filter: {}
+    role: user

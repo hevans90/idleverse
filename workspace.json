@@ -464,8 +464,8 @@
       "tags": []
     },
     "idleverse-hasura": {
-      "root": "apps/idleverse-hasura",
-      "sourceRoot": "apps/idleverse-hasura/src",
+      "root": "apps/idleverse/hasura",
+      "sourceRoot": "apps/idleverse/hasura/src",
       "projectType": "application",
       "targets": {
         "build": {
@@ -483,13 +483,13 @@
           "options": {
             "commands": [
               {
-                "command": "hasura metadata apply --project apps/idleverse-hasura/db --endpoint $IDLEVERSE_HASURA_URL  --admin-secret $IDLEVERSE_HASURA_ADMIN_SECRET"
+                "command": "hasura metadata apply --project apps/idleverse/hasura/db --endpoint $IDLEVERSE_HASURA_URL  --admin-secret $IDLEVERSE_HASURA_ADMIN_SECRET"
               },
               {
-                "command": "hasura migrate apply --project apps/idleverse-hasura/db --endpoint $IDLEVERSE_HASURA_URL  --admin-secret $IDLEVERSE_HASURA_ADMIN_SECRET --database-name default"
+                "command": "hasura migrate apply --project apps/idleverse/hasura/db --endpoint $IDLEVERSE_HASURA_URL  --admin-secret $IDLEVERSE_HASURA_ADMIN_SECRET --database-name default"
               },
               {
-                "command": "hasura metadata reload --project apps/idleverse-hasura/db --endpoint $IDLEVERSE_HASURA_URL  --admin-secret $IDLEVERSE_HASURA_ADMIN_SECRET"
+                "command": "hasura metadata reload --project apps/idleverse/hasura/db --endpoint $IDLEVERSE_HASURA_URL  --admin-secret $IDLEVERSE_HASURA_ADMIN_SECRET"
               }
             ]
           }
