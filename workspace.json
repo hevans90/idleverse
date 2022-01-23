@@ -529,7 +529,7 @@
             "styles": ["apps/idleverse/web/src/styles.css"],
             "scripts": [],
             "webpackConfig": "@nrwl/react/plugins/webpack",
-            "baseHref": "/idle-game/"
+            "baseHref": "/idleverse/"
           },
           "configurations": {
             "production": {
