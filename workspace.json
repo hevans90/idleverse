@@ -2,24 +2,24 @@
   "version": 2,
   "projects": {
     "food-client": {
-      "root": "apps/food-client",
-      "sourceRoot": "apps/food-client/src",
+      "root": "apps/food/client",
+      "sourceRoot": "apps/food/client/src",
       "projectType": "application",
       "targets": {
         "build": {
           "executor": "@nrwl/web:webpack",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "outputPath": "dist/apps/food-client",
-            "index": "apps/food-client/src/index.html",
-            "main": "apps/food-client/src/main.tsx",
-            "polyfills": "apps/food-client/src/polyfills.ts",
-            "tsConfig": "apps/food-client/tsconfig.app.json",
+            "outputPath": "dist/apps/food/client",
+            "index": "apps/food/client/src/index.html",
+            "main": "apps/food/client/src/main.tsx",
+            "polyfills": "apps/food/client/src/polyfills.ts",
+            "tsConfig": "apps/food/client/tsconfig.app.json",
             "assets": [
-              "apps/food-client/src/favicon.ico",
-              "apps/food-client/src/assets"
+              "apps/food/client/src/favicon.ico",
+              "apps/food/client/src/assets"
             ],
-            "styles": ["apps/food-client/src/styles.css"],
+            "styles": ["apps/food/client/src/styles.css"],
             "scripts": [],
             "webpackConfig": "@nrwl/react/plugins/webpack"
           },
@@ -27,8 +27,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "apps/food-client/src/environments/environment.ts",
-                  "with": "apps/food-client/src/environments/environment.prod.ts"
+                  "replace": "apps/food/client/src/environments/environment.ts",
+                  "with": "apps/food/client/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -65,14 +65,14 @@
           "executor": "@nrwl/linter:eslint",
           "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["apps/food-client/**/*.{ts,tsx,js,jsx}"]
+            "lintFilePatterns": ["apps/food/client/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/food-client"],
+          "outputs": ["coverage/apps/food/client"],
           "options": {
-            "jestConfig": "apps/food-client/jest.config.js",
+            "jestConfig": "apps/food/client/jest.config.js",
             "passWithNoTests": true
           }
         },
@@ -81,7 +81,7 @@
           "options": {
             "commands": [
               {
-                "command": "npx push-dir --dir=dist/apps/food-client --branch=food-client-heroku-deploy --force"
+                "command": "npx push-dir --dir=dist/apps/food/client --branch=food-client-heroku-deploy --force"
               }
             ]
           }
@@ -90,14 +90,14 @@
       "tags": []
     },
     "food-client-e2e": {
-      "root": "apps/food-client-e2e",
-      "sourceRoot": "apps/food-client-e2e/src",
+      "root": "apps/food/client-e2e",
+      "sourceRoot": "apps/food/client-e2e/src",
       "projectType": "application",
       "targets": {
         "e2e": {
           "executor": "@nrwl/cypress:cypress",
           "options": {
-            "cypressConfig": "apps/food-client-e2e/cypress.json",
+            "cypressConfig": "apps/food/client-e2e/cypress.json",
             "devServerTarget": "food-client:serve"
           },
           "configurations": {
@@ -110,7 +110,7 @@
           "executor": "@nrwl/linter:eslint",
           "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["apps/food-client-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": ["apps/food/client-e2e/**/*.{js,ts}"]
           }
         }
       },
@@ -141,10 +141,9 @@
       "tags": []
     },
     "food-hasura": {
-      "root": "apps/food-hasura",
-      "sourceRoot": "apps/food-hasura/src",
+      "root": "apps/food/hasura",
+      "sourceRoot": "apps/food/hasura/src",
       "projectType": "application",
-
       "targets": {
         "build": {
           "executor": "@nrwl/workspace:run-commands",
@@ -161,34 +160,33 @@
           "options": {
             "commands": [
               {
-                "command": "hasura metadata apply --project apps/food-hasura/db --endpoint $FOOD_HASURA_URL  --admin-secret $FOOD_HASURA_ADMIN_SECRET"
+                "command": "hasura metadata apply --project apps/food/hasura/db --endpoint $FOOD_HASURA_URL  --admin-secret $FOOD_HASURA_ADMIN_SECRET"
               },
               {
-                "command": "hasura migrate apply --project apps/food-hasura/db --endpoint $FOOD_HASURA_URL  --admin-secret $FOOD_HASURA_ADMIN_SECRET --database-name default"
+                "command": "hasura migrate apply --project apps/food/hasura/db --endpoint $FOOD_HASURA_URL  --admin-secret $FOOD_HASURA_ADMIN_SECRET --database-name default"
               },
               {
-                "command": "hasura metadata reload --project apps/food-hasura/db --endpoint $FOOD_HASURA_URL  --admin-secret $FOOD_HASURA_ADMIN_SECRET"
+                "command": "hasura metadata reload --project apps/food/hasura/db --endpoint $FOOD_HASURA_URL  --admin-secret $FOOD_HASURA_ADMIN_SECRET"
               }
             ]
           }
         }
       },
-
       "tags": []
     },
     "food-server": {
-      "root": "apps/food-server",
-      "sourceRoot": "apps/food-server/src",
+      "root": "apps/food/server",
+      "sourceRoot": "apps/food/server/src",
       "projectType": "application",
       "targets": {
         "build": {
           "executor": "@nrwl/node:build",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "outputPath": "dist/apps/food-server",
-            "main": "apps/food-server/src/main.ts",
-            "tsConfig": "apps/food-server/tsconfig.app.json",
-            "assets": ["apps/food-server/src/assets"]
+            "outputPath": "dist/apps/food/server",
+            "main": "apps/food/server/src/main.ts",
+            "tsConfig": "apps/food/server/tsconfig.app.json",
+            "assets": ["apps/food/server/src/assets"]
           },
           "configurations": {
             "production": {
@@ -197,8 +195,8 @@
               "inspect": false,
               "fileReplacements": [
                 {
-                  "replace": "apps/food-server/src/environments/environment.ts",
-                  "with": "apps/food-server/src/environments/environment.prod.ts"
+                  "replace": "apps/food/server/src/environments/environment.ts",
+                  "with": "apps/food/server/src/environments/environment.prod.ts"
                 }
               ]
             }
@@ -214,14 +212,14 @@
           "executor": "@nrwl/linter:eslint",
           "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["apps/food-server/**/*.ts"]
+            "lintFilePatterns": ["apps/food/server/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/food-server"],
+          "outputs": ["coverage/apps/food/server"],
           "options": {
-            "jestConfig": "apps/food-server/jest.config.js",
+            "jestConfig": "apps/food/server/jest.config.js",
             "passWithNoTests": true
           }
         },
@@ -230,7 +228,7 @@
           "options": {
             "commands": [
               {
-                "command": "npx push-dir --dir=dist/apps/food-server --branch=food-server-heroku-deploy --force"
+                "command": "npx push-dir --dir=dist/apps/food/server --branch=food-server-heroku-deploy --force"
               }
             ]
           }
@@ -239,24 +237,24 @@
       "tags": []
     },
     "food-standalone": {
-      "root": "apps/food-standalone",
-      "sourceRoot": "apps/food-standalone/src",
+      "root": "apps/food/standalone",
+      "sourceRoot": "apps/food/standalone/src",
       "projectType": "application",
       "targets": {
         "build": {
           "executor": "@nrwl/web:webpack",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "outputPath": "dist/apps/food-standalone",
-            "index": "apps/food-standalone/src/index.html",
-            "main": "apps/food-standalone/src/index.tsx",
-            "polyfills": "apps/food-standalone/src/polyfills.ts",
-            "tsConfig": "apps/food-standalone/tsconfig.app.json",
+            "outputPath": "dist/apps/food/standalone",
+            "index": "apps/food/standalone/src/index.html",
+            "main": "apps/food/standalone/src/index.tsx",
+            "polyfills": "apps/food/standalone/src/polyfills.ts",
+            "tsConfig": "apps/food/standalone/tsconfig.app.json",
             "assets": [
-              "apps/food-standalone/src/favicon.ico",
-              "apps/food-standalone/src/assets"
+              "apps/food/standalone/src/favicon.ico",
+              "apps/food/standalone/src/assets"
             ],
-            "styles": ["apps/food-standalone/src/styles.css"],
+            "styles": ["apps/food/standalone/src/styles.css"],
             "scripts": [],
             "webpackConfig": "@nrwl/react/plugins/webpack"
           },
@@ -264,8 +262,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "apps/food-standalone/src/environments/environment.ts",
-                  "with": "apps/food-standalone/src/environments/environment.prod.ts"
+                  "replace": "apps/food/standalone/src/environments/environment.ts",
+                  "with": "apps/food/standalone/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -302,14 +300,14 @@
           "executor": "@nrwl/linter:eslint",
           "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["apps/food-standalone/**/*.{ts,tsx,js,jsx}"]
+            "lintFilePatterns": ["apps/food/standalone/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/food-standalone"],
+          "outputs": ["coverage/apps/food/standalone"],
           "options": {
-            "jestConfig": "apps/food-standalone/jest.config.js",
+            "jestConfig": "apps/food/standalone/jest.config.js",
             "passWithNoTests": true
           }
         }
@@ -362,86 +360,6 @@
       },
       "tags": []
     },
-    "game-server": {
-      "root": "apps/game-server",
-      "sourceRoot": "apps/game-server/src",
-      "projectType": "application",
-      "targets": {
-        "watch": {
-          "executor": "./tools/executors/watch:watch",
-          "options": {
-            "sources": ["apps/game-server/src"],
-            "commands": [
-              "nx build game-server && docker restart idleverse-game-server",
-              "echo Successfully rebuilt idleverse game server docker volume"
-            ]
-          }
-        },
-        "build": {
-          "executor": "@nrwl/node:build",
-          "outputs": ["{options.outputPath}"],
-          "options": {
-            "outputPath": "dist/apps/game-server",
-            "main": "apps/game-server/src/main.ts",
-            "tsConfig": "apps/game-server/tsconfig.app.json",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "apps/game-server/src/assets",
-                "output": "./"
-              }
-            ],
-            "generatePackageJson": true
-          },
-          "configurations": {
-            "production": {
-              "sourceMap": false,
-              "optimization": true,
-              "extractLicenses": true,
-              "inspect": false,
-              "fileReplacements": [
-                {
-                  "replace": "apps/game-server/src/environments/environment.ts",
-                  "with": "apps/game-server/src/environments/environment.prod.ts"
-                }
-              ]
-            }
-          }
-        },
-        "serve": {
-          "executor": "@nrwl/node:execute",
-          "options": {
-            "buildTarget": "game-server:build"
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
-          "options": {
-            "lintFilePatterns": ["apps/game-server/**/*.ts"]
-          }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/game-server"],
-          "options": {
-            "jestConfig": "apps/game-server/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "deploy": {
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "npx push-dir --dir=dist/apps/game-server --branch=heroku-deploy --force"
-              }
-            ]
-          }
-        }
-      },
-      "tags": []
-    },
     "graphql-utils": {
       "root": "libs/graphql-utils",
       "sourceRoot": "libs/graphql-utils/src",
@@ -465,9 +383,89 @@
       },
       "tags": []
     },
+    "idleverse-game-server": {
+      "root": "apps/idleverse/game-server",
+      "sourceRoot": "apps/idleverse/game-server/src",
+      "projectType": "application",
+      "targets": {
+        "watch": {
+          "executor": "./tools/executors/watch:watch",
+          "options": {
+            "sources": ["apps/idleverse/game-server/src"],
+            "commands": [
+              "nx build game-server && docker restart idleverse-game-server",
+              "echo Successfully rebuilt idleverse game server docker volume"
+            ]
+          }
+        },
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/idleverse/game-server",
+            "main": "apps/idleverse/game-server/src/main.ts",
+            "tsConfig": "apps/idleverse/game-server/tsconfig.app.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "apps/idleverse/game-server/src/assets",
+                "output": "./"
+              }
+            ],
+            "generatePackageJson": true
+          },
+          "configurations": {
+            "production": {
+              "sourceMap": false,
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/idleverse/game-server/src/environments/environment.ts",
+                  "with": "apps/idleverse/game-server/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "idleverse-game-server:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/idleverse/game-server/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/idleverse/game-server"],
+          "options": {
+            "jestConfig": "apps/idleverse/game-server/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "deploy": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npx push-dir --dir=dist/apps/idleverse/game-server --branch=heroku-deploy --force"
+              }
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
     "idleverse-hasura": {
-      "root": "apps/idleverse-hasura",
-      "sourceRoot": "apps/idleverse-hasura/src",
+      "root": "apps/idleverse/hasura",
+      "sourceRoot": "apps/idleverse/hasura/src",
       "projectType": "application",
       "targets": {
         "build": {
@@ -485,13 +483,13 @@
           "options": {
             "commands": [
               {
-                "command": "hasura metadata apply --project apps/idleverse-hasura/db --endpoint $IDLEVERSE_HASURA_URL  --admin-secret $IDLEVERSE_HASURA_ADMIN_SECRET"
+                "command": "hasura metadata apply --project apps/idleverse/hasura/db --endpoint $IDLEVERSE_HASURA_URL  --admin-secret $IDLEVERSE_HASURA_ADMIN_SECRET"
               },
               {
-                "command": "hasura migrate apply --project apps/idleverse-hasura/db --endpoint $IDLEVERSE_HASURA_URL  --admin-secret $IDLEVERSE_HASURA_ADMIN_SECRET --database-name default"
+                "command": "hasura migrate apply --project apps/idleverse/hasura/db --endpoint $IDLEVERSE_HASURA_URL  --admin-secret $IDLEVERSE_HASURA_ADMIN_SECRET --database-name default"
               },
               {
-                "command": "hasura metadata reload --project apps/idleverse-hasura/db --endpoint $IDLEVERSE_HASURA_URL  --admin-secret $IDLEVERSE_HASURA_ADMIN_SECRET"
+                "command": "hasura metadata reload --project apps/idleverse/hasura/db --endpoint $IDLEVERSE_HASURA_URL  --admin-secret $IDLEVERSE_HASURA_ADMIN_SECRET"
               }
             ]
           }
@@ -499,36 +497,36 @@
       },
       "tags": []
     },
-    "web": {
-      "root": "apps/web",
-      "sourceRoot": "apps/web/src",
+    "idleverse-web": {
+      "root": "apps/idleverse/web",
+      "sourceRoot": "apps/idleverse/web/src",
       "projectType": "application",
       "targets": {
         "build": {
           "executor": "@nrwl/web:webpack",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "outputPath": "dist/apps/web",
-            "index": "apps/web/src/index.html",
-            "main": "apps/web/src/index.tsx",
-            "polyfills": "apps/web/src/polyfills.ts",
-            "tsConfig": "apps/web/tsconfig.app.json",
+            "outputPath": "dist/apps/idleverse/web",
+            "index": "apps/idleverse/web/src/index.html",
+            "main": "apps/idleverse/web/src/index.tsx",
+            "polyfills": "apps/idleverse/web/src/polyfills.ts",
+            "tsConfig": "apps/idleverse/web/tsconfig.app.json",
             "assets": [
-              "apps/web/src/favicon.ico",
-              "apps/web/src/assets",
-              "apps/web/src/assets/spritesheets",
+              "apps/idleverse/web/src/favicon.ico",
+              "apps/idleverse/web/src/assets",
+              "apps/idleverse/web/src/assets/spritesheets",
               {
                 "glob": "**/*",
-                "input": "apps/web/src/assets",
+                "input": "apps/idleverse/web/src/assets",
                 "output": "./"
               },
               {
                 "glob": "**/*",
-                "input": "apps/web/src/assets/spritesheets",
+                "input": "apps/idleverse/web/src/assets/spritesheets",
                 "output": "./spritesheets"
               }
             ],
-            "styles": ["apps/web/src/styles.css"],
+            "styles": ["apps/idleverse/web/src/styles.css"],
             "scripts": [],
             "webpackConfig": "@nrwl/react/plugins/webpack",
             "baseHref": "/idle-game/"
@@ -537,8 +535,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "apps/web/src/environments/environment.ts",
-                  "with": "apps/web/src/environments/environment.prod.ts"
+                  "replace": "apps/idleverse/web/src/environments/environment.ts",
+                  "with": "apps/idleverse/web/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -563,8 +561,8 @@
               },
               "fileReplacements": [
                 {
-                  "replace": "apps/web/src/environments/environment.ts",
-                  "with": "apps/web/src/environments/environment.docker.ts"
+                  "replace": "apps/idleverse/web/src/environments/environment.ts",
+                  "with": "apps/idleverse/web/src/environments/environment.docker.ts"
                 }
               ]
             }
@@ -573,17 +571,17 @@
         "serve": {
           "executor": "@nrwl/web:dev-server",
           "options": {
-            "buildTarget": "web:build",
+            "buildTarget": "idleverse-web:build",
             "hmr": true,
             "port": 3000
           },
           "configurations": {
             "production": {
-              "buildTarget": "web:build:production",
+              "buildTarget": "idleverse-web:build:production",
               "hmr": false
             },
             "docker": {
-              "buildTarget": "web:build:docker",
+              "buildTarget": "idleverse-web:build:docker",
               "hmr": false
             }
           }
@@ -592,14 +590,14 @@
           "executor": "@nrwl/linter:eslint",
           "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["apps/web/**/*.{ts,tsx,js,jsx}"]
+            "lintFilePatterns": ["apps/idleverse/web/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/web"],
+          "outputs": ["coverage/apps/idleverse/web"],
           "options": {
-            "jestConfig": "apps/web/jest.config.js",
+            "jestConfig": "apps/idleverse/web/jest.config.js",
             "passWithNoTests": true
           }
         },
@@ -608,7 +606,7 @@
           "options": {
             "commands": [
               {
-                "command": "npx push-dir --dir=dist/apps/web --branch=gh-pages --force"
+                "command": "npx push-dir --dir=dist/apps/idleverse/web --branch=gh-pages --force"
               }
             ]
           }
@@ -616,20 +614,20 @@
       },
       "tags": []
     },
-    "web-e2e": {
-      "root": "apps/web-e2e",
-      "sourceRoot": "apps/web-e2e/src",
+    "idleverse-web-e2e": {
+      "root": "apps/idleverse/web-e2e",
+      "sourceRoot": "apps/idleverse/web-e2e/src",
       "projectType": "application",
       "targets": {
         "e2e": {
           "executor": "@nrwl/cypress:cypress",
           "options": {
-            "cypressConfig": "apps/web-e2e/cypress.json",
-            "devServerTarget": "web:serve"
+            "cypressConfig": "apps/idleverse/web-e2e/cypress.json",
+            "devServerTarget": "idleverse-web:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "web:serve:production"
+              "devServerTarget": "idleverse-web:serve:production"
             }
           }
         },
@@ -637,12 +635,12 @@
           "executor": "@nrwl/linter:eslint",
           "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["apps/web-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": ["apps/idleverse/web-e2e/**/*.{js,ts}"]
           }
         }
       },
       "tags": [],
-      "implicitDependencies": ["web"]
+      "implicitDependencies": ["idleverse-web"]
     }
   }
 }

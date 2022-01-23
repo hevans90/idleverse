@@ -1,0 +1,10 @@
+table:
+  name: advert
+  schema: public
+object_relationships:
+  - name: boardObjectByBoardObject
+    using:
+      foreign_key_constraint_on: board_object
+  - name: gameByGame
+    using:
+      foreign_key_constraint_on: game

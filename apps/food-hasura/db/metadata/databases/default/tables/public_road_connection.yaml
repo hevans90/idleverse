@@ -1,7 +1,0 @@
-table:
-  name: road_connection
-  schema: public
-object_relationships:
-- name: road
-  using:
-    foreign_key_constraint_on: id

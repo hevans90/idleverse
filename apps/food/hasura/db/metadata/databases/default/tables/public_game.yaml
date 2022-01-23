@@ -1,0 +1,53 @@
+table:
+  name: game
+  schema: public
+array_relationships:
+  - name: adverts
+    using:
+      foreign_key_constraint_on:
+        column: game
+        table:
+          name: advert
+          schema: public
+  - name: drinks
+    using:
+      foreign_key_constraint_on:
+        column: game
+        table:
+          name: drink
+          schema: public
+  - name: employees
+    using:
+      foreign_key_constraint_on:
+        column: game
+        table:
+          name: employee
+          schema: public
+  - name: gardens
+    using:
+      foreign_key_constraint_on:
+        column: game
+        table:
+          name: garden
+          schema: public
+  - name: houses
+    using:
+      foreign_key_constraint_on:
+        column: game
+        table:
+          name: house
+          schema: public
+  - name: players
+    using:
+      foreign_key_constraint_on:
+        column: game
+        table:
+          name: player
+          schema: public
+  - name: roads
+    using:
+      foreign_key_constraint_on:
+        column: game
+        table:
+          name: road
+          schema: public
