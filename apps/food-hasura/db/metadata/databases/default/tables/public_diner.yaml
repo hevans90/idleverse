@@ -1,0 +1,10 @@
+table:
+  name: diner
+  schema: public
+object_relationships:
+- name: boardObjectByBoardObject
+  using:
+    foreign_key_constraint_on: board_object
+- name: player
+  using:
+    foreign_key_constraint_on: owner

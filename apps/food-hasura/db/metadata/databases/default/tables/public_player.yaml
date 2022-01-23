@@ -1,0 +1,22 @@
+table:
+  name: player
+  schema: public
+object_relationships:
+- name: gameByGame
+  using:
+    foreign_key_constraint_on: game
+array_relationships:
+- name: diners
+  using:
+    foreign_key_constraint_on:
+      column: owner
+      table:
+        name: diner
+        schema: public
+- name: player_foods
+  using:
+    foreign_key_constraint_on:
+      column: player
+      table:
+        name: player_food
+        schema: public
