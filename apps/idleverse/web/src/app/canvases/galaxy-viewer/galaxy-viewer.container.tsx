@@ -24,6 +24,7 @@ import { Loading } from '../../components/loading';
 import { galaxyConfigVar, selfVar } from '../../_state/reactive-variables';
 import { dbGalaxyToGalaxyConfig } from '../common-utils/db-galaxy-to-galaxy-config';
 import { useResize } from '../common-utils/use-resize.hook';
+import { GameUIBottomBar } from '../galaxy-generator/ui/bottom-bar';
 import { celestialOwnerMapper } from './celestial-owner';
 import { GalaxyViewer } from './galaxy-viewer';
 import { PlayerPanel } from './ui/player-panel';
@@ -121,6 +122,7 @@ export const GalaxyViewerContainer = () => {
           claimCelestialFunction={() => claimCelestialFn.current()}
           claimPending={claimPending}
         ></PlayerPanel>
+        <GameUIBottomBar bottom={0} />
       </Box>
     );
   } else {
