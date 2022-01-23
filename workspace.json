@@ -144,7 +144,6 @@
       "root": "apps/food-hasura",
       "sourceRoot": "apps/food-hasura/src",
       "projectType": "application",
-
       "targets": {
         "build": {
           "executor": "@nrwl/workspace:run-commands",
@@ -173,7 +172,6 @@
           }
         }
       },
-
       "tags": []
     },
     "food-server": {
@@ -362,86 +360,6 @@
       },
       "tags": []
     },
-    "game-server": {
-      "root": "apps/game-server",
-      "sourceRoot": "apps/game-server/src",
-      "projectType": "application",
-      "targets": {
-        "watch": {
-          "executor": "./tools/executors/watch:watch",
-          "options": {
-            "sources": ["apps/game-server/src"],
-            "commands": [
-              "nx build game-server && docker restart idleverse-game-server",
-              "echo Successfully rebuilt idleverse game server docker volume"
-            ]
-          }
-        },
-        "build": {
-          "executor": "@nrwl/node:build",
-          "outputs": ["{options.outputPath}"],
-          "options": {
-            "outputPath": "dist/apps/game-server",
-            "main": "apps/game-server/src/main.ts",
-            "tsConfig": "apps/game-server/tsconfig.app.json",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "apps/game-server/src/assets",
-                "output": "./"
-              }
-            ],
-            "generatePackageJson": true
-          },
-          "configurations": {
-            "production": {
-              "sourceMap": false,
-              "optimization": true,
-              "extractLicenses": true,
-              "inspect": false,
-              "fileReplacements": [
-                {
-                  "replace": "apps/game-server/src/environments/environment.ts",
-                  "with": "apps/game-server/src/environments/environment.prod.ts"
-                }
-              ]
-            }
-          }
-        },
-        "serve": {
-          "executor": "@nrwl/node:execute",
-          "options": {
-            "buildTarget": "game-server:build"
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
-          "options": {
-            "lintFilePatterns": ["apps/game-server/**/*.ts"]
-          }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/game-server"],
-          "options": {
-            "jestConfig": "apps/game-server/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "deploy": {
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "npx push-dir --dir=dist/apps/game-server --branch=heroku-deploy --force"
-              }
-            ]
-          }
-        }
-      },
-      "tags": []
-    },
     "graphql-utils": {
       "root": "libs/graphql-utils",
       "sourceRoot": "libs/graphql-utils/src",
@@ -460,6 +378,86 @@
           "options": {
             "jestConfig": "libs/graphql-utils/jest.config.js",
             "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "idleverse-game-server": {
+      "root": "apps/idleverse/game-server",
+      "sourceRoot": "apps/idleverse/game-server/src",
+      "projectType": "application",
+      "targets": {
+        "watch": {
+          "executor": "./tools/executors/watch:watch",
+          "options": {
+            "sources": ["apps/idleverse/game-server/src"],
+            "commands": [
+              "nx build game-server && docker restart idleverse-game-server",
+              "echo Successfully rebuilt idleverse game server docker volume"
+            ]
+          }
+        },
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/idleverse/game-server",
+            "main": "apps/idleverse/game-server/src/main.ts",
+            "tsConfig": "apps/idleverse/game-server/tsconfig.app.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "apps/idleverse/game-server/src/assets",
+                "output": "./"
+              }
+            ],
+            "generatePackageJson": true
+          },
+          "configurations": {
+            "production": {
+              "sourceMap": false,
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/idleverse/game-server/src/environments/environment.ts",
+                  "with": "apps/idleverse/game-server/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "idleverse-game-server:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/idleverse/game-server/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/idleverse/game-server"],
+          "options": {
+            "jestConfig": "apps/idleverse/game-server/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "deploy": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npx push-dir --dir=dist/apps/idleverse/game-server --branch=heroku-deploy --force"
+              }
+            ]
           }
         }
       },

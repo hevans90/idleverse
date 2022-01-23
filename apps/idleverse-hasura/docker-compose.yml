@@ -36,7 +36,7 @@ services:
   game-server:
     container_name: idleverse-game-server
     build:
-      dockerfile: $PWD/apps/game-server/Dockerfile
+      dockerfile: $PWD/apps/idleverse/game-server/Dockerfile
     ports:
       - '4000:4000'
     restart: always
@@ -50,7 +50,7 @@ services:
       HASURA_URI: host.docker.internal:8080/v1/graphql
       HASURA_NAMESPACE: https://hasura.io/jwt/claims
     volumes:
-      - $PWD/dist/apps/game-server:/dist
+      - $PWD/dist/apps/idleverse/game-server:/dist
 
 volumes:
   db-data:

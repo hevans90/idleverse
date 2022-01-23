@@ -42,8 +42,8 @@ Now:
 
 Now you can decide what you want to work on:
 
-| App         | Command                         | Result                                                                               |
-| ----------- | ------------------------------- | -------------------------------------------------------------------------------------|
-| Client      | `nx serve web -c docker`        | Serves at <http://localhost:4200>                                                    |
-| Game Server | `nx run game-server:watch`      | Watches `idleverse-game-server` container for code changes in `apps/game-server/src` |
-| Hasura      | `yarn console:idleverse`        | Runs the Hasura console at <http://localhost:9695/>                                  |
+| App         | Command                    | Result                                                                                         |
+| ----------- | -------------------------- | ---------------------------------------------------------------------------------------------- |
+| Client      | `nx serve web -c docker`   | Serves at <http://localhost:4200>                                                              |
+| Game Server | `nx run game-server:watch` | Watches `idleverse-game-server` container for code changes in `apps/idleverse/game-server/src` |
+| Hasura      | `yarn console:idleverse`   | Runs the Hasura console at <http://localhost:9695/>                                            |
