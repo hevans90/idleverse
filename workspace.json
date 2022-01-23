@@ -614,15 +614,15 @@
       },
       "tags": []
     },
-    "web-e2e": {
-      "root": "apps/web-e2e",
-      "sourceRoot": "apps/web-e2e/src",
+    "idleverse-web-e2e": {
+      "root": "apps/idleverse/web-e2e",
+      "sourceRoot": "apps/idleverse/web-e2e/src",
       "projectType": "application",
       "targets": {
         "e2e": {
           "executor": "@nrwl/cypress:cypress",
           "options": {
-            "cypressConfig": "apps/web-e2e/cypress.json",
+            "cypressConfig": "apps/idleverse/web-e2e/cypress.json",
             "devServerTarget": "idleverse-web:serve"
           },
           "configurations": {
@@ -635,7 +635,7 @@
           "executor": "@nrwl/linter:eslint",
           "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["apps/web-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": ["apps/idleverse/web-e2e/**/*.{js,ts}"]
           }
         }
       },
