@@ -497,36 +497,36 @@
       },
       "tags": []
     },
-    "web": {
-      "root": "apps/web",
-      "sourceRoot": "apps/web/src",
+    "idleverse-web": {
+      "root": "apps/idleverse/web",
+      "sourceRoot": "apps/idleverse/web/src",
       "projectType": "application",
       "targets": {
         "build": {
           "executor": "@nrwl/web:webpack",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "outputPath": "dist/apps/web",
-            "index": "apps/web/src/index.html",
-            "main": "apps/web/src/index.tsx",
-            "polyfills": "apps/web/src/polyfills.ts",
-            "tsConfig": "apps/web/tsconfig.app.json",
+            "outputPath": "dist/apps/idleverse/web",
+            "index": "apps/idleverse/web/src/index.html",
+            "main": "apps/idleverse/web/src/index.tsx",
+            "polyfills": "apps/idleverse/web/src/polyfills.ts",
+            "tsConfig": "apps/idleverse/web/tsconfig.app.json",
             "assets": [
-              "apps/web/src/favicon.ico",
-              "apps/web/src/assets",
-              "apps/web/src/assets/spritesheets",
+              "apps/idleverse/web/src/favicon.ico",
+              "apps/idleverse/web/src/assets",
+              "apps/idleverse/web/src/assets/spritesheets",
               {
                 "glob": "**/*",
-                "input": "apps/web/src/assets",
+                "input": "apps/idleverse/web/src/assets",
                 "output": "./"
               },
               {
                 "glob": "**/*",
-                "input": "apps/web/src/assets/spritesheets",
+                "input": "apps/idleverse/web/src/assets/spritesheets",
                 "output": "./spritesheets"
               }
             ],
-            "styles": ["apps/web/src/styles.css"],
+            "styles": ["apps/idleverse/web/src/styles.css"],
             "scripts": [],
             "webpackConfig": "@nrwl/react/plugins/webpack",
             "baseHref": "/idle-game/"
@@ -535,8 +535,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "apps/web/src/environments/environment.ts",
-                  "with": "apps/web/src/environments/environment.prod.ts"
+                  "replace": "apps/idleverse/web/src/environments/environment.ts",
+                  "with": "apps/idleverse/web/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -561,8 +561,8 @@
               },
               "fileReplacements": [
                 {
-                  "replace": "apps/web/src/environments/environment.ts",
-                  "with": "apps/web/src/environments/environment.docker.ts"
+                  "replace": "apps/idleverse/web/src/environments/environment.ts",
+                  "with": "apps/idleverse/web/src/environments/environment.docker.ts"
                 }
               ]
             }
@@ -571,17 +571,17 @@
         "serve": {
           "executor": "@nrwl/web:dev-server",
           "options": {
-            "buildTarget": "web:build",
+            "buildTarget": "idleverse-web:build",
             "hmr": true,
             "port": 3000
           },
           "configurations": {
             "production": {
-              "buildTarget": "web:build:production",
+              "buildTarget": "idleverse-web:build:production",
               "hmr": false
             },
             "docker": {
-              "buildTarget": "web:build:docker",
+              "buildTarget": "idleverse-web:build:docker",
               "hmr": false
             }
           }
@@ -590,14 +590,14 @@
           "executor": "@nrwl/linter:eslint",
           "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["apps/web/**/*.{ts,tsx,js,jsx}"]
+            "lintFilePatterns": ["apps/idleverse/web/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/web"],
+          "outputs": ["coverage/apps/idleverse/web"],
           "options": {
-            "jestConfig": "apps/web/jest.config.js",
+            "jestConfig": "apps/idleverse/web/jest.config.js",
             "passWithNoTests": true
           }
         },
@@ -606,7 +606,7 @@
           "options": {
             "commands": [
               {
-                "command": "npx push-dir --dir=dist/apps/web --branch=gh-pages --force"
+                "command": "npx push-dir --dir=dist/apps/idleverse/web --branch=gh-pages --force"
               }
             ]
           }
@@ -623,11 +623,11 @@
           "executor": "@nrwl/cypress:cypress",
           "options": {
             "cypressConfig": "apps/web-e2e/cypress.json",
-            "devServerTarget": "web:serve"
+            "devServerTarget": "idleverse-web:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "web:serve:production"
+              "devServerTarget": "idleverse-web:serve:production"
             }
           }
         },
@@ -640,7 +640,7 @@
         }
       },
       "tags": [],
-      "implicitDependencies": ["web"]
+      "implicitDependencies": ["idleverse-web"]
     }
   }
 }

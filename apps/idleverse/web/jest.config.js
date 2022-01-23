@@ -1,12 +1,12 @@
 module.exports = {
-  displayName: 'web',
-  preset: '../../jest.preset.js',
+  displayName: 'idleverse-web',
+  preset: '../../../jest.preset.js',
   transform: {
     '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': '@nrwl/react/plugins/jest',
     '^.+\\.[tj]sx?$': 'babel-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../coverage/apps/web',
+  coverageDirectory: '../../../coverage/apps/idleverse/web',
 
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
 };
