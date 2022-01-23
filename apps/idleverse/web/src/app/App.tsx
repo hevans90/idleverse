@@ -95,7 +95,7 @@ export const App = () => {
   return (
     <ApolloProvider client={client}>
       <PreloadContainer>
-        <BrowserRouter basename={local ? '/' : '/idle-game'}>
+        <BrowserRouter basename={local ? '/' : '/idleverse'}>
           <Layout>
             <Switch>
               {routes.map(({ path, component: Component }, key) => (

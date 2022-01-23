@@ -8,7 +8,7 @@ import reportWebVitals from './reportWebVitals';
 
 export const redirectUri = window.location.origin.includes('localhost')
   ? window.location.origin
-  : `${window.location.origin}/idle-game`;
+  : `${window.location.origin}/idleverse`;
 
 ReactDOM.render(
   <React.StrictMode>
