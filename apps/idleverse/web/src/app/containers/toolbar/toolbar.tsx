@@ -1,6 +1,16 @@
-import { Box, Kbd, useColorModeValue, useDisclosure } from '@chakra-ui/react';
+import { useReactiveVar } from '@apollo/client';
+import { ChatIcon, SettingsIcon } from '@chakra-ui/icons';
+import {
+  Box,
+  Button,
+  HStack,
+  Kbd,
+  useColorModeValue,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { useKeypress } from '../../hooks/use-keypress';
 import { Auth } from '../../_auth/auth';
+import { layoutVar } from '../../_state/persisted-reactive-variables';
 import { EscMenuContainer } from '../esc-menu/escape-menu.container';
 
 export const ToolBar = () => {
@@ -11,6 +21,8 @@ export const ToolBar = () => {
   useKeypress('Escape', () => isOpen || onOpen());
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { sideNav, toolBar } = useReactiveVar(layoutVar);
 
   return (
     <>
@@ -26,9 +38,18 @@ export const ToolBar = () => {
         borderBottomStyle="solid"
         borderBottomWidth="1px"
       >
-        <span>
-          Settings: <Kbd>Esc</Kbd>
-        </span>
+        <HStack>
+          <Button
+            onClick={() => {
+              layoutVar({ sideNav: !sideNav, toolBar });
+            }}
+          >
+            <ChatIcon></ChatIcon>
+          </Button>
+          <Button onClick={() => onOpen()}>
+            <SettingsIcon></SettingsIcon>&nbsp; <Kbd>Esc</Kbd>
+          </Button>
+        </HStack>
         <Auth></Auth>
       </Box>
     </>
