@@ -1,0 +1,7 @@
+table:
+  name: house_food_demand
+  schema: public
+object_relationships:
+- name: houseByHouse
+  using:
+    foreign_key_constraint_on: house

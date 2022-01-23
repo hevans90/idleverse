@@ -1,0 +1,18 @@
+table:
+  name: house
+  schema: public
+object_relationships:
+- name: boardObjectById
+  using:
+    foreign_key_constraint_on: id
+- name: gameByGame
+  using:
+    foreign_key_constraint_on: game
+array_relationships:
+- name: house_food_demands
+  using:
+    foreign_key_constraint_on:
+      column: house
+      table:
+        name: house_food_demand
+        schema: public
