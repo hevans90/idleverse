@@ -144,52 +144,36 @@
       "root": "apps/food-hasura",
       "sourceRoot": "apps/food-hasura/src",
       "projectType": "application",
+
       "targets": {
         "build": {
-          "executor": "@nrwl/node:build",
-          "outputs": ["{options.outputPath}"],
+          "executor": "@nrwl/workspace:run-commands",
           "options": {
-            "outputPath": "dist/apps/food-hasura",
-            "main": "apps/food-hasura/src/main.ts",
-            "tsConfig": "apps/food-hasura/tsconfig.app.json",
-            "assets": ["apps/food-hasura/src/assets"]
-          },
-          "configurations": {
-            "production": {
-              "optimization": true,
-              "extractLicenses": true,
-              "inspect": false,
-              "fileReplacements": [
-                {
-                  "replace": "apps/food-hasura/src/environments/environment.ts",
-                  "with": "apps/food-hasura/src/environments/environment.prod.ts"
-                }
-              ]
-            }
+            "commands": [
+              {
+                "command": "echo Ready to run migrations."
+              }
+            ]
           }
         },
-        "serve": {
-          "executor": "@nrwl/node:execute",
+        "deploy": {
+          "executor": "@nrwl/workspace:run-commands",
           "options": {
-            "buildTarget": "food-hasura:build"
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
-          "options": {
-            "lintFilePatterns": ["apps/food-hasura/**/*.ts"]
-          }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/food-hasura"],
-          "options": {
-            "jestConfig": "apps/food-hasura/jest.config.js",
-            "passWithNoTests": true
+            "commands": [
+              {
+                "command": "hasura metadata apply --project apps/food-hasura/db --endpoint $FOOD_HASURA_URL  --admin-secret $FOOD_HASURA_ADMIN_SECRET"
+              },
+              {
+                "command": "hasura migrate apply --project apps/food-hasura/db --endpoint $FOOD_HASURA_URL  --admin-secret $FOOD_HASURA_ADMIN_SECRET --database-name default"
+              },
+              {
+                "command": "hasura metadata reload --project apps/food-hasura/db --endpoint $FOOD_HASURA_URL  --admin-secret $FOOD_HASURA_ADMIN_SECRET"
+              }
+            ]
           }
         }
       },
+
       "tags": []
     },
     "food-server": {
@@ -487,47 +471,29 @@
       "projectType": "application",
       "targets": {
         "build": {
-          "executor": "@nrwl/node:build",
-          "outputs": ["{options.outputPath}"],
+          "executor": "@nrwl/workspace:run-commands",
           "options": {
-            "outputPath": "dist/apps/idleverse-hasura",
-            "main": "apps/idleverse-hasura/src/main.ts",
-            "tsConfig": "apps/idleverse-hasura/tsconfig.app.json",
-            "assets": ["apps/idleverse-hasura/src/assets"]
-          },
-          "configurations": {
-            "production": {
-              "optimization": true,
-              "extractLicenses": true,
-              "inspect": false,
-              "fileReplacements": [
-                {
-                  "replace": "apps/idleverse-hasura/src/environments/environment.ts",
-                  "with": "apps/idleverse-hasura/src/environments/environment.prod.ts"
-                }
-              ]
-            }
+            "commands": [
+              {
+                "command": "echo Ready to run migrations."
+              }
+            ]
           }
         },
-        "serve": {
-          "executor": "@nrwl/node:execute",
+        "deploy": {
+          "executor": "@nrwl/workspace:run-commands",
           "options": {
-            "buildTarget": "idleverse-hasura:build"
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
-          "options": {
-            "lintFilePatterns": ["apps/idleverse-hasura/**/*.ts"]
-          }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/idleverse-hasura"],
-          "options": {
-            "jestConfig": "apps/idleverse-hasura/jest.config.js",
-            "passWithNoTests": true
+            "commands": [
+              {
+                "command": "hasura metadata apply --project apps/idleverse-hasura/db --endpoint $IDLEVERSE_HASURA_URL  --admin-secret $IDLEVERSE_HASURA_ADMIN_SECRET"
+              },
+              {
+                "command": "hasura migrate apply --project apps/idleverse-hasura/db --endpoint $IDLEVERSE_HASURA_URL  --admin-secret $IDLEVERSE_HASURA_ADMIN_SECRET --database-name default"
+              },
+              {
+                "command": "hasura metadata reload --project apps/idleverse-hasura/db --endpoint $IDLEVERSE_HASURA_URL  --admin-secret $IDLEVERSE_HASURA_ADMIN_SECRET"
+              }
+            ]
           }
         }
       },
