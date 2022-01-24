@@ -20,7 +20,7 @@ const unclaimedRadius = 2;
 const userIndicatorRadius = 24;
 const userIndicatorLineHeight = 20;
 
-const styleOwnedStar = (ownerId: string, container: Container) => {
+const styleOwnedStar = (ownerId: string) => {
   const starGraphic = new PIXI.Graphics()
     .clear()
     .beginFill(claimedCol)
@@ -53,6 +53,9 @@ const styleOwnedStar = (ownerId: string, container: Container) => {
         .drawCircle(0, 0, userIndicatorRadius)
         .endFill();
 
+  avatarGraphic.interactive = true;
+  avatarGraphic.cursor = 'pointer';
+
   avatarGraphic.y = -(userIndicatorLineHeight + userIndicatorRadius);
 
   avatarGraphic.name = 'avatar';
@@ -75,10 +78,8 @@ export const Star = ({ x, y, isClaimed, id, ownerId }: Partial<StarProps>) => {
     .endFill();
 
   if (isClaimed) {
-    const { starGraphic: ownedStarGraphic, avatarGraphic } = styleOwnedStar(
-      ownerId,
-      container
-    );
+    const { starGraphic: ownedStarGraphic, avatarGraphic } =
+      styleOwnedStar(ownerId);
 
     starGraphic = ownedStarGraphic;
 
@@ -106,7 +107,7 @@ export const claimStar = (
   const starContainer = parentContainer.getChildByName(id, true) as Container;
   starContainer.removeChildren();
 
-  const { starGraphic, avatarGraphic } = styleOwnedStar(ownerId, starContainer);
+  const { starGraphic, avatarGraphic } = styleOwnedStar(ownerId);
 
   starContainer.zIndex = 2;
   starContainer.addChild(starGraphic, avatarGraphic);

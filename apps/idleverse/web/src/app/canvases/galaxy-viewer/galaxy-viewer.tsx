@@ -13,6 +13,7 @@ import { useEffect, useRef } from 'react';
 import {
   galaxyConfigVar,
   galaxyRotationVar,
+  userById,
 } from '../../_state/reactive-variables';
 import { useResize } from '../common-utils/use-resize.hook';
 import { useViewport } from '../common-utils/use-viewport';
@@ -102,6 +103,13 @@ export const GalaxyViewer = ({
         isClaimed: star.isClaimed,
         ownerId,
       });
+
+      if (_star.children.length > 1) {
+        const avatar = _star.getChildByName('avatar') as Graphics;
+        avatar.on('mouseover', () => {
+          console.warn(userById(ownerId).display_name);
+        });
+      }
 
       galaxyContainerRef.current.addChild(_star);
     });

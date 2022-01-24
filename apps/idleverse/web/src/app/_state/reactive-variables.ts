@@ -28,6 +28,8 @@ export const roleVar = makeVar<string>(null);
 export const accessTokenVar = makeVar<string>(null);
 
 export const usersVar = makeVar<UserInfoQuery['user_info']>([]);
+export const userById = (desiredId: string) =>
+  usersVar().find(({ id }) => id === desiredId);
 export const userAvatarResourcesVar = makeVar<AssetCollection>(null);
 
 export const solarSystemConfigVar = makeVar<SolarSystemConfig>({
