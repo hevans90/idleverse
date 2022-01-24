@@ -5,7 +5,7 @@ import {
   useReactiveVar,
   useSubscription,
 } from '@apollo/client';
-import { Box, useToast } from '@chakra-ui/react';
+import { Box, Theme, useTheme, useToast } from '@chakra-ui/react';
 import {
   CelestialsByGalaxyIdDocument,
   CelestialsByGalaxyIdSubscription,
@@ -23,6 +23,7 @@ import { useParams } from 'react-router-dom';
 import { Loading } from '../../components/loading';
 import { galaxyConfigVar, selfVar } from '../../_state/reactive-variables';
 import { dbGalaxyToGalaxyConfig } from '../common-utils/db-galaxy-to-galaxy-config';
+import { themeColToHex } from '../common-utils/theme-col-to-hex';
 import { useResize } from '../common-utils/use-resize.hook';
 import { GameUIBottomBar } from '../galaxy-generator/ui/bottom-bar';
 import { celestialOwnerMapper } from './celestial-owner';
@@ -61,6 +62,7 @@ export const GalaxyViewerContainer = () => {
   });
 
   const claimCelestialFn = useRef<() => unknown>(null);
+  const { colors } = useTheme<Theme>();
 
   useEffect(() => {
     if (data) {
@@ -105,7 +107,7 @@ export const GalaxyViewerContainer = () => {
         <Stage
           {...size}
           options={{
-            backgroundColor: 0x2d3239,
+            backgroundColor: themeColToHex(colors.gray['800']),
             antialias: true,
           }}
         >
