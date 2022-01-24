@@ -15,7 +15,7 @@ After all of this, talk to one of the code owners about setting up your .env fil
 
 ## Running against production
 
-`nx serve web` will serve the client against prod.
+`nx serve idleverse-web` will serve the client against prod.
 
 ---
 
