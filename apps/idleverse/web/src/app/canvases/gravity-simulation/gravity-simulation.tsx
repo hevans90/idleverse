@@ -106,6 +106,7 @@ export const GravitySimulation = () => {
    * Initial one-time setup.
    */
   useEffect(() => {
+    timeVar(0);
     gravitySimContainerRef.current.sortableChildren = true;
     gravitySimContainerRef.current.addChild(center.current);
     gravitySimContainerRef.current.addChild(ballContainer.current);
