@@ -110,7 +110,6 @@ export const GalaxyViewerContainer = () => {
           }}
         >
           <GalaxyViewer
-            owners={celestialOwnerMapper(celestialData)}
             claimedCelestials={celestialData.galaxy_by_pk.celestials}
             galaxyConfig={dbGalaxyToGalaxyConfig(data.galaxy_by_pk)}
           />

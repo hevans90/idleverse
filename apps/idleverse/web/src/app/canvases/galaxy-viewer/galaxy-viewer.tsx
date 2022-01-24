@@ -22,7 +22,6 @@ import {
   unclaimStar,
 } from '../galaxy-generator/graphics/star';
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
-import { CelestialOwner } from './celestial-owner';
 import {
   claimedCelestials,
   diffOwnedCelestials,
@@ -31,13 +30,11 @@ import {
 type GalaxyViewerProps = {
   galaxyConfig: GalaxyConfig;
   claimedCelestials: claimedCelestials;
-  owners: CelestialOwner[];
 };
 
 export const GalaxyViewer = ({
   galaxyConfig,
   claimedCelestials,
-  owners,
 }: GalaxyViewerProps) => {
   const app = useApp();
 
