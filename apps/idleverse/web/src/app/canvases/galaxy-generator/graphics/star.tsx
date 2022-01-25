@@ -101,12 +101,17 @@ export const Star = ({ x, y, isClaimed, id, ownerId }: Partial<StarProps>) => {
 export const claimStar = (
   id: string,
   ownerId: string,
-  parentContainer: Container
+  parentContainer: Container,
+  navigationFunction: (id: string) => void
 ) => {
   const starContainer = parentContainer.getChildByName(id, true) as Container;
   starContainer.removeChildren();
 
   const { starGraphic, avatarGraphic } = styleOwnedStar(ownerId);
+
+  avatarGraphic.on('mousedown', () => {
+    navigationFunction(id);
+  });
 
   starContainer.zIndex = 2;
   starContainer.addChild(starGraphic, avatarGraphic);

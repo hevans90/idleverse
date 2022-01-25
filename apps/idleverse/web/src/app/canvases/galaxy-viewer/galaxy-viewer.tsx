@@ -14,7 +14,6 @@ import { useHistory } from 'react-router-dom';
 import {
   galaxyConfigVar,
   galaxyRotationVar,
-  userById,
 } from '../../_state/reactive-variables';
 import { useResize } from '../common-utils/use-resize.hook';
 import { useViewport } from '../common-utils/use-viewport';
@@ -111,9 +110,9 @@ export const GalaxyViewer = ({
 
       if (_star.children.length > 1) {
         const avatar = _star.getChildByName('avatar') as Graphics;
-        avatar.on('mouseover', () => {
-          console.warn(userById(ownerId).display_name);
-        });
+        // avatar.on('mouseover', () => {
+        //   console.warn(userById(ownerId).display_name);
+        // });
         avatar.on('mousedown', () => {
           navigateToCelestial(id);
         });
@@ -134,7 +133,7 @@ export const GalaxyViewer = ({
     claimedCelestialsRef.current = claimedCelestials;
 
     additions?.forEach(({ id, owner_id }) =>
-      claimStar(id, owner_id, galaxyContainerRef.current)
+      claimStar(id, owner_id, galaxyContainerRef.current, navigateToCelestial)
     );
     deletions?.forEach(({ id }) => unclaimStar(id, galaxyContainerRef.current));
   }, [claimedCelestials]);
