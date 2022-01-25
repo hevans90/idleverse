@@ -1,6 +1,8 @@
 import * as PIXI from 'pixi.js';
 import { Container } from 'pixi.js';
 import { userAvatarResourcesVar } from '../../../_state/reactive-variables';
+import { theme } from '../../../_theme/theme';
+import { themeColToHex } from '../../common-utils/theme-col-to-hex';
 
 export type StarProps = {
   id: string;
@@ -10,14 +12,14 @@ export type StarProps = {
   ownerId?: string;
 };
 
-const claimedCol = 0xff0000;
+const claimedCol = themeColToHex(theme.colors.red['300']);
 const claimedRadius = 4;
-const unclaimedCol = 0xffffff;
+const unclaimedCol = themeColToHex(theme.colors.teal['200']);
 const unclaimedRadius = 2;
 const userIndicatorRadius = 24;
 const userIndicatorLineHeight = 20;
 
-const styleOwnedStar = (ownerId: string, container: Container) => {
+const styleOwnedStar = (ownerId: string) => {
   const starGraphic = new PIXI.Graphics()
     .clear()
     .beginFill(claimedCol)
@@ -29,23 +31,33 @@ const styleOwnedStar = (ownerId: string, container: Container) => {
     .moveTo(0, 0)
     .lineTo(0, -userIndicatorLineHeight);
 
-  const avatarTexture = userAvatarResourcesVar()[ownerId]?.texture;
+  const avatarTexture = userAvatarResourcesVar()?.[ownerId]?.texture;
 
   if (!avatarTexture) {
-    throw new Error(`no texture found for ${ownerId}`);
+    console.warn(`no texture found for ${ownerId}`);
   }
 
-  const { height, width } = avatarTexture;
+  const { height, width } = avatarTexture || { height: null, width: null };
 
-  const avatarGraphic = new PIXI.Graphics()
-    .beginTextureFill({
-      texture: avatarTexture,
-      matrix: new PIXI.Matrix(0.5, 0, 0, 0.5, width / 4, height / 4),
-    })
-    .drawCircle(0, 0, userIndicatorRadius)
-    .endFill();
+  const avatarGraphic = avatarTexture
+    ? new PIXI.Graphics()
+        .beginTextureFill({
+          texture: avatarTexture,
+          matrix: new PIXI.Matrix(0.5, 0, 0, 0.5, width / 4, height / 4),
+        })
+        .drawCircle(0, 0, userIndicatorRadius)
+        .endFill()
+    : new PIXI.Graphics()
+        .beginFill(claimedCol)
+        .drawCircle(0, 0, userIndicatorRadius)
+        .endFill();
+
+  avatarGraphic.interactive = true;
+  avatarGraphic.cursor = 'pointer';
 
   avatarGraphic.y = -(userIndicatorLineHeight + userIndicatorRadius);
+
+  avatarGraphic.name = 'avatar';
 
   return {
     starGraphic,
@@ -65,10 +77,8 @@ export const Star = ({ x, y, isClaimed, id, ownerId }: Partial<StarProps>) => {
     .endFill();
 
   if (isClaimed) {
-    const { starGraphic: ownedStarGraphic, avatarGraphic } = styleOwnedStar(
-      ownerId,
-      container
-    );
+    const { starGraphic: ownedStarGraphic, avatarGraphic } =
+      styleOwnedStar(ownerId);
 
     starGraphic = ownedStarGraphic;
 
@@ -91,12 +101,17 @@ export const Star = ({ x, y, isClaimed, id, ownerId }: Partial<StarProps>) => {
 export const claimStar = (
   id: string,
   ownerId: string,
-  parentContainer: Container
+  parentContainer: Container,
+  navigationFunction: (id: string) => void
 ) => {
   const starContainer = parentContainer.getChildByName(id, true) as Container;
   starContainer.removeChildren();
 
-  const { starGraphic, avatarGraphic } = styleOwnedStar(ownerId, starContainer);
+  const { starGraphic, avatarGraphic } = styleOwnedStar(ownerId);
+
+  avatarGraphic.on('mousedown', () => {
+    navigationFunction(id);
+  });
 
   starContainer.zIndex = 2;
   starContainer.addChild(starGraphic, avatarGraphic);

@@ -2,7 +2,11 @@ import { useReactiveVar } from '@apollo/client';
 import { Box, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { breadCrumbsVar, galaxyConfigVar } from '../_state/reactive-variables';
+import {
+  breadCrumbsVar,
+  celestialVar,
+  galaxyConfigVar,
+} from '../_state/reactive-variables';
 
 export const Breadcrumb = () => {
   const bg = useColorModeValue('gray.300', 'gray.700');
@@ -11,6 +15,7 @@ export const Breadcrumb = () => {
   const crumbs = useReactiveVar(breadCrumbsVar);
 
   const { name: galaxyName } = useReactiveVar(galaxyConfigVar);
+  const celestial = useReactiveVar(celestialVar);
 
   // Don't render a single breadcrumb.
   if (crumbs.length <= 1) {
@@ -38,6 +43,9 @@ export const Breadcrumb = () => {
         if (key + 1 === crumbs.length) {
           if (name === 'view-galaxy') {
             name = galaxyName;
+          }
+          if (name === 'view-celestial') {
+            name = celestial?.name || 'celestial';
           }
 
           return <span key={key}>{name}</span>;

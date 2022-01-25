@@ -1,0 +1,16 @@
+query CelestialById($id: String!) {
+  celestial_by_pk(id: $id) {
+    id
+    name
+    owner_id
+    galaxy {
+      name
+      stars
+      id
+    }
+    user_info {
+      display_name
+      id
+    }
+  }
+}

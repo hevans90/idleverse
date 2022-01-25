@@ -7,9 +7,13 @@ import {
 } from '@chakra-ui/react';
 import { generatorControlsHeight } from './generator-controls';
 
-export const GameUIBottomBar = () => {
+export const GameUIBottomBar = ({ bottom }: { bottom?: number }) => {
   const bg = useColorModeValue('gray.300', 'gray.700');
   const border = useColorModeValue('gray.200', 'gray.600');
+
+  if (bottom === undefined) {
+    bottom = generatorControlsHeight;
+  }
 
   return (
     <Box
@@ -18,7 +22,7 @@ export const GameUIBottomBar = () => {
       position="absolute"
       alignItems="start"
       bgColor={bg}
-      bottom={generatorControlsHeight}
+      bottom={bottom}
       left="0"
       borderWidth="1px"
       borderStyle="solid"

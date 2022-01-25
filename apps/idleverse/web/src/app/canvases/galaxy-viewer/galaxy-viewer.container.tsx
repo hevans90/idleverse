@@ -5,7 +5,7 @@ import {
   useReactiveVar,
   useSubscription,
 } from '@apollo/client';
-import { Box, useToast } from '@chakra-ui/react';
+import { Box, Theme, useTheme, useToast } from '@chakra-ui/react';
 import {
   CelestialsByGalaxyIdDocument,
   CelestialsByGalaxyIdSubscription,
@@ -19,11 +19,13 @@ import {
 } from '@idleverse/galaxy-gql';
 import { Stage } from '@inlet/react-pixi';
 import { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { Loading } from '../../components/loading';
 import { galaxyConfigVar, selfVar } from '../../_state/reactive-variables';
 import { dbGalaxyToGalaxyConfig } from '../common-utils/db-galaxy-to-galaxy-config';
+import { themeColToHex } from '../common-utils/theme-col-to-hex';
 import { useResize } from '../common-utils/use-resize.hook';
+import { GameUIBottomBar } from '../galaxy-generator/ui/bottom-bar';
 import { celestialOwnerMapper } from './celestial-owner';
 import { GalaxyViewer } from './galaxy-viewer';
 import { PlayerPanel } from './ui/player-panel';
@@ -40,6 +42,8 @@ export const GalaxyViewerContainer = () => {
   const toast = useToast();
 
   const self = useReactiveVar(selfVar);
+
+  const history = useHistory();
 
   const {
     data: celestialData,
@@ -60,6 +64,7 @@ export const GalaxyViewerContainer = () => {
   });
 
   const claimCelestialFn = useRef<() => unknown>(null);
+  const { colors } = useTheme<Theme>();
 
   useEffect(() => {
     if (data) {
@@ -104,14 +109,14 @@ export const GalaxyViewerContainer = () => {
         <Stage
           {...size}
           options={{
-            backgroundColor: 0x2d3239,
+            backgroundColor: themeColToHex(colors.gray['800']),
             antialias: true,
           }}
         >
           <GalaxyViewer
-            owners={celestialOwnerMapper(celestialData)}
             claimedCelestials={celestialData.galaxy_by_pk.celestials}
             galaxyConfig={dbGalaxyToGalaxyConfig(data.galaxy_by_pk)}
+            history={history}
           />
         </Stage>
         <PlayerPanel
@@ -121,6 +126,7 @@ export const GalaxyViewerContainer = () => {
           claimCelestialFunction={() => claimCelestialFn.current()}
           claimPending={claimPending}
         ></PlayerPanel>
+        <GameUIBottomBar bottom={0} />
       </Box>
     );
   } else {

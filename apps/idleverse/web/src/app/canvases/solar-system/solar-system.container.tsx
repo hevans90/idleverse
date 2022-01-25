@@ -1,9 +1,10 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Theme, useTheme } from '@chakra-ui/react';
 import { Stage } from '@inlet/react-pixi';
 import { useEffect, useState } from 'react';
 import { loadPlanets } from '../../asset-loading/load-planets';
 import { Loading } from '../../components/loading';
 import { animateVar } from '../../_state/reactive-variables';
+import { themeColToHex } from '../common-utils/theme-col-to-hex';
 import { useResize } from '../common-utils/use-resize.hook';
 import { SolarSystem } from './solar-system';
 import { SolarSystemControls } from './ui/controls';
@@ -12,6 +13,8 @@ export const SolarSystemContainer = () => {
   const size = useResize();
 
   const [celestialSpritesLoading, setCelestialSpritesLoading] = useState(true);
+
+  const { colors } = useTheme<Theme>();
 
   useEffect(() => {
     loadPlanets().then(() => setCelestialSpritesLoading(false));
@@ -27,7 +30,7 @@ export const SolarSystemContainer = () => {
       <Stage
         {...size}
         options={{
-          backgroundColor: 0x2d3239,
+          backgroundColor: themeColToHex(colors.gray['800']),
           antialias: true,
         }}
         onUnmount={() => animateVar(false)}

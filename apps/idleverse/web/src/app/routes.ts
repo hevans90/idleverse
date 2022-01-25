@@ -1,3 +1,4 @@
+import { CelestialViewerContainer } from './canvases/celestial-viewer/celestial-viewer.container';
 import { GalaxyGenContainer } from './canvases/galaxy-generator/galaxy-generator.container';
 import { GalaxyViewerContainer } from './canvases/galaxy-viewer/galaxy-viewer.container';
 import { GravitySimulationContainer } from './canvases/gravity-simulation/gravity-simulation.container';
@@ -12,6 +13,11 @@ export const routes = [
     path: '/galaxies/:id',
     name: 'view-galaxy',
     component: GalaxyViewerContainer,
+  },
+  {
+    path: '/celestials/:id',
+    name: 'view-celestial',
+    component: CelestialViewerContainer,
   },
   { path: '/galaxy-gen', name: 'galaxy-gen', component: GalaxyGenContainer },
   {

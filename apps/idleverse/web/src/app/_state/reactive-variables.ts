@@ -1,6 +1,6 @@
 import { makeVar } from '@apollo/client';
 import { GalaxyConfig } from '@idleverse/galaxy-gen';
-import { UserInfoQuery } from '@idleverse/galaxy-gql';
+import { CelestialByIdQuery, UserInfoQuery } from '@idleverse/galaxy-gql';
 import { v4 as uuidv4 } from 'uuid';
 import { AssetCollection, BreadCrumb, Self, SolarSystemConfig } from './models';
 
@@ -18,6 +18,9 @@ export const galaxyConfigVar = makeVar<GalaxyConfig>({
   stars: 1000,
 });
 
+export const celestialVar =
+  makeVar<CelestialByIdQuery['celestial_by_pk']>(null);
+
 export const galaxyRotationVar = makeVar(-0.001);
 export const timeVar = makeVar(0);
 export const rotateVar = makeVar(false);
@@ -28,6 +31,8 @@ export const roleVar = makeVar<string>(null);
 export const accessTokenVar = makeVar<string>(null);
 
 export const usersVar = makeVar<UserInfoQuery['user_info']>([]);
+export const userById = (desiredId: string) =>
+  usersVar().find(({ id }) => id === desiredId);
 export const userAvatarResourcesVar = makeVar<AssetCollection>(null);
 
 export const solarSystemConfigVar = makeVar<SolarSystemConfig>({
