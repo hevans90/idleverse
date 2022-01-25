@@ -1,6 +1,6 @@
 import { makeVar } from '@apollo/client';
 import { GalaxyConfig } from '@idleverse/galaxy-gen';
-import { UserInfoQuery } from '@idleverse/galaxy-gql';
+import { CelestialByIdQuery, UserInfoQuery } from '@idleverse/galaxy-gql';
 import { v4 as uuidv4 } from 'uuid';
 import { AssetCollection, BreadCrumb, Self, SolarSystemConfig } from './models';
 
@@ -17,6 +17,9 @@ export const galaxyConfigVar = makeVar<GalaxyConfig>({
   coreConcentrationFactor: 1,
   stars: 1000,
 });
+
+export const celestialVar =
+  makeVar<CelestialByIdQuery['celestial_by_pk']>(null);
 
 export const galaxyRotationVar = makeVar(-0.001);
 export const timeVar = makeVar(0);

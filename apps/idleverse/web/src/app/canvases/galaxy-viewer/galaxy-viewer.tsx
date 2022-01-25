@@ -10,6 +10,7 @@ import {
 import { useApp } from '@inlet/react-pixi';
 import { Container, Graphics } from 'pixi.js';
 import { useEffect, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   galaxyConfigVar,
   galaxyRotationVar,
@@ -31,11 +32,13 @@ import {
 type GalaxyViewerProps = {
   galaxyConfig: GalaxyConfig;
   claimedCelestials: claimedCelestials;
+  history: ReturnType<typeof useHistory>;
 };
 
 export const GalaxyViewer = ({
   galaxyConfig,
   claimedCelestials,
+  history,
 }: GalaxyViewerProps) => {
   const app = useApp();
 
@@ -59,6 +62,8 @@ export const GalaxyViewer = ({
       _star.x = position.x;
       _star.y = position.y;
     });
+
+  const navigateToCelestial = (id: string) => history.push(`/celestials/${id}`);
 
   useViewport(app, size, galaxyContainerRef, false);
 
@@ -108,6 +113,9 @@ export const GalaxyViewer = ({
         const avatar = _star.getChildByName('avatar') as Graphics;
         avatar.on('mouseover', () => {
           console.warn(userById(ownerId).display_name);
+        });
+        avatar.on('mousedown', () => {
+          navigateToCelestial(id);
         });
       }
 

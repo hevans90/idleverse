@@ -19,7 +19,7 @@ import {
 } from '@idleverse/galaxy-gql';
 import { Stage } from '@inlet/react-pixi';
 import { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { Loading } from '../../components/loading';
 import { galaxyConfigVar, selfVar } from '../../_state/reactive-variables';
 import { dbGalaxyToGalaxyConfig } from '../common-utils/db-galaxy-to-galaxy-config';
@@ -42,6 +42,8 @@ export const GalaxyViewerContainer = () => {
   const toast = useToast();
 
   const self = useReactiveVar(selfVar);
+
+  const history = useHistory();
 
   const {
     data: celestialData,
@@ -114,6 +116,7 @@ export const GalaxyViewerContainer = () => {
           <GalaxyViewer
             claimedCelestials={celestialData.galaxy_by_pk.celestials}
             galaxyConfig={dbGalaxyToGalaxyConfig(data.galaxy_by_pk)}
+            history={history}
           />
         </Stage>
         <PlayerPanel

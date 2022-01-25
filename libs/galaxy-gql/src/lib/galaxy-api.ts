@@ -1965,6 +1965,31 @@ export type GalaxyFieldsFragment = {
   }>;
 };
 
+export type CelestialByIdQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+export type CelestialByIdQuery = {
+  __typename?: 'query_root';
+  celestial_by_pk?: Maybe<{
+    __typename?: 'celestial';
+    id: string;
+    name?: Maybe<string>;
+    owner_id?: Maybe<string>;
+    galaxy: {
+      __typename?: 'galaxy';
+      name?: Maybe<string>;
+      stars: number;
+      id: any;
+    };
+    user_info?: Maybe<{
+      __typename?: 'user_info';
+      display_name?: Maybe<string>;
+      id: string;
+    }>;
+  }>;
+};
+
 export type CelestialsSubscriptionVariables = Exact<{ [key: string]: never }>;
 
 export type CelestialsSubscription = {
@@ -2286,6 +2311,28 @@ export const GalaxyFieldsFragmentDoc = gql`
   }
   ${CelestialFieldsFragmentDoc}
 `;
+export const CelestialByIdDocument = gql`
+  query CelestialById($id: String!) {
+    celestial_by_pk(id: $id) {
+      id
+      name
+      owner_id
+      galaxy {
+        name
+        stars
+        id
+      }
+      user_info {
+        display_name
+        id
+      }
+    }
+  }
+`;
+export type CelestialByIdQueryResult = Apollo.QueryResult<
+  CelestialByIdQuery,
+  CelestialByIdQueryVariables
+>;
 export const CelestialsDocument = gql`
   subscription Celestials {
     celestial {
