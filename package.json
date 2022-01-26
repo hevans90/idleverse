@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "prepare-watch": "nx build game-server && yarn --cwd dist/apps/idleverse/game-server install --no-lockfile",
+    "prepare-watch": "nx build idleverse-game-server && yarn --cwd dist/apps/idleverse/game-server install --no-lockfile",
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
