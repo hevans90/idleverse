@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
@@ -10,7 +11,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
   [SubKey in K]: Maybe<T[SubKey]>;
 };
-const defaultOptions = {};
+const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -23,61 +24,61 @@ export type Scalars = {
 
 /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
 export type Boolean_Comparison_Exp = {
-  _eq?: Maybe<Scalars['Boolean']>;
-  _gt?: Maybe<Scalars['Boolean']>;
-  _gte?: Maybe<Scalars['Boolean']>;
-  _in?: Maybe<Array<Scalars['Boolean']>>;
-  _is_null?: Maybe<Scalars['Boolean']>;
-  _lt?: Maybe<Scalars['Boolean']>;
-  _lte?: Maybe<Scalars['Boolean']>;
-  _neq?: Maybe<Scalars['Boolean']>;
-  _nin?: Maybe<Array<Scalars['Boolean']>>;
+  _eq?: InputMaybe<Scalars['Boolean']>;
+  _gt?: InputMaybe<Scalars['Boolean']>;
+  _gte?: InputMaybe<Scalars['Boolean']>;
+  _in?: InputMaybe<Array<Scalars['Boolean']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['Boolean']>;
+  _lte?: InputMaybe<Scalars['Boolean']>;
+  _neq?: InputMaybe<Scalars['Boolean']>;
+  _nin?: InputMaybe<Array<Scalars['Boolean']>>;
 };
 
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 export type Int_Comparison_Exp = {
-  _eq?: Maybe<Scalars['Int']>;
-  _gt?: Maybe<Scalars['Int']>;
-  _gte?: Maybe<Scalars['Int']>;
-  _in?: Maybe<Array<Scalars['Int']>>;
-  _is_null?: Maybe<Scalars['Boolean']>;
-  _lt?: Maybe<Scalars['Int']>;
-  _lte?: Maybe<Scalars['Int']>;
-  _neq?: Maybe<Scalars['Int']>;
-  _nin?: Maybe<Array<Scalars['Int']>>;
+  _eq?: InputMaybe<Scalars['Int']>;
+  _gt?: InputMaybe<Scalars['Int']>;
+  _gte?: InputMaybe<Scalars['Int']>;
+  _in?: InputMaybe<Array<Scalars['Int']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['Int']>;
+  _lte?: InputMaybe<Scalars['Int']>;
+  _neq?: InputMaybe<Scalars['Int']>;
+  _nin?: InputMaybe<Array<Scalars['Int']>>;
 };
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
 export type String_Comparison_Exp = {
-  _eq?: Maybe<Scalars['String']>;
-  _gt?: Maybe<Scalars['String']>;
-  _gte?: Maybe<Scalars['String']>;
+  _eq?: InputMaybe<Scalars['String']>;
+  _gt?: InputMaybe<Scalars['String']>;
+  _gte?: InputMaybe<Scalars['String']>;
   /** does the column match the given case-insensitive pattern */
-  _ilike?: Maybe<Scalars['String']>;
-  _in?: Maybe<Array<Scalars['String']>>;
+  _ilike?: InputMaybe<Scalars['String']>;
+  _in?: InputMaybe<Array<Scalars['String']>>;
   /** does the column match the given POSIX regular expression, case insensitive */
-  _iregex?: Maybe<Scalars['String']>;
-  _is_null?: Maybe<Scalars['Boolean']>;
+  _iregex?: InputMaybe<Scalars['String']>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
   /** does the column match the given pattern */
-  _like?: Maybe<Scalars['String']>;
-  _lt?: Maybe<Scalars['String']>;
-  _lte?: Maybe<Scalars['String']>;
-  _neq?: Maybe<Scalars['String']>;
+  _like?: InputMaybe<Scalars['String']>;
+  _lt?: InputMaybe<Scalars['String']>;
+  _lte?: InputMaybe<Scalars['String']>;
+  _neq?: InputMaybe<Scalars['String']>;
   /** does the column NOT match the given case-insensitive pattern */
-  _nilike?: Maybe<Scalars['String']>;
-  _nin?: Maybe<Array<Scalars['String']>>;
+  _nilike?: InputMaybe<Scalars['String']>;
+  _nin?: InputMaybe<Array<Scalars['String']>>;
   /** does the column NOT match the given POSIX regular expression, case insensitive */
-  _niregex?: Maybe<Scalars['String']>;
+  _niregex?: InputMaybe<Scalars['String']>;
   /** does the column NOT match the given pattern */
-  _nlike?: Maybe<Scalars['String']>;
+  _nlike?: InputMaybe<Scalars['String']>;
   /** does the column NOT match the given POSIX regular expression, case sensitive */
-  _nregex?: Maybe<Scalars['String']>;
+  _nregex?: InputMaybe<Scalars['String']>;
   /** does the column NOT match the given SQL regular expression */
-  _nsimilar?: Maybe<Scalars['String']>;
+  _nsimilar?: InputMaybe<Scalars['String']>;
   /** does the column match the given POSIX regular expression, case sensitive */
-  _regex?: Maybe<Scalars['String']>;
+  _regex?: InputMaybe<Scalars['String']>;
   /** does the column match the given SQL regular expression */
-  _similar?: Maybe<Scalars['String']>;
+  _similar?: InputMaybe<Scalars['String']>;
 };
 
 /** columns and relationships of "advert" */
@@ -120,30 +121,30 @@ export type Advert_Aggregate_Fields = {
 
 /** aggregate fields of "advert" */
 export type Advert_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<Advert_Select_Column>>;
-  distinct?: Maybe<Scalars['Boolean']>;
+  columns?: InputMaybe<Array<Advert_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** order by aggregate values of table "advert" */
 export type Advert_Aggregate_Order_By = {
-  avg?: Maybe<Advert_Avg_Order_By>;
-  count?: Maybe<Order_By>;
-  max?: Maybe<Advert_Max_Order_By>;
-  min?: Maybe<Advert_Min_Order_By>;
-  stddev?: Maybe<Advert_Stddev_Order_By>;
-  stddev_pop?: Maybe<Advert_Stddev_Pop_Order_By>;
-  stddev_samp?: Maybe<Advert_Stddev_Samp_Order_By>;
-  sum?: Maybe<Advert_Sum_Order_By>;
-  var_pop?: Maybe<Advert_Var_Pop_Order_By>;
-  var_samp?: Maybe<Advert_Var_Samp_Order_By>;
-  variance?: Maybe<Advert_Variance_Order_By>;
+  avg?: InputMaybe<Advert_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Advert_Max_Order_By>;
+  min?: InputMaybe<Advert_Min_Order_By>;
+  stddev?: InputMaybe<Advert_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Advert_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Advert_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Advert_Sum_Order_By>;
+  var_pop?: InputMaybe<Advert_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Advert_Var_Samp_Order_By>;
+  variance?: InputMaybe<Advert_Variance_Order_By>;
 };
 
 /** input type for inserting array relation for remote table "advert" */
 export type Advert_Arr_Rel_Insert_Input = {
   data: Array<Advert_Insert_Input>;
   /** on conflict condition */
-  on_conflict?: Maybe<Advert_On_Conflict>;
+  on_conflict?: InputMaybe<Advert_On_Conflict>;
 };
 
 /** aggregate avg on columns */
@@ -154,22 +155,22 @@ export type Advert_Avg_Fields = {
 
 /** order by avg() on columns of table "advert" */
 export type Advert_Avg_Order_By = {
-  food_quantity?: Maybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "advert". All fields are combined with a logical 'AND'. */
 export type Advert_Bool_Exp = {
-  _and?: Maybe<Array<Advert_Bool_Exp>>;
-  _not?: Maybe<Advert_Bool_Exp>;
-  _or?: Maybe<Array<Advert_Bool_Exp>>;
-  boardObjectByBoardObject?: Maybe<Board_Object_Bool_Exp>;
-  board_object?: Maybe<Uuid_Comparison_Exp>;
-  food_kind?: Maybe<Uuid_Comparison_Exp>;
-  food_quantity?: Maybe<Int_Comparison_Exp>;
-  game?: Maybe<Uuid_Comparison_Exp>;
-  gameByGame?: Maybe<Game_Bool_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  kind?: Maybe<Uuid_Comparison_Exp>;
+  _and?: InputMaybe<Array<Advert_Bool_Exp>>;
+  _not?: InputMaybe<Advert_Bool_Exp>;
+  _or?: InputMaybe<Array<Advert_Bool_Exp>>;
+  boardObjectByBoardObject?: InputMaybe<Board_Object_Bool_Exp>;
+  board_object?: InputMaybe<Uuid_Comparison_Exp>;
+  food_kind?: InputMaybe<Uuid_Comparison_Exp>;
+  food_quantity?: InputMaybe<Int_Comparison_Exp>;
+  game?: InputMaybe<Uuid_Comparison_Exp>;
+  gameByGame?: InputMaybe<Game_Bool_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  kind?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "advert" */
@@ -180,19 +181,19 @@ export enum Advert_Constraint {
 
 /** input type for incrementing numeric columns in table "advert" */
 export type Advert_Inc_Input = {
-  food_quantity?: Maybe<Scalars['Int']>;
+  food_quantity?: InputMaybe<Scalars['Int']>;
 };
 
 /** input type for inserting data into table "advert" */
 export type Advert_Insert_Input = {
-  boardObjectByBoardObject?: Maybe<Board_Object_Obj_Rel_Insert_Input>;
-  board_object?: Maybe<Scalars['uuid']>;
-  food_kind?: Maybe<Scalars['uuid']>;
-  food_quantity?: Maybe<Scalars['Int']>;
-  game?: Maybe<Scalars['uuid']>;
-  gameByGame?: Maybe<Game_Obj_Rel_Insert_Input>;
-  id?: Maybe<Scalars['uuid']>;
-  kind?: Maybe<Scalars['uuid']>;
+  boardObjectByBoardObject?: InputMaybe<Board_Object_Obj_Rel_Insert_Input>;
+  board_object?: InputMaybe<Scalars['uuid']>;
+  food_kind?: InputMaybe<Scalars['uuid']>;
+  food_quantity?: InputMaybe<Scalars['Int']>;
+  game?: InputMaybe<Scalars['uuid']>;
+  gameByGame?: InputMaybe<Game_Obj_Rel_Insert_Input>;
+  id?: InputMaybe<Scalars['uuid']>;
+  kind?: InputMaybe<Scalars['uuid']>;
 };
 
 /** aggregate max on columns */
@@ -208,12 +209,12 @@ export type Advert_Max_Fields = {
 
 /** order by max() on columns of table "advert" */
 export type Advert_Max_Order_By = {
-  board_object?: Maybe<Order_By>;
-  food_kind?: Maybe<Order_By>;
-  food_quantity?: Maybe<Order_By>;
-  game?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  kind?: Maybe<Order_By>;
+  board_object?: InputMaybe<Order_By>;
+  food_kind?: InputMaybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
+  game?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  kind?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -229,12 +230,12 @@ export type Advert_Min_Fields = {
 
 /** order by min() on columns of table "advert" */
 export type Advert_Min_Order_By = {
-  board_object?: Maybe<Order_By>;
-  food_kind?: Maybe<Order_By>;
-  food_quantity?: Maybe<Order_By>;
-  game?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  kind?: Maybe<Order_By>;
+  board_object?: InputMaybe<Order_By>;
+  food_kind?: InputMaybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
+  game?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  kind?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "advert" */
@@ -250,19 +251,19 @@ export type Advert_Mutation_Response = {
 export type Advert_On_Conflict = {
   constraint: Advert_Constraint;
   update_columns?: Array<Advert_Update_Column>;
-  where?: Maybe<Advert_Bool_Exp>;
+  where?: InputMaybe<Advert_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "advert". */
 export type Advert_Order_By = {
-  boardObjectByBoardObject?: Maybe<Board_Object_Order_By>;
-  board_object?: Maybe<Order_By>;
-  food_kind?: Maybe<Order_By>;
-  food_quantity?: Maybe<Order_By>;
-  game?: Maybe<Order_By>;
-  gameByGame?: Maybe<Game_Order_By>;
-  id?: Maybe<Order_By>;
-  kind?: Maybe<Order_By>;
+  boardObjectByBoardObject?: InputMaybe<Board_Object_Order_By>;
+  board_object?: InputMaybe<Order_By>;
+  food_kind?: InputMaybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
+  game?: InputMaybe<Order_By>;
+  gameByGame?: InputMaybe<Game_Order_By>;
+  id?: InputMaybe<Order_By>;
+  kind?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: advert */
@@ -288,12 +289,12 @@ export enum Advert_Select_Column {
 
 /** input type for updating data in table "advert" */
 export type Advert_Set_Input = {
-  board_object?: Maybe<Scalars['uuid']>;
-  food_kind?: Maybe<Scalars['uuid']>;
-  food_quantity?: Maybe<Scalars['Int']>;
-  game?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
-  kind?: Maybe<Scalars['uuid']>;
+  board_object?: InputMaybe<Scalars['uuid']>;
+  food_kind?: InputMaybe<Scalars['uuid']>;
+  food_quantity?: InputMaybe<Scalars['Int']>;
+  game?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  kind?: InputMaybe<Scalars['uuid']>;
 };
 
 /** aggregate stddev on columns */
@@ -304,7 +305,7 @@ export type Advert_Stddev_Fields = {
 
 /** order by stddev() on columns of table "advert" */
 export type Advert_Stddev_Order_By = {
-  food_quantity?: Maybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
@@ -315,7 +316,7 @@ export type Advert_Stddev_Pop_Fields = {
 
 /** order by stddev_pop() on columns of table "advert" */
 export type Advert_Stddev_Pop_Order_By = {
-  food_quantity?: Maybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -326,7 +327,7 @@ export type Advert_Stddev_Samp_Fields = {
 
 /** order by stddev_samp() on columns of table "advert" */
 export type Advert_Stddev_Samp_Order_By = {
-  food_quantity?: Maybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
 };
 
 /** aggregate sum on columns */
@@ -337,7 +338,7 @@ export type Advert_Sum_Fields = {
 
 /** order by sum() on columns of table "advert" */
 export type Advert_Sum_Order_By = {
-  food_quantity?: Maybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "advert" */
@@ -364,7 +365,7 @@ export type Advert_Var_Pop_Fields = {
 
 /** order by var_pop() on columns of table "advert" */
 export type Advert_Var_Pop_Order_By = {
-  food_quantity?: Maybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
@@ -375,7 +376,7 @@ export type Advert_Var_Samp_Fields = {
 
 /** order by var_samp() on columns of table "advert" */
 export type Advert_Var_Samp_Order_By = {
-  food_quantity?: Maybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
@@ -386,7 +387,7 @@ export type Advert_Variance_Fields = {
 
 /** order by variance() on columns of table "advert" */
 export type Advert_Variance_Order_By = {
-  food_quantity?: Maybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
 };
 
 /** columns and relationships of "board_object" */
@@ -419,56 +420,56 @@ export type Board_Object = {
 
 /** columns and relationships of "board_object" */
 export type Board_ObjectAdvertsArgs = {
-  distinct_on?: Maybe<Array<Advert_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Advert_Order_By>>;
-  where?: Maybe<Advert_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Advert_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Advert_Order_By>>;
+  where?: InputMaybe<Advert_Bool_Exp>;
 };
 
 /** columns and relationships of "board_object" */
 export type Board_ObjectAdverts_AggregateArgs = {
-  distinct_on?: Maybe<Array<Advert_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Advert_Order_By>>;
-  where?: Maybe<Advert_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Advert_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Advert_Order_By>>;
+  where?: InputMaybe<Advert_Bool_Exp>;
 };
 
 /** columns and relationships of "board_object" */
 export type Board_ObjectDinersArgs = {
-  distinct_on?: Maybe<Array<Diner_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Diner_Order_By>>;
-  where?: Maybe<Diner_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Diner_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Diner_Order_By>>;
+  where?: InputMaybe<Diner_Bool_Exp>;
 };
 
 /** columns and relationships of "board_object" */
 export type Board_ObjectDiners_AggregateArgs = {
-  distinct_on?: Maybe<Array<Diner_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Diner_Order_By>>;
-  where?: Maybe<Diner_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Diner_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Diner_Order_By>>;
+  where?: InputMaybe<Diner_Bool_Exp>;
 };
 
 /** columns and relationships of "board_object" */
 export type Board_ObjectGardensArgs = {
-  distinct_on?: Maybe<Array<Garden_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Garden_Order_By>>;
-  where?: Maybe<Garden_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Garden_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Garden_Order_By>>;
+  where?: InputMaybe<Garden_Bool_Exp>;
 };
 
 /** columns and relationships of "board_object" */
 export type Board_ObjectGardens_AggregateArgs = {
-  distinct_on?: Maybe<Array<Garden_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Garden_Order_By>>;
-  where?: Maybe<Garden_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Garden_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Garden_Order_By>>;
+  where?: InputMaybe<Garden_Bool_Exp>;
 };
 
 /** aggregated selection of "board_object" */
@@ -496,8 +497,8 @@ export type Board_Object_Aggregate_Fields = {
 
 /** aggregate fields of "board_object" */
 export type Board_Object_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<Board_Object_Select_Column>>;
-  distinct?: Maybe<Scalars['Boolean']>;
+  columns?: InputMaybe<Array<Board_Object_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** aggregate avg on columns */
@@ -510,20 +511,20 @@ export type Board_Object_Avg_Fields = {
 
 /** Boolean expression to filter rows from the table "board_object". All fields are combined with a logical 'AND'. */
 export type Board_Object_Bool_Exp = {
-  _and?: Maybe<Array<Board_Object_Bool_Exp>>;
-  _not?: Maybe<Board_Object_Bool_Exp>;
-  _or?: Maybe<Array<Board_Object_Bool_Exp>>;
-  adverts?: Maybe<Advert_Bool_Exp>;
-  diners?: Maybe<Diner_Bool_Exp>;
-  drink?: Maybe<Drink_Bool_Exp>;
-  gardens?: Maybe<Garden_Bool_Exp>;
-  house?: Maybe<House_Bool_Exp>;
-  i?: Maybe<Int_Comparison_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  j?: Maybe<Int_Comparison_Exp>;
-  kind?: Maybe<String_Comparison_Exp>;
-  road?: Maybe<Road_Bool_Exp>;
-  rotation?: Maybe<Int_Comparison_Exp>;
+  _and?: InputMaybe<Array<Board_Object_Bool_Exp>>;
+  _not?: InputMaybe<Board_Object_Bool_Exp>;
+  _or?: InputMaybe<Array<Board_Object_Bool_Exp>>;
+  adverts?: InputMaybe<Advert_Bool_Exp>;
+  diners?: InputMaybe<Diner_Bool_Exp>;
+  drink?: InputMaybe<Drink_Bool_Exp>;
+  gardens?: InputMaybe<Garden_Bool_Exp>;
+  house?: InputMaybe<House_Bool_Exp>;
+  i?: InputMaybe<Int_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  j?: InputMaybe<Int_Comparison_Exp>;
+  kind?: InputMaybe<String_Comparison_Exp>;
+  road?: InputMaybe<Road_Bool_Exp>;
+  rotation?: InputMaybe<Int_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "board_object" */
@@ -534,24 +535,24 @@ export enum Board_Object_Constraint {
 
 /** input type for incrementing numeric columns in table "board_object" */
 export type Board_Object_Inc_Input = {
-  i?: Maybe<Scalars['Int']>;
-  j?: Maybe<Scalars['Int']>;
-  rotation?: Maybe<Scalars['Int']>;
+  i?: InputMaybe<Scalars['Int']>;
+  j?: InputMaybe<Scalars['Int']>;
+  rotation?: InputMaybe<Scalars['Int']>;
 };
 
 /** input type for inserting data into table "board_object" */
 export type Board_Object_Insert_Input = {
-  adverts?: Maybe<Advert_Arr_Rel_Insert_Input>;
-  diners?: Maybe<Diner_Arr_Rel_Insert_Input>;
-  drink?: Maybe<Drink_Obj_Rel_Insert_Input>;
-  gardens?: Maybe<Garden_Arr_Rel_Insert_Input>;
-  house?: Maybe<House_Obj_Rel_Insert_Input>;
-  i?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['uuid']>;
-  j?: Maybe<Scalars['Int']>;
-  kind?: Maybe<Scalars['String']>;
-  road?: Maybe<Road_Obj_Rel_Insert_Input>;
-  rotation?: Maybe<Scalars['Int']>;
+  adverts?: InputMaybe<Advert_Arr_Rel_Insert_Input>;
+  diners?: InputMaybe<Diner_Arr_Rel_Insert_Input>;
+  drink?: InputMaybe<Drink_Obj_Rel_Insert_Input>;
+  gardens?: InputMaybe<Garden_Arr_Rel_Insert_Input>;
+  house?: InputMaybe<House_Obj_Rel_Insert_Input>;
+  i?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  j?: InputMaybe<Scalars['Int']>;
+  kind?: InputMaybe<Scalars['String']>;
+  road?: InputMaybe<Road_Obj_Rel_Insert_Input>;
+  rotation?: InputMaybe<Scalars['Int']>;
 };
 
 /** aggregate max on columns */
@@ -587,29 +588,29 @@ export type Board_Object_Mutation_Response = {
 export type Board_Object_Obj_Rel_Insert_Input = {
   data: Board_Object_Insert_Input;
   /** on conflict condition */
-  on_conflict?: Maybe<Board_Object_On_Conflict>;
+  on_conflict?: InputMaybe<Board_Object_On_Conflict>;
 };
 
 /** on conflict condition type for table "board_object" */
 export type Board_Object_On_Conflict = {
   constraint: Board_Object_Constraint;
   update_columns?: Array<Board_Object_Update_Column>;
-  where?: Maybe<Board_Object_Bool_Exp>;
+  where?: InputMaybe<Board_Object_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "board_object". */
 export type Board_Object_Order_By = {
-  adverts_aggregate?: Maybe<Advert_Aggregate_Order_By>;
-  diners_aggregate?: Maybe<Diner_Aggregate_Order_By>;
-  drink?: Maybe<Drink_Order_By>;
-  gardens_aggregate?: Maybe<Garden_Aggregate_Order_By>;
-  house?: Maybe<House_Order_By>;
-  i?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  j?: Maybe<Order_By>;
-  kind?: Maybe<Order_By>;
-  road?: Maybe<Road_Order_By>;
-  rotation?: Maybe<Order_By>;
+  adverts_aggregate?: InputMaybe<Advert_Aggregate_Order_By>;
+  diners_aggregate?: InputMaybe<Diner_Aggregate_Order_By>;
+  drink?: InputMaybe<Drink_Order_By>;
+  gardens_aggregate?: InputMaybe<Garden_Aggregate_Order_By>;
+  house?: InputMaybe<House_Order_By>;
+  i?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  j?: InputMaybe<Order_By>;
+  kind?: InputMaybe<Order_By>;
+  road?: InputMaybe<Road_Order_By>;
+  rotation?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: board_object */
@@ -633,11 +634,11 @@ export enum Board_Object_Select_Column {
 
 /** input type for updating data in table "board_object" */
 export type Board_Object_Set_Input = {
-  i?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['uuid']>;
-  j?: Maybe<Scalars['Int']>;
-  kind?: Maybe<Scalars['String']>;
-  rotation?: Maybe<Scalars['Int']>;
+  i?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  j?: InputMaybe<Scalars['Int']>;
+  kind?: InputMaybe<Scalars['String']>;
+  rotation?: InputMaybe<Scalars['Int']>;
 };
 
 /** aggregate stddev on columns */
@@ -739,34 +740,34 @@ export type Diner_Aggregate_Fields = {
 
 /** aggregate fields of "diner" */
 export type Diner_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<Diner_Select_Column>>;
-  distinct?: Maybe<Scalars['Boolean']>;
+  columns?: InputMaybe<Array<Diner_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** order by aggregate values of table "diner" */
 export type Diner_Aggregate_Order_By = {
-  count?: Maybe<Order_By>;
-  max?: Maybe<Diner_Max_Order_By>;
-  min?: Maybe<Diner_Min_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Diner_Max_Order_By>;
+  min?: InputMaybe<Diner_Min_Order_By>;
 };
 
 /** input type for inserting array relation for remote table "diner" */
 export type Diner_Arr_Rel_Insert_Input = {
   data: Array<Diner_Insert_Input>;
   /** on conflict condition */
-  on_conflict?: Maybe<Diner_On_Conflict>;
+  on_conflict?: InputMaybe<Diner_On_Conflict>;
 };
 
 /** Boolean expression to filter rows from the table "diner". All fields are combined with a logical 'AND'. */
 export type Diner_Bool_Exp = {
-  _and?: Maybe<Array<Diner_Bool_Exp>>;
-  _not?: Maybe<Diner_Bool_Exp>;
-  _or?: Maybe<Array<Diner_Bool_Exp>>;
-  boardObjectByBoardObject?: Maybe<Board_Object_Bool_Exp>;
-  board_object?: Maybe<Uuid_Comparison_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  owner?: Maybe<Uuid_Comparison_Exp>;
-  player?: Maybe<Player_Bool_Exp>;
+  _and?: InputMaybe<Array<Diner_Bool_Exp>>;
+  _not?: InputMaybe<Diner_Bool_Exp>;
+  _or?: InputMaybe<Array<Diner_Bool_Exp>>;
+  boardObjectByBoardObject?: InputMaybe<Board_Object_Bool_Exp>;
+  board_object?: InputMaybe<Uuid_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  owner?: InputMaybe<Uuid_Comparison_Exp>;
+  player?: InputMaybe<Player_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "diner" */
@@ -777,11 +778,11 @@ export enum Diner_Constraint {
 
 /** input type for inserting data into table "diner" */
 export type Diner_Insert_Input = {
-  boardObjectByBoardObject?: Maybe<Board_Object_Obj_Rel_Insert_Input>;
-  board_object?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
-  owner?: Maybe<Scalars['uuid']>;
-  player?: Maybe<Player_Obj_Rel_Insert_Input>;
+  boardObjectByBoardObject?: InputMaybe<Board_Object_Obj_Rel_Insert_Input>;
+  board_object?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  owner?: InputMaybe<Scalars['uuid']>;
+  player?: InputMaybe<Player_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -794,9 +795,9 @@ export type Diner_Max_Fields = {
 
 /** order by max() on columns of table "diner" */
 export type Diner_Max_Order_By = {
-  board_object?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  owner?: Maybe<Order_By>;
+  board_object?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  owner?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -809,9 +810,9 @@ export type Diner_Min_Fields = {
 
 /** order by min() on columns of table "diner" */
 export type Diner_Min_Order_By = {
-  board_object?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  owner?: Maybe<Order_By>;
+  board_object?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  owner?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "diner" */
@@ -827,16 +828,16 @@ export type Diner_Mutation_Response = {
 export type Diner_On_Conflict = {
   constraint: Diner_Constraint;
   update_columns?: Array<Diner_Update_Column>;
-  where?: Maybe<Diner_Bool_Exp>;
+  where?: InputMaybe<Diner_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "diner". */
 export type Diner_Order_By = {
-  boardObjectByBoardObject?: Maybe<Board_Object_Order_By>;
-  board_object?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  owner?: Maybe<Order_By>;
-  player?: Maybe<Player_Order_By>;
+  boardObjectByBoardObject?: InputMaybe<Board_Object_Order_By>;
+  board_object?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  owner?: InputMaybe<Order_By>;
+  player?: InputMaybe<Player_Order_By>;
 };
 
 /** primary key columns input for table: diner */
@@ -856,9 +857,9 @@ export enum Diner_Select_Column {
 
 /** input type for updating data in table "diner" */
 export type Diner_Set_Input = {
-  board_object?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
-  owner?: Maybe<Scalars['uuid']>;
+  board_object?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  owner?: InputMaybe<Scalars['uuid']>;
 };
 
 /** update columns of table "diner" */
@@ -900,34 +901,34 @@ export type Drink_Aggregate_Fields = {
 
 /** aggregate fields of "drink" */
 export type Drink_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<Drink_Select_Column>>;
-  distinct?: Maybe<Scalars['Boolean']>;
+  columns?: InputMaybe<Array<Drink_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** order by aggregate values of table "drink" */
 export type Drink_Aggregate_Order_By = {
-  count?: Maybe<Order_By>;
-  max?: Maybe<Drink_Max_Order_By>;
-  min?: Maybe<Drink_Min_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Drink_Max_Order_By>;
+  min?: InputMaybe<Drink_Min_Order_By>;
 };
 
 /** input type for inserting array relation for remote table "drink" */
 export type Drink_Arr_Rel_Insert_Input = {
   data: Array<Drink_Insert_Input>;
   /** on conflict condition */
-  on_conflict?: Maybe<Drink_On_Conflict>;
+  on_conflict?: InputMaybe<Drink_On_Conflict>;
 };
 
 /** Boolean expression to filter rows from the table "drink". All fields are combined with a logical 'AND'. */
 export type Drink_Bool_Exp = {
-  _and?: Maybe<Array<Drink_Bool_Exp>>;
-  _not?: Maybe<Drink_Bool_Exp>;
-  _or?: Maybe<Array<Drink_Bool_Exp>>;
-  board_object?: Maybe<Board_Object_Bool_Exp>;
-  game?: Maybe<Uuid_Comparison_Exp>;
-  gameByGame?: Maybe<Game_Bool_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  kind?: Maybe<Uuid_Comparison_Exp>;
+  _and?: InputMaybe<Array<Drink_Bool_Exp>>;
+  _not?: InputMaybe<Drink_Bool_Exp>;
+  _or?: InputMaybe<Array<Drink_Bool_Exp>>;
+  board_object?: InputMaybe<Board_Object_Bool_Exp>;
+  game?: InputMaybe<Uuid_Comparison_Exp>;
+  gameByGame?: InputMaybe<Game_Bool_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  kind?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "drink" */
@@ -938,11 +939,11 @@ export enum Drink_Constraint {
 
 /** input type for inserting data into table "drink" */
 export type Drink_Insert_Input = {
-  board_object?: Maybe<Board_Object_Obj_Rel_Insert_Input>;
-  game?: Maybe<Scalars['uuid']>;
-  gameByGame?: Maybe<Game_Obj_Rel_Insert_Input>;
-  id?: Maybe<Scalars['uuid']>;
-  kind?: Maybe<Scalars['uuid']>;
+  board_object?: InputMaybe<Board_Object_Obj_Rel_Insert_Input>;
+  game?: InputMaybe<Scalars['uuid']>;
+  gameByGame?: InputMaybe<Game_Obj_Rel_Insert_Input>;
+  id?: InputMaybe<Scalars['uuid']>;
+  kind?: InputMaybe<Scalars['uuid']>;
 };
 
 /** aggregate max on columns */
@@ -955,9 +956,9 @@ export type Drink_Max_Fields = {
 
 /** order by max() on columns of table "drink" */
 export type Drink_Max_Order_By = {
-  game?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  kind?: Maybe<Order_By>;
+  game?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  kind?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -970,9 +971,9 @@ export type Drink_Min_Fields = {
 
 /** order by min() on columns of table "drink" */
 export type Drink_Min_Order_By = {
-  game?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  kind?: Maybe<Order_By>;
+  game?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  kind?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "drink" */
@@ -988,23 +989,23 @@ export type Drink_Mutation_Response = {
 export type Drink_Obj_Rel_Insert_Input = {
   data: Drink_Insert_Input;
   /** on conflict condition */
-  on_conflict?: Maybe<Drink_On_Conflict>;
+  on_conflict?: InputMaybe<Drink_On_Conflict>;
 };
 
 /** on conflict condition type for table "drink" */
 export type Drink_On_Conflict = {
   constraint: Drink_Constraint;
   update_columns?: Array<Drink_Update_Column>;
-  where?: Maybe<Drink_Bool_Exp>;
+  where?: InputMaybe<Drink_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "drink". */
 export type Drink_Order_By = {
-  board_object?: Maybe<Board_Object_Order_By>;
-  game?: Maybe<Order_By>;
-  gameByGame?: Maybe<Game_Order_By>;
-  id?: Maybe<Order_By>;
-  kind?: Maybe<Order_By>;
+  board_object?: InputMaybe<Board_Object_Order_By>;
+  game?: InputMaybe<Order_By>;
+  gameByGame?: InputMaybe<Game_Order_By>;
+  id?: InputMaybe<Order_By>;
+  kind?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: drink */
@@ -1024,9 +1025,9 @@ export enum Drink_Select_Column {
 
 /** input type for updating data in table "drink" */
 export type Drink_Set_Input = {
-  game?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
-  kind?: Maybe<Scalars['uuid']>;
+  game?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  kind?: InputMaybe<Scalars['uuid']>;
 };
 
 /** update columns of table "drink" */
@@ -1083,30 +1084,30 @@ export type Employee_Aggregate_Fields = {
 
 /** aggregate fields of "employee" */
 export type Employee_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<Employee_Select_Column>>;
-  distinct?: Maybe<Scalars['Boolean']>;
+  columns?: InputMaybe<Array<Employee_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** order by aggregate values of table "employee" */
 export type Employee_Aggregate_Order_By = {
-  avg?: Maybe<Employee_Avg_Order_By>;
-  count?: Maybe<Order_By>;
-  max?: Maybe<Employee_Max_Order_By>;
-  min?: Maybe<Employee_Min_Order_By>;
-  stddev?: Maybe<Employee_Stddev_Order_By>;
-  stddev_pop?: Maybe<Employee_Stddev_Pop_Order_By>;
-  stddev_samp?: Maybe<Employee_Stddev_Samp_Order_By>;
-  sum?: Maybe<Employee_Sum_Order_By>;
-  var_pop?: Maybe<Employee_Var_Pop_Order_By>;
-  var_samp?: Maybe<Employee_Var_Samp_Order_By>;
-  variance?: Maybe<Employee_Variance_Order_By>;
+  avg?: InputMaybe<Employee_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Employee_Max_Order_By>;
+  min?: InputMaybe<Employee_Min_Order_By>;
+  stddev?: InputMaybe<Employee_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Employee_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Employee_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Employee_Sum_Order_By>;
+  var_pop?: InputMaybe<Employee_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Employee_Var_Samp_Order_By>;
+  variance?: InputMaybe<Employee_Variance_Order_By>;
 };
 
 /** input type for inserting array relation for remote table "employee" */
 export type Employee_Arr_Rel_Insert_Input = {
   data: Array<Employee_Insert_Input>;
   /** on conflict condition */
-  on_conflict?: Maybe<Employee_On_Conflict>;
+  on_conflict?: InputMaybe<Employee_On_Conflict>;
 };
 
 /** aggregate avg on columns */
@@ -1118,28 +1119,28 @@ export type Employee_Avg_Fields = {
 
 /** order by avg() on columns of table "employee" */
 export type Employee_Avg_Order_By = {
-  hires_available?: Maybe<Order_By>;
-  trains_available?: Maybe<Order_By>;
+  hires_available?: InputMaybe<Order_By>;
+  trains_available?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "employee". All fields are combined with a logical 'AND'. */
 export type Employee_Bool_Exp = {
-  _and?: Maybe<Array<Employee_Bool_Exp>>;
-  _not?: Maybe<Employee_Bool_Exp>;
-  _or?: Maybe<Array<Employee_Bool_Exp>>;
-  game?: Maybe<Uuid_Comparison_Exp>;
-  gameByGame?: Maybe<Game_Bool_Exp>;
-  hired_by?: Maybe<Uuid_Comparison_Exp>;
-  hires_available?: Maybe<Int_Comparison_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  kind?: Maybe<String_Comparison_Exp>;
-  manager?: Maybe<Uuid_Comparison_Exp>;
-  owner?: Maybe<Uuid_Comparison_Exp>;
-  promoted_from?: Maybe<Uuid_Comparison_Exp>;
-  trained_by?: Maybe<Uuid_Comparison_Exp>;
-  trained_from?: Maybe<Uuid_Comparison_Exp>;
-  trains_available?: Maybe<Int_Comparison_Exp>;
-  used?: Maybe<Boolean_Comparison_Exp>;
+  _and?: InputMaybe<Array<Employee_Bool_Exp>>;
+  _not?: InputMaybe<Employee_Bool_Exp>;
+  _or?: InputMaybe<Array<Employee_Bool_Exp>>;
+  game?: InputMaybe<Uuid_Comparison_Exp>;
+  gameByGame?: InputMaybe<Game_Bool_Exp>;
+  hired_by?: InputMaybe<Uuid_Comparison_Exp>;
+  hires_available?: InputMaybe<Int_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  kind?: InputMaybe<String_Comparison_Exp>;
+  manager?: InputMaybe<Uuid_Comparison_Exp>;
+  owner?: InputMaybe<Uuid_Comparison_Exp>;
+  promoted_from?: InputMaybe<Uuid_Comparison_Exp>;
+  trained_by?: InputMaybe<Uuid_Comparison_Exp>;
+  trained_from?: InputMaybe<Uuid_Comparison_Exp>;
+  trains_available?: InputMaybe<Int_Comparison_Exp>;
+  used?: InputMaybe<Boolean_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "employee" */
@@ -1150,25 +1151,25 @@ export enum Employee_Constraint {
 
 /** input type for incrementing numeric columns in table "employee" */
 export type Employee_Inc_Input = {
-  hires_available?: Maybe<Scalars['Int']>;
-  trains_available?: Maybe<Scalars['Int']>;
+  hires_available?: InputMaybe<Scalars['Int']>;
+  trains_available?: InputMaybe<Scalars['Int']>;
 };
 
 /** input type for inserting data into table "employee" */
 export type Employee_Insert_Input = {
-  game?: Maybe<Scalars['uuid']>;
-  gameByGame?: Maybe<Game_Obj_Rel_Insert_Input>;
-  hired_by?: Maybe<Scalars['uuid']>;
-  hires_available?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['uuid']>;
-  kind?: Maybe<Scalars['String']>;
-  manager?: Maybe<Scalars['uuid']>;
-  owner?: Maybe<Scalars['uuid']>;
-  promoted_from?: Maybe<Scalars['uuid']>;
-  trained_by?: Maybe<Scalars['uuid']>;
-  trained_from?: Maybe<Scalars['uuid']>;
-  trains_available?: Maybe<Scalars['Int']>;
-  used?: Maybe<Scalars['Boolean']>;
+  game?: InputMaybe<Scalars['uuid']>;
+  gameByGame?: InputMaybe<Game_Obj_Rel_Insert_Input>;
+  hired_by?: InputMaybe<Scalars['uuid']>;
+  hires_available?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  kind?: InputMaybe<Scalars['String']>;
+  manager?: InputMaybe<Scalars['uuid']>;
+  owner?: InputMaybe<Scalars['uuid']>;
+  promoted_from?: InputMaybe<Scalars['uuid']>;
+  trained_by?: InputMaybe<Scalars['uuid']>;
+  trained_from?: InputMaybe<Scalars['uuid']>;
+  trains_available?: InputMaybe<Scalars['Int']>;
+  used?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** aggregate max on columns */
@@ -1189,17 +1190,17 @@ export type Employee_Max_Fields = {
 
 /** order by max() on columns of table "employee" */
 export type Employee_Max_Order_By = {
-  game?: Maybe<Order_By>;
-  hired_by?: Maybe<Order_By>;
-  hires_available?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  kind?: Maybe<Order_By>;
-  manager?: Maybe<Order_By>;
-  owner?: Maybe<Order_By>;
-  promoted_from?: Maybe<Order_By>;
-  trained_by?: Maybe<Order_By>;
-  trained_from?: Maybe<Order_By>;
-  trains_available?: Maybe<Order_By>;
+  game?: InputMaybe<Order_By>;
+  hired_by?: InputMaybe<Order_By>;
+  hires_available?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  kind?: InputMaybe<Order_By>;
+  manager?: InputMaybe<Order_By>;
+  owner?: InputMaybe<Order_By>;
+  promoted_from?: InputMaybe<Order_By>;
+  trained_by?: InputMaybe<Order_By>;
+  trained_from?: InputMaybe<Order_By>;
+  trains_available?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -1220,17 +1221,17 @@ export type Employee_Min_Fields = {
 
 /** order by min() on columns of table "employee" */
 export type Employee_Min_Order_By = {
-  game?: Maybe<Order_By>;
-  hired_by?: Maybe<Order_By>;
-  hires_available?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  kind?: Maybe<Order_By>;
-  manager?: Maybe<Order_By>;
-  owner?: Maybe<Order_By>;
-  promoted_from?: Maybe<Order_By>;
-  trained_by?: Maybe<Order_By>;
-  trained_from?: Maybe<Order_By>;
-  trains_available?: Maybe<Order_By>;
+  game?: InputMaybe<Order_By>;
+  hired_by?: InputMaybe<Order_By>;
+  hires_available?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  kind?: InputMaybe<Order_By>;
+  manager?: InputMaybe<Order_By>;
+  owner?: InputMaybe<Order_By>;
+  promoted_from?: InputMaybe<Order_By>;
+  trained_by?: InputMaybe<Order_By>;
+  trained_from?: InputMaybe<Order_By>;
+  trains_available?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "employee" */
@@ -1246,24 +1247,24 @@ export type Employee_Mutation_Response = {
 export type Employee_On_Conflict = {
   constraint: Employee_Constraint;
   update_columns?: Array<Employee_Update_Column>;
-  where?: Maybe<Employee_Bool_Exp>;
+  where?: InputMaybe<Employee_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "employee". */
 export type Employee_Order_By = {
-  game?: Maybe<Order_By>;
-  gameByGame?: Maybe<Game_Order_By>;
-  hired_by?: Maybe<Order_By>;
-  hires_available?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  kind?: Maybe<Order_By>;
-  manager?: Maybe<Order_By>;
-  owner?: Maybe<Order_By>;
-  promoted_from?: Maybe<Order_By>;
-  trained_by?: Maybe<Order_By>;
-  trained_from?: Maybe<Order_By>;
-  trains_available?: Maybe<Order_By>;
-  used?: Maybe<Order_By>;
+  game?: InputMaybe<Order_By>;
+  gameByGame?: InputMaybe<Game_Order_By>;
+  hired_by?: InputMaybe<Order_By>;
+  hires_available?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  kind?: InputMaybe<Order_By>;
+  manager?: InputMaybe<Order_By>;
+  owner?: InputMaybe<Order_By>;
+  promoted_from?: InputMaybe<Order_By>;
+  trained_by?: InputMaybe<Order_By>;
+  trained_from?: InputMaybe<Order_By>;
+  trains_available?: InputMaybe<Order_By>;
+  used?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: employee */
@@ -1301,18 +1302,18 @@ export enum Employee_Select_Column {
 
 /** input type for updating data in table "employee" */
 export type Employee_Set_Input = {
-  game?: Maybe<Scalars['uuid']>;
-  hired_by?: Maybe<Scalars['uuid']>;
-  hires_available?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['uuid']>;
-  kind?: Maybe<Scalars['String']>;
-  manager?: Maybe<Scalars['uuid']>;
-  owner?: Maybe<Scalars['uuid']>;
-  promoted_from?: Maybe<Scalars['uuid']>;
-  trained_by?: Maybe<Scalars['uuid']>;
-  trained_from?: Maybe<Scalars['uuid']>;
-  trains_available?: Maybe<Scalars['Int']>;
-  used?: Maybe<Scalars['Boolean']>;
+  game?: InputMaybe<Scalars['uuid']>;
+  hired_by?: InputMaybe<Scalars['uuid']>;
+  hires_available?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  kind?: InputMaybe<Scalars['String']>;
+  manager?: InputMaybe<Scalars['uuid']>;
+  owner?: InputMaybe<Scalars['uuid']>;
+  promoted_from?: InputMaybe<Scalars['uuid']>;
+  trained_by?: InputMaybe<Scalars['uuid']>;
+  trained_from?: InputMaybe<Scalars['uuid']>;
+  trains_available?: InputMaybe<Scalars['Int']>;
+  used?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** aggregate stddev on columns */
@@ -1324,8 +1325,8 @@ export type Employee_Stddev_Fields = {
 
 /** order by stddev() on columns of table "employee" */
 export type Employee_Stddev_Order_By = {
-  hires_available?: Maybe<Order_By>;
-  trains_available?: Maybe<Order_By>;
+  hires_available?: InputMaybe<Order_By>;
+  trains_available?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
@@ -1337,8 +1338,8 @@ export type Employee_Stddev_Pop_Fields = {
 
 /** order by stddev_pop() on columns of table "employee" */
 export type Employee_Stddev_Pop_Order_By = {
-  hires_available?: Maybe<Order_By>;
-  trains_available?: Maybe<Order_By>;
+  hires_available?: InputMaybe<Order_By>;
+  trains_available?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -1350,8 +1351,8 @@ export type Employee_Stddev_Samp_Fields = {
 
 /** order by stddev_samp() on columns of table "employee" */
 export type Employee_Stddev_Samp_Order_By = {
-  hires_available?: Maybe<Order_By>;
-  trains_available?: Maybe<Order_By>;
+  hires_available?: InputMaybe<Order_By>;
+  trains_available?: InputMaybe<Order_By>;
 };
 
 /** aggregate sum on columns */
@@ -1363,8 +1364,8 @@ export type Employee_Sum_Fields = {
 
 /** order by sum() on columns of table "employee" */
 export type Employee_Sum_Order_By = {
-  hires_available?: Maybe<Order_By>;
-  trains_available?: Maybe<Order_By>;
+  hires_available?: InputMaybe<Order_By>;
+  trains_available?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "employee" */
@@ -1404,8 +1405,8 @@ export type Employee_Var_Pop_Fields = {
 
 /** order by var_pop() on columns of table "employee" */
 export type Employee_Var_Pop_Order_By = {
-  hires_available?: Maybe<Order_By>;
-  trains_available?: Maybe<Order_By>;
+  hires_available?: InputMaybe<Order_By>;
+  trains_available?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
@@ -1417,8 +1418,8 @@ export type Employee_Var_Samp_Fields = {
 
 /** order by var_samp() on columns of table "employee" */
 export type Employee_Var_Samp_Order_By = {
-  hires_available?: Maybe<Order_By>;
-  trains_available?: Maybe<Order_By>;
+  hires_available?: InputMaybe<Order_By>;
+  trains_available?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
@@ -1430,8 +1431,8 @@ export type Employee_Variance_Fields = {
 
 /** order by variance() on columns of table "employee" */
 export type Employee_Variance_Order_By = {
-  hires_available?: Maybe<Order_By>;
-  trains_available?: Maybe<Order_By>;
+  hires_available?: InputMaybe<Order_By>;
+  trains_available?: InputMaybe<Order_By>;
 };
 
 /** columns and relationships of "game" */
@@ -1471,128 +1472,128 @@ export type Game = {
 
 /** columns and relationships of "game" */
 export type GameAdvertsArgs = {
-  distinct_on?: Maybe<Array<Advert_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Advert_Order_By>>;
-  where?: Maybe<Advert_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Advert_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Advert_Order_By>>;
+  where?: InputMaybe<Advert_Bool_Exp>;
 };
 
 /** columns and relationships of "game" */
 export type GameAdverts_AggregateArgs = {
-  distinct_on?: Maybe<Array<Advert_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Advert_Order_By>>;
-  where?: Maybe<Advert_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Advert_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Advert_Order_By>>;
+  where?: InputMaybe<Advert_Bool_Exp>;
 };
 
 /** columns and relationships of "game" */
 export type GameDrinksArgs = {
-  distinct_on?: Maybe<Array<Drink_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Drink_Order_By>>;
-  where?: Maybe<Drink_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Drink_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Drink_Order_By>>;
+  where?: InputMaybe<Drink_Bool_Exp>;
 };
 
 /** columns and relationships of "game" */
 export type GameDrinks_AggregateArgs = {
-  distinct_on?: Maybe<Array<Drink_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Drink_Order_By>>;
-  where?: Maybe<Drink_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Drink_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Drink_Order_By>>;
+  where?: InputMaybe<Drink_Bool_Exp>;
 };
 
 /** columns and relationships of "game" */
 export type GameEmployeesArgs = {
-  distinct_on?: Maybe<Array<Employee_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Employee_Order_By>>;
-  where?: Maybe<Employee_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Employee_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Employee_Order_By>>;
+  where?: InputMaybe<Employee_Bool_Exp>;
 };
 
 /** columns and relationships of "game" */
 export type GameEmployees_AggregateArgs = {
-  distinct_on?: Maybe<Array<Employee_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Employee_Order_By>>;
-  where?: Maybe<Employee_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Employee_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Employee_Order_By>>;
+  where?: InputMaybe<Employee_Bool_Exp>;
 };
 
 /** columns and relationships of "game" */
 export type GameGardensArgs = {
-  distinct_on?: Maybe<Array<Garden_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Garden_Order_By>>;
-  where?: Maybe<Garden_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Garden_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Garden_Order_By>>;
+  where?: InputMaybe<Garden_Bool_Exp>;
 };
 
 /** columns and relationships of "game" */
 export type GameGardens_AggregateArgs = {
-  distinct_on?: Maybe<Array<Garden_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Garden_Order_By>>;
-  where?: Maybe<Garden_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Garden_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Garden_Order_By>>;
+  where?: InputMaybe<Garden_Bool_Exp>;
 };
 
 /** columns and relationships of "game" */
 export type GameHousesArgs = {
-  distinct_on?: Maybe<Array<House_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<House_Order_By>>;
-  where?: Maybe<House_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<House_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<House_Order_By>>;
+  where?: InputMaybe<House_Bool_Exp>;
 };
 
 /** columns and relationships of "game" */
 export type GameHouses_AggregateArgs = {
-  distinct_on?: Maybe<Array<House_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<House_Order_By>>;
-  where?: Maybe<House_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<House_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<House_Order_By>>;
+  where?: InputMaybe<House_Bool_Exp>;
 };
 
 /** columns and relationships of "game" */
 export type GamePlayersArgs = {
-  distinct_on?: Maybe<Array<Player_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Player_Order_By>>;
-  where?: Maybe<Player_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Player_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Player_Order_By>>;
+  where?: InputMaybe<Player_Bool_Exp>;
 };
 
 /** columns and relationships of "game" */
 export type GamePlayers_AggregateArgs = {
-  distinct_on?: Maybe<Array<Player_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Player_Order_By>>;
-  where?: Maybe<Player_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Player_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Player_Order_By>>;
+  where?: InputMaybe<Player_Bool_Exp>;
 };
 
 /** columns and relationships of "game" */
 export type GameRoadsArgs = {
-  distinct_on?: Maybe<Array<Road_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Road_Order_By>>;
-  where?: Maybe<Road_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Road_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Road_Order_By>>;
+  where?: InputMaybe<Road_Bool_Exp>;
 };
 
 /** columns and relationships of "game" */
 export type GameRoads_AggregateArgs = {
-  distinct_on?: Maybe<Array<Road_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Road_Order_By>>;
-  where?: Maybe<Road_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Road_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Road_Order_By>>;
+  where?: InputMaybe<Road_Bool_Exp>;
 };
 
 /** aggregated selection of "game" */
@@ -1612,24 +1613,24 @@ export type Game_Aggregate_Fields = {
 
 /** aggregate fields of "game" */
 export type Game_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<Game_Select_Column>>;
-  distinct?: Maybe<Scalars['Boolean']>;
+  columns?: InputMaybe<Array<Game_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** Boolean expression to filter rows from the table "game". All fields are combined with a logical 'AND'. */
 export type Game_Bool_Exp = {
-  _and?: Maybe<Array<Game_Bool_Exp>>;
-  _not?: Maybe<Game_Bool_Exp>;
-  _or?: Maybe<Array<Game_Bool_Exp>>;
-  adverts?: Maybe<Advert_Bool_Exp>;
-  drinks?: Maybe<Drink_Bool_Exp>;
-  employees?: Maybe<Employee_Bool_Exp>;
-  gardens?: Maybe<Garden_Bool_Exp>;
-  houses?: Maybe<House_Bool_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  name?: Maybe<String_Comparison_Exp>;
-  players?: Maybe<Player_Bool_Exp>;
-  roads?: Maybe<Road_Bool_Exp>;
+  _and?: InputMaybe<Array<Game_Bool_Exp>>;
+  _not?: InputMaybe<Game_Bool_Exp>;
+  _or?: InputMaybe<Array<Game_Bool_Exp>>;
+  adverts?: InputMaybe<Advert_Bool_Exp>;
+  drinks?: InputMaybe<Drink_Bool_Exp>;
+  employees?: InputMaybe<Employee_Bool_Exp>;
+  gardens?: InputMaybe<Garden_Bool_Exp>;
+  houses?: InputMaybe<House_Bool_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  players?: InputMaybe<Player_Bool_Exp>;
+  roads?: InputMaybe<Road_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "game" */
@@ -1640,15 +1641,15 @@ export enum Game_Constraint {
 
 /** input type for inserting data into table "game" */
 export type Game_Insert_Input = {
-  adverts?: Maybe<Advert_Arr_Rel_Insert_Input>;
-  drinks?: Maybe<Drink_Arr_Rel_Insert_Input>;
-  employees?: Maybe<Employee_Arr_Rel_Insert_Input>;
-  gardens?: Maybe<Garden_Arr_Rel_Insert_Input>;
-  houses?: Maybe<House_Arr_Rel_Insert_Input>;
-  id?: Maybe<Scalars['uuid']>;
-  name?: Maybe<Scalars['String']>;
-  players?: Maybe<Player_Arr_Rel_Insert_Input>;
-  roads?: Maybe<Road_Arr_Rel_Insert_Input>;
+  adverts?: InputMaybe<Advert_Arr_Rel_Insert_Input>;
+  drinks?: InputMaybe<Drink_Arr_Rel_Insert_Input>;
+  employees?: InputMaybe<Employee_Arr_Rel_Insert_Input>;
+  gardens?: InputMaybe<Garden_Arr_Rel_Insert_Input>;
+  houses?: InputMaybe<House_Arr_Rel_Insert_Input>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  players?: InputMaybe<Player_Arr_Rel_Insert_Input>;
+  roads?: InputMaybe<Road_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -1678,27 +1679,27 @@ export type Game_Mutation_Response = {
 export type Game_Obj_Rel_Insert_Input = {
   data: Game_Insert_Input;
   /** on conflict condition */
-  on_conflict?: Maybe<Game_On_Conflict>;
+  on_conflict?: InputMaybe<Game_On_Conflict>;
 };
 
 /** on conflict condition type for table "game" */
 export type Game_On_Conflict = {
   constraint: Game_Constraint;
   update_columns?: Array<Game_Update_Column>;
-  where?: Maybe<Game_Bool_Exp>;
+  where?: InputMaybe<Game_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "game". */
 export type Game_Order_By = {
-  adverts_aggregate?: Maybe<Advert_Aggregate_Order_By>;
-  drinks_aggregate?: Maybe<Drink_Aggregate_Order_By>;
-  employees_aggregate?: Maybe<Employee_Aggregate_Order_By>;
-  gardens_aggregate?: Maybe<Garden_Aggregate_Order_By>;
-  houses_aggregate?: Maybe<House_Aggregate_Order_By>;
-  id?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
-  players_aggregate?: Maybe<Player_Aggregate_Order_By>;
-  roads_aggregate?: Maybe<Road_Aggregate_Order_By>;
+  adverts_aggregate?: InputMaybe<Advert_Aggregate_Order_By>;
+  drinks_aggregate?: InputMaybe<Drink_Aggregate_Order_By>;
+  employees_aggregate?: InputMaybe<Employee_Aggregate_Order_By>;
+  gardens_aggregate?: InputMaybe<Garden_Aggregate_Order_By>;
+  houses_aggregate?: InputMaybe<House_Aggregate_Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  players_aggregate?: InputMaybe<Player_Aggregate_Order_By>;
+  roads_aggregate?: InputMaybe<Road_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: game */
@@ -1716,8 +1717,8 @@ export enum Game_Select_Column {
 
 /** input type for updating data in table "game" */
 export type Game_Set_Input = {
-  id?: Maybe<Scalars['uuid']>;
-  name?: Maybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
 };
 
 /** update columns of table "game" */
@@ -1757,34 +1758,34 @@ export type Garden_Aggregate_Fields = {
 
 /** aggregate fields of "garden" */
 export type Garden_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<Garden_Select_Column>>;
-  distinct?: Maybe<Scalars['Boolean']>;
+  columns?: InputMaybe<Array<Garden_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** order by aggregate values of table "garden" */
 export type Garden_Aggregate_Order_By = {
-  count?: Maybe<Order_By>;
-  max?: Maybe<Garden_Max_Order_By>;
-  min?: Maybe<Garden_Min_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Garden_Max_Order_By>;
+  min?: InputMaybe<Garden_Min_Order_By>;
 };
 
 /** input type for inserting array relation for remote table "garden" */
 export type Garden_Arr_Rel_Insert_Input = {
   data: Array<Garden_Insert_Input>;
   /** on conflict condition */
-  on_conflict?: Maybe<Garden_On_Conflict>;
+  on_conflict?: InputMaybe<Garden_On_Conflict>;
 };
 
 /** Boolean expression to filter rows from the table "garden". All fields are combined with a logical 'AND'. */
 export type Garden_Bool_Exp = {
-  _and?: Maybe<Array<Garden_Bool_Exp>>;
-  _not?: Maybe<Garden_Bool_Exp>;
-  _or?: Maybe<Array<Garden_Bool_Exp>>;
-  boardObjectByBoardObject?: Maybe<Board_Object_Bool_Exp>;
-  board_object?: Maybe<Uuid_Comparison_Exp>;
-  game?: Maybe<Uuid_Comparison_Exp>;
-  gameByGame?: Maybe<Game_Bool_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
+  _and?: InputMaybe<Array<Garden_Bool_Exp>>;
+  _not?: InputMaybe<Garden_Bool_Exp>;
+  _or?: InputMaybe<Array<Garden_Bool_Exp>>;
+  boardObjectByBoardObject?: InputMaybe<Board_Object_Bool_Exp>;
+  board_object?: InputMaybe<Uuid_Comparison_Exp>;
+  game?: InputMaybe<Uuid_Comparison_Exp>;
+  gameByGame?: InputMaybe<Game_Bool_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "garden" */
@@ -1795,11 +1796,11 @@ export enum Garden_Constraint {
 
 /** input type for inserting data into table "garden" */
 export type Garden_Insert_Input = {
-  boardObjectByBoardObject?: Maybe<Board_Object_Obj_Rel_Insert_Input>;
-  board_object?: Maybe<Scalars['uuid']>;
-  game?: Maybe<Scalars['uuid']>;
-  gameByGame?: Maybe<Game_Obj_Rel_Insert_Input>;
-  id?: Maybe<Scalars['uuid']>;
+  boardObjectByBoardObject?: InputMaybe<Board_Object_Obj_Rel_Insert_Input>;
+  board_object?: InputMaybe<Scalars['uuid']>;
+  game?: InputMaybe<Scalars['uuid']>;
+  gameByGame?: InputMaybe<Game_Obj_Rel_Insert_Input>;
+  id?: InputMaybe<Scalars['uuid']>;
 };
 
 /** aggregate max on columns */
@@ -1812,9 +1813,9 @@ export type Garden_Max_Fields = {
 
 /** order by max() on columns of table "garden" */
 export type Garden_Max_Order_By = {
-  board_object?: Maybe<Order_By>;
-  game?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
+  board_object?: InputMaybe<Order_By>;
+  game?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -1827,9 +1828,9 @@ export type Garden_Min_Fields = {
 
 /** order by min() on columns of table "garden" */
 export type Garden_Min_Order_By = {
-  board_object?: Maybe<Order_By>;
-  game?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
+  board_object?: InputMaybe<Order_By>;
+  game?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "garden" */
@@ -1845,16 +1846,16 @@ export type Garden_Mutation_Response = {
 export type Garden_On_Conflict = {
   constraint: Garden_Constraint;
   update_columns?: Array<Garden_Update_Column>;
-  where?: Maybe<Garden_Bool_Exp>;
+  where?: InputMaybe<Garden_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "garden". */
 export type Garden_Order_By = {
-  boardObjectByBoardObject?: Maybe<Board_Object_Order_By>;
-  board_object?: Maybe<Order_By>;
-  game?: Maybe<Order_By>;
-  gameByGame?: Maybe<Game_Order_By>;
-  id?: Maybe<Order_By>;
+  boardObjectByBoardObject?: InputMaybe<Board_Object_Order_By>;
+  board_object?: InputMaybe<Order_By>;
+  game?: InputMaybe<Order_By>;
+  gameByGame?: InputMaybe<Game_Order_By>;
+  id?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: garden */
@@ -1874,9 +1875,9 @@ export enum Garden_Select_Column {
 
 /** input type for updating data in table "garden" */
 export type Garden_Set_Input = {
-  board_object?: Maybe<Scalars['uuid']>;
-  game?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
+  board_object?: InputMaybe<Scalars['uuid']>;
+  game?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
 };
 
 /** update columns of table "garden" */
@@ -1911,20 +1912,20 @@ export type House = {
 
 /** columns and relationships of "house" */
 export type HouseHouse_Food_DemandsArgs = {
-  distinct_on?: Maybe<Array<House_Food_Demand_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<House_Food_Demand_Order_By>>;
-  where?: Maybe<House_Food_Demand_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<House_Food_Demand_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<House_Food_Demand_Order_By>>;
+  where?: InputMaybe<House_Food_Demand_Bool_Exp>;
 };
 
 /** columns and relationships of "house" */
 export type HouseHouse_Food_Demands_AggregateArgs = {
-  distinct_on?: Maybe<Array<House_Food_Demand_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<House_Food_Demand_Order_By>>;
-  where?: Maybe<House_Food_Demand_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<House_Food_Demand_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<House_Food_Demand_Order_By>>;
+  where?: InputMaybe<House_Food_Demand_Bool_Exp>;
 };
 
 /** aggregated selection of "house" */
@@ -1952,30 +1953,30 @@ export type House_Aggregate_Fields = {
 
 /** aggregate fields of "house" */
 export type House_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<House_Select_Column>>;
-  distinct?: Maybe<Scalars['Boolean']>;
+  columns?: InputMaybe<Array<House_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** order by aggregate values of table "house" */
 export type House_Aggregate_Order_By = {
-  avg?: Maybe<House_Avg_Order_By>;
-  count?: Maybe<Order_By>;
-  max?: Maybe<House_Max_Order_By>;
-  min?: Maybe<House_Min_Order_By>;
-  stddev?: Maybe<House_Stddev_Order_By>;
-  stddev_pop?: Maybe<House_Stddev_Pop_Order_By>;
-  stddev_samp?: Maybe<House_Stddev_Samp_Order_By>;
-  sum?: Maybe<House_Sum_Order_By>;
-  var_pop?: Maybe<House_Var_Pop_Order_By>;
-  var_samp?: Maybe<House_Var_Samp_Order_By>;
-  variance?: Maybe<House_Variance_Order_By>;
+  avg?: InputMaybe<House_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<House_Max_Order_By>;
+  min?: InputMaybe<House_Min_Order_By>;
+  stddev?: InputMaybe<House_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<House_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<House_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<House_Sum_Order_By>;
+  var_pop?: InputMaybe<House_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<House_Var_Samp_Order_By>;
+  variance?: InputMaybe<House_Variance_Order_By>;
 };
 
 /** input type for inserting array relation for remote table "house" */
 export type House_Arr_Rel_Insert_Input = {
   data: Array<House_Insert_Input>;
   /** on conflict condition */
-  on_conflict?: Maybe<House_On_Conflict>;
+  on_conflict?: InputMaybe<House_On_Conflict>;
 };
 
 /** aggregate avg on columns */
@@ -1987,25 +1988,25 @@ export type House_Avg_Fields = {
 
 /** order by avg() on columns of table "house" */
 export type House_Avg_Order_By = {
-  number?: Maybe<Order_By>;
-  orient?: Maybe<Order_By>;
+  number?: InputMaybe<Order_By>;
+  orient?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "house". All fields are combined with a logical 'AND'. */
 export type House_Bool_Exp = {
-  _and?: Maybe<Array<House_Bool_Exp>>;
-  _not?: Maybe<House_Bool_Exp>;
-  _or?: Maybe<Array<House_Bool_Exp>>;
-  boardObjectById?: Maybe<Board_Object_Bool_Exp>;
-  board_object?: Maybe<Uuid_Comparison_Exp>;
-  game?: Maybe<Uuid_Comparison_Exp>;
-  gameByGame?: Maybe<Game_Bool_Exp>;
-  has_garden?: Maybe<Boolean_Comparison_Exp>;
-  house_food_demands?: Maybe<House_Food_Demand_Bool_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  is_extra?: Maybe<Boolean_Comparison_Exp>;
-  number?: Maybe<Int_Comparison_Exp>;
-  orient?: Maybe<Int_Comparison_Exp>;
+  _and?: InputMaybe<Array<House_Bool_Exp>>;
+  _not?: InputMaybe<House_Bool_Exp>;
+  _or?: InputMaybe<Array<House_Bool_Exp>>;
+  boardObjectById?: InputMaybe<Board_Object_Bool_Exp>;
+  board_object?: InputMaybe<Uuid_Comparison_Exp>;
+  game?: InputMaybe<Uuid_Comparison_Exp>;
+  gameByGame?: InputMaybe<Game_Bool_Exp>;
+  has_garden?: InputMaybe<Boolean_Comparison_Exp>;
+  house_food_demands?: InputMaybe<House_Food_Demand_Bool_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  is_extra?: InputMaybe<Boolean_Comparison_Exp>;
+  number?: InputMaybe<Int_Comparison_Exp>;
+  orient?: InputMaybe<Int_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "house" */
@@ -2049,30 +2050,30 @@ export type House_Food_Demand_Aggregate_Fields = {
 
 /** aggregate fields of "house_food_demand" */
 export type House_Food_Demand_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<House_Food_Demand_Select_Column>>;
-  distinct?: Maybe<Scalars['Boolean']>;
+  columns?: InputMaybe<Array<House_Food_Demand_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** order by aggregate values of table "house_food_demand" */
 export type House_Food_Demand_Aggregate_Order_By = {
-  avg?: Maybe<House_Food_Demand_Avg_Order_By>;
-  count?: Maybe<Order_By>;
-  max?: Maybe<House_Food_Demand_Max_Order_By>;
-  min?: Maybe<House_Food_Demand_Min_Order_By>;
-  stddev?: Maybe<House_Food_Demand_Stddev_Order_By>;
-  stddev_pop?: Maybe<House_Food_Demand_Stddev_Pop_Order_By>;
-  stddev_samp?: Maybe<House_Food_Demand_Stddev_Samp_Order_By>;
-  sum?: Maybe<House_Food_Demand_Sum_Order_By>;
-  var_pop?: Maybe<House_Food_Demand_Var_Pop_Order_By>;
-  var_samp?: Maybe<House_Food_Demand_Var_Samp_Order_By>;
-  variance?: Maybe<House_Food_Demand_Variance_Order_By>;
+  avg?: InputMaybe<House_Food_Demand_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<House_Food_Demand_Max_Order_By>;
+  min?: InputMaybe<House_Food_Demand_Min_Order_By>;
+  stddev?: InputMaybe<House_Food_Demand_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<House_Food_Demand_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<House_Food_Demand_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<House_Food_Demand_Sum_Order_By>;
+  var_pop?: InputMaybe<House_Food_Demand_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<House_Food_Demand_Var_Samp_Order_By>;
+  variance?: InputMaybe<House_Food_Demand_Variance_Order_By>;
 };
 
 /** input type for inserting array relation for remote table "house_food_demand" */
 export type House_Food_Demand_Arr_Rel_Insert_Input = {
   data: Array<House_Food_Demand_Insert_Input>;
   /** on conflict condition */
-  on_conflict?: Maybe<House_Food_Demand_On_Conflict>;
+  on_conflict?: InputMaybe<House_Food_Demand_On_Conflict>;
 };
 
 /** aggregate avg on columns */
@@ -2083,18 +2084,18 @@ export type House_Food_Demand_Avg_Fields = {
 
 /** order by avg() on columns of table "house_food_demand" */
 export type House_Food_Demand_Avg_Order_By = {
-  food_quantity?: Maybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "house_food_demand". All fields are combined with a logical 'AND'. */
 export type House_Food_Demand_Bool_Exp = {
-  _and?: Maybe<Array<House_Food_Demand_Bool_Exp>>;
-  _not?: Maybe<House_Food_Demand_Bool_Exp>;
-  _or?: Maybe<Array<House_Food_Demand_Bool_Exp>>;
-  food_kind?: Maybe<String_Comparison_Exp>;
-  food_quantity?: Maybe<Int_Comparison_Exp>;
-  house?: Maybe<Uuid_Comparison_Exp>;
-  houseByHouse?: Maybe<House_Bool_Exp>;
+  _and?: InputMaybe<Array<House_Food_Demand_Bool_Exp>>;
+  _not?: InputMaybe<House_Food_Demand_Bool_Exp>;
+  _or?: InputMaybe<Array<House_Food_Demand_Bool_Exp>>;
+  food_kind?: InputMaybe<String_Comparison_Exp>;
+  food_quantity?: InputMaybe<Int_Comparison_Exp>;
+  house?: InputMaybe<Uuid_Comparison_Exp>;
+  houseByHouse?: InputMaybe<House_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "house_food_demand" */
@@ -2105,15 +2106,15 @@ export enum House_Food_Demand_Constraint {
 
 /** input type for incrementing numeric columns in table "house_food_demand" */
 export type House_Food_Demand_Inc_Input = {
-  food_quantity?: Maybe<Scalars['Int']>;
+  food_quantity?: InputMaybe<Scalars['Int']>;
 };
 
 /** input type for inserting data into table "house_food_demand" */
 export type House_Food_Demand_Insert_Input = {
-  food_kind?: Maybe<Scalars['String']>;
-  food_quantity?: Maybe<Scalars['Int']>;
-  house?: Maybe<Scalars['uuid']>;
-  houseByHouse?: Maybe<House_Obj_Rel_Insert_Input>;
+  food_kind?: InputMaybe<Scalars['String']>;
+  food_quantity?: InputMaybe<Scalars['Int']>;
+  house?: InputMaybe<Scalars['uuid']>;
+  houseByHouse?: InputMaybe<House_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -2126,9 +2127,9 @@ export type House_Food_Demand_Max_Fields = {
 
 /** order by max() on columns of table "house_food_demand" */
 export type House_Food_Demand_Max_Order_By = {
-  food_kind?: Maybe<Order_By>;
-  food_quantity?: Maybe<Order_By>;
-  house?: Maybe<Order_By>;
+  food_kind?: InputMaybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
+  house?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -2141,9 +2142,9 @@ export type House_Food_Demand_Min_Fields = {
 
 /** order by min() on columns of table "house_food_demand" */
 export type House_Food_Demand_Min_Order_By = {
-  food_kind?: Maybe<Order_By>;
-  food_quantity?: Maybe<Order_By>;
-  house?: Maybe<Order_By>;
+  food_kind?: InputMaybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
+  house?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "house_food_demand" */
@@ -2159,15 +2160,15 @@ export type House_Food_Demand_Mutation_Response = {
 export type House_Food_Demand_On_Conflict = {
   constraint: House_Food_Demand_Constraint;
   update_columns?: Array<House_Food_Demand_Update_Column>;
-  where?: Maybe<House_Food_Demand_Bool_Exp>;
+  where?: InputMaybe<House_Food_Demand_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "house_food_demand". */
 export type House_Food_Demand_Order_By = {
-  food_kind?: Maybe<Order_By>;
-  food_quantity?: Maybe<Order_By>;
-  house?: Maybe<Order_By>;
-  houseByHouse?: Maybe<House_Order_By>;
+  food_kind?: InputMaybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
+  house?: InputMaybe<Order_By>;
+  houseByHouse?: InputMaybe<House_Order_By>;
 };
 
 /** primary key columns input for table: house_food_demand */
@@ -2188,9 +2189,9 @@ export enum House_Food_Demand_Select_Column {
 
 /** input type for updating data in table "house_food_demand" */
 export type House_Food_Demand_Set_Input = {
-  food_kind?: Maybe<Scalars['String']>;
-  food_quantity?: Maybe<Scalars['Int']>;
-  house?: Maybe<Scalars['uuid']>;
+  food_kind?: InputMaybe<Scalars['String']>;
+  food_quantity?: InputMaybe<Scalars['Int']>;
+  house?: InputMaybe<Scalars['uuid']>;
 };
 
 /** aggregate stddev on columns */
@@ -2201,7 +2202,7 @@ export type House_Food_Demand_Stddev_Fields = {
 
 /** order by stddev() on columns of table "house_food_demand" */
 export type House_Food_Demand_Stddev_Order_By = {
-  food_quantity?: Maybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
@@ -2212,7 +2213,7 @@ export type House_Food_Demand_Stddev_Pop_Fields = {
 
 /** order by stddev_pop() on columns of table "house_food_demand" */
 export type House_Food_Demand_Stddev_Pop_Order_By = {
-  food_quantity?: Maybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -2223,7 +2224,7 @@ export type House_Food_Demand_Stddev_Samp_Fields = {
 
 /** order by stddev_samp() on columns of table "house_food_demand" */
 export type House_Food_Demand_Stddev_Samp_Order_By = {
-  food_quantity?: Maybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
 };
 
 /** aggregate sum on columns */
@@ -2234,7 +2235,7 @@ export type House_Food_Demand_Sum_Fields = {
 
 /** order by sum() on columns of table "house_food_demand" */
 export type House_Food_Demand_Sum_Order_By = {
-  food_quantity?: Maybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "house_food_demand" */
@@ -2255,7 +2256,7 @@ export type House_Food_Demand_Var_Pop_Fields = {
 
 /** order by var_pop() on columns of table "house_food_demand" */
 export type House_Food_Demand_Var_Pop_Order_By = {
-  food_quantity?: Maybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
@@ -2266,7 +2267,7 @@ export type House_Food_Demand_Var_Samp_Fields = {
 
 /** order by var_samp() on columns of table "house_food_demand" */
 export type House_Food_Demand_Var_Samp_Order_By = {
-  food_quantity?: Maybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
@@ -2277,27 +2278,27 @@ export type House_Food_Demand_Variance_Fields = {
 
 /** order by variance() on columns of table "house_food_demand" */
 export type House_Food_Demand_Variance_Order_By = {
-  food_quantity?: Maybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
 };
 
 /** input type for incrementing numeric columns in table "house" */
 export type House_Inc_Input = {
-  number?: Maybe<Scalars['Int']>;
-  orient?: Maybe<Scalars['Int']>;
+  number?: InputMaybe<Scalars['Int']>;
+  orient?: InputMaybe<Scalars['Int']>;
 };
 
 /** input type for inserting data into table "house" */
 export type House_Insert_Input = {
-  boardObjectById?: Maybe<Board_Object_Obj_Rel_Insert_Input>;
-  board_object?: Maybe<Scalars['uuid']>;
-  game?: Maybe<Scalars['uuid']>;
-  gameByGame?: Maybe<Game_Obj_Rel_Insert_Input>;
-  has_garden?: Maybe<Scalars['Boolean']>;
-  house_food_demands?: Maybe<House_Food_Demand_Arr_Rel_Insert_Input>;
-  id?: Maybe<Scalars['uuid']>;
-  is_extra?: Maybe<Scalars['Boolean']>;
-  number?: Maybe<Scalars['Int']>;
-  orient?: Maybe<Scalars['Int']>;
+  boardObjectById?: InputMaybe<Board_Object_Obj_Rel_Insert_Input>;
+  board_object?: InputMaybe<Scalars['uuid']>;
+  game?: InputMaybe<Scalars['uuid']>;
+  gameByGame?: InputMaybe<Game_Obj_Rel_Insert_Input>;
+  has_garden?: InputMaybe<Scalars['Boolean']>;
+  house_food_demands?: InputMaybe<House_Food_Demand_Arr_Rel_Insert_Input>;
+  id?: InputMaybe<Scalars['uuid']>;
+  is_extra?: InputMaybe<Scalars['Boolean']>;
+  number?: InputMaybe<Scalars['Int']>;
+  orient?: InputMaybe<Scalars['Int']>;
 };
 
 /** aggregate max on columns */
@@ -2312,11 +2313,11 @@ export type House_Max_Fields = {
 
 /** order by max() on columns of table "house" */
 export type House_Max_Order_By = {
-  board_object?: Maybe<Order_By>;
-  game?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  number?: Maybe<Order_By>;
-  orient?: Maybe<Order_By>;
+  board_object?: InputMaybe<Order_By>;
+  game?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  number?: InputMaybe<Order_By>;
+  orient?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -2331,11 +2332,11 @@ export type House_Min_Fields = {
 
 /** order by min() on columns of table "house" */
 export type House_Min_Order_By = {
-  board_object?: Maybe<Order_By>;
-  game?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  number?: Maybe<Order_By>;
-  orient?: Maybe<Order_By>;
+  board_object?: InputMaybe<Order_By>;
+  game?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  number?: InputMaybe<Order_By>;
+  orient?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "house" */
@@ -2351,28 +2352,28 @@ export type House_Mutation_Response = {
 export type House_Obj_Rel_Insert_Input = {
   data: House_Insert_Input;
   /** on conflict condition */
-  on_conflict?: Maybe<House_On_Conflict>;
+  on_conflict?: InputMaybe<House_On_Conflict>;
 };
 
 /** on conflict condition type for table "house" */
 export type House_On_Conflict = {
   constraint: House_Constraint;
   update_columns?: Array<House_Update_Column>;
-  where?: Maybe<House_Bool_Exp>;
+  where?: InputMaybe<House_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "house". */
 export type House_Order_By = {
-  boardObjectById?: Maybe<Board_Object_Order_By>;
-  board_object?: Maybe<Order_By>;
-  game?: Maybe<Order_By>;
-  gameByGame?: Maybe<Game_Order_By>;
-  has_garden?: Maybe<Order_By>;
-  house_food_demands_aggregate?: Maybe<House_Food_Demand_Aggregate_Order_By>;
-  id?: Maybe<Order_By>;
-  is_extra?: Maybe<Order_By>;
-  number?: Maybe<Order_By>;
-  orient?: Maybe<Order_By>;
+  boardObjectById?: InputMaybe<Board_Object_Order_By>;
+  board_object?: InputMaybe<Order_By>;
+  game?: InputMaybe<Order_By>;
+  gameByGame?: InputMaybe<Game_Order_By>;
+  has_garden?: InputMaybe<Order_By>;
+  house_food_demands_aggregate?: InputMaybe<House_Food_Demand_Aggregate_Order_By>;
+  id?: InputMaybe<Order_By>;
+  is_extra?: InputMaybe<Order_By>;
+  number?: InputMaybe<Order_By>;
+  orient?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: house */
@@ -2400,13 +2401,13 @@ export enum House_Select_Column {
 
 /** input type for updating data in table "house" */
 export type House_Set_Input = {
-  board_object?: Maybe<Scalars['uuid']>;
-  game?: Maybe<Scalars['uuid']>;
-  has_garden?: Maybe<Scalars['Boolean']>;
-  id?: Maybe<Scalars['uuid']>;
-  is_extra?: Maybe<Scalars['Boolean']>;
-  number?: Maybe<Scalars['Int']>;
-  orient?: Maybe<Scalars['Int']>;
+  board_object?: InputMaybe<Scalars['uuid']>;
+  game?: InputMaybe<Scalars['uuid']>;
+  has_garden?: InputMaybe<Scalars['Boolean']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  is_extra?: InputMaybe<Scalars['Boolean']>;
+  number?: InputMaybe<Scalars['Int']>;
+  orient?: InputMaybe<Scalars['Int']>;
 };
 
 /** aggregate stddev on columns */
@@ -2418,8 +2419,8 @@ export type House_Stddev_Fields = {
 
 /** order by stddev() on columns of table "house" */
 export type House_Stddev_Order_By = {
-  number?: Maybe<Order_By>;
-  orient?: Maybe<Order_By>;
+  number?: InputMaybe<Order_By>;
+  orient?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
@@ -2431,8 +2432,8 @@ export type House_Stddev_Pop_Fields = {
 
 /** order by stddev_pop() on columns of table "house" */
 export type House_Stddev_Pop_Order_By = {
-  number?: Maybe<Order_By>;
-  orient?: Maybe<Order_By>;
+  number?: InputMaybe<Order_By>;
+  orient?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -2444,8 +2445,8 @@ export type House_Stddev_Samp_Fields = {
 
 /** order by stddev_samp() on columns of table "house" */
 export type House_Stddev_Samp_Order_By = {
-  number?: Maybe<Order_By>;
-  orient?: Maybe<Order_By>;
+  number?: InputMaybe<Order_By>;
+  orient?: InputMaybe<Order_By>;
 };
 
 /** aggregate sum on columns */
@@ -2457,8 +2458,8 @@ export type House_Sum_Fields = {
 
 /** order by sum() on columns of table "house" */
 export type House_Sum_Order_By = {
-  number?: Maybe<Order_By>;
-  orient?: Maybe<Order_By>;
+  number?: InputMaybe<Order_By>;
+  orient?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "house" */
@@ -2488,8 +2489,8 @@ export type House_Var_Pop_Fields = {
 
 /** order by var_pop() on columns of table "house" */
 export type House_Var_Pop_Order_By = {
-  number?: Maybe<Order_By>;
-  orient?: Maybe<Order_By>;
+  number?: InputMaybe<Order_By>;
+  orient?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
@@ -2501,8 +2502,8 @@ export type House_Var_Samp_Fields = {
 
 /** order by var_samp() on columns of table "house" */
 export type House_Var_Samp_Order_By = {
-  number?: Maybe<Order_By>;
-  orient?: Maybe<Order_By>;
+  number?: InputMaybe<Order_By>;
+  orient?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
@@ -2514,8 +2515,8 @@ export type House_Variance_Fields = {
 
 /** order by variance() on columns of table "house" */
 export type House_Variance_Order_By = {
-  number?: Maybe<Order_By>;
-  orient?: Maybe<Order_By>;
+  number?: InputMaybe<Order_By>;
+  orient?: InputMaybe<Order_By>;
 };
 
 /** mutation root */
@@ -2849,169 +2850,169 @@ export type Mutation_RootDelete_User_MeArgs = {
 /** mutation root */
 export type Mutation_RootInsert_AdvertArgs = {
   objects: Array<Advert_Insert_Input>;
-  on_conflict?: Maybe<Advert_On_Conflict>;
+  on_conflict?: InputMaybe<Advert_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_Advert_OneArgs = {
   object: Advert_Insert_Input;
-  on_conflict?: Maybe<Advert_On_Conflict>;
+  on_conflict?: InputMaybe<Advert_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_Board_ObjectArgs = {
   objects: Array<Board_Object_Insert_Input>;
-  on_conflict?: Maybe<Board_Object_On_Conflict>;
+  on_conflict?: InputMaybe<Board_Object_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_Board_Object_OneArgs = {
   object: Board_Object_Insert_Input;
-  on_conflict?: Maybe<Board_Object_On_Conflict>;
+  on_conflict?: InputMaybe<Board_Object_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_DinerArgs = {
   objects: Array<Diner_Insert_Input>;
-  on_conflict?: Maybe<Diner_On_Conflict>;
+  on_conflict?: InputMaybe<Diner_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_Diner_OneArgs = {
   object: Diner_Insert_Input;
-  on_conflict?: Maybe<Diner_On_Conflict>;
+  on_conflict?: InputMaybe<Diner_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_DrinkArgs = {
   objects: Array<Drink_Insert_Input>;
-  on_conflict?: Maybe<Drink_On_Conflict>;
+  on_conflict?: InputMaybe<Drink_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_Drink_OneArgs = {
   object: Drink_Insert_Input;
-  on_conflict?: Maybe<Drink_On_Conflict>;
+  on_conflict?: InputMaybe<Drink_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_EmployeeArgs = {
   objects: Array<Employee_Insert_Input>;
-  on_conflict?: Maybe<Employee_On_Conflict>;
+  on_conflict?: InputMaybe<Employee_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_Employee_OneArgs = {
   object: Employee_Insert_Input;
-  on_conflict?: Maybe<Employee_On_Conflict>;
+  on_conflict?: InputMaybe<Employee_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_GameArgs = {
   objects: Array<Game_Insert_Input>;
-  on_conflict?: Maybe<Game_On_Conflict>;
+  on_conflict?: InputMaybe<Game_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_Game_OneArgs = {
   object: Game_Insert_Input;
-  on_conflict?: Maybe<Game_On_Conflict>;
+  on_conflict?: InputMaybe<Game_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_GardenArgs = {
   objects: Array<Garden_Insert_Input>;
-  on_conflict?: Maybe<Garden_On_Conflict>;
+  on_conflict?: InputMaybe<Garden_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_Garden_OneArgs = {
   object: Garden_Insert_Input;
-  on_conflict?: Maybe<Garden_On_Conflict>;
+  on_conflict?: InputMaybe<Garden_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_HouseArgs = {
   objects: Array<House_Insert_Input>;
-  on_conflict?: Maybe<House_On_Conflict>;
+  on_conflict?: InputMaybe<House_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_House_Food_DemandArgs = {
   objects: Array<House_Food_Demand_Insert_Input>;
-  on_conflict?: Maybe<House_Food_Demand_On_Conflict>;
+  on_conflict?: InputMaybe<House_Food_Demand_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_House_Food_Demand_OneArgs = {
   object: House_Food_Demand_Insert_Input;
-  on_conflict?: Maybe<House_Food_Demand_On_Conflict>;
+  on_conflict?: InputMaybe<House_Food_Demand_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_House_OneArgs = {
   object: House_Insert_Input;
-  on_conflict?: Maybe<House_On_Conflict>;
+  on_conflict?: InputMaybe<House_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_PlayerArgs = {
   objects: Array<Player_Insert_Input>;
-  on_conflict?: Maybe<Player_On_Conflict>;
+  on_conflict?: InputMaybe<Player_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_Player_FoodArgs = {
   objects: Array<Player_Food_Insert_Input>;
-  on_conflict?: Maybe<Player_Food_On_Conflict>;
+  on_conflict?: InputMaybe<Player_Food_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_Player_Food_OneArgs = {
   object: Player_Food_Insert_Input;
-  on_conflict?: Maybe<Player_Food_On_Conflict>;
+  on_conflict?: InputMaybe<Player_Food_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_Player_OneArgs = {
   object: Player_Insert_Input;
-  on_conflict?: Maybe<Player_On_Conflict>;
+  on_conflict?: InputMaybe<Player_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_RoadArgs = {
   objects: Array<Road_Insert_Input>;
-  on_conflict?: Maybe<Road_On_Conflict>;
+  on_conflict?: InputMaybe<Road_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_Road_ConnectionArgs = {
   objects: Array<Road_Connection_Insert_Input>;
-  on_conflict?: Maybe<Road_Connection_On_Conflict>;
+  on_conflict?: InputMaybe<Road_Connection_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_Road_Connection_OneArgs = {
   object: Road_Connection_Insert_Input;
-  on_conflict?: Maybe<Road_Connection_On_Conflict>;
+  on_conflict?: InputMaybe<Road_Connection_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_Road_OneArgs = {
   object: Road_Insert_Input;
-  on_conflict?: Maybe<Road_On_Conflict>;
+  on_conflict?: InputMaybe<Road_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_User_InfoArgs = {
   objects: Array<User_Info_Insert_Input>;
-  on_conflict?: Maybe<User_Info_On_Conflict>;
+  on_conflict?: InputMaybe<User_Info_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_User_Info_OneArgs = {
   object: User_Info_Insert_Input;
-  on_conflict?: Maybe<User_Info_On_Conflict>;
+  on_conflict?: InputMaybe<User_Info_On_Conflict>;
 };
 
 /** mutation root */
@@ -3026,191 +3027,191 @@ export type Mutation_RootInsert_User_Me_OneArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_AdvertArgs = {
-  _inc?: Maybe<Advert_Inc_Input>;
-  _set?: Maybe<Advert_Set_Input>;
+  _inc?: InputMaybe<Advert_Inc_Input>;
+  _set?: InputMaybe<Advert_Set_Input>;
   where: Advert_Bool_Exp;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_Advert_By_PkArgs = {
-  _inc?: Maybe<Advert_Inc_Input>;
-  _set?: Maybe<Advert_Set_Input>;
+  _inc?: InputMaybe<Advert_Inc_Input>;
+  _set?: InputMaybe<Advert_Set_Input>;
   pk_columns: Advert_Pk_Columns_Input;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_Board_ObjectArgs = {
-  _inc?: Maybe<Board_Object_Inc_Input>;
-  _set?: Maybe<Board_Object_Set_Input>;
+  _inc?: InputMaybe<Board_Object_Inc_Input>;
+  _set?: InputMaybe<Board_Object_Set_Input>;
   where: Board_Object_Bool_Exp;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_Board_Object_By_PkArgs = {
-  _inc?: Maybe<Board_Object_Inc_Input>;
-  _set?: Maybe<Board_Object_Set_Input>;
+  _inc?: InputMaybe<Board_Object_Inc_Input>;
+  _set?: InputMaybe<Board_Object_Set_Input>;
   pk_columns: Board_Object_Pk_Columns_Input;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_DinerArgs = {
-  _set?: Maybe<Diner_Set_Input>;
+  _set?: InputMaybe<Diner_Set_Input>;
   where: Diner_Bool_Exp;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_Diner_By_PkArgs = {
-  _set?: Maybe<Diner_Set_Input>;
+  _set?: InputMaybe<Diner_Set_Input>;
   pk_columns: Diner_Pk_Columns_Input;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_DrinkArgs = {
-  _set?: Maybe<Drink_Set_Input>;
+  _set?: InputMaybe<Drink_Set_Input>;
   where: Drink_Bool_Exp;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_Drink_By_PkArgs = {
-  _set?: Maybe<Drink_Set_Input>;
+  _set?: InputMaybe<Drink_Set_Input>;
   pk_columns: Drink_Pk_Columns_Input;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_EmployeeArgs = {
-  _inc?: Maybe<Employee_Inc_Input>;
-  _set?: Maybe<Employee_Set_Input>;
+  _inc?: InputMaybe<Employee_Inc_Input>;
+  _set?: InputMaybe<Employee_Set_Input>;
   where: Employee_Bool_Exp;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_Employee_By_PkArgs = {
-  _inc?: Maybe<Employee_Inc_Input>;
-  _set?: Maybe<Employee_Set_Input>;
+  _inc?: InputMaybe<Employee_Inc_Input>;
+  _set?: InputMaybe<Employee_Set_Input>;
   pk_columns: Employee_Pk_Columns_Input;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_GameArgs = {
-  _set?: Maybe<Game_Set_Input>;
+  _set?: InputMaybe<Game_Set_Input>;
   where: Game_Bool_Exp;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_Game_By_PkArgs = {
-  _set?: Maybe<Game_Set_Input>;
+  _set?: InputMaybe<Game_Set_Input>;
   pk_columns: Game_Pk_Columns_Input;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_GardenArgs = {
-  _set?: Maybe<Garden_Set_Input>;
+  _set?: InputMaybe<Garden_Set_Input>;
   where: Garden_Bool_Exp;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_Garden_By_PkArgs = {
-  _set?: Maybe<Garden_Set_Input>;
+  _set?: InputMaybe<Garden_Set_Input>;
   pk_columns: Garden_Pk_Columns_Input;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_HouseArgs = {
-  _inc?: Maybe<House_Inc_Input>;
-  _set?: Maybe<House_Set_Input>;
+  _inc?: InputMaybe<House_Inc_Input>;
+  _set?: InputMaybe<House_Set_Input>;
   where: House_Bool_Exp;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_House_By_PkArgs = {
-  _inc?: Maybe<House_Inc_Input>;
-  _set?: Maybe<House_Set_Input>;
+  _inc?: InputMaybe<House_Inc_Input>;
+  _set?: InputMaybe<House_Set_Input>;
   pk_columns: House_Pk_Columns_Input;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_House_Food_DemandArgs = {
-  _inc?: Maybe<House_Food_Demand_Inc_Input>;
-  _set?: Maybe<House_Food_Demand_Set_Input>;
+  _inc?: InputMaybe<House_Food_Demand_Inc_Input>;
+  _set?: InputMaybe<House_Food_Demand_Set_Input>;
   where: House_Food_Demand_Bool_Exp;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_House_Food_Demand_By_PkArgs = {
-  _inc?: Maybe<House_Food_Demand_Inc_Input>;
-  _set?: Maybe<House_Food_Demand_Set_Input>;
+  _inc?: InputMaybe<House_Food_Demand_Inc_Input>;
+  _set?: InputMaybe<House_Food_Demand_Set_Input>;
   pk_columns: House_Food_Demand_Pk_Columns_Input;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_PlayerArgs = {
-  _inc?: Maybe<Player_Inc_Input>;
-  _set?: Maybe<Player_Set_Input>;
+  _inc?: InputMaybe<Player_Inc_Input>;
+  _set?: InputMaybe<Player_Set_Input>;
   where: Player_Bool_Exp;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_Player_By_PkArgs = {
-  _inc?: Maybe<Player_Inc_Input>;
-  _set?: Maybe<Player_Set_Input>;
+  _inc?: InputMaybe<Player_Inc_Input>;
+  _set?: InputMaybe<Player_Set_Input>;
   pk_columns: Player_Pk_Columns_Input;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_Player_FoodArgs = {
-  _inc?: Maybe<Player_Food_Inc_Input>;
-  _set?: Maybe<Player_Food_Set_Input>;
+  _inc?: InputMaybe<Player_Food_Inc_Input>;
+  _set?: InputMaybe<Player_Food_Set_Input>;
   where: Player_Food_Bool_Exp;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_Player_Food_By_PkArgs = {
-  _inc?: Maybe<Player_Food_Inc_Input>;
-  _set?: Maybe<Player_Food_Set_Input>;
+  _inc?: InputMaybe<Player_Food_Inc_Input>;
+  _set?: InputMaybe<Player_Food_Set_Input>;
   pk_columns: Player_Food_Pk_Columns_Input;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_RoadArgs = {
-  _set?: Maybe<Road_Set_Input>;
+  _set?: InputMaybe<Road_Set_Input>;
   where: Road_Bool_Exp;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_Road_By_PkArgs = {
-  _set?: Maybe<Road_Set_Input>;
+  _set?: InputMaybe<Road_Set_Input>;
   pk_columns: Road_Pk_Columns_Input;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_Road_ConnectionArgs = {
-  _inc?: Maybe<Road_Connection_Inc_Input>;
-  _set?: Maybe<Road_Connection_Set_Input>;
+  _inc?: InputMaybe<Road_Connection_Inc_Input>;
+  _set?: InputMaybe<Road_Connection_Set_Input>;
   where: Road_Connection_Bool_Exp;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_Road_Connection_By_PkArgs = {
-  _inc?: Maybe<Road_Connection_Inc_Input>;
-  _set?: Maybe<Road_Connection_Set_Input>;
+  _inc?: InputMaybe<Road_Connection_Inc_Input>;
+  _set?: InputMaybe<Road_Connection_Set_Input>;
   pk_columns: Road_Connection_Pk_Columns_Input;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_User_InfoArgs = {
-  _set?: Maybe<User_Info_Set_Input>;
+  _set?: InputMaybe<User_Info_Set_Input>;
   where: User_Info_Bool_Exp;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_User_Info_By_PkArgs = {
-  _set?: Maybe<User_Info_Set_Input>;
+  _set?: InputMaybe<User_Info_Set_Input>;
   pk_columns: User_Info_Pk_Columns_Input;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_User_MeArgs = {
-  _set?: Maybe<User_Me_Set_Input>;
+  _set?: InputMaybe<User_Me_Set_Input>;
   where: User_Me_Bool_Exp;
 };
 
@@ -3252,38 +3253,38 @@ export type Player = {
 
 /** columns and relationships of "player" */
 export type PlayerDinersArgs = {
-  distinct_on?: Maybe<Array<Diner_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Diner_Order_By>>;
-  where?: Maybe<Diner_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Diner_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Diner_Order_By>>;
+  where?: InputMaybe<Diner_Bool_Exp>;
 };
 
 /** columns and relationships of "player" */
 export type PlayerDiners_AggregateArgs = {
-  distinct_on?: Maybe<Array<Diner_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Diner_Order_By>>;
-  where?: Maybe<Diner_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Diner_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Diner_Order_By>>;
+  where?: InputMaybe<Diner_Bool_Exp>;
 };
 
 /** columns and relationships of "player" */
 export type PlayerPlayer_FoodsArgs = {
-  distinct_on?: Maybe<Array<Player_Food_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Player_Food_Order_By>>;
-  where?: Maybe<Player_Food_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Player_Food_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Player_Food_Order_By>>;
+  where?: InputMaybe<Player_Food_Bool_Exp>;
 };
 
 /** columns and relationships of "player" */
 export type PlayerPlayer_Foods_AggregateArgs = {
-  distinct_on?: Maybe<Array<Player_Food_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Player_Food_Order_By>>;
-  where?: Maybe<Player_Food_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Player_Food_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Player_Food_Order_By>>;
+  where?: InputMaybe<Player_Food_Bool_Exp>;
 };
 
 /** aggregated selection of "player" */
@@ -3311,30 +3312,30 @@ export type Player_Aggregate_Fields = {
 
 /** aggregate fields of "player" */
 export type Player_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<Player_Select_Column>>;
-  distinct?: Maybe<Scalars['Boolean']>;
+  columns?: InputMaybe<Array<Player_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** order by aggregate values of table "player" */
 export type Player_Aggregate_Order_By = {
-  avg?: Maybe<Player_Avg_Order_By>;
-  count?: Maybe<Order_By>;
-  max?: Maybe<Player_Max_Order_By>;
-  min?: Maybe<Player_Min_Order_By>;
-  stddev?: Maybe<Player_Stddev_Order_By>;
-  stddev_pop?: Maybe<Player_Stddev_Pop_Order_By>;
-  stddev_samp?: Maybe<Player_Stddev_Samp_Order_By>;
-  sum?: Maybe<Player_Sum_Order_By>;
-  var_pop?: Maybe<Player_Var_Pop_Order_By>;
-  var_samp?: Maybe<Player_Var_Samp_Order_By>;
-  variance?: Maybe<Player_Variance_Order_By>;
+  avg?: InputMaybe<Player_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Player_Max_Order_By>;
+  min?: InputMaybe<Player_Min_Order_By>;
+  stddev?: InputMaybe<Player_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Player_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Player_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Player_Sum_Order_By>;
+  var_pop?: InputMaybe<Player_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Player_Var_Samp_Order_By>;
+  variance?: InputMaybe<Player_Variance_Order_By>;
 };
 
 /** input type for inserting array relation for remote table "player" */
 export type Player_Arr_Rel_Insert_Input = {
   data: Array<Player_Insert_Input>;
   /** on conflict condition */
-  on_conflict?: Maybe<Player_On_Conflict>;
+  on_conflict?: InputMaybe<Player_On_Conflict>;
 };
 
 /** aggregate avg on columns */
@@ -3345,22 +3346,22 @@ export type Player_Avg_Fields = {
 
 /** order by avg() on columns of table "player" */
 export type Player_Avg_Order_By = {
-  cash?: Maybe<Order_By>;
+  cash?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "player". All fields are combined with a logical 'AND'. */
 export type Player_Bool_Exp = {
-  _and?: Maybe<Array<Player_Bool_Exp>>;
-  _not?: Maybe<Player_Bool_Exp>;
-  _or?: Maybe<Array<Player_Bool_Exp>>;
-  cash?: Maybe<Int_Comparison_Exp>;
-  colour?: Maybe<String_Comparison_Exp>;
-  diners?: Maybe<Diner_Bool_Exp>;
-  game?: Maybe<Uuid_Comparison_Exp>;
-  gameByGame?: Maybe<Game_Bool_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  name?: Maybe<String_Comparison_Exp>;
-  player_foods?: Maybe<Player_Food_Bool_Exp>;
+  _and?: InputMaybe<Array<Player_Bool_Exp>>;
+  _not?: InputMaybe<Player_Bool_Exp>;
+  _or?: InputMaybe<Array<Player_Bool_Exp>>;
+  cash?: InputMaybe<Int_Comparison_Exp>;
+  colour?: InputMaybe<String_Comparison_Exp>;
+  diners?: InputMaybe<Diner_Bool_Exp>;
+  game?: InputMaybe<Uuid_Comparison_Exp>;
+  gameByGame?: InputMaybe<Game_Bool_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  player_foods?: InputMaybe<Player_Food_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "player" */
@@ -3404,30 +3405,30 @@ export type Player_Food_Aggregate_Fields = {
 
 /** aggregate fields of "player_food" */
 export type Player_Food_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<Player_Food_Select_Column>>;
-  distinct?: Maybe<Scalars['Boolean']>;
+  columns?: InputMaybe<Array<Player_Food_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** order by aggregate values of table "player_food" */
 export type Player_Food_Aggregate_Order_By = {
-  avg?: Maybe<Player_Food_Avg_Order_By>;
-  count?: Maybe<Order_By>;
-  max?: Maybe<Player_Food_Max_Order_By>;
-  min?: Maybe<Player_Food_Min_Order_By>;
-  stddev?: Maybe<Player_Food_Stddev_Order_By>;
-  stddev_pop?: Maybe<Player_Food_Stddev_Pop_Order_By>;
-  stddev_samp?: Maybe<Player_Food_Stddev_Samp_Order_By>;
-  sum?: Maybe<Player_Food_Sum_Order_By>;
-  var_pop?: Maybe<Player_Food_Var_Pop_Order_By>;
-  var_samp?: Maybe<Player_Food_Var_Samp_Order_By>;
-  variance?: Maybe<Player_Food_Variance_Order_By>;
+  avg?: InputMaybe<Player_Food_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Player_Food_Max_Order_By>;
+  min?: InputMaybe<Player_Food_Min_Order_By>;
+  stddev?: InputMaybe<Player_Food_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Player_Food_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Player_Food_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Player_Food_Sum_Order_By>;
+  var_pop?: InputMaybe<Player_Food_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Player_Food_Var_Samp_Order_By>;
+  variance?: InputMaybe<Player_Food_Variance_Order_By>;
 };
 
 /** input type for inserting array relation for remote table "player_food" */
 export type Player_Food_Arr_Rel_Insert_Input = {
   data: Array<Player_Food_Insert_Input>;
   /** on conflict condition */
-  on_conflict?: Maybe<Player_Food_On_Conflict>;
+  on_conflict?: InputMaybe<Player_Food_On_Conflict>;
 };
 
 /** aggregate avg on columns */
@@ -3438,18 +3439,18 @@ export type Player_Food_Avg_Fields = {
 
 /** order by avg() on columns of table "player_food" */
 export type Player_Food_Avg_Order_By = {
-  food_quantity?: Maybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "player_food". All fields are combined with a logical 'AND'. */
 export type Player_Food_Bool_Exp = {
-  _and?: Maybe<Array<Player_Food_Bool_Exp>>;
-  _not?: Maybe<Player_Food_Bool_Exp>;
-  _or?: Maybe<Array<Player_Food_Bool_Exp>>;
-  food_kind?: Maybe<String_Comparison_Exp>;
-  food_quantity?: Maybe<Int_Comparison_Exp>;
-  player?: Maybe<Uuid_Comparison_Exp>;
-  playerByPlayer?: Maybe<Player_Bool_Exp>;
+  _and?: InputMaybe<Array<Player_Food_Bool_Exp>>;
+  _not?: InputMaybe<Player_Food_Bool_Exp>;
+  _or?: InputMaybe<Array<Player_Food_Bool_Exp>>;
+  food_kind?: InputMaybe<String_Comparison_Exp>;
+  food_quantity?: InputMaybe<Int_Comparison_Exp>;
+  player?: InputMaybe<Uuid_Comparison_Exp>;
+  playerByPlayer?: InputMaybe<Player_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "player_food" */
@@ -3460,15 +3461,15 @@ export enum Player_Food_Constraint {
 
 /** input type for incrementing numeric columns in table "player_food" */
 export type Player_Food_Inc_Input = {
-  food_quantity?: Maybe<Scalars['Int']>;
+  food_quantity?: InputMaybe<Scalars['Int']>;
 };
 
 /** input type for inserting data into table "player_food" */
 export type Player_Food_Insert_Input = {
-  food_kind?: Maybe<Scalars['String']>;
-  food_quantity?: Maybe<Scalars['Int']>;
-  player?: Maybe<Scalars['uuid']>;
-  playerByPlayer?: Maybe<Player_Obj_Rel_Insert_Input>;
+  food_kind?: InputMaybe<Scalars['String']>;
+  food_quantity?: InputMaybe<Scalars['Int']>;
+  player?: InputMaybe<Scalars['uuid']>;
+  playerByPlayer?: InputMaybe<Player_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -3481,9 +3482,9 @@ export type Player_Food_Max_Fields = {
 
 /** order by max() on columns of table "player_food" */
 export type Player_Food_Max_Order_By = {
-  food_kind?: Maybe<Order_By>;
-  food_quantity?: Maybe<Order_By>;
-  player?: Maybe<Order_By>;
+  food_kind?: InputMaybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
+  player?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -3496,9 +3497,9 @@ export type Player_Food_Min_Fields = {
 
 /** order by min() on columns of table "player_food" */
 export type Player_Food_Min_Order_By = {
-  food_kind?: Maybe<Order_By>;
-  food_quantity?: Maybe<Order_By>;
-  player?: Maybe<Order_By>;
+  food_kind?: InputMaybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
+  player?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "player_food" */
@@ -3514,15 +3515,15 @@ export type Player_Food_Mutation_Response = {
 export type Player_Food_On_Conflict = {
   constraint: Player_Food_Constraint;
   update_columns?: Array<Player_Food_Update_Column>;
-  where?: Maybe<Player_Food_Bool_Exp>;
+  where?: InputMaybe<Player_Food_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "player_food". */
 export type Player_Food_Order_By = {
-  food_kind?: Maybe<Order_By>;
-  food_quantity?: Maybe<Order_By>;
-  player?: Maybe<Order_By>;
-  playerByPlayer?: Maybe<Player_Order_By>;
+  food_kind?: InputMaybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
+  player?: InputMaybe<Order_By>;
+  playerByPlayer?: InputMaybe<Player_Order_By>;
 };
 
 /** primary key columns input for table: player_food */
@@ -3543,9 +3544,9 @@ export enum Player_Food_Select_Column {
 
 /** input type for updating data in table "player_food" */
 export type Player_Food_Set_Input = {
-  food_kind?: Maybe<Scalars['String']>;
-  food_quantity?: Maybe<Scalars['Int']>;
-  player?: Maybe<Scalars['uuid']>;
+  food_kind?: InputMaybe<Scalars['String']>;
+  food_quantity?: InputMaybe<Scalars['Int']>;
+  player?: InputMaybe<Scalars['uuid']>;
 };
 
 /** aggregate stddev on columns */
@@ -3556,7 +3557,7 @@ export type Player_Food_Stddev_Fields = {
 
 /** order by stddev() on columns of table "player_food" */
 export type Player_Food_Stddev_Order_By = {
-  food_quantity?: Maybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
@@ -3567,7 +3568,7 @@ export type Player_Food_Stddev_Pop_Fields = {
 
 /** order by stddev_pop() on columns of table "player_food" */
 export type Player_Food_Stddev_Pop_Order_By = {
-  food_quantity?: Maybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -3578,7 +3579,7 @@ export type Player_Food_Stddev_Samp_Fields = {
 
 /** order by stddev_samp() on columns of table "player_food" */
 export type Player_Food_Stddev_Samp_Order_By = {
-  food_quantity?: Maybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
 };
 
 /** aggregate sum on columns */
@@ -3589,7 +3590,7 @@ export type Player_Food_Sum_Fields = {
 
 /** order by sum() on columns of table "player_food" */
 export type Player_Food_Sum_Order_By = {
-  food_quantity?: Maybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "player_food" */
@@ -3610,7 +3611,7 @@ export type Player_Food_Var_Pop_Fields = {
 
 /** order by var_pop() on columns of table "player_food" */
 export type Player_Food_Var_Pop_Order_By = {
-  food_quantity?: Maybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
@@ -3621,7 +3622,7 @@ export type Player_Food_Var_Samp_Fields = {
 
 /** order by var_samp() on columns of table "player_food" */
 export type Player_Food_Var_Samp_Order_By = {
-  food_quantity?: Maybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
@@ -3632,24 +3633,24 @@ export type Player_Food_Variance_Fields = {
 
 /** order by variance() on columns of table "player_food" */
 export type Player_Food_Variance_Order_By = {
-  food_quantity?: Maybe<Order_By>;
+  food_quantity?: InputMaybe<Order_By>;
 };
 
 /** input type for incrementing numeric columns in table "player" */
 export type Player_Inc_Input = {
-  cash?: Maybe<Scalars['Int']>;
+  cash?: InputMaybe<Scalars['Int']>;
 };
 
 /** input type for inserting data into table "player" */
 export type Player_Insert_Input = {
-  cash?: Maybe<Scalars['Int']>;
-  colour?: Maybe<Scalars['String']>;
-  diners?: Maybe<Diner_Arr_Rel_Insert_Input>;
-  game?: Maybe<Scalars['uuid']>;
-  gameByGame?: Maybe<Game_Obj_Rel_Insert_Input>;
-  id?: Maybe<Scalars['uuid']>;
-  name?: Maybe<Scalars['String']>;
-  player_foods?: Maybe<Player_Food_Arr_Rel_Insert_Input>;
+  cash?: InputMaybe<Scalars['Int']>;
+  colour?: InputMaybe<Scalars['String']>;
+  diners?: InputMaybe<Diner_Arr_Rel_Insert_Input>;
+  game?: InputMaybe<Scalars['uuid']>;
+  gameByGame?: InputMaybe<Game_Obj_Rel_Insert_Input>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  player_foods?: InputMaybe<Player_Food_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -3664,11 +3665,11 @@ export type Player_Max_Fields = {
 
 /** order by max() on columns of table "player" */
 export type Player_Max_Order_By = {
-  cash?: Maybe<Order_By>;
-  colour?: Maybe<Order_By>;
-  game?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
+  cash?: InputMaybe<Order_By>;
+  colour?: InputMaybe<Order_By>;
+  game?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -3683,11 +3684,11 @@ export type Player_Min_Fields = {
 
 /** order by min() on columns of table "player" */
 export type Player_Min_Order_By = {
-  cash?: Maybe<Order_By>;
-  colour?: Maybe<Order_By>;
-  game?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
+  cash?: InputMaybe<Order_By>;
+  colour?: InputMaybe<Order_By>;
+  game?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "player" */
@@ -3703,26 +3704,26 @@ export type Player_Mutation_Response = {
 export type Player_Obj_Rel_Insert_Input = {
   data: Player_Insert_Input;
   /** on conflict condition */
-  on_conflict?: Maybe<Player_On_Conflict>;
+  on_conflict?: InputMaybe<Player_On_Conflict>;
 };
 
 /** on conflict condition type for table "player" */
 export type Player_On_Conflict = {
   constraint: Player_Constraint;
   update_columns?: Array<Player_Update_Column>;
-  where?: Maybe<Player_Bool_Exp>;
+  where?: InputMaybe<Player_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "player". */
 export type Player_Order_By = {
-  cash?: Maybe<Order_By>;
-  colour?: Maybe<Order_By>;
-  diners_aggregate?: Maybe<Diner_Aggregate_Order_By>;
-  game?: Maybe<Order_By>;
-  gameByGame?: Maybe<Game_Order_By>;
-  id?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
-  player_foods_aggregate?: Maybe<Player_Food_Aggregate_Order_By>;
+  cash?: InputMaybe<Order_By>;
+  colour?: InputMaybe<Order_By>;
+  diners_aggregate?: InputMaybe<Diner_Aggregate_Order_By>;
+  game?: InputMaybe<Order_By>;
+  gameByGame?: InputMaybe<Game_Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  player_foods_aggregate?: InputMaybe<Player_Food_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: player */
@@ -3746,11 +3747,11 @@ export enum Player_Select_Column {
 
 /** input type for updating data in table "player" */
 export type Player_Set_Input = {
-  cash?: Maybe<Scalars['Int']>;
-  colour?: Maybe<Scalars['String']>;
-  game?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
-  name?: Maybe<Scalars['String']>;
+  cash?: InputMaybe<Scalars['Int']>;
+  colour?: InputMaybe<Scalars['String']>;
+  game?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate stddev on columns */
@@ -3761,7 +3762,7 @@ export type Player_Stddev_Fields = {
 
 /** order by stddev() on columns of table "player" */
 export type Player_Stddev_Order_By = {
-  cash?: Maybe<Order_By>;
+  cash?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
@@ -3772,7 +3773,7 @@ export type Player_Stddev_Pop_Fields = {
 
 /** order by stddev_pop() on columns of table "player" */
 export type Player_Stddev_Pop_Order_By = {
-  cash?: Maybe<Order_By>;
+  cash?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -3783,7 +3784,7 @@ export type Player_Stddev_Samp_Fields = {
 
 /** order by stddev_samp() on columns of table "player" */
 export type Player_Stddev_Samp_Order_By = {
-  cash?: Maybe<Order_By>;
+  cash?: InputMaybe<Order_By>;
 };
 
 /** aggregate sum on columns */
@@ -3794,7 +3795,7 @@ export type Player_Sum_Fields = {
 
 /** order by sum() on columns of table "player" */
 export type Player_Sum_Order_By = {
-  cash?: Maybe<Order_By>;
+  cash?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "player" */
@@ -3819,7 +3820,7 @@ export type Player_Var_Pop_Fields = {
 
 /** order by var_pop() on columns of table "player" */
 export type Player_Var_Pop_Order_By = {
-  cash?: Maybe<Order_By>;
+  cash?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
@@ -3830,7 +3831,7 @@ export type Player_Var_Samp_Fields = {
 
 /** order by var_samp() on columns of table "player" */
 export type Player_Var_Samp_Order_By = {
-  cash?: Maybe<Order_By>;
+  cash?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
@@ -3841,7 +3842,7 @@ export type Player_Variance_Fields = {
 
 /** order by variance() on columns of table "player" */
 export type Player_Variance_Order_By = {
-  cash?: Maybe<Order_By>;
+  cash?: InputMaybe<Order_By>;
 };
 
 export type Query_Root = {
@@ -3937,19 +3938,19 @@ export type Query_Root = {
 };
 
 export type Query_RootAdvertArgs = {
-  distinct_on?: Maybe<Array<Advert_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Advert_Order_By>>;
-  where?: Maybe<Advert_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Advert_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Advert_Order_By>>;
+  where?: InputMaybe<Advert_Bool_Exp>;
 };
 
 export type Query_RootAdvert_AggregateArgs = {
-  distinct_on?: Maybe<Array<Advert_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Advert_Order_By>>;
-  where?: Maybe<Advert_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Advert_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Advert_Order_By>>;
+  where?: InputMaybe<Advert_Bool_Exp>;
 };
 
 export type Query_RootAdvert_By_PkArgs = {
@@ -3957,19 +3958,19 @@ export type Query_RootAdvert_By_PkArgs = {
 };
 
 export type Query_RootBoard_ObjectArgs = {
-  distinct_on?: Maybe<Array<Board_Object_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Board_Object_Order_By>>;
-  where?: Maybe<Board_Object_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Board_Object_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Board_Object_Order_By>>;
+  where?: InputMaybe<Board_Object_Bool_Exp>;
 };
 
 export type Query_RootBoard_Object_AggregateArgs = {
-  distinct_on?: Maybe<Array<Board_Object_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Board_Object_Order_By>>;
-  where?: Maybe<Board_Object_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Board_Object_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Board_Object_Order_By>>;
+  where?: InputMaybe<Board_Object_Bool_Exp>;
 };
 
 export type Query_RootBoard_Object_By_PkArgs = {
@@ -3977,19 +3978,19 @@ export type Query_RootBoard_Object_By_PkArgs = {
 };
 
 export type Query_RootDinerArgs = {
-  distinct_on?: Maybe<Array<Diner_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Diner_Order_By>>;
-  where?: Maybe<Diner_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Diner_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Diner_Order_By>>;
+  where?: InputMaybe<Diner_Bool_Exp>;
 };
 
 export type Query_RootDiner_AggregateArgs = {
-  distinct_on?: Maybe<Array<Diner_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Diner_Order_By>>;
-  where?: Maybe<Diner_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Diner_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Diner_Order_By>>;
+  where?: InputMaybe<Diner_Bool_Exp>;
 };
 
 export type Query_RootDiner_By_PkArgs = {
@@ -3997,19 +3998,19 @@ export type Query_RootDiner_By_PkArgs = {
 };
 
 export type Query_RootDrinkArgs = {
-  distinct_on?: Maybe<Array<Drink_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Drink_Order_By>>;
-  where?: Maybe<Drink_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Drink_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Drink_Order_By>>;
+  where?: InputMaybe<Drink_Bool_Exp>;
 };
 
 export type Query_RootDrink_AggregateArgs = {
-  distinct_on?: Maybe<Array<Drink_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Drink_Order_By>>;
-  where?: Maybe<Drink_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Drink_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Drink_Order_By>>;
+  where?: InputMaybe<Drink_Bool_Exp>;
 };
 
 export type Query_RootDrink_By_PkArgs = {
@@ -4017,19 +4018,19 @@ export type Query_RootDrink_By_PkArgs = {
 };
 
 export type Query_RootEmployeeArgs = {
-  distinct_on?: Maybe<Array<Employee_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Employee_Order_By>>;
-  where?: Maybe<Employee_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Employee_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Employee_Order_By>>;
+  where?: InputMaybe<Employee_Bool_Exp>;
 };
 
 export type Query_RootEmployee_AggregateArgs = {
-  distinct_on?: Maybe<Array<Employee_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Employee_Order_By>>;
-  where?: Maybe<Employee_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Employee_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Employee_Order_By>>;
+  where?: InputMaybe<Employee_Bool_Exp>;
 };
 
 export type Query_RootEmployee_By_PkArgs = {
@@ -4037,19 +4038,19 @@ export type Query_RootEmployee_By_PkArgs = {
 };
 
 export type Query_RootGameArgs = {
-  distinct_on?: Maybe<Array<Game_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Game_Order_By>>;
-  where?: Maybe<Game_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Game_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Game_Order_By>>;
+  where?: InputMaybe<Game_Bool_Exp>;
 };
 
 export type Query_RootGame_AggregateArgs = {
-  distinct_on?: Maybe<Array<Game_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Game_Order_By>>;
-  where?: Maybe<Game_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Game_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Game_Order_By>>;
+  where?: InputMaybe<Game_Bool_Exp>;
 };
 
 export type Query_RootGame_By_PkArgs = {
@@ -4057,19 +4058,19 @@ export type Query_RootGame_By_PkArgs = {
 };
 
 export type Query_RootGardenArgs = {
-  distinct_on?: Maybe<Array<Garden_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Garden_Order_By>>;
-  where?: Maybe<Garden_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Garden_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Garden_Order_By>>;
+  where?: InputMaybe<Garden_Bool_Exp>;
 };
 
 export type Query_RootGarden_AggregateArgs = {
-  distinct_on?: Maybe<Array<Garden_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Garden_Order_By>>;
-  where?: Maybe<Garden_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Garden_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Garden_Order_By>>;
+  where?: InputMaybe<Garden_Bool_Exp>;
 };
 
 export type Query_RootGarden_By_PkArgs = {
@@ -4077,19 +4078,19 @@ export type Query_RootGarden_By_PkArgs = {
 };
 
 export type Query_RootHouseArgs = {
-  distinct_on?: Maybe<Array<House_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<House_Order_By>>;
-  where?: Maybe<House_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<House_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<House_Order_By>>;
+  where?: InputMaybe<House_Bool_Exp>;
 };
 
 export type Query_RootHouse_AggregateArgs = {
-  distinct_on?: Maybe<Array<House_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<House_Order_By>>;
-  where?: Maybe<House_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<House_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<House_Order_By>>;
+  where?: InputMaybe<House_Bool_Exp>;
 };
 
 export type Query_RootHouse_By_PkArgs = {
@@ -4097,19 +4098,19 @@ export type Query_RootHouse_By_PkArgs = {
 };
 
 export type Query_RootHouse_Food_DemandArgs = {
-  distinct_on?: Maybe<Array<House_Food_Demand_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<House_Food_Demand_Order_By>>;
-  where?: Maybe<House_Food_Demand_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<House_Food_Demand_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<House_Food_Demand_Order_By>>;
+  where?: InputMaybe<House_Food_Demand_Bool_Exp>;
 };
 
 export type Query_RootHouse_Food_Demand_AggregateArgs = {
-  distinct_on?: Maybe<Array<House_Food_Demand_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<House_Food_Demand_Order_By>>;
-  where?: Maybe<House_Food_Demand_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<House_Food_Demand_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<House_Food_Demand_Order_By>>;
+  where?: InputMaybe<House_Food_Demand_Bool_Exp>;
 };
 
 export type Query_RootHouse_Food_Demand_By_PkArgs = {
@@ -4118,19 +4119,19 @@ export type Query_RootHouse_Food_Demand_By_PkArgs = {
 };
 
 export type Query_RootPlayerArgs = {
-  distinct_on?: Maybe<Array<Player_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Player_Order_By>>;
-  where?: Maybe<Player_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Player_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Player_Order_By>>;
+  where?: InputMaybe<Player_Bool_Exp>;
 };
 
 export type Query_RootPlayer_AggregateArgs = {
-  distinct_on?: Maybe<Array<Player_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Player_Order_By>>;
-  where?: Maybe<Player_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Player_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Player_Order_By>>;
+  where?: InputMaybe<Player_Bool_Exp>;
 };
 
 export type Query_RootPlayer_By_PkArgs = {
@@ -4138,19 +4139,19 @@ export type Query_RootPlayer_By_PkArgs = {
 };
 
 export type Query_RootPlayer_FoodArgs = {
-  distinct_on?: Maybe<Array<Player_Food_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Player_Food_Order_By>>;
-  where?: Maybe<Player_Food_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Player_Food_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Player_Food_Order_By>>;
+  where?: InputMaybe<Player_Food_Bool_Exp>;
 };
 
 export type Query_RootPlayer_Food_AggregateArgs = {
-  distinct_on?: Maybe<Array<Player_Food_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Player_Food_Order_By>>;
-  where?: Maybe<Player_Food_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Player_Food_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Player_Food_Order_By>>;
+  where?: InputMaybe<Player_Food_Bool_Exp>;
 };
 
 export type Query_RootPlayer_Food_By_PkArgs = {
@@ -4159,19 +4160,19 @@ export type Query_RootPlayer_Food_By_PkArgs = {
 };
 
 export type Query_RootRoadArgs = {
-  distinct_on?: Maybe<Array<Road_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Road_Order_By>>;
-  where?: Maybe<Road_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Road_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Road_Order_By>>;
+  where?: InputMaybe<Road_Bool_Exp>;
 };
 
 export type Query_RootRoad_AggregateArgs = {
-  distinct_on?: Maybe<Array<Road_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Road_Order_By>>;
-  where?: Maybe<Road_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Road_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Road_Order_By>>;
+  where?: InputMaybe<Road_Bool_Exp>;
 };
 
 export type Query_RootRoad_By_PkArgs = {
@@ -4179,19 +4180,19 @@ export type Query_RootRoad_By_PkArgs = {
 };
 
 export type Query_RootRoad_ConnectionArgs = {
-  distinct_on?: Maybe<Array<Road_Connection_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Road_Connection_Order_By>>;
-  where?: Maybe<Road_Connection_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Road_Connection_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Road_Connection_Order_By>>;
+  where?: InputMaybe<Road_Connection_Bool_Exp>;
 };
 
 export type Query_RootRoad_Connection_AggregateArgs = {
-  distinct_on?: Maybe<Array<Road_Connection_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Road_Connection_Order_By>>;
-  where?: Maybe<Road_Connection_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Road_Connection_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Road_Connection_Order_By>>;
+  where?: InputMaybe<Road_Connection_Bool_Exp>;
 };
 
 export type Query_RootRoad_Connection_By_PkArgs = {
@@ -4199,19 +4200,19 @@ export type Query_RootRoad_Connection_By_PkArgs = {
 };
 
 export type Query_RootUser_InfoArgs = {
-  distinct_on?: Maybe<Array<User_Info_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<User_Info_Order_By>>;
-  where?: Maybe<User_Info_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<User_Info_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Info_Order_By>>;
+  where?: InputMaybe<User_Info_Bool_Exp>;
 };
 
 export type Query_RootUser_Info_AggregateArgs = {
-  distinct_on?: Maybe<Array<User_Info_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<User_Info_Order_By>>;
-  where?: Maybe<User_Info_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<User_Info_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Info_Order_By>>;
+  where?: InputMaybe<User_Info_Bool_Exp>;
 };
 
 export type Query_RootUser_Info_By_PkArgs = {
@@ -4219,19 +4220,19 @@ export type Query_RootUser_Info_By_PkArgs = {
 };
 
 export type Query_RootUser_MeArgs = {
-  distinct_on?: Maybe<Array<User_Me_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<User_Me_Order_By>>;
-  where?: Maybe<User_Me_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<User_Me_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Me_Order_By>>;
+  where?: InputMaybe<User_Me_Bool_Exp>;
 };
 
 export type Query_RootUser_Me_AggregateArgs = {
-  distinct_on?: Maybe<Array<User_Me_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<User_Me_Order_By>>;
-  where?: Maybe<User_Me_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<User_Me_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Me_Order_By>>;
+  where?: InputMaybe<User_Me_Bool_Exp>;
 };
 
 /** columns and relationships of "road" */
@@ -4264,34 +4265,34 @@ export type Road_Aggregate_Fields = {
 
 /** aggregate fields of "road" */
 export type Road_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<Road_Select_Column>>;
-  distinct?: Maybe<Scalars['Boolean']>;
+  columns?: InputMaybe<Array<Road_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** order by aggregate values of table "road" */
 export type Road_Aggregate_Order_By = {
-  count?: Maybe<Order_By>;
-  max?: Maybe<Road_Max_Order_By>;
-  min?: Maybe<Road_Min_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Road_Max_Order_By>;
+  min?: InputMaybe<Road_Min_Order_By>;
 };
 
 /** input type for inserting array relation for remote table "road" */
 export type Road_Arr_Rel_Insert_Input = {
   data: Array<Road_Insert_Input>;
   /** on conflict condition */
-  on_conflict?: Maybe<Road_On_Conflict>;
+  on_conflict?: InputMaybe<Road_On_Conflict>;
 };
 
 /** Boolean expression to filter rows from the table "road". All fields are combined with a logical 'AND'. */
 export type Road_Bool_Exp = {
-  _and?: Maybe<Array<Road_Bool_Exp>>;
-  _not?: Maybe<Road_Bool_Exp>;
-  _or?: Maybe<Array<Road_Bool_Exp>>;
-  board_object?: Maybe<Board_Object_Bool_Exp>;
-  game?: Maybe<Uuid_Comparison_Exp>;
-  gameByGame?: Maybe<Game_Bool_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  road_connection?: Maybe<Road_Connection_Bool_Exp>;
+  _and?: InputMaybe<Array<Road_Bool_Exp>>;
+  _not?: InputMaybe<Road_Bool_Exp>;
+  _or?: InputMaybe<Array<Road_Bool_Exp>>;
+  board_object?: InputMaybe<Board_Object_Bool_Exp>;
+  game?: InputMaybe<Uuid_Comparison_Exp>;
+  gameByGame?: InputMaybe<Game_Bool_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  road_connection?: InputMaybe<Road_Connection_Bool_Exp>;
 };
 
 /** columns and relationships of "road_connection" */
@@ -4328,8 +4329,8 @@ export type Road_Connection_Aggregate_Fields = {
 
 /** aggregate fields of "road_connection" */
 export type Road_Connection_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<Road_Connection_Select_Column>>;
-  distinct?: Maybe<Scalars['Boolean']>;
+  columns?: InputMaybe<Array<Road_Connection_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** aggregate avg on columns */
@@ -4340,12 +4341,12 @@ export type Road_Connection_Avg_Fields = {
 
 /** Boolean expression to filter rows from the table "road_connection". All fields are combined with a logical 'AND'. */
 export type Road_Connection_Bool_Exp = {
-  _and?: Maybe<Array<Road_Connection_Bool_Exp>>;
-  _not?: Maybe<Road_Connection_Bool_Exp>;
-  _or?: Maybe<Array<Road_Connection_Bool_Exp>>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  number?: Maybe<Int_Comparison_Exp>;
-  road?: Maybe<Road_Bool_Exp>;
+  _and?: InputMaybe<Array<Road_Connection_Bool_Exp>>;
+  _not?: InputMaybe<Road_Connection_Bool_Exp>;
+  _or?: InputMaybe<Array<Road_Connection_Bool_Exp>>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  number?: InputMaybe<Int_Comparison_Exp>;
+  road?: InputMaybe<Road_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "road_connection" */
@@ -4356,14 +4357,14 @@ export enum Road_Connection_Constraint {
 
 /** input type for incrementing numeric columns in table "road_connection" */
 export type Road_Connection_Inc_Input = {
-  number?: Maybe<Scalars['Int']>;
+  number?: InputMaybe<Scalars['Int']>;
 };
 
 /** input type for inserting data into table "road_connection" */
 export type Road_Connection_Insert_Input = {
-  id?: Maybe<Scalars['uuid']>;
-  number?: Maybe<Scalars['Int']>;
-  road?: Maybe<Road_Obj_Rel_Insert_Input>;
+  id?: InputMaybe<Scalars['uuid']>;
+  number?: InputMaybe<Scalars['Int']>;
+  road?: InputMaybe<Road_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -4393,21 +4394,21 @@ export type Road_Connection_Mutation_Response = {
 export type Road_Connection_Obj_Rel_Insert_Input = {
   data: Road_Connection_Insert_Input;
   /** on conflict condition */
-  on_conflict?: Maybe<Road_Connection_On_Conflict>;
+  on_conflict?: InputMaybe<Road_Connection_On_Conflict>;
 };
 
 /** on conflict condition type for table "road_connection" */
 export type Road_Connection_On_Conflict = {
   constraint: Road_Connection_Constraint;
   update_columns?: Array<Road_Connection_Update_Column>;
-  where?: Maybe<Road_Connection_Bool_Exp>;
+  where?: InputMaybe<Road_Connection_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "road_connection". */
 export type Road_Connection_Order_By = {
-  id?: Maybe<Order_By>;
-  number?: Maybe<Order_By>;
-  road?: Maybe<Road_Order_By>;
+  id?: InputMaybe<Order_By>;
+  number?: InputMaybe<Order_By>;
+  road?: InputMaybe<Road_Order_By>;
 };
 
 /** primary key columns input for table: road_connection */
@@ -4425,8 +4426,8 @@ export enum Road_Connection_Select_Column {
 
 /** input type for updating data in table "road_connection" */
 export type Road_Connection_Set_Input = {
-  id?: Maybe<Scalars['uuid']>;
-  number?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  number?: InputMaybe<Scalars['Int']>;
 };
 
 /** aggregate stddev on columns */
@@ -4487,11 +4488,11 @@ export enum Road_Constraint {
 
 /** input type for inserting data into table "road" */
 export type Road_Insert_Input = {
-  board_object?: Maybe<Board_Object_Obj_Rel_Insert_Input>;
-  game?: Maybe<Scalars['uuid']>;
-  gameByGame?: Maybe<Game_Obj_Rel_Insert_Input>;
-  id?: Maybe<Scalars['uuid']>;
-  road_connection?: Maybe<Road_Connection_Obj_Rel_Insert_Input>;
+  board_object?: InputMaybe<Board_Object_Obj_Rel_Insert_Input>;
+  game?: InputMaybe<Scalars['uuid']>;
+  gameByGame?: InputMaybe<Game_Obj_Rel_Insert_Input>;
+  id?: InputMaybe<Scalars['uuid']>;
+  road_connection?: InputMaybe<Road_Connection_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -4503,8 +4504,8 @@ export type Road_Max_Fields = {
 
 /** order by max() on columns of table "road" */
 export type Road_Max_Order_By = {
-  game?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
+  game?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -4516,8 +4517,8 @@ export type Road_Min_Fields = {
 
 /** order by min() on columns of table "road" */
 export type Road_Min_Order_By = {
-  game?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
+  game?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "road" */
@@ -4533,23 +4534,23 @@ export type Road_Mutation_Response = {
 export type Road_Obj_Rel_Insert_Input = {
   data: Road_Insert_Input;
   /** on conflict condition */
-  on_conflict?: Maybe<Road_On_Conflict>;
+  on_conflict?: InputMaybe<Road_On_Conflict>;
 };
 
 /** on conflict condition type for table "road" */
 export type Road_On_Conflict = {
   constraint: Road_Constraint;
   update_columns?: Array<Road_Update_Column>;
-  where?: Maybe<Road_Bool_Exp>;
+  where?: InputMaybe<Road_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "road". */
 export type Road_Order_By = {
-  board_object?: Maybe<Board_Object_Order_By>;
-  game?: Maybe<Order_By>;
-  gameByGame?: Maybe<Game_Order_By>;
-  id?: Maybe<Order_By>;
-  road_connection?: Maybe<Road_Connection_Order_By>;
+  board_object?: InputMaybe<Board_Object_Order_By>;
+  game?: InputMaybe<Order_By>;
+  gameByGame?: InputMaybe<Game_Order_By>;
+  id?: InputMaybe<Order_By>;
+  road_connection?: InputMaybe<Road_Connection_Order_By>;
 };
 
 /** primary key columns input for table: road */
@@ -4567,8 +4568,8 @@ export enum Road_Select_Column {
 
 /** input type for updating data in table "road" */
 export type Road_Set_Input = {
-  game?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
+  game?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
 };
 
 /** update columns of table "road" */
@@ -4672,19 +4673,19 @@ export type Subscription_Root = {
 };
 
 export type Subscription_RootAdvertArgs = {
-  distinct_on?: Maybe<Array<Advert_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Advert_Order_By>>;
-  where?: Maybe<Advert_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Advert_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Advert_Order_By>>;
+  where?: InputMaybe<Advert_Bool_Exp>;
 };
 
 export type Subscription_RootAdvert_AggregateArgs = {
-  distinct_on?: Maybe<Array<Advert_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Advert_Order_By>>;
-  where?: Maybe<Advert_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Advert_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Advert_Order_By>>;
+  where?: InputMaybe<Advert_Bool_Exp>;
 };
 
 export type Subscription_RootAdvert_By_PkArgs = {
@@ -4692,19 +4693,19 @@ export type Subscription_RootAdvert_By_PkArgs = {
 };
 
 export type Subscription_RootBoard_ObjectArgs = {
-  distinct_on?: Maybe<Array<Board_Object_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Board_Object_Order_By>>;
-  where?: Maybe<Board_Object_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Board_Object_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Board_Object_Order_By>>;
+  where?: InputMaybe<Board_Object_Bool_Exp>;
 };
 
 export type Subscription_RootBoard_Object_AggregateArgs = {
-  distinct_on?: Maybe<Array<Board_Object_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Board_Object_Order_By>>;
-  where?: Maybe<Board_Object_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Board_Object_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Board_Object_Order_By>>;
+  where?: InputMaybe<Board_Object_Bool_Exp>;
 };
 
 export type Subscription_RootBoard_Object_By_PkArgs = {
@@ -4712,19 +4713,19 @@ export type Subscription_RootBoard_Object_By_PkArgs = {
 };
 
 export type Subscription_RootDinerArgs = {
-  distinct_on?: Maybe<Array<Diner_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Diner_Order_By>>;
-  where?: Maybe<Diner_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Diner_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Diner_Order_By>>;
+  where?: InputMaybe<Diner_Bool_Exp>;
 };
 
 export type Subscription_RootDiner_AggregateArgs = {
-  distinct_on?: Maybe<Array<Diner_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Diner_Order_By>>;
-  where?: Maybe<Diner_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Diner_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Diner_Order_By>>;
+  where?: InputMaybe<Diner_Bool_Exp>;
 };
 
 export type Subscription_RootDiner_By_PkArgs = {
@@ -4732,19 +4733,19 @@ export type Subscription_RootDiner_By_PkArgs = {
 };
 
 export type Subscription_RootDrinkArgs = {
-  distinct_on?: Maybe<Array<Drink_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Drink_Order_By>>;
-  where?: Maybe<Drink_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Drink_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Drink_Order_By>>;
+  where?: InputMaybe<Drink_Bool_Exp>;
 };
 
 export type Subscription_RootDrink_AggregateArgs = {
-  distinct_on?: Maybe<Array<Drink_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Drink_Order_By>>;
-  where?: Maybe<Drink_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Drink_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Drink_Order_By>>;
+  where?: InputMaybe<Drink_Bool_Exp>;
 };
 
 export type Subscription_RootDrink_By_PkArgs = {
@@ -4752,19 +4753,19 @@ export type Subscription_RootDrink_By_PkArgs = {
 };
 
 export type Subscription_RootEmployeeArgs = {
-  distinct_on?: Maybe<Array<Employee_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Employee_Order_By>>;
-  where?: Maybe<Employee_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Employee_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Employee_Order_By>>;
+  where?: InputMaybe<Employee_Bool_Exp>;
 };
 
 export type Subscription_RootEmployee_AggregateArgs = {
-  distinct_on?: Maybe<Array<Employee_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Employee_Order_By>>;
-  where?: Maybe<Employee_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Employee_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Employee_Order_By>>;
+  where?: InputMaybe<Employee_Bool_Exp>;
 };
 
 export type Subscription_RootEmployee_By_PkArgs = {
@@ -4772,19 +4773,19 @@ export type Subscription_RootEmployee_By_PkArgs = {
 };
 
 export type Subscription_RootGameArgs = {
-  distinct_on?: Maybe<Array<Game_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Game_Order_By>>;
-  where?: Maybe<Game_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Game_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Game_Order_By>>;
+  where?: InputMaybe<Game_Bool_Exp>;
 };
 
 export type Subscription_RootGame_AggregateArgs = {
-  distinct_on?: Maybe<Array<Game_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Game_Order_By>>;
-  where?: Maybe<Game_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Game_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Game_Order_By>>;
+  where?: InputMaybe<Game_Bool_Exp>;
 };
 
 export type Subscription_RootGame_By_PkArgs = {
@@ -4792,19 +4793,19 @@ export type Subscription_RootGame_By_PkArgs = {
 };
 
 export type Subscription_RootGardenArgs = {
-  distinct_on?: Maybe<Array<Garden_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Garden_Order_By>>;
-  where?: Maybe<Garden_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Garden_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Garden_Order_By>>;
+  where?: InputMaybe<Garden_Bool_Exp>;
 };
 
 export type Subscription_RootGarden_AggregateArgs = {
-  distinct_on?: Maybe<Array<Garden_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Garden_Order_By>>;
-  where?: Maybe<Garden_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Garden_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Garden_Order_By>>;
+  where?: InputMaybe<Garden_Bool_Exp>;
 };
 
 export type Subscription_RootGarden_By_PkArgs = {
@@ -4812,19 +4813,19 @@ export type Subscription_RootGarden_By_PkArgs = {
 };
 
 export type Subscription_RootHouseArgs = {
-  distinct_on?: Maybe<Array<House_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<House_Order_By>>;
-  where?: Maybe<House_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<House_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<House_Order_By>>;
+  where?: InputMaybe<House_Bool_Exp>;
 };
 
 export type Subscription_RootHouse_AggregateArgs = {
-  distinct_on?: Maybe<Array<House_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<House_Order_By>>;
-  where?: Maybe<House_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<House_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<House_Order_By>>;
+  where?: InputMaybe<House_Bool_Exp>;
 };
 
 export type Subscription_RootHouse_By_PkArgs = {
@@ -4832,19 +4833,19 @@ export type Subscription_RootHouse_By_PkArgs = {
 };
 
 export type Subscription_RootHouse_Food_DemandArgs = {
-  distinct_on?: Maybe<Array<House_Food_Demand_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<House_Food_Demand_Order_By>>;
-  where?: Maybe<House_Food_Demand_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<House_Food_Demand_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<House_Food_Demand_Order_By>>;
+  where?: InputMaybe<House_Food_Demand_Bool_Exp>;
 };
 
 export type Subscription_RootHouse_Food_Demand_AggregateArgs = {
-  distinct_on?: Maybe<Array<House_Food_Demand_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<House_Food_Demand_Order_By>>;
-  where?: Maybe<House_Food_Demand_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<House_Food_Demand_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<House_Food_Demand_Order_By>>;
+  where?: InputMaybe<House_Food_Demand_Bool_Exp>;
 };
 
 export type Subscription_RootHouse_Food_Demand_By_PkArgs = {
@@ -4853,19 +4854,19 @@ export type Subscription_RootHouse_Food_Demand_By_PkArgs = {
 };
 
 export type Subscription_RootPlayerArgs = {
-  distinct_on?: Maybe<Array<Player_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Player_Order_By>>;
-  where?: Maybe<Player_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Player_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Player_Order_By>>;
+  where?: InputMaybe<Player_Bool_Exp>;
 };
 
 export type Subscription_RootPlayer_AggregateArgs = {
-  distinct_on?: Maybe<Array<Player_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Player_Order_By>>;
-  where?: Maybe<Player_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Player_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Player_Order_By>>;
+  where?: InputMaybe<Player_Bool_Exp>;
 };
 
 export type Subscription_RootPlayer_By_PkArgs = {
@@ -4873,19 +4874,19 @@ export type Subscription_RootPlayer_By_PkArgs = {
 };
 
 export type Subscription_RootPlayer_FoodArgs = {
-  distinct_on?: Maybe<Array<Player_Food_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Player_Food_Order_By>>;
-  where?: Maybe<Player_Food_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Player_Food_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Player_Food_Order_By>>;
+  where?: InputMaybe<Player_Food_Bool_Exp>;
 };
 
 export type Subscription_RootPlayer_Food_AggregateArgs = {
-  distinct_on?: Maybe<Array<Player_Food_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Player_Food_Order_By>>;
-  where?: Maybe<Player_Food_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Player_Food_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Player_Food_Order_By>>;
+  where?: InputMaybe<Player_Food_Bool_Exp>;
 };
 
 export type Subscription_RootPlayer_Food_By_PkArgs = {
@@ -4894,19 +4895,19 @@ export type Subscription_RootPlayer_Food_By_PkArgs = {
 };
 
 export type Subscription_RootRoadArgs = {
-  distinct_on?: Maybe<Array<Road_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Road_Order_By>>;
-  where?: Maybe<Road_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Road_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Road_Order_By>>;
+  where?: InputMaybe<Road_Bool_Exp>;
 };
 
 export type Subscription_RootRoad_AggregateArgs = {
-  distinct_on?: Maybe<Array<Road_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Road_Order_By>>;
-  where?: Maybe<Road_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Road_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Road_Order_By>>;
+  where?: InputMaybe<Road_Bool_Exp>;
 };
 
 export type Subscription_RootRoad_By_PkArgs = {
@@ -4914,19 +4915,19 @@ export type Subscription_RootRoad_By_PkArgs = {
 };
 
 export type Subscription_RootRoad_ConnectionArgs = {
-  distinct_on?: Maybe<Array<Road_Connection_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Road_Connection_Order_By>>;
-  where?: Maybe<Road_Connection_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Road_Connection_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Road_Connection_Order_By>>;
+  where?: InputMaybe<Road_Connection_Bool_Exp>;
 };
 
 export type Subscription_RootRoad_Connection_AggregateArgs = {
-  distinct_on?: Maybe<Array<Road_Connection_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Road_Connection_Order_By>>;
-  where?: Maybe<Road_Connection_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Road_Connection_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Road_Connection_Order_By>>;
+  where?: InputMaybe<Road_Connection_Bool_Exp>;
 };
 
 export type Subscription_RootRoad_Connection_By_PkArgs = {
@@ -4934,19 +4935,19 @@ export type Subscription_RootRoad_Connection_By_PkArgs = {
 };
 
 export type Subscription_RootUser_InfoArgs = {
-  distinct_on?: Maybe<Array<User_Info_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<User_Info_Order_By>>;
-  where?: Maybe<User_Info_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<User_Info_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Info_Order_By>>;
+  where?: InputMaybe<User_Info_Bool_Exp>;
 };
 
 export type Subscription_RootUser_Info_AggregateArgs = {
-  distinct_on?: Maybe<Array<User_Info_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<User_Info_Order_By>>;
-  where?: Maybe<User_Info_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<User_Info_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Info_Order_By>>;
+  where?: InputMaybe<User_Info_Bool_Exp>;
 };
 
 export type Subscription_RootUser_Info_By_PkArgs = {
@@ -4954,19 +4955,19 @@ export type Subscription_RootUser_Info_By_PkArgs = {
 };
 
 export type Subscription_RootUser_MeArgs = {
-  distinct_on?: Maybe<Array<User_Me_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<User_Me_Order_By>>;
-  where?: Maybe<User_Me_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<User_Me_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Me_Order_By>>;
+  where?: InputMaybe<User_Me_Bool_Exp>;
 };
 
 export type Subscription_RootUser_Me_AggregateArgs = {
-  distinct_on?: Maybe<Array<User_Me_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<User_Me_Order_By>>;
-  where?: Maybe<User_Me_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<User_Me_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Me_Order_By>>;
+  where?: InputMaybe<User_Me_Bool_Exp>;
 };
 
 /** columns and relationships of "user_info" */
@@ -4996,20 +4997,20 @@ export type User_Info_Aggregate_Fields = {
 
 /** aggregate fields of "user_info" */
 export type User_Info_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<User_Info_Select_Column>>;
-  distinct?: Maybe<Scalars['Boolean']>;
+  columns?: InputMaybe<Array<User_Info_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** Boolean expression to filter rows from the table "user_info". All fields are combined with a logical 'AND'. */
 export type User_Info_Bool_Exp = {
-  _and?: Maybe<Array<User_Info_Bool_Exp>>;
-  _not?: Maybe<User_Info_Bool_Exp>;
-  _or?: Maybe<Array<User_Info_Bool_Exp>>;
-  avatar_url?: Maybe<String_Comparison_Exp>;
-  display_name?: Maybe<String_Comparison_Exp>;
-  id?: Maybe<String_Comparison_Exp>;
-  name?: Maybe<String_Comparison_Exp>;
-  nickname?: Maybe<String_Comparison_Exp>;
+  _and?: InputMaybe<Array<User_Info_Bool_Exp>>;
+  _not?: InputMaybe<User_Info_Bool_Exp>;
+  _or?: InputMaybe<Array<User_Info_Bool_Exp>>;
+  avatar_url?: InputMaybe<String_Comparison_Exp>;
+  display_name?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  nickname?: InputMaybe<String_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "user_info" */
@@ -5022,11 +5023,11 @@ export enum User_Info_Constraint {
 
 /** input type for inserting data into table "user_info" */
 export type User_Info_Insert_Input = {
-  avatar_url?: Maybe<Scalars['String']>;
-  display_name?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  nickname?: Maybe<Scalars['String']>;
+  avatar_url?: InputMaybe<Scalars['String']>;
+  display_name?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  nickname?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
@@ -5062,16 +5063,16 @@ export type User_Info_Mutation_Response = {
 export type User_Info_On_Conflict = {
   constraint: User_Info_Constraint;
   update_columns?: Array<User_Info_Update_Column>;
-  where?: Maybe<User_Info_Bool_Exp>;
+  where?: InputMaybe<User_Info_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "user_info". */
 export type User_Info_Order_By = {
-  avatar_url?: Maybe<Order_By>;
-  display_name?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
-  nickname?: Maybe<Order_By>;
+  avatar_url?: InputMaybe<Order_By>;
+  display_name?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  nickname?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: user_info */
@@ -5095,11 +5096,11 @@ export enum User_Info_Select_Column {
 
 /** input type for updating data in table "user_info" */
 export type User_Info_Set_Input = {
-  avatar_url?: Maybe<Scalars['String']>;
-  display_name?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  nickname?: Maybe<Scalars['String']>;
+  avatar_url?: InputMaybe<Scalars['String']>;
+  display_name?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  nickname?: InputMaybe<Scalars['String']>;
 };
 
 /** update columns of table "user_info" */
@@ -5142,27 +5143,27 @@ export type User_Me_Aggregate_Fields = {
 
 /** aggregate fields of "user_me" */
 export type User_Me_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<User_Me_Select_Column>>;
-  distinct?: Maybe<Scalars['Boolean']>;
+  columns?: InputMaybe<Array<User_Me_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** Boolean expression to filter rows from the table "user_me". All fields are combined with a logical 'AND'. */
 export type User_Me_Bool_Exp = {
-  _and?: Maybe<Array<User_Me_Bool_Exp>>;
-  _not?: Maybe<User_Me_Bool_Exp>;
-  _or?: Maybe<Array<User_Me_Bool_Exp>>;
-  display_name?: Maybe<String_Comparison_Exp>;
-  id?: Maybe<String_Comparison_Exp>;
-  name?: Maybe<String_Comparison_Exp>;
-  nickname?: Maybe<String_Comparison_Exp>;
+  _and?: InputMaybe<Array<User_Me_Bool_Exp>>;
+  _not?: InputMaybe<User_Me_Bool_Exp>;
+  _or?: InputMaybe<Array<User_Me_Bool_Exp>>;
+  display_name?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  nickname?: InputMaybe<String_Comparison_Exp>;
 };
 
 /** input type for inserting data into table "user_me" */
 export type User_Me_Insert_Input = {
-  display_name?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  nickname?: Maybe<Scalars['String']>;
+  display_name?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  nickname?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
@@ -5194,10 +5195,10 @@ export type User_Me_Mutation_Response = {
 
 /** Ordering options when selecting data from "user_me". */
 export type User_Me_Order_By = {
-  display_name?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
-  nickname?: Maybe<Order_By>;
+  display_name?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  nickname?: InputMaybe<Order_By>;
 };
 
 /** select columns of table "user_me" */
@@ -5214,23 +5215,23 @@ export enum User_Me_Select_Column {
 
 /** input type for updating data in table "user_me" */
 export type User_Me_Set_Input = {
-  display_name?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  nickname?: Maybe<Scalars['String']>;
+  display_name?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  nickname?: InputMaybe<Scalars['String']>;
 };
 
 /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
 export type Uuid_Comparison_Exp = {
-  _eq?: Maybe<Scalars['uuid']>;
-  _gt?: Maybe<Scalars['uuid']>;
-  _gte?: Maybe<Scalars['uuid']>;
-  _in?: Maybe<Array<Scalars['uuid']>>;
-  _is_null?: Maybe<Scalars['Boolean']>;
-  _lt?: Maybe<Scalars['uuid']>;
-  _lte?: Maybe<Scalars['uuid']>;
-  _neq?: Maybe<Scalars['uuid']>;
-  _nin?: Maybe<Array<Scalars['uuid']>>;
+  _eq?: InputMaybe<Scalars['uuid']>;
+  _gt?: InputMaybe<Scalars['uuid']>;
+  _gte?: InputMaybe<Scalars['uuid']>;
+  _in?: InputMaybe<Array<Scalars['uuid']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['uuid']>;
+  _lte?: InputMaybe<Scalars['uuid']>;
+  _neq?: InputMaybe<Scalars['uuid']>;
+  _nin?: InputMaybe<Array<Scalars['uuid']>>;
 };
 
 export type SelfQueryVariables = Exact<{ [key: string]: never }>;
@@ -5239,10 +5240,10 @@ export type SelfQuery = {
   __typename?: 'query_root';
   user_me: Array<{
     __typename?: 'user_me';
-    display_name?: Maybe<string>;
-    id?: Maybe<string>;
-    name?: Maybe<string>;
-    nickname?: Maybe<string>;
+    display_name?: string | null;
+    id?: string | null;
+    name?: string | null;
+    nickname?: string | null;
   }>;
 };
 
@@ -5253,10 +5254,10 @@ export type SetDisplayNameByUserIdMutationVariables = Exact<{
 
 export type SetDisplayNameByUserIdMutation = {
   __typename?: 'mutation_root';
-  update_user_info_by_pk?: Maybe<{
+  update_user_info_by_pk?: {
     __typename?: 'user_info';
-    display_name?: Maybe<string>;
-  }>;
+    display_name?: string | null;
+  } | null;
 };
 
 export const SelfDocument = gql`

@@ -9,7 +9,7 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
-"@apollo/client@^3.4.11":
+"@apollo/client@^3.5.10":
   version "3.5.10"
   resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.5.10.tgz#43463108a6e07ae602cca0afc420805a19339a71"
   integrity sha512-tL3iSpFe9Oldq7gYikZK1dcYxp1c01nlSwtsMz75382HcI6fvQXyFXUCJTTK3wgO2/ckaBvRGw7VqjFREdVoRw==
@@ -58,7 +58,7 @@
   dependencies:
     xss "^1.0.8"
 
-"@auth0/auth0-react@^1.7.0":
+"@auth0/auth0-react@^1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@auth0/auth0-react/-/auth0-react-1.9.0.tgz#957041fa9756a5cf20412116f19f2d1367aa66b6"
   integrity sha512-VkovI2i7dI1dkIJAdS51O9XMq6vlcHJn9DL+if4rSxt+sNocFd1i4q0j07a9XbafBj4/WEkSbOiX93z2ZXqdAA==
@@ -1282,7 +1282,7 @@
   dependencies:
     "@chakra-ui/utils" "1.10.4"
 
-"@chakra-ui/icons@^1.0.15":
+"@chakra-ui/icons@^1.1.7":
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/@chakra-ui/icons/-/icons-1.1.7.tgz#f8c0c44a969c8654b90026b7d375b550c4bfbc49"
   integrity sha512-YIHxey/B4M2PyFASlHXtAWFyW+tsAtGAChOJ8dsM2kpu1MbVUqm/6nMI1KIFd7Te5IWuNYA75rAHBdLI0Yu61A==
@@ -1454,7 +1454,7 @@
   dependencies:
     "@chakra-ui/utils" "^1.10.4"
 
-"@chakra-ui/react@^1.6.7":
+"@chakra-ui/react@^1.8.6":
   version "1.8.6"
   resolved "https://registry.yarnpkg.com/@chakra-ui/react/-/react-1.8.6.tgz#e37b9df24fa2ec7d91d2baaa00fd617e3a1bd80c"
   integrity sha512-FEh/KG0uPeNOMQuIlyPfGjHvGB7LN1AAhkdFefqzNt0zNy8Giv4p1PKY7wdCh5QEFor++A83L1wIWvTGQVJ2vQ==
@@ -1612,7 +1612,7 @@
     "@chakra-ui/form-control" "1.5.9"
     "@chakra-ui/utils" "1.10.4"
 
-"@chakra-ui/theme-tools@1.3.6", "@chakra-ui/theme-tools@^1.2.0", "@chakra-ui/theme-tools@^1.3.6":
+"@chakra-ui/theme-tools@1.3.6", "@chakra-ui/theme-tools@^1.3.6":
   version "1.3.6"
   resolved "https://registry.yarnpkg.com/@chakra-ui/theme-tools/-/theme-tools-1.3.6.tgz#2e5b5c192efd685c158e940a5cedcb0eb51f8602"
   integrity sha512-Wxz3XSJhPCU6OwCHEyH44EegEDQHwvlsx+KDkUDGevOjUU88YuNqOVkKtgTpgMLNQcsrYZ93oPWZUJqqCVNRew==
@@ -1867,7 +1867,7 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@graphql-codegen/cli@^2.2.0":
+"@graphql-codegen/cli@^2.6.2":
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/cli/-/cli-2.6.2.tgz#a9aa4656141ee0998cae8c7ad7d0bf9ca8e0c9ae"
   integrity sha512-UO75msoVgvLEvfjCezM09cQQqp32+mR8Ma1ACsBpr7nroFvHbgcu2ulx1cMovg4sxDBCsvd9Eq/xOOMpARUxtw==
@@ -1923,7 +1923,7 @@
     "@graphql-tools/utils" "^8.1.1"
     tslib "~2.3.0"
 
-"@graphql-codegen/introspection@^2.1.0":
+"@graphql-codegen/introspection@^2.1.1":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/introspection/-/introspection-2.1.1.tgz#5f3aac47ef46ed817baf969e78dd2dd6d307b18a"
   integrity sha512-O9zsy0IoFYDo37pBVF4pSvRMDx/AKdgOxyko4R/O+0DHEw9Nya/pQ3dbn+LDLj2n6X+xOXUBUfFvqhODTqU28w==
@@ -1952,7 +1952,7 @@
     "@graphql-tools/utils" "^8.1.1"
     tslib "~2.3.0"
 
-"@graphql-codegen/typescript-operations@^2.1.4":
+"@graphql-codegen/typescript-operations@^2.3.2":
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-operations/-/typescript-operations-2.3.2.tgz#1a94c352b196030d0bf3701ed38343c8619c94e0"
   integrity sha512-VLB466ffcT25imuq85ANVqVotVaT4T1gJ6FLJsiJkn5U/iMMZa8CvP+l9oSqDlaBotv38LIZX6pdWGNGAn7kDA==
@@ -1963,7 +1963,7 @@
     auto-bind "~4.0.0"
     tslib "~2.3.0"
 
-"@graphql-codegen/typescript-react-apollo@^3.1.4":
+"@graphql-codegen/typescript-react-apollo@^3.2.8":
   version "3.2.8"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-react-apollo/-/typescript-react-apollo-3.2.8.tgz#776e4f219c9484ff43249569079091fe912bb8d4"
   integrity sha512-XmYeBSS3KZF9WePMN5RqYwOHbDybhOxB89C+fvUscFX8MVI5DugMI99qYsdqS8mWQfElRe8ib68zKPaIGTnC0w==
@@ -1974,7 +1974,7 @@
     change-case-all "1.0.14"
     tslib "~2.3.0"
 
-"@graphql-codegen/typescript@^2.2.2", "@graphql-codegen/typescript@^2.4.5":
+"@graphql-codegen/typescript@^2.4.5":
   version "2.4.5"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript/-/typescript-2.4.5.tgz#80ca7a343511a27cd587c0b220b0a0dd99a4dc4b"
   integrity sha512-Ytb8phNHKl/v/wxudsMOAV1dmzIbckWHm2J83PLNOvnu9CGEhgsd67vfe3ZoF95VU2BKSG8BXGa6uL9z2xDmuA==
