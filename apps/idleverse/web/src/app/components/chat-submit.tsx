@@ -23,6 +23,7 @@ export const ChatSubmit = () => {
   };
 
   const bg = useColorModeValue('gray.200', 'gray.600');
+  const inputBg = useColorModeValue('gray.300', 'gray.700');
 
   return (
     <Box
@@ -35,6 +36,7 @@ export const ChatSubmit = () => {
       bgColor={bg}
     >
       <Input
+        bg={inputBg}
         placeholder="Type to chat..."
         value={message}
         onChange={(event) => {
