@@ -638,29 +638,6 @@
       },
       "tags": [],
       "implicitDependencies": ["idleverse-web"]
-    },
-    "new-library": {
-      "root": "libs/new-library",
-      "sourceRoot": "libs/new-library/src",
-      "projectType": "library",
-      "targets": {
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
-          "options": {
-            "lintFilePatterns": ["libs/new-library/**/*.ts"]
-          }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/new-library"],
-          "options": {
-            "jestConfig": "libs/new-library/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      },
-      "tags": []
     }
   }
 }
