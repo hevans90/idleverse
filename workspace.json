@@ -393,7 +393,7 @@
           "options": {
             "sources": ["apps/idleverse/game-server/src"],
             "commands": [
-              "nx build game-server && docker restart idleverse-game-server",
+              "nx build idleverse-game-server && docker restart idleverse-game-server",
               "echo Successfully rebuilt idleverse game server docker volume"
             ]
           }
