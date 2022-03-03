@@ -50,7 +50,7 @@ export const ChatSubmit = () => {
         colorScheme="teal"
         size="xs"
         height="40px"
-        marginLeft="0.5rem"
+        marginLeft={1}
         paddingLeft="1rem"
         paddingRight="1rem"
         onClick={(e) => {
