@@ -22,7 +22,7 @@ export const GameUIBottomBar = ({ bottom }: { bottom?: number }) => {
       position="absolute"
       alignItems="start"
       bgColor={bg}
-      bottom={bottom}
+      bottom={`${bottom}px`}
       left="0"
       borderWidth="1px"
       borderStyle="solid"
