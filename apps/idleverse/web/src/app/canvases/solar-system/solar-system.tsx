@@ -30,7 +30,7 @@ export const SolarSystem = () => {
 
   useFpsTracker(app, size);
 
-  useViewport(app, size, solarSystemContainerRef, false);
+  useViewport(app, size, solarSystemContainerRef);
 
   useEffect(() => {
     solarSystemContainerRef.current.x = size.width / 2;

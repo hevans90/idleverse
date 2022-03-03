@@ -64,7 +64,7 @@ export const GalaxyViewer = ({
 
   const navigateToCelestial = (id: string) => history.push(`/celestials/${id}`);
 
-  useViewport(app, size, galaxyContainerRef, false);
+  useViewport(app, size, galaxyContainerRef);
 
   useFpsTracker(app, size);
 
