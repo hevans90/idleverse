@@ -1,5 +1,6 @@
 import { ApolloError, useReactiveVar } from '@apollo/client';
 import {
+  Avatar,
   Box,
   Button,
   Spinner,
@@ -7,7 +8,6 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { Loading } from '../../../components/loading';
-import { Thumbnail } from '../../../components/thumbnail';
 import { selfVar } from '../../../_state/reactive-variables';
 import { CelestialOwner } from '../celestial-owner';
 
@@ -73,7 +73,7 @@ export const PlayerPanel = ({
           width="100%"
           _last={{ marginBottom: 'unset' }}
         >
-          <Thumbnail avatar_url={avatar_url} alt={display_name} />
+          <Avatar size="md" src={avatar_url} mr={2} name={display_name} />
           <Text mr="1rem" flexGrow={1}>
             {display_name}
           </Text>
