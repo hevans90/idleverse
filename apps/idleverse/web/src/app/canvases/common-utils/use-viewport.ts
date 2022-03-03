@@ -1,6 +1,8 @@
+import { useReactiveVar } from '@apollo/client';
 import { Viewport } from 'pixi-viewport';
 import { Application, Container, Graphics, Text } from 'pixi.js';
 import { useEffect, useRef } from 'react';
+import { debugVar } from '../../_state/persisted-reactive-variables';
 import { indicatorFactory } from '../galaxy-generator/utils/indicator-factory';
 
 /**
@@ -9,10 +11,11 @@ import { indicatorFactory } from '../galaxy-generator/utils/indicator-factory';
 export const useViewport = (
   app: Application,
   size: { width: number; height: number },
-  containerRef?: React.MutableRefObject<Container>,
-  debug = false
+  containerRef?: React.MutableRefObject<Container>
 ) => {
   const outline = useRef<Graphics>(null);
+
+  const debug = useReactiveVar(debugVar);
 
   const viewportRef = useRef<Viewport>(null);
 

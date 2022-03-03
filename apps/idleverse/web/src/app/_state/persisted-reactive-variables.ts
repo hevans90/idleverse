@@ -8,3 +8,7 @@ export const layoutVar = makeVarPersisted<LayoutConfig>(
   },
   'layout'
 );
+
+export const debugVar = makeVarPersisted<boolean>(false, 'debug');
+
+export const fpsVar = makeVarPersisted<boolean>(false, 'fps');

@@ -180,7 +180,7 @@
       "projectType": "application",
       "targets": {
         "build": {
-          "executor": "@nrwl/node:build",
+          "executor": "@nrwl/node:webpack",
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/food/server",
@@ -203,7 +203,7 @@
           }
         },
         "serve": {
-          "executor": "@nrwl/node:execute",
+          "executor": "@nrwl/node:node",
           "options": {
             "buildTarget": "food-server:build"
           }
@@ -399,7 +399,7 @@
           }
         },
         "build": {
-          "executor": "@nrwl/node:build",
+          "executor": "@nrwl/node:webpack",
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/idleverse/game-server",
@@ -430,7 +430,7 @@
           }
         },
         "serve": {
-          "executor": "@nrwl/node:execute",
+          "executor": "@nrwl/node:node",
           "options": {
             "buildTarget": "idleverse-game-server:build"
           }
@@ -555,10 +555,7 @@
               ]
             },
             "docker": {
-              "sourceMap": {
-                "scripts": true,
-                "vendor": true
-              },
+              "sourceMap": true,
               "fileReplacements": [
                 {
                   "replace": "apps/idleverse/web/src/environments/environment.ts",

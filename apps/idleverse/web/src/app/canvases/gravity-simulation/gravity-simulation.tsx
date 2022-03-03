@@ -21,7 +21,7 @@ export const GravitySimulation = () => {
   const size = useResize('gravity-sim');
   const gravitySimContainerRef = useRef(new Container());
   useFpsTracker(app, size);
-  useViewport(app, size, gravitySimContainerRef, true);
+  useViewport(app, size, gravitySimContainerRef);
   const time = useReactiveVar(timeVar);
   const paused = useReactiveVar(simulationPaused);
 

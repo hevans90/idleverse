@@ -18,7 +18,7 @@ export const CelstialViewer = ({ celestial }: CelestialViewerProps) => {
 
   const size = useResize();
 
-  useViewport(app, size, celestialContainerRef, false);
+  useViewport(app, size, celestialContainerRef);
 
   useFpsTracker(app, size);
 

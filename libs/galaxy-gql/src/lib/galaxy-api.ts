@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
@@ -24,53 +25,48 @@ export type Scalars = {
 
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 export type Int_Comparison_Exp = {
-  _eq?: Maybe<Scalars['Int']>;
-  _gt?: Maybe<Scalars['Int']>;
-  _gte?: Maybe<Scalars['Int']>;
-  _in?: Maybe<Array<Scalars['Int']>>;
-  _is_null?: Maybe<Scalars['Boolean']>;
-  _lt?: Maybe<Scalars['Int']>;
-  _lte?: Maybe<Scalars['Int']>;
-  _neq?: Maybe<Scalars['Int']>;
-  _nin?: Maybe<Array<Scalars['Int']>>;
+  _eq?: InputMaybe<Scalars['Int']>;
+  _gt?: InputMaybe<Scalars['Int']>;
+  _gte?: InputMaybe<Scalars['Int']>;
+  _in?: InputMaybe<Array<Scalars['Int']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['Int']>;
+  _lte?: InputMaybe<Scalars['Int']>;
+  _neq?: InputMaybe<Scalars['Int']>;
+  _nin?: InputMaybe<Array<Scalars['Int']>>;
 };
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
 export type String_Comparison_Exp = {
-  _eq?: Maybe<Scalars['String']>;
-  _gt?: Maybe<Scalars['String']>;
-  _gte?: Maybe<Scalars['String']>;
+  _eq?: InputMaybe<Scalars['String']>;
+  _gt?: InputMaybe<Scalars['String']>;
+  _gte?: InputMaybe<Scalars['String']>;
   /** does the column match the given case-insensitive pattern */
-  _ilike?: Maybe<Scalars['String']>;
-  _in?: Maybe<Array<Scalars['String']>>;
+  _ilike?: InputMaybe<Scalars['String']>;
+  _in?: InputMaybe<Array<Scalars['String']>>;
   /** does the column match the given POSIX regular expression, case insensitive */
-  _iregex?: Maybe<Scalars['String']>;
-  _is_null?: Maybe<Scalars['Boolean']>;
+  _iregex?: InputMaybe<Scalars['String']>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
   /** does the column match the given pattern */
-  _like?: Maybe<Scalars['String']>;
-  _lt?: Maybe<Scalars['String']>;
-  _lte?: Maybe<Scalars['String']>;
-  _neq?: Maybe<Scalars['String']>;
+  _like?: InputMaybe<Scalars['String']>;
+  _lt?: InputMaybe<Scalars['String']>;
+  _lte?: InputMaybe<Scalars['String']>;
+  _neq?: InputMaybe<Scalars['String']>;
   /** does the column NOT match the given case-insensitive pattern */
-  _nilike?: Maybe<Scalars['String']>;
-  _nin?: Maybe<Array<Scalars['String']>>;
+  _nilike?: InputMaybe<Scalars['String']>;
+  _nin?: InputMaybe<Array<Scalars['String']>>;
   /** does the column NOT match the given POSIX regular expression, case insensitive */
-  _niregex?: Maybe<Scalars['String']>;
+  _niregex?: InputMaybe<Scalars['String']>;
   /** does the column NOT match the given pattern */
-  _nlike?: Maybe<Scalars['String']>;
+  _nlike?: InputMaybe<Scalars['String']>;
   /** does the column NOT match the given POSIX regular expression, case sensitive */
-  _nregex?: Maybe<Scalars['String']>;
+  _nregex?: InputMaybe<Scalars['String']>;
   /** does the column NOT match the given SQL regular expression */
-  _nsimilar?: Maybe<Scalars['String']>;
+  _nsimilar?: InputMaybe<Scalars['String']>;
   /** does the column match the given POSIX regular expression, case sensitive */
-  _regex?: Maybe<Scalars['String']>;
+  _regex?: InputMaybe<Scalars['String']>;
   /** does the column match the given SQL regular expression */
-  _similar?: Maybe<Scalars['String']>;
-};
-
-export type _ = {
-  __typename?: '_';
-  updatedName: Scalars['String'];
+  _similar?: InputMaybe<Scalars['String']>;
 };
 
 /** columns and relationships of "celestial" */
@@ -103,35 +99,35 @@ export type Celestial_Aggregate_Fields = {
 
 /** aggregate fields of "celestial" */
 export type Celestial_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<Celestial_Select_Column>>;
-  distinct?: Maybe<Scalars['Boolean']>;
+  columns?: InputMaybe<Array<Celestial_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** order by aggregate values of table "celestial" */
 export type Celestial_Aggregate_Order_By = {
-  count?: Maybe<Order_By>;
-  max?: Maybe<Celestial_Max_Order_By>;
-  min?: Maybe<Celestial_Min_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Celestial_Max_Order_By>;
+  min?: InputMaybe<Celestial_Min_Order_By>;
 };
 
 /** input type for inserting array relation for remote table "celestial" */
 export type Celestial_Arr_Rel_Insert_Input = {
   data: Array<Celestial_Insert_Input>;
   /** on conflict condition */
-  on_conflict?: Maybe<Celestial_On_Conflict>;
+  on_conflict?: InputMaybe<Celestial_On_Conflict>;
 };
 
 /** Boolean expression to filter rows from the table "celestial". All fields are combined with a logical 'AND'. */
 export type Celestial_Bool_Exp = {
-  _and?: Maybe<Array<Celestial_Bool_Exp>>;
-  _not?: Maybe<Celestial_Bool_Exp>;
-  _or?: Maybe<Array<Celestial_Bool_Exp>>;
-  galaxy?: Maybe<Galaxy_Bool_Exp>;
-  galaxy_id?: Maybe<Uuid_Comparison_Exp>;
-  id?: Maybe<String_Comparison_Exp>;
-  name?: Maybe<String_Comparison_Exp>;
-  owner_id?: Maybe<String_Comparison_Exp>;
-  user_info?: Maybe<User_Info_Bool_Exp>;
+  _and?: InputMaybe<Array<Celestial_Bool_Exp>>;
+  _not?: InputMaybe<Celestial_Bool_Exp>;
+  _or?: InputMaybe<Array<Celestial_Bool_Exp>>;
+  galaxy?: InputMaybe<Galaxy_Bool_Exp>;
+  galaxy_id?: InputMaybe<Uuid_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  owner_id?: InputMaybe<String_Comparison_Exp>;
+  user_info?: InputMaybe<User_Info_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "celestial" */
@@ -142,12 +138,12 @@ export enum Celestial_Constraint {
 
 /** input type for inserting data into table "celestial" */
 export type Celestial_Insert_Input = {
-  galaxy?: Maybe<Galaxy_Obj_Rel_Insert_Input>;
-  galaxy_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  owner_id?: Maybe<Scalars['String']>;
-  user_info?: Maybe<User_Info_Obj_Rel_Insert_Input>;
+  galaxy?: InputMaybe<Galaxy_Obj_Rel_Insert_Input>;
+  galaxy_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  owner_id?: InputMaybe<Scalars['String']>;
+  user_info?: InputMaybe<User_Info_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -161,10 +157,10 @@ export type Celestial_Max_Fields = {
 
 /** order by max() on columns of table "celestial" */
 export type Celestial_Max_Order_By = {
-  galaxy_id?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
-  owner_id?: Maybe<Order_By>;
+  galaxy_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  owner_id?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -178,10 +174,10 @@ export type Celestial_Min_Fields = {
 
 /** order by min() on columns of table "celestial" */
 export type Celestial_Min_Order_By = {
-  galaxy_id?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
-  owner_id?: Maybe<Order_By>;
+  galaxy_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  owner_id?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "celestial" */
@@ -197,17 +193,17 @@ export type Celestial_Mutation_Response = {
 export type Celestial_On_Conflict = {
   constraint: Celestial_Constraint;
   update_columns?: Array<Celestial_Update_Column>;
-  where?: Maybe<Celestial_Bool_Exp>;
+  where?: InputMaybe<Celestial_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "celestial". */
 export type Celestial_Order_By = {
-  galaxy?: Maybe<Galaxy_Order_By>;
-  galaxy_id?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
-  owner_id?: Maybe<Order_By>;
-  user_info?: Maybe<User_Info_Order_By>;
+  galaxy?: InputMaybe<Galaxy_Order_By>;
+  galaxy_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  owner_id?: InputMaybe<Order_By>;
+  user_info?: InputMaybe<User_Info_Order_By>;
 };
 
 /** primary key columns input for table: celestial */
@@ -229,10 +225,10 @@ export enum Celestial_Select_Column {
 
 /** input type for updating data in table "celestial" */
 export type Celestial_Set_Input = {
-  galaxy_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  owner_id?: Maybe<Scalars['String']>;
+  galaxy_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  owner_id?: InputMaybe<Scalars['String']>;
 };
 
 /** update columns of table "celestial" */
@@ -275,34 +271,34 @@ export type Chat_Message_Aggregate_Fields = {
 
 /** aggregate fields of "chat_message" */
 export type Chat_Message_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<Chat_Message_Select_Column>>;
-  distinct?: Maybe<Scalars['Boolean']>;
+  columns?: InputMaybe<Array<Chat_Message_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** order by aggregate values of table "chat_message" */
 export type Chat_Message_Aggregate_Order_By = {
-  count?: Maybe<Order_By>;
-  max?: Maybe<Chat_Message_Max_Order_By>;
-  min?: Maybe<Chat_Message_Min_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Chat_Message_Max_Order_By>;
+  min?: InputMaybe<Chat_Message_Min_Order_By>;
 };
 
 /** input type for inserting array relation for remote table "chat_message" */
 export type Chat_Message_Arr_Rel_Insert_Input = {
   data: Array<Chat_Message_Insert_Input>;
   /** on conflict condition */
-  on_conflict?: Maybe<Chat_Message_On_Conflict>;
+  on_conflict?: InputMaybe<Chat_Message_On_Conflict>;
 };
 
 /** Boolean expression to filter rows from the table "chat_message". All fields are combined with a logical 'AND'. */
 export type Chat_Message_Bool_Exp = {
-  _and?: Maybe<Array<Chat_Message_Bool_Exp>>;
-  _not?: Maybe<Chat_Message_Bool_Exp>;
-  _or?: Maybe<Array<Chat_Message_Bool_Exp>>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  message?: Maybe<String_Comparison_Exp>;
-  poster_id?: Maybe<String_Comparison_Exp>;
-  timestamp?: Maybe<Timestamp_Comparison_Exp>;
-  user_info?: Maybe<User_Info_Bool_Exp>;
+  _and?: InputMaybe<Array<Chat_Message_Bool_Exp>>;
+  _not?: InputMaybe<Chat_Message_Bool_Exp>;
+  _or?: InputMaybe<Array<Chat_Message_Bool_Exp>>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  message?: InputMaybe<String_Comparison_Exp>;
+  poster_id?: InputMaybe<String_Comparison_Exp>;
+  timestamp?: InputMaybe<Timestamp_Comparison_Exp>;
+  user_info?: InputMaybe<User_Info_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "chat_message" */
@@ -313,11 +309,11 @@ export enum Chat_Message_Constraint {
 
 /** input type for inserting data into table "chat_message" */
 export type Chat_Message_Insert_Input = {
-  id?: Maybe<Scalars['uuid']>;
-  message?: Maybe<Scalars['String']>;
-  poster_id?: Maybe<Scalars['String']>;
-  timestamp?: Maybe<Scalars['timestamp']>;
-  user_info?: Maybe<User_Info_Obj_Rel_Insert_Input>;
+  id?: InputMaybe<Scalars['uuid']>;
+  message?: InputMaybe<Scalars['String']>;
+  poster_id?: InputMaybe<Scalars['String']>;
+  timestamp?: InputMaybe<Scalars['timestamp']>;
+  user_info?: InputMaybe<User_Info_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -331,10 +327,10 @@ export type Chat_Message_Max_Fields = {
 
 /** order by max() on columns of table "chat_message" */
 export type Chat_Message_Max_Order_By = {
-  id?: Maybe<Order_By>;
-  message?: Maybe<Order_By>;
-  poster_id?: Maybe<Order_By>;
-  timestamp?: Maybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  message?: InputMaybe<Order_By>;
+  poster_id?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -348,10 +344,10 @@ export type Chat_Message_Min_Fields = {
 
 /** order by min() on columns of table "chat_message" */
 export type Chat_Message_Min_Order_By = {
-  id?: Maybe<Order_By>;
-  message?: Maybe<Order_By>;
-  poster_id?: Maybe<Order_By>;
-  timestamp?: Maybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  message?: InputMaybe<Order_By>;
+  poster_id?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "chat_message" */
@@ -367,16 +363,16 @@ export type Chat_Message_Mutation_Response = {
 export type Chat_Message_On_Conflict = {
   constraint: Chat_Message_Constraint;
   update_columns?: Array<Chat_Message_Update_Column>;
-  where?: Maybe<Chat_Message_Bool_Exp>;
+  where?: InputMaybe<Chat_Message_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "chat_message". */
 export type Chat_Message_Order_By = {
-  id?: Maybe<Order_By>;
-  message?: Maybe<Order_By>;
-  poster_id?: Maybe<Order_By>;
-  timestamp?: Maybe<Order_By>;
-  user_info?: Maybe<User_Info_Order_By>;
+  id?: InputMaybe<Order_By>;
+  message?: InputMaybe<Order_By>;
+  poster_id?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+  user_info?: InputMaybe<User_Info_Order_By>;
 };
 
 /** primary key columns input for table: chat_message */
@@ -398,10 +394,10 @@ export enum Chat_Message_Select_Column {
 
 /** input type for updating data in table "chat_message" */
 export type Chat_Message_Set_Input = {
-  id?: Maybe<Scalars['uuid']>;
-  message?: Maybe<Scalars['String']>;
-  poster_id?: Maybe<Scalars['String']>;
-  timestamp?: Maybe<Scalars['timestamp']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  message?: InputMaybe<Scalars['String']>;
+  poster_id?: InputMaybe<Scalars['String']>;
+  timestamp?: InputMaybe<Scalars['timestamp']>;
 };
 
 /** update columns of table "chat_message" */
@@ -415,11 +411,6 @@ export enum Chat_Message_Update_Column {
   /** column name */
   Timestamp = 'timestamp',
 }
-
-export type D = {
-  __typename?: 'd';
-  freeClaimsLeft: Scalars['Float'];
-};
 
 /** columns and relationships of "galaxy" */
 export type Galaxy = {
@@ -441,20 +432,20 @@ export type Galaxy = {
 
 /** columns and relationships of "galaxy" */
 export type GalaxyCelestialsArgs = {
-  distinct_on?: Maybe<Array<Celestial_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Celestial_Order_By>>;
-  where?: Maybe<Celestial_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Celestial_Order_By>>;
+  where?: InputMaybe<Celestial_Bool_Exp>;
 };
 
 /** columns and relationships of "galaxy" */
 export type GalaxyCelestials_AggregateArgs = {
-  distinct_on?: Maybe<Array<Celestial_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Celestial_Order_By>>;
-  where?: Maybe<Celestial_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Celestial_Order_By>>;
+  where?: InputMaybe<Celestial_Bool_Exp>;
 };
 
 /** aggregated selection of "galaxy" */
@@ -482,8 +473,8 @@ export type Galaxy_Aggregate_Fields = {
 
 /** aggregate fields of "galaxy" */
 export type Galaxy_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<Galaxy_Select_Column>>;
-  distinct?: Maybe<Scalars['Boolean']>;
+  columns?: InputMaybe<Array<Galaxy_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** aggregate avg on columns */
@@ -500,19 +491,19 @@ export type Galaxy_Avg_Fields = {
 
 /** Boolean expression to filter rows from the table "galaxy". All fields are combined with a logical 'AND'. */
 export type Galaxy_Bool_Exp = {
-  _and?: Maybe<Array<Galaxy_Bool_Exp>>;
-  _not?: Maybe<Galaxy_Bool_Exp>;
-  _or?: Maybe<Array<Galaxy_Bool_Exp>>;
-  arm_width?: Maybe<Numeric_Comparison_Exp>;
-  arms?: Maybe<Numeric_Comparison_Exp>;
-  celestials?: Maybe<Celestial_Bool_Exp>;
-  core_concentration_factor?: Maybe<Numeric_Comparison_Exp>;
-  core_radius_factor?: Maybe<Numeric_Comparison_Exp>;
-  curvature?: Maybe<Numeric_Comparison_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  name?: Maybe<String_Comparison_Exp>;
-  radius?: Maybe<Int_Comparison_Exp>;
-  stars?: Maybe<Int_Comparison_Exp>;
+  _and?: InputMaybe<Array<Galaxy_Bool_Exp>>;
+  _not?: InputMaybe<Galaxy_Bool_Exp>;
+  _or?: InputMaybe<Array<Galaxy_Bool_Exp>>;
+  arm_width?: InputMaybe<Numeric_Comparison_Exp>;
+  arms?: InputMaybe<Numeric_Comparison_Exp>;
+  celestials?: InputMaybe<Celestial_Bool_Exp>;
+  core_concentration_factor?: InputMaybe<Numeric_Comparison_Exp>;
+  core_radius_factor?: InputMaybe<Numeric_Comparison_Exp>;
+  curvature?: InputMaybe<Numeric_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  radius?: InputMaybe<Int_Comparison_Exp>;
+  stars?: InputMaybe<Int_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "galaxy" */
@@ -523,27 +514,27 @@ export enum Galaxy_Constraint {
 
 /** input type for incrementing numeric columns in table "galaxy" */
 export type Galaxy_Inc_Input = {
-  arm_width?: Maybe<Scalars['numeric']>;
-  arms?: Maybe<Scalars['numeric']>;
-  core_concentration_factor?: Maybe<Scalars['numeric']>;
-  core_radius_factor?: Maybe<Scalars['numeric']>;
-  curvature?: Maybe<Scalars['numeric']>;
-  radius?: Maybe<Scalars['Int']>;
-  stars?: Maybe<Scalars['Int']>;
+  arm_width?: InputMaybe<Scalars['numeric']>;
+  arms?: InputMaybe<Scalars['numeric']>;
+  core_concentration_factor?: InputMaybe<Scalars['numeric']>;
+  core_radius_factor?: InputMaybe<Scalars['numeric']>;
+  curvature?: InputMaybe<Scalars['numeric']>;
+  radius?: InputMaybe<Scalars['Int']>;
+  stars?: InputMaybe<Scalars['Int']>;
 };
 
 /** input type for inserting data into table "galaxy" */
 export type Galaxy_Insert_Input = {
-  arm_width?: Maybe<Scalars['numeric']>;
-  arms?: Maybe<Scalars['numeric']>;
-  celestials?: Maybe<Celestial_Arr_Rel_Insert_Input>;
-  core_concentration_factor?: Maybe<Scalars['numeric']>;
-  core_radius_factor?: Maybe<Scalars['numeric']>;
-  curvature?: Maybe<Scalars['numeric']>;
-  id?: Maybe<Scalars['uuid']>;
-  name?: Maybe<Scalars['String']>;
-  radius?: Maybe<Scalars['Int']>;
-  stars?: Maybe<Scalars['Int']>;
+  arm_width?: InputMaybe<Scalars['numeric']>;
+  arms?: InputMaybe<Scalars['numeric']>;
+  celestials?: InputMaybe<Celestial_Arr_Rel_Insert_Input>;
+  core_concentration_factor?: InputMaybe<Scalars['numeric']>;
+  core_radius_factor?: InputMaybe<Scalars['numeric']>;
+  curvature?: InputMaybe<Scalars['numeric']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  radius?: InputMaybe<Scalars['Int']>;
+  stars?: InputMaybe<Scalars['Int']>;
 };
 
 /** aggregate max on columns */
@@ -587,28 +578,28 @@ export type Galaxy_Mutation_Response = {
 export type Galaxy_Obj_Rel_Insert_Input = {
   data: Galaxy_Insert_Input;
   /** on conflict condition */
-  on_conflict?: Maybe<Galaxy_On_Conflict>;
+  on_conflict?: InputMaybe<Galaxy_On_Conflict>;
 };
 
 /** on conflict condition type for table "galaxy" */
 export type Galaxy_On_Conflict = {
   constraint: Galaxy_Constraint;
   update_columns?: Array<Galaxy_Update_Column>;
-  where?: Maybe<Galaxy_Bool_Exp>;
+  where?: InputMaybe<Galaxy_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "galaxy". */
 export type Galaxy_Order_By = {
-  arm_width?: Maybe<Order_By>;
-  arms?: Maybe<Order_By>;
-  celestials_aggregate?: Maybe<Celestial_Aggregate_Order_By>;
-  core_concentration_factor?: Maybe<Order_By>;
-  core_radius_factor?: Maybe<Order_By>;
-  curvature?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
-  radius?: Maybe<Order_By>;
-  stars?: Maybe<Order_By>;
+  arm_width?: InputMaybe<Order_By>;
+  arms?: InputMaybe<Order_By>;
+  celestials_aggregate?: InputMaybe<Celestial_Aggregate_Order_By>;
+  core_concentration_factor?: InputMaybe<Order_By>;
+  core_radius_factor?: InputMaybe<Order_By>;
+  curvature?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  radius?: InputMaybe<Order_By>;
+  stars?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: galaxy */
@@ -640,15 +631,15 @@ export enum Galaxy_Select_Column {
 
 /** input type for updating data in table "galaxy" */
 export type Galaxy_Set_Input = {
-  arm_width?: Maybe<Scalars['numeric']>;
-  arms?: Maybe<Scalars['numeric']>;
-  core_concentration_factor?: Maybe<Scalars['numeric']>;
-  core_radius_factor?: Maybe<Scalars['numeric']>;
-  curvature?: Maybe<Scalars['numeric']>;
-  id?: Maybe<Scalars['uuid']>;
-  name?: Maybe<Scalars['String']>;
-  radius?: Maybe<Scalars['Int']>;
-  stars?: Maybe<Scalars['Int']>;
+  arm_width?: InputMaybe<Scalars['numeric']>;
+  arms?: InputMaybe<Scalars['numeric']>;
+  core_concentration_factor?: InputMaybe<Scalars['numeric']>;
+  core_radius_factor?: InputMaybe<Scalars['numeric']>;
+  curvature?: InputMaybe<Scalars['numeric']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  radius?: InputMaybe<Scalars['Int']>;
+  stars?: InputMaybe<Scalars['Int']>;
 };
 
 /** aggregate stddev on columns */
@@ -757,6 +748,11 @@ export type Galaxy_Variance_Fields = {
   stars?: Maybe<Scalars['Float']>;
 };
 
+export type L = {
+  __typename?: 'l';
+  updatedName: Scalars['String'];
+};
+
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
@@ -804,8 +800,8 @@ export type Mutation_Root = {
   insert_user_private?: Maybe<User_Private_Mutation_Response>;
   /** insert a single row into the table: "user_private" */
   insert_user_private_one?: Maybe<User_Private>;
-  requestRandomCelestial?: Maybe<D>;
-  setDisplayName?: Maybe<_>;
+  requestRandomCelestial?: Maybe<O>;
+  setDisplayName?: Maybe<L>;
   /** update data of the table: "celestial" */
   update_celestial?: Maybe<Celestial_Mutation_Response>;
   /** update single row of the table: "celestial" */
@@ -881,49 +877,49 @@ export type Mutation_RootDelete_User_PrivateArgs = {
 /** mutation root */
 export type Mutation_RootInsert_CelestialArgs = {
   objects: Array<Celestial_Insert_Input>;
-  on_conflict?: Maybe<Celestial_On_Conflict>;
+  on_conflict?: InputMaybe<Celestial_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_Celestial_OneArgs = {
   object: Celestial_Insert_Input;
-  on_conflict?: Maybe<Celestial_On_Conflict>;
+  on_conflict?: InputMaybe<Celestial_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_Chat_MessageArgs = {
   objects: Array<Chat_Message_Insert_Input>;
-  on_conflict?: Maybe<Chat_Message_On_Conflict>;
+  on_conflict?: InputMaybe<Chat_Message_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_Chat_Message_OneArgs = {
   object: Chat_Message_Insert_Input;
-  on_conflict?: Maybe<Chat_Message_On_Conflict>;
+  on_conflict?: InputMaybe<Chat_Message_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_GalaxyArgs = {
   objects: Array<Galaxy_Insert_Input>;
-  on_conflict?: Maybe<Galaxy_On_Conflict>;
+  on_conflict?: InputMaybe<Galaxy_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_Galaxy_OneArgs = {
   object: Galaxy_Insert_Input;
-  on_conflict?: Maybe<Galaxy_On_Conflict>;
+  on_conflict?: InputMaybe<Galaxy_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_User_InfoArgs = {
   objects: Array<User_Info_Insert_Input>;
-  on_conflict?: Maybe<User_Info_On_Conflict>;
+  on_conflict?: InputMaybe<User_Info_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_User_Info_OneArgs = {
   object: User_Info_Insert_Input;
-  on_conflict?: Maybe<User_Info_On_Conflict>;
+  on_conflict?: InputMaybe<User_Info_On_Conflict>;
 };
 
 /** mutation root */
@@ -958,80 +954,85 @@ export type Mutation_RootSetDisplayNameArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_CelestialArgs = {
-  _set?: Maybe<Celestial_Set_Input>;
+  _set?: InputMaybe<Celestial_Set_Input>;
   where: Celestial_Bool_Exp;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_Celestial_By_PkArgs = {
-  _set?: Maybe<Celestial_Set_Input>;
+  _set?: InputMaybe<Celestial_Set_Input>;
   pk_columns: Celestial_Pk_Columns_Input;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_Chat_MessageArgs = {
-  _set?: Maybe<Chat_Message_Set_Input>;
+  _set?: InputMaybe<Chat_Message_Set_Input>;
   where: Chat_Message_Bool_Exp;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_Chat_Message_By_PkArgs = {
-  _set?: Maybe<Chat_Message_Set_Input>;
+  _set?: InputMaybe<Chat_Message_Set_Input>;
   pk_columns: Chat_Message_Pk_Columns_Input;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_GalaxyArgs = {
-  _inc?: Maybe<Galaxy_Inc_Input>;
-  _set?: Maybe<Galaxy_Set_Input>;
+  _inc?: InputMaybe<Galaxy_Inc_Input>;
+  _set?: InputMaybe<Galaxy_Set_Input>;
   where: Galaxy_Bool_Exp;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_Galaxy_By_PkArgs = {
-  _inc?: Maybe<Galaxy_Inc_Input>;
-  _set?: Maybe<Galaxy_Set_Input>;
+  _inc?: InputMaybe<Galaxy_Inc_Input>;
+  _set?: InputMaybe<Galaxy_Set_Input>;
   pk_columns: Galaxy_Pk_Columns_Input;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_User_InfoArgs = {
-  _inc?: Maybe<User_Info_Inc_Input>;
-  _set?: Maybe<User_Info_Set_Input>;
+  _inc?: InputMaybe<User_Info_Inc_Input>;
+  _set?: InputMaybe<User_Info_Set_Input>;
   where: User_Info_Bool_Exp;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_User_Info_By_PkArgs = {
-  _inc?: Maybe<User_Info_Inc_Input>;
-  _set?: Maybe<User_Info_Set_Input>;
+  _inc?: InputMaybe<User_Info_Inc_Input>;
+  _set?: InputMaybe<User_Info_Set_Input>;
   pk_columns: User_Info_Pk_Columns_Input;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_User_MeArgs = {
-  _inc?: Maybe<User_Me_Inc_Input>;
-  _set?: Maybe<User_Me_Set_Input>;
+  _inc?: InputMaybe<User_Me_Inc_Input>;
+  _set?: InputMaybe<User_Me_Set_Input>;
   where: User_Me_Bool_Exp;
 };
 
 /** mutation root */
 export type Mutation_RootUpdate_User_PrivateArgs = {
-  _set?: Maybe<User_Private_Set_Input>;
+  _set?: InputMaybe<User_Private_Set_Input>;
   where: User_Private_Bool_Exp;
 };
 
 /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
 export type Numeric_Comparison_Exp = {
-  _eq?: Maybe<Scalars['numeric']>;
-  _gt?: Maybe<Scalars['numeric']>;
-  _gte?: Maybe<Scalars['numeric']>;
-  _in?: Maybe<Array<Scalars['numeric']>>;
-  _is_null?: Maybe<Scalars['Boolean']>;
-  _lt?: Maybe<Scalars['numeric']>;
-  _lte?: Maybe<Scalars['numeric']>;
-  _neq?: Maybe<Scalars['numeric']>;
-  _nin?: Maybe<Array<Scalars['numeric']>>;
+  _eq?: InputMaybe<Scalars['numeric']>;
+  _gt?: InputMaybe<Scalars['numeric']>;
+  _gte?: InputMaybe<Scalars['numeric']>;
+  _in?: InputMaybe<Array<Scalars['numeric']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['numeric']>;
+  _lte?: InputMaybe<Scalars['numeric']>;
+  _neq?: InputMaybe<Scalars['numeric']>;
+  _nin?: InputMaybe<Array<Scalars['numeric']>>;
+};
+
+export type O = {
+  __typename?: 'o';
+  freeClaimsLeft: Scalars['Float'];
 };
 
 /** column ordering options */
@@ -1070,7 +1071,7 @@ export type Query_Root = {
   galaxy_aggregate: Galaxy_Aggregate;
   /** fetch data from the table: "galaxy" using primary key columns */
   galaxy_by_pk?: Maybe<Galaxy>;
-  returnNothing?: Maybe<D>;
+  returnNothing?: Maybe<O>;
   /** fetch data from the table: "user_info" */
   user_info: Array<User_Info>;
   /** fetch aggregated fields from the table: "user_info" */
@@ -1088,19 +1089,19 @@ export type Query_Root = {
 };
 
 export type Query_RootCelestialArgs = {
-  distinct_on?: Maybe<Array<Celestial_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Celestial_Order_By>>;
-  where?: Maybe<Celestial_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Celestial_Order_By>>;
+  where?: InputMaybe<Celestial_Bool_Exp>;
 };
 
 export type Query_RootCelestial_AggregateArgs = {
-  distinct_on?: Maybe<Array<Celestial_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Celestial_Order_By>>;
-  where?: Maybe<Celestial_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Celestial_Order_By>>;
+  where?: InputMaybe<Celestial_Bool_Exp>;
 };
 
 export type Query_RootCelestial_By_PkArgs = {
@@ -1108,19 +1109,19 @@ export type Query_RootCelestial_By_PkArgs = {
 };
 
 export type Query_RootChat_MessageArgs = {
-  distinct_on?: Maybe<Array<Chat_Message_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Chat_Message_Order_By>>;
-  where?: Maybe<Chat_Message_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Chat_Message_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Chat_Message_Order_By>>;
+  where?: InputMaybe<Chat_Message_Bool_Exp>;
 };
 
 export type Query_RootChat_Message_AggregateArgs = {
-  distinct_on?: Maybe<Array<Chat_Message_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Chat_Message_Order_By>>;
-  where?: Maybe<Chat_Message_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Chat_Message_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Chat_Message_Order_By>>;
+  where?: InputMaybe<Chat_Message_Bool_Exp>;
 };
 
 export type Query_RootChat_Message_By_PkArgs = {
@@ -1128,19 +1129,19 @@ export type Query_RootChat_Message_By_PkArgs = {
 };
 
 export type Query_RootGalaxyArgs = {
-  distinct_on?: Maybe<Array<Galaxy_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Galaxy_Order_By>>;
-  where?: Maybe<Galaxy_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Galaxy_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galaxy_Order_By>>;
+  where?: InputMaybe<Galaxy_Bool_Exp>;
 };
 
 export type Query_RootGalaxy_AggregateArgs = {
-  distinct_on?: Maybe<Array<Galaxy_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Galaxy_Order_By>>;
-  where?: Maybe<Galaxy_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Galaxy_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galaxy_Order_By>>;
+  where?: InputMaybe<Galaxy_Bool_Exp>;
 };
 
 export type Query_RootGalaxy_By_PkArgs = {
@@ -1148,19 +1149,19 @@ export type Query_RootGalaxy_By_PkArgs = {
 };
 
 export type Query_RootUser_InfoArgs = {
-  distinct_on?: Maybe<Array<User_Info_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<User_Info_Order_By>>;
-  where?: Maybe<User_Info_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<User_Info_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Info_Order_By>>;
+  where?: InputMaybe<User_Info_Bool_Exp>;
 };
 
 export type Query_RootUser_Info_AggregateArgs = {
-  distinct_on?: Maybe<Array<User_Info_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<User_Info_Order_By>>;
-  where?: Maybe<User_Info_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<User_Info_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Info_Order_By>>;
+  where?: InputMaybe<User_Info_Bool_Exp>;
 };
 
 export type Query_RootUser_Info_By_PkArgs = {
@@ -1168,35 +1169,35 @@ export type Query_RootUser_Info_By_PkArgs = {
 };
 
 export type Query_RootUser_MeArgs = {
-  distinct_on?: Maybe<Array<User_Me_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<User_Me_Order_By>>;
-  where?: Maybe<User_Me_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<User_Me_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Me_Order_By>>;
+  where?: InputMaybe<User_Me_Bool_Exp>;
 };
 
 export type Query_RootUser_Me_AggregateArgs = {
-  distinct_on?: Maybe<Array<User_Me_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<User_Me_Order_By>>;
-  where?: Maybe<User_Me_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<User_Me_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Me_Order_By>>;
+  where?: InputMaybe<User_Me_Bool_Exp>;
 };
 
 export type Query_RootUser_PrivateArgs = {
-  distinct_on?: Maybe<Array<User_Private_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<User_Private_Order_By>>;
-  where?: Maybe<User_Private_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<User_Private_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Private_Order_By>>;
+  where?: InputMaybe<User_Private_Bool_Exp>;
 };
 
 export type Query_RootUser_Private_AggregateArgs = {
-  distinct_on?: Maybe<Array<User_Private_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<User_Private_Order_By>>;
-  where?: Maybe<User_Private_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<User_Private_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Private_Order_By>>;
+  where?: InputMaybe<User_Private_Bool_Exp>;
 };
 
 export type Subscription_Root = {
@@ -1236,19 +1237,19 @@ export type Subscription_Root = {
 };
 
 export type Subscription_RootCelestialArgs = {
-  distinct_on?: Maybe<Array<Celestial_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Celestial_Order_By>>;
-  where?: Maybe<Celestial_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Celestial_Order_By>>;
+  where?: InputMaybe<Celestial_Bool_Exp>;
 };
 
 export type Subscription_RootCelestial_AggregateArgs = {
-  distinct_on?: Maybe<Array<Celestial_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Celestial_Order_By>>;
-  where?: Maybe<Celestial_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Celestial_Order_By>>;
+  where?: InputMaybe<Celestial_Bool_Exp>;
 };
 
 export type Subscription_RootCelestial_By_PkArgs = {
@@ -1256,19 +1257,19 @@ export type Subscription_RootCelestial_By_PkArgs = {
 };
 
 export type Subscription_RootChat_MessageArgs = {
-  distinct_on?: Maybe<Array<Chat_Message_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Chat_Message_Order_By>>;
-  where?: Maybe<Chat_Message_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Chat_Message_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Chat_Message_Order_By>>;
+  where?: InputMaybe<Chat_Message_Bool_Exp>;
 };
 
 export type Subscription_RootChat_Message_AggregateArgs = {
-  distinct_on?: Maybe<Array<Chat_Message_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Chat_Message_Order_By>>;
-  where?: Maybe<Chat_Message_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Chat_Message_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Chat_Message_Order_By>>;
+  where?: InputMaybe<Chat_Message_Bool_Exp>;
 };
 
 export type Subscription_RootChat_Message_By_PkArgs = {
@@ -1276,19 +1277,19 @@ export type Subscription_RootChat_Message_By_PkArgs = {
 };
 
 export type Subscription_RootGalaxyArgs = {
-  distinct_on?: Maybe<Array<Galaxy_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Galaxy_Order_By>>;
-  where?: Maybe<Galaxy_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Galaxy_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galaxy_Order_By>>;
+  where?: InputMaybe<Galaxy_Bool_Exp>;
 };
 
 export type Subscription_RootGalaxy_AggregateArgs = {
-  distinct_on?: Maybe<Array<Galaxy_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Galaxy_Order_By>>;
-  where?: Maybe<Galaxy_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Galaxy_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galaxy_Order_By>>;
+  where?: InputMaybe<Galaxy_Bool_Exp>;
 };
 
 export type Subscription_RootGalaxy_By_PkArgs = {
@@ -1296,19 +1297,19 @@ export type Subscription_RootGalaxy_By_PkArgs = {
 };
 
 export type Subscription_RootUser_InfoArgs = {
-  distinct_on?: Maybe<Array<User_Info_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<User_Info_Order_By>>;
-  where?: Maybe<User_Info_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<User_Info_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Info_Order_By>>;
+  where?: InputMaybe<User_Info_Bool_Exp>;
 };
 
 export type Subscription_RootUser_Info_AggregateArgs = {
-  distinct_on?: Maybe<Array<User_Info_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<User_Info_Order_By>>;
-  where?: Maybe<User_Info_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<User_Info_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Info_Order_By>>;
+  where?: InputMaybe<User_Info_Bool_Exp>;
 };
 
 export type Subscription_RootUser_Info_By_PkArgs = {
@@ -1316,48 +1317,48 @@ export type Subscription_RootUser_Info_By_PkArgs = {
 };
 
 export type Subscription_RootUser_MeArgs = {
-  distinct_on?: Maybe<Array<User_Me_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<User_Me_Order_By>>;
-  where?: Maybe<User_Me_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<User_Me_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Me_Order_By>>;
+  where?: InputMaybe<User_Me_Bool_Exp>;
 };
 
 export type Subscription_RootUser_Me_AggregateArgs = {
-  distinct_on?: Maybe<Array<User_Me_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<User_Me_Order_By>>;
-  where?: Maybe<User_Me_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<User_Me_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Me_Order_By>>;
+  where?: InputMaybe<User_Me_Bool_Exp>;
 };
 
 export type Subscription_RootUser_PrivateArgs = {
-  distinct_on?: Maybe<Array<User_Private_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<User_Private_Order_By>>;
-  where?: Maybe<User_Private_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<User_Private_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Private_Order_By>>;
+  where?: InputMaybe<User_Private_Bool_Exp>;
 };
 
 export type Subscription_RootUser_Private_AggregateArgs = {
-  distinct_on?: Maybe<Array<User_Private_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<User_Private_Order_By>>;
-  where?: Maybe<User_Private_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<User_Private_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Private_Order_By>>;
+  where?: InputMaybe<User_Private_Bool_Exp>;
 };
 
 /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
 export type Timestamp_Comparison_Exp = {
-  _eq?: Maybe<Scalars['timestamp']>;
-  _gt?: Maybe<Scalars['timestamp']>;
-  _gte?: Maybe<Scalars['timestamp']>;
-  _in?: Maybe<Array<Scalars['timestamp']>>;
-  _is_null?: Maybe<Scalars['Boolean']>;
-  _lt?: Maybe<Scalars['timestamp']>;
-  _lte?: Maybe<Scalars['timestamp']>;
-  _neq?: Maybe<Scalars['timestamp']>;
-  _nin?: Maybe<Array<Scalars['timestamp']>>;
+  _eq?: InputMaybe<Scalars['timestamp']>;
+  _gt?: InputMaybe<Scalars['timestamp']>;
+  _gte?: InputMaybe<Scalars['timestamp']>;
+  _in?: InputMaybe<Array<Scalars['timestamp']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['timestamp']>;
+  _lte?: InputMaybe<Scalars['timestamp']>;
+  _neq?: InputMaybe<Scalars['timestamp']>;
+  _nin?: InputMaybe<Array<Scalars['timestamp']>>;
 };
 
 /** columns and relationships of "user_info" */
@@ -1382,38 +1383,38 @@ export type User_Info = {
 
 /** columns and relationships of "user_info" */
 export type User_InfoChat_MessagesArgs = {
-  distinct_on?: Maybe<Array<Chat_Message_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Chat_Message_Order_By>>;
-  where?: Maybe<Chat_Message_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Chat_Message_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Chat_Message_Order_By>>;
+  where?: InputMaybe<Chat_Message_Bool_Exp>;
 };
 
 /** columns and relationships of "user_info" */
 export type User_InfoChat_Messages_AggregateArgs = {
-  distinct_on?: Maybe<Array<Chat_Message_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Chat_Message_Order_By>>;
-  where?: Maybe<Chat_Message_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Chat_Message_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Chat_Message_Order_By>>;
+  where?: InputMaybe<Chat_Message_Bool_Exp>;
 };
 
 /** columns and relationships of "user_info" */
 export type User_InfoSystemsArgs = {
-  distinct_on?: Maybe<Array<Celestial_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Celestial_Order_By>>;
-  where?: Maybe<Celestial_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Celestial_Order_By>>;
+  where?: InputMaybe<Celestial_Bool_Exp>;
 };
 
 /** columns and relationships of "user_info" */
 export type User_InfoSystems_AggregateArgs = {
-  distinct_on?: Maybe<Array<Celestial_Select_Column>>;
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Celestial_Order_By>>;
-  where?: Maybe<Celestial_Bool_Exp>;
+  distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Celestial_Order_By>>;
+  where?: InputMaybe<Celestial_Bool_Exp>;
 };
 
 /** aggregated selection of "user_info" */
@@ -1441,8 +1442,8 @@ export type User_Info_Aggregate_Fields = {
 
 /** aggregate fields of "user_info" */
 export type User_Info_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<User_Info_Select_Column>>;
-  distinct?: Maybe<Scalars['Boolean']>;
+  columns?: InputMaybe<Array<User_Info_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** aggregate avg on columns */
@@ -1453,18 +1454,18 @@ export type User_Info_Avg_Fields = {
 
 /** Boolean expression to filter rows from the table "user_info". All fields are combined with a logical 'AND'. */
 export type User_Info_Bool_Exp = {
-  _and?: Maybe<Array<User_Info_Bool_Exp>>;
-  _not?: Maybe<User_Info_Bool_Exp>;
-  _or?: Maybe<Array<User_Info_Bool_Exp>>;
-  avatar_url?: Maybe<String_Comparison_Exp>;
-  chat_messages?: Maybe<Chat_Message_Bool_Exp>;
-  display_name?: Maybe<String_Comparison_Exp>;
-  free_claims?: Maybe<Int_Comparison_Exp>;
-  id?: Maybe<String_Comparison_Exp>;
-  name?: Maybe<String_Comparison_Exp>;
-  nickname?: Maybe<String_Comparison_Exp>;
-  secret_setting_test?: Maybe<String_Comparison_Exp>;
-  systems?: Maybe<Celestial_Bool_Exp>;
+  _and?: InputMaybe<Array<User_Info_Bool_Exp>>;
+  _not?: InputMaybe<User_Info_Bool_Exp>;
+  _or?: InputMaybe<Array<User_Info_Bool_Exp>>;
+  avatar_url?: InputMaybe<String_Comparison_Exp>;
+  chat_messages?: InputMaybe<Chat_Message_Bool_Exp>;
+  display_name?: InputMaybe<String_Comparison_Exp>;
+  free_claims?: InputMaybe<Int_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  nickname?: InputMaybe<String_Comparison_Exp>;
+  secret_setting_test?: InputMaybe<String_Comparison_Exp>;
+  systems?: InputMaybe<Celestial_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "user_info" */
@@ -1477,20 +1478,20 @@ export enum User_Info_Constraint {
 
 /** input type for incrementing numeric columns in table "user_info" */
 export type User_Info_Inc_Input = {
-  free_claims?: Maybe<Scalars['Int']>;
+  free_claims?: InputMaybe<Scalars['Int']>;
 };
 
 /** input type for inserting data into table "user_info" */
 export type User_Info_Insert_Input = {
-  avatar_url?: Maybe<Scalars['String']>;
-  chat_messages?: Maybe<Chat_Message_Arr_Rel_Insert_Input>;
-  display_name?: Maybe<Scalars['String']>;
-  free_claims?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  nickname?: Maybe<Scalars['String']>;
-  secret_setting_test?: Maybe<Scalars['String']>;
-  systems?: Maybe<Celestial_Arr_Rel_Insert_Input>;
+  avatar_url?: InputMaybe<Scalars['String']>;
+  chat_messages?: InputMaybe<Chat_Message_Arr_Rel_Insert_Input>;
+  display_name?: InputMaybe<Scalars['String']>;
+  free_claims?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  nickname?: InputMaybe<Scalars['String']>;
+  secret_setting_test?: InputMaybe<Scalars['String']>;
+  systems?: InputMaybe<Celestial_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -1530,27 +1531,27 @@ export type User_Info_Mutation_Response = {
 export type User_Info_Obj_Rel_Insert_Input = {
   data: User_Info_Insert_Input;
   /** on conflict condition */
-  on_conflict?: Maybe<User_Info_On_Conflict>;
+  on_conflict?: InputMaybe<User_Info_On_Conflict>;
 };
 
 /** on conflict condition type for table "user_info" */
 export type User_Info_On_Conflict = {
   constraint: User_Info_Constraint;
   update_columns?: Array<User_Info_Update_Column>;
-  where?: Maybe<User_Info_Bool_Exp>;
+  where?: InputMaybe<User_Info_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "user_info". */
 export type User_Info_Order_By = {
-  avatar_url?: Maybe<Order_By>;
-  chat_messages_aggregate?: Maybe<Chat_Message_Aggregate_Order_By>;
-  display_name?: Maybe<Order_By>;
-  free_claims?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
-  nickname?: Maybe<Order_By>;
-  secret_setting_test?: Maybe<Order_By>;
-  systems_aggregate?: Maybe<Celestial_Aggregate_Order_By>;
+  avatar_url?: InputMaybe<Order_By>;
+  chat_messages_aggregate?: InputMaybe<Chat_Message_Aggregate_Order_By>;
+  display_name?: InputMaybe<Order_By>;
+  free_claims?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  nickname?: InputMaybe<Order_By>;
+  secret_setting_test?: InputMaybe<Order_By>;
+  systems_aggregate?: InputMaybe<Celestial_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: user_info */
@@ -1578,13 +1579,13 @@ export enum User_Info_Select_Column {
 
 /** input type for updating data in table "user_info" */
 export type User_Info_Set_Input = {
-  avatar_url?: Maybe<Scalars['String']>;
-  display_name?: Maybe<Scalars['String']>;
-  free_claims?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  nickname?: Maybe<Scalars['String']>;
-  secret_setting_test?: Maybe<Scalars['String']>;
+  avatar_url?: InputMaybe<Scalars['String']>;
+  display_name?: InputMaybe<Scalars['String']>;
+  free_claims?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  nickname?: InputMaybe<Scalars['String']>;
+  secret_setting_test?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate stddev on columns */
@@ -1683,8 +1684,8 @@ export type User_Me_Aggregate_Fields = {
 
 /** aggregate fields of "user_me" */
 export type User_Me_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<User_Me_Select_Column>>;
-  distinct?: Maybe<Scalars['Boolean']>;
+  columns?: InputMaybe<Array<User_Me_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** aggregate avg on columns */
@@ -1695,30 +1696,30 @@ export type User_Me_Avg_Fields = {
 
 /** Boolean expression to filter rows from the table "user_me". All fields are combined with a logical 'AND'. */
 export type User_Me_Bool_Exp = {
-  _and?: Maybe<Array<User_Me_Bool_Exp>>;
-  _not?: Maybe<User_Me_Bool_Exp>;
-  _or?: Maybe<Array<User_Me_Bool_Exp>>;
-  display_name?: Maybe<String_Comparison_Exp>;
-  free_claims?: Maybe<Int_Comparison_Exp>;
-  id?: Maybe<String_Comparison_Exp>;
-  name?: Maybe<String_Comparison_Exp>;
-  nickname?: Maybe<String_Comparison_Exp>;
-  secret_setting_test?: Maybe<String_Comparison_Exp>;
+  _and?: InputMaybe<Array<User_Me_Bool_Exp>>;
+  _not?: InputMaybe<User_Me_Bool_Exp>;
+  _or?: InputMaybe<Array<User_Me_Bool_Exp>>;
+  display_name?: InputMaybe<String_Comparison_Exp>;
+  free_claims?: InputMaybe<Int_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  nickname?: InputMaybe<String_Comparison_Exp>;
+  secret_setting_test?: InputMaybe<String_Comparison_Exp>;
 };
 
 /** input type for incrementing numeric columns in table "user_me" */
 export type User_Me_Inc_Input = {
-  free_claims?: Maybe<Scalars['Int']>;
+  free_claims?: InputMaybe<Scalars['Int']>;
 };
 
 /** input type for inserting data into table "user_me" */
 export type User_Me_Insert_Input = {
-  display_name?: Maybe<Scalars['String']>;
-  free_claims?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  nickname?: Maybe<Scalars['String']>;
-  secret_setting_test?: Maybe<Scalars['String']>;
+  display_name?: InputMaybe<Scalars['String']>;
+  free_claims?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  nickname?: InputMaybe<Scalars['String']>;
+  secret_setting_test?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
@@ -1754,12 +1755,12 @@ export type User_Me_Mutation_Response = {
 
 /** Ordering options when selecting data from "user_me". */
 export type User_Me_Order_By = {
-  display_name?: Maybe<Order_By>;
-  free_claims?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
-  nickname?: Maybe<Order_By>;
-  secret_setting_test?: Maybe<Order_By>;
+  display_name?: InputMaybe<Order_By>;
+  free_claims?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  nickname?: InputMaybe<Order_By>;
+  secret_setting_test?: InputMaybe<Order_By>;
 };
 
 /** select columns of table "user_me" */
@@ -1780,12 +1781,12 @@ export enum User_Me_Select_Column {
 
 /** input type for updating data in table "user_me" */
 export type User_Me_Set_Input = {
-  display_name?: Maybe<Scalars['String']>;
-  free_claims?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  nickname?: Maybe<Scalars['String']>;
-  secret_setting_test?: Maybe<Scalars['String']>;
+  display_name?: InputMaybe<Scalars['String']>;
+  free_claims?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  nickname?: InputMaybe<Scalars['String']>;
+  secret_setting_test?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate stddev on columns */
@@ -1854,23 +1855,23 @@ export type User_Private_Aggregate_Fields = {
 
 /** aggregate fields of "user_private" */
 export type User_Private_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<User_Private_Select_Column>>;
-  distinct?: Maybe<Scalars['Boolean']>;
+  columns?: InputMaybe<Array<User_Private_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** Boolean expression to filter rows from the table "user_private". All fields are combined with a logical 'AND'. */
 export type User_Private_Bool_Exp = {
-  _and?: Maybe<Array<User_Private_Bool_Exp>>;
-  _not?: Maybe<User_Private_Bool_Exp>;
-  _or?: Maybe<Array<User_Private_Bool_Exp>>;
-  secret_setting_test?: Maybe<String_Comparison_Exp>;
-  user_id?: Maybe<String_Comparison_Exp>;
+  _and?: InputMaybe<Array<User_Private_Bool_Exp>>;
+  _not?: InputMaybe<User_Private_Bool_Exp>;
+  _or?: InputMaybe<Array<User_Private_Bool_Exp>>;
+  secret_setting_test?: InputMaybe<String_Comparison_Exp>;
+  user_id?: InputMaybe<String_Comparison_Exp>;
 };
 
 /** input type for inserting data into table "user_private" */
 export type User_Private_Insert_Input = {
-  secret_setting_test?: Maybe<Scalars['String']>;
-  user_id?: Maybe<Scalars['String']>;
+  secret_setting_test?: InputMaybe<Scalars['String']>;
+  user_id?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
@@ -1898,8 +1899,8 @@ export type User_Private_Mutation_Response = {
 
 /** Ordering options when selecting data from "user_private". */
 export type User_Private_Order_By = {
-  secret_setting_test?: Maybe<Order_By>;
-  user_id?: Maybe<Order_By>;
+  secret_setting_test?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
 };
 
 /** select columns of table "user_private" */
@@ -1912,39 +1913,39 @@ export enum User_Private_Select_Column {
 
 /** input type for updating data in table "user_private" */
 export type User_Private_Set_Input = {
-  secret_setting_test?: Maybe<Scalars['String']>;
-  user_id?: Maybe<Scalars['String']>;
+  secret_setting_test?: InputMaybe<Scalars['String']>;
+  user_id?: InputMaybe<Scalars['String']>;
 };
 
 /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
 export type Uuid_Comparison_Exp = {
-  _eq?: Maybe<Scalars['uuid']>;
-  _gt?: Maybe<Scalars['uuid']>;
-  _gte?: Maybe<Scalars['uuid']>;
-  _in?: Maybe<Array<Scalars['uuid']>>;
-  _is_null?: Maybe<Scalars['Boolean']>;
-  _lt?: Maybe<Scalars['uuid']>;
-  _lte?: Maybe<Scalars['uuid']>;
-  _neq?: Maybe<Scalars['uuid']>;
-  _nin?: Maybe<Array<Scalars['uuid']>>;
+  _eq?: InputMaybe<Scalars['uuid']>;
+  _gt?: InputMaybe<Scalars['uuid']>;
+  _gte?: InputMaybe<Scalars['uuid']>;
+  _in?: InputMaybe<Array<Scalars['uuid']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['uuid']>;
+  _lte?: InputMaybe<Scalars['uuid']>;
+  _neq?: InputMaybe<Scalars['uuid']>;
+  _nin?: InputMaybe<Array<Scalars['uuid']>>;
 };
 
 export type CelestialFieldsFragment = {
   __typename?: 'celestial';
   id: string;
-  name?: Maybe<string>;
-  owner_id?: Maybe<string>;
-  user_info?: Maybe<{
+  name?: string | null;
+  owner_id?: string | null;
+  user_info?: {
     __typename?: 'user_info';
-    display_name?: Maybe<string>;
-    name?: Maybe<string>;
-  }>;
+    display_name?: string | null;
+    name?: string | null;
+  } | null;
 };
 
 export type GalaxyFieldsFragment = {
   __typename?: 'galaxy';
   id: any;
-  name?: Maybe<string>;
+  name?: string | null;
   curvature: any;
   core_radius_factor: any;
   core_concentration_factor: any;
@@ -1955,13 +1956,13 @@ export type GalaxyFieldsFragment = {
   celestials: Array<{
     __typename?: 'celestial';
     id: string;
-    name?: Maybe<string>;
-    owner_id?: Maybe<string>;
-    user_info?: Maybe<{
+    name?: string | null;
+    owner_id?: string | null;
+    user_info?: {
       __typename?: 'user_info';
-      display_name?: Maybe<string>;
-      name?: Maybe<string>;
-    }>;
+      display_name?: string | null;
+      name?: string | null;
+    } | null;
   }>;
 };
 
@@ -1971,23 +1972,23 @@ export type CelestialByIdQueryVariables = Exact<{
 
 export type CelestialByIdQuery = {
   __typename?: 'query_root';
-  celestial_by_pk?: Maybe<{
+  celestial_by_pk?: {
     __typename?: 'celestial';
     id: string;
-    name?: Maybe<string>;
-    owner_id?: Maybe<string>;
+    name?: string | null;
+    owner_id?: string | null;
     galaxy: {
       __typename?: 'galaxy';
-      name?: Maybe<string>;
+      name?: string | null;
       stars: number;
       id: any;
     };
-    user_info?: Maybe<{
+    user_info?: {
       __typename?: 'user_info';
-      display_name?: Maybe<string>;
+      display_name?: string | null;
       id: string;
-    }>;
-  }>;
+    } | null;
+  } | null;
 };
 
 export type CelestialsSubscriptionVariables = Exact<{ [key: string]: never }>;
@@ -1997,13 +1998,13 @@ export type CelestialsSubscription = {
   celestial: Array<{
     __typename?: 'celestial';
     id: string;
-    name?: Maybe<string>;
-    owner_id?: Maybe<string>;
-    user_info?: Maybe<{
+    name?: string | null;
+    owner_id?: string | null;
+    user_info?: {
       __typename?: 'user_info';
-      display_name?: Maybe<string>;
-      name?: Maybe<string>;
-    }>;
+      display_name?: string | null;
+      name?: string | null;
+    } | null;
   }>;
 };
 
@@ -2013,27 +2014,27 @@ export type CelestialsByGalaxyIdSubscriptionVariables = Exact<{
 
 export type CelestialsByGalaxyIdSubscription = {
   __typename?: 'subscription_root';
-  galaxy_by_pk?: Maybe<{
+  galaxy_by_pk?: {
     __typename?: 'galaxy';
     celestials: Array<{
       __typename?: 'celestial';
-      name?: Maybe<string>;
+      name?: string | null;
       id: string;
-      owner_id?: Maybe<string>;
+      owner_id?: string | null;
     }>;
     celestials_aggregate: {
       __typename?: 'celestial_aggregate';
       nodes: Array<{
         __typename?: 'celestial';
-        owner_id?: Maybe<string>;
-        user_info?: Maybe<{
+        owner_id?: string | null;
+        user_info?: {
           __typename?: 'user_info';
-          display_name?: Maybe<string>;
-          avatar_url?: Maybe<string>;
-        }>;
+          display_name?: string | null;
+          avatar_url?: string | null;
+        } | null;
       }>;
     };
-  }>;
+  } | null;
 };
 
 export type RequestRandomCelestialByGalaxyIdMutationVariables = Exact<{
@@ -2042,7 +2043,7 @@ export type RequestRandomCelestialByGalaxyIdMutationVariables = Exact<{
 
 export type RequestRandomCelestialByGalaxyIdMutation = {
   __typename?: 'mutation_root';
-  requestRandomCelestial?: Maybe<{ __typename?: 'd'; freeClaimsLeft: number }>;
+  requestRandomCelestial?: { __typename?: 'o'; freeClaimsLeft: number } | null;
 };
 
 export type TryInsertClaimedCelestialMutationVariables = Exact<{
@@ -2055,17 +2056,17 @@ export type TryInsertClaimedCelestialMutationVariables = Exact<{
 
 export type TryInsertClaimedCelestialMutation = {
   __typename?: 'mutation_root';
-  insert_celestial_one?: Maybe<{
+  insert_celestial_one?: {
     __typename?: 'celestial';
     galaxy_id: any;
     id: string;
-    name?: Maybe<string>;
-    owner_id?: Maybe<string>;
-  }>;
-  update_user_info_by_pk?: Maybe<{
+    name?: string | null;
+    owner_id?: string | null;
+  } | null;
+  update_user_info_by_pk?: {
     __typename?: 'user_info';
     free_claims: number;
-  }>;
+  } | null;
 };
 
 export type GetChatMessagesSubscriptionVariables = Exact<{
@@ -2084,7 +2085,7 @@ export type GetChatMessagesSubscription = {
       __typename?: 'user_info';
       nickname: string;
       id: string;
-      display_name?: Maybe<string>;
+      display_name?: string | null;
     };
   }>;
 };
@@ -2103,15 +2104,15 @@ export type LatestMessageSubscription = {
 };
 
 export type SendNewMessageMutationVariables = Exact<{
-  message?: Maybe<Scalars['String']>;
+  message?: InputMaybe<Scalars['String']>;
 }>;
 
 export type SendNewMessageMutation = {
   __typename?: 'mutation_root';
-  insert_chat_message_one?: Maybe<{
+  insert_chat_message_one?: {
     __typename?: 'chat_message';
     message: string;
-  }>;
+  } | null;
 };
 
 export type CreateGalaxyMutationVariables = Exact<{
@@ -2120,10 +2121,10 @@ export type CreateGalaxyMutationVariables = Exact<{
 
 export type CreateGalaxyMutation = {
   __typename?: 'mutation_root';
-  insert_galaxy_one?: Maybe<{
+  insert_galaxy_one?: {
     __typename?: 'galaxy';
     id: any;
-    name?: Maybe<string>;
+    name?: string | null;
     curvature: any;
     core_radius_factor: any;
     core_concentration_factor: any;
@@ -2134,15 +2135,15 @@ export type CreateGalaxyMutation = {
     celestials: Array<{
       __typename?: 'celestial';
       id: string;
-      name?: Maybe<string>;
-      owner_id?: Maybe<string>;
-      user_info?: Maybe<{
+      name?: string | null;
+      owner_id?: string | null;
+      user_info?: {
         __typename?: 'user_info';
-        display_name?: Maybe<string>;
-        name?: Maybe<string>;
-      }>;
+        display_name?: string | null;
+        name?: string | null;
+      } | null;
     }>;
-  }>;
+  } | null;
 };
 
 export type DeleteGalaxyByIdMutationVariables = Exact<{
@@ -2151,11 +2152,11 @@ export type DeleteGalaxyByIdMutationVariables = Exact<{
 
 export type DeleteGalaxyByIdMutation = {
   __typename?: 'mutation_root';
-  delete_galaxy_by_pk?: Maybe<{
+  delete_galaxy_by_pk?: {
     __typename?: 'galaxy';
     id: any;
-    name?: Maybe<string>;
-  }>;
+    name?: string | null;
+  } | null;
 };
 
 export type GalaxiesSubscriptionVariables = Exact<{ [key: string]: never }>;
@@ -2165,7 +2166,7 @@ export type GalaxiesSubscription = {
   galaxy: Array<{
     __typename?: 'galaxy';
     id: any;
-    name?: Maybe<string>;
+    name?: string | null;
     curvature: any;
     core_radius_factor: any;
     core_concentration_factor: any;
@@ -2176,13 +2177,13 @@ export type GalaxiesSubscription = {
     celestials: Array<{
       __typename?: 'celestial';
       id: string;
-      name?: Maybe<string>;
-      owner_id?: Maybe<string>;
-      user_info?: Maybe<{
+      name?: string | null;
+      owner_id?: string | null;
+      user_info?: {
         __typename?: 'user_info';
-        display_name?: Maybe<string>;
-        name?: Maybe<string>;
-      }>;
+        display_name?: string | null;
+        name?: string | null;
+      } | null;
     }>;
   }>;
 };
@@ -2193,7 +2194,7 @@ export type GalaxyByIdQueryVariables = Exact<{
 
 export type GalaxyByIdQuery = {
   __typename?: 'query_root';
-  galaxy_by_pk?: Maybe<{
+  galaxy_by_pk?: {
     __typename?: 'galaxy';
     arm_width: any;
     arms: any;
@@ -2201,10 +2202,10 @@ export type GalaxyByIdQuery = {
     core_radius_factor: any;
     curvature: any;
     id: any;
-    name?: Maybe<string>;
+    name?: string | null;
     radius: number;
     stars: number;
-  }>;
+  } | null;
 };
 
 export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables =
@@ -2215,8 +2216,8 @@ export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables =
 
 export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery = {
   __typename?: 'query_root';
-  user_info_by_pk?: Maybe<{ __typename?: 'user_info'; free_claims: number }>;
-  galaxy_by_pk?: Maybe<{ __typename?: 'galaxy'; id: any; stars: number }>;
+  user_info_by_pk?: { __typename?: 'user_info'; free_claims: number } | null;
+  galaxy_by_pk?: { __typename?: 'galaxy'; id: any; stars: number } | null;
   celestial: Array<{ __typename?: 'celestial'; id: string }>;
 };
 
@@ -2226,12 +2227,12 @@ export type SelfQuery = {
   __typename?: 'query_root';
   user_me: Array<{
     __typename?: 'user_me';
-    display_name?: Maybe<string>;
-    id?: Maybe<string>;
-    name?: Maybe<string>;
-    nickname?: Maybe<string>;
-    secret_setting_test?: Maybe<string>;
-    free_claims?: Maybe<number>;
+    display_name?: string | null;
+    id?: string | null;
+    name?: string | null;
+    nickname?: string | null;
+    secret_setting_test?: string | null;
+    free_claims?: number | null;
   }>;
 };
 
@@ -2242,19 +2243,19 @@ export type SetDisplayNameByUserIdMutationVariables = Exact<{
 
 export type SetDisplayNameByUserIdMutation = {
   __typename?: 'mutation_root';
-  update_user_info_by_pk?: Maybe<{
+  update_user_info_by_pk?: {
     __typename?: 'user_info';
-    display_name?: Maybe<string>;
-  }>;
+    display_name?: string | null;
+  } | null;
 };
 
 export type SetNameByUserIdMutationVariables = Exact<{
-  display_name?: Maybe<Scalars['String']>;
+  display_name?: InputMaybe<Scalars['String']>;
 }>;
 
 export type SetNameByUserIdMutation = {
   __typename?: 'mutation_root';
-  setDisplayName?: Maybe<{ __typename?: '_'; updatedName: string }>;
+  setDisplayName?: { __typename?: 'l'; updatedName: string } | null;
 };
 
 export type UpdateFreeClaimsMutationVariables = Exact<{
@@ -2264,10 +2265,10 @@ export type UpdateFreeClaimsMutationVariables = Exact<{
 
 export type UpdateFreeClaimsMutation = {
   __typename?: 'mutation_root';
-  update_user_info_by_pk?: Maybe<{
+  update_user_info_by_pk?: {
     __typename?: 'user_info';
     free_claims: number;
-  }>;
+  } | null;
 };
 
 export type UserInfoQueryVariables = Exact<{ [key: string]: never }>;
@@ -2276,10 +2277,10 @@ export type UserInfoQuery = {
   __typename?: 'query_root';
   user_info: Array<{
     __typename?: 'user_info';
-    avatar_url?: Maybe<string>;
+    avatar_url?: string | null;
     id: string;
-    name?: Maybe<string>;
-    display_name?: Maybe<string>;
+    name?: string | null;
+    display_name?: string | null;
   }>;
 };
 

@@ -1,11 +1,15 @@
+import { useReactiveVar } from '@apollo/client';
 import { Application, Text, TickerCallback } from 'pixi.js';
 import { useEffect, useRef } from 'react';
+import { fpsVar } from '../../../_state/persisted-reactive-variables';
 import { indicatorFactory } from './indicator-factory';
 
 export const useFpsTracker = (
   app: Application,
   size: { width: number; height: number }
 ) => {
+  const fps = useReactiveVar(fpsVar);
+
   const fpsUpdateTickerRef = useRef<TickerCallback<unknown>>(() => {
     (app.stage.getChildByName('fpsCounter') as Text).text = `FPS: ${Math.ceil(
       app.ticker.FPS
@@ -24,8 +28,10 @@ export const useFpsTracker = (
   );
 
   useEffect(() => {
-    app.stage.addChild(fpsText.current, frameTimeText.current);
-    app.ticker.add(fpsUpdateTickerRef.current);
+    if (fps) {
+      app.stage.addChild(fpsText.current, frameTimeText.current);
+      app.ticker.add(fpsUpdateTickerRef.current);
+    }
 
     return () => {
       try {
@@ -36,5 +42,5 @@ export const useFpsTracker = (
         console.warn(e);
       }
     };
-  }, []);
+  }, [fps]);
 };
