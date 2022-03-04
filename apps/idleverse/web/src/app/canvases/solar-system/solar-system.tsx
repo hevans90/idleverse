@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useApp } from '@inlet/react-pixi';
+import { PixelateFilter } from '@pixi/filter-pixelate';
 import { Container } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { solarSystemConfigVar, timeVar } from '../../_state/reactive-variables';
@@ -33,6 +34,7 @@ export const SolarSystem = () => {
   useViewport(app, size, solarSystemContainerRef);
 
   useEffect(() => {
+    solarSystemContainerRef.current.filters = [new PixelateFilter(3)];
     solarSystemContainerRef.current.x = size.width / 2;
     solarSystemContainerRef.current.y = size.height / 2;
 

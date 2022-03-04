@@ -2983,6 +2983,11 @@
   resolved "https://registry.yarnpkg.com/@pixi/filter-noise/-/filter-noise-6.2.2.tgz#a4617a279e968628d7e088b36bf28c8c7cf85fb9"
   integrity sha512-Jp4L6winS6ZGKpp76x3JyfEWnUMY44fQ90Ts3R3vKkZZFNDd3T4uisZ7YwvDKOhmSo5hY3lQkXaCg/YO5feXbw==
 
+"@pixi/filter-pixelate@^4.1.3":
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/@pixi/filter-pixelate/-/filter-pixelate-4.1.3.tgz#8200ccf4e47803a5b2f86ab3a755d438769b0e37"
+  integrity sha512-1YEc46GO08C2nc54P/9yxWH7TaVTNoJe+EEvuXKiSITVadr4fEizkm607m+VAt6Ngv6bYpCAxO36HoRTFf3mAw==
+
 "@pixi/filter-shockwave@^4.1.5":
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/@pixi/filter-shockwave/-/filter-shockwave-4.1.5.tgz#2500f52f0ef77d790bc4890cc6d32c3a88bdf0c5"
