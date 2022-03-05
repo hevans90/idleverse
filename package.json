@@ -49,7 +49,7 @@
     "express-jwt": "^6.1.0",
     "framer-motion": "^4",
     "graphql": "^15.6.0",
-    "hasura-cli": "^2.0.9",
+    "hasura-cli": "^2.2.0",
     "jsonwebtoken": "^8.5.1",
     "jwks-client": "^1.4.0",
     "jwks-rsa": "^2.0.4",
