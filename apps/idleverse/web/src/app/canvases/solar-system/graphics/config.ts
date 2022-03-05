@@ -20,6 +20,16 @@ export const earthSpriteConfig: SpriteSheetConfig = {
   spriteScale: 0.25,
 };
 
+export const topDownDesertSpriteConfig: SpriteSheetConfig = {
+  name: 'topDownDesert',
+  url: 'spritesheets/top_down_desert_planet_sprite_sheet.png',
+  cols: 6,
+  rows: 5,
+  lastRowItemCount: 6,
+  animationSpeed: 0.2,
+  spriteScale: 1,
+};
+
 export const marsSpriteConfig: SpriteSheetConfig = {
   name: 'mars',
   url: 'spritesheets/mars_sprite_sheet.png',
@@ -45,4 +55,5 @@ export const spriteConfigs = [
   earthSpriteConfig,
   marsSpriteConfig,
   moonSpriteConfig,
+  topDownDesertSpriteConfig,
 ];
