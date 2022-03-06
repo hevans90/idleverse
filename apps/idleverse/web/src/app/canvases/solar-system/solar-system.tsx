@@ -35,7 +35,7 @@ export const SolarSystem = () => {
   useViewport(app, size, solarSystemContainerRef);
 
   useEffect(() => {
-    solarSystemContainerRef.current.filters = [new PixelateFilter(4)];
+    solarSystemContainerRef.current.filters = [new PixelateFilter(3)];
     solarSystemContainerRef.current.x = size.width / 2;
     solarSystemContainerRef.current.y = size.height / 2;
 
