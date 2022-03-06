@@ -160,13 +160,13 @@
           "options": {
             "commands": [
               {
-                "command": "hasura metadata apply --project apps/food/hasura/db --endpoint $FOOD_HASURA_URL  --admin-secret $FOOD_HASURA_ADMIN_SECRET"
+                "command": "hasura metadata apply --project apps/food/hasura/db --endpoint $FOOD_HASURA_URL  --admin-secret $FOOD_HASURA_ADMIN_SECRET --skip-update-check"
               },
               {
-                "command": "hasura migrate apply --project apps/food/hasura/db --endpoint $FOOD_HASURA_URL  --admin-secret $FOOD_HASURA_ADMIN_SECRET --database-name default"
+                "command": "hasura migrate apply --project apps/food/hasura/db --endpoint $FOOD_HASURA_URL  --admin-secret $FOOD_HASURA_ADMIN_SECRET --database-name default --skip-update-check"
               },
               {
-                "command": "hasura metadata reload --project apps/food/hasura/db --endpoint $FOOD_HASURA_URL  --admin-secret $FOOD_HASURA_ADMIN_SECRET"
+                "command": "hasura metadata reload --project apps/food/hasura/db --endpoint $FOOD_HASURA_URL  --admin-secret $FOOD_HASURA_ADMIN_SECRET --skip-update-check"
               }
             ]
           }
@@ -483,13 +483,13 @@
           "options": {
             "commands": [
               {
-                "command": "hasura metadata apply --project apps/idleverse/hasura/db --endpoint $IDLEVERSE_HASURA_URL  --admin-secret $IDLEVERSE_HASURA_ADMIN_SECRET"
+                "command": "hasura metadata apply --project apps/idleverse/hasura/db --endpoint $IDLEVERSE_HASURA_URL  --admin-secret $IDLEVERSE_HASURA_ADMIN_SECRET --skip-update-check"
               },
               {
-                "command": "hasura migrate apply --project apps/idleverse/hasura/db --endpoint $IDLEVERSE_HASURA_URL  --admin-secret $IDLEVERSE_HASURA_ADMIN_SECRET --database-name default"
+                "command": "hasura migrate apply --project apps/idleverse/hasura/db --endpoint $IDLEVERSE_HASURA_URL  --admin-secret $IDLEVERSE_HASURA_ADMIN_SECRET --database-name default --skip-update-check"
               },
               {
-                "command": "hasura metadata reload --project apps/idleverse/hasura/db --endpoint $IDLEVERSE_HASURA_URL  --admin-secret $IDLEVERSE_HASURA_ADMIN_SECRET"
+                "command": "hasura metadata reload --project apps/idleverse/hasura/db --endpoint $IDLEVERSE_HASURA_URL  --admin-secret $IDLEVERSE_HASURA_ADMIN_SECRET --skip-update-check"
               }
             ]
           }

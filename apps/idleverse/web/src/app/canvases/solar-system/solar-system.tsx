@@ -12,6 +12,7 @@ import {
   marsSpriteConfig,
   moonSpriteConfig,
   sunSpriteConfig,
+  topDownDesertSpriteConfig,
 } from './graphics/config';
 import { createAnimatedPlanetSprite } from './graphics/graphics-utils';
 import {
@@ -105,7 +106,22 @@ export const SolarSystem = () => {
       parent: earth,
     });
 
-    const planets = [sun, earth, mars, moon];
+    const desertSprite = createAnimatedPlanetSprite(
+      solarSystemContainerRef.current,
+      topDownDesertSpriteConfig
+    );
+    const desrtConfig: PlanetConfig = {
+      origin: { x: 0, y: 0 },
+      orbit: { x: 400, y: 400, speed: 0.3 },
+    };
+    const desert: Planet = createPlanet({
+      name: 'desrt',
+      config: desrtConfig,
+      sprite: desertSprite,
+      parent: sun,
+    });
+
+    const planets = [sun, earth, mars, moon, desert];
 
     app.ticker.add(() => {
       // eslint-disable-next-line prefer-const

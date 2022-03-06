@@ -8044,7 +8044,7 @@ hash.js@^1.0.0, hash.js@^1.0.3:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
-hasura-cli@^2.0.9:
+hasura-cli@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/hasura-cli/-/hasura-cli-2.2.0.tgz#f850823ae07c6e5efbab078e9bcd0f31a2bbc8d7"
   integrity sha512-lBpEt94CkaLbn0iqWx9TNnnuET9prz067gKUuTzm3y8PtRw1T1dZV8t/tfAZRRG/WNGNFp1d0UWs/fpwO3aJdA==
