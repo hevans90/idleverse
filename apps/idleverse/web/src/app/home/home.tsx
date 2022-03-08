@@ -1,7 +1,30 @@
-import { Box, Button, Text } from '@chakra-ui/react';
+import { VStack, Box, Button, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 export const Home = () => {
+  const links: { route: string; display: string }[] = [
+    {
+      route: 'galaxies',
+      display: 'Galaxy Gallery',
+    },
+    {
+      route: 'galaxy-gen',
+      display: 'Galaxy Generator',
+    },
+    {
+      route: 'solar-system',
+      display: 'Solar System Viewer',
+    },
+    {
+      route: 'gravity-sim',
+      display: '2D Gravity Simulation',
+    },
+    {
+      route: 'three-js-playground',
+      display: '3D Playground',
+    },
+  ];
+
   return (
     <Box
       height="100%"
@@ -20,34 +43,15 @@ export const Home = () => {
         multiplayer experience.
       </Text>
 
-      <Box mt="1rem">
-        <Link to="/galaxies">
-          <Button colorScheme="teal" height="40px">
-            Galaxy Gallery
-          </Button>
-        </Link>
-      </Box>
-      <Box mt="1rem">
-        <Link to="/galaxy-gen">
-          <Button colorScheme="teal" height="40px">
-            Galaxy Generator
-          </Button>
-        </Link>
-      </Box>
-      <Box mt="1rem">
-        <Link to="/solar-system">
-          <Button colorScheme="teal" height="40px">
-            Solar System Viewer
-          </Button>
-        </Link>
-      </Box>
-      <Box mt="1rem">
-        <Link to="/gravity-sim">
-          <Button colorScheme="teal" height="40px">
-            Gravity Simulation
-          </Button>
-        </Link>
-      </Box>
+      <VStack>
+        {links.map(({ route, display }) => (
+          <Link to={`/${route}`}>
+            <Button colorScheme="teal" height="40px">
+              {display}
+            </Button>
+          </Link>
+        ))}
+      </VStack>
     </Box>
   );
 };

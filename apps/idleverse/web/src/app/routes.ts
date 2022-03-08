@@ -3,6 +3,7 @@ import { GalaxyGenContainer } from './canvases/galaxy-generator/galaxy-generator
 import { GalaxyViewerContainer } from './canvases/galaxy-viewer/galaxy-viewer.container';
 import { GravitySimulationContainer } from './canvases/gravity-simulation/gravity-simulation.container';
 import { SolarSystemContainer } from './canvases/solar-system/solar-system.container';
+import { ThreeJsPlayground } from './canvases/three-js-playground/threejs-playground';
 import { GalaxyGalleryContainer } from './galaxy-gallery/galaxy-gallery.container';
 import { Home } from './home/home';
 
@@ -29,5 +30,10 @@ export const routes = [
     path: '/gravity-sim',
     name: 'gravity sim',
     component: GravitySimulationContainer,
+  },
+  {
+    path: '/three-js-playground',
+    name: 'threejs playground',
+    component: ThreeJsPlayground,
   },
 ];
