@@ -20,8 +20,8 @@ export const Home = () => {
       display: '2D Gravity Simulation',
     },
     {
-      route: 'three-js-playground',
-      display: '3D Playground',
+      route: 'planet-gen',
+      display: '3D Planet Generator',
     },
   ];
 

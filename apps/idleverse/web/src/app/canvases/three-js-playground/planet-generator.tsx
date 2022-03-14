@@ -10,7 +10,7 @@ import { Pixelate } from './pixelate';
 import { PlanetGeneratorControls } from './ui/controls';
 import { World } from './world';
 
-export const ThreeJsPlayground = () => {
+export const PlanetGenerator = () => {
   const { width, height } = useResize('planet-gen');
 
   const { colors } = useTheme<Theme>();
