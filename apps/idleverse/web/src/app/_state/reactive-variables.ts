@@ -48,7 +48,9 @@ export const solarSystemConfigVar = makeVar<SolarSystemConfig>({
 
 export const planetGeneratorConfigVar = makeVar<PlanetGenerationConfig>({
   pixelSize: 3,
-  prop2: 10,
+  atmosphericDistance: 3,
+  weather: true,
+  rotate: true,
 });
 
 export const planetResourcesVar = makeVar<AssetCollection>(null);

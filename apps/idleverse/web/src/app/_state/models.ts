@@ -32,7 +32,9 @@ export type SolarSystemConfig = {
 
 export type PlanetGenerationConfig = {
   pixelSize: number;
-  prop2: number;
+  atmosphericDistance: number;
+  weather: boolean;
+  rotate: boolean;
 };
 
 export type BreadCrumb = {

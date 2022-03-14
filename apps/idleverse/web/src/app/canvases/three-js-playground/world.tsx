@@ -2,7 +2,15 @@ import { useFrame, useLoader } from '@react-three/fiber';
 import { useRef } from 'react';
 import { TextureLoader, Mesh } from 'three';
 
-export const World = ({ weather }: { weather: boolean }) => {
+export const World = ({
+  weather,
+  rotate,
+  atmosphericDistance,
+}: {
+  weather: boolean;
+  rotate: boolean;
+  atmosphericDistance: number;
+}) => {
   const worldColorMap = useLoader(TextureLoader, 'world.jpeg');
   const cloudsColorMap = useLoader(TextureLoader, 'clouds.png');
 
@@ -10,13 +18,18 @@ export const World = ({ weather }: { weather: boolean }) => {
   const cloudsRef = useRef<Mesh>();
 
   useFrame(({ clock }) => {
-    worldRef.current.rotation.y = clock.getElapsedTime() / 5;
-    cloudsRef.current.rotation.y = clock.getElapsedTime() / 10;
+    if (rotate) {
+      worldRef.current.rotation.y = clock.getElapsedTime() / 5;
+
+      if (cloudsRef.current) {
+        cloudsRef.current.rotation.y = clock.getElapsedTime() / 10;
+      }
+    }
   });
 
   return (
     <>
-      <ambientLight intensity={0.2} />
+      <ambientLight intensity={0.5} />
       <directionalLight />
       <mesh ref={worldRef}>
         <sphereGeometry args={[1, 32, 32]} />
@@ -24,7 +37,7 @@ export const World = ({ weather }: { weather: boolean }) => {
       </mesh>
       {weather && (
         <mesh ref={cloudsRef}>
-          <sphereGeometry args={[1.03, 32, 32]} />
+          <sphereGeometry args={[1 + atmosphericDistance / 100, 32, 32]} />
           <meshStandardMaterial map={cloudsColorMap} transparent={true} />
         </mesh>
       )}

@@ -11,25 +11,33 @@ import { PlanetGeneratorControls } from './ui/controls';
 import { World } from './world';
 
 export const ThreeJsPlayground = () => {
-  const { width } = useResize();
+  const { width, height } = useResize('planet-gen');
 
   const { colors } = useTheme<Theme>();
 
-  const { pixelSize } = useReactiveVar(planetGeneratorConfigVar);
+  const { pixelSize, weather, rotate, atmosphericDistance } = useReactiveVar(
+    planetGeneratorConfigVar
+  );
 
   return (
-    <Box position="relative" width={`${width}px`} height="100%">
-      <Canvas>
-        <Suspense fallback={null}>
-          <World weather={true} />
-          <CameraController />
-          <Pixelate
-            bgColor={themeColToHex(colors.gray['800'])}
-            pixelSize={pixelSize}
-          />
-        </Suspense>
-      </Canvas>
+    <>
+      <Box position="relative" width={`${width}px`} height={`${height}px`}>
+        <Canvas>
+          <Suspense fallback={null}>
+            <World
+              weather={weather}
+              rotate={rotate}
+              atmosphericDistance={atmosphericDistance}
+            />
+            <CameraController />
+            <Pixelate
+              bgColor={themeColToHex(colors.gray['800'])}
+              pixelSize={pixelSize}
+            />
+          </Suspense>
+        </Canvas>
+      </Box>
       <PlanetGeneratorControls />
-    </Box>
+    </>
   );
 };

@@ -1,5 +1,7 @@
 import {
   Box,
+  Checkbox,
+  HStack,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
@@ -15,6 +17,7 @@ import {
 import { useEffect, useState } from 'react';
 import { PlanetGenerationConfig } from '../../../_state/models';
 import { planetGeneratorConfigVar } from '../../../_state/reactive-variables';
+import { VStack } from '@chakra-ui/react';
 
 export type PlanetGeneratorSliderType = {
   name: keyof PlanetGenerationConfig;
@@ -24,7 +27,7 @@ export type PlanetGeneratorSliderType = {
   step: number;
 };
 
-export const planetGenerationControlsHeight = 160;
+export const planetGenerationControlsHeight = 200;
 
 export const planetGeneratorSlidersConfig: PlanetGeneratorSliderType[] = [
   {
@@ -32,6 +35,13 @@ export const planetGeneratorSlidersConfig: PlanetGeneratorSliderType[] = [
     displayName: 'Pixel size',
     min: 1,
     max: 15,
+    step: 1,
+  },
+  {
+    name: 'atmosphericDistance',
+    displayName: 'Atmospheric Dist.',
+    min: 1,
+    max: 8,
     step: 1,
   },
 ];
@@ -51,24 +61,22 @@ export const PlanetGeneratorControls = () => {
   }, []);
 
   return (
-    <Box
+    <VStack
       className="footer"
       padding="1rem"
-      display="flex"
-      flexDirection="column"
       bgColor={color}
       position="absolute"
       bottom="0"
       left="0"
       height={`${planetGenerationControlsHeight}px`}
       width="100%"
+      spacing={2}
     >
       {planetGeneratorSlidersConfig.map((slider, index) => (
-        <Box
+        <HStack
+          width="100%"
           key={`${index}-container`}
-          display="flex"
           alignItems="center"
-          marginBottom="5px"
           justifyContent="space-between"
         >
           <Text minWidth="250px" fontSize="small">
@@ -79,7 +87,7 @@ export const PlanetGeneratorControls = () => {
             flexGrow={1}
             maxWidth="400px"
             aria-label={`${slider.name}-slider`}
-            value={localConfigValues[slider.name]}
+            value={localConfigValues[slider.name] as number}
             defaultValue={initialPlanetGenerationConfig[slider.name] as number}
             min={slider.min}
             max={slider.max}
@@ -103,7 +111,7 @@ export const PlanetGeneratorControls = () => {
             ml={10}
             key={`${index}-number`}
             flexGrow={0}
-            value={localConfigValues[slider.name]}
+            value={localConfigValues[slider.name] as number}
             defaultValue={initialPlanetGenerationConfig[slider.name] as number}
             min={slider.min}
             max={slider.max}
@@ -122,8 +130,37 @@ export const PlanetGeneratorControls = () => {
               <NumberDecrementStepper />
             </NumberInputStepper>
           </NumberInput>
-        </Box>
+        </HStack>
       ))}
-    </Box>
+
+      <HStack width="100%">
+        <Text minWidth="175px" fontSize="small">
+          Weather
+        </Text>
+        <Checkbox
+          isChecked={planetGeneratorConfigVar().weather}
+          onChange={() =>
+            planetGeneratorConfigVar({
+              ...planetGeneratorConfigVar(),
+              weather: !planetGeneratorConfigVar().weather,
+            })
+          }
+        ></Checkbox>
+      </HStack>
+      <HStack width="100%">
+        <Text minWidth="175px" fontSize="small">
+          Rotate
+        </Text>
+        <Checkbox
+          isChecked={planetGeneratorConfigVar().rotate}
+          onChange={() =>
+            planetGeneratorConfigVar({
+              ...planetGeneratorConfigVar(),
+              rotate: !planetGeneratorConfigVar().rotate,
+            })
+          }
+        ></Checkbox>
+      </HStack>
+    </VStack>
   );
 };
