@@ -2,7 +2,13 @@ import { makeVar } from '@apollo/client';
 import { GalaxyConfig } from '@idleverse/galaxy-gen';
 import { CelestialByIdQuery, UserInfoQuery } from '@idleverse/galaxy-gql';
 import { v4 as uuidv4 } from 'uuid';
-import { AssetCollection, BreadCrumb, Self, SolarSystemConfig } from './models';
+import {
+  AssetCollection,
+  BreadCrumb,
+  PlanetGenerationConfig,
+  Self,
+  SolarSystemConfig,
+} from './models';
 
 export const breadCrumbsVar = makeVar<BreadCrumb[]>([]);
 
@@ -38,6 +44,11 @@ export const userAvatarResourcesVar = makeVar<AssetCollection>(null);
 export const solarSystemConfigVar = makeVar<SolarSystemConfig>({
   viewAngle: 0,
   simulationSpeed: 1,
+});
+
+export const planetGeneratorConfigVar = makeVar<PlanetGenerationConfig>({
+  pixelSize: 3,
+  prop2: 10,
 });
 
 export const planetResourcesVar = makeVar<AssetCollection>(null);

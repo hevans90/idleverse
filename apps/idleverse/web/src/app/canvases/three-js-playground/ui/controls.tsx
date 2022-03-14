@@ -13,49 +13,41 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { SolarSystemConfig } from '../../../_state/models';
-import { solarSystemConfigVar } from '../../../_state/reactive-variables';
+import { PlanetGenerationConfig } from '../../../_state/models';
+import { planetGeneratorConfigVar } from '../../../_state/reactive-variables';
 
-export type SolarSystemSliderType = {
-  name: keyof SolarSystemConfig;
+export type PlanetGeneratorSliderType = {
+  name: keyof PlanetGenerationConfig;
   displayName: string;
   min?: number;
   max: number;
   step: number;
 };
 
-export const solarSystemControlsHeight = 160;
+export const planetGenerationControlsHeight = 160;
 
-export const solarSystemSlidersConfig: SolarSystemSliderType[] = [
+export const planetGeneratorSlidersConfig: PlanetGeneratorSliderType[] = [
   {
-    name: 'viewAngle',
-    displayName: 'View Angle',
-    max: 90,
-    step: 1,
-  },
-  {
-    name: 'simulationSpeed',
-    displayName: 'Sim. Speed',
+    name: 'pixelSize',
+    displayName: 'Pixel size',
     min: 1,
-    max: 10,
+    max: 15,
     step: 1,
   },
 ];
 
-export const SolarSystemControls = () => {
+export const PlanetGeneratorControls = () => {
   const color = useColorModeValue('gray.200', 'gray.600');
 
-  const initialSolarSystemConfig = solarSystemConfigVar();
+  const initialPlanetGenerationConfig = planetGeneratorConfigVar();
 
   const [localConfigValues, setLocalValues] = useState(
-    initialSolarSystemConfig
+    initialPlanetGenerationConfig
   );
 
   useEffect(() => {
-    setLocalValues({ ...initialSolarSystemConfig });
+    setLocalValues({ ...initialPlanetGenerationConfig });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-
-    console.log();
   }, []);
 
   return (
@@ -68,10 +60,10 @@ export const SolarSystemControls = () => {
       position="absolute"
       bottom="0"
       left="0"
-      height={`${solarSystemControlsHeight}px`}
+      height={`${planetGenerationControlsHeight}px`}
       width="100%"
     >
-      {solarSystemSlidersConfig.map((slider, index) => (
+      {planetGeneratorSlidersConfig.map((slider, index) => (
         <Box
           key={`${index}-container`}
           display="flex"
@@ -88,14 +80,14 @@ export const SolarSystemControls = () => {
             maxWidth="400px"
             aria-label={`${slider.name}-slider`}
             value={localConfigValues[slider.name]}
-            defaultValue={initialSolarSystemConfig[slider.name] as number}
+            defaultValue={initialPlanetGenerationConfig[slider.name] as number}
             min={slider.min}
             max={slider.max}
             step={slider.step}
             onChange={(event) => {
               setLocalValues({ ...localConfigValues, [slider.name]: event });
-              solarSystemConfigVar({
-                ...solarSystemConfigVar(),
+              planetGeneratorConfigVar({
+                ...planetGeneratorConfigVar(),
                 [slider.name]: event,
               });
             }}
@@ -112,14 +104,14 @@ export const SolarSystemControls = () => {
             key={`${index}-number`}
             flexGrow={0}
             value={localConfigValues[slider.name]}
-            defaultValue={initialSolarSystemConfig[slider.name] as number}
+            defaultValue={initialPlanetGenerationConfig[slider.name] as number}
             min={slider.min}
             max={slider.max}
             step={slider.step}
             onChange={(event) => {
               setLocalValues({ ...localConfigValues, [slider.name]: event });
-              solarSystemConfigVar({
-                ...solarSystemConfigVar(),
+              planetGeneratorConfigVar({
+                ...planetGeneratorConfigVar(),
                 [slider.name]: event,
               });
             }}

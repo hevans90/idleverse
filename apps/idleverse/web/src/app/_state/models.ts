@@ -27,8 +27,12 @@ export type LayoutConfig = {
 
 export type SolarSystemConfig = {
   viewAngle: number;
-
   simulationSpeed: number;
+};
+
+export type PlanetGenerationConfig = {
+  pixelSize: number;
+  prop2: number;
 };
 
 export type BreadCrumb = {
