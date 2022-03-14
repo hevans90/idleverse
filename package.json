@@ -18,7 +18,10 @@
     "hasura:idleverse": "yarn metadata-apply:idleverse && yarn migrate-apply:idleverse && yarn metadata-reload:idleverse",
     "docker-up:idleverse": "docker compose --project-directory apps/idleverse/hasura --env-file .env.idleverse up -d",
     "docker-build:idleverse": "docker compose --project-directory apps/idleverse/hasura --env-file .env.idleverse build --no-cache",
-    "docker-down:idleverse": "docker compose --project-directory apps/idleverse/hasura --env-file .env.idleverse down"
+    "docker-down:idleverse": "docker compose --project-directory apps/idleverse/hasura --env-file .env.idleverse down",
+    "web:build:prod:stats": "nx build idleverse-web --prod --skip-nx-cache -- --memoryLimit=8192 --statsJson",
+    "web:build:dev:stats": "nx build idleverse-web --skip-nx-cache -- --memoryLimit=8192 --statsJson",
+    "webpack-bundle-analyzer": "webpack-bundle-analyzer dist/apps/idleverse/web/stats.json"
   },
   "private": true,
   "dependencies": {
@@ -35,6 +38,7 @@
     "@pixi/filter-shockwave": "^4.1.5",
     "@pixi/layers": "^1.0.11",
     "@react-three/fiber": "^7.0.26",
+    "@types/dat.gui": "^0.7.7",
     "apollo-link": "^1.2.14",
     "apollo-link-http": "^1.5.17",
     "apollo-link-ws": "^1.0.20",
@@ -44,6 +48,7 @@
     "class-validator": "^0.13.1",
     "core-js": "^3.6.5",
     "cross-fetch": "^3.1.4",
+    "dat.gui": "^0.7.9",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-jwt": "^6.1.0",
@@ -106,6 +111,7 @@
     "@types/seedrandom": "^3.0.1",
     "@types/styled-components": "5.1.15",
     "@types/testing-library__jest-dom": "^5.14.1",
+    "@types/three": "^0.138.0",
     "@types/websocket": "^1.0.4",
     "@typescript-eslint/eslint-plugin": "5.10.2",
     "@typescript-eslint/parser": "5.10.2",
@@ -128,6 +134,7 @@
     "ts-jest": "27.0.5",
     "typescript": "~4.3.5",
     "web-vitals": "^2.1.0",
+    "webpack-bundle-analyzer": "^4.5.0",
     "yarn": "^1.22.11"
   }
 }

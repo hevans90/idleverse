@@ -27,8 +27,14 @@ export type LayoutConfig = {
 
 export type SolarSystemConfig = {
   viewAngle: number;
-
   simulationSpeed: number;
+};
+
+export type PlanetGenerationConfig = {
+  pixelSize: number;
+  atmosphericDistance: number;
+  weather: boolean;
+  rotate: boolean;
 };
 
 export type BreadCrumb = {

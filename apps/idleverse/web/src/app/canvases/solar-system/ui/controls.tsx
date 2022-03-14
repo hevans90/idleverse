@@ -35,7 +35,7 @@ export const solarSystemSlidersConfig: SolarSystemSliderType[] = [
   },
   {
     name: 'simulationSpeed',
-    displayName: 'Simulation Speed',
+    displayName: 'Sim. Speed',
     min: 1,
     max: 10,
     step: 1,
@@ -79,7 +79,7 @@ export const SolarSystemControls = () => {
           marginBottom="5px"
           justifyContent="space-between"
         >
-          <Text minWidth="300px" fontSize="small">
+          <Text minWidth="250px" fontSize="small">
             {slider.displayName}
           </Text>
           <Slider
@@ -108,6 +108,7 @@ export const SolarSystemControls = () => {
           </Slider>
 
           <NumberInput
+            ml={10}
             key={`${index}-number`}
             flexGrow={0}
             value={localConfigValues[slider.name]}

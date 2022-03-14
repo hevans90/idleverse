@@ -5,14 +5,21 @@ import { layoutVar } from '../../_state/persisted-reactive-variables';
 import { generatorControlsHeight } from '../galaxy-generator/ui/generator-controls';
 import { galaxySimControlsHeight } from '../gravity-simulation/ui/gravity-simulation-controls';
 import { solarSystemControlsHeight } from '../solar-system/ui/controls';
+import { planetGenerationControlsHeight } from '../three-js-playground/ui/controls';
 
-type controls = 'galaxy-gen' | 'solar-system' | 'gravity-sim' | 'none';
+type controls =
+  | 'galaxy-gen'
+  | 'solar-system'
+  | 'gravity-sim'
+  | 'planet-gen'
+  | 'none';
 
 const controlValue = (controls: controls) => {
   const map: { [key in controls]: number } = {
     'galaxy-gen': generatorControlsHeight,
     'solar-system': solarSystemControlsHeight,
     'gravity-sim': galaxySimControlsHeight,
+    'planet-gen': planetGenerationControlsHeight,
     none: 0,
   };
 
