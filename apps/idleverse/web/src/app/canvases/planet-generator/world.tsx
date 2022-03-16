@@ -1,6 +1,15 @@
 import { useFrame, useLoader } from '@react-three/fiber';
-import { useRef } from 'react';
-import { DataTexture, Mesh, TextureLoader } from 'three';
+import { useRef, useState } from 'react';
+import {
+  DataTexture,
+  DoubleSide,
+  Event,
+  Intersection,
+  Mesh,
+  Object3D,
+  TextureLoader,
+  Vector3,
+} from 'three';
 
 export const World = ({
   atmosphere,
@@ -16,15 +25,36 @@ export const World = ({
   const worldColorMap = useLoader(TextureLoader, 'world.jpeg');
   const cloudsColorMap = useLoader(TextureLoader, 'clouds.png');
 
+  const [mousePosition, setMousePosition] =
+    useState<Intersection<Object3D<Event>>>();
+
   const worldRef = useRef<Mesh>();
   const cloudsRef = useRef<Mesh>();
+  const hoverRef = useRef<Mesh>();
 
-  useFrame(({ clock }) => {
+  useFrame(({ clock, raycaster, gl }) => {
     if (worldTexture && rotate) {
       worldRef.current.rotation.y = clock.getElapsedTime() / 5;
 
       if (cloudsRef.current) {
         cloudsRef.current.rotation.y = clock.getElapsedTime() / 10;
+      }
+    }
+
+    if (worldTexture) {
+      const intersects = raycaster.intersectObjects([worldRef.current], true);
+
+      if (intersects[0]) {
+        setMousePosition(intersects[0]);
+
+        const direction = new Vector3();
+        direction.subVectors(intersects[0].point, worldRef.current.position);
+
+        hoverRef.current.position.x = intersects[0].point.x * 1.01;
+        hoverRef.current.position.y = intersects[0].point.y * 1.01;
+        hoverRef.current.position.z = intersects[0].point.z * 1.01;
+
+        hoverRef.current.lookAt(new Vector3(0, 0, 0));
       }
     }
   });
@@ -33,8 +63,14 @@ export const World = ({
     <>
       <ambientLight intensity={0.5} />
       <directionalLight />
+
+      <mesh ref={hoverRef}>
+        <circleGeometry args={[0.02, 20]} />
+        <meshBasicMaterial side={DoubleSide} color={0xff0000} />
+      </mesh>
+
       <mesh ref={worldRef}>
-        <sphereGeometry args={[1, 32, 32]} />
+        <icosahedronGeometry args={[1, 5]} />
         <meshStandardMaterial map={worldTexture} />
       </mesh>
       {atmosphere && (
