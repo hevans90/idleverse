@@ -2,6 +2,7 @@ import { useReactiveVar } from '@apollo/client';
 import { Box, Theme, useTheme } from '@chakra-ui/react';
 import { Canvas } from '@react-three/fiber';
 import { Suspense } from 'react';
+import { Loading } from '../../components/loading';
 import { planetGeneratorConfigVar } from '../../_state/reactive-variables';
 import { themeColToHex } from '../common-utils/theme-col-to-hex';
 import { useResize } from '../common-utils/use-resize.hook';

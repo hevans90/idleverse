@@ -5,7 +5,7 @@ import { layoutVar } from '../../_state/persisted-reactive-variables';
 import { generatorControlsHeight } from '../galaxy-generator/ui/generator-controls';
 import { galaxySimControlsHeight } from '../gravity-simulation/ui/gravity-simulation-controls';
 import { solarSystemControlsHeight } from '../solar-system/ui/controls';
-import { planetGenerationControlsHeight } from '../three-js-playground/ui/controls';
+import { planetGenerationControlsHeight } from '../planet-generator/ui/controls';
 
 type controls =
   | 'galaxy-gen'

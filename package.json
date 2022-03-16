@@ -46,6 +46,7 @@
     "apollo-server-express": "^3.3.0",
     "axios": "^0.21.4",
     "class-validator": "^0.13.1",
+    "comlink": "^4.3.1",
     "core-js": "^3.6.5",
     "cross-fetch": "^3.1.4",
     "dat.gui": "^0.7.9",
@@ -73,6 +74,7 @@
     "reflect-metadata": "^0.1.13",
     "regenerator-runtime": "0.13.7",
     "seedrandom": "^3.0.5",
+    "simplex-noise": "^3.0.1",
     "styled-components": "5.3.3",
     "subscriptions-transport-ws": "^0.9.19",
     "three": "^0.138.2",
@@ -135,6 +137,7 @@
     "typescript": "~4.3.5",
     "web-vitals": "^2.1.0",
     "webpack-bundle-analyzer": "^4.5.0",
+    "worker-plugin": "^5.0.1",
     "yarn": "^1.22.11"
   }
 }
