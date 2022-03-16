@@ -1,8 +1,7 @@
 import { useReactiveVar } from '@apollo/client';
 import { Box, Theme, useTheme } from '@chakra-ui/react';
 import { Canvas } from '@react-three/fiber';
-import { wrap } from 'comlink';
-import { Suspense, useState, useEffect } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { DataTexture } from 'three';
 import { planetGeneratorConfigVar } from '../../_state/reactive-variables';
 import { themeColToHex } from '../common-utils/theme-col-to-hex';
@@ -18,15 +17,21 @@ export const PlanetGenerator = () => {
 
   const { colors } = useTheme<Theme>();
 
-  const { pixelSize, weather, rotate, atmosphericDistance } = useReactiveVar(
-    planetGeneratorConfigVar
-  );
+  const {
+    pixelSize,
+    atmosphere,
+    rotate,
+    atmosphericDistance,
+    textureResolution,
+  } = useReactiveVar(planetGeneratorConfigVar);
 
   const [dataTexture, setDataTexture] = useState<DataTexture>(undefined);
 
   useEffect(() => {
-    runTextureGenOnWorker('perlin').then((texture) => setDataTexture(texture));
-  }, []);
+    runTextureGenOnWorker('perlin', textureResolution).then((texture) =>
+      setDataTexture(texture)
+    );
+  }, [textureResolution]);
 
   return (
     <>
@@ -35,7 +40,7 @@ export const PlanetGenerator = () => {
           <Suspense fallback={null}>
             <World
               worldTexture={dataTexture}
-              weather={weather}
+              atmosphere={atmosphere}
               rotate={rotate}
               atmosphericDistance={atmosphericDistance}
             />

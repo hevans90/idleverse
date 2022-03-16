@@ -44,6 +44,13 @@ export const planetGeneratorSlidersConfig: PlanetGeneratorSliderType[] = [
     max: 8,
     step: 1,
   },
+  {
+    name: 'textureResolution',
+    displayName: 'Resolution',
+    min: 16,
+    max: 1024,
+    step: 16,
+  },
 ];
 
 export const PlanetGeneratorControls = () => {
@@ -112,7 +119,7 @@ export const PlanetGeneratorControls = () => {
             </Slider>
 
             <NumberInput
-              maxWidth="100px"
+              maxWidth="150px"
               ml={10}
               key={`${index}-number`}
               flexGrow={0}
@@ -144,14 +151,14 @@ export const PlanetGeneratorControls = () => {
       <VStack spacing={5}>
         <HStack width="100%">
           <Text minWidth="175px" fontSize="small">
-            Weather
+            Atmosphere
           </Text>
           <Checkbox
-            isChecked={planetGeneratorConfigVar().weather}
+            isChecked={planetGeneratorConfigVar().atmosphere}
             onChange={() =>
               planetGeneratorConfigVar({
                 ...planetGeneratorConfigVar(),
-                weather: !planetGeneratorConfigVar().weather,
+                atmosphere: !planetGeneratorConfigVar().atmosphere,
               })
             }
           ></Checkbox>

@@ -8,13 +8,14 @@ const { textureGen, simplexTexture, perlinTexture } =
 
 export const runTextureGenOnWorker = async (
   type: 'regular' | 'simplex' | 'perlin',
+  resolution: number,
   tileSize = 10
 ) => {
   const { data, height, width } =
     type === 'simplex'
-      ? await simplexTexture()
+      ? await simplexTexture({ width: resolution, height: resolution })
       : type === 'perlin'
-      ? await perlinTexture(tileSize)
+      ? await perlinTexture(tileSize, { width: resolution, height: resolution })
       : await textureGen();
 
   const texture = new DataTexture(data, width, height);

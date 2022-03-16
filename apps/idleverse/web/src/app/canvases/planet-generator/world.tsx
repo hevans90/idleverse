@@ -3,12 +3,12 @@ import { useRef } from 'react';
 import { DataTexture, Mesh, TextureLoader } from 'three';
 
 export const World = ({
-  weather,
+  atmosphere,
   rotate,
   atmosphericDistance,
   worldTexture,
 }: {
-  weather: boolean;
+  atmosphere: boolean;
   rotate: boolean;
   atmosphericDistance: number;
   worldTexture: DataTexture;
@@ -37,7 +37,7 @@ export const World = ({
         <sphereGeometry args={[1, 32, 32]} />
         <meshStandardMaterial map={worldTexture} />
       </mesh>
-      {weather && (
+      {atmosphere && (
         <mesh ref={cloudsRef}>
           <sphereGeometry args={[1 + atmosphericDistance / 100, 32, 32]} />
           <meshStandardMaterial map={cloudsColorMap} transparent={true} />
