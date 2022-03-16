@@ -61,7 +61,7 @@ export const PlanetGeneratorControls = () => {
   }, []);
 
   return (
-    <VStack
+    <HStack
       className="footer"
       padding="1rem"
       bgColor={color}
@@ -70,97 +70,107 @@ export const PlanetGeneratorControls = () => {
       left="0"
       height={`${planetGenerationControlsHeight}px`}
       width="100%"
-      spacing={2}
+      justifyContent="space-around"
+      alignItems="start"
     >
-      {planetGeneratorSlidersConfig.map((slider, index) => (
-        <HStack
-          width="100%"
-          key={`${index}-container`}
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Text minWidth="250px" fontSize="small">
-            {slider.displayName}
+      <VStack width="75%">
+        {planetGeneratorSlidersConfig.map((slider, index) => (
+          <HStack
+            width="100%"
+            key={`${index}-container`}
+            alignItems="center"
+            spacing="100px"
+          >
+            <Text width="20%" fontSize="small">
+              {slider.displayName}
+            </Text>
+            <Slider
+              key={`${index}-slider`}
+              flexGrow={1}
+              maxWidth="400px"
+              aria-label={`${slider.name}-slider`}
+              value={localConfigValues[slider.name] as number}
+              defaultValue={
+                initialPlanetGenerationConfig[slider.name] as number
+              }
+              min={slider.min}
+              max={slider.max}
+              step={slider.step}
+              onChange={(event) => {
+                setLocalValues({ ...localConfigValues, [slider.name]: event });
+                planetGeneratorConfigVar({
+                  ...planetGeneratorConfigVar(),
+                  [slider.name]: event,
+                });
+              }}
+              focusThumbOnChange={false}
+            >
+              <SliderTrack>
+                <SliderFilledTrack />
+              </SliderTrack>
+              <SliderThumb />
+            </Slider>
+
+            <NumberInput
+              maxWidth="100px"
+              ml={10}
+              key={`${index}-number`}
+              flexGrow={0}
+              value={localConfigValues[slider.name] as number}
+              defaultValue={
+                initialPlanetGenerationConfig[slider.name] as number
+              }
+              min={slider.min}
+              max={slider.max}
+              step={slider.step}
+              onChange={(event) => {
+                setLocalValues({ ...localConfigValues, [slider.name]: event });
+                planetGeneratorConfigVar({
+                  ...planetGeneratorConfigVar(),
+                  [slider.name]: event,
+                });
+              }}
+            >
+              <NumberInputField autoFocus />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          </HStack>
+        ))}
+      </VStack>
+
+      <VStack spacing={5}>
+        <HStack width="100%">
+          <Text minWidth="175px" fontSize="small">
+            Weather
           </Text>
-          <Slider
-            key={`${index}-slider`}
-            flexGrow={1}
-            maxWidth="400px"
-            aria-label={`${slider.name}-slider`}
-            value={localConfigValues[slider.name] as number}
-            defaultValue={initialPlanetGenerationConfig[slider.name] as number}
-            min={slider.min}
-            max={slider.max}
-            step={slider.step}
-            onChange={(event) => {
-              setLocalValues({ ...localConfigValues, [slider.name]: event });
+          <Checkbox
+            isChecked={planetGeneratorConfigVar().weather}
+            onChange={() =>
               planetGeneratorConfigVar({
                 ...planetGeneratorConfigVar(),
-                [slider.name]: event,
-              });
-            }}
-            focusThumbOnChange={false}
-          >
-            <SliderTrack>
-              <SliderFilledTrack />
-            </SliderTrack>
-            <SliderThumb />
-          </Slider>
-
-          <NumberInput
-            ml={10}
-            key={`${index}-number`}
-            flexGrow={0}
-            value={localConfigValues[slider.name] as number}
-            defaultValue={initialPlanetGenerationConfig[slider.name] as number}
-            min={slider.min}
-            max={slider.max}
-            step={slider.step}
-            onChange={(event) => {
-              setLocalValues({ ...localConfigValues, [slider.name]: event });
-              planetGeneratorConfigVar({
-                ...planetGeneratorConfigVar(),
-                [slider.name]: event,
-              });
-            }}
-          >
-            <NumberInputField autoFocus />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
+                weather: !planetGeneratorConfigVar().weather,
+              })
+            }
+          ></Checkbox>
         </HStack>
-      ))}
-
-      <HStack width="100%">
-        <Text minWidth="175px" fontSize="small">
-          Weather
-        </Text>
-        <Checkbox
-          isChecked={planetGeneratorConfigVar().weather}
-          onChange={() =>
-            planetGeneratorConfigVar({
-              ...planetGeneratorConfigVar(),
-              weather: !planetGeneratorConfigVar().weather,
-            })
-          }
-        ></Checkbox>
-      </HStack>
-      <HStack width="100%">
-        <Text minWidth="175px" fontSize="small">
-          Rotate
-        </Text>
-        <Checkbox
-          isChecked={planetGeneratorConfigVar().rotate}
-          onChange={() =>
-            planetGeneratorConfigVar({
-              ...planetGeneratorConfigVar(),
-              rotate: !planetGeneratorConfigVar().rotate,
-            })
-          }
-        ></Checkbox>
-      </HStack>
-    </VStack>
+        <HStack width="100%">
+          <Text minWidth="175px" fontSize="small">
+            Rotate
+          </Text>
+          <Checkbox
+            isChecked={planetGeneratorConfigVar().rotate}
+            onChange={() =>
+              planetGeneratorConfigVar({
+                ...planetGeneratorConfigVar(),
+                rotate: !planetGeneratorConfigVar().rotate,
+              })
+            }
+          ></Checkbox>
+        </HStack>
+      </VStack>
+    </HStack>
   );
 };

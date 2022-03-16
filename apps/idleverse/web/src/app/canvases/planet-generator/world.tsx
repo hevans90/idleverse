@@ -1,50 +1,26 @@
 import { useFrame, useLoader } from '@react-three/fiber';
-import { wrap } from 'comlink';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { DataTexture, Mesh, TextureLoader } from 'three';
-
-const worker = new Worker(
-  new URL('./texture-generation/worker.ts', import.meta.url)
-);
-
-const { textureGen } =
-  wrap<import('./texture-generation/worker').RunTextureGenWorker>(worker);
 
 export const World = ({
   weather,
   rotate,
   atmosphericDistance,
+  worldTexture,
 }: {
   weather: boolean;
   rotate: boolean;
   atmosphericDistance: number;
+  worldTexture: DataTexture;
 }) => {
   const worldColorMap = useLoader(TextureLoader, 'world.jpeg');
   const cloudsColorMap = useLoader(TextureLoader, 'clouds.png');
 
-  const [dataTexture, setDataTexture] = useState<DataTexture>(undefined);
-
   const worldRef = useRef<Mesh>();
   const cloudsRef = useRef<Mesh>();
 
-  const runTextureGenOnWorker = async () => {
-    const { data, height, width } = await textureGen();
-
-    const texture = new DataTexture(data, width, height);
-    texture.needsUpdate = true;
-
-    setDataTexture(texture);
-  };
-
-  // on initial render, run texture gen
-  useEffect(() => {
-    // setDataTexture(worldColorMap as any);
-
-    setTimeout(() => runTextureGenOnWorker(), 2000);
-  }, []);
-
   useFrame(({ clock }) => {
-    if (dataTexture && rotate) {
+    if (worldTexture && rotate) {
       worldRef.current.rotation.y = clock.getElapsedTime() / 5;
 
       if (cloudsRef.current) {
@@ -59,10 +35,8 @@ export const World = ({
       <directionalLight />
       <mesh ref={worldRef}>
         <sphereGeometry args={[1, 32, 32]} />
-        <meshStandardMaterial map={dataTexture} />
+        <meshStandardMaterial map={worldTexture} />
       </mesh>
-      {/* {dataTexture && (
-      )} */}
       {weather && (
         <mesh ref={cloudsRef}>
           <sphereGeometry args={[1 + atmosphericDistance / 100, 32, 32]} />

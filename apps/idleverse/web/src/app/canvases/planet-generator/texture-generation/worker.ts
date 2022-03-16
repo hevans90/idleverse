@@ -1,7 +1,13 @@
 import { expose } from 'comlink';
-import { textureGen } from './data-tex';
+import {
+  textureGen,
+  simplexTexture,
+  perlinTexture,
+} from './texture-generators';
 
 const worker = {
+  perlinTexture,
+  simplexTexture,
   textureGen,
 };
 
