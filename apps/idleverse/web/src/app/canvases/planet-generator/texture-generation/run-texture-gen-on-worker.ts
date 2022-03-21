@@ -11,6 +11,7 @@ export const runTextureGenOnWorker = async (
   type: 'regular' | 'simplex' | 'perlin',
   resolution: number,
   colors: textureColorMap,
+  terrainBias: [number, number, number, number],
   tileSize = 10
 ) => {
   const { data, height, width } =
@@ -20,7 +21,8 @@ export const runTextureGenOnWorker = async (
       ? await perlinTexture(
           tileSize,
           { width: resolution, height: resolution },
-          colors
+          colors,
+          terrainBias
         )
       : await textureGen();
 

@@ -1,7 +1,7 @@
 import { HStack, VStack, Box } from '@chakra-ui/react';
-import { LocalPalette } from './color-drawer';
+import { HexPalette } from '../../../_state/models';
 
-export const ColorQuad = ({ water, sand, grass, forest }: LocalPalette) => (
+export const ColorQuad = ({ water, sand, grass, forest }: HexPalette) => (
   <HStack maxWidth="48px">
     <VStack>
       <Box w={5} h={5} bgColor={water}></Box>

@@ -56,7 +56,8 @@ export const simplexTexture = (resolution = { width: 512, height: 512 }) => {
 export const perlinTexture = (
   tileSize: number,
   resolution = { width: 512, height: 512 },
-  colors: textureColorMap
+  colors: textureColorMap,
+  terrainBias: [number, number, number, number]
 ) => {
   console.time('perlin generation');
   const { width, height } = resolution;
@@ -68,33 +69,35 @@ export const perlinTexture = (
 
   const { water, sand, grass, forest } = colors;
 
+  const [waterBias, sandBias, grassBias, forestBias] = terrainBias;
+
   for (let x = 0; x < width; x++) {
     for (let y = 0; y < height; y++) {
       const perlinValue = perlin[x + y * width];
 
       // water
-      if (perlinValue > 0) {
+      if (perlinValue > waterBias) {
         data[(x + y * width) * 4 + 0] = water.r;
         data[(x + y * width) * 4 + 1] = water.g;
         data[(x + y * width) * 4 + 2] = water.b;
         data[(x + y * width) * 4 + 3] = 255;
       }
       // sand
-      if (perlinValue > 0.5) {
+      if (perlinValue > sandBias) {
         data[(x + y * width) * 4 + 0] = sand.r;
         data[(x + y * width) * 4 + 1] = sand.g;
         data[(x + y * width) * 4 + 2] = sand.b;
         data[(x + y * width) * 4 + 3] = 255;
       }
       // grass
-      if (perlinValue > 0.6) {
+      if (perlinValue > grassBias) {
         data[(x + y * width) * 4 + 0] = grass.r;
         data[(x + y * width) * 4 + 1] = grass.g;
         data[(x + y * width) * 4 + 2] = grass.b;
         data[(x + y * width) * 4 + 3] = 255;
       }
       // forest
-      if (perlinValue > 0.75) {
+      if (perlinValue > forestBias) {
         data[(x + y * width) * 4 + 0] = forest.r;
         data[(x + y * width) * 4 + 1] = forest.g;
         data[(x + y * width) * 4 + 2] = forest.b;

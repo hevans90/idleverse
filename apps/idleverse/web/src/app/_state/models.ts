@@ -54,3 +54,10 @@ export type textureColorMap = {
   grass: rgb;
   forest: rgb;
 };
+
+export type HexPalette = {
+  water: string;
+  sand: string;
+  grass: string;
+  forest: string;
+};

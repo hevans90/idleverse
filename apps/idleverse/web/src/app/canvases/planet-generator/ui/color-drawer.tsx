@@ -16,23 +16,17 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useEffect, useState, Fragment } from 'react';
+import { HexPalette } from '../../../_state/models';
 import { planetGenerationColorDrawerVar } from '../../../_state/planet-generation';
 import { themeColToRGB } from '../../_utils/theme-colour-conversions';
 import { ColorQuad } from './color-quad';
-
-export type LocalPalette = {
-  water: string;
-  sand: string;
-  grass: string;
-  forest: string;
-};
 
 export const PlanetGeneratorColorDrawer = () => {
   const drawerState = useReactiveVar(planetGenerationColorDrawerVar);
   const { colors } = useTheme<Theme>();
   const bgColor = useColorModeValue('gray.200', 'gray.600');
 
-  const palettePresets: { name: string; palette: LocalPalette }[] = [
+  const palettePresets: { name: string; palette: HexPalette }[] = [
     {
       name: 'terran',
       palette: {
@@ -65,7 +59,7 @@ export const PlanetGeneratorColorDrawer = () => {
   // set a default here because we need access to the useTheme hook to pull colors
   const [localPalette, setLocalPalette] = useState<{
     name: string;
-    palette: LocalPalette;
+    palette: HexPalette;
   }>(palettePresets[0]);
 
   useEffect(() => {
@@ -87,6 +81,12 @@ export const PlanetGeneratorColorDrawer = () => {
         sand: themeColToRGB(localPalette.palette.sand),
         grass: themeColToRGB(localPalette.palette.grass),
         forest: themeColToRGB(localPalette.palette.forest),
+      },
+      currentHexPalette: {
+        water: localPalette.palette.water,
+        sand: localPalette.palette.sand,
+        grass: localPalette.palette.grass,
+        forest: localPalette.palette.forest,
       },
     });
   }, [localPalette]);

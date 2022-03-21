@@ -1,5 +1,5 @@
 import { makeVar } from '@apollo/client';
-import { PlanetGenerationConfig, textureColorMap } from './models';
+import { HexPalette, PlanetGenerationConfig, textureColorMap } from './models';
 import { makeVarPersisted } from './utils';
 
 export const planetGeneratorConfigVar = makeVar<PlanetGenerationConfig>({
@@ -14,7 +14,21 @@ export const planetGenerationColorDrawerVar = makeVarPersisted<{
   panelOpen: boolean;
   palettePresetName: string;
   currentPalette: textureColorMap;
+  currentHexPalette: HexPalette;
 }>(
-  { panelOpen: false, palettePresetName: 'desert', currentPalette: undefined },
-  'planetGenerationColorPanelControls'
+  {
+    panelOpen: false,
+    palettePresetName: 'desert',
+    currentPalette: undefined,
+    currentHexPalette: undefined,
+  },
+  'planetGenerationColorControls'
+);
+
+export const planetGenerationTerrainDrawerVar = makeVarPersisted<{
+  panelOpen: boolean;
+  terrainBias: [number, number, number, number];
+}>(
+  { panelOpen: false, terrainBias: [0, 0.2, 0.4, 0.6] },
+  'planetGenerationTerrainControls'
 );

@@ -5,19 +5,18 @@ import { Suspense, useEffect, useState } from 'react';
 import { DataTexture } from 'three';
 import {
   planetGenerationColorDrawerVar,
+  planetGenerationTerrainDrawerVar,
   planetGeneratorConfigVar,
 } from '../../_state/planet-generation';
 import { themeColToHex } from '../_utils/theme-colour-conversions';
 import { useResize } from '../_utils/use-resize.hook';
 import { CameraController } from './camera-controller';
 import { Pixelate } from './pixelate';
-import {
-  runTextureGenOnWorker,
-  worker,
-} from './texture-generation/run-texture-gen-on-worker';
+import { runTextureGenOnWorker } from './texture-generation/run-texture-gen-on-worker';
 import { PlanetGeneratorBooleans } from './ui/booleans';
 import { PlanetGeneratorColorDrawer } from './ui/color-drawer';
 import { PlanetGeneratorSliders } from './ui/sliders';
+import { PlanetGeneratorTerrainDrawer } from './ui/terrain-drawer';
 import { World } from './world';
 
 export const PlanetGenerator = () => {
@@ -34,14 +33,18 @@ export const PlanetGenerator = () => {
   } = useReactiveVar(planetGeneratorConfigVar);
 
   const { currentPalette } = useReactiveVar(planetGenerationColorDrawerVar);
+  const { terrainBias } = useReactiveVar(planetGenerationTerrainDrawerVar);
 
   const [dataTexture, setDataTexture] = useState<DataTexture>(undefined);
 
   useEffect(() => {
-    runTextureGenOnWorker('perlin', textureResolution, currentPalette).then(
-      (texture) => setDataTexture(texture)
-    );
-  }, [textureResolution, currentPalette]);
+    runTextureGenOnWorker(
+      'perlin',
+      textureResolution,
+      currentPalette,
+      terrainBias
+    ).then((texture) => setDataTexture(texture));
+  }, [textureResolution, currentPalette, terrainBias]);
 
   return (
     <>
@@ -65,6 +68,7 @@ export const PlanetGenerator = () => {
 
       <PlanetGeneratorBooleans />
       <PlanetGeneratorColorDrawer />
+      <PlanetGeneratorTerrainDrawer />
       <PlanetGeneratorSliders />
     </>
   );
