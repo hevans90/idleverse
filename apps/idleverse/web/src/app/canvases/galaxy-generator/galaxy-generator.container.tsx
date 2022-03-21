@@ -19,8 +19,8 @@ import {
   galaxyConfigVar,
   roleVar,
 } from '../../_state/reactive-variables';
-import { themeColToHex } from '../common-utils/theme-col-to-hex';
-import { useResize } from '../common-utils/use-resize.hook';
+import { themeColToHex } from '../_utils/theme-col-to-hex';
+import { useResize } from '../_utils/use-resize.hook';
 import { GalaxyGenerator } from './galaxy-generator';
 import { GameUIBottomBar } from './ui/bottom-bar';
 import { GeneratorControls } from './ui/generator-controls';

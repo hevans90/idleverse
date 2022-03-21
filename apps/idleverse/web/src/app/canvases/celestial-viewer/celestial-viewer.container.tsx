@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Loading } from '../../components/loading';
 import { celestialVar } from '../../_state/reactive-variables';
-import { useResize } from '../common-utils/use-resize.hook';
+import { useResize } from '../_utils/use-resize.hook';
 
 export const CelestialViewerContainer = () => {
   const { id } = useParams<{ id: string }>();

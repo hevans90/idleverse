@@ -3,7 +3,7 @@ import { useMemo, useEffect } from 'react';
 import { Vector2, Color } from 'three';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
-import { useResize } from '../common-utils/use-resize.hook';
+import { useResize } from '../_utils/use-resize.hook';
 import PixelatePass from './pixel-shader/pixelate-pass';
 import RenderPixelatedPass from './pixel-shader/render-pixelate-pass';
 

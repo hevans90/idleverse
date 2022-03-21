@@ -5,8 +5,8 @@ import { Container, TickerCallback } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { simulationPaused, timeVar } from '../../_state/reactive-variables';
-import { useResize } from '../common-utils/use-resize.hook';
-import { useViewport } from '../common-utils/use-viewport';
+import { useResize } from '../_utils/use-resize.hook';
+import { useViewport } from '../_utils/use-viewport';
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
 import {
   generateBalls,

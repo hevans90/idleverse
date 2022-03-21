@@ -4,8 +4,8 @@ import { PixelateFilter } from '@pixi/filter-pixelate';
 import { Container } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { solarSystemConfigVar, timeVar } from '../../_state/reactive-variables';
-import { useResize } from '../common-utils/use-resize.hook';
-import { useViewport } from '../common-utils/use-viewport';
+import { useResize } from '../_utils/use-resize.hook';
+import { useViewport } from '../_utils/use-viewport';
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
 import {
   earthSpriteConfig,

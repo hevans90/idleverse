@@ -15,8 +15,8 @@ import {
   galaxyRotationVar,
   timeVar,
 } from '../../_state/reactive-variables';
-import { useResize } from '../common-utils/use-resize.hook';
-import { useViewport } from '../common-utils/use-viewport';
+import { useResize } from '../_utils/use-resize.hook';
+import { useViewport } from '../_utils/use-viewport';
 import { Star } from './graphics/star';
 import { useFpsTracker } from './utils/fps-counter';
 

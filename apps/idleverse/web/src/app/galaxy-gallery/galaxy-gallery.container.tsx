@@ -3,7 +3,7 @@ import { Box, Link, Text, TextProps } from '@chakra-ui/layout';
 import { Button, CSSObject, useColorModeValue } from '@chakra-ui/react';
 import { GalaxiesDocument, GalaxiesSubscription } from '@idleverse/galaxy-gql';
 import { Link as ReactRouterLink, useRouteMatch } from 'react-router-dom';
-import { dbGalaxyToGalaxyConfig } from '../canvases/common-utils/db-galaxy-to-galaxy-config';
+import { dbGalaxyToGalaxyConfig } from '../canvases/_utils/db-galaxy-to-galaxy-config';
 import { GalaxyThumbnail } from '../canvases/galaxy-thumbnail/galaxy-thumbnail';
 import { Loading } from '../components/loading';
 

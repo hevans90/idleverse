@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import { loadPlanets } from '../../asset-loading/load-planets';
 import { Loading } from '../../components/loading';
 import { animateVar } from '../../_state/reactive-variables';
-import { themeColToHex } from '../common-utils/theme-col-to-hex';
-import { useResize } from '../common-utils/use-resize.hook';
+import { themeColToHex } from '../_utils/theme-col-to-hex';
+import { useResize } from '../_utils/use-resize.hook';
 import { SolarSystem } from './solar-system';
 import { SolarSystemControls } from './ui/controls';
 
