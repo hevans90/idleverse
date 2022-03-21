@@ -15,8 +15,9 @@ import {
   runTextureGenOnWorker,
   worker,
 } from './texture-generation/run-texture-gen-on-worker';
+import { PlanetGeneratorBooleans } from './ui/booleans';
 import { PlanetGeneratorColorDrawer } from './ui/color-drawer';
-import { PlanetGeneratorControls } from './ui/controls';
+import { PlanetGeneratorSliders } from './ui/sliders';
 import { World } from './world';
 
 export const PlanetGenerator = () => {
@@ -62,8 +63,9 @@ export const PlanetGenerator = () => {
         </Canvas>
       </Box>
 
+      <PlanetGeneratorBooleans />
       <PlanetGeneratorColorDrawer />
-      <PlanetGeneratorControls />
+      <PlanetGeneratorSliders />
     </>
   );
 };
