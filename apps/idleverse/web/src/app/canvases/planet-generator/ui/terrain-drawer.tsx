@@ -33,6 +33,7 @@ export const PlanetGeneratorTerrainDrawer = () => {
       padding={3}
     >
       <HStack width="100%" justifyContent="space-between">
+        <Text>Terrain</Text>
         <IconButton
           aria-label="close color drawer"
           icon={drawerState.panelOpen ? <MinusIcon /> : <AddIcon />}
@@ -43,8 +44,6 @@ export const PlanetGeneratorTerrainDrawer = () => {
             })
           }
         />
-
-        <Text>Terrain</Text>
       </HStack>
 
       {drawerState.panelOpen && (
