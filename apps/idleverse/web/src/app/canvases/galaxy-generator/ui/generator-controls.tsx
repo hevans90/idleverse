@@ -97,13 +97,15 @@ export const GeneratorControls = () => {
             aria-label="Generate new seed"
             icon={<RepeatIcon />}
             onClick={() => {
+              const seed = uuidv4();
+
               setLocalValues({
                 ...localConfigValues,
-                seed: uuidv4(),
+                seed,
               });
               galaxyConfigVar({
                 ...galaxyConfigVar(),
-                seed: uuidv4(),
+                seed,
               });
             }}
           />

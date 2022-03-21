@@ -1,7 +1,8 @@
+import { RepeatIcon } from '@chakra-ui/icons';
 import {
-  Box,
-  Checkbox,
   HStack,
+  IconButton,
+  Input,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
@@ -13,11 +14,11 @@ import {
   SliderTrack,
   Text,
   useColorModeValue,
+  VStack,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { PlanetGenerationConfig } from '../../../_state/models';
-
-import { VStack } from '@chakra-ui/react';
 import { planetGeneratorConfigVar } from '../../../_state/planet-generation';
 
 export type PlanetGeneratorSliderType = {
@@ -69,7 +70,7 @@ export const PlanetGeneratorSliders = () => {
   }, []);
 
   return (
-    <VStack
+    <HStack
       className="footer"
       padding={3}
       bgColor={bgColor}
@@ -78,70 +79,107 @@ export const PlanetGeneratorSliders = () => {
       left="0"
       height={`${planetGenerationControlsHeight}px`}
       width="100%"
-      justifyContent="space-around"
+      justifyContent="space-between"
       alignItems="start"
     >
-      {planetGeneratorSlidersConfig.map((slider, index) => (
-        <HStack
-          width="100%"
-          key={`${index}-container`}
-          alignItems="center"
-          spacing="100px"
-        >
-          <Text width="20%" fontSize="small">
-            {slider.displayName}
+      <VStack>
+        <HStack>
+          <Text minWidth="100px" fontSize="small">
+            seed
           </Text>
-          <Slider
-            key={`${index}-slider`}
-            flexGrow={1}
-            maxWidth="400px"
-            aria-label={`${slider.name}-slider`}
-            value={localConfigValues[slider.name] as number}
-            defaultValue={initialPlanetGenerationConfig[slider.name] as number}
-            min={slider.min}
-            max={slider.max}
-            step={slider.step}
-            onChange={(event) => {
-              setLocalValues({ ...localConfigValues, [slider.name]: event });
-              planetGeneratorConfigVar({
-                ...planetGeneratorConfigVar(),
-                [slider.name]: event,
-              });
-            }}
-            focusThumbOnChange={false}
-          >
-            <SliderTrack>
-              <SliderFilledTrack />
-            </SliderTrack>
-            <SliderThumb />
-          </Slider>
+          <Input
+            fontSize="xxs"
+            value={localConfigValues.seed}
+            flexGrow="1"
+            isReadOnly={true}
+          />
+          <IconButton
+            marginLeft="0.3rem"
+            colorScheme="teal"
+            aria-label="Generate new seed"
+            icon={<RepeatIcon />}
+            onClick={() => {
+              const seed = uuidv4();
 
-          <NumberInput
-            maxWidth="150px"
-            ml={10}
-            key={`${index}-number`}
-            flexGrow={0}
-            value={localConfigValues[slider.name] as number}
-            defaultValue={initialPlanetGenerationConfig[slider.name] as number}
-            min={slider.min}
-            max={slider.max}
-            step={slider.step}
-            onChange={(event) => {
-              setLocalValues({ ...localConfigValues, [slider.name]: event });
+              setLocalValues({
+                ...localConfigValues,
+                seed,
+              });
               planetGeneratorConfigVar({
                 ...planetGeneratorConfigVar(),
-                [slider.name]: event,
+                seed,
               });
             }}
-          >
-            <NumberInputField autoFocus />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
+          />
         </HStack>
-      ))}
-    </VStack>
+      </VStack>
+      <VStack minW="50%">
+        {planetGeneratorSlidersConfig.map((slider, index) => (
+          <HStack
+            width="100%"
+            key={`${index}-container`}
+            alignItems="center"
+            spacing="100px"
+          >
+            <Text width="20%" fontSize="small">
+              {slider.displayName}
+            </Text>
+            <Slider
+              key={`${index}-slider`}
+              flexGrow={1}
+              maxWidth="400px"
+              aria-label={`${slider.name}-slider`}
+              value={localConfigValues[slider.name] as number}
+              defaultValue={
+                initialPlanetGenerationConfig[slider.name] as number
+              }
+              min={slider.min}
+              max={slider.max}
+              step={slider.step}
+              onChange={(event) => {
+                setLocalValues({ ...localConfigValues, [slider.name]: event });
+                planetGeneratorConfigVar({
+                  ...planetGeneratorConfigVar(),
+                  [slider.name]: event,
+                });
+              }}
+              focusThumbOnChange={false}
+            >
+              <SliderTrack>
+                <SliderFilledTrack />
+              </SliderTrack>
+              <SliderThumb />
+            </Slider>
+
+            <NumberInput
+              maxWidth="150px"
+              ml={10}
+              key={`${index}-number`}
+              flexGrow={0}
+              value={localConfigValues[slider.name] as number}
+              defaultValue={
+                initialPlanetGenerationConfig[slider.name] as number
+              }
+              min={slider.min}
+              max={slider.max}
+              step={slider.step}
+              onChange={(event) => {
+                setLocalValues({ ...localConfigValues, [slider.name]: event });
+                planetGeneratorConfigVar({
+                  ...planetGeneratorConfigVar(),
+                  [slider.name]: event,
+                });
+              }}
+            >
+              <NumberInputField autoFocus />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          </HStack>
+        ))}
+      </VStack>
+    </HStack>
   );
 };
