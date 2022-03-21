@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import SimplexNoise from 'simplex-noise';
 
 import { generatePerlinNoise } from './perlin';
+import { textureColorMap } from '../../../_state/models';
 
 export const textureGen = (resolution = { width: 512, height: 512 }) => {
   console.time('basic generation');
@@ -50,15 +51,6 @@ export const simplexTexture = (resolution = { width: 512, height: 512 }) => {
   }
   console.timeEnd('simplex generation');
   return { data, width, height };
-};
-
-type rgb = { r: number; g: number; b: number };
-
-export type textureColorMap = {
-  water: rgb;
-  sand: rgb;
-  grass: rgb;
-  forest: rgb;
 };
 
 export const perlinTexture = (

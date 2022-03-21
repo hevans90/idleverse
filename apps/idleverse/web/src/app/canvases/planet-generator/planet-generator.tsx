@@ -3,16 +3,19 @@ import { Box, Theme, useTheme } from '@chakra-ui/react';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useState } from 'react';
 import { DataTexture } from 'three';
-import { planetGeneratorConfigVar } from '../../_state/reactive-variables';
 import {
-  themeColToHex,
-  themeColToRGB,
-} from '../_utils/theme-colour-conversions';
+  planetGenerationColorDrawerVar,
+  planetGeneratorConfigVar,
+} from '../../_state/planet-generation';
+import { themeColToHex } from '../_utils/theme-colour-conversions';
 import { useResize } from '../_utils/use-resize.hook';
 import { CameraController } from './camera-controller';
 import { Pixelate } from './pixelate';
-import { runTextureGenOnWorker } from './texture-generation/run-texture-gen-on-worker';
-import { textureColorMap } from './texture-generation/texture-generators';
+import {
+  runTextureGenOnWorker,
+  worker,
+} from './texture-generation/run-texture-gen-on-worker';
+import { PlanetGeneratorColorDrawer } from './ui/color-drawer';
 import { PlanetGeneratorControls } from './ui/controls';
 import { World } from './world';
 
@@ -29,20 +32,15 @@ export const PlanetGenerator = () => {
     textureResolution,
   } = useReactiveVar(planetGeneratorConfigVar);
 
+  const { currentPalette } = useReactiveVar(planetGenerationColorDrawerVar);
+
   const [dataTexture, setDataTexture] = useState<DataTexture>(undefined);
 
   useEffect(() => {
-    const textureColors: textureColorMap = {
-      water: themeColToRGB(colors.blue['500']),
-      sand: themeColToRGB(colors.orange['300']),
-      grass: themeColToRGB(colors.green['500']),
-      forest: themeColToRGB(colors.green['700']),
-    };
-
-    runTextureGenOnWorker('perlin', textureResolution, textureColors).then(
+    runTextureGenOnWorker('perlin', textureResolution, currentPalette).then(
       (texture) => setDataTexture(texture)
     );
-  }, [textureResolution, colors]);
+  }, [textureResolution, currentPalette]);
 
   return (
     <>
@@ -63,6 +61,8 @@ export const PlanetGenerator = () => {
           </Suspense>
         </Canvas>
       </Box>
+
+      <PlanetGeneratorColorDrawer />
       <PlanetGeneratorControls />
     </>
   );

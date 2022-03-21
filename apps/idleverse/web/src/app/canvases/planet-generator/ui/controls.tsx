@@ -16,8 +16,9 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { PlanetGenerationConfig } from '../../../_state/models';
-import { planetGeneratorConfigVar } from '../../../_state/reactive-variables';
+
 import { VStack } from '@chakra-ui/react';
+import { planetGeneratorConfigVar } from '../../../_state/planet-generation';
 
 export type PlanetGeneratorSliderType = {
   name: keyof PlanetGenerationConfig;
@@ -70,7 +71,7 @@ export const PlanetGeneratorControls = () => {
   return (
     <HStack
       className="footer"
-      padding="1rem"
+      padding={3}
       bgColor={color}
       position="absolute"
       bottom="0"

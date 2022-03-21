@@ -1,8 +1,8 @@
 import { wrap } from 'comlink';
 import { DataTexture } from 'three';
-import { textureColorMap } from './texture-generators';
+import { textureColorMap } from '../../../_state/models';
 
-const worker = new Worker(new URL('./worker.ts', import.meta.url));
+export const worker = new Worker(new URL('./worker.ts', import.meta.url));
 
 const { textureGen, simplexTexture, perlinTexture } =
   wrap<import('./worker').RunTextureGenWorker>(worker);

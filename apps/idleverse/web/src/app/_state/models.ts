@@ -45,3 +45,12 @@ export type BreadCrumb = {
 };
 
 export type Vector2D = { x: number; y: number };
+
+type rgb = { r: number; g: number; b: number };
+
+export type textureColorMap = {
+  water: rgb;
+  sand: rgb;
+  grass: rgb;
+  forest: rgb;
+};
