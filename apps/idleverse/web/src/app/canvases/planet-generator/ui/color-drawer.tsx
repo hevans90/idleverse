@@ -130,7 +130,7 @@ export const PlanetGeneratorColorDrawer = () => {
               _expanded={{ bg: 'green.700' }}
               _focus={{ boxShadow: 'outline' }}
             >
-              <HStack>
+              <HStack minWidth="200px" justifyContent="space-between">
                 <Text>{localPalette.name}</Text>{' '}
                 <ColorQuad {...localPalette.palette} />
               </HStack>
@@ -139,7 +139,11 @@ export const PlanetGeneratorColorDrawer = () => {
               {palettePresets.map(({ name, palette }, i) => (
                 <Fragment key={i}>
                   <MenuItem onClick={() => setLocalPalette({ name, palette })}>
-                    <HStack width="100%" justifyContent="space-between">
+                    <HStack
+                      width="100%"
+                      minWidth="205px"
+                      justifyContent="space-between"
+                    >
                       <Text>{name}</Text>
                       <ColorQuad {...palette} />
                     </HStack>
