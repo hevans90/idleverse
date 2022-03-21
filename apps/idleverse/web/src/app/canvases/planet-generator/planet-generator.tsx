@@ -25,6 +25,7 @@ export const PlanetGenerator = () => {
   const { colors } = useTheme<Theme>();
 
   const {
+    seed,
     pixelSize,
     atmosphere,
     rotate,
@@ -42,9 +43,11 @@ export const PlanetGenerator = () => {
       'perlin',
       textureResolution,
       currentPalette,
-      terrainBias
+      terrainBias,
+      10,
+      seed
     ).then((texture) => setDataTexture(texture));
-  }, [textureResolution, currentPalette, terrainBias]);
+  }, [textureResolution, currentPalette, terrainBias, seed]);
 
   return (
     <>

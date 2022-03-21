@@ -57,7 +57,8 @@ export const perlinTexture = (
   tileSize: number,
   resolution = { width: 512, height: 512 },
   colors: textureColorMap,
-  terrainBias: [number, number, number, number]
+  terrainBias: [number, number, number, number],
+  seed: string
 ) => {
   console.time('perlin generation');
   const { width, height } = resolution;
@@ -65,7 +66,7 @@ export const perlinTexture = (
   const size = width * height;
   const data = new Uint8Array(4 * size);
 
-  const perlin = generatePerlinNoise(width, height);
+  const perlin = generatePerlinNoise(width, height, seed);
 
   const { water, sand, grass, forest } = colors;
 

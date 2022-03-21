@@ -31,6 +31,7 @@ export type SolarSystemConfig = {
 };
 
 export type PlanetGenerationConfig = {
+  seed: string;
   textureResolution: number;
   pixelSize: number;
   atmosphericDistance: number;

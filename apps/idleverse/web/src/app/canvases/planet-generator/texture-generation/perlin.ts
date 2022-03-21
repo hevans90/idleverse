@@ -1,6 +1,9 @@
+import seedRandom from 'seedrandom';
+
 export const generatePerlinNoise = (
   width: number,
   height: number,
+  seed: string,
   options: { octaveCount: number; amplitude: number; persistence: number } = {
     octaveCount: 4,
     amplitude: 0.1,
@@ -10,7 +13,7 @@ export const generatePerlinNoise = (
   const octaveCount = options.octaveCount;
   let amplitude = options.amplitude;
   const persistence = options.persistence;
-  const whiteNoise = generateWhiteNoise(width, height);
+  const whiteNoise = generateWhiteNoise(width, height, seed);
 
   const smoothNoiseList = new Array(octaveCount);
   let i: number;
@@ -76,10 +79,12 @@ export const generatePerlinNoise = (
   }
 };
 
-const generateWhiteNoise = (width, height) => {
+const generateWhiteNoise = (width: number, height: number, seed: string) => {
+  const pseudoRandomGenerator = seedRandom(seed);
+
   const noise = new Array(width * height);
   for (let i = 0; i < noise.length; ++i) {
-    noise[i] = Math.random();
+    noise[i] = pseudoRandomGenerator();
   }
   return noise;
 };

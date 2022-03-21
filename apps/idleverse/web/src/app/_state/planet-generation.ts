@@ -1,8 +1,10 @@
 import { makeVar } from '@apollo/client';
+import { v4 as uuidv4 } from 'uuid';
 import { HexPalette, PlanetGenerationConfig, textureColorMap } from './models';
 import { makeVarPersisted } from './utils';
 
 export const planetGeneratorConfigVar = makeVar<PlanetGenerationConfig>({
+  seed: uuidv4(),
   textureResolution: 80,
   pixelSize: 3,
   atmosphericDistance: 3,

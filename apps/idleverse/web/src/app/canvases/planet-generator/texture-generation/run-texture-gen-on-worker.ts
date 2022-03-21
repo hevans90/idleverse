@@ -12,7 +12,8 @@ export const runTextureGenOnWorker = async (
   resolution: number,
   colors: textureColorMap,
   terrainBias: [number, number, number, number],
-  tileSize = 10
+  tileSize = 10,
+  seed: string
 ) => {
   const { data, height, width } =
     type === 'simplex'
@@ -22,7 +23,8 @@ export const runTextureGenOnWorker = async (
           tileSize,
           { width: resolution, height: resolution },
           colors,
-          terrainBias
+          terrainBias,
+          seed
         )
       : await textureGen();
 
