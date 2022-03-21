@@ -23,7 +23,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { Loading } from '../../components/loading';
 import { galaxyConfigVar, selfVar } from '../../_state/reactive-variables';
 import { dbGalaxyToGalaxyConfig } from '../_utils/db-galaxy-to-galaxy-config';
-import { themeColToHex } from '../_utils/theme-col-to-hex';
+import { themeColToHex } from '../_utils/theme-colour-conversions';
 import { useResize } from '../_utils/use-resize.hook';
 import { GameUIBottomBar } from '../galaxy-generator/ui/bottom-bar';
 import { celestialOwnerMapper } from './celestial-owner';

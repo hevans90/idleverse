@@ -4,11 +4,15 @@ import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useState } from 'react';
 import { DataTexture } from 'three';
 import { planetGeneratorConfigVar } from '../../_state/reactive-variables';
-import { themeColToHex } from '../_utils/theme-col-to-hex';
+import {
+  themeColToHex,
+  themeColToRGB,
+} from '../_utils/theme-colour-conversions';
 import { useResize } from '../_utils/use-resize.hook';
 import { CameraController } from './camera-controller';
 import { Pixelate } from './pixelate';
 import { runTextureGenOnWorker } from './texture-generation/run-texture-gen-on-worker';
+import { textureColorMap } from './texture-generation/texture-generators';
 import { PlanetGeneratorControls } from './ui/controls';
 import { World } from './world';
 
@@ -28,10 +32,17 @@ export const PlanetGenerator = () => {
   const [dataTexture, setDataTexture] = useState<DataTexture>(undefined);
 
   useEffect(() => {
-    runTextureGenOnWorker('perlin', textureResolution).then((texture) =>
-      setDataTexture(texture)
+    const textureColors: textureColorMap = {
+      water: themeColToRGB(colors.blue['500']),
+      sand: themeColToRGB(colors.orange['300']),
+      grass: themeColToRGB(colors.green['500']),
+      forest: themeColToRGB(colors.green['700']),
+    };
+
+    runTextureGenOnWorker('perlin', textureResolution, textureColors).then(
+      (texture) => setDataTexture(texture)
     );
-  }, [textureResolution]);
+  }, [textureResolution, colors]);
 
   return (
     <>

@@ -52,9 +52,19 @@ export const simplexTexture = (resolution = { width: 512, height: 512 }) => {
   return { data, width, height };
 };
 
+type rgb = { r: number; g: number; b: number };
+
+export type textureColorMap = {
+  water: rgb;
+  sand: rgb;
+  grass: rgb;
+  forest: rgb;
+};
+
 export const perlinTexture = (
   tileSize: number,
-  resolution = { width: 512, height: 512 }
+  resolution = { width: 512, height: 512 },
+  colors: textureColorMap
 ) => {
   console.time('perlin generation');
   const { width, height } = resolution;
@@ -64,36 +74,38 @@ export const perlinTexture = (
 
   const perlin = generatePerlinNoise(width, height);
 
+  const { water, sand, grass, forest } = colors;
+
   for (let x = 0; x < width; x++) {
     for (let y = 0; y < height; y++) {
       const perlinValue = perlin[x + y * width];
 
       // water
       if (perlinValue > 0) {
-        data[(x + y * width) * 4 + 0] = 1;
-        data[(x + y * width) * 4 + 1] = 1;
-        data[(x + y * width) * 4 + 2] = 180;
+        data[(x + y * width) * 4 + 0] = water.r;
+        data[(x + y * width) * 4 + 1] = water.g;
+        data[(x + y * width) * 4 + 2] = water.b;
         data[(x + y * width) * 4 + 3] = 255;
       }
       // sand
       if (perlinValue > 0.5) {
-        data[(x + y * width) * 4 + 0] = 249;
-        data[(x + y * width) * 4 + 1] = 209;
-        data[(x + y * width) * 4 + 2] = 107;
+        data[(x + y * width) * 4 + 0] = sand.r;
+        data[(x + y * width) * 4 + 1] = sand.g;
+        data[(x + y * width) * 4 + 2] = sand.b;
         data[(x + y * width) * 4 + 3] = 255;
       }
       // grass
       if (perlinValue > 0.6) {
-        data[(x + y * width) * 4 + 0] = 50;
-        data[(x + y * width) * 4 + 1] = 245;
-        data[(x + y * width) * 4 + 2] = 50;
+        data[(x + y * width) * 4 + 0] = grass.r;
+        data[(x + y * width) * 4 + 1] = grass.g;
+        data[(x + y * width) * 4 + 2] = grass.b;
         data[(x + y * width) * 4 + 3] = 255;
       }
       // forest
-      if (perlinValue > 0.65) {
-        data[(x + y * width) * 4 + 0] = 1;
-        data[(x + y * width) * 4 + 1] = 200;
-        data[(x + y * width) * 4 + 2] = 1;
+      if (perlinValue > 0.75) {
+        data[(x + y * width) * 4 + 0] = forest.r;
+        data[(x + y * width) * 4 + 1] = forest.g;
+        data[(x + y * width) * 4 + 2] = forest.b;
         data[(x + y * width) * 4 + 3] = 255;
       }
     }

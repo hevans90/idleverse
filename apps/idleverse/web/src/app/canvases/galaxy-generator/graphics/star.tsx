@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import { Container } from 'pixi.js';
 import { userAvatarResourcesVar } from '../../../_state/reactive-variables';
 import { theme } from '../../../_theme/theme';
-import { themeColToHex } from '../../_utils/theme-col-to-hex';
+import { themeColToHex } from '../../_utils/theme-colour-conversions';
 
 export type StarProps = {
   id: string;

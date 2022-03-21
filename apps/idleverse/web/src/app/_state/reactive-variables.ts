@@ -47,7 +47,7 @@ export const solarSystemConfigVar = makeVar<SolarSystemConfig>({
 });
 
 export const planetGeneratorConfigVar = makeVar<PlanetGenerationConfig>({
-  textureResolution: 256,
+  textureResolution: 80,
   pixelSize: 3,
   atmosphericDistance: 3,
   atmosphere: true,
