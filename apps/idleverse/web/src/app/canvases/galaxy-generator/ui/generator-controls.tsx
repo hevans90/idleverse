@@ -1,6 +1,7 @@
 import { RepeatIcon } from '@chakra-ui/icons';
 import {
   Box,
+  HStack,
   IconButton,
   Input,
   NumberDecrementStepper,
@@ -35,16 +36,16 @@ export const GeneratorControls = () => {
   }, []);
 
   return (
-    <Box
+    <HStack
       className="footer"
       padding="1rem"
-      display="flex"
       bgColor={color}
       position="absolute"
       bottom="0"
       left="0"
       height={`${generatorControlsHeight}px`}
       width="100%"
+      alignItems="start"
     >
       <Box
         maxWidth="600px"
@@ -168,6 +169,6 @@ export const GeneratorControls = () => {
           </Box>
         ))}
       </Box>
-    </Box>
+    </HStack>
   );
 };

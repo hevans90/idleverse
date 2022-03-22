@@ -1,5 +1,6 @@
 import { RepeatIcon } from '@chakra-ui/icons';
 import {
+  Box,
   HStack,
   IconButton,
   Input,
@@ -79,10 +80,15 @@ export const PlanetGeneratorSliders = () => {
       left="0"
       height={`${planetGenerationControlsHeight}px`}
       width="100%"
-      justifyContent="space-between"
       alignItems="start"
     >
-      <VStack>
+      <Box
+        maxWidth="600px"
+        display="flex"
+        flexDirection="column"
+        flexGrow={1}
+        marginRight="2rem"
+      >
         <HStack>
           <Text minWidth="100px" fontSize="small">
             seed
@@ -112,16 +118,16 @@ export const PlanetGeneratorSliders = () => {
             }}
           />
         </HStack>
-      </VStack>
-      <VStack minW="50%">
+      </Box>
+      <Box display="flex" flexDirection="column" flexGrow={2}>
         {planetGeneratorSlidersConfig.map((slider, index) => (
           <HStack
-            width="100%"
             key={`${index}-container`}
             alignItems="center"
-            spacing="100px"
+            marginBottom="5px"
+            justifyContent="space-between"
           >
-            <Text width="20%" fontSize="small">
+            <Text minWidth="300px" fontSize="small">
               {slider.displayName}
             </Text>
             <Slider
@@ -152,8 +158,7 @@ export const PlanetGeneratorSliders = () => {
             </Slider>
 
             <NumberInput
-              maxWidth="150px"
-              ml={10}
+              ml="1rem"
               key={`${index}-number`}
               flexGrow={0}
               value={localConfigValues[slider.name] as number}
@@ -179,7 +184,7 @@ export const PlanetGeneratorSliders = () => {
             </NumberInput>
           </HStack>
         ))}
-      </VStack>
+      </Box>
     </HStack>
   );
 };
