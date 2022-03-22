@@ -126,8 +126,8 @@ export const PlanetGeneratorColorDrawer = () => {
               transition="all 0.2s"
               borderRadius="md"
               borderWidth="1px"
-              _hover={{ bg: 'green.300' }}
-              _expanded={{ bg: 'green.700' }}
+              _hover={{ bg: 'gray.500' }}
+              _expanded={{ bg: 'gray.700' }}
               _focus={{ boxShadow: 'outline' }}
             >
               <HStack minWidth="200px" justifyContent="space-between">

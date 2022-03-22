@@ -1,5 +1,5 @@
 // 1. Import `extendTheme`
-import { extendTheme } from '@chakra-ui/react';
+import { extendTheme, Input, NumberInput, Slider } from '@chakra-ui/react';
 import { Theme } from '@chakra-ui/theme';
 
 // 2. Call `extendTheme` and pass your custom values
@@ -145,4 +145,12 @@ export const theme = extendTheme({
   fontSizes: {
     xxs: '0.7rem',
   },
+  shadows: { outline: '0 0 0 3px var(--chakra-colors-green-400)' },
 });
+
+Slider.defaultProps = { ...Slider.defaultProps, colorScheme: 'green' };
+Input.defaultProps = { ...Input.defaultProps, focusBorderColor: 'green.400' };
+NumberInput.defaultProps = {
+  ...NumberInput.defaultProps,
+  focusBorderColor: 'green.400',
+};
