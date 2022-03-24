@@ -60,7 +60,7 @@ export const PlanetGeneratorTerrainDrawer = () => {
               })
             }
           >
-            <RangeSliderTrack bg="green.400">
+            <RangeSliderTrack>
               <RangeSliderFilledTrack />
             </RangeSliderTrack>
             <RangeSliderThumb
