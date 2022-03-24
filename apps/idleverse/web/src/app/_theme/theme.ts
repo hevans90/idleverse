@@ -1,8 +1,13 @@
-// 1. Import `extendTheme`
-import { extendTheme, Input, NumberInput, Slider } from '@chakra-ui/react';
+import {
+  Checkbox,
+  extendTheme,
+  Input,
+  NumberInput,
+  RangeSliderFilledTrack,
+  Slider,
+} from '@chakra-ui/react';
 import { Theme } from '@chakra-ui/theme';
 
-// 2. Call `extendTheme` and pass your custom values
 export const theme = extendTheme({
   styles: {
     global: (props) => ({
@@ -153,4 +158,13 @@ Input.defaultProps = { ...Input.defaultProps, focusBorderColor: 'green.400' };
 NumberInput.defaultProps = {
   ...NumberInput.defaultProps,
   focusBorderColor: 'green.400',
+};
+
+RangeSliderFilledTrack.defaultProps = {
+  ...RangeSliderFilledTrack.defaultProps,
+  background: 'green.200',
+};
+Checkbox.defaultProps = {
+  ...Checkbox.defaultProps,
+  colorScheme: 'green',
 };
