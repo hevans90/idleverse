@@ -14,8 +14,8 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import {
-  planetGenerationTerrainDrawerVar,
   planetGenerationColorDrawerVar,
+  planetGenerationTerrainDrawerVar,
 } from '../../../_state/planet-generation';
 
 export const PlanetGeneratorTerrainDrawer = () => {
@@ -29,7 +29,7 @@ export const PlanetGeneratorTerrainDrawer = () => {
       bgColor={bgColor}
       position="absolute"
       left="0"
-      top="20%"
+      top="40%"
       padding={3}
     >
       <HStack width="100%" justifyContent="space-between">

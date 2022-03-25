@@ -15,7 +15,7 @@ import {
   useTheme,
   VStack,
 } from '@chakra-ui/react';
-import { useEffect, useState, Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { HexPalette } from '../../../_state/models';
 import { planetGenerationColorDrawerVar } from '../../../_state/planet-generation';
 import { themeColToRGB } from '../../_utils/theme-colour-conversions';
@@ -95,8 +95,8 @@ export const PlanetGeneratorColorDrawer = () => {
     <VStack
       bgColor={bgColor}
       position="absolute"
-      right="0"
-      top="20%"
+      left="0"
+      top="10%"
       padding={3}
     >
       <HStack width="100%" justifyContent="space-between">

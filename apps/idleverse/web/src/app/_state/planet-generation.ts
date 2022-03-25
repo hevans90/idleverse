@@ -1,6 +1,11 @@
 import { makeVar } from '@apollo/client';
 import { v4 as uuidv4 } from 'uuid';
-import { HexPalette, PlanetGenerationConfig, textureColorMap } from './models';
+import {
+  HexPalette,
+  PlanetGenerationConfig,
+  RingConfig,
+  textureColorMap,
+} from './models';
 import { makeVarPersisted } from './utils';
 
 export const planetGeneratorConfigVar = makeVar<PlanetGenerationConfig>({
@@ -34,3 +39,8 @@ export const planetGenerationTerrainDrawerVar = makeVarPersisted<{
   { panelOpen: false, terrainBias: [0, 0.2, 0.4, 0.6] },
   'planetGenerationTerrainControls'
 );
+
+export const planetGenerationRingDrawerVar = makeVarPersisted<{
+  panelOpen: boolean;
+  rings: RingConfig[];
+}>({ panelOpen: false, rings: [] }, 'planetGenerationRingControls');
