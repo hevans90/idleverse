@@ -20,7 +20,10 @@ import { runTextureGenOnWorker } from './texture-generation/run-texture-gen-on-w
 import { PlanetGeneratorBooleans } from './ui/booleans';
 import { PlanetGeneratorColorDrawer } from './ui/color-drawer';
 import { PlanetGeneratorRingDrawer } from './ui/ring-drawer';
-import { PlanetGeneratorSliders } from './ui/sliders';
+import {
+  planetGenerationControlsHeight,
+  PlanetGeneratorSliders,
+} from './ui/sliders';
 import { PlanetGeneratorTerrainDrawer } from './ui/terrain-drawer';
 import { World } from './world';
 
@@ -30,6 +33,7 @@ export const PlanetGenerator = () => {
   const { colors } = useTheme<Theme>();
 
   const {
+    ui,
     seed,
     pixelSize,
     atmosphere,
@@ -77,7 +81,13 @@ export const PlanetGenerator = () => {
 
   return (
     <>
-      <Box position="relative" width={`${width}px`} height={`${height}px`}>
+      <Box
+        position="relative"
+        width={`${width}px`}
+        height={
+          ui ? `${height}px` : `${height + planetGenerationControlsHeight}`
+        }
+      >
         <Canvas>
           <Suspense fallback={null}>
             <World
@@ -98,11 +108,16 @@ export const PlanetGenerator = () => {
       </Box>
 
       <PlanetGeneratorBooleans />
-      <PlanetGeneratorColorDrawer />
 
-      <PlanetGeneratorTerrainDrawer />
-      <PlanetGeneratorRingDrawer />
-      <PlanetGeneratorSliders />
+      {ui && (
+        <>
+          <PlanetGeneratorColorDrawer />
+
+          <PlanetGeneratorTerrainDrawer />
+          <PlanetGeneratorRingDrawer />
+          <PlanetGeneratorSliders />
+        </>
+      )}
     </>
   );
 };

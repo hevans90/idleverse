@@ -9,6 +9,7 @@ import {
 import { makeVarPersisted } from './utils';
 
 export const planetGeneratorConfigVar = makeVar<PlanetGenerationConfig>({
+  ui: true,
   seed: uuidv4(),
   textureResolution: 80,
   pixelSize: 3,

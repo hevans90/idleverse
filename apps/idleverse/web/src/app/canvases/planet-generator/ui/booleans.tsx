@@ -22,6 +22,20 @@ export const PlanetGeneratorBooleans = () => {
     >
       <HStack width="100%">
         <Text minWidth="175px" fontSize="small">
+          UI
+        </Text>
+        <Checkbox
+          isChecked={planetGeneratorConfigVar().ui}
+          onChange={() =>
+            planetGeneratorConfigVar({
+              ...planetGeneratorConfigVar(),
+              ui: !planetGeneratorConfigVar().ui,
+            })
+          }
+        ></Checkbox>
+      </HStack>
+      <HStack width="100%">
+        <Text minWidth="175px" fontSize="small">
           Atmosphere
         </Text>
         <Checkbox

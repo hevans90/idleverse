@@ -17,7 +17,6 @@ import {
   NumberInputField,
   NumberInputStepper,
   Table,
-  TableCaption,
   Tbody,
   Td,
   Text,
@@ -45,15 +44,23 @@ export const PlanetGeneratorRingDrawer = () => {
   const drawerState = useReactiveVar(planetGenerationRingDrawerVar);
 
   return (
-    <VStack
-      bgColor={bgColor}
-      position="absolute"
-      right="0"
-      top="20%"
-      padding={3}
-    >
+    <VStack bgColor={bgColor} position="absolute" right="0" top="0" padding={3}>
       <HStack width="100%" justifyContent="space-between">
         <Text>Rings</Text>
+
+        {drawerState.panelOpen && (
+          <Button
+            onClick={() =>
+              planetGenerationRingDrawerVar({
+                ...drawerState,
+                rings: [...drawerState.rings, defaultRing],
+              })
+            }
+          >
+            Add ring
+          </Button>
+        )}
+
         <IconButton
           aria-label="close color drawer"
           icon={drawerState.panelOpen ? <MinusIcon /> : <AddIcon />}
@@ -69,18 +76,6 @@ export const PlanetGeneratorRingDrawer = () => {
       {drawerState.panelOpen && (
         <Box padding={3} w="100%" minWidth="275px">
           <Table variant="simple" fontSize="xs" size="sm">
-            <TableCaption>
-              <Button
-                onClick={() =>
-                  planetGenerationRingDrawerVar({
-                    ...drawerState,
-                    rings: [...drawerState.rings, defaultRing],
-                  })
-                }
-              >
-                Add new ring
-              </Button>
-            </TableCaption>
             <Thead>
               <Tr>
                 <Th borderColor={tableBorderColor} fontSize="xxs">
