@@ -1,9 +1,7 @@
-import * as THREE from 'three';
-
 import SimplexNoise from 'simplex-noise';
-
+import * as THREE from 'three';
+import { rgb } from '../../../_state/models';
 import { generatePerlinNoise } from './perlin';
-import { textureColorMap } from '../../../_state/models';
 
 export const textureGen = (resolution = { width: 512, height: 512 }) => {
   console.time('basic generation');
@@ -54,9 +52,8 @@ export const simplexTexture = (resolution = { width: 512, height: 512 }) => {
 };
 
 export const perlinTexture = (
-  tileSize: number,
   resolution = { width: 512, height: 512 },
-  colors: textureColorMap,
+  colors: [rgb, rgb, rgb, rgb],
   terrainBias: [number, number, number, number],
   seed: string
 ) => {
@@ -68,40 +65,39 @@ export const perlinTexture = (
 
   const perlin = generatePerlinNoise(width, height, seed);
 
-  const { water, sand, grass, forest } = colors;
+  const [col1, col2, col3, col4] = colors;
 
-  const [waterBias, sandBias, grassBias, forestBias] = terrainBias;
+  const [bias1, bias2, bias3, bias4] = terrainBias;
 
   for (let x = 0; x < width; x++) {
     for (let y = 0; y < height; y++) {
       const perlinValue = perlin[x + y * width];
 
-      // water
-      if (perlinValue > waterBias) {
-        data[(x + y * width) * 4 + 0] = water.r;
-        data[(x + y * width) * 4 + 1] = water.g;
-        data[(x + y * width) * 4 + 2] = water.b;
+      if (perlinValue > bias1) {
+        data[(x + y * width) * 4 + 0] = col1.r;
+        data[(x + y * width) * 4 + 1] = col1.g;
+        data[(x + y * width) * 4 + 2] = col1.b;
         data[(x + y * width) * 4 + 3] = 255;
       }
-      // sand
-      if (perlinValue > sandBias) {
-        data[(x + y * width) * 4 + 0] = sand.r;
-        data[(x + y * width) * 4 + 1] = sand.g;
-        data[(x + y * width) * 4 + 2] = sand.b;
+
+      if (perlinValue > bias2) {
+        data[(x + y * width) * 4 + 0] = col2.r;
+        data[(x + y * width) * 4 + 1] = col2.g;
+        data[(x + y * width) * 4 + 2] = col2.b;
         data[(x + y * width) * 4 + 3] = 255;
       }
-      // grass
-      if (perlinValue > grassBias) {
-        data[(x + y * width) * 4 + 0] = grass.r;
-        data[(x + y * width) * 4 + 1] = grass.g;
-        data[(x + y * width) * 4 + 2] = grass.b;
+
+      if (perlinValue > bias3) {
+        data[(x + y * width) * 4 + 0] = col3.r;
+        data[(x + y * width) * 4 + 1] = col3.g;
+        data[(x + y * width) * 4 + 2] = col3.b;
         data[(x + y * width) * 4 + 3] = 255;
       }
-      // forest
-      if (perlinValue > forestBias) {
-        data[(x + y * width) * 4 + 0] = forest.r;
-        data[(x + y * width) * 4 + 1] = forest.g;
-        data[(x + y * width) * 4 + 2] = forest.b;
+
+      if (perlinValue > bias4) {
+        data[(x + y * width) * 4 + 0] = col4.r;
+        data[(x + y * width) * 4 + 1] = col4.g;
+        data[(x + y * width) * 4 + 2] = col4.b;
         data[(x + y * width) * 4 + 3] = 255;
       }
     }

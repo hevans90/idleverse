@@ -42,7 +42,9 @@ export const PlanetGenerator = () => {
     textureResolution,
   } = useReactiveVar(planetGeneratorConfigVar);
 
-  const { currentPalette } = useReactiveVar(planetGenerationColorDrawerVar);
+  const {
+    currentPalette: { water, sand, grass, forest },
+  } = useReactiveVar(planetGenerationColorDrawerVar);
   const { terrainBias } = useReactiveVar(planetGenerationTerrainDrawerVar);
   const { rings } = useReactiveVar(planetGenerationRingDrawerVar);
 
@@ -56,23 +58,23 @@ export const PlanetGenerator = () => {
     runTextureGenOnWorker(
       'perlin',
       textureResolution,
-      currentPalette,
+      [water, sand, grass, forest],
       terrainBias,
       10,
       seed
     ).then((texture) => setWorldDataTexture(texture));
-  }, [textureResolution, currentPalette, terrainBias, seed]);
+  }, [textureResolution, water, sand, grass, forest, terrainBias, seed]);
 
   useEffect(() => {
     runTextureGenOnWorker(
       'perlin',
       1024,
-      {
-        water: themeColToRGB(colors.orange['900']),
-        sand: themeColToRGB(colors.gray['600']),
-        grass: themeColToRGB(colors.orange['800']),
-        forest: themeColToRGB(colors.gray['900']),
-      },
+      [
+        themeColToRGB(colors.orange['900']),
+        themeColToRGB(colors.gray['600']),
+        themeColToRGB(colors.orange['800']),
+        themeColToRGB(colors.gray['900']),
+      ],
       [0.6, 0.65, 0.7, 0.8],
       10,
       seed

@@ -1,6 +1,6 @@
 import { wrap } from 'comlink';
 import { DataTexture } from 'three';
-import { textureColorMap } from '../../../_state/models';
+import { rgb } from '../../../_state/models';
 
 export const worker = new Worker(new URL('./worker.ts', import.meta.url));
 
@@ -10,7 +10,7 @@ const { textureGen, simplexTexture, perlinTexture } =
 export const runTextureGenOnWorker = async (
   type: 'regular' | 'simplex' | 'perlin',
   resolution: number,
-  colors: textureColorMap,
+  colors: [rgb, rgb, rgb, rgb],
   terrainBias: [number, number, number, number],
   tileSize = 10,
   seed: string
@@ -20,7 +20,6 @@ export const runTextureGenOnWorker = async (
       ? await simplexTexture({ width: resolution, height: resolution })
       : type === 'perlin'
       ? await perlinTexture(
-          tileSize,
           { width: resolution, height: resolution },
           colors,
           terrainBias,
