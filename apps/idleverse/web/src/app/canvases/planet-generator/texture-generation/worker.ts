@@ -1,14 +1,14 @@
 import { expose } from 'comlink';
 import {
-  textureGen,
-  simplexTexture,
+  generateColorBands,
   perlinTexture,
+  simplexTexture,
 } from './texture-generators';
 
 const worker = {
   perlinTexture,
   simplexTexture,
-  textureGen,
+  generateColorBands,
 };
 
 export type RunTextureGenWorker = typeof worker;

@@ -4,11 +4,11 @@ import { rgb } from '../../../_state/models';
 
 export const worker = new Worker(new URL('./worker.ts', import.meta.url));
 
-const { textureGen, simplexTexture, perlinTexture } =
+const { simplexTexture, perlinTexture, generateColorBands } =
   wrap<import('./worker').RunTextureGenWorker>(worker);
 
 export const runTextureGenOnWorker = async (
-  type: 'regular' | 'simplex' | 'perlin',
+  type: 'banded' | 'simplex' | 'perlin',
   resolution: number,
   colors: [rgb, rgb, rgb, rgb],
   terrainBias: [number, number, number, number],
@@ -24,7 +24,7 @@ export const runTextureGenOnWorker = async (
           terrainBias,
           seed
         )
-      : await textureGen();
+      : await generateColorBands({ width: resolution, height: resolution });
 
   const texture = new DataTexture(data, width, height);
   texture.needsUpdate = true;

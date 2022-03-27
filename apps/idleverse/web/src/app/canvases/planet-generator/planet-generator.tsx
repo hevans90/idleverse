@@ -67,15 +67,10 @@ export const PlanetGenerator = () => {
   }, [textureResolution, water, sand, grass, forest, terrainBias, seed]);
 
   useEffect(() => {
-    console.log('prev', prevRingsRef.current);
-    console.log('curr', rings);
-
     const { updates, additions, deletions } = deepCompareRings(
       [...prevRingsRef.current],
       [...rings]
     );
-
-    console.log(deepCompareRings(prevRingsRef.current, rings));
 
     const updatesToRegen = updates
       .filter(({ regenTexture }) => regenTexture === true)
@@ -83,12 +78,11 @@ export const PlanetGenerator = () => {
 
     [...updatesToRegen, ...additions].forEach(
       ({ type, id, resolution, colors: ringColors, terrainBias }) => {
-        console.log('new run', id);
         runTextureGenOnWorker(
           type === 'rocky'
             ? 'perlin'
-            : type === 'solid'
-            ? 'regular'
+            : type === 'banded'
+            ? 'banded'
             : 'simplex',
           resolution,
           ringColors,

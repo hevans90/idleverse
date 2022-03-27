@@ -1,32 +1,6 @@
 import SimplexNoise from 'simplex-noise';
-import * as THREE from 'three';
 import { rgb } from '../../../_state/models';
 import { generatePerlinNoise } from './perlin';
-
-export const textureGen = (resolution = { width: 512, height: 512 }) => {
-  console.time('basic generation');
-  const { width, height } = resolution;
-
-  const size = width * height;
-  const data = new Uint8Array(4 * size);
-  const color = new THREE.Color(0xffffff);
-
-  const r = Math.floor(color.r * 255);
-  const g = Math.floor(color.g * 255);
-  const b = Math.floor(color.b * 255);
-
-  for (let i = 0; i < size; i++) {
-    const stride = i * 4;
-
-    data[stride] = r; // red
-    data[stride + 1] = g; // green
-    data[stride + 2] = b; // blue
-    data[stride + 3] = 255; // alpha
-  }
-
-  console.timeEnd('basic generation');
-  return { data, width, height };
-};
 
 export const simplexTexture = (
   resolution = { width: 512, height: 512 },
@@ -107,5 +81,45 @@ export const perlinTexture = (
   }
 
   console.timeEnd('perlin generation');
+  return { data, width, height };
+};
+
+export const generateColorBands = (
+  resolution = { width: 512, height: 512 }
+) => {
+  console.time('band generation');
+  const { width, height } = resolution;
+
+  const data = new Uint8Array(4 * width * height);
+
+  for (let x = 0; x < width; x++) {
+    for (let y = 0; y < height; y++) {
+      const r = width / 2;
+      const a = Math.pow(x - r, 2) + Math.pow(y - r, 2);
+
+      const scaleFactor = Math.pow(r, 2);
+
+      if (Math.pow(r, 2) % a < scaleFactor / 8) {
+        data[(x + y * width) * 4] = 125;
+        data[(x + y * width) * 4 + 1] = 125;
+        data[(x + y * width) * 4 + 2] = 125;
+        data[(x + y * width) * 4 + 3] = 255; // alpha
+      } else if (Math.pow(r, 2) % a < scaleFactor / 6) {
+        data[(x + y * width) * 4] = 150;
+        data[(x + y * width) * 4 + 1] = 150;
+        data[(x + y * width) * 4 + 2] = 150;
+        data[(x + y * width) * 4 + 3] = 255; // alpha
+      } else if (Math.pow(r, 2) % a < scaleFactor / 4) {
+        data[(x + y * width) * 4] = 175;
+        data[(x + y * width) * 4 + 1] = 175;
+        data[(x + y * width) * 4 + 2] = 175;
+        data[(x + y * width) * 4 + 3] = 255; // alpha
+      } else {
+        data[(x + y * width) * 4 + 3] = 0; // alpha
+      }
+    }
+  }
+
+  console.timeEnd('band generation');
   return { data, width, height };
 };

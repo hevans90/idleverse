@@ -48,11 +48,11 @@ export const PlanetGeneratorRingDrawer = () => {
 
     innerRadius: 2.5,
     outerRadius: 3.5,
-    resolution: 128,
+    resolution: 512,
     colors: [
-      themeColToRGB(colors.orange['900']),
+      themeColToRGB(colors.gray['900']),
       themeColToRGB(colors.gray['600']),
-      themeColToRGB(colors.orange['800']),
+      themeColToRGB(colors.gray['800']),
       themeColToRGB(colors.gray['900']),
     ],
     terrainBias: [0.6, 0.65, 0.7, 0.8],
@@ -182,7 +182,7 @@ export const PlanetGeneratorRingDrawer = () => {
                           flexGrow={0}
                           value={outerRadius}
                           min={0.1}
-                          max={5}
+                          max={7}
                           step={0.1}
                           onChange={(event) => {
                             drawerState.rings[index] = {
