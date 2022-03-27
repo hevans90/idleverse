@@ -12,12 +12,11 @@ export const runTextureGenOnWorker = async (
   resolution: number,
   colors: [rgb, rgb, rgb, rgb],
   terrainBias: [number, number, number, number],
-  tileSize = 10,
   seed: string
 ) => {
   const { data, height, width } =
     type === 'simplex'
-      ? await simplexTexture({ width: resolution, height: resolution })
+      ? await simplexTexture({ width: resolution, height: resolution }, seed)
       : type === 'perlin'
       ? await perlinTexture(
           { width: resolution, height: resolution },

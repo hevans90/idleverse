@@ -1,6 +1,5 @@
 import { SelfQuery } from '@idleverse/galaxy-gql';
 import * as PIXI from 'pixi.js';
-import { Euler } from 'three';
 
 export type AssetCollection = {
   [key: string]: PIXI.LoaderResource;
@@ -72,8 +71,12 @@ type RingTuple = typeof RING_TYPES;
 export type RingKey = RingTuple[number];
 
 export type RingConfig = {
-  angle: Euler;
+  id: string;
+  // angle: Euler;
   type: RingKey;
+  colors: [rgb, rgb, rgb, rgb];
+  terrainBias: [number, number, number, number];
   innerRadius: number;
   outerRadius: number;
+  resolution: number;
 };

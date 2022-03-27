@@ -22,26 +22,41 @@ import {
   Text,
   Th,
   Thead,
+  Theme,
   Tr,
   useColorModeValue,
+  useTheme,
   VStack,
 } from '@chakra-ui/react';
-import { Fragment } from 'react';
+import { Fragment, useRef } from 'react';
+import { v4 } from 'uuid';
 import { RingConfig, RING_TYPES } from '../../../_state/models';
 import { planetGenerationRingDrawerVar } from '../../../_state/planet-generation';
-
-const defaultRing: RingConfig = {
-  type: 'rocky',
-  angle: undefined,
-  innerRadius: 2.5,
-  outerRadius: 3.5,
-};
+import { themeColToRGB } from '../../_utils/theme-colour-conversions';
 
 export const PlanetGeneratorRingDrawer = () => {
   const bgColor = useColorModeValue('gray.200', 'gray.600');
   const tableBorderColor = useColorModeValue('green.600', 'green.300');
 
+  const { colors } = useTheme<Theme>();
+
   const drawerState = useReactiveVar(planetGenerationRingDrawerVar);
+
+  const defaultRing = useRef<RingConfig>({
+    id: v4(),
+    type: 'rocky',
+
+    innerRadius: 2.5,
+    outerRadius: 3.5,
+    resolution: 128,
+    colors: [
+      themeColToRGB(colors.orange['900']),
+      themeColToRGB(colors.gray['600']),
+      themeColToRGB(colors.orange['800']),
+      themeColToRGB(colors.gray['900']),
+    ],
+    terrainBias: [0.6, 0.65, 0.7, 0.8],
+  });
 
   return (
     <VStack bgColor={bgColor} position="absolute" right="0" top="0" padding={3}>
@@ -53,7 +68,7 @@ export const PlanetGeneratorRingDrawer = () => {
             onClick={() =>
               planetGenerationRingDrawerVar({
                 ...drawerState,
-                rings: [...drawerState.rings, defaultRing],
+                rings: [...drawerState.rings, defaultRing.current],
               })
             }
           >
@@ -81,9 +96,6 @@ export const PlanetGeneratorRingDrawer = () => {
                 <Th borderColor={tableBorderColor} fontSize="xxs">
                   type
                 </Th>
-                <Th borderColor={tableBorderColor} fontSize="xxs">
-                  angle
-                </Th>
                 <Th borderColor={tableBorderColor} isNumeric fontSize="xxs">
                   inner rad.
                 </Th>
@@ -95,7 +107,7 @@ export const PlanetGeneratorRingDrawer = () => {
             </Thead>
             <Tbody>
               {drawerState.rings.map(
-                ({ type, angle, innerRadius, outerRadius }, index) => (
+                ({ type, innerRadius, outerRadius, id }, index) => (
                   <Fragment key={index}>
                     <Tr>
                       <Td borderColor={tableBorderColor}>
@@ -118,7 +130,11 @@ export const PlanetGeneratorRingDrawer = () => {
                               <Fragment key={i}>
                                 <MenuItem
                                   onClick={() => {
-                                    drawerState.rings[index].type = type;
+                                    drawerState.rings[index] = {
+                                      ...drawerState.rings[index],
+                                      type,
+                                    };
+
                                     planetGenerationRingDrawerVar({
                                       ...drawerState,
                                     });
@@ -132,7 +148,6 @@ export const PlanetGeneratorRingDrawer = () => {
                           </MenuList>
                         </Menu>
                       </Td>
-                      <Td borderColor={tableBorderColor}>{angle}</Td>
                       <Td borderColor={tableBorderColor} isNumeric>
                         <NumberInput
                           maxW="100px"

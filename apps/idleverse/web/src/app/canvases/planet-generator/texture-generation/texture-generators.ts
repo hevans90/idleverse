@@ -28,14 +28,17 @@ export const textureGen = (resolution = { width: 512, height: 512 }) => {
   return { data, width, height };
 };
 
-export const simplexTexture = (resolution = { width: 512, height: 512 }) => {
+export const simplexTexture = (
+  resolution = { width: 512, height: 512 },
+  seed: string
+) => {
   console.time('simplex generation');
   const { width, height } = resolution;
 
   const size = width * height;
   const data = new Uint8Array(4 * size);
 
-  const simplex = new SimplexNoise();
+  const simplex = new SimplexNoise(seed);
 
   for (let x = 0; x < width; x++) {
     for (let y = 0; y < height; y++) {

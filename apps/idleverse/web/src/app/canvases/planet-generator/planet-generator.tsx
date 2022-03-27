@@ -1,18 +1,16 @@
 import { useReactiveVar } from '@apollo/client';
 import { Box, Theme, useTheme } from '@chakra-ui/react';
 import { Canvas } from '@react-three/fiber';
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { DataTexture } from 'three';
+import { RingConfig } from '../../_state/models';
 import {
   planetGenerationColorDrawerVar,
   planetGenerationRingDrawerVar,
   planetGenerationTerrainDrawerVar,
   planetGeneratorConfigVar,
 } from '../../_state/planet-generation';
-import {
-  themeColToHex,
-  themeColToRGB,
-} from '../_utils/theme-colour-conversions';
+import { themeColToHex } from '../_utils/theme-colour-conversions';
 import { useResize } from '../_utils/use-resize.hook';
 import { CameraController } from './camera-controller';
 import { Pixelate } from './pixelate';
@@ -26,6 +24,7 @@ import {
 } from './ui/sliders';
 import { PlanetGeneratorTerrainDrawer } from './ui/terrain-drawer';
 import { World } from './world';
+import { deepCompareRings } from './_utils/deep-compare-rings';
 
 export const PlanetGenerator = () => {
   const { width, height } = useResize('planet-gen');
@@ -45,14 +44,17 @@ export const PlanetGenerator = () => {
   const {
     currentPalette: { water, sand, grass, forest },
   } = useReactiveVar(planetGenerationColorDrawerVar);
+
   const { terrainBias } = useReactiveVar(planetGenerationTerrainDrawerVar);
   const { rings } = useReactiveVar(planetGenerationRingDrawerVar);
+
+  const prevRingsRef = useRef<RingConfig[]>([]);
 
   const [worldDataTexture, setWorldDataTexture] =
     useState<DataTexture>(undefined);
 
-  const [ringDataTexture, setRingDataTexture] =
-    useState<DataTexture>(undefined);
+  const [ringDataTextures, setRingDataTextures] =
+    useState<{ [ringId: string]: DataTexture }>(undefined);
 
   useEffect(() => {
     runTextureGenOnWorker(
@@ -60,26 +62,46 @@ export const PlanetGenerator = () => {
       textureResolution,
       [water, sand, grass, forest],
       terrainBias,
-      10,
       seed
     ).then((texture) => setWorldDataTexture(texture));
   }, [textureResolution, water, sand, grass, forest, terrainBias, seed]);
 
   useEffect(() => {
-    runTextureGenOnWorker(
-      'perlin',
-      1024,
-      [
-        themeColToRGB(colors.orange['900']),
-        themeColToRGB(colors.gray['600']),
-        themeColToRGB(colors.orange['800']),
-        themeColToRGB(colors.gray['900']),
-      ],
-      [0.6, 0.65, 0.7, 0.8],
-      10,
-      seed
-    ).then((texture) => setRingDataTexture(texture));
-  }, []);
+    console.log('prev', prevRingsRef.current);
+    console.log('curr', rings);
+
+    const { updates, additions, deletions } = deepCompareRings(
+      [...prevRingsRef.current],
+      [...rings]
+    );
+
+    console.log(deepCompareRings(prevRingsRef.current, rings));
+
+    const updatesToRegen = updates
+      .filter(({ regenTexture }) => regenTexture === true)
+      .map(({ config }) => config);
+
+    [...updatesToRegen, ...additions].forEach(
+      ({ type, id, resolution, colors: ringColors, terrainBias }) => {
+        console.log('new run', id);
+        runTextureGenOnWorker(
+          type === 'rocky'
+            ? 'perlin'
+            : type === 'solid'
+            ? 'regular'
+            : 'simplex',
+          resolution,
+          ringColors,
+          terrainBias,
+          id
+        ).then((texture) =>
+          setRingDataTextures((prev) => ({ ...prev, [id]: texture }))
+        );
+      }
+    );
+
+    prevRingsRef.current = [...rings];
+  }, [JSON.stringify(rings)]);
 
   return (
     <>
@@ -94,7 +116,7 @@ export const PlanetGenerator = () => {
           <Suspense fallback={null}>
             <World
               worldTexture={worldDataTexture}
-              ringTexture={ringDataTexture}
+              ringTextures={ringDataTextures}
               atmosphere={atmosphere}
               rotate={rotate}
               atmosphericDistance={atmosphericDistance}

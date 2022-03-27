@@ -8,14 +8,14 @@ export const World = ({
   rotate,
   atmosphericDistance,
   worldTexture,
-  ringTexture,
+  ringTextures,
   rings,
 }: {
   atmosphere: boolean;
   rotate: boolean;
   atmosphericDistance: number;
   worldTexture: DataTexture;
-  ringTexture: DataTexture;
+  ringTextures: { [ringId: string]: DataTexture };
   rings: RingConfig[];
 }) => {
   const cloudsColorMap = useLoader(TextureLoader, 'clouds.png');
@@ -66,12 +66,12 @@ export const World = ({
       <ambientLight intensity={0.5} />
       <directionalLight />
 
-      {rings.map(({ innerRadius, outerRadius }, index) => (
+      {rings.map(({ innerRadius, outerRadius, id }, index) => (
         <mesh key={index} ref={addRingToRef}>
           <ringGeometry args={[innerRadius, outerRadius, 35, 20]} />
           <meshStandardMaterial
             side={DoubleSide}
-            map={ringTexture}
+            map={ringTextures && ringTextures[id]}
             transparent={true}
           />
         </mesh>
