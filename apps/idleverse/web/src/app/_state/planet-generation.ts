@@ -27,7 +27,12 @@ export const planetGenerationColorDrawerVar = makeVarPersisted<{
   {
     panelOpen: false,
     palettePresetName: 'desert',
-    currentPalette: undefined,
+    currentPalette: {
+      water: { r: 0, g: 0, b: 0 },
+      sand: { r: 0, g: 0, b: 0 },
+      grass: { r: 0, g: 0, b: 0 },
+      forest: { r: 0, g: 0, b: 0 },
+    },
     currentHexPalette: undefined,
   },
   'planetGenerationColorControls'
