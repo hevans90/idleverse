@@ -24,7 +24,11 @@ export const runTextureGenOnWorker = async (
           terrainBias,
           seed
         )
-      : await generateColorBands({ width: resolution, height: resolution });
+      : await generateColorBands(
+          { width: resolution, height: resolution },
+          colors,
+          terrainBias
+        );
 
   const texture = new DataTexture(data, width, height);
   texture.needsUpdate = true;

@@ -85,12 +85,18 @@ export const perlinTexture = (
 };
 
 export const generateColorBands = (
-  resolution = { width: 512, height: 512 }
+  resolution = { width: 512, height: 512 },
+  colors: [rgb, rgb, rgb, rgb],
+  terrainBias: [number, number, number, number]
 ) => {
   console.time('band generation');
   const { width, height } = resolution;
 
   const data = new Uint8Array(4 * width * height);
+
+  const [col1, col2, col3, col4] = colors;
+
+  const [bias1, bias2, bias3, bias4] = terrainBias;
 
   for (let x = 0; x < width; x++) {
     for (let y = 0; y < height; y++) {
@@ -99,21 +105,26 @@ export const generateColorBands = (
 
       const scaleFactor = Math.pow(r, 2);
 
-      if (Math.pow(r, 2) % a < scaleFactor / 8) {
-        data[(x + y * width) * 4] = 125;
-        data[(x + y * width) * 4 + 1] = 125;
-        data[(x + y * width) * 4 + 2] = 125;
-        data[(x + y * width) * 4 + 3] = 255; // alpha
-      } else if (Math.pow(r, 2) % a < scaleFactor / 6) {
-        data[(x + y * width) * 4] = 150;
-        data[(x + y * width) * 4 + 1] = 150;
-        data[(x + y * width) * 4 + 2] = 150;
-        data[(x + y * width) * 4 + 3] = 255; // alpha
-      } else if (Math.pow(r, 2) % a < scaleFactor / 4) {
-        data[(x + y * width) * 4] = 175;
-        data[(x + y * width) * 4 + 1] = 175;
-        data[(x + y * width) * 4 + 2] = 175;
-        data[(x + y * width) * 4 + 3] = 255; // alpha
+      if (Math.pow(r, 2) % a < scaleFactor / (bias4 * 10)) {
+        data[(x + y * width) * 4 + 0] = col1.r;
+        data[(x + y * width) * 4 + 1] = col1.g;
+        data[(x + y * width) * 4 + 2] = col1.b;
+        data[(x + y * width) * 4 + 3] = 255;
+      } else if (Math.pow(r, 2) % a < scaleFactor / (bias3 * 10)) {
+        data[(x + y * width) * 4 + 0] = col2.r;
+        data[(x + y * width) * 4 + 1] = col2.g;
+        data[(x + y * width) * 4 + 2] = col2.b;
+        data[(x + y * width) * 4 + 3] = 255;
+      } else if (Math.pow(r, 2) % a < scaleFactor / (bias2 * 10)) {
+        data[(x + y * width) * 4 + 0] = col3.r;
+        data[(x + y * width) * 4 + 1] = col3.g;
+        data[(x + y * width) * 4 + 2] = col3.b;
+        data[(x + y * width) * 4 + 3] = 255;
+      } else if (Math.pow(r, 2) % a < scaleFactor / (bias1 * 10)) {
+        data[(x + y * width) * 4 + 0] = col4.r;
+        data[(x + y * width) * 4 + 1] = col4.g;
+        data[(x + y * width) * 4 + 2] = col4.b;
+        data[(x + y * width) * 4 + 3] = 255;
       } else {
         data[(x + y * width) * 4 + 3] = 0; // alpha
       }

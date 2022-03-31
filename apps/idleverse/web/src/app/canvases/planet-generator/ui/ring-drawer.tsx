@@ -30,7 +30,7 @@ import {
 } from '@chakra-ui/react';
 import { Fragment, useRef } from 'react';
 import { v4 } from 'uuid';
-import { RingConfig, RING_TYPES } from '../../../_state/models';
+import { RingConfig, RingKey, RING_TYPES } from '../../../_state/models';
 import { planetGenerationRingDrawerVar } from '../../../_state/planet-generation';
 import { themeColToRGB } from '../../_utils/theme-colour-conversions';
 
@@ -42,19 +42,27 @@ export const PlanetGeneratorRingDrawer = () => {
 
   const drawerState = useReactiveVar(planetGenerationRingDrawerVar);
 
+  const defaultTerrainBiases: {
+    [key in RingKey]: [number, number, number, number];
+  } = {
+    solid: [0.1, 0.2, 0.3, 0.4],
+    rocky: [0.6, 0.65, 0.7, 0.8],
+    banded: [0.3, 0.5, 0.6, 0.8],
+  };
+
   const defaultRing = useRef<Omit<RingConfig, 'id'>>({
-    // don't generate a UUID here or it will always be the same :)
+    // don't generate a UUID here or it will always be the same, you idiot
     type: 'rocky',
     innerRadius: 2.5,
-    outerRadius: 3.5,
+    outerRadius: 3,
     resolution: 512,
     colors: [
-      themeColToRGB(colors.gray['900']),
+      themeColToRGB(colors.gray['500']),
       themeColToRGB(colors.gray['600']),
+      themeColToRGB(colors.gray['700']),
       themeColToRGB(colors.gray['800']),
-      themeColToRGB(colors.gray['900']),
     ],
-    terrainBias: [0.6, 0.65, 0.7, 0.8],
+    terrainBias: defaultTerrainBiases['rocky'],
   });
 
   return (
@@ -109,7 +117,7 @@ export const PlanetGeneratorRingDrawer = () => {
             </Thead>
             <Tbody>
               {drawerState.rings.map(
-                ({ type, innerRadius, outerRadius, id }, index) => (
+                ({ type, innerRadius, outerRadius, colors }, index) => (
                   <Fragment key={index}>
                     <Tr>
                       <Td borderColor={tableBorderColor}>
@@ -134,6 +142,7 @@ export const PlanetGeneratorRingDrawer = () => {
                                   onClick={() => {
                                     drawerState.rings[index] = {
                                       ...drawerState.rings[index],
+                                      terrainBias: defaultTerrainBiases[type],
                                       type,
                                     };
 
