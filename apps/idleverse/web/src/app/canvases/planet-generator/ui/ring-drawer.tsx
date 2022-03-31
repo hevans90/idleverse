@@ -16,6 +16,10 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
+  RangeSlider,
+  RangeSliderFilledTrack,
+  RangeSliderThumb,
+  RangeSliderTrack,
   Table,
   Tbody,
   Td,
@@ -32,7 +36,16 @@ import { Fragment, useRef } from 'react';
 import { v4 } from 'uuid';
 import { RingConfig, RingKey, RING_TYPES } from '../../../_state/models';
 import { planetGenerationRingDrawerVar } from '../../../_state/planet-generation';
-import { themeColToRGB } from '../../_utils/theme-colour-conversions';
+import { rgbToHex, themeColToRGB } from '../../_utils/theme-colour-conversions';
+
+type RingTerrainBiases = {
+  [key in RingKey]: [number, number, number, number];
+};
+
+const defaultTerrainBiases: RingTerrainBiases = {
+  rocky: [0.6, 0.725, 0.85, 0.975],
+  banded: [0.3, 0.5, 0.6, 0.8],
+};
 
 export const PlanetGeneratorRingDrawer = () => {
   const bgColor = useColorModeValue('gray.200', 'gray.600');
@@ -41,13 +54,6 @@ export const PlanetGeneratorRingDrawer = () => {
   const { colors } = useTheme<Theme>();
 
   const drawerState = useReactiveVar(planetGenerationRingDrawerVar);
-
-  const defaultTerrainBiases: {
-    [key in RingKey]: [number, number, number, number];
-  } = {
-    rocky: [0.6, 0.65, 0.7, 0.8],
-    banded: [0.3, 0.5, 0.6, 0.8],
-  };
 
   const defaultRing = useRef<Omit<RingConfig, 'id'>>({
     // don't generate a UUID here or it will always be the same, you idiot
@@ -105,6 +111,9 @@ export const PlanetGeneratorRingDrawer = () => {
                 <Th borderColor={tableBorderColor} fontSize="xxs">
                   type
                 </Th>
+                <Th borderColor={tableBorderColor} fontSize="xxs">
+                  color biases
+                </Th>
                 <Th borderColor={tableBorderColor} isNumeric fontSize="xxs">
                   inner rad.
                 </Th>
@@ -116,7 +125,10 @@ export const PlanetGeneratorRingDrawer = () => {
             </Thead>
             <Tbody>
               {drawerState.rings.map(
-                ({ type, innerRadius, outerRadius, colors }, index) => (
+                (
+                  { type, innerRadius, outerRadius, colors, terrainBias },
+                  index
+                ) => (
                   <Fragment key={index}>
                     <Tr>
                       <Td borderColor={tableBorderColor}>
@@ -158,6 +170,54 @@ export const PlanetGeneratorRingDrawer = () => {
                           </MenuList>
                         </Menu>
                       </Td>
+
+                      <Td borderColor={tableBorderColor}>
+                        <Box padding={3} w="100%" minWidth="275px">
+                          <RangeSlider
+                            defaultValue={terrainBias}
+                            min={0}
+                            max={1}
+                            step={0.01}
+                            onChangeEnd={(
+                              val: [number, number, number, number]
+                            ) => {
+                              drawerState.rings[index] = {
+                                ...drawerState.rings[index],
+                                terrainBias: val,
+                              };
+
+                              planetGenerationRingDrawerVar({
+                                ...drawerState,
+                              });
+                            }}
+                          >
+                            <RangeSliderTrack>
+                              <RangeSliderFilledTrack />
+                            </RangeSliderTrack>
+                            <RangeSliderThumb
+                              boxSize={6}
+                              index={0}
+                              bgColor={rgbToHex(colors[0])}
+                            />
+                            <RangeSliderThumb
+                              boxSize={6}
+                              index={1}
+                              bgColor={rgbToHex(colors[1])}
+                            />
+                            <RangeSliderThumb
+                              boxSize={6}
+                              index={2}
+                              bgColor={rgbToHex(colors[2])}
+                            />
+                            <RangeSliderThumb
+                              boxSize={6}
+                              index={3}
+                              bgColor={rgbToHex(colors[3])}
+                            />
+                          </RangeSlider>
+                        </Box>
+                      </Td>
+
                       <Td borderColor={tableBorderColor} isNumeric>
                         <NumberInput
                           maxW="100px"

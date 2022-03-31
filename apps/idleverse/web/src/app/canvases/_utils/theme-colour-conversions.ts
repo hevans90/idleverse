@@ -1,3 +1,5 @@
+import { rgb } from '../../_state/models';
+
 export const themeColToHex = (val: string) =>
   parseInt(val.replace(/^#/, ''), 16);
 
@@ -15,3 +17,11 @@ export const themeColToRGB = (hex: string) =>
       g: 0,
       b: 0,
     });
+
+const rgbValueToHex = (color: number) => {
+  const hexadecimal = color.toString(16);
+  return hexadecimal.length === 1 ? `0${hexadecimal}` : hexadecimal;
+};
+
+export const rgbToHex = ({ r: red, g: green, b: blue }: rgb) =>
+  `#${rgbValueToHex(red)}${rgbValueToHex(green)}${rgbValueToHex(blue)}`;
