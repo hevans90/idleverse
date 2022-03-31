@@ -33,17 +33,24 @@ export const planetGenerationControlsHeight = 200;
 
 export const planetGeneratorSlidersConfig: PlanetGeneratorSliderType[] = [
   {
-    name: 'pixelSize',
-    displayName: 'Pixel size',
+    name: 'radius',
+    displayName: 'Radius',
     min: 1,
-    max: 15,
-    step: 1,
+    max: 8,
+    step: 0.25,
   },
   {
     name: 'atmosphericDistance',
     displayName: 'Atmospheric Dist.',
     min: 1,
     max: 8,
+    step: 1,
+  },
+  {
+    name: 'pixelSize',
+    displayName: 'Pixel size',
+    min: 1,
+    max: 15,
     step: 1,
   },
   {

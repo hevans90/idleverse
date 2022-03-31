@@ -32,6 +32,7 @@ export type SolarSystemConfig = {
 
 export type PlanetGenerationConfig = {
   ui: boolean;
+  radius: number;
   seed: string;
   textureResolution: number;
   pixelSize: number;
@@ -72,7 +73,7 @@ export type RingKey = RingTuple[number];
 
 export type RingConfig = {
   id: string;
-  // angle: Euler;
+  rotation: [x: number, y: number, z: number, order?: string];
   type: RingKey;
   colors: [rgb, rgb, rgb, rgb];
   terrainBias: [number, number, number, number];

@@ -1,6 +1,13 @@
 import { useFrame, useLoader } from '@react-three/fiber';
-import { useEffect, useRef } from 'react';
-import { DataTexture, DoubleSide, Mesh, TextureLoader, Vector3 } from 'three';
+import { useRef } from 'react';
+import {
+  DataTexture,
+  DoubleSide,
+  Euler,
+  Mesh,
+  TextureLoader,
+  Vector3,
+} from 'three';
 import { RingConfig } from '../../_state/models';
 
 export const World = ({
@@ -10,6 +17,7 @@ export const World = ({
   worldTexture,
   ringTextures,
   rings,
+  planetRadius,
 }: {
   atmosphere: boolean;
   rotate: boolean;
@@ -17,6 +25,7 @@ export const World = ({
   worldTexture: DataTexture;
   ringTextures: { [ringId: string]: DataTexture };
   rings: RingConfig[];
+  planetRadius: number;
 }) => {
   const cloudsColorMap = useLoader(TextureLoader, 'clouds.png');
 
@@ -24,10 +33,6 @@ export const World = ({
   const cloudsRef = useRef<Mesh>();
   const hoverRef = useRef<Mesh>();
   const ringRef = useRef<Mesh[]>([]);
-
-  useEffect(() => {
-    ringRef.current.forEach((ring) => (ring.rotation.x = Math.PI / 2));
-  }, [ringRef.current.length]);
 
   const addRingToRef = (el) => {
     if (el && !ringRef.current.includes(el)) ringRef.current.push(el);
@@ -43,7 +48,9 @@ export const World = ({
 
       if (ringRef.current) {
         ringRef.current.forEach((ring) => {
-          if (ring) ring.rotation.z = -clock.getElapsedTime() / 20;
+          if (ring) {
+            ring.rotation.z = -clock.getElapsedTime() / 20;
+          }
         });
       }
     }
@@ -63,12 +70,16 @@ export const World = ({
 
   return (
     <>
-      <ambientLight intensity={0.5} />
+      <ambientLight intensity={1} />
       <directionalLight />
 
-      {rings.map(({ innerRadius, outerRadius, id }, index) => (
-        <mesh key={index} ref={addRingToRef}>
-          <ringGeometry args={[innerRadius, outerRadius, 35, 20]} />
+      {rings.map(({ innerRadius, outerRadius, id, rotation }, index) => (
+        <mesh
+          key={index}
+          ref={addRingToRef}
+          rotation={new Euler(rotation[0], rotation[1], rotation[2])}
+        >
+          <ringGeometry args={[innerRadius, outerRadius, 50]} />
           <meshStandardMaterial
             side={DoubleSide}
             map={ringTextures && ringTextures[id]}
@@ -83,12 +94,14 @@ export const World = ({
       </mesh>
 
       <mesh ref={worldRef}>
-        <icosahedronGeometry args={[1, 5]} />
+        <icosahedronGeometry args={[planetRadius, 5]} />
         <meshStandardMaterial map={worldTexture} />
       </mesh>
       {atmosphere && (
         <mesh ref={cloudsRef}>
-          <sphereGeometry args={[1 + atmosphericDistance / 100, 32, 32]} />
+          <sphereGeometry
+            args={[planetRadius + atmosphericDistance / 100, 32, 32]}
+          />
           <meshStandardMaterial map={cloudsColorMap} transparent={true} />
         </mesh>
       )}

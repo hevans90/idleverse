@@ -37,6 +37,10 @@ import { v4 } from 'uuid';
 import { RingConfig, RingKey, RING_TYPES } from '../../../_state/models';
 import { planetGenerationRingDrawerVar } from '../../../_state/planet-generation';
 import { rgbToHex, themeColToRGB } from '../../_utils/theme-colour-conversions';
+import {
+  degreesToRadians,
+  radiansToDegrees,
+} from '../_utils/angle-conversions';
 
 type RingTerrainBiases = {
   [key in RingKey]: [number, number, number, number];
@@ -57,15 +61,16 @@ export const PlanetGeneratorRingDrawer = () => {
 
   const defaultRing = useRef<Omit<RingConfig, 'id'>>({
     // don't generate a UUID here or it will always be the same, you idiot
-    type: 'rocky',
-    innerRadius: 2.5,
+    rotation: [Math.PI / 2, 0, 0],
+    type: 'banded',
+    innerRadius: 2,
     outerRadius: 3,
-    resolution: 512,
+    resolution: 1024,
     colors: [
-      themeColToRGB(colors.gray['500']),
       themeColToRGB(colors.gray['600']),
       themeColToRGB(colors.gray['700']),
       themeColToRGB(colors.gray['800']),
+      themeColToRGB(colors.gray['900']),
     ],
     terrainBias: defaultTerrainBiases['rocky'],
   });
@@ -112,6 +117,12 @@ export const PlanetGeneratorRingDrawer = () => {
                   type
                 </Th>
                 <Th borderColor={tableBorderColor} fontSize="xxs">
+                  x°
+                </Th>
+                <Th borderColor={tableBorderColor} fontSize="xxs">
+                  y°
+                </Th>
+                <Th borderColor={tableBorderColor} fontSize="xxs">
                   color biases
                 </Th>
                 <Th borderColor={tableBorderColor} isNumeric fontSize="xxs">
@@ -126,7 +137,14 @@ export const PlanetGeneratorRingDrawer = () => {
             <Tbody>
               {drawerState.rings.map(
                 (
-                  { type, innerRadius, outerRadius, colors, terrainBias },
+                  {
+                    type,
+                    innerRadius,
+                    outerRadius,
+                    colors,
+                    terrainBias,
+                    rotation,
+                  },
                   index
                 ) => (
                   <Fragment key={index}>
@@ -169,6 +187,68 @@ export const PlanetGeneratorRingDrawer = () => {
                             ))}
                           </MenuList>
                         </Menu>
+                      </Td>
+
+                      <Td borderColor={tableBorderColor}>
+                        <NumberInput
+                          maxW="100px"
+                          flexGrow={0}
+                          value={radiansToDegrees(rotation[0])}
+                          min={0}
+                          max={360}
+                          step={15}
+                          onChange={(event) => {
+                            drawerState.rings[index] = {
+                              ...drawerState.rings[index],
+                              rotation: [
+                                degreesToRadians(parseFloat(event)),
+                                rotation[1],
+                                rotation[2],
+                              ],
+                            };
+
+                            planetGenerationRingDrawerVar({
+                              ...drawerState,
+                            });
+                          }}
+                        >
+                          <NumberInputField fontSize="xs" autoFocus />
+                          <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                          </NumberInputStepper>
+                        </NumberInput>
+                      </Td>
+
+                      <Td borderColor={tableBorderColor}>
+                        <NumberInput
+                          maxW="100px"
+                          flexGrow={0}
+                          value={radiansToDegrees(rotation[1])}
+                          min={0}
+                          max={360}
+                          step={15}
+                          onChange={(event) => {
+                            drawerState.rings[index] = {
+                              ...drawerState.rings[index],
+                              rotation: [
+                                rotation[0],
+                                degreesToRadians(parseFloat(event)),
+                                rotation[2],
+                              ],
+                            };
+
+                            planetGenerationRingDrawerVar({
+                              ...drawerState,
+                            });
+                          }}
+                        >
+                          <NumberInputField fontSize="xs" autoFocus />
+                          <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                          </NumberInputStepper>
+                        </NumberInput>
                       </Td>
 
                       <Td borderColor={tableBorderColor}>
@@ -221,7 +301,6 @@ export const PlanetGeneratorRingDrawer = () => {
                       <Td borderColor={tableBorderColor} isNumeric>
                         <NumberInput
                           maxW="100px"
-                          ml="1rem"
                           flexGrow={0}
                           value={innerRadius}
                           min={2}
@@ -248,7 +327,6 @@ export const PlanetGeneratorRingDrawer = () => {
                       <Td borderColor={tableBorderColor} isNumeric>
                         <NumberInput
                           maxW="100px"
-                          ml="1rem"
                           flexGrow={0}
                           value={outerRadius}
                           min={0.1}

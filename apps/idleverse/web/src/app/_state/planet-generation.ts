@@ -1,4 +1,3 @@
-import { makeVar } from '@apollo/client';
 import { v4 as uuidv4 } from 'uuid';
 import {
   HexPalette,
@@ -8,15 +7,20 @@ import {
 } from './models';
 import { makeVarPersisted } from './utils';
 
-export const planetGeneratorConfigVar = makeVar<PlanetGenerationConfig>({
-  ui: true,
-  seed: uuidv4(),
-  textureResolution: 80,
-  pixelSize: 3,
-  atmosphericDistance: 3,
-  atmosphere: true,
-  rotate: true,
-});
+export const planetGeneratorConfigVar =
+  makeVarPersisted<PlanetGenerationConfig>(
+    {
+      ui: true,
+      radius: 1,
+      seed: uuidv4(),
+      textureResolution: 80,
+      pixelSize: 3,
+      atmosphericDistance: 3,
+      atmosphere: true,
+      rotate: true,
+    },
+    'planetGenerationWorldVar'
+  );
 
 export const planetGenerationColorDrawerVar = makeVarPersisted<{
   panelOpen: boolean;

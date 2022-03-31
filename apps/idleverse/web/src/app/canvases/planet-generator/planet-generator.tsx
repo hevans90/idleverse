@@ -39,6 +39,7 @@ export const PlanetGenerator = () => {
     rotate,
     atmosphericDistance,
     textureResolution,
+    radius,
   } = useReactiveVar(planetGeneratorConfigVar);
 
   const {
@@ -116,6 +117,7 @@ export const PlanetGenerator = () => {
         <Canvas>
           <Suspense fallback={null}>
             <World
+              planetRadius={radius}
               worldTexture={worldDataTexture}
               ringTextures={ringDataTextures}
               atmosphere={atmosphere}
