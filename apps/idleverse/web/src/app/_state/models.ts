@@ -64,7 +64,7 @@ export type HexPalette = {
   forest: string;
 };
 
-export const RING_TYPES = ['solid', 'banded', 'rocky'] as const;
+export const RING_TYPES = ['banded', 'rocky'] as const;
 
 type RingTuple = typeof RING_TYPES;
 

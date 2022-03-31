@@ -45,7 +45,6 @@ export const PlanetGeneratorRingDrawer = () => {
   const defaultTerrainBiases: {
     [key in RingKey]: [number, number, number, number];
   } = {
-    solid: [0.1, 0.2, 0.3, 0.4],
     rocky: [0.6, 0.65, 0.7, 0.8],
     banded: [0.3, 0.5, 0.6, 0.8],
   };
