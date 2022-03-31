@@ -18,78 +18,91 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { galaxyConfigVar } from '../../../_state/reactive-variables';
-import { galaxySlidersConfig } from './sliders';
+import { PlanetGenerationConfig } from '../../../_state/models';
+import { planetGeneratorConfigVar } from '../../../_state/planet-generation';
 
-export const generatorControlsHeight = 350;
+export type PlanetGeneratorSliderType = {
+  name: keyof PlanetGenerationConfig;
+  displayName: string;
+  min?: number;
+  max: number;
+  step: number;
+};
 
-export const GeneratorControls = () => {
-  const color = useColorModeValue('gray.200', 'gray.600');
+export const planetGenerationControlsHeight = 200;
 
-  const initialGalaxyConfig = galaxyConfigVar();
+export const planetGeneratorSlidersConfig: PlanetGeneratorSliderType[] = [
+  {
+    name: 'radius',
+    displayName: 'Radius',
+    min: 1,
+    max: 8,
+    step: 0.25,
+  },
+  {
+    name: 'atmosphericDistance',
+    displayName: 'Atmospheric Dist.',
+    min: 1,
+    max: 8,
+    step: 1,
+  },
+  {
+    name: 'pixelSize',
+    displayName: 'Pixel size',
+    min: 1,
+    max: 15,
+    step: 1,
+  },
+  {
+    name: 'textureResolution',
+    displayName: 'Resolution',
+    min: 16,
+    max: 1024,
+    step: 16,
+  },
+];
 
-  const [localConfigValues, setLocalValues] = useState(initialGalaxyConfig);
+export const PlanetGeneratorSliders = () => {
+  const bgColor = useColorModeValue('gray.200', 'gray.600');
+
+  const initialPlanetGenerationConfig = planetGeneratorConfigVar();
+
+  const [localConfigValues, setLocalValues] = useState(
+    initialPlanetGenerationConfig
+  );
 
   useEffect(() => {
-    setLocalValues({ ...initialGalaxyConfig });
+    setLocalValues({ ...initialPlanetGenerationConfig });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <HStack
       className="footer"
-      padding="1rem"
-      bgColor={color}
+      padding={3}
+      bgColor={bgColor}
       position="absolute"
       bottom="0"
       left="0"
-      height={`${generatorControlsHeight}px`}
+      height={`${planetGenerationControlsHeight}px`}
       width="100%"
       alignItems="start"
     >
       <Box
         maxWidth="600px"
-        marginRight="2rem"
         display="flex"
         flexDirection="column"
         flexGrow={1}
+        marginRight="2rem"
       >
-        <Box
-          display="flex"
-          alignItems="center"
-          marginBottom="5px"
-          justifyContent="space-between"
-        >
-          <Text minWidth="100px" fontSize="small">
-            name
-          </Text>
-          <Input
-            placeholder="galaxy name"
-            value={localConfigValues.name}
-            onChange={(event) => {
-              setLocalValues({
-                ...localConfigValues,
-                name: event.target.value,
-              });
-              galaxyConfigVar({
-                ...galaxyConfigVar(),
-                name: event.target.value,
-              });
-            }}
-          />
-        </Box>
-        <Box
-          display="flex"
-          alignItems="center"
-          marginBottom="5px"
-          justifyContent="space-between"
-        >
+        <HStack>
           <Text minWidth="100px" fontSize="small">
             seed
           </Text>
           <Input
             fontSize="xxs"
             value={localConfigValues.seed}
+            flexGrow="1"
             isReadOnly={true}
           />
           <IconButton
@@ -104,19 +117,18 @@ export const GeneratorControls = () => {
                 ...localConfigValues,
                 seed,
               });
-              galaxyConfigVar({
-                ...galaxyConfigVar(),
+              planetGeneratorConfigVar({
+                ...planetGeneratorConfigVar(),
                 seed,
               });
             }}
           />
-        </Box>
+        </HStack>
       </Box>
       <Box display="flex" flexDirection="column" flexGrow={2}>
-        {galaxySlidersConfig.map((slider, index) => (
-          <Box
+        {planetGeneratorSlidersConfig.map((slider, index) => (
+          <HStack
             key={`${index}-container`}
-            display="flex"
             alignItems="center"
             marginBottom="5px"
             justifyContent="space-between"
@@ -130,13 +142,18 @@ export const GeneratorControls = () => {
               maxWidth="400px"
               aria-label={`${slider.name}-slider`}
               value={localConfigValues[slider.name] as number}
-              defaultValue={initialGalaxyConfig[slider.name] as number}
+              defaultValue={
+                initialPlanetGenerationConfig[slider.name] as number
+              }
               min={slider.min}
               max={slider.max}
               step={slider.step}
               onChange={(event) => {
                 setLocalValues({ ...localConfigValues, [slider.name]: event });
-                galaxyConfigVar({ ...galaxyConfigVar(), [slider.name]: event });
+                planetGeneratorConfigVar({
+                  ...planetGeneratorConfigVar(),
+                  [slider.name]: event,
+                });
               }}
               focusThumbOnChange={false}
             >
@@ -147,17 +164,22 @@ export const GeneratorControls = () => {
             </Slider>
 
             <NumberInput
+              ml="1rem"
               key={`${index}-number`}
-              marginLeft="1rem"
               flexGrow={0}
-              value={localConfigValues[slider.name]}
-              defaultValue={initialGalaxyConfig[slider.name] as number}
+              value={localConfigValues[slider.name] as number}
+              defaultValue={
+                initialPlanetGenerationConfig[slider.name] as number
+              }
               min={slider.min}
               max={slider.max}
               step={slider.step}
               onChange={(event) => {
                 setLocalValues({ ...localConfigValues, [slider.name]: event });
-                galaxyConfigVar({ ...galaxyConfigVar(), [slider.name]: event });
+                planetGeneratorConfigVar({
+                  ...planetGeneratorConfigVar(),
+                  [slider.name]: event,
+                });
               }}
             >
               <NumberInputField autoFocus />
@@ -166,7 +188,7 @@ export const GeneratorControls = () => {
                 <NumberDecrementStepper />
               </NumberInputStepper>
             </NumberInput>
-          </Box>
+          </HStack>
         ))}
       </Box>
     </HStack>

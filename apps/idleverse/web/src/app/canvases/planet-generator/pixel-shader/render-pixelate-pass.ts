@@ -140,7 +140,7 @@ export default class RenderPixelatedPass extends Pass {
                     // float normalEdgeCoefficient = (smoothSign(tLum - .3, .1) + .7) * .25;
                     // float depthEdgeCoefficient = (smoothSign(tLum - .3, .1) + .7) * .3;
                     float normalEdgeCoefficient = .3;
-                    float depthEdgeCoefficient = .4;
+                    float depthEdgeCoefficient = .02;
                     float dei = depthEdgeIndicator();
                     float nei = normalEdgeIndicator();
                     float coefficient = dei > 0.0 ? (1.0 - depthEdgeCoefficient * dei) : (1.0 + normalEdgeCoefficient * nei);

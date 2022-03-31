@@ -1,8 +1,8 @@
 import { Box, Theme, useTheme } from '@chakra-ui/react';
 import { Stage } from '@inlet/react-pixi';
 import { animateVar } from '../../_state/reactive-variables';
-import { themeColToHex } from '../common-utils/theme-col-to-hex';
-import { useResize } from '../common-utils/use-resize.hook';
+import { themeColToHex } from '../_utils/theme-colour-conversions';
+import { useResize } from '../_utils/use-resize.hook';
 import { GameUIBottomBar } from '../galaxy-generator/ui/bottom-bar';
 import { GravitySimulation } from './gravity-simulation';
 import {

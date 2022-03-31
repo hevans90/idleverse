@@ -31,9 +31,13 @@ export type SolarSystemConfig = {
 };
 
 export type PlanetGenerationConfig = {
+  ui: boolean;
+  radius: number;
+  seed: string;
+  textureResolution: number;
   pixelSize: number;
   atmosphericDistance: number;
-  weather: boolean;
+  atmosphere: boolean;
   rotate: boolean;
 };
 
@@ -44,3 +48,36 @@ export type BreadCrumb = {
 };
 
 export type Vector2D = { x: number; y: number };
+
+export type rgb = { r: number; g: number; b: number };
+
+export type textureColorMap = {
+  water: rgb;
+  sand: rgb;
+  grass: rgb;
+  forest: rgb;
+};
+
+export type HexPalette = {
+  water: string;
+  sand: string;
+  grass: string;
+  forest: string;
+};
+
+export const RING_TYPES = ['banded', 'rocky'] as const;
+
+type RingTuple = typeof RING_TYPES;
+
+export type RingKey = RingTuple[number];
+
+export type RingConfig = {
+  id: string;
+  rotation: [x: number, y: number, z: number, order?: string];
+  type: RingKey;
+  colors: [rgb, rgb, rgb, rgb];
+  terrainBias: [number, number, number, number];
+  innerRadius: number;
+  outerRadius: number;
+  resolution: number;
+};

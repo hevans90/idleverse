@@ -3,8 +3,8 @@ import { CelestialByIdQuery } from '@idleverse/galaxy-gql';
 import { useApp } from '@inlet/react-pixi';
 import { Container } from 'pixi.js';
 import { useEffect, useRef } from 'react';
-import { useResize } from '../common-utils/use-resize.hook';
-import { useViewport } from '../common-utils/use-viewport';
+import { useResize } from '../_utils/use-resize.hook';
+import { useViewport } from '../_utils/use-viewport';
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
 
 type CelestialViewerProps = {
