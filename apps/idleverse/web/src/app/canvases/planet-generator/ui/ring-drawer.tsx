@@ -42,10 +42,9 @@ export const PlanetGeneratorRingDrawer = () => {
 
   const drawerState = useReactiveVar(planetGenerationRingDrawerVar);
 
-  const defaultRing = useRef<RingConfig>({
-    id: v4(),
+  const defaultRing = useRef<Omit<RingConfig, 'id'>>({
+    // don't generate a UUID here or it will always be the same :)
     type: 'rocky',
-
     innerRadius: 2.5,
     outerRadius: 3.5,
     resolution: 512,
@@ -68,7 +67,10 @@ export const PlanetGeneratorRingDrawer = () => {
             onClick={() =>
               planetGenerationRingDrawerVar({
                 ...drawerState,
-                rings: [...drawerState.rings, defaultRing.current],
+                rings: [
+                  ...drawerState.rings,
+                  { id: v4(), ...defaultRing.current },
+                ],
               })
             }
           >

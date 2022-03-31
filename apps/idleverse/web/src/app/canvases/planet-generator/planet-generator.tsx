@@ -57,6 +57,10 @@ export const PlanetGenerator = () => {
     useState<{ [ringId: string]: DataTexture }>(undefined);
 
   useEffect(() => {
+    console.log(
+      `%cTEXTURE gen running for PLANET (perlin)`,
+      'background: #222; color: #F96444'
+    );
     runTextureGenOnWorker(
       'perlin',
       textureResolution,
@@ -71,6 +75,9 @@ export const PlanetGenerator = () => {
       [...prevRingsRef.current],
       [...rings]
     );
+
+    // processing deletions first makes more sense
+    deletions.forEach((id) => delete ringDataTextures[id]);
 
     const updatesToRegen = updates
       .filter(({ regenTexture }) => regenTexture === true)
