@@ -36,11 +36,12 @@ import { Fragment, useRef } from 'react';
 import { v4 } from 'uuid';
 import { RingConfig, RingKey, RING_TYPES } from '../../../_state/models';
 import { planetGenerationRingDrawerVar } from '../../../_state/planet-generation';
-import { rgbToHex, themeColToRGB } from '../../_utils/theme-colour-conversions';
+import { hexToRGB, rgbToHex } from '../../_utils/theme-colour-conversions';
 import {
   degreesToRadians,
   radiansToDegrees,
 } from '../_utils/angle-conversions';
+import { ColorQuadPicker } from './color-quad-picker';
 
 type RingTerrainBiases = {
   [key in RingKey]: [number, number, number, number];
@@ -55,7 +56,7 @@ export const PlanetGeneratorRingDrawer = () => {
   const bgColor = useColorModeValue('gray.200', 'gray.600');
   const tableBorderColor = useColorModeValue('green.600', 'green.300');
 
-  const { colors } = useTheme<Theme>();
+  const { colors: themeColors } = useTheme<Theme>();
 
   const drawerState = useReactiveVar(planetGenerationRingDrawerVar);
 
@@ -67,12 +68,12 @@ export const PlanetGeneratorRingDrawer = () => {
     outerRadius: 3,
     resolution: 1024,
     colors: [
-      themeColToRGB(colors.gray['600']),
-      themeColToRGB(colors.gray['700']),
-      themeColToRGB(colors.gray['800']),
-      themeColToRGB(colors.gray['900']),
+      hexToRGB(themeColors.gray['600']),
+      hexToRGB(themeColors.gray['700']),
+      hexToRGB(themeColors.gray['800']),
+      hexToRGB(themeColors.gray['900']),
     ],
-    terrainBias: defaultTerrainBiases['rocky'],
+    terrainBias: defaultTerrainBiases['banded'],
   });
 
   return (
@@ -123,7 +124,10 @@ export const PlanetGeneratorRingDrawer = () => {
                   y°
                 </Th>
                 <Th borderColor={tableBorderColor} fontSize="xxs">
-                  color biases
+                  colors
+                </Th>
+                <Th borderColor={tableBorderColor} fontSize="xxs">
+                  biases
                 </Th>
                 <Th borderColor={tableBorderColor} isNumeric fontSize="xxs">
                   inner rad.
@@ -249,6 +253,22 @@ export const PlanetGeneratorRingDrawer = () => {
                             <NumberDecrementStepper />
                           </NumberInputStepper>
                         </NumberInput>
+                      </Td>
+
+                      <Td borderColor={tableBorderColor}>
+                        <ColorQuadPicker
+                          colors={colors}
+                          onChange={(val) => {
+                            drawerState.rings[index] = {
+                              ...drawerState.rings[index],
+                              colors: val,
+                            };
+
+                            planetGenerationRingDrawerVar({
+                              ...drawerState,
+                            });
+                          }}
+                        ></ColorQuadPicker>
                       </Td>
 
                       <Td borderColor={tableBorderColor}>
