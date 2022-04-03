@@ -1,5 +1,6 @@
 import { useReactiveVar } from '@apollo/client';
 import { Box, Theme, useTheme } from '@chakra-ui/react';
+import { Stats } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { DataTexture } from 'three';
@@ -28,6 +29,8 @@ import { deepCompareRings } from './_utils/deep-compare-rings';
 
 export const PlanetGenerator = () => {
   const { width, height } = useResize('planet-gen');
+
+  const containerRef = useRef<HTMLDivElement>();
 
   const { colors } = useTheme<Theme>();
 
@@ -108,6 +111,7 @@ export const PlanetGenerator = () => {
   return (
     <>
       <Box
+        ref={containerRef}
         position="relative"
         width={`${width}px`}
         height={
@@ -131,6 +135,7 @@ export const PlanetGenerator = () => {
               pixelSize={pixelSize}
             />
           </Suspense>
+          <Stats className="planet-gen-stats" parent={containerRef} />
         </Canvas>
       </Box>
 
