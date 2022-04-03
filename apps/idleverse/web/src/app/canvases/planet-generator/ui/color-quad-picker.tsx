@@ -38,8 +38,6 @@ export const ColorQuadPicker = ({
       <VStack>
         <ColorPicker
           onChange={(val) => {
-            console.log('converting to hex:', val);
-
             setLocalColors([
               themeColorToHex(val, themeColors),
               localHexColors[1],
