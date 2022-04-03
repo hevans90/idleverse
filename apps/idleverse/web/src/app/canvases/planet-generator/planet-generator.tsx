@@ -10,7 +10,7 @@ import {
   planetGenerationTerrainDrawerVar,
   planetGeneratorConfigVar,
 } from '../../_state/planet-generation';
-import { themeColToHex } from '../_utils/theme-colour-conversions';
+import { hexStringToNumber } from '../_utils/theme-colour-conversions';
 import { useResize } from '../_utils/use-resize.hook';
 import { CameraController } from './camera-controller';
 import { Pixelate } from './pixelate';
@@ -127,7 +127,7 @@ export const PlanetGenerator = () => {
             />
             <CameraController />
             <Pixelate
-              bgColor={themeColToHex(colors.gray['800'])}
+              bgColor={hexStringToNumber(colors.gray['800'])}
               pixelSize={pixelSize}
             />
           </Suspense>

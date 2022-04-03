@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import { Container } from 'pixi.js';
 import { userAvatarResourcesVar } from '../../../_state/reactive-variables';
 import { theme } from '../../../_theme/theme';
-import { themeColToHex } from '../../_utils/theme-colour-conversions';
+import { hexStringToNumber } from '../../_utils/theme-colour-conversions';
 
 export type StarProps = {
   id: string;
@@ -12,9 +12,9 @@ export type StarProps = {
   ownerId?: string;
 };
 
-const claimedCol = themeColToHex(theme.colors.red['300']);
+const claimedCol = hexStringToNumber(theme.colors.red['300']);
 const claimedRadius = 4;
-const unclaimedCol = themeColToHex(theme.colors.teal['200']);
+const unclaimedCol = hexStringToNumber(theme.colors.teal['200']);
 const unclaimedRadius = 2;
 const userIndicatorRadius = 24;
 const userIndicatorLineHeight = 20;

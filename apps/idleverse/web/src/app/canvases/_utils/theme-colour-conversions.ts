@@ -1,10 +1,39 @@
+import { Theme } from '@chakra-ui/react';
 import { rgb } from '../../_state/models';
 
-export const themeColToHex = (val: string) =>
+export type ThemeShades =
+  | '50'
+  | '100'
+  | '200'
+  | '300'
+  | '400'
+  | '500'
+  | '600'
+  | '700'
+  | '800'
+  | '900';
+
+export const themeColorToHex = (col: string, colors: Theme['colors']) => {
+  console.time('theme col to hex');
+
+  const split = col.split('.');
+
+  const palette = split[0] as keyof Theme['colors'];
+  const shade = split[1] as ThemeShades;
+
+  console.timeEnd('theme col to hex');
+  return colors[palette][shade];
+};
+
+export const hexStringToNumber = (val: string) =>
   parseInt(val.replace(/^#/, ''), 16);
 
-export const themeColToRGB = (hex: string) =>
-  hex
+export const hexToRGB = (hex: string) => {
+  console.time('hex to RGB');
+
+  console.error('called');
+
+  const rgb = hex
     .replace(
       /^#?([a-f\d])([a-f\d])([a-f\d])$/i,
       (m, r, g, b) => '#' + r + r + g + g + b + b
@@ -17,6 +46,9 @@ export const themeColToRGB = (hex: string) =>
       g: 0,
       b: 0,
     });
+  console.timeEnd('hex to RGB');
+  return rgb;
+};
 
 const rgbValueToHex = (color: number) => {
   const hexadecimal = color.toString(16);

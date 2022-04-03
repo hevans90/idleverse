@@ -18,7 +18,7 @@ import {
 import { Fragment, useEffect, useState } from 'react';
 import { HexPalette } from '../../../_state/models';
 import { planetGenerationColorDrawerVar } from '../../../_state/planet-generation';
-import { themeColToRGB } from '../../_utils/theme-colour-conversions';
+import { hexToRGB } from '../../_utils/theme-colour-conversions';
 import { ColorQuad } from './color-quad';
 
 export const PlanetGeneratorColorDrawer = () => {
@@ -77,10 +77,10 @@ export const PlanetGeneratorColorDrawer = () => {
       ...drawerState,
       palettePresetName: localPalette.name,
       currentPalette: {
-        water: themeColToRGB(localPalette.palette.water),
-        sand: themeColToRGB(localPalette.palette.sand),
-        grass: themeColToRGB(localPalette.palette.grass),
-        forest: themeColToRGB(localPalette.palette.forest),
+        water: hexToRGB(localPalette.palette.water),
+        sand: hexToRGB(localPalette.palette.sand),
+        grass: hexToRGB(localPalette.palette.grass),
+        forest: hexToRGB(localPalette.palette.forest),
       },
       currentHexPalette: {
         water: localPalette.palette.water,

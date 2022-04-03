@@ -1,9 +1,9 @@
 import { Box, Theme, useTheme } from '@chakra-ui/react';
 import { Stage } from '@inlet/react-pixi';
 import { animateVar } from '../../_state/reactive-variables';
-import { themeColToHex } from '../_utils/theme-colour-conversions';
-import { useResize } from '../_utils/use-resize.hook';
 import { GameUIBottomBar } from '../galaxy-generator/ui/bottom-bar';
+import { hexStringToNumber } from '../_utils/theme-colour-conversions';
+import { useResize } from '../_utils/use-resize.hook';
 import { GravitySimulation } from './gravity-simulation';
 import {
   galaxySimControlsHeight,
@@ -20,7 +20,7 @@ export const GravitySimulationContainer = () => {
       <Stage
         {...size}
         options={{
-          backgroundColor: themeColToHex(colors.gray['800']),
+          backgroundColor: hexStringToNumber(colors.gray['800']),
           antialias: true,
         }}
         onUnmount={() => animateVar(false)}

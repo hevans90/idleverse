@@ -22,10 +22,10 @@ import { useEffect, useRef, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Loading } from '../../components/loading';
 import { galaxyConfigVar, selfVar } from '../../_state/reactive-variables';
-import { dbGalaxyToGalaxyConfig } from '../_utils/db-galaxy-to-galaxy-config';
-import { themeColToHex } from '../_utils/theme-colour-conversions';
-import { useResize } from '../_utils/use-resize.hook';
 import { GameUIBottomBar } from '../galaxy-generator/ui/bottom-bar';
+import { dbGalaxyToGalaxyConfig } from '../_utils/db-galaxy-to-galaxy-config';
+import { hexStringToNumber } from '../_utils/theme-colour-conversions';
+import { useResize } from '../_utils/use-resize.hook';
 import { celestialOwnerMapper } from './celestial-owner';
 import { GalaxyViewer } from './galaxy-viewer';
 import { PlayerPanel } from './ui/player-panel';
@@ -109,7 +109,7 @@ export const GalaxyViewerContainer = () => {
         <Stage
           {...size}
           options={{
-            backgroundColor: themeColToHex(colors.gray['800']),
+            backgroundColor: hexStringToNumber(colors.gray['800']),
             antialias: true,
           }}
         >

@@ -19,9 +19,23 @@ import {
 import { useState } from 'react';
 
 const defaultColors = [
+  'gray.100',
+  'gray.200',
+  'gray.300',
+  'gray.400',
   'gray.500',
-  'red.500',
+  'gray.600',
+  'gray.800',
+  'gray.900',
+  'orange.100',
+  'orange.200',
+  'orange.300',
+  'orange.400',
   'orange.500',
+  'orange.600',
+  'orange.700',
+  'orange.800',
+  'red.500',
   'yellow.500',
   'green.500',
   'teal.500',
@@ -74,10 +88,10 @@ export const ColorPicker = ({
           {colorPalette.map((color, index) => (
             <Button
               key={index}
-              h="40px"
-              w="40px"
+              h="30px"
+              w="30px"
               p={0}
-              minW="40px"
+              minW="30px"
               bg={color}
               _hover={{ bg: color, transform: 'scale(1.05)' }}
               _active={{ bg: color }}

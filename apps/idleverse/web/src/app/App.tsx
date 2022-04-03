@@ -2,7 +2,7 @@ import { ApolloProvider, useReactiveVar } from '@apollo/client';
 import { useAuth0 } from '@auth0/auth0-react';
 import { apolloBootstrapper } from '@idleverse/graphql-utils';
 import jwt_decode from 'jwt-decode';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { environment } from '../environments/environment';
 import { Layout } from './components/layout';
