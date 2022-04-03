@@ -19,7 +19,7 @@ import {
   galaxyConfigVar,
   roleVar,
 } from '../../_state/reactive-variables';
-import { themeColToHex } from '../_utils/theme-colour-conversions';
+import { hexStringToNumber } from '../_utils/theme-colour-conversions';
 import { useResize } from '../_utils/use-resize.hook';
 import { GalaxyGenerator } from './galaxy-generator';
 import { GameUIBottomBar } from './ui/bottom-bar';
@@ -90,7 +90,7 @@ export const GalaxyGenContainer = () => {
         <Stage
           {...size}
           options={{
-            backgroundColor: themeColToHex(colors.gray['800']),
+            backgroundColor: hexStringToNumber(colors.gray['800']),
             antialias: true,
           }}
           onUnmount={() => animateVar(false)}

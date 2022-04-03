@@ -54,8 +54,6 @@ export const SolarSystemControls = () => {
   useEffect(() => {
     setLocalValues({ ...initialSolarSystemConfig });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-
-    console.log();
   }, []);
 
   return (

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { loadPlanets } from '../../asset-loading/load-planets';
 import { Loading } from '../../components/loading';
 import { animateVar } from '../../_state/reactive-variables';
-import { themeColToHex } from '../_utils/theme-colour-conversions';
+import { hexStringToNumber } from '../_utils/theme-colour-conversions';
 import { useResize } from '../_utils/use-resize.hook';
 import { SolarSystem } from './solar-system';
 import { SolarSystemControls } from './ui/controls';
@@ -30,7 +30,7 @@ export const SolarSystemContainer = () => {
       <Stage
         {...size}
         options={{
-          backgroundColor: themeColToHex(colors.gray['800']),
+          backgroundColor: hexStringToNumber(colors.gray['800']),
           antialias: true,
         }}
         onUnmount={() => animateVar(false)}
