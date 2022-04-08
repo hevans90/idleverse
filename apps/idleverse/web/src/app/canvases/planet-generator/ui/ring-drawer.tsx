@@ -52,6 +52,16 @@ const defaultTerrainBiases: RingTerrainBiases = {
   banded: [0.3, 0.5, 0.6, 0.8],
 };
 
+const columns: { name: string; numeric?: boolean }[] = [
+  { name: 'Type' },
+  { name: 'x°' },
+  { name: 'y°' },
+  { name: 'colors' },
+  { name: 'biases' },
+  { name: 'inner rad.', numeric: true },
+  { name: 'outer rad.', numeric: true },
+];
+
 export const PlanetGeneratorRingDrawer = () => {
   const bgColor = useColorModeValue('gray.200', 'gray.600');
   const tableBorderColor = useColorModeValue('green.600', 'green.300');
@@ -114,27 +124,16 @@ export const PlanetGeneratorRingDrawer = () => {
           <Table variant="simple" fontSize="xs" size="sm">
             <Thead>
               <Tr>
-                <Th borderColor={tableBorderColor} fontSize="xxs">
-                  type
-                </Th>
-                <Th borderColor={tableBorderColor} fontSize="xxs">
-                  x°
-                </Th>
-                <Th borderColor={tableBorderColor} fontSize="xxs">
-                  y°
-                </Th>
-                <Th borderColor={tableBorderColor} fontSize="xxs">
-                  colors
-                </Th>
-                <Th borderColor={tableBorderColor} fontSize="xxs">
-                  biases
-                </Th>
-                <Th borderColor={tableBorderColor} isNumeric fontSize="xxs">
-                  inner rad.
-                </Th>
-                <Th borderColor={tableBorderColor} isNumeric fontSize="xxs">
-                  outer rad.
-                </Th>
+                {columns.map(({ name, numeric }) => (
+                  <Th
+                    borderColor={tableBorderColor}
+                    fontSize="xxs"
+                    isNumeric={numeric}
+                  >
+                    {name}
+                  </Th>
+                ))}
+
                 <Th borderColor={tableBorderColor}></Th>
               </Tr>
             </Thead>
