@@ -76,7 +76,7 @@
             "passWithNoTests": true
           }
         },
-        "deploy": {
+        "__deploy": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "commands": [
@@ -155,7 +155,7 @@
             ]
           }
         },
-        "deploy": {
+        "__deploy": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "commands": [
@@ -223,7 +223,7 @@
             "passWithNoTests": true
           }
         },
-        "deploy": {
+        "__deploy": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "commands": [
