@@ -16,7 +16,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { Fragment, useEffect, useState } from 'react';
-import { HexPalette } from '../../../_state/models';
+import { TerrainHexPalette } from '../../../_state/models';
 import { planetGenerationColorDrawerVar } from '../../../_state/planet-generation';
 import { hexToRGB } from '../../_utils/theme-colour-conversions';
 import { ColorQuad } from './color-quad';
@@ -26,7 +26,7 @@ export const PlanetGeneratorColorDrawer = () => {
   const { colors } = useTheme<Theme>();
   const bgColor = useColorModeValue('gray.200', 'gray.600');
 
-  const palettePresets: { name: string; palette: HexPalette }[] = [
+  const palettePresets: { name: string; palette: TerrainHexPalette }[] = [
     {
       name: 'terran',
       palette: {
@@ -56,10 +56,12 @@ export const PlanetGeneratorColorDrawer = () => {
     },
   ];
 
+  console.log(palettePresets);
+
   // set a default here because we need access to the useTheme hook to pull colors
   const [localPalette, setLocalPalette] = useState<{
     name: string;
-    palette: HexPalette;
+    palette: TerrainHexPalette;
   }>(palettePresets[0]);
 
   useEffect(() => {

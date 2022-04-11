@@ -1,0 +1,1 @@
+INSERT INTO "public"."terrain_hex_palette"("water", "sand", "grass", "forest", "id", "name") VALUES (E'#EFBE9A', E'#E9A472', E'#E28A4A', E'#B05A1C', E'196080d1-ed3c-496b-a913-3c14ccf11edf', E'desert');

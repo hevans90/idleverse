@@ -1,0 +1,16 @@
+table:
+  name: planetary_ring
+  schema: public
+select_permissions:
+- permission:
+    columns:
+    - colors
+    - rotation
+    - terrain_bias
+    - resolution
+    - inner_radius
+    - outer_radius
+    - type
+    - id
+    filter: {}
+  role: user

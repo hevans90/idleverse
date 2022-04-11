@@ -23,6 +23,11 @@ export type Scalars = {
   uuid: any;
 };
 
+export type GalaxyManagement = {
+  __typename?: 'GalaxyManagement';
+  freeClaimsLeft: Scalars['Float'];
+};
+
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 export type Int_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['Int']>;
@@ -34,6 +39,11 @@ export type Int_Comparison_Exp = {
   _lte?: InputMaybe<Scalars['Int']>;
   _neq?: InputMaybe<Scalars['Int']>;
   _nin?: InputMaybe<Array<Scalars['Int']>>;
+};
+
+export type Register = {
+  __typename?: 'Register';
+  updatedName: Scalars['String'];
 };
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
@@ -748,11 +758,6 @@ export type Galaxy_Variance_Fields = {
   stars?: Maybe<Scalars['Float']>;
 };
 
-export type L = {
-  __typename?: 'l';
-  updatedName: Scalars['String'];
-};
-
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
@@ -800,8 +805,8 @@ export type Mutation_Root = {
   insert_user_private?: Maybe<User_Private_Mutation_Response>;
   /** insert a single row into the table: "user_private" */
   insert_user_private_one?: Maybe<User_Private>;
-  requestRandomCelestial?: Maybe<O>;
-  setDisplayName?: Maybe<L>;
+  requestRandomCelestial?: Maybe<GalaxyManagement>;
+  setDisplayName?: Maybe<Register>;
   /** update data of the table: "celestial" */
   update_celestial?: Maybe<Celestial_Mutation_Response>;
   /** update single row of the table: "celestial" */
@@ -1030,11 +1035,6 @@ export type Numeric_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['numeric']>>;
 };
 
-export type O = {
-  __typename?: 'o';
-  freeClaimsLeft: Scalars['Float'];
-};
-
 /** column ordering options */
 export enum Order_By {
   /** in ascending order, nulls last */
@@ -1071,7 +1071,7 @@ export type Query_Root = {
   galaxy_aggregate: Galaxy_Aggregate;
   /** fetch data from the table: "galaxy" using primary key columns */
   galaxy_by_pk?: Maybe<Galaxy>;
-  returnNothing?: Maybe<O>;
+  returnNothing?: Maybe<GalaxyManagement>;
   /** fetch data from the table: "user_info" */
   user_info: Array<User_Info>;
   /** fetch aggregated fields from the table: "user_info" */
@@ -2043,7 +2043,10 @@ export type RequestRandomCelestialByGalaxyIdMutationVariables = Exact<{
 
 export type RequestRandomCelestialByGalaxyIdMutation = {
   __typename?: 'mutation_root';
-  requestRandomCelestial?: { __typename?: 'o'; freeClaimsLeft: number } | null;
+  requestRandomCelestial?: {
+    __typename?: 'GalaxyManagement';
+    freeClaimsLeft: number;
+  } | null;
 };
 
 export type TryInsertClaimedCelestialMutationVariables = Exact<{
@@ -2255,7 +2258,7 @@ export type SetNameByUserIdMutationVariables = Exact<{
 
 export type SetNameByUserIdMutation = {
   __typename?: 'mutation_root';
-  setDisplayName?: { __typename?: 'l'; updatedName: string } | null;
+  setDisplayName?: { __typename?: 'Register'; updatedName: string } | null;
 };
 
 export type UpdateFreeClaimsMutationVariables = Exact<{

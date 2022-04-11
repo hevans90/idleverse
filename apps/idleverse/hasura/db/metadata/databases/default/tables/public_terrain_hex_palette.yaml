@@ -1,0 +1,14 @@
+table:
+  name: terrain_hex_palette
+  schema: public
+select_permissions:
+- permission:
+    columns:
+    - forest
+    - grass
+    - name
+    - sand
+    - water
+    - id
+    filter: {}
+  role: user
