@@ -14,11 +14,12 @@ const config1: RingConfig = {
     { r: 255, g: 255, b: 255 },
   ],
   terrainBias: [0.6, 0.65, 0.7, 0.8],
+  rotation: [0, 0, 0],
 };
 
 const config2: RingConfig = {
   id: 'b',
-  type: 'solid',
+  type: 'banded',
   innerRadius: 5,
   outerRadius: 5.5,
   resolution: 128,
@@ -29,6 +30,7 @@ const config2: RingConfig = {
     { r: 255, g: 255, b: 255 },
   ],
   terrainBias: [0.6, 0.65, 0.7, 0.8],
+  rotation: [0, 0, 0],
 };
 
 describe('deepCompareRings', () => {
