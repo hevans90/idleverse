@@ -1,5 +1,5 @@
 import { HStack, Theme, useTheme, VStack } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ColorPicker } from '../../../components/color-picker';
 import { rgb } from '../../../_state/models';
 import {
@@ -33,53 +33,70 @@ export const ColorQuadPicker = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [localHexColors]);
 
+  const callback1 = useCallback(
+    (val: string) => {
+      setLocalColors([
+        themeColorToHex(val, themeColors),
+        localHexColors[1],
+        localHexColors[2],
+        localHexColors[3],
+      ]);
+    },
+    [localHexColors, themeColors]
+  );
+  const callback2 = useCallback(
+    (val: string) => {
+      setLocalColors([
+        localHexColors[1],
+        themeColorToHex(val, themeColors),
+        localHexColors[2],
+        localHexColors[3],
+      ]);
+    },
+    [localHexColors, themeColors]
+  );
+  const callback3 = useCallback(
+    (val: string) => {
+      setLocalColors([
+        localHexColors[1],
+        localHexColors[2],
+        themeColorToHex(val, themeColors),
+        localHexColors[3],
+      ]);
+    },
+    [localHexColors, themeColors]
+  );
+  const callback4 = useCallback(
+    (val: string) => {
+      setLocalColors([
+        localHexColors[1],
+        localHexColors[2],
+        localHexColors[3],
+        themeColorToHex(val, themeColors),
+      ]);
+    },
+    [localHexColors, themeColors]
+  );
+
   return (
     <HStack>
       <VStack>
         <ColorPicker
-          onChange={(val) => {
-            setLocalColors([
-              themeColorToHex(val, themeColors),
-              localHexColors[1],
-              localHexColors[2],
-              localHexColors[3],
-            ]);
-          }}
+          onChange={callback1}
           defaultColor={rgbToHex(colors[0])}
         ></ColorPicker>
         <ColorPicker
-          onChange={(val) => {
-            setLocalColors([
-              localHexColors[0],
-              themeColorToHex(val, themeColors),
-              localHexColors[2],
-              localHexColors[3],
-            ]);
-          }}
+          onChange={callback2}
           defaultColor={rgbToHex(colors[1])}
         ></ColorPicker>
       </VStack>
       <VStack>
         <ColorPicker
-          onChange={(val) => {
-            setLocalColors([
-              localHexColors[0],
-              localHexColors[1],
-              themeColorToHex(val, themeColors),
-              localHexColors[3],
-            ]);
-          }}
+          onChange={callback3}
           defaultColor={rgbToHex(colors[2])}
         ></ColorPicker>
         <ColorPicker
-          onChange={(val) => {
-            setLocalColors([
-              localHexColors[0],
-              localHexColors[1],
-              localHexColors[2],
-              themeColorToHex(val, themeColors),
-            ]);
-          }}
+          onChange={callback4}
           defaultColor={rgbToHex(colors[3])}
         ></ColorPicker>
       </VStack>

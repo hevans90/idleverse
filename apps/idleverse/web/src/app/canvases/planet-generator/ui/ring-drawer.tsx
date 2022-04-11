@@ -86,6 +86,11 @@ export const PlanetGeneratorRingDrawer = () => {
     terrainBias: defaultTerrainBiases['banded'],
   });
 
+  const updateRings = () =>
+    planetGenerationRingDrawerVar({
+      ...drawerState,
+    });
+
   return (
     <VStack bgColor={bgColor} position="absolute" right="0" top="0" padding={3}>
       <HStack width="100%" justifyContent="space-between">
@@ -174,13 +179,9 @@ export const PlanetGeneratorRingDrawer = () => {
                                   onClick={() => {
                                     drawerState.rings[index] = {
                                       ...drawerState.rings[index],
-                                      terrainBias: defaultTerrainBiases[type],
                                       type,
                                     };
-
-                                    planetGenerationRingDrawerVar({
-                                      ...drawerState,
-                                    });
+                                    updateRings();
                                   }}
                                 >
                                   {type}
@@ -209,10 +210,7 @@ export const PlanetGeneratorRingDrawer = () => {
                                 rotation[2],
                               ],
                             };
-
-                            planetGenerationRingDrawerVar({
-                              ...drawerState,
-                            });
+                            updateRings();
                           }}
                         >
                           <NumberInputField fontSize="xs" autoFocus />
@@ -241,9 +239,7 @@ export const PlanetGeneratorRingDrawer = () => {
                               ],
                             };
 
-                            planetGenerationRingDrawerVar({
-                              ...drawerState,
-                            });
+                            updateRings();
                           }}
                         >
                           <NumberInputField fontSize="xs" autoFocus />
@@ -263,9 +259,7 @@ export const PlanetGeneratorRingDrawer = () => {
                               colors: val,
                             };
 
-                            planetGenerationRingDrawerVar({
-                              ...drawerState,
-                            });
+                            updateRings();
                           }}
                         ></ColorQuadPicker>
                       </Td>
@@ -285,9 +279,7 @@ export const PlanetGeneratorRingDrawer = () => {
                                 terrainBias: val,
                               };
 
-                              planetGenerationRingDrawerVar({
-                                ...drawerState,
-                              });
+                              updateRings();
                             }}
                           >
                             <RangeSliderTrack>
@@ -330,10 +322,7 @@ export const PlanetGeneratorRingDrawer = () => {
                               ...drawerState.rings[index],
                               innerRadius: parseFloat(event),
                             };
-
-                            planetGenerationRingDrawerVar({
-                              ...drawerState,
-                            });
+                            updateRings();
                           }}
                         >
                           <NumberInputField fontSize="xs" autoFocus />
@@ -356,10 +345,7 @@ export const PlanetGeneratorRingDrawer = () => {
                               ...drawerState.rings[index],
                               outerRadius: parseFloat(event),
                             };
-
-                            planetGenerationRingDrawerVar({
-                              ...drawerState,
-                            });
+                            updateRings();
                           }}
                         >
                           <NumberInputField fontSize="xs" autoFocus />
@@ -375,10 +361,7 @@ export const PlanetGeneratorRingDrawer = () => {
                           icon={<MinusIcon />}
                           onClick={() => {
                             drawerState.rings.splice(index, 1);
-
-                            planetGenerationRingDrawerVar({
-                              ...drawerState,
-                            });
+                            updateRings();
                           }}
                         />
                       </Td>
