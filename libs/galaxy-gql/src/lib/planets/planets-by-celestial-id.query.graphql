@@ -1,0 +1,23 @@
+query PlanetsByCelestialId($id: String!) {
+  celestial_by_pk(id: $id) {
+    planets {
+      name
+      id
+      radius
+      rings {
+        colors
+        id
+        inner_radius
+        outer_radius
+        resolution
+        rotation
+        terrain_bias
+        type
+      }
+      owner_id
+      terrain_bias
+      terrain_hex_palette_id
+      texture_resolution
+    }
+  }
+}
