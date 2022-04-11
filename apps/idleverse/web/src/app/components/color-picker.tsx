@@ -16,7 +16,7 @@ import {
   SimpleGrid,
   useBoolean,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { memo, useRef } from 'react';
 
 const defaultColors = [
   'gray.100',
@@ -45,65 +45,69 @@ const defaultColors = [
   'pink.500',
 ];
 
-export const ColorPicker = ({
-  onChange,
-  colors,
-  defaultColor,
-  bg,
-  placement,
-  isDisabled,
-}: {
-  onChange: (value: string) => void;
-  colors?: string[];
-  defaultColor?: string;
-  bg?: string;
-  placement?: PlacementWithLogical;
-  isDisabled?: boolean;
-}) => {
-  const [isOpen, setIsOpen] = useBoolean();
-  const colorPalette = colors || defaultColors;
-  const [selectedColor, setSelectedColor] = useState<string>(
-    defaultColor || colorPalette[0]
-  );
+export const ColorPicker = memo(
+  ({
+    onChange,
+    colors,
+    defaultColor,
+    bg,
+    placement,
+    isDisabled,
+  }: {
+    onChange: (value: string) => void;
+    colors?: string[];
+    defaultColor?: string;
+    bg?: string;
+    placement?: PlacementWithLogical;
+    isDisabled?: boolean;
+  }) => {
+    const [isOpen, setIsOpen] = useBoolean();
+    const colorPalette = colors || defaultColors;
+    const selectedColor = useRef<string>(defaultColor || colorPalette[0]);
 
-  return (
-    <Popover
-      isOpen={isOpen && !isDisabled}
-      onClose={setIsOpen.toggle}
-      placement={placement}
-    >
-      <PopoverTrigger>
-        <Button
-          bg={selectedColor}
-          onClick={setIsOpen.toggle}
-          _hover={{ bg: selectedColor, transform: 'scale(1.05)' }}
-          _active={{ bg: selectedColor }}
-          aria-label="color picker"
-          isDisabled={isDisabled}
-        ></Button>
-      </PopoverTrigger>
-      <PopoverContent w="auto" bg={bg} boxShadow="md">
-        <PopoverArrow />
-        <SimpleGrid columns={5} p={1} spacing={1}>
-          {colorPalette.map((color, index) => (
-            <Button
-              key={index}
-              h="30px"
-              w="30px"
-              p={0}
-              minW="30px"
-              bg={color}
-              _hover={{ bg: color, transform: 'scale(1.05)' }}
-              _active={{ bg: color }}
-              onClick={() => {
-                setIsOpen.toggle();
-                setSelectedColor(color);
-                onChange(color);
-              }}
-            />
-          ))}
-        </SimpleGrid>
-      </PopoverContent>
-    </Popover>
-  );
-};
+    return (
+      <Popover
+        isOpen={isOpen && !isDisabled}
+        onClose={setIsOpen.toggle}
+        placement={placement}
+      >
+        <PopoverTrigger>
+          <Button
+            h="25px"
+            w="25px"
+            p={0}
+            minW="25px"
+            bg={selectedColor.current}
+            onClick={setIsOpen.toggle}
+            _hover={{ bg: selectedColor.current, transform: 'scale(1.05)' }}
+            _active={{ bg: selectedColor.current }}
+            aria-label="color picker"
+            isDisabled={isDisabled}
+          ></Button>
+        </PopoverTrigger>
+        <PopoverContent w="auto" bg={bg} boxShadow="md">
+          <PopoverArrow />
+          <SimpleGrid columns={5} p={1} spacing={1}>
+            {colorPalette.map((color, index) => (
+              <Button
+                key={index}
+                h="30px"
+                w="30px"
+                p={0}
+                minW="30px"
+                bg={color}
+                _hover={{ bg: color, transform: 'scale(1.05)' }}
+                _active={{ bg: color }}
+                onClick={() => {
+                  setIsOpen.toggle();
+                  selectedColor.current = color;
+                  onChange(color);
+                }}
+              />
+            ))}
+          </SimpleGrid>
+        </PopoverContent>
+      </Popover>
+    );
+  }
+);
