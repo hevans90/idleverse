@@ -2,27 +2,27 @@ table:
   name: user_me
   schema: public
 select_permissions:
-  - permission:
-      columns:
-        - display_name
-        - free_claims
-        - id
-        - name
-        - nickname
-        - secret_setting_test
-      filter:
-        id:
-          _eq: X-Hasura-User-Id
-    role: unregistered
-  - permission:
-      columns:
-        - display_name
-        - free_claims
-        - id
-        - name
-        - nickname
-        - secret_setting_test
-      filter:
-        id:
-          _eq: X-Hasura-User-Id
-    role: user
+- permission:
+    columns:
+    - display_name
+    - free_claims
+    - id
+    - name
+    - nickname
+    - secret_setting_test
+    filter:
+      id:
+        _eq: X-Hasura-User-Id
+  role: unregistered
+- permission:
+    columns:
+    - display_name
+    - free_claims
+    - id
+    - name
+    - nickname
+    - secret_setting_test
+    filter:
+      id:
+        _eq: X-Hasura-User-Id
+  role: user

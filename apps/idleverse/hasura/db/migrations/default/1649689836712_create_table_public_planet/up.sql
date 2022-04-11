@@ -1,0 +1,1 @@
+CREATE TABLE "public"."planet" ("id" uuid NOT NULL, "celestial_id" text NOT NULL, "radius" numeric NOT NULL, "texture_resolution" integer NOT NULL, "terrain_bias" Numeric[] NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("celestial_id") REFERENCES "public"."celestial"("id") ON UPDATE restrict ON DELETE restrict, UNIQUE ("id"));

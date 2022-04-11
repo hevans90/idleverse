@@ -51,14 +51,14 @@ export type Vector2D = { x: number; y: number };
 
 export type rgb = { r: number; g: number; b: number };
 
-export type textureColorMap = {
+export type TerrainRGBPalette = {
   water: rgb;
   sand: rgb;
   grass: rgb;
   forest: rgb;
 };
 
-export type HexPalette = {
+export type TerrainHexPalette = {
   water: string;
   sand: string;
   grass: string;

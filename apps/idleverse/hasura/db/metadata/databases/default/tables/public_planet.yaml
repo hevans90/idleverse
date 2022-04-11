@@ -1,0 +1,39 @@
+table:
+  name: planet
+  schema: public
+object_relationships:
+- name: terrain_hex_palette
+  using:
+    foreign_key_constraint_on: terrain_hex_palette_id
+- name: user_info
+  using:
+    manual_configuration:
+      column_mapping:
+        owner_id: id
+      insertion_order: null
+      remote_table:
+        name: user_info
+        schema: public
+array_relationships:
+- name: rings
+  using:
+    manual_configuration:
+      column_mapping:
+        id: id
+      insertion_order: null
+      remote_table:
+        name: planetary_ring
+        schema: public
+select_permissions:
+- permission:
+    columns:
+    - celestial_id
+    - id
+    - name
+    - owner_id
+    - radius
+    - terrain_bias
+    - terrain_hex_palette_id
+    - texture_resolution
+    filter: {}
+  role: user

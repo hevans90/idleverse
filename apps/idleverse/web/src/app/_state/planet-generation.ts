@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
 import {
-  HexPalette,
   PlanetGenerationConfig,
   RingConfig,
-  textureColorMap,
+  TerrainHexPalette,
+  TerrainRGBPalette,
 } from './models';
 import { makeVarPersisted } from './utils';
 
@@ -25,8 +25,8 @@ export const planetGeneratorConfigVar =
 export const planetGenerationColorDrawerVar = makeVarPersisted<{
   panelOpen: boolean;
   palettePresetName: string;
-  currentPalette: textureColorMap;
-  currentHexPalette: HexPalette;
+  currentPalette: TerrainRGBPalette;
+  currentHexPalette: TerrainHexPalette;
 }>(
   {
     panelOpen: false,
