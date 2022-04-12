@@ -10,6 +10,7 @@ import { authChecker } from './authChecker';
 import { Auth0API } from './datasources/auth0';
 import { Context } from './datasources/context';
 import { HasuraAPI } from './datasources/hasura-api';
+import { CelestialManagementResolver } from './entities/celestial-management';
 import { GalaxyManagementResolver } from './entities/galaxy-management';
 import { RegisterResolver } from './entities/register';
 import ws = require('ws');
@@ -34,7 +35,11 @@ import ws = require('ws');
   );
 
   const schema = await buildSchema({
-    resolvers: [RegisterResolver, GalaxyManagementResolver],
+    resolvers: [
+      RegisterResolver,
+      GalaxyManagementResolver,
+      CelestialManagementResolver,
+    ],
     authChecker,
     emitSchemaFile: true,
   });

@@ -28,9 +28,9 @@ export class RegisterResolver {
         'rol_10vO6MmzARbpP2nL'
       );
       console.log(resDisplayName);
-      const shit = new Register();
-      shit.updatedName = resDisplayName;
-      return shit;
+      const register = new Register();
+      register.updatedName = resDisplayName;
+      return register;
     }
     throw new Error('Failed to insert display name');
   }

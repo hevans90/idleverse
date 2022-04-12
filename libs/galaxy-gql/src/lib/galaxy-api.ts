@@ -3494,6 +3494,20 @@ export type PlanetsByCelestialIdQuery = {
   } | null;
 };
 
+export type TryInsertPlanetMutationVariables = Exact<{
+  input: Planet_Insert_Input;
+}>;
+
+export type TryInsertPlanetMutation = {
+  __typename?: 'mutation_root';
+  insert_planet_one?: {
+    __typename?: 'planet';
+    id: any;
+    name: string;
+    owner_id: string;
+  } | null;
+};
+
 export type SelfQueryVariables = Exact<{ [key: string]: never }>;
 
 export type SelfQuery = {
@@ -3863,6 +3877,25 @@ export const PlanetsByCelestialIdDocument = gql`
 export type PlanetsByCelestialIdQueryResult = Apollo.QueryResult<
   PlanetsByCelestialIdQuery,
   PlanetsByCelestialIdQueryVariables
+>;
+export const TryInsertPlanetDocument = gql`
+  mutation TryInsertPlanet($input: planet_insert_input!) {
+    insert_planet_one(object: $input) {
+      id
+      name
+      owner_id
+    }
+  }
+`;
+export type TryInsertPlanetMutationFn = Apollo.MutationFunction<
+  TryInsertPlanetMutation,
+  TryInsertPlanetMutationVariables
+>;
+export type TryInsertPlanetMutationResult =
+  Apollo.MutationResult<TryInsertPlanetMutation>;
+export type TryInsertPlanetMutationOptions = Apollo.BaseMutationOptions<
+  TryInsertPlanetMutation,
+  TryInsertPlanetMutationVariables
 >;
 export const SelfDocument = gql`
   query Self {

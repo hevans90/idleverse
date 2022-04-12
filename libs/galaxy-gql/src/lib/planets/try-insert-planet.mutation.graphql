@@ -1,0 +1,7 @@
+mutation TryInsertPlanet($input: planet_insert_input!) {
+  insert_planet_one(object: $input) {
+    id
+    name
+    owner_id
+  }
+}
