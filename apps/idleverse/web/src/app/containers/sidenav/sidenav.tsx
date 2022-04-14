@@ -5,11 +5,11 @@ import {
   ListItem,
   OrderedList,
   Text,
-  useColorModeValue
+  useColorModeValue,
 } from '@chakra-ui/react';
 import {
   GetChatMessagesDocument,
-  GetChatMessagesSubscription
+  GetChatMessagesSubscription,
 } from '@idleverse/galaxy-gql';
 import { useEffect, useRef, useState } from 'react';
 import { ChatSubmit } from '../../components/chat-submit';
