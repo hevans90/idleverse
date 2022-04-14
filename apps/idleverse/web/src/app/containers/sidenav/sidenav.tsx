@@ -56,7 +56,7 @@ export const SideNav = () => {
         padding={2}
         display="flex"
         flexDirection="column"
-        overflowY="scroll"
+        overflowY="auto"
         maxHeight="100vh"
         position="relative"
         bgColor={color}
