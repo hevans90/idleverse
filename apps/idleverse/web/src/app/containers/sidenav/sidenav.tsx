@@ -5,11 +5,11 @@ import {
   ListItem,
   OrderedList,
   Text,
-  useColorModeValue,
+  useColorModeValue
 } from '@chakra-ui/react';
 import {
   GetChatMessagesDocument,
-  GetChatMessagesSubscription,
+  GetChatMessagesSubscription
 } from '@idleverse/galaxy-gql';
 import { useEffect, useRef, useState } from 'react';
 import { ChatSubmit } from '../../components/chat-submit';
@@ -56,7 +56,7 @@ export const SideNav = () => {
         padding={2}
         display="flex"
         flexDirection="column"
-        overflowY="scroll"
+        overflowY="auto"
         maxHeight="100vh"
         position="relative"
         bgColor={color}
