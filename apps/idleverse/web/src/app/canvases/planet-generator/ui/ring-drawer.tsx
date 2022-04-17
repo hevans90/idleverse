@@ -60,6 +60,7 @@ const columns: { name: string; numeric?: boolean }[] = [
   { name: 'biases' },
   { name: 'inner rad.', numeric: true },
   { name: 'outer rad.', numeric: true },
+  { name: 'res.', numeric: true },
 ];
 
 export const PlanetGeneratorRingDrawer = () => {
@@ -152,6 +153,7 @@ export const PlanetGeneratorRingDrawer = () => {
                     colors,
                     terrainBias,
                     rotation,
+                    resolution,
                   },
                   index
                 ) => (
@@ -344,6 +346,29 @@ export const PlanetGeneratorRingDrawer = () => {
                             drawerState.rings[index] = {
                               ...drawerState.rings[index],
                               outerRadius: parseFloat(event),
+                            };
+                            updateRings();
+                          }}
+                        >
+                          <NumberInputField fontSize="xs" autoFocus />
+                          <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                          </NumberInputStepper>
+                        </NumberInput>
+                      </Td>
+                      <Td borderColor={tableBorderColor} isNumeric>
+                        <NumberInput
+                          maxW="120px"
+                          flexGrow={0}
+                          value={resolution}
+                          min={128}
+                          max={2048}
+                          step={128}
+                          onChange={(event) => {
+                            drawerState.rings[index] = {
+                              ...drawerState.rings[index],
+                              resolution: parseInt(event),
                             };
                             updateRings();
                           }}
