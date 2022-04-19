@@ -4,9 +4,9 @@ import { PixelateFilter } from '@pixi/filter-pixelate';
 import { Container } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { solarSystemConfigVar, timeVar } from '../../_state/reactive-variables';
+import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
 import { useResize } from '../_utils/use-resize.hook';
 import { useViewport } from '../_utils/use-viewport';
-import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
 import {
   earthSpriteConfig,
   marsSpriteConfig,
@@ -35,7 +35,7 @@ export const SolarSystem = () => {
   useViewport(app, size, solarSystemContainerRef);
 
   useEffect(() => {
-    solarSystemContainerRef.current.filters = [new PixelateFilter(3)];
+    solarSystemContainerRef.current.filters = [new PixelateFilter(1)];
     solarSystemContainerRef.current.x = size.width / 2;
     solarSystemContainerRef.current.y = size.height / 2;
 
@@ -110,13 +110,13 @@ export const SolarSystem = () => {
       solarSystemContainerRef.current,
       topDownDesertSpriteConfig
     );
-    const desrtConfig: PlanetConfig = {
+    const desertConfig: PlanetConfig = {
       origin: { x: 0, y: 0 },
       orbit: { x: 400, y: 400, speed: 0.3 },
     };
     const desert: Planet = createPlanet({
       name: 'desrt',
-      config: desrtConfig,
+      config: desertConfig,
       sprite: desertSprite,
       parent: sun,
     });
