@@ -1,0 +1,1 @@
+INSERT INTO "public"."planet"("id", "celestial_id", "radius", "texture_resolution", "terrain_bias", "terrain_hex_palette_id", "owner_id", "name") VALUES (E'52446bc8-0bae-44c8-a212-cc7b6355dfe7', E'b741230228a6404323d9f89c4435cd9305345afd', 1.5, 128, '{0.2,0.4,0.6,0.8}', E'ae0c493b-91a1-4f9f-b84d-6036e913c271', E'google-oauth2|111726107153433620316', E'test-planet');

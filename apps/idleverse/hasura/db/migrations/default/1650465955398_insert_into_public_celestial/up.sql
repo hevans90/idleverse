@@ -1,0 +1,1 @@
+INSERT INTO "public"."celestial"("name", "galaxy_id", "owner_id", "id") VALUES (E'test-celestial', E'86d67160-ddea-423b-921b-1611bbac7011', E'google-oauth2|111726107153433620316', E'b741230228a6404323d9f89c4435cd9305345afd');
