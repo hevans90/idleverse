@@ -8,7 +8,7 @@ Array [
   },
   Object {
     "field": "terrain_bias",
-    "issue": "TERRAIN BIAS: invalid value of [0.2,0.4,0.6] detected. Ensure that exactly 4 decimials between 0 & 1 are present.",
+    "issue": "TERRAIN BIAS: invalid value of [0.2,0.4,0.6,23] detected. Ensure that exactly 4 decimials between 0 & 1 are present.",
   },
 ]
 `;
