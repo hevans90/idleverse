@@ -89,7 +89,7 @@ export const World = ({
       ))}
 
       <mesh ref={hoverRef}>
-        <circleGeometry args={[0.02, 20]} />
+        <circleGeometry args={[planetRadius * 0.025, 20]} />
         <meshBasicMaterial side={DoubleSide} color={0xff0000} />
       </mesh>
 
