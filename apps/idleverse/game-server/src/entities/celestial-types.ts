@@ -2,23 +2,14 @@ import {
   Planet,
   Planetary_Ring_Arr_Rel_Insert_Input,
   Planet_Insert_Input,
-  Terrain_Hex_Palette_Obj_Rel_Insert_Input,
 } from '@idleverse/galaxy-gql';
 import { GraphQLJSONObject } from 'graphql-type-json';
-import { Field, InputType, ObjectType } from 'type-graphql';
-
-@InputType()
-export class TerrainPaletteInput
-  implements Terrain_Hex_Palette_Obj_Rel_Insert_Input
-{
-  @Field(() => GraphQLJSONObject)
-  data: object;
-}
+import { Field, Float, InputType, ObjectType } from 'type-graphql';
 
 @InputType()
 export class RingInsertInput implements Planetary_Ring_Arr_Rel_Insert_Input {
   @Field(() => [GraphQLJSONObject])
-  data: [object];
+  data: object[];
 }
 
 @InputType()
@@ -41,11 +32,8 @@ export class PlanetCreationInput implements Planet_Insert_Input {
   @Field()
   rings?: RingInsertInput;
 
-  @Field()
-  terrain_bias: number;
-
-  @Field()
-  terrain_hex_palette: TerrainPaletteInput;
+  @Field((type) => [Float])
+  terrain_bias: number[];
 
   @Field()
   terrain_hex_palette_id: string;

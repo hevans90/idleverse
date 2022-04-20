@@ -6,6 +6,7 @@ import {
   PartialPlanet,
   PlanetCreationInput,
 } from './celestial-types';
+import { planetValidator } from './planet-validator';
 
 @Resolver((of) => CelestialManagement)
 export class CelestialManagementResolver {
@@ -17,8 +18,20 @@ export class CelestialManagementResolver {
   ): Promise<CelestialManagement> {
     if (!context.id) throw new Error('User id not in token');
 
+    const validationIssues = planetValidator(input);
+
+    if (validationIssues.length) {
+      throw new Error(
+        `Planet input validation failed. ${validationIssues.map(
+          ({ issue }, i) => `\n${i + 1}. ${issue}`
+        )}`
+      );
+    }
+
     const data = (
-      await context.dataSources.hasuraAPI.tryInsertPlanetToCelestial({ input })
+      await context.dataSources.hasuraAPI.tryInsertPlanetToCelestial({
+        input: { ...input, terrain_bias: `{${input.terrain_bias}}` },
+      })
     ).data;
 
     const planet: PartialPlanet = data?.insert_planet_one;
