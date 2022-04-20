@@ -3494,6 +3494,21 @@ export type PlanetsByCelestialIdQuery = {
   } | null;
 };
 
+export type TerrainHexPalettesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TerrainHexPalettesQuery = {
+  __typename?: 'query_root';
+  terrain_hex_palette: Array<{
+    __typename?: 'terrain_hex_palette';
+    forest: string;
+    grass: string;
+    id: any;
+    name: string;
+    sand: string;
+    water: string;
+  }>;
+};
+
 export type TryInsertPlanetMutationVariables = Exact<{
   input: Planet_Insert_Input;
 }>;
@@ -3877,6 +3892,22 @@ export const PlanetsByCelestialIdDocument = gql`
 export type PlanetsByCelestialIdQueryResult = Apollo.QueryResult<
   PlanetsByCelestialIdQuery,
   PlanetsByCelestialIdQueryVariables
+>;
+export const TerrainHexPalettesDocument = gql`
+  query TerrainHexPalettes {
+    terrain_hex_palette {
+      forest
+      grass
+      id
+      name
+      sand
+      water
+    }
+  }
+`;
+export type TerrainHexPalettesQueryResult = Apollo.QueryResult<
+  TerrainHexPalettesQuery,
+  TerrainHexPalettesQueryVariables
 >;
 export const TryInsertPlanetDocument = gql`
   mutation TryInsertPlanet($input: planet_insert_input!) {

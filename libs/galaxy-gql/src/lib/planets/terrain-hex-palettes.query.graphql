@@ -1,0 +1,10 @@
+query TerrainHexPalettes {
+  terrain_hex_palette {
+    forest
+    grass
+    id
+    name
+    sand
+    water
+  }
+}

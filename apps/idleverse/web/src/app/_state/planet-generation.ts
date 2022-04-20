@@ -28,6 +28,7 @@ export const planetGenerationColorDrawerVar = makeVarPersisted<{
   palettePresetName: string;
   currentPalette: TerrainRGBPalette;
   currentHexPalette: TerrainHexPalette;
+  currentPaletteId: string;
 }>(
   {
     panelOpen: false,
@@ -39,6 +40,7 @@ export const planetGenerationColorDrawerVar = makeVarPersisted<{
       forest: { r: 0, g: 0, b: 0 },
     },
     currentHexPalette: undefined,
+    currentPaletteId: undefined,
   },
   'planetGenerationColorControls'
 );
