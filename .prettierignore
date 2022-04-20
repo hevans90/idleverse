@@ -6,3 +6,7 @@
 /hasura
 /apps/food/hasura
 /apps/idleverse/hasura
+
+galaxy-api.ts
+food-api.ts
+schema.gql
