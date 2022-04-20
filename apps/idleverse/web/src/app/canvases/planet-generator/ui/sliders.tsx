@@ -16,6 +16,7 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { generateCelestialName } from '@idleverse/galaxy-gen';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { PlanetGenerationConfig } from '../../../_state/models';
@@ -95,6 +96,47 @@ export const PlanetGeneratorSliders = () => {
         flexGrow={1}
         marginRight="2rem"
       >
+        <HStack mb={1}>
+          <Text minWidth="100px" fontSize="small">
+            name
+          </Text>
+          <Input
+            fontSize="xxs"
+            value={localConfigValues.name}
+            maxLength={25}
+            flexGrow="1"
+            onChange={(event) => {
+              setLocalValues({
+                ...localConfigValues,
+                name: event.target.value,
+              });
+
+              planetGeneratorConfigVar({
+                ...planetGeneratorConfigVar(),
+                name: event.target.value,
+              });
+            }}
+          />
+          <IconButton
+            marginLeft="0.3rem"
+            colorScheme="teal"
+            aria-label="Generate new name"
+            icon={<RepeatIcon />}
+            onClick={() => {
+              const name = generateCelestialName();
+
+              setLocalValues({
+                ...localConfigValues,
+                name,
+              });
+
+              planetGeneratorConfigVar({
+                ...planetGeneratorConfigVar(),
+                name,
+              });
+            }}
+          />
+        </HStack>
         <HStack>
           <Text minWidth="100px" fontSize="small">
             seed

@@ -10,6 +10,7 @@ import { makeVarPersisted } from './utils';
 export const planetGeneratorConfigVar =
   makeVarPersisted<PlanetGenerationConfig>(
     {
+      name: 'planet_name',
       ui: true,
       radius: 1,
       seed: uuidv4(),

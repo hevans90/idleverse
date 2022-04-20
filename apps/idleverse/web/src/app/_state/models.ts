@@ -32,6 +32,7 @@ export type SolarSystemConfig = {
 };
 
 export type PlanetGenerationConfig = {
+  name: string;
   ui: boolean;
   radius: number;
   seed: string;
