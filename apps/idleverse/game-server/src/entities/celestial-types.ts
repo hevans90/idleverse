@@ -40,6 +40,9 @@ export class PlanetCreationInput implements Planet_Insert_Input {
 
   @Field()
   texture_resolution: number;
+
+  @Field()
+  atmospheric_distance: number;
 }
 
 @ObjectType()

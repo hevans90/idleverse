@@ -2,15 +2,9 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -18,11 +12,18 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
+  JSONObject: any;
   _numeric: any;
   _text: any;
   numeric: any;
   timestamp: any;
   uuid: any;
+};
+
+export type CelestialManagement = {
+  __typename?: 'CelestialManagement';
+  createdPlanet: PartialPlanet;
 };
 
 export type GalaxyManagement = {
@@ -43,9 +44,32 @@ export type Int_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['Int']>>;
 };
 
+export type PartialPlanet = {
+  __typename?: 'PartialPlanet';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  owner_id: Scalars['String'];
+};
+
+export type PlanetCreationInput = {
+  celestial_id: Scalars['String'];
+  id: Scalars['String'];
+  name: Scalars['String'];
+  owner_id: Scalars['String'];
+  radius: Scalars['Float'];
+  rings: RingInsertInput;
+  terrain_bias: Array<Scalars['Float']>;
+  terrain_hex_palette_id: Scalars['String'];
+  texture_resolution: Scalars['Float'];
+};
+
 export type Register = {
   __typename?: 'Register';
   updatedName: Scalars['String'];
+};
+
+export type RingInsertInput = {
+  data: Array<Scalars['JSONObject']>;
 };
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
@@ -124,6 +148,7 @@ export type Celestial = {
   user_info?: Maybe<User_Info>;
 };
 
+
 /** columns and relationships of "celestial" */
 export type CelestialPlanetsArgs = {
   distinct_on?: InputMaybe<Array<Planet_Select_Column>>;
@@ -132,6 +157,7 @@ export type CelestialPlanetsArgs = {
   order_by?: InputMaybe<Array<Planet_Order_By>>;
   where?: InputMaybe<Planet_Bool_Exp>;
 };
+
 
 /** columns and relationships of "celestial" */
 export type CelestialPlanets_AggregateArgs = {
@@ -156,6 +182,7 @@ export type Celestial_Aggregate_Fields = {
   max?: Maybe<Celestial_Max_Fields>;
   min?: Maybe<Celestial_Min_Fields>;
 };
+
 
 /** aggregate fields of "celestial" */
 export type Celestial_Aggregate_FieldsCountArgs = {
@@ -194,7 +221,7 @@ export type Celestial_Bool_Exp = {
 /** unique or primary key constraints on table "celestial" */
 export enum Celestial_Constraint {
   /** unique or primary key constraint */
-  SystemPkey = 'system_pkey',
+  SystemPkey = 'system_pkey'
 }
 
 /** input type for inserting data into table "celestial" */
@@ -283,7 +310,7 @@ export enum Celestial_Select_Column {
   /** column name */
   Name = 'name',
   /** column name */
-  OwnerId = 'owner_id',
+  OwnerId = 'owner_id'
 }
 
 /** input type for updating data in table "celestial" */
@@ -303,7 +330,7 @@ export enum Celestial_Update_Column {
   /** column name */
   Name = 'name',
   /** column name */
-  OwnerId = 'owner_id',
+  OwnerId = 'owner_id'
 }
 
 /** columns and relationships of "chat_message" */
@@ -331,6 +358,7 @@ export type Chat_Message_Aggregate_Fields = {
   max?: Maybe<Chat_Message_Max_Fields>;
   min?: Maybe<Chat_Message_Min_Fields>;
 };
+
 
 /** aggregate fields of "chat_message" */
 export type Chat_Message_Aggregate_FieldsCountArgs = {
@@ -367,7 +395,7 @@ export type Chat_Message_Bool_Exp = {
 /** unique or primary key constraints on table "chat_message" */
 export enum Chat_Message_Constraint {
   /** unique or primary key constraint */
-  ChatMessagesPkey = 'chat_messages_pkey',
+  ChatMessagesPkey = 'chat_messages_pkey'
 }
 
 /** input type for inserting data into table "chat_message" */
@@ -452,7 +480,7 @@ export enum Chat_Message_Select_Column {
   /** column name */
   PosterId = 'poster_id',
   /** column name */
-  Timestamp = 'timestamp',
+  Timestamp = 'timestamp'
 }
 
 /** input type for updating data in table "chat_message" */
@@ -472,7 +500,7 @@ export enum Chat_Message_Update_Column {
   /** column name */
   PosterId = 'poster_id',
   /** column name */
-  Timestamp = 'timestamp',
+  Timestamp = 'timestamp'
 }
 
 /** columns and relationships of "galaxy" */
@@ -493,6 +521,7 @@ export type Galaxy = {
   stars: Scalars['Int'];
 };
 
+
 /** columns and relationships of "galaxy" */
 export type GalaxyCelestialsArgs = {
   distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
@@ -501,6 +530,7 @@ export type GalaxyCelestialsArgs = {
   order_by?: InputMaybe<Array<Celestial_Order_By>>;
   where?: InputMaybe<Celestial_Bool_Exp>;
 };
+
 
 /** columns and relationships of "galaxy" */
 export type GalaxyCelestials_AggregateArgs = {
@@ -533,6 +563,7 @@ export type Galaxy_Aggregate_Fields = {
   var_samp?: Maybe<Galaxy_Var_Samp_Fields>;
   variance?: Maybe<Galaxy_Variance_Fields>;
 };
+
 
 /** aggregate fields of "galaxy" */
 export type Galaxy_Aggregate_FieldsCountArgs = {
@@ -572,7 +603,7 @@ export type Galaxy_Bool_Exp = {
 /** unique or primary key constraints on table "galaxy" */
 export enum Galaxy_Constraint {
   /** unique or primary key constraint */
-  GalaxyPkey = 'galaxy_pkey',
+  GalaxyPkey = 'galaxy_pkey'
 }
 
 /** input type for incrementing numeric columns in table "galaxy" */
@@ -689,7 +720,7 @@ export enum Galaxy_Select_Column {
   /** column name */
   Radius = 'radius',
   /** column name */
-  Stars = 'stars',
+  Stars = 'stars'
 }
 
 /** input type for updating data in table "galaxy" */
@@ -772,7 +803,7 @@ export enum Galaxy_Update_Column {
   /** column name */
   Radius = 'radius',
   /** column name */
-  Stars = 'stars',
+  Stars = 'stars'
 }
 
 /** aggregate var_pop on columns */
@@ -814,6 +845,7 @@ export type Galaxy_Variance_Fields = {
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
+  createPlanet?: Maybe<CelestialManagement>;
   /** delete data from the table: "celestial" */
   delete_celestial?: Maybe<Celestial_Mutation_Response>;
   /** delete single row from the table: "celestial" */
@@ -918,85 +950,108 @@ export type Mutation_Root = {
   update_user_private?: Maybe<User_Private_Mutation_Response>;
 };
 
+
+/** mutation root */
+export type Mutation_RootCreatePlanetArgs = {
+  input: PlanetCreationInput;
+};
+
+
 /** mutation root */
 export type Mutation_RootDelete_CelestialArgs = {
   where: Celestial_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Celestial_By_PkArgs = {
   id: Scalars['String'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Chat_MessageArgs = {
   where: Chat_Message_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Chat_Message_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_GalaxyArgs = {
   where: Galaxy_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Galaxy_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_PlanetArgs = {
   where: Planet_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Planet_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Planetary_RingArgs = {
   where: Planetary_Ring_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Planetary_Ring_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Terrain_Hex_PaletteArgs = {
   where: Terrain_Hex_Palette_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Terrain_Hex_Palette_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_User_InfoArgs = {
   where: User_Info_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_User_Info_By_PkArgs = {
   id: Scalars['String'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_User_MeArgs = {
   where: User_Me_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_User_PrivateArgs = {
   where: User_Private_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_CelestialArgs = {
@@ -1004,11 +1059,13 @@ export type Mutation_RootInsert_CelestialArgs = {
   on_conflict?: InputMaybe<Celestial_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Celestial_OneArgs = {
   object: Celestial_Insert_Input;
   on_conflict?: InputMaybe<Celestial_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Chat_MessageArgs = {
@@ -1016,11 +1073,13 @@ export type Mutation_RootInsert_Chat_MessageArgs = {
   on_conflict?: InputMaybe<Chat_Message_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Chat_Message_OneArgs = {
   object: Chat_Message_Insert_Input;
   on_conflict?: InputMaybe<Chat_Message_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_GalaxyArgs = {
@@ -1028,11 +1087,13 @@ export type Mutation_RootInsert_GalaxyArgs = {
   on_conflict?: InputMaybe<Galaxy_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Galaxy_OneArgs = {
   object: Galaxy_Insert_Input;
   on_conflict?: InputMaybe<Galaxy_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_PlanetArgs = {
@@ -1040,11 +1101,13 @@ export type Mutation_RootInsert_PlanetArgs = {
   on_conflict?: InputMaybe<Planet_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Planet_OneArgs = {
   object: Planet_Insert_Input;
   on_conflict?: InputMaybe<Planet_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Planetary_RingArgs = {
@@ -1052,11 +1115,13 @@ export type Mutation_RootInsert_Planetary_RingArgs = {
   on_conflict?: InputMaybe<Planetary_Ring_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Planetary_Ring_OneArgs = {
   object: Planetary_Ring_Insert_Input;
   on_conflict?: InputMaybe<Planetary_Ring_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Terrain_Hex_PaletteArgs = {
@@ -1064,11 +1129,13 @@ export type Mutation_RootInsert_Terrain_Hex_PaletteArgs = {
   on_conflict?: InputMaybe<Terrain_Hex_Palette_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Terrain_Hex_Palette_OneArgs = {
   object: Terrain_Hex_Palette_Insert_Input;
   on_conflict?: InputMaybe<Terrain_Hex_Palette_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_User_InfoArgs = {
@@ -1076,41 +1143,49 @@ export type Mutation_RootInsert_User_InfoArgs = {
   on_conflict?: InputMaybe<User_Info_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_User_Info_OneArgs = {
   object: User_Info_Insert_Input;
   on_conflict?: InputMaybe<User_Info_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_User_MeArgs = {
   objects: Array<User_Me_Insert_Input>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_User_Me_OneArgs = {
   object: User_Me_Insert_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_User_PrivateArgs = {
   objects: Array<User_Private_Insert_Input>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_User_Private_OneArgs = {
   object: User_Private_Insert_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootRequestRandomCelestialArgs = {
   galaxy_id: Scalars['String'];
 };
 
+
 /** mutation root */
 export type Mutation_RootSetDisplayNameArgs = {
   display_name: Scalars['String'];
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_CelestialArgs = {
@@ -1118,11 +1193,13 @@ export type Mutation_RootUpdate_CelestialArgs = {
   where: Celestial_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Celestial_By_PkArgs = {
   _set?: InputMaybe<Celestial_Set_Input>;
   pk_columns: Celestial_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Chat_MessageArgs = {
@@ -1130,11 +1207,13 @@ export type Mutation_RootUpdate_Chat_MessageArgs = {
   where: Chat_Message_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Chat_Message_By_PkArgs = {
   _set?: InputMaybe<Chat_Message_Set_Input>;
   pk_columns: Chat_Message_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_GalaxyArgs = {
@@ -1143,12 +1222,14 @@ export type Mutation_RootUpdate_GalaxyArgs = {
   where: Galaxy_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Galaxy_By_PkArgs = {
   _inc?: InputMaybe<Galaxy_Inc_Input>;
   _set?: InputMaybe<Galaxy_Set_Input>;
   pk_columns: Galaxy_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_PlanetArgs = {
@@ -1157,12 +1238,14 @@ export type Mutation_RootUpdate_PlanetArgs = {
   where: Planet_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Planet_By_PkArgs = {
   _inc?: InputMaybe<Planet_Inc_Input>;
   _set?: InputMaybe<Planet_Set_Input>;
   pk_columns: Planet_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Planetary_RingArgs = {
@@ -1171,6 +1254,7 @@ export type Mutation_RootUpdate_Planetary_RingArgs = {
   where: Planetary_Ring_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Planetary_Ring_By_PkArgs = {
   _inc?: InputMaybe<Planetary_Ring_Inc_Input>;
@@ -1178,17 +1262,20 @@ export type Mutation_RootUpdate_Planetary_Ring_By_PkArgs = {
   pk_columns: Planetary_Ring_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Terrain_Hex_PaletteArgs = {
   _set?: InputMaybe<Terrain_Hex_Palette_Set_Input>;
   where: Terrain_Hex_Palette_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Terrain_Hex_Palette_By_PkArgs = {
   _set?: InputMaybe<Terrain_Hex_Palette_Set_Input>;
   pk_columns: Terrain_Hex_Palette_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_User_InfoArgs = {
@@ -1197,6 +1284,7 @@ export type Mutation_RootUpdate_User_InfoArgs = {
   where: User_Info_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_User_Info_By_PkArgs = {
   _inc?: InputMaybe<User_Info_Inc_Input>;
@@ -1204,12 +1292,14 @@ export type Mutation_RootUpdate_User_Info_By_PkArgs = {
   pk_columns: User_Info_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_User_MeArgs = {
   _inc?: InputMaybe<User_Me_Inc_Input>;
   _set?: InputMaybe<User_Me_Set_Input>;
   where: User_Me_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_User_PrivateArgs = {
@@ -1243,12 +1333,13 @@ export enum Order_By {
   /** in descending order, nulls first */
   DescNullsFirst = 'desc_nulls_first',
   /** in descending order, nulls last */
-  DescNullsLast = 'desc_nulls_last',
+  DescNullsLast = 'desc_nulls_last'
 }
 
 /** columns and relationships of "planet" */
 export type Planet = {
   __typename?: 'planet';
+  atmospheric_distance: Scalars['numeric'];
   celestial_id: Scalars['String'];
   id: Scalars['uuid'];
   name: Scalars['String'];
@@ -1267,6 +1358,7 @@ export type Planet = {
   user_info?: Maybe<User_Info>;
 };
 
+
 /** columns and relationships of "planet" */
 export type PlanetRingsArgs = {
   distinct_on?: InputMaybe<Array<Planetary_Ring_Select_Column>>;
@@ -1275,6 +1367,7 @@ export type PlanetRingsArgs = {
   order_by?: InputMaybe<Array<Planetary_Ring_Order_By>>;
   where?: InputMaybe<Planetary_Ring_Bool_Exp>;
 };
+
 
 /** columns and relationships of "planet" */
 export type PlanetRings_AggregateArgs = {
@@ -1308,6 +1401,7 @@ export type Planet_Aggregate_Fields = {
   variance?: Maybe<Planet_Variance_Fields>;
 };
 
+
 /** aggregate fields of "planet" */
 export type Planet_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Planet_Select_Column>>;
@@ -1339,12 +1433,14 @@ export type Planet_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Planet_Avg_Fields = {
   __typename?: 'planet_avg_fields';
+  atmospheric_distance?: Maybe<Scalars['Float']>;
   radius?: Maybe<Scalars['Float']>;
   texture_resolution?: Maybe<Scalars['Float']>;
 };
 
 /** order by avg() on columns of table "planet" */
 export type Planet_Avg_Order_By = {
+  atmospheric_distance?: InputMaybe<Order_By>;
   radius?: InputMaybe<Order_By>;
   texture_resolution?: InputMaybe<Order_By>;
 };
@@ -1354,6 +1450,7 @@ export type Planet_Bool_Exp = {
   _and?: InputMaybe<Array<Planet_Bool_Exp>>;
   _not?: InputMaybe<Planet_Bool_Exp>;
   _or?: InputMaybe<Array<Planet_Bool_Exp>>;
+  atmospheric_distance?: InputMaybe<Numeric_Comparison_Exp>;
   celestial_id?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
@@ -1372,17 +1469,19 @@ export enum Planet_Constraint {
   /** unique or primary key constraint */
   PlanetNameKey = 'planet_name_key',
   /** unique or primary key constraint */
-  PlanetPkey = 'planet_pkey',
+  PlanetPkey = 'planet_pkey'
 }
 
 /** input type for incrementing numeric columns in table "planet" */
 export type Planet_Inc_Input = {
+  atmospheric_distance?: InputMaybe<Scalars['numeric']>;
   radius?: InputMaybe<Scalars['numeric']>;
   texture_resolution?: InputMaybe<Scalars['Int']>;
 };
 
 /** input type for inserting data into table "planet" */
 export type Planet_Insert_Input = {
+  atmospheric_distance?: InputMaybe<Scalars['numeric']>;
   celestial_id?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
@@ -1399,6 +1498,7 @@ export type Planet_Insert_Input = {
 /** aggregate max on columns */
 export type Planet_Max_Fields = {
   __typename?: 'planet_max_fields';
+  atmospheric_distance?: Maybe<Scalars['numeric']>;
   celestial_id?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
@@ -1410,6 +1510,7 @@ export type Planet_Max_Fields = {
 
 /** order by max() on columns of table "planet" */
 export type Planet_Max_Order_By = {
+  atmospheric_distance?: InputMaybe<Order_By>;
   celestial_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
@@ -1422,6 +1523,7 @@ export type Planet_Max_Order_By = {
 /** aggregate min on columns */
 export type Planet_Min_Fields = {
   __typename?: 'planet_min_fields';
+  atmospheric_distance?: Maybe<Scalars['numeric']>;
   celestial_id?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
@@ -1433,6 +1535,7 @@ export type Planet_Min_Fields = {
 
 /** order by min() on columns of table "planet" */
 export type Planet_Min_Order_By = {
+  atmospheric_distance?: InputMaybe<Order_By>;
   celestial_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
@@ -1460,6 +1563,7 @@ export type Planet_On_Conflict = {
 
 /** Ordering options when selecting data from "planet". */
 export type Planet_Order_By = {
+  atmospheric_distance?: InputMaybe<Order_By>;
   celestial_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
@@ -1481,6 +1585,8 @@ export type Planet_Pk_Columns_Input = {
 /** select columns of table "planet" */
 export enum Planet_Select_Column {
   /** column name */
+  AtmosphericDistance = 'atmospheric_distance',
+  /** column name */
   CelestialId = 'celestial_id',
   /** column name */
   Id = 'id',
@@ -1495,11 +1601,12 @@ export enum Planet_Select_Column {
   /** column name */
   TerrainHexPaletteId = 'terrain_hex_palette_id',
   /** column name */
-  TextureResolution = 'texture_resolution',
+  TextureResolution = 'texture_resolution'
 }
 
 /** input type for updating data in table "planet" */
 export type Planet_Set_Input = {
+  atmospheric_distance?: InputMaybe<Scalars['numeric']>;
   celestial_id?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
@@ -1513,12 +1620,14 @@ export type Planet_Set_Input = {
 /** aggregate stddev on columns */
 export type Planet_Stddev_Fields = {
   __typename?: 'planet_stddev_fields';
+  atmospheric_distance?: Maybe<Scalars['Float']>;
   radius?: Maybe<Scalars['Float']>;
   texture_resolution?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev() on columns of table "planet" */
 export type Planet_Stddev_Order_By = {
+  atmospheric_distance?: InputMaybe<Order_By>;
   radius?: InputMaybe<Order_By>;
   texture_resolution?: InputMaybe<Order_By>;
 };
@@ -1526,12 +1635,14 @@ export type Planet_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type Planet_Stddev_Pop_Fields = {
   __typename?: 'planet_stddev_pop_fields';
+  atmospheric_distance?: Maybe<Scalars['Float']>;
   radius?: Maybe<Scalars['Float']>;
   texture_resolution?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_pop() on columns of table "planet" */
 export type Planet_Stddev_Pop_Order_By = {
+  atmospheric_distance?: InputMaybe<Order_By>;
   radius?: InputMaybe<Order_By>;
   texture_resolution?: InputMaybe<Order_By>;
 };
@@ -1539,12 +1650,14 @@ export type Planet_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type Planet_Stddev_Samp_Fields = {
   __typename?: 'planet_stddev_samp_fields';
+  atmospheric_distance?: Maybe<Scalars['Float']>;
   radius?: Maybe<Scalars['Float']>;
   texture_resolution?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_samp() on columns of table "planet" */
 export type Planet_Stddev_Samp_Order_By = {
+  atmospheric_distance?: InputMaybe<Order_By>;
   radius?: InputMaybe<Order_By>;
   texture_resolution?: InputMaybe<Order_By>;
 };
@@ -1552,18 +1665,22 @@ export type Planet_Stddev_Samp_Order_By = {
 /** aggregate sum on columns */
 export type Planet_Sum_Fields = {
   __typename?: 'planet_sum_fields';
+  atmospheric_distance?: Maybe<Scalars['numeric']>;
   radius?: Maybe<Scalars['numeric']>;
   texture_resolution?: Maybe<Scalars['Int']>;
 };
 
 /** order by sum() on columns of table "planet" */
 export type Planet_Sum_Order_By = {
+  atmospheric_distance?: InputMaybe<Order_By>;
   radius?: InputMaybe<Order_By>;
   texture_resolution?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "planet" */
 export enum Planet_Update_Column {
+  /** column name */
+  AtmosphericDistance = 'atmospheric_distance',
   /** column name */
   CelestialId = 'celestial_id',
   /** column name */
@@ -1579,18 +1696,20 @@ export enum Planet_Update_Column {
   /** column name */
   TerrainHexPaletteId = 'terrain_hex_palette_id',
   /** column name */
-  TextureResolution = 'texture_resolution',
+  TextureResolution = 'texture_resolution'
 }
 
 /** aggregate var_pop on columns */
 export type Planet_Var_Pop_Fields = {
   __typename?: 'planet_var_pop_fields';
+  atmospheric_distance?: Maybe<Scalars['Float']>;
   radius?: Maybe<Scalars['Float']>;
   texture_resolution?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_pop() on columns of table "planet" */
 export type Planet_Var_Pop_Order_By = {
+  atmospheric_distance?: InputMaybe<Order_By>;
   radius?: InputMaybe<Order_By>;
   texture_resolution?: InputMaybe<Order_By>;
 };
@@ -1598,12 +1717,14 @@ export type Planet_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type Planet_Var_Samp_Fields = {
   __typename?: 'planet_var_samp_fields';
+  atmospheric_distance?: Maybe<Scalars['Float']>;
   radius?: Maybe<Scalars['Float']>;
   texture_resolution?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_samp() on columns of table "planet" */
 export type Planet_Var_Samp_Order_By = {
+  atmospheric_distance?: InputMaybe<Order_By>;
   radius?: InputMaybe<Order_By>;
   texture_resolution?: InputMaybe<Order_By>;
 };
@@ -1611,12 +1732,14 @@ export type Planet_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type Planet_Variance_Fields = {
   __typename?: 'planet_variance_fields';
+  atmospheric_distance?: Maybe<Scalars['Float']>;
   radius?: Maybe<Scalars['Float']>;
   texture_resolution?: Maybe<Scalars['Float']>;
 };
 
 /** order by variance() on columns of table "planet" */
 export type Planet_Variance_Order_By = {
+  atmospheric_distance?: InputMaybe<Order_By>;
   radius?: InputMaybe<Order_By>;
   texture_resolution?: InputMaybe<Order_By>;
 };
@@ -1656,6 +1779,7 @@ export type Planetary_Ring_Aggregate_Fields = {
   var_samp?: Maybe<Planetary_Ring_Var_Samp_Fields>;
   variance?: Maybe<Planetary_Ring_Variance_Fields>;
 };
+
 
 /** aggregate fields of "planetary_ring" */
 export type Planetary_Ring_Aggregate_FieldsCountArgs = {
@@ -1718,7 +1842,7 @@ export type Planetary_Ring_Bool_Exp = {
 /** unique or primary key constraints on table "planetary_ring" */
 export enum Planetary_Ring_Constraint {
   /** unique or primary key constraint */
-  PlanetaryRingPkey = 'planetary_ring_pkey',
+  PlanetaryRingPkey = 'planetary_ring_pkey'
 }
 
 /** input type for incrementing numeric columns in table "planetary_ring" */
@@ -1828,7 +1952,7 @@ export enum Planetary_Ring_Select_Column {
   /** column name */
   TerrainBias = 'terrain_bias',
   /** column name */
-  Type = 'type',
+  Type = 'type'
 }
 
 /** input type for updating data in table "planetary_ring" */
@@ -1920,7 +2044,7 @@ export enum Planetary_Ring_Update_Column {
   /** column name */
   TerrainBias = 'terrain_bias',
   /** column name */
-  Type = 'type',
+  Type = 'type'
 }
 
 /** aggregate var_pop on columns */
@@ -2023,6 +2147,7 @@ export type Query_Root = {
   user_private_aggregate: User_Private_Aggregate;
 };
 
+
 export type Query_RootCelestialArgs = {
   distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2030,6 +2155,7 @@ export type Query_RootCelestialArgs = {
   order_by?: InputMaybe<Array<Celestial_Order_By>>;
   where?: InputMaybe<Celestial_Bool_Exp>;
 };
+
 
 export type Query_RootCelestial_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
@@ -2039,9 +2165,11 @@ export type Query_RootCelestial_AggregateArgs = {
   where?: InputMaybe<Celestial_Bool_Exp>;
 };
 
+
 export type Query_RootCelestial_By_PkArgs = {
   id: Scalars['String'];
 };
+
 
 export type Query_RootChat_MessageArgs = {
   distinct_on?: InputMaybe<Array<Chat_Message_Select_Column>>;
@@ -2051,6 +2179,7 @@ export type Query_RootChat_MessageArgs = {
   where?: InputMaybe<Chat_Message_Bool_Exp>;
 };
 
+
 export type Query_RootChat_Message_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Chat_Message_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2059,9 +2188,11 @@ export type Query_RootChat_Message_AggregateArgs = {
   where?: InputMaybe<Chat_Message_Bool_Exp>;
 };
 
+
 export type Query_RootChat_Message_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootGalaxyArgs = {
   distinct_on?: InputMaybe<Array<Galaxy_Select_Column>>;
@@ -2071,6 +2202,7 @@ export type Query_RootGalaxyArgs = {
   where?: InputMaybe<Galaxy_Bool_Exp>;
 };
 
+
 export type Query_RootGalaxy_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Galaxy_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2079,9 +2211,11 @@ export type Query_RootGalaxy_AggregateArgs = {
   where?: InputMaybe<Galaxy_Bool_Exp>;
 };
 
+
 export type Query_RootGalaxy_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootPlanetArgs = {
   distinct_on?: InputMaybe<Array<Planet_Select_Column>>;
@@ -2091,6 +2225,7 @@ export type Query_RootPlanetArgs = {
   where?: InputMaybe<Planet_Bool_Exp>;
 };
 
+
 export type Query_RootPlanet_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Planet_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2099,9 +2234,11 @@ export type Query_RootPlanet_AggregateArgs = {
   where?: InputMaybe<Planet_Bool_Exp>;
 };
 
+
 export type Query_RootPlanet_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootPlanetary_RingArgs = {
   distinct_on?: InputMaybe<Array<Planetary_Ring_Select_Column>>;
@@ -2111,6 +2248,7 @@ export type Query_RootPlanetary_RingArgs = {
   where?: InputMaybe<Planetary_Ring_Bool_Exp>;
 };
 
+
 export type Query_RootPlanetary_Ring_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Planetary_Ring_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2119,9 +2257,11 @@ export type Query_RootPlanetary_Ring_AggregateArgs = {
   where?: InputMaybe<Planetary_Ring_Bool_Exp>;
 };
 
+
 export type Query_RootPlanetary_Ring_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootTerrain_Hex_PaletteArgs = {
   distinct_on?: InputMaybe<Array<Terrain_Hex_Palette_Select_Column>>;
@@ -2131,6 +2271,7 @@ export type Query_RootTerrain_Hex_PaletteArgs = {
   where?: InputMaybe<Terrain_Hex_Palette_Bool_Exp>;
 };
 
+
 export type Query_RootTerrain_Hex_Palette_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Terrain_Hex_Palette_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2139,9 +2280,11 @@ export type Query_RootTerrain_Hex_Palette_AggregateArgs = {
   where?: InputMaybe<Terrain_Hex_Palette_Bool_Exp>;
 };
 
+
 export type Query_RootTerrain_Hex_Palette_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Query_RootUser_InfoArgs = {
   distinct_on?: InputMaybe<Array<User_Info_Select_Column>>;
@@ -2151,6 +2294,7 @@ export type Query_RootUser_InfoArgs = {
   where?: InputMaybe<User_Info_Bool_Exp>;
 };
 
+
 export type Query_RootUser_Info_AggregateArgs = {
   distinct_on?: InputMaybe<Array<User_Info_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2159,9 +2303,11 @@ export type Query_RootUser_Info_AggregateArgs = {
   where?: InputMaybe<User_Info_Bool_Exp>;
 };
 
+
 export type Query_RootUser_Info_By_PkArgs = {
   id: Scalars['String'];
 };
+
 
 export type Query_RootUser_MeArgs = {
   distinct_on?: InputMaybe<Array<User_Me_Select_Column>>;
@@ -2171,6 +2317,7 @@ export type Query_RootUser_MeArgs = {
   where?: InputMaybe<User_Me_Bool_Exp>;
 };
 
+
 export type Query_RootUser_Me_AggregateArgs = {
   distinct_on?: InputMaybe<Array<User_Me_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2179,6 +2326,7 @@ export type Query_RootUser_Me_AggregateArgs = {
   where?: InputMaybe<User_Me_Bool_Exp>;
 };
 
+
 export type Query_RootUser_PrivateArgs = {
   distinct_on?: InputMaybe<Array<User_Private_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2186,6 +2334,7 @@ export type Query_RootUser_PrivateArgs = {
   order_by?: InputMaybe<Array<User_Private_Order_By>>;
   where?: InputMaybe<User_Private_Bool_Exp>;
 };
+
 
 export type Query_RootUser_Private_AggregateArgs = {
   distinct_on?: InputMaybe<Array<User_Private_Select_Column>>;
@@ -2249,6 +2398,7 @@ export type Subscription_Root = {
   user_private_aggregate: User_Private_Aggregate;
 };
 
+
 export type Subscription_RootCelestialArgs = {
   distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2256,6 +2406,7 @@ export type Subscription_RootCelestialArgs = {
   order_by?: InputMaybe<Array<Celestial_Order_By>>;
   where?: InputMaybe<Celestial_Bool_Exp>;
 };
+
 
 export type Subscription_RootCelestial_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
@@ -2265,9 +2416,11 @@ export type Subscription_RootCelestial_AggregateArgs = {
   where?: InputMaybe<Celestial_Bool_Exp>;
 };
 
+
 export type Subscription_RootCelestial_By_PkArgs = {
   id: Scalars['String'];
 };
+
 
 export type Subscription_RootChat_MessageArgs = {
   distinct_on?: InputMaybe<Array<Chat_Message_Select_Column>>;
@@ -2277,6 +2430,7 @@ export type Subscription_RootChat_MessageArgs = {
   where?: InputMaybe<Chat_Message_Bool_Exp>;
 };
 
+
 export type Subscription_RootChat_Message_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Chat_Message_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2285,9 +2439,11 @@ export type Subscription_RootChat_Message_AggregateArgs = {
   where?: InputMaybe<Chat_Message_Bool_Exp>;
 };
 
+
 export type Subscription_RootChat_Message_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootGalaxyArgs = {
   distinct_on?: InputMaybe<Array<Galaxy_Select_Column>>;
@@ -2297,6 +2453,7 @@ export type Subscription_RootGalaxyArgs = {
   where?: InputMaybe<Galaxy_Bool_Exp>;
 };
 
+
 export type Subscription_RootGalaxy_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Galaxy_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2305,9 +2462,11 @@ export type Subscription_RootGalaxy_AggregateArgs = {
   where?: InputMaybe<Galaxy_Bool_Exp>;
 };
 
+
 export type Subscription_RootGalaxy_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootPlanetArgs = {
   distinct_on?: InputMaybe<Array<Planet_Select_Column>>;
@@ -2317,6 +2476,7 @@ export type Subscription_RootPlanetArgs = {
   where?: InputMaybe<Planet_Bool_Exp>;
 };
 
+
 export type Subscription_RootPlanet_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Planet_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2325,9 +2485,11 @@ export type Subscription_RootPlanet_AggregateArgs = {
   where?: InputMaybe<Planet_Bool_Exp>;
 };
 
+
 export type Subscription_RootPlanet_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootPlanetary_RingArgs = {
   distinct_on?: InputMaybe<Array<Planetary_Ring_Select_Column>>;
@@ -2337,6 +2499,7 @@ export type Subscription_RootPlanetary_RingArgs = {
   where?: InputMaybe<Planetary_Ring_Bool_Exp>;
 };
 
+
 export type Subscription_RootPlanetary_Ring_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Planetary_Ring_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2345,9 +2508,11 @@ export type Subscription_RootPlanetary_Ring_AggregateArgs = {
   where?: InputMaybe<Planetary_Ring_Bool_Exp>;
 };
 
+
 export type Subscription_RootPlanetary_Ring_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootTerrain_Hex_PaletteArgs = {
   distinct_on?: InputMaybe<Array<Terrain_Hex_Palette_Select_Column>>;
@@ -2357,6 +2522,7 @@ export type Subscription_RootTerrain_Hex_PaletteArgs = {
   where?: InputMaybe<Terrain_Hex_Palette_Bool_Exp>;
 };
 
+
 export type Subscription_RootTerrain_Hex_Palette_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Terrain_Hex_Palette_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2365,9 +2531,11 @@ export type Subscription_RootTerrain_Hex_Palette_AggregateArgs = {
   where?: InputMaybe<Terrain_Hex_Palette_Bool_Exp>;
 };
 
+
 export type Subscription_RootTerrain_Hex_Palette_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
 
 export type Subscription_RootUser_InfoArgs = {
   distinct_on?: InputMaybe<Array<User_Info_Select_Column>>;
@@ -2377,6 +2545,7 @@ export type Subscription_RootUser_InfoArgs = {
   where?: InputMaybe<User_Info_Bool_Exp>;
 };
 
+
 export type Subscription_RootUser_Info_AggregateArgs = {
   distinct_on?: InputMaybe<Array<User_Info_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2385,9 +2554,11 @@ export type Subscription_RootUser_Info_AggregateArgs = {
   where?: InputMaybe<User_Info_Bool_Exp>;
 };
 
+
 export type Subscription_RootUser_Info_By_PkArgs = {
   id: Scalars['String'];
 };
+
 
 export type Subscription_RootUser_MeArgs = {
   distinct_on?: InputMaybe<Array<User_Me_Select_Column>>;
@@ -2397,6 +2568,7 @@ export type Subscription_RootUser_MeArgs = {
   where?: InputMaybe<User_Me_Bool_Exp>;
 };
 
+
 export type Subscription_RootUser_Me_AggregateArgs = {
   distinct_on?: InputMaybe<Array<User_Me_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2405,6 +2577,7 @@ export type Subscription_RootUser_Me_AggregateArgs = {
   where?: InputMaybe<User_Me_Bool_Exp>;
 };
 
+
 export type Subscription_RootUser_PrivateArgs = {
   distinct_on?: InputMaybe<Array<User_Private_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2412,6 +2585,7 @@ export type Subscription_RootUser_PrivateArgs = {
   order_by?: InputMaybe<Array<User_Private_Order_By>>;
   where?: InputMaybe<User_Private_Bool_Exp>;
 };
+
 
 export type Subscription_RootUser_Private_AggregateArgs = {
   distinct_on?: InputMaybe<Array<User_Private_Select_Column>>;
@@ -2447,6 +2621,7 @@ export type Terrain_Hex_Palette_Aggregate_Fields = {
   min?: Maybe<Terrain_Hex_Palette_Min_Fields>;
 };
 
+
 /** aggregate fields of "terrain_hex_palette" */
 export type Terrain_Hex_Palette_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Terrain_Hex_Palette_Select_Column>>;
@@ -2471,7 +2646,7 @@ export enum Terrain_Hex_Palette_Constraint {
   /** unique or primary key constraint */
   TerrainHexPaletteNameKey = 'terrain_hex_palette_name_key',
   /** unique or primary key constraint */
-  TerrainHexPalettePkey = 'terrain_hex_palette_pkey',
+  TerrainHexPalettePkey = 'terrain_hex_palette_pkey'
 }
 
 /** input type for inserting data into table "terrain_hex_palette" */
@@ -2557,7 +2732,7 @@ export enum Terrain_Hex_Palette_Select_Column {
   /** column name */
   Sand = 'sand',
   /** column name */
-  Water = 'water',
+  Water = 'water'
 }
 
 /** input type for updating data in table "terrain_hex_palette" */
@@ -2583,7 +2758,7 @@ export enum Terrain_Hex_Palette_Update_Column {
   /** column name */
   Sand = 'sand',
   /** column name */
-  Water = 'water',
+  Water = 'water'
 }
 
 /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
@@ -2619,6 +2794,7 @@ export type User_Info = {
   secret_setting_test?: Maybe<Scalars['String']>;
 };
 
+
 /** columns and relationships of "user_info" */
 export type User_InfoCelestialsArgs = {
   distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
@@ -2627,6 +2803,7 @@ export type User_InfoCelestialsArgs = {
   order_by?: InputMaybe<Array<Celestial_Order_By>>;
   where?: InputMaybe<Celestial_Bool_Exp>;
 };
+
 
 /** columns and relationships of "user_info" */
 export type User_InfoCelestials_AggregateArgs = {
@@ -2637,6 +2814,7 @@ export type User_InfoCelestials_AggregateArgs = {
   where?: InputMaybe<Celestial_Bool_Exp>;
 };
 
+
 /** columns and relationships of "user_info" */
 export type User_InfoChat_MessagesArgs = {
   distinct_on?: InputMaybe<Array<Chat_Message_Select_Column>>;
@@ -2645,6 +2823,7 @@ export type User_InfoChat_MessagesArgs = {
   order_by?: InputMaybe<Array<Chat_Message_Order_By>>;
   where?: InputMaybe<Chat_Message_Bool_Exp>;
 };
+
 
 /** columns and relationships of "user_info" */
 export type User_InfoChat_Messages_AggregateArgs = {
@@ -2677,6 +2856,7 @@ export type User_Info_Aggregate_Fields = {
   var_samp?: Maybe<User_Info_Var_Samp_Fields>;
   variance?: Maybe<User_Info_Variance_Fields>;
 };
+
 
 /** aggregate fields of "user_info" */
 export type User_Info_Aggregate_FieldsCountArgs = {
@@ -2711,7 +2891,7 @@ export enum User_Info_Constraint {
   /** unique or primary key constraint */
   UserInfoDisplayNameKey = 'user_info_display_name_key',
   /** unique or primary key constraint */
-  UserPkey = 'user_pkey',
+  UserPkey = 'user_pkey'
 }
 
 /** input type for incrementing numeric columns in table "user_info" */
@@ -2812,7 +2992,7 @@ export enum User_Info_Select_Column {
   /** column name */
   Nickname = 'nickname',
   /** column name */
-  SecretSettingTest = 'secret_setting_test',
+  SecretSettingTest = 'secret_setting_test'
 }
 
 /** input type for updating data in table "user_info" */
@@ -2865,7 +3045,7 @@ export enum User_Info_Update_Column {
   /** column name */
   Nickname = 'nickname',
   /** column name */
-  SecretSettingTest = 'secret_setting_test',
+  SecretSettingTest = 'secret_setting_test'
 }
 
 /** aggregate var_pop on columns */
@@ -2919,6 +3099,7 @@ export type User_Me_Aggregate_Fields = {
   var_samp?: Maybe<User_Me_Var_Samp_Fields>;
   variance?: Maybe<User_Me_Variance_Fields>;
 };
+
 
 /** aggregate fields of "user_me" */
 export type User_Me_Aggregate_FieldsCountArgs = {
@@ -3014,7 +3195,7 @@ export enum User_Me_Select_Column {
   /** column name */
   Nickname = 'nickname',
   /** column name */
-  SecretSettingTest = 'secret_setting_test',
+  SecretSettingTest = 'secret_setting_test'
 }
 
 /** input type for updating data in table "user_me" */
@@ -3091,6 +3272,7 @@ export type User_Private_Aggregate_Fields = {
   min?: Maybe<User_Private_Min_Fields>;
 };
 
+
 /** aggregate fields of "user_private" */
 export type User_Private_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<User_Private_Select_Column>>;
@@ -3146,7 +3328,7 @@ export enum User_Private_Select_Column {
   /** column name */
   SecretSettingTest = 'secret_setting_test',
   /** column name */
-  UserId = 'user_id',
+  UserId = 'user_id'
 }
 
 /** input type for updating data in table "user_private" */
@@ -3168,124 +3350,35 @@ export type Uuid_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['uuid']>>;
 };
 
-export type CelestialFieldsFragment = {
-  __typename?: 'celestial';
-  id: string;
-  name?: string | null;
-  owner_id?: string | null;
-  user_info?: {
-    __typename?: 'user_info';
-    display_name?: string | null;
-    name?: string | null;
-  } | null;
-};
+export type CelestialFieldsFragment = { __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null };
 
-export type GalaxyFieldsFragment = {
-  __typename?: 'galaxy';
-  id: any;
-  name?: string | null;
-  curvature: any;
-  core_radius_factor: any;
-  core_concentration_factor: any;
-  arms: any;
-  arm_width: any;
-  radius: number;
-  stars: number;
-  celestials: Array<{
-    __typename?: 'celestial';
-    id: string;
-    name?: string | null;
-    owner_id?: string | null;
-    user_info?: {
-      __typename?: 'user_info';
-      display_name?: string | null;
-      name?: string | null;
-    } | null;
-  }>;
-};
+export type GalaxyFieldsFragment = { __typename?: 'galaxy', id: any, name?: string | null, curvature: any, core_radius_factor: any, core_concentration_factor: any, arms: any, arm_width: any, radius: number, stars: number, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> };
 
 export type CelestialByIdQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
-export type CelestialByIdQuery = {
-  __typename?: 'query_root';
-  celestial_by_pk?: {
-    __typename?: 'celestial';
-    id: string;
-    name?: string | null;
-    owner_id?: string | null;
-    galaxy: {
-      __typename?: 'galaxy';
-      name?: string | null;
-      stars: number;
-      id: any;
-    };
-    user_info?: {
-      __typename?: 'user_info';
-      display_name?: string | null;
-      id: string;
-    } | null;
-  } | null;
-};
 
-export type CelestialsSubscriptionVariables = Exact<{ [key: string]: never }>;
+export type CelestialByIdQuery = { __typename?: 'query_root', celestial_by_pk?: { __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, galaxy: { __typename?: 'galaxy', name?: string | null, stars: number, id: any }, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string } | null } | null };
 
-export type CelestialsSubscription = {
-  __typename?: 'subscription_root';
-  celestial: Array<{
-    __typename?: 'celestial';
-    id: string;
-    name?: string | null;
-    owner_id?: string | null;
-    user_info?: {
-      __typename?: 'user_info';
-      display_name?: string | null;
-      name?: string | null;
-    } | null;
-  }>;
-};
+export type CelestialsSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CelestialsSubscription = { __typename?: 'subscription_root', celestial: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> };
 
 export type CelestialsByGalaxyIdSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
-export type CelestialsByGalaxyIdSubscription = {
-  __typename?: 'subscription_root';
-  galaxy_by_pk?: {
-    __typename?: 'galaxy';
-    celestials: Array<{
-      __typename?: 'celestial';
-      name?: string | null;
-      id: string;
-      owner_id?: string | null;
-    }>;
-    celestials_aggregate: {
-      __typename?: 'celestial_aggregate';
-      nodes: Array<{
-        __typename?: 'celestial';
-        owner_id?: string | null;
-        user_info?: {
-          __typename?: 'user_info';
-          display_name?: string | null;
-          avatar_url?: string | null;
-        } | null;
-      }>;
-    };
-  } | null;
-};
+
+export type CelestialsByGalaxyIdSubscription = { __typename?: 'subscription_root', galaxy_by_pk?: { __typename?: 'galaxy', celestials: Array<{ __typename?: 'celestial', name?: string | null, id: string, owner_id?: string | null }>, celestials_aggregate: { __typename?: 'celestial_aggregate', nodes: Array<{ __typename?: 'celestial', owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, avatar_url?: string | null } | null }> } } | null };
 
 export type RequestRandomCelestialByGalaxyIdMutationVariables = Exact<{
   galaxy_id: Scalars['String'];
 }>;
 
-export type RequestRandomCelestialByGalaxyIdMutation = {
-  __typename?: 'mutation_root';
-  requestRandomCelestial?: {
-    __typename?: 'GalaxyManagement';
-    freeClaimsLeft: number;
-  } | null;
-};
+
+export type RequestRandomCelestialByGalaxyIdMutation = { __typename?: 'mutation_root', requestRandomCelestial?: { __typename?: 'GalaxyManagement', freeClaimsLeft: number } | null };
 
 export type TryInsertClaimedCelestialMutationVariables = Exact<{
   galaxy_id: Scalars['uuid'];
@@ -3295,720 +3388,421 @@ export type TryInsertClaimedCelestialMutationVariables = Exact<{
   free_claims: Scalars['Int'];
 }>;
 
-export type TryInsertClaimedCelestialMutation = {
-  __typename?: 'mutation_root';
-  insert_celestial_one?: {
-    __typename?: 'celestial';
-    galaxy_id: any;
-    id: string;
-    name?: string | null;
-    owner_id?: string | null;
-  } | null;
-  update_user_info_by_pk?: {
-    __typename?: 'user_info';
-    free_claims: number;
-  } | null;
-};
 
-export type GetChatMessagesSubscriptionVariables = Exact<{
-  [key: string]: never;
-}>;
+export type TryInsertClaimedCelestialMutation = { __typename?: 'mutation_root', insert_celestial_one?: { __typename?: 'celestial', galaxy_id: any, id: string, name?: string | null, owner_id?: string | null } | null, update_user_info_by_pk?: { __typename?: 'user_info', free_claims: number } | null };
 
-export type GetChatMessagesSubscription = {
-  __typename?: 'subscription_root';
-  chat_message: Array<{
-    __typename?: 'chat_message';
-    timestamp: any;
-    id: any;
-    message: string;
-    poster_id: string;
-    user_info: {
-      __typename?: 'user_info';
-      nickname: string;
-      id: string;
-      display_name?: string | null;
-    };
-  }>;
-};
+export type GetChatMessagesSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
-export type LatestMessageSubscriptionVariables = Exact<{
-  [key: string]: never;
-}>;
 
-export type LatestMessageSubscription = {
-  __typename?: 'subscription_root';
-  chat_message: Array<{
-    __typename?: 'chat_message';
-    id: any;
-    message: string;
-  }>;
-};
+export type GetChatMessagesSubscription = { __typename?: 'subscription_root', chat_message: Array<{ __typename?: 'chat_message', timestamp: any, id: any, message: string, poster_id: string, user_info: { __typename?: 'user_info', nickname: string, id: string, display_name?: string | null } }> };
+
+export type LatestMessageSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LatestMessageSubscription = { __typename?: 'subscription_root', chat_message: Array<{ __typename?: 'chat_message', id: any, message: string }> };
 
 export type SendNewMessageMutationVariables = Exact<{
   message?: InputMaybe<Scalars['String']>;
 }>;
 
-export type SendNewMessageMutation = {
-  __typename?: 'mutation_root';
-  insert_chat_message_one?: {
-    __typename?: 'chat_message';
-    message: string;
-  } | null;
-};
+
+export type SendNewMessageMutation = { __typename?: 'mutation_root', insert_chat_message_one?: { __typename?: 'chat_message', message: string } | null };
 
 export type CreateGalaxyMutationVariables = Exact<{
   input: Galaxy_Insert_Input;
 }>;
 
-export type CreateGalaxyMutation = {
-  __typename?: 'mutation_root';
-  insert_galaxy_one?: {
-    __typename?: 'galaxy';
-    id: any;
-    name?: string | null;
-    curvature: any;
-    core_radius_factor: any;
-    core_concentration_factor: any;
-    arms: any;
-    arm_width: any;
-    radius: number;
-    stars: number;
-    celestials: Array<{
-      __typename?: 'celestial';
-      id: string;
-      name?: string | null;
-      owner_id?: string | null;
-      user_info?: {
-        __typename?: 'user_info';
-        display_name?: string | null;
-        name?: string | null;
-      } | null;
-    }>;
-  } | null;
-};
+
+export type CreateGalaxyMutation = { __typename?: 'mutation_root', insert_galaxy_one?: { __typename?: 'galaxy', id: any, name?: string | null, curvature: any, core_radius_factor: any, core_concentration_factor: any, arms: any, arm_width: any, radius: number, stars: number, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> } | null };
 
 export type DeleteGalaxyByIdMutationVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
-export type DeleteGalaxyByIdMutation = {
-  __typename?: 'mutation_root';
-  delete_galaxy_by_pk?: {
-    __typename?: 'galaxy';
-    id: any;
-    name?: string | null;
-  } | null;
-};
 
-export type GalaxiesSubscriptionVariables = Exact<{ [key: string]: never }>;
+export type DeleteGalaxyByIdMutation = { __typename?: 'mutation_root', delete_galaxy_by_pk?: { __typename?: 'galaxy', id: any, name?: string | null } | null };
 
-export type GalaxiesSubscription = {
-  __typename?: 'subscription_root';
-  galaxy: Array<{
-    __typename?: 'galaxy';
-    id: any;
-    name?: string | null;
-    curvature: any;
-    core_radius_factor: any;
-    core_concentration_factor: any;
-    arms: any;
-    arm_width: any;
-    radius: number;
-    stars: number;
-    celestials: Array<{
-      __typename?: 'celestial';
-      id: string;
-      name?: string | null;
-      owner_id?: string | null;
-      user_info?: {
-        __typename?: 'user_info';
-        display_name?: string | null;
-        name?: string | null;
-      } | null;
-    }>;
-  }>;
-};
+export type GalaxiesSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GalaxiesSubscription = { __typename?: 'subscription_root', galaxy: Array<{ __typename?: 'galaxy', id: any, name?: string | null, curvature: any, core_radius_factor: any, core_concentration_factor: any, arms: any, arm_width: any, radius: number, stars: number, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> }> };
 
 export type GalaxyByIdQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
-export type GalaxyByIdQuery = {
-  __typename?: 'query_root';
-  galaxy_by_pk?: {
-    __typename?: 'galaxy';
-    arm_width: any;
-    arms: any;
-    core_concentration_factor: any;
-    core_radius_factor: any;
-    curvature: any;
-    id: any;
-    name?: string | null;
-    radius: number;
-    stars: number;
-  } | null;
-};
 
-export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables =
-  Exact<{
-    userId: Scalars['String'];
-    galaxyId: Scalars['uuid'];
-  }>;
+export type GalaxyByIdQuery = { __typename?: 'query_root', galaxy_by_pk?: { __typename?: 'galaxy', arm_width: any, arms: any, core_concentration_factor: any, core_radius_factor: any, curvature: any, id: any, name?: string | null, radius: number, stars: number } | null };
 
-export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery = {
-  __typename?: 'query_root';
-  user_info_by_pk?: { __typename?: 'user_info'; free_claims: number } | null;
-  galaxy_by_pk?: { __typename?: 'galaxy'; id: any; stars: number } | null;
-  celestial: Array<{ __typename?: 'celestial'; id: string }>;
-};
+export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables = Exact<{
+  userId: Scalars['String'];
+  galaxyId: Scalars['uuid'];
+}>;
+
+
+export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery = { __typename?: 'query_root', user_info_by_pk?: { __typename?: 'user_info', free_claims: number } | null, galaxy_by_pk?: { __typename?: 'galaxy', id: any, stars: number } | null, celestial: Array<{ __typename?: 'celestial', id: string }> };
 
 export type PlanetsByCelestialIdQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
-export type PlanetsByCelestialIdQuery = {
-  __typename?: 'query_root';
-  celestial_by_pk?: {
-    __typename?: 'celestial';
-    planets: Array<{
-      __typename?: 'planet';
-      name: string;
-      id: any;
-      radius: any;
-      owner_id: string;
-      terrain_bias: any;
-      terrain_hex_palette_id: any;
-      texture_resolution: number;
-      rings: Array<{
-        __typename?: 'planetary_ring';
-        colors: any;
-        id: any;
-        inner_radius: any;
-        outer_radius: any;
-        resolution: number;
-        rotation: any;
-        terrain_bias: any;
-        type: string;
-      }>;
-    }>;
-  } | null;
-};
 
-export type TerrainHexPalettesQueryVariables = Exact<{ [key: string]: never }>;
+export type PlanetsByCelestialIdQuery = { __typename?: 'query_root', celestial_by_pk?: { __typename?: 'celestial', planets: Array<{ __typename?: 'planet', name: string, id: any, radius: any, owner_id: string, terrain_bias: any, terrain_hex_palette_id: any, texture_resolution: number, rings: Array<{ __typename?: 'planetary_ring', colors: any, id: any, inner_radius: any, outer_radius: any, resolution: number, rotation: any, terrain_bias: any, type: string }> }> } | null };
 
-export type TerrainHexPalettesQuery = {
-  __typename?: 'query_root';
-  terrain_hex_palette: Array<{
-    __typename?: 'terrain_hex_palette';
-    forest: string;
-    grass: string;
-    id: any;
-    name: string;
-    sand: string;
-    water: string;
-  }>;
-};
+export type TerrainHexPalettesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type TerrainHexPalettesQuery = { __typename?: 'query_root', terrain_hex_palette: Array<{ __typename?: 'terrain_hex_palette', forest: string, grass: string, id: any, name: string, sand: string, water: string }> };
 
 export type TryInsertPlanetMutationVariables = Exact<{
   input: Planet_Insert_Input;
 }>;
 
-export type TryInsertPlanetMutation = {
-  __typename?: 'mutation_root';
-  insert_planet_one?: {
-    __typename?: 'planet';
-    id: any;
-    name: string;
-    owner_id: string;
-  } | null;
-};
 
-export type SelfQueryVariables = Exact<{ [key: string]: never }>;
+export type TryInsertPlanetMutation = { __typename?: 'mutation_root', insert_planet_one?: { __typename?: 'planet', id: any, name: string, owner_id: string } | null };
 
-export type SelfQuery = {
-  __typename?: 'query_root';
-  user_me: Array<{
-    __typename?: 'user_me';
-    display_name?: string | null;
-    id?: string | null;
-    name?: string | null;
-    nickname?: string | null;
-    secret_setting_test?: string | null;
-    free_claims?: number | null;
-  }>;
-};
+export type SelfQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SelfQuery = { __typename?: 'query_root', user_me: Array<{ __typename?: 'user_me', display_name?: string | null, id?: string | null, name?: string | null, nickname?: string | null, secret_setting_test?: string | null, free_claims?: number | null }> };
 
 export type SetDisplayNameByUserIdMutationVariables = Exact<{
   id: Scalars['String'];
   display_name: Scalars['String'];
 }>;
 
-export type SetDisplayNameByUserIdMutation = {
-  __typename?: 'mutation_root';
-  update_user_info_by_pk?: {
-    __typename?: 'user_info';
-    display_name?: string | null;
-  } | null;
-};
+
+export type SetDisplayNameByUserIdMutation = { __typename?: 'mutation_root', update_user_info_by_pk?: { __typename?: 'user_info', display_name?: string | null } | null };
 
 export type SetNameByUserIdMutationVariables = Exact<{
   display_name?: InputMaybe<Scalars['String']>;
 }>;
 
-export type SetNameByUserIdMutation = {
-  __typename?: 'mutation_root';
-  setDisplayName?: { __typename?: 'Register'; updatedName: string } | null;
-};
+
+export type SetNameByUserIdMutation = { __typename?: 'mutation_root', setDisplayName?: { __typename?: 'Register', updatedName: string } | null };
 
 export type UpdateFreeClaimsMutationVariables = Exact<{
   id: Scalars['String'];
   free_claims: Scalars['Int'];
 }>;
 
-export type UpdateFreeClaimsMutation = {
-  __typename?: 'mutation_root';
-  update_user_info_by_pk?: {
-    __typename?: 'user_info';
-    free_claims: number;
-  } | null;
-};
 
-export type UserInfoQueryVariables = Exact<{ [key: string]: never }>;
+export type UpdateFreeClaimsMutation = { __typename?: 'mutation_root', update_user_info_by_pk?: { __typename?: 'user_info', free_claims: number } | null };
 
-export type UserInfoQuery = {
-  __typename?: 'query_root';
-  user_info: Array<{
-    __typename?: 'user_info';
-    avatar_url?: string | null;
-    id: string;
-    name?: string | null;
-    display_name?: string | null;
-  }>;
-};
+export type UserInfoQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UserInfoQuery = { __typename?: 'query_root', user_info: Array<{ __typename?: 'user_info', avatar_url?: string | null, id: string, name?: string | null, display_name?: string | null }> };
 
 export const CelestialFieldsFragmentDoc = gql`
-  fragment CelestialFields on celestial {
+    fragment CelestialFields on celestial {
+  id
+  name
+  owner_id
+  user_info {
+    display_name
+    name
+  }
+}
+    `;
+export const GalaxyFieldsFragmentDoc = gql`
+    fragment GalaxyFields on galaxy {
+  id
+  name
+  curvature
+  core_radius_factor
+  core_concentration_factor
+  arms
+  arm_width
+  radius
+  stars
+  celestials {
+    ...CelestialFields
+  }
+}
+    ${CelestialFieldsFragmentDoc}`;
+export const CelestialByIdDocument = gql`
+    query CelestialById($id: String!) {
+  celestial_by_pk(id: $id) {
     id
     name
     owner_id
+    galaxy {
+      name
+      stars
+      id
+    }
     user_info {
       display_name
-      name
+      id
     }
   }
-`;
-export const GalaxyFieldsFragmentDoc = gql`
-  fragment GalaxyFields on galaxy {
+}
+    `;
+export type CelestialByIdQueryResult = Apollo.QueryResult<CelestialByIdQuery, CelestialByIdQueryVariables>;
+export const CelestialsDocument = gql`
+    subscription Celestials {
+  celestial {
+    ...CelestialFields
+  }
+}
+    ${CelestialFieldsFragmentDoc}`;
+export type CelestialsSubscriptionResult = Apollo.SubscriptionResult<CelestialsSubscription>;
+export const CelestialsByGalaxyIdDocument = gql`
+    subscription CelestialsByGalaxyId($id: uuid!) {
+  galaxy_by_pk(id: $id) {
+    celestials {
+      name
+      id
+      owner_id
+    }
+    celestials_aggregate(distinct_on: owner_id) {
+      nodes {
+        owner_id
+        user_info {
+          display_name
+          avatar_url
+        }
+      }
+    }
+  }
+}
+    `;
+export type CelestialsByGalaxyIdSubscriptionResult = Apollo.SubscriptionResult<CelestialsByGalaxyIdSubscription>;
+export const RequestRandomCelestialByGalaxyIdDocument = gql`
+    mutation RequestRandomCelestialByGalaxyId($galaxy_id: String!) {
+  requestRandomCelestial(galaxy_id: $galaxy_id) {
+    freeClaimsLeft
+  }
+}
+    `;
+export type RequestRandomCelestialByGalaxyIdMutationFn = Apollo.MutationFunction<RequestRandomCelestialByGalaxyIdMutation, RequestRandomCelestialByGalaxyIdMutationVariables>;
+export type RequestRandomCelestialByGalaxyIdMutationResult = Apollo.MutationResult<RequestRandomCelestialByGalaxyIdMutation>;
+export type RequestRandomCelestialByGalaxyIdMutationOptions = Apollo.BaseMutationOptions<RequestRandomCelestialByGalaxyIdMutation, RequestRandomCelestialByGalaxyIdMutationVariables>;
+export const TryInsertClaimedCelestialDocument = gql`
+    mutation TryInsertClaimedCelestial($galaxy_id: uuid!, $id: String!, $name: String!, $owner_id: String!, $free_claims: Int!) {
+  insert_celestial_one(
+    object: {galaxy_id: $galaxy_id, id: $id, name: $name, owner_id: $owner_id}
+    on_conflict: {constraint: system_pkey, update_columns: owner_id}
+  ) {
+    galaxy_id
     id
     name
-    curvature
-    core_radius_factor
-    core_concentration_factor
-    arms
+    owner_id
+  }
+  update_user_info_by_pk(
+    pk_columns: {id: $owner_id}
+    _set: {free_claims: $free_claims}
+  ) {
+    free_claims
+  }
+}
+    `;
+export type TryInsertClaimedCelestialMutationFn = Apollo.MutationFunction<TryInsertClaimedCelestialMutation, TryInsertClaimedCelestialMutationVariables>;
+export type TryInsertClaimedCelestialMutationResult = Apollo.MutationResult<TryInsertClaimedCelestialMutation>;
+export type TryInsertClaimedCelestialMutationOptions = Apollo.BaseMutationOptions<TryInsertClaimedCelestialMutation, TryInsertClaimedCelestialMutationVariables>;
+export const GetChatMessagesDocument = gql`
+    subscription GetChatMessages {
+  chat_message(order_by: {timestamp: desc}, limit: 200) {
+    timestamp
+    id
+    message
+    poster_id
+    user_info {
+      nickname
+      id
+      display_name
+    }
+  }
+}
+    `;
+export type GetChatMessagesSubscriptionResult = Apollo.SubscriptionResult<GetChatMessagesSubscription>;
+export const LatestMessageDocument = gql`
+    subscription LatestMessage {
+  chat_message(limit: 1, order_by: {timestamp: desc}) {
+    id
+    message
+  }
+}
+    `;
+export type LatestMessageSubscriptionResult = Apollo.SubscriptionResult<LatestMessageSubscription>;
+export const SendNewMessageDocument = gql`
+    mutation SendNewMessage($message: String) {
+  insert_chat_message_one(object: {message: $message}) {
+    message
+  }
+}
+    `;
+export type SendNewMessageMutationFn = Apollo.MutationFunction<SendNewMessageMutation, SendNewMessageMutationVariables>;
+export type SendNewMessageMutationResult = Apollo.MutationResult<SendNewMessageMutation>;
+export type SendNewMessageMutationOptions = Apollo.BaseMutationOptions<SendNewMessageMutation, SendNewMessageMutationVariables>;
+export const CreateGalaxyDocument = gql`
+    mutation CreateGalaxy($input: galaxy_insert_input!) {
+  insert_galaxy_one(object: $input) {
+    ...GalaxyFields
+  }
+}
+    ${GalaxyFieldsFragmentDoc}`;
+export type CreateGalaxyMutationFn = Apollo.MutationFunction<CreateGalaxyMutation, CreateGalaxyMutationVariables>;
+export type CreateGalaxyMutationResult = Apollo.MutationResult<CreateGalaxyMutation>;
+export type CreateGalaxyMutationOptions = Apollo.BaseMutationOptions<CreateGalaxyMutation, CreateGalaxyMutationVariables>;
+export const DeleteGalaxyByIdDocument = gql`
+    mutation DeleteGalaxyById($id: uuid!) {
+  delete_galaxy_by_pk(id: $id) {
+    id
+    name
+  }
+}
+    `;
+export type DeleteGalaxyByIdMutationFn = Apollo.MutationFunction<DeleteGalaxyByIdMutation, DeleteGalaxyByIdMutationVariables>;
+export type DeleteGalaxyByIdMutationResult = Apollo.MutationResult<DeleteGalaxyByIdMutation>;
+export type DeleteGalaxyByIdMutationOptions = Apollo.BaseMutationOptions<DeleteGalaxyByIdMutation, DeleteGalaxyByIdMutationVariables>;
+export const GalaxiesDocument = gql`
+    subscription Galaxies {
+  galaxy {
+    ...GalaxyFields
+  }
+}
+    ${GalaxyFieldsFragmentDoc}`;
+export type GalaxiesSubscriptionResult = Apollo.SubscriptionResult<GalaxiesSubscription>;
+export const GalaxyByIdDocument = gql`
+    query GalaxyById($id: uuid!) {
+  galaxy_by_pk(id: $id) {
     arm_width
+    arms
+    core_concentration_factor
+    core_radius_factor
+    curvature
+    id
+    name
     radius
     stars
-    celestials {
-      ...CelestialFields
-    }
   }
-  ${CelestialFieldsFragmentDoc}
-`;
-export const CelestialByIdDocument = gql`
-  query CelestialById($id: String!) {
-    celestial_by_pk(id: $id) {
-      id
-      name
-      owner_id
-      galaxy {
-        name
-        stars
-        id
-      }
-      user_info {
-        display_name
-        id
-      }
-    }
-  }
-`;
-export type CelestialByIdQueryResult = Apollo.QueryResult<
-  CelestialByIdQuery,
-  CelestialByIdQueryVariables
->;
-export const CelestialsDocument = gql`
-  subscription Celestials {
-    celestial {
-      ...CelestialFields
-    }
-  }
-  ${CelestialFieldsFragmentDoc}
-`;
-export type CelestialsSubscriptionResult =
-  Apollo.SubscriptionResult<CelestialsSubscription>;
-export const CelestialsByGalaxyIdDocument = gql`
-  subscription CelestialsByGalaxyId($id: uuid!) {
-    galaxy_by_pk(id: $id) {
-      celestials {
-        name
-        id
-        owner_id
-      }
-      celestials_aggregate(distinct_on: owner_id) {
-        nodes {
-          owner_id
-          user_info {
-            display_name
-            avatar_url
-          }
-        }
-      }
-    }
-  }
-`;
-export type CelestialsByGalaxyIdSubscriptionResult =
-  Apollo.SubscriptionResult<CelestialsByGalaxyIdSubscription>;
-export const RequestRandomCelestialByGalaxyIdDocument = gql`
-  mutation RequestRandomCelestialByGalaxyId($galaxy_id: String!) {
-    requestRandomCelestial(galaxy_id: $galaxy_id) {
-      freeClaimsLeft
-    }
-  }
-`;
-export type RequestRandomCelestialByGalaxyIdMutationFn =
-  Apollo.MutationFunction<
-    RequestRandomCelestialByGalaxyIdMutation,
-    RequestRandomCelestialByGalaxyIdMutationVariables
-  >;
-export type RequestRandomCelestialByGalaxyIdMutationResult =
-  Apollo.MutationResult<RequestRandomCelestialByGalaxyIdMutation>;
-export type RequestRandomCelestialByGalaxyIdMutationOptions =
-  Apollo.BaseMutationOptions<
-    RequestRandomCelestialByGalaxyIdMutation,
-    RequestRandomCelestialByGalaxyIdMutationVariables
-  >;
-export const TryInsertClaimedCelestialDocument = gql`
-  mutation TryInsertClaimedCelestial(
-    $galaxy_id: uuid!
-    $id: String!
-    $name: String!
-    $owner_id: String!
-    $free_claims: Int!
-  ) {
-    insert_celestial_one(
-      object: {
-        galaxy_id: $galaxy_id
-        id: $id
-        name: $name
-        owner_id: $owner_id
-      }
-      on_conflict: { constraint: system_pkey, update_columns: owner_id }
-    ) {
-      galaxy_id
-      id
-      name
-      owner_id
-    }
-    update_user_info_by_pk(
-      pk_columns: { id: $owner_id }
-      _set: { free_claims: $free_claims }
-    ) {
-      free_claims
-    }
-  }
-`;
-export type TryInsertClaimedCelestialMutationFn = Apollo.MutationFunction<
-  TryInsertClaimedCelestialMutation,
-  TryInsertClaimedCelestialMutationVariables
->;
-export type TryInsertClaimedCelestialMutationResult =
-  Apollo.MutationResult<TryInsertClaimedCelestialMutation>;
-export type TryInsertClaimedCelestialMutationOptions =
-  Apollo.BaseMutationOptions<
-    TryInsertClaimedCelestialMutation,
-    TryInsertClaimedCelestialMutationVariables
-  >;
-export const GetChatMessagesDocument = gql`
-  subscription GetChatMessages {
-    chat_message(order_by: { timestamp: desc }, limit: 200) {
-      timestamp
-      id
-      message
-      poster_id
-      user_info {
-        nickname
-        id
-        display_name
-      }
-    }
-  }
-`;
-export type GetChatMessagesSubscriptionResult =
-  Apollo.SubscriptionResult<GetChatMessagesSubscription>;
-export const LatestMessageDocument = gql`
-  subscription LatestMessage {
-    chat_message(limit: 1, order_by: { timestamp: desc }) {
-      id
-      message
-    }
-  }
-`;
-export type LatestMessageSubscriptionResult =
-  Apollo.SubscriptionResult<LatestMessageSubscription>;
-export const SendNewMessageDocument = gql`
-  mutation SendNewMessage($message: String) {
-    insert_chat_message_one(object: { message: $message }) {
-      message
-    }
-  }
-`;
-export type SendNewMessageMutationFn = Apollo.MutationFunction<
-  SendNewMessageMutation,
-  SendNewMessageMutationVariables
->;
-export type SendNewMessageMutationResult =
-  Apollo.MutationResult<SendNewMessageMutation>;
-export type SendNewMessageMutationOptions = Apollo.BaseMutationOptions<
-  SendNewMessageMutation,
-  SendNewMessageMutationVariables
->;
-export const CreateGalaxyDocument = gql`
-  mutation CreateGalaxy($input: galaxy_insert_input!) {
-    insert_galaxy_one(object: $input) {
-      ...GalaxyFields
-    }
-  }
-  ${GalaxyFieldsFragmentDoc}
-`;
-export type CreateGalaxyMutationFn = Apollo.MutationFunction<
-  CreateGalaxyMutation,
-  CreateGalaxyMutationVariables
->;
-export type CreateGalaxyMutationResult =
-  Apollo.MutationResult<CreateGalaxyMutation>;
-export type CreateGalaxyMutationOptions = Apollo.BaseMutationOptions<
-  CreateGalaxyMutation,
-  CreateGalaxyMutationVariables
->;
-export const DeleteGalaxyByIdDocument = gql`
-  mutation DeleteGalaxyById($id: uuid!) {
-    delete_galaxy_by_pk(id: $id) {
-      id
-      name
-    }
-  }
-`;
-export type DeleteGalaxyByIdMutationFn = Apollo.MutationFunction<
-  DeleteGalaxyByIdMutation,
-  DeleteGalaxyByIdMutationVariables
->;
-export type DeleteGalaxyByIdMutationResult =
-  Apollo.MutationResult<DeleteGalaxyByIdMutation>;
-export type DeleteGalaxyByIdMutationOptions = Apollo.BaseMutationOptions<
-  DeleteGalaxyByIdMutation,
-  DeleteGalaxyByIdMutationVariables
->;
-export const GalaxiesDocument = gql`
-  subscription Galaxies {
-    galaxy {
-      ...GalaxyFields
-    }
-  }
-  ${GalaxyFieldsFragmentDoc}
-`;
-export type GalaxiesSubscriptionResult =
-  Apollo.SubscriptionResult<GalaxiesSubscription>;
-export const GalaxyByIdDocument = gql`
-  query GalaxyById($id: uuid!) {
-    galaxy_by_pk(id: $id) {
-      arm_width
-      arms
-      core_concentration_factor
-      core_radius_factor
-      curvature
-      id
-      name
-      radius
-      stars
-    }
-  }
-`;
-export type GalaxyByIdQueryResult = Apollo.QueryResult<
-  GalaxyByIdQuery,
-  GalaxyByIdQueryVariables
->;
+}
+    `;
+export type GalaxyByIdQueryResult = Apollo.QueryResult<GalaxyByIdQuery, GalaxyByIdQueryVariables>;
 export const GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsDocument = gql`
-  query GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestials(
-    $userId: String!
-    $galaxyId: uuid!
+    query GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestials($userId: String!, $galaxyId: uuid!) {
+  user_info_by_pk(id: $userId) {
+    free_claims
+  }
+  galaxy_by_pk(id: $galaxyId) {
+    id
+    stars
+  }
+  celestial(
+    where: {galaxy_id: {_eq: $galaxyId}, _and: {owner_id: {_is_null: true}}}
   ) {
-    user_info_by_pk(id: $userId) {
-      free_claims
-    }
-    galaxy_by_pk(id: $galaxyId) {
-      id
-      stars
-    }
-    celestial(
-      where: {
-        galaxy_id: { _eq: $galaxyId }
-        _and: { owner_id: { _is_null: true } }
-      }
-    ) {
-      id
-    }
+    id
   }
-`;
-export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryResult =
-  Apollo.QueryResult<
-    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery,
-    GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables
-  >;
+}
+    `;
+export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryResult = Apollo.QueryResult<GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery, GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables>;
 export const PlanetsByCelestialIdDocument = gql`
-  query PlanetsByCelestialId($id: String!) {
-    celestial_by_pk(id: $id) {
-      planets {
-        name
+    query PlanetsByCelestialId($id: String!) {
+  celestial_by_pk(id: $id) {
+    planets {
+      name
+      id
+      radius
+      rings {
+        colors
         id
-        radius
-        rings {
-          colors
-          id
-          inner_radius
-          outer_radius
-          resolution
-          rotation
-          terrain_bias
-          type
-        }
-        owner_id
+        inner_radius
+        outer_radius
+        resolution
+        rotation
         terrain_bias
-        terrain_hex_palette_id
-        texture_resolution
+        type
       }
-    }
-  }
-`;
-export type PlanetsByCelestialIdQueryResult = Apollo.QueryResult<
-  PlanetsByCelestialIdQuery,
-  PlanetsByCelestialIdQueryVariables
->;
-export const TerrainHexPalettesDocument = gql`
-  query TerrainHexPalettes {
-    terrain_hex_palette {
-      forest
-      grass
-      id
-      name
-      sand
-      water
-    }
-  }
-`;
-export type TerrainHexPalettesQueryResult = Apollo.QueryResult<
-  TerrainHexPalettesQuery,
-  TerrainHexPalettesQueryVariables
->;
-export const TryInsertPlanetDocument = gql`
-  mutation TryInsertPlanet($input: planet_insert_input!) {
-    insert_planet_one(object: $input) {
-      id
-      name
       owner_id
+      terrain_bias
+      terrain_hex_palette_id
+      texture_resolution
     }
   }
-`;
-export type TryInsertPlanetMutationFn = Apollo.MutationFunction<
-  TryInsertPlanetMutation,
-  TryInsertPlanetMutationVariables
->;
-export type TryInsertPlanetMutationResult =
-  Apollo.MutationResult<TryInsertPlanetMutation>;
-export type TryInsertPlanetMutationOptions = Apollo.BaseMutationOptions<
-  TryInsertPlanetMutation,
-  TryInsertPlanetMutationVariables
->;
+}
+    `;
+export type PlanetsByCelestialIdQueryResult = Apollo.QueryResult<PlanetsByCelestialIdQuery, PlanetsByCelestialIdQueryVariables>;
+export const TerrainHexPalettesDocument = gql`
+    query TerrainHexPalettes {
+  terrain_hex_palette {
+    forest
+    grass
+    id
+    name
+    sand
+    water
+  }
+}
+    `;
+export type TerrainHexPalettesQueryResult = Apollo.QueryResult<TerrainHexPalettesQuery, TerrainHexPalettesQueryVariables>;
+export const TryInsertPlanetDocument = gql`
+    mutation TryInsertPlanet($input: planet_insert_input!) {
+  insert_planet_one(object: $input) {
+    id
+    name
+    owner_id
+  }
+}
+    `;
+export type TryInsertPlanetMutationFn = Apollo.MutationFunction<TryInsertPlanetMutation, TryInsertPlanetMutationVariables>;
+export type TryInsertPlanetMutationResult = Apollo.MutationResult<TryInsertPlanetMutation>;
+export type TryInsertPlanetMutationOptions = Apollo.BaseMutationOptions<TryInsertPlanetMutation, TryInsertPlanetMutationVariables>;
 export const SelfDocument = gql`
-  query Self {
-    user_me {
-      display_name
-      id
-      name
-      nickname
-      secret_setting_test
-      free_claims
-    }
+    query Self {
+  user_me {
+    display_name
+    id
+    name
+    nickname
+    secret_setting_test
+    free_claims
   }
-`;
+}
+    `;
 export type SelfQueryResult = Apollo.QueryResult<SelfQuery, SelfQueryVariables>;
 export const SetDisplayNameByUserIdDocument = gql`
-  mutation SetDisplayNameByUserID($id: String!, $display_name: String!) {
-    update_user_info_by_pk(
-      pk_columns: { id: $id }
-      _set: { display_name: $display_name }
-    ) {
-      display_name
-    }
+    mutation SetDisplayNameByUserID($id: String!, $display_name: String!) {
+  update_user_info_by_pk(
+    pk_columns: {id: $id}
+    _set: {display_name: $display_name}
+  ) {
+    display_name
   }
-`;
-export type SetDisplayNameByUserIdMutationFn = Apollo.MutationFunction<
-  SetDisplayNameByUserIdMutation,
-  SetDisplayNameByUserIdMutationVariables
->;
-export type SetDisplayNameByUserIdMutationResult =
-  Apollo.MutationResult<SetDisplayNameByUserIdMutation>;
-export type SetDisplayNameByUserIdMutationOptions = Apollo.BaseMutationOptions<
-  SetDisplayNameByUserIdMutation,
-  SetDisplayNameByUserIdMutationVariables
->;
+}
+    `;
+export type SetDisplayNameByUserIdMutationFn = Apollo.MutationFunction<SetDisplayNameByUserIdMutation, SetDisplayNameByUserIdMutationVariables>;
+export type SetDisplayNameByUserIdMutationResult = Apollo.MutationResult<SetDisplayNameByUserIdMutation>;
+export type SetDisplayNameByUserIdMutationOptions = Apollo.BaseMutationOptions<SetDisplayNameByUserIdMutation, SetDisplayNameByUserIdMutationVariables>;
 export const SetNameByUserIdDocument = gql`
-  mutation SetNameByUserID($display_name: String = "") {
-    setDisplayName(display_name: $display_name) {
-      updatedName
-    }
+    mutation SetNameByUserID($display_name: String = "") {
+  setDisplayName(display_name: $display_name) {
+    updatedName
   }
-`;
-export type SetNameByUserIdMutationFn = Apollo.MutationFunction<
-  SetNameByUserIdMutation,
-  SetNameByUserIdMutationVariables
->;
-export type SetNameByUserIdMutationResult =
-  Apollo.MutationResult<SetNameByUserIdMutation>;
-export type SetNameByUserIdMutationOptions = Apollo.BaseMutationOptions<
-  SetNameByUserIdMutation,
-  SetNameByUserIdMutationVariables
->;
+}
+    `;
+export type SetNameByUserIdMutationFn = Apollo.MutationFunction<SetNameByUserIdMutation, SetNameByUserIdMutationVariables>;
+export type SetNameByUserIdMutationResult = Apollo.MutationResult<SetNameByUserIdMutation>;
+export type SetNameByUserIdMutationOptions = Apollo.BaseMutationOptions<SetNameByUserIdMutation, SetNameByUserIdMutationVariables>;
 export const UpdateFreeClaimsDocument = gql`
-  mutation UpdateFreeClaims($id: String!, $free_claims: Int!) {
-    update_user_info_by_pk(
-      pk_columns: { id: $id }
-      _set: { free_claims: $free_claims }
-    ) {
-      free_claims
-    }
+    mutation UpdateFreeClaims($id: String!, $free_claims: Int!) {
+  update_user_info_by_pk(pk_columns: {id: $id}, _set: {free_claims: $free_claims}) {
+    free_claims
   }
-`;
-export type UpdateFreeClaimsMutationFn = Apollo.MutationFunction<
-  UpdateFreeClaimsMutation,
-  UpdateFreeClaimsMutationVariables
->;
-export type UpdateFreeClaimsMutationResult =
-  Apollo.MutationResult<UpdateFreeClaimsMutation>;
-export type UpdateFreeClaimsMutationOptions = Apollo.BaseMutationOptions<
-  UpdateFreeClaimsMutation,
-  UpdateFreeClaimsMutationVariables
->;
+}
+    `;
+export type UpdateFreeClaimsMutationFn = Apollo.MutationFunction<UpdateFreeClaimsMutation, UpdateFreeClaimsMutationVariables>;
+export type UpdateFreeClaimsMutationResult = Apollo.MutationResult<UpdateFreeClaimsMutation>;
+export type UpdateFreeClaimsMutationOptions = Apollo.BaseMutationOptions<UpdateFreeClaimsMutation, UpdateFreeClaimsMutationVariables>;
 export const UserInfoDocument = gql`
-  query UserInfo {
-    user_info {
-      avatar_url
-      id
-      name
-      display_name
-    }
+    query UserInfo {
+  user_info {
+    avatar_url
+    id
+    name
+    display_name
   }
-`;
-export type UserInfoQueryResult = Apollo.QueryResult<
-  UserInfoQuery,
-  UserInfoQueryVariables
->;
+}
+    `;
+export type UserInfoQueryResult = Apollo.QueryResult<UserInfoQuery, UserInfoQueryVariables>;
