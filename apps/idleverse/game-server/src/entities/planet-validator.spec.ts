@@ -13,6 +13,7 @@ const input: PlanetCreationInput = {
   terrain_bias: [0.2, 0.4, 0.6, 23],
   terrain_hex_palette_id: 'ae0c493b-91a1-4f9f-b84d-6036e913c271',
   texture_resolution: 25,
+  atmospheric_distance: 1,
 };
 
 describe('planetValidator', () => {
