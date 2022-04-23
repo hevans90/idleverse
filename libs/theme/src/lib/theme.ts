@@ -7,10 +7,11 @@ import {
   Slider,
 } from '@chakra-ui/react';
 import { Theme } from '@chakra-ui/theme';
+import { StyleFunctionProps } from '@chakra-ui/theme-tools';
 
 export const theme = extendTheme({
   styles: {
-    global: (props) => ({
+    global: (props: StyleFunctionProps) => ({
       body: {
         background: props.colorMode === 'dark' ? 'gray.800' : 'gray.300',
       },

@@ -1,5 +1,6 @@
 import { useReactiveVar } from '@apollo/client';
 import { Box, Theme, useTheme } from '@chakra-ui/react';
+import { hexStringToNumber } from '@idleverse/theme';
 import { Stats } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useRef, useState } from 'react';
@@ -11,7 +12,7 @@ import {
   planetGenerationTerrainDrawerVar,
   planetGeneratorConfigVar,
 } from '../../_state/planet-generation';
-import { hexStringToNumber } from '../_utils/theme-colour-conversions';
+
 import { useResize } from '../_utils/use-resize.hook';
 import { CameraController } from './camera-controller';
 import { Pixelate } from './pixelate';
