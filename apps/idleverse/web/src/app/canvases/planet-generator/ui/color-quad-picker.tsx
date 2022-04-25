@@ -1,12 +1,7 @@
 import { HStack, Theme, useTheme, VStack } from '@chakra-ui/react';
+import { hexToRGB, rgb, rgbToHex, themeColorToHex } from '@idleverse/theme';
 import { useCallback, useEffect, useState } from 'react';
 import { ColorPicker } from '../../../components/color-picker';
-import { rgb } from '../../../_state/models';
-import {
-  hexToRGB,
-  rgbToHex,
-  themeColorToHex,
-} from '../../_utils/theme-colour-conversions';
 
 export const ColorQuadPicker = ({
   colors,

@@ -15,10 +15,11 @@ import {
   useTheme,
   VStack,
 } from '@chakra-ui/react';
+import { hexToRGB } from '@idleverse/theme';
 import { Fragment, useEffect, useState } from 'react';
 import { TerrainHexPalette } from '../../../_state/models';
 import { planetGenerationColorDrawerVar } from '../../../_state/planet-generation';
-import { hexToRGB } from '../../_utils/theme-colour-conversions';
+
 import { ColorQuad } from './color-quad';
 
 export const PlanetGeneratorColorDrawer = () => {

@@ -1,8 +1,7 @@
+import { hexStringToNumber, theme } from '@idleverse/theme';
 import * as PIXI from 'pixi.js';
 import { Container } from 'pixi.js';
 import { userAvatarResourcesVar } from '../../../_state/reactive-variables';
-import { theme } from '../../../_theme/theme';
-import { hexStringToNumber } from '../../_utils/theme-colour-conversions';
 
 export type StarProps = {
   id: string;

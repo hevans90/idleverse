@@ -1,5 +1,5 @@
 import { Theme } from '@chakra-ui/react';
-import { rgb } from '../../_state/models';
+import { rgb } from './models';
 
 export type ThemeShades =
   | '50'

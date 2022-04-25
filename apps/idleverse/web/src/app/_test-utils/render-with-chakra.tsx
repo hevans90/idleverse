@@ -1,7 +1,6 @@
 import { ChakraProvider } from '@chakra-ui/react';
+import { theme } from '@idleverse/theme';
 import { render } from '@testing-library/react';
-import React from 'react';
-import { theme } from '../_theme/theme';
 
 export const renderWithChakra = (ui) => {
   const Wrapper = ({ children }) => (

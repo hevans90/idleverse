@@ -1,5 +1,6 @@
+import { rgb } from '@idleverse/theme';
 import SimplexNoise from 'simplex-noise';
-import { rgb } from '../../../_state/models';
+
 import { generatePerlinNoise } from './perlin';
 
 export const simplexTexture = (

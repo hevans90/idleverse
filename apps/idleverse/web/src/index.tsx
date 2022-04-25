@@ -1,9 +1,10 @@
 import { Auth0Provider } from '@auth0/auth0-react';
 import { ChakraProvider } from '@chakra-ui/react';
+import { theme } from '@idleverse/theme';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { App } from './app/App';
-import { theme } from './app/_theme/theme';
+
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 

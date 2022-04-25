@@ -1,4 +1,5 @@
 import { SelfQuery } from '@idleverse/galaxy-gql';
+import { rgb } from '@idleverse/theme';
 import * as PIXI from 'pixi.js';
 
 export type AssetCollection = {
@@ -48,8 +49,6 @@ export type BreadCrumb = {
 };
 
 export type Vector2D = { x: number; y: number };
-
-export type rgb = { r: number; g: number; b: number };
 
 export type TerrainRGBPalette = {
   water: rgb;

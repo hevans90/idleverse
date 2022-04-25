@@ -36,7 +36,8 @@ import { Fragment, useRef } from 'react';
 import { v4 } from 'uuid';
 import { RingConfig, RingKey, RING_TYPES } from '../../../_state/models';
 import { planetGenerationRingDrawerVar } from '../../../_state/planet-generation';
-import { hexToRGB, rgbToHex } from '../../_utils/theme-colour-conversions';
+
+import { hexToRGB, rgbToHex } from '@idleverse/theme';
 import {
   degreesToRadians,
   radiansToDegrees,

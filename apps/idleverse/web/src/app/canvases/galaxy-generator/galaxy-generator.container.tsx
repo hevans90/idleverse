@@ -12,6 +12,7 @@ import {
   GalaxiesSubscription,
   Galaxy_Insert_Input,
 } from '@idleverse/galaxy-gql';
+import { hexStringToNumber } from '@idleverse/theme';
 import { Stage } from '@inlet/react-pixi';
 import { useEffect, useRef } from 'react';
 import {
@@ -19,7 +20,7 @@ import {
   galaxyConfigVar,
   roleVar,
 } from '../../_state/reactive-variables';
-import { hexStringToNumber } from '../_utils/theme-colour-conversions';
+
 import { useResize } from '../_utils/use-resize.hook';
 import { GalaxyGenerator } from './galaxy-generator';
 import { GameUIBottomBar } from './ui/bottom-bar';

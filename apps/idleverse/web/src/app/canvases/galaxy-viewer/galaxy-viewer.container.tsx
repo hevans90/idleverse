@@ -17,6 +17,7 @@ import {
   RequestRandomCelestialByGalaxyIdMutationVariables,
   SelfDocument,
 } from '@idleverse/galaxy-gql';
+import { hexStringToNumber } from '@idleverse/theme';
 import { Stage } from '@inlet/react-pixi';
 import { useEffect, useRef, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
@@ -24,7 +25,7 @@ import { Loading } from '../../components/loading';
 import { galaxyConfigVar, selfVar } from '../../_state/reactive-variables';
 import { GameUIBottomBar } from '../galaxy-generator/ui/bottom-bar';
 import { dbGalaxyToGalaxyConfig } from '../_utils/db-galaxy-to-galaxy-config';
-import { hexStringToNumber } from '../_utils/theme-colour-conversions';
+
 import { useResize } from '../_utils/use-resize.hook';
 import { celestialOwnerMapper } from './celestial-owner';
 import { GalaxyViewer } from './galaxy-viewer';

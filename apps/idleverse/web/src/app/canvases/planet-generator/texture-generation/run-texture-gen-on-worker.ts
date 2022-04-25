@@ -1,6 +1,6 @@
+import { rgb } from '@idleverse/theme';
 import { wrap } from 'comlink';
 import { DataTexture } from 'three';
-import { rgb } from '../../../_state/models';
 
 export const worker = new Worker(new URL('./worker.ts', import.meta.url));
 
