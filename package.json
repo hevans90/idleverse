@@ -8,6 +8,7 @@
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
+    "generate:palette": "yarn nx run theme:generate-palette-watch",
     "generate:watch": "yarn generate --watch",
     "generate": "graphql-codegen --config codegen.js -r dotenv/config && npx nx format:write --files ./libs/galaxy-gql/src/lib/galaxy-api.ts ./libs/food-gql/src/lib/food-api.ts",
     "console:idleverse": "hasura console --project apps/idleverse/hasura/db",

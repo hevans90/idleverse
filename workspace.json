@@ -652,6 +652,26 @@
             "lintFilePatterns": ["libs/theme/**/*.{ts,tsx,js,jsx}"]
           }
         },
+        "generate-palette": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "ts-node libs/theme/src/lib/palette-gen/theme-to-pal.ts"
+              }
+            ]
+          }
+        },
+        "generate-palette-watch": {
+          "executor": "./tools/executors/watch:watch",
+          "options": {
+            "sources": ["libs/theme/src/lib"],
+            "commands": [
+              "ts-node libs/theme/src/lib/palette-gen/theme-to-pal.ts",
+              "echo Successfully output to .asperite/theme.pal"
+            ]
+          }
+        },
         "test": {
           "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/libs/theme"],
