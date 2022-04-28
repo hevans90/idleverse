@@ -1,0 +1,68 @@
+import {
+  AnimatedSprite,
+  BaseTexture,
+  Container,
+  Graphics,
+  Rectangle,
+  Renderer,
+  Sprite,
+  Texture,
+} from 'pixi.js';
+
+export type SpriteSheetConfig = {
+  name: string;
+  url: string;
+  cols: number;
+  rows: number;
+  lastRowItemCount: number;
+  animationSpeed: number;
+  spriteScale: number;
+};
+
+export const createAnimatedPlanetSprite = (
+  container: Container,
+  conf: SpriteSheetConfig
+) => {
+  const sheet = BaseTexture.from(conf.name);
+
+  const frames = [];
+  const rowSpacing = sheet.width / conf.cols;
+  const colSpacing = sheet.height / conf.rows;
+
+  for (let j = 0; j < conf.rows; j++) {
+    for (let i = 0; i < conf.cols; i++) {
+      if (!(j === conf.rows - 1 && i > conf.lastRowItemCount - 1)) {
+        frames.push(
+          new Texture(
+            sheet,
+            new Rectangle(
+              rowSpacing * i,
+              colSpacing * j,
+              rowSpacing,
+              colSpacing
+            )
+          )
+        );
+      }
+    }
+  }
+  const sprite = new AnimatedSprite(frames);
+  sprite.animationSpeed = conf.animationSpeed;
+  sprite.height = sprite.height * conf.spriteScale;
+  sprite.width = sprite.width * conf.spriteScale;
+  sprite.play();
+
+  container.addChild(sprite);
+  return sprite;
+};
+
+const createBasicPlanetSprite = (
+  container: Container,
+  renderer: Renderer,
+  graphic: Graphics
+) => {
+  const sunTexture = renderer.generateTexture(graphic);
+  const sprite = new Sprite(sunTexture);
+  container.addChild(sprite);
+  return sprite;
+};

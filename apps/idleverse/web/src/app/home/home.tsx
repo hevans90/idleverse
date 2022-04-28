@@ -1,4 +1,4 @@
-import { VStack, Box, Button, Text } from '@chakra-ui/react';
+import { Box, Button, Text, VStack } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 export const Home = () => {
@@ -14,6 +14,10 @@ export const Home = () => {
     {
       route: 'solar-system',
       display: 'Solar System Viewer',
+    },
+    {
+      route: 'orbits',
+      display: 'Orbits',
     },
     {
       route: 'gravity-sim',

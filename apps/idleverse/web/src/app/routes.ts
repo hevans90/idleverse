@@ -2,8 +2,9 @@ import { CelestialViewerContainer } from './canvases/celestial-viewer/celestial-
 import { GalaxyGenContainer } from './canvases/galaxy-generator/galaxy-generator.container';
 import { GalaxyViewerContainer } from './canvases/galaxy-viewer/galaxy-viewer.container';
 import { GravitySimulationContainer } from './canvases/gravity-simulation/gravity-simulation.container';
-import { SolarSystemContainer } from './canvases/solar-system/solar-system.container';
+import { OrbitsContainer } from './canvases/orbits/orbits.container';
 import { PlanetGenerator } from './canvases/planet-generator/planet-generator';
+import { SolarSystemContainer } from './canvases/solar-system/solar-system.container';
 import { GalaxyGalleryContainer } from './galaxy-gallery/galaxy-gallery.container';
 import { Home } from './home/home';
 
@@ -25,6 +26,11 @@ export const routes = [
     path: '/solar-system',
     name: 'solar-system',
     component: SolarSystemContainer,
+  },
+  {
+    path: '/orbits',
+    name: 'orbits',
+    component: OrbitsContainer,
   },
   {
     path: '/gravity-sim',
