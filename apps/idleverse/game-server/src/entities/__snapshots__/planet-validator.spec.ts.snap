@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`planetValidator should output correct errors 1`] = `
+Array [
+  Object {
+    "field": "texture_resolution",
+    "issue": "TEXTURE RESOLUTION: 25 is below the minimum of 64.",
+  },
+  Object {
+    "field": "terrain_bias",
+    "issue": "TERRAIN BIAS: invalid value of [0.2,0.4,0.6,23] detected. Ensure that exactly 4 decimials between 0 & 1 are present.",
+  },
+]
+`;

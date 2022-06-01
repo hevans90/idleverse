@@ -1,0 +1,1 @@
+INSERT INTO "public"."galaxy"("id", "name", "radius", "arms", "curvature", "arm_width", "core_radius_factor", "core_concentration_factor", "stars") VALUES (E'86d67160-ddea-423b-921b-1611bbac7011', E'test', 200, 2.55, 1, 0.1, 0.01, 1, 1000);

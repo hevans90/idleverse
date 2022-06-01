@@ -9,6 +9,9 @@ import {
   TryInsertClaimedCelestialDocument,
   TryInsertClaimedCelestialMutation,
   TryInsertClaimedCelestialMutationVariables,
+  TryInsertPlanetDocument,
+  TryInsertPlanetMutation,
+  TryInsertPlanetMutationVariables,
   UpdateFreeClaimsDocument,
   UpdateFreeClaimsMutation,
   UpdateFreeClaimsMutationVariables,
@@ -43,11 +46,11 @@ export class HasuraAPI extends DataSource {
     });
 
   getFreeClaimsByIdAndGalaxyById = async (userId: string, galaxyId: string) =>
-    this.client.mutate<
+    this.client.query<
       GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery,
       GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables
     >({
-      mutation: GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsDocument,
+      query: GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsDocument,
       variables: { userId, galaxyId },
     });
 
@@ -71,4 +74,12 @@ export class HasuraAPI extends DataSource {
         free_claims,
       },
     });
+
+  tryInsertPlanetToCelestial = async (
+    variables: TryInsertPlanetMutationVariables
+  ) =>
+    this.client.mutate<
+      TryInsertPlanetMutation,
+      TryInsertPlanetMutationVariables
+    >({ mutation: TryInsertPlanetDocument, variables });
 }

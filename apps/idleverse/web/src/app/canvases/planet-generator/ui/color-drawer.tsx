@@ -15,54 +15,32 @@ import {
   useTheme,
   VStack,
 } from '@chakra-ui/react';
+import { TerrainHexPalettesQuery } from '@idleverse/galaxy-gql';
 import { hexToRGB } from '@idleverse/theme';
 import { Fragment, useEffect, useState } from 'react';
-import { TerrainHexPalette } from '../../../_state/models';
 import { planetGenerationColorDrawerVar } from '../../../_state/planet-generation';
 
 import { ColorQuad } from './color-quad';
 
-export const PlanetGeneratorColorDrawer = () => {
+export const PlanetGeneratorColorDrawer = ({
+  paletteData,
+}: {
+  paletteData: TerrainHexPalettesQuery;
+}) => {
   const drawerState = useReactiveVar(planetGenerationColorDrawerVar);
   const { colors } = useTheme<Theme>();
   const bgColor = useColorModeValue('gray.200', 'gray.600');
 
-  const palettePresets: { name: string; palette: TerrainHexPalette }[] = [
-    {
-      name: 'terran',
-      palette: {
-        water: colors.blue['500'],
-        sand: colors.orange['300'],
-        grass: colors.green['500'],
-        forest: colors.green['700'],
-      },
-    },
-    {
-      name: 'desert',
-      palette: {
-        water: colors.orange['200'],
-        sand: colors.orange['300'],
-        grass: colors.orange['400'],
-        forest: colors.orange['600'],
-      },
-    },
-    {
-      name: 'alien',
-      palette: {
-        water: colors.blue['900'],
-        sand: colors.orange['700'],
-        grass: colors.green['200'],
-        forest: colors.green['100'],
-      },
-    },
-  ];
-
-  console.log(palettePresets);
+  const palettePresets = paletteData.terrain_hex_palette;
 
   // set a default here because we need access to the useTheme hook to pull colors
   const [localPalette, setLocalPalette] = useState<{
+    forest: string;
+    grass: string;
+    id: string;
     name: string;
-    palette: TerrainHexPalette;
+    sand: string;
+    water: string;
   }>(palettePresets[0]);
 
   useEffect(() => {
@@ -80,17 +58,18 @@ export const PlanetGeneratorColorDrawer = () => {
       ...drawerState,
       palettePresetName: localPalette.name,
       currentPalette: {
-        water: hexToRGB(localPalette.palette.water),
-        sand: hexToRGB(localPalette.palette.sand),
-        grass: hexToRGB(localPalette.palette.grass),
-        forest: hexToRGB(localPalette.palette.forest),
+        water: hexToRGB(localPalette.water),
+        sand: hexToRGB(localPalette.sand),
+        grass: hexToRGB(localPalette.grass),
+        forest: hexToRGB(localPalette.forest),
       },
       currentHexPalette: {
-        water: localPalette.palette.water,
-        sand: localPalette.palette.sand,
-        grass: localPalette.palette.grass,
-        forest: localPalette.palette.forest,
+        water: localPalette.water,
+        sand: localPalette.sand,
+        grass: localPalette.grass,
+        forest: localPalette.forest,
       },
+      currentPaletteId: localPalette.id,
     });
   }, [localPalette]);
 
@@ -117,7 +96,7 @@ export const PlanetGeneratorColorDrawer = () => {
         {drawerState.panelOpen && <Text>Colors</Text>}
 
         {localPalette && !drawerState.panelOpen && (
-          <ColorQuad {...localPalette.palette} />
+          <ColorQuad {...localPalette} />
         )}
       </HStack>
       {drawerState.panelOpen && (
@@ -134,26 +113,38 @@ export const PlanetGeneratorColorDrawer = () => {
               _focus={{ boxShadow: 'outline' }}
             >
               <HStack minWidth="200px" justifyContent="space-between">
-                <Text>{localPalette.name}</Text>{' '}
-                <ColorQuad {...localPalette.palette} />
+                <Text>{localPalette.name}</Text> <ColorQuad {...localPalette} />
               </HStack>
             </MenuButton>
             <MenuList>
-              {palettePresets.map(({ name, palette }, i) => (
-                <Fragment key={i}>
-                  <MenuItem onClick={() => setLocalPalette({ name, palette })}>
-                    <HStack
-                      width="100%"
-                      minWidth="205px"
-                      justifyContent="space-between"
+              {palettePresets.map(
+                ({ name, water, sand, grass, forest, id }, i) => (
+                  <Fragment key={id}>
+                    <MenuItem
+                      onClick={() =>
+                        setLocalPalette({
+                          name,
+                          water,
+                          sand,
+                          grass,
+                          forest,
+                          id,
+                        })
+                      }
                     >
-                      <Text>{name}</Text>
-                      <ColorQuad {...palette} />
-                    </HStack>
-                  </MenuItem>
-                  {i !== palettePresets.length - 1 && <MenuDivider />}
-                </Fragment>
-              ))}
+                      <HStack
+                        width="100%"
+                        minWidth="205px"
+                        justifyContent="space-between"
+                      >
+                        <Text>{name}</Text>
+                        <ColorQuad {...{ water, sand, grass, forest }} />
+                      </HStack>
+                    </MenuItem>
+                    {i !== palettePresets.length - 1 && <MenuDivider />}
+                  </Fragment>
+                )
+              )}
             </MenuList>
           </Menu>
         </VStack>

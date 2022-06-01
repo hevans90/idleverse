@@ -29,7 +29,6 @@ export class GalaxyManagementResolver {
   }
 
   @Authorized('user')
-  //todo change to mutation
   @Mutation((returns) => GalaxyManagement, { nullable: true })
   async requestRandomCelestial(
     @Ctx() context: Context,

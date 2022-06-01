@@ -1,10 +1,15 @@
-import { useReactiveVar } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { Box, Theme, useTheme } from '@chakra-ui/react';
+import {
+  TerrainHexPalettesDocument,
+  TerrainHexPalettesQuery,
+} from '@idleverse/galaxy-gql';
 import { hexStringToNumber } from '@idleverse/theme';
 import { Stats } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { DataTexture } from 'three';
+import { Loading } from '../../components/loading';
 import { RingConfig } from '../../_state/models';
 import {
   planetGenerationColorDrawerVar,
@@ -29,6 +34,9 @@ import { World } from './world';
 import { deepCompareRings } from './_utils/deep-compare-rings';
 
 export const PlanetGenerator = () => {
+  const { data: colorPalettes, loading: colorPalettesLoading } =
+    useQuery<TerrainHexPalettesQuery>(TerrainHexPalettesDocument);
+
   const { width, height } = useResize('planet-gen');
 
   const containerRef = useRef<HTMLDivElement>();
@@ -109,6 +117,9 @@ export const PlanetGenerator = () => {
     prevRingsRef.current = [...rings];
   }, [JSON.stringify(rings)]);
 
+  if (colorPalettesLoading)
+    return <Loading text="Loading Color Palettes"></Loading>;
+
   return (
     <>
       <Box
@@ -144,7 +155,7 @@ export const PlanetGenerator = () => {
 
       {ui && (
         <>
-          <PlanetGeneratorColorDrawer />
+          <PlanetGeneratorColorDrawer paletteData={colorPalettes} />
 
           <PlanetGeneratorTerrainDrawer />
           <PlanetGeneratorRingDrawer />
