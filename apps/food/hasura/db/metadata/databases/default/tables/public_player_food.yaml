@@ -1,7 +1,0 @@
-table:
-  name: player_food
-  schema: public
-object_relationships:
-  - name: playerByPlayer
-    using:
-      foreign_key_constraint_on: player
