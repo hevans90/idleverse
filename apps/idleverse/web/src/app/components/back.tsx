@@ -1,11 +1,11 @@
 import { Box, useColorModeValue } from '@chakra-ui/react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export const Back = () => {
   const bg = useColorModeValue('gray.300', 'gray.700');
   const border = useColorModeValue('gray.200', 'gray.600');
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -24,7 +24,7 @@ export const Back = () => {
       borderTop="unset"
       cursor="pointer"
       zIndex="2"
-      onClick={() => history.goBack()}
+      onClick={() => navigate(-1)}
     >
       Back
     </Box>

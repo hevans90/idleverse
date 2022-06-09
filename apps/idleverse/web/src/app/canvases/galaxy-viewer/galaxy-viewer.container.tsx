@@ -20,7 +20,7 @@ import {
 import { hexStringToNumber } from '@idleverse/theme';
 import { Stage } from '@inlet/react-pixi';
 import { useEffect, useRef, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Loading } from '../../components/loading';
 import { galaxyConfigVar, selfVar } from '../../_state/reactive-variables';
 import { GameUIBottomBar } from '../galaxy-generator/ui/bottom-bar';
@@ -44,7 +44,7 @@ export const GalaxyViewerContainer = () => {
 
   const self = useReactiveVar(selfVar);
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const {
     data: celestialData,
@@ -117,7 +117,7 @@ export const GalaxyViewerContainer = () => {
           <GalaxyViewer
             claimedCelestials={celestialData.galaxy_by_pk.celestials}
             galaxyConfig={dbGalaxyToGalaxyConfig(data.galaxy_by_pk)}
-            history={history}
+            navigate={navigate}
           />
         </Stage>
         <PlayerPanel

@@ -10,19 +10,19 @@ import {
 import { useApp } from '@inlet/react-pixi';
 import { Container, Graphics } from 'pixi.js';
 import { useEffect, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   galaxyConfigVar,
   galaxyRotationVar,
 } from '../../_state/reactive-variables';
-import { useResize } from '../_utils/use-resize.hook';
-import { useViewport } from '../_utils/use-viewport';
 import {
   claimStar,
   Star,
   unclaimStar,
 } from '../galaxy-generator/graphics/star';
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
+import { useResize } from '../_utils/use-resize.hook';
+import { useViewport } from '../_utils/use-viewport';
 import {
   claimedCelestials,
   diffOwnedCelestials,
@@ -31,13 +31,13 @@ import {
 type GalaxyViewerProps = {
   galaxyConfig: GalaxyConfig;
   claimedCelestials: claimedCelestials;
-  history: ReturnType<typeof useHistory>;
+  navigate: ReturnType<typeof useNavigate>;
 };
 
 export const GalaxyViewer = ({
   galaxyConfig,
   claimedCelestials,
-  history,
+  navigate,
 }: GalaxyViewerProps) => {
   const app = useApp();
 
@@ -62,7 +62,7 @@ export const GalaxyViewer = ({
       _star.y = position.y;
     });
 
-  const navigateToCelestial = (id: string) => history.push(`/celestials/${id}`);
+  const navigateToCelestial = (id: string) => navigate(`/celestials/${id}`);
 
   useViewport(app, size, galaxyContainerRef);
 

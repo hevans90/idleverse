@@ -16,7 +16,7 @@ import {
   SetNameByUserIdMutationVariables,
 } from '@idleverse/galaxy-gql';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useHistory } from 'react-router-dom';
+
 import { ResponsiveGrid } from '../components/layout';
 import { ToolBar } from '../containers/toolbar/toolbar';
 import { layoutVar } from '../_state/persisted-reactive-variables';
@@ -27,8 +27,6 @@ type Inputs = {
 };
 
 export const Registration = () => {
-  const history = useHistory();
-
   const {
     handleSubmit,
     register,

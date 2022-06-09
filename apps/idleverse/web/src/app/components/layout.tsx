@@ -1,6 +1,5 @@
 import { useReactiveVar } from '@apollo/client';
 import { Box } from '@chakra-ui/layout';
-import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { SideNav } from '../containers/sidenav/sidenav';
 import { ToolBar } from '../containers/toolbar/toolbar';
@@ -45,8 +44,6 @@ export const ResponsiveGrid = styled.div`
 `;
 
 export const Layout = (props: { children?: JSX.Element }) => {
-  const { pathname } = useLocation();
-
   const layoutConfig = useReactiveVar(layoutVar);
 
   return (

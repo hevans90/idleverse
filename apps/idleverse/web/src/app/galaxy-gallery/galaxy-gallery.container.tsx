@@ -1,15 +1,13 @@
 import { useSubscription } from '@apollo/client';
 import { Box, Link, Text, TextProps } from '@chakra-ui/layout';
-import { Button, CSSObject, useColorModeValue } from '@chakra-ui/react';
+import { Button, useColorModeValue } from '@chakra-ui/react';
 import { GalaxiesDocument, GalaxiesSubscription } from '@idleverse/galaxy-gql';
-import { Link as ReactRouterLink, useRouteMatch } from 'react-router-dom';
-import { dbGalaxyToGalaxyConfig } from '../canvases/_utils/db-galaxy-to-galaxy-config';
+import { Link as ReactRouterLink } from 'react-router-dom';
 import { GalaxyThumbnail } from '../canvases/galaxy-thumbnail/galaxy-thumbnail';
+import { dbGalaxyToGalaxyConfig } from '../canvases/_utils/db-galaxy-to-galaxy-config';
 import { Loading } from '../components/loading';
 
 export const GalaxyGalleryContainer = () => {
-  const { url } = useRouteMatch();
-
   const { data, loading } =
     useSubscription<GalaxiesSubscription>(GalaxiesDocument);
 
@@ -40,12 +38,12 @@ export const GalaxyGalleryContainer = () => {
   };
 
   return data.galaxy.length ? (
-    <Box d="flex" flexWrap="wrap" mt="5rem" ml="5rem">
+    <Box display="flex" flexWrap="wrap" mt="5rem" ml="5rem">
       {data.galaxy.map((galaxyConfig, i) => (
         <Link
           as={ReactRouterLink}
           position="relative"
-          d="flex"
+          display="flex"
           flexDir="column"
           key={galaxyConfig.id}
           margin="0 1rem 1rem 0"

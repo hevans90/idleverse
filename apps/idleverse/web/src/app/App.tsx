@@ -3,7 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { apolloBootstrapper } from '@idleverse/graphql-utils';
 import jwt_decode from 'jwt-decode';
 import { useEffect } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { environment } from '../environments/environment';
 import { Layout } from './components/layout';
 import { Loading } from './components/loading';
@@ -12,7 +12,6 @@ import { Registration } from './registration/registration';
 import { routes } from './routes';
 import {
   accessTokenVar,
-  breadCrumbsVar,
   galaxyConfigVar,
   galaxyRotationVar,
   roleVar,
@@ -97,41 +96,11 @@ export const App = () => {
       <PreloadContainer>
         <BrowserRouter basename={local ? '/' : '/idleverse'}>
           <Layout>
-            <Switch>
+            <Routes>
               {routes.map(({ path, component: Component }, key) => (
-                <Route
-                  exact
-                  path={path}
-                  key={key}
-                  render={(props) => {
-                    const crumbs = routes
-                      // Get all routes that contain the current one.
-                      .filter(({ path }) => props.match.path.includes(path))
-                      // Swap out any dynamic routes with their param values.
-                      // E.g. "/galaxy/:id" will become "/galaxy/id"
-                      .map(({ path, ...rest }) => ({
-                        path: Object.keys(props.match.params).length
-                          ? Object.keys(props.match.params).reduce(
-                              (path, param) =>
-                                path.replace(
-                                  `:${param}`,
-                                  props.match.params[param]
-                                ),
-                              path
-                            )
-                          : path,
-                        ...rest,
-                      }));
-
-                    breadCrumbsVar(crumbs);
-
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
-                    return <Component {...props} />;
-                  }}
-                />
+                <Route path={path} key={key} element={<Component />}></Route>
               ))}
-            </Switch>
+            </Routes>
           </Layout>
         </BrowserRouter>
       </PreloadContainer>

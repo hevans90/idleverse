@@ -1,21 +1,26 @@
 import { useReactiveVar } from '@apollo/client';
 import { Box, useColorModeValue } from '@chakra-ui/react';
-import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-  breadCrumbsVar,
-  celestialVar,
-  galaxyConfigVar,
-} from '../_state/reactive-variables';
+import useBreadcrumbs from 'use-react-router-breadcrumbs';
+import { celestialVar, galaxyConfigVar } from '../_state/reactive-variables';
 
 export const Breadcrumb = () => {
   const bg = useColorModeValue('gray.300', 'gray.700');
   const border = useColorModeValue('gray.200', 'gray.600');
 
-  const crumbs = useReactiveVar(breadCrumbsVar);
-
   const { name: galaxyName } = useReactiveVar(galaxyConfigVar);
   const celestial = useReactiveVar(celestialVar);
+
+  const crumbs = useBreadcrumbs([
+    {
+      path: '/galaxies/:id',
+      breadcrumb: () => <span>{galaxyName}</span>,
+    },
+    {
+      path: '/celestials/:id',
+      breadcrumb: () => <span>{celestial?.name}</span>,
+    },
+  ]);
 
   // Don't render a single breadcrumb.
   if (crumbs.length <= 1) {
@@ -38,25 +43,14 @@ export const Breadcrumb = () => {
       borderTop="unset"
       zIndex="2"
     >
-      {/* Link back to any previous steps of the breadcrumb. */}
-      {crumbs.map(({ name, path }, key) => {
-        if (key + 1 === crumbs.length) {
-          if (name === 'view-galaxy') {
-            name = galaxyName;
-          }
-          if (name === 'view-celestial') {
-            name = celestial?.name || 'celestial';
-          }
-
-          return <span key={key}>{name}</span>;
-        } else {
-          return (
-            <Link key={key} to={path}>
-              {name}&nbsp;&gt;&nbsp;
-            </Link>
-          );
-        }
-      })}
+      {crumbs.map(({ key, match, breadcrumb }, i) => (
+        <span key={match.pathname}>
+          <Link to={match.pathname}>
+            {i !== 0 ? <>&nbsp;&gt;&nbsp;</> : null}
+            {breadcrumb}
+          </Link>
+        </span>
+      ))}
     </Box>
   );
 };

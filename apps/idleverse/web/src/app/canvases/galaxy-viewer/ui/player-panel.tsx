@@ -67,7 +67,7 @@ export const PlayerPanel = ({
       {owners.map(({ display_name, avatar_url, ownedCount }) => (
         <Box
           key={display_name}
-          d="flex"
+          display="flex"
           alignItems="center"
           mb="1rem"
           width="100%"
