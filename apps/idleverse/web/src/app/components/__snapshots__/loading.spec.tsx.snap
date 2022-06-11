@@ -11,6 +11,10 @@ exports[`loading should render 1`] = `
       Loading
     </p>
   </div>
+  <span
+    class="chakra-env"
+    hidden=""
+  />
 </div>
 `;
 
@@ -25,6 +29,10 @@ exports[`loading should render custom text 1`] = `
       Loading memes
     </p>
   </div>
+  <span
+    class="chakra-env"
+    hidden=""
+  />
 </div>
 `;
 
@@ -39,5 +47,9 @@ exports[`loading should render custom text and size 1`] = `
       Loading memes
     </p>
   </div>
+  <span
+    class="chakra-env"
+    hidden=""
+  />
 </div>
 `;
