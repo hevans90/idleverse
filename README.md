@@ -9,7 +9,7 @@
 
 Once done with prereqs, run a `yarn` at the root to bootstrap your environment.
 
-After all of this, talk to one of the code owners about setting up your .env files. Various secrets are required to develop the application against our various cloud services. You will need `.env` and `.env.idleverse`.
+After all of this, talk to one of the code owners about setting up your .env files. Various secrets are required to develop the application against our various cloud services. You will need a `.env` at the root.
 
 ---
 
@@ -21,7 +21,7 @@ After all of this, talk to one of the code owners about setting up your .env fil
 
 ## Running locally using Docker
 
-Ensure you have created a `.env.idleverse` at the root with the following variables (talk to a code owner for values):
+Ensure you have created a `.env` at the root with the following variables (talk to a code owner for values):
 
 ```bash
 COMPOSE_PROJECT_NAME=idleverse
@@ -36,15 +36,15 @@ AUTH0_MANAGEMENT_API_CLIENT_SECRET=<talk_to_owners>
 
 Now:
 
-1. `yarn docker-up:idleverse` will build and bring up the `idleverse` stack. This includes everything except the client. For example the game-server will now be available on <http://localhost:4000/graphql>.
+1. `yarn docker-up` will build and bring up the `idleverse` stack. This includes everything except the client. For example the game-server will now be available on <http://localhost:4000/graphql>.
 
-2. `yarn hasura:idleverse` will apply all the Hasura metadata & migrations
+2. `yarn hasura` will apply all the Hasura metadata & migrations
 3. `yarn prepare-watch` will build the game server and install deps (only need to run once)
 
 Now you can decide what you want to work on:
 
-| App         | Command                              | Result                                                                                          |
-| ----------- | ------------------------------------ | ----------------------------------------------------------------------------------------------- |
-| Client      | `nx serve idleverse-web -c docker`   | Serves at <http://localhost:4200>                                                               |
-| Game Server | `nx run idleverse-game-server:watch` | Watches `idleverse-game-server` container for code changes in `apps/idleverse/game-server/src`. |
-| Hasura      | `yarn console:idleverse`             | Runs the Hasura console at <http://localhost:9695/>                                             |
+| App         | Command                              | Result                                                                                |
+| ----------- | ------------------------------------ | ------------------------------------------------------------------------------------- |
+| Client      | `nx serve idleverse-web -c docker`   | Serves at <http://localhost:4200>                                                     |
+| Game Server | `nx run idleverse-game-server:watch` | Watches `idleverse-game-server` container for code changes in `apps/game-server/src`. |
+| Hasura      | `yarn console`                       | Runs the Hasura console at <http://localhost:9695/>                                   |

@@ -6,6 +6,6 @@ export default {
     '^.+\\.[tj]sx?$': 'babel-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../../coverage/apps/idleverse/web',
+  coverageDirectory: '../../../coverage/apps/web',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };

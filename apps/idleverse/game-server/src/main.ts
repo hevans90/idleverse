@@ -20,7 +20,7 @@ import ws = require('ws');
     process.env.HASURA_URI,
     process.env.SECURE_HASURA === 'secure',
     'admin-secret',
-    () => process.env.HASURA_ADMIN_SECRET_GALAXY,
+    () => process.env.HASURA_ADMIN_SECRET,
     {},
     fetch,
     ws,

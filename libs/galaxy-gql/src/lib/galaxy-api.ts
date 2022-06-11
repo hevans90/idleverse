@@ -52,6 +52,7 @@ export type PartialPlanet = {
 };
 
 export type PlanetCreationInput = {
+  atmospheric_distance: Scalars['Float'];
   celestial_id: Scalars['String'];
   id: Scalars['String'];
   name: Scalars['String'];

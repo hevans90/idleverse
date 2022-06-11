@@ -36,7 +36,7 @@ services:
   game-server:
     container_name: idleverse-game-server
     build:
-      dockerfile: $PWD/apps/idleverse/game-server/Dockerfile
+      dockerfile: $PWD/apps/game-server/Dockerfile
     ports:
       - '4000:4000'
     restart: always
@@ -46,11 +46,11 @@ services:
       AUTH0_CLIENT_ID: $AUTH0_CLIENT_ID
       AUTH0_MANAGEMENT_API_CLIENT_ID: $AUTH0_MANAGEMENT_API_CLIENT_ID
       AUTH0_MANAGEMENT_API_CLIENT_SECRET: $AUTH0_MANAGEMENT_API_CLIENT_SECRET
-      HASURA_ADMIN_SECRET_GALAXY: myadminsecretkey
+      HASURA_ADMIN_SECRET: myadminsecretkey
       HASURA_URI: host.docker.internal:8080/v1/graphql
       HASURA_NAMESPACE: https://hasura.io/jwt/claims
     volumes:
-      - $PWD/dist/apps/idleverse/game-server:/dist
+      - $PWD/dist/apps/game-server:/dist
 
 volumes:
   db-data:

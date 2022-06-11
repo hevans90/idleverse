@@ -7,7 +7,7 @@ module.exports = {
         {
           'https://idleverse-hasura.herokuapp.com/v1/graphql': {
             headers: {
-              'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET_GALAXY,
+              'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET,
             },
           },
         },
