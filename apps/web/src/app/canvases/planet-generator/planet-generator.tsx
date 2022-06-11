@@ -66,8 +66,9 @@ export const PlanetGenerator = () => {
   const [worldDataTexture, setWorldDataTexture] =
     useState<DataTexture>(undefined);
 
-  const [ringDataTextures, setRingDataTextures] =
-    useState<{ [ringId: string]: DataTexture }>(undefined);
+  const [ringDataTextures, setRingDataTextures] = useState<{
+    [ringId: string]: DataTexture;
+  }>(undefined);
 
   useEffect(() => {
     console.log(
