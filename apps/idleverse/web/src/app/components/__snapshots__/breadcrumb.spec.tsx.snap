@@ -5,15 +5,49 @@ exports[`breadcrumb should render 1`] = `
   <div
     class="css-2el05k"
   >
-    <a
-      href="/nice"
-    >
-      nice
-       &gt; 
-    </a>
     <span>
-      one
+      <a
+        href="/"
+      >
+        <span>
+          Home
+        </span>
+      </a>
+    </span>
+    <span>
+      <a
+        href="/one"
+      >
+         &gt; 
+        <span>
+          One
+        </span>
+      </a>
+    </span>
+    <span>
+      <a
+        href="/one/two"
+      >
+         &gt; 
+        <span>
+          Two
+        </span>
+      </a>
+    </span>
+    <span>
+      <a
+        href="/one/two/three"
+      >
+         &gt; 
+        <span>
+          Three
+        </span>
+      </a>
     </span>
   </div>
+  <span
+    class="chakra-env"
+    hidden=""
+  />
 </div>
 `;

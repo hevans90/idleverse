@@ -6,10 +6,56 @@ exports[`layout should render 1`] = `
 >
   <div>
     <div
-      class="sc-bdvvtL fTWjgP"
+      class="sc-bczRLJ kvUFdG"
     >
-      __MOCK TOOLBAR__
+      <div
+        class="toolbar"
+      />
     </div>
+    <span
+      class="chakra-env"
+      hidden=""
+    />
+  </div>
+  <div
+    class="chakra-portal"
+  >
+    <ul
+      aria-live="polite"
+      id="chakra-toast-manager-top"
+      role="region"
+      style="position: fixed; z-index: 5500; pointer-events: none; display: flex; flex-direction: column; margin: 0px auto;"
+    />
+    <ul
+      aria-live="polite"
+      id="chakra-toast-manager-top-left"
+      role="region"
+      style="position: fixed; z-index: 5500; pointer-events: none; display: flex; flex-direction: column;"
+    />
+    <ul
+      aria-live="polite"
+      id="chakra-toast-manager-top-right"
+      role="region"
+      style="position: fixed; z-index: 5500; pointer-events: none; display: flex; flex-direction: column;"
+    />
+    <ul
+      aria-live="polite"
+      id="chakra-toast-manager-bottom-left"
+      role="region"
+      style="position: fixed; z-index: 5500; pointer-events: none; display: flex; flex-direction: column;"
+    />
+    <ul
+      aria-live="polite"
+      id="chakra-toast-manager-bottom"
+      role="region"
+      style="position: fixed; z-index: 5500; pointer-events: none; display: flex; flex-direction: column; margin: 0px auto;"
+    />
+    <ul
+      aria-live="polite"
+      id="chakra-toast-manager-bottom-right"
+      role="region"
+      style="position: fixed; z-index: 5500; pointer-events: none; display: flex; flex-direction: column;"
+    />
   </div>
 </body>
 `;

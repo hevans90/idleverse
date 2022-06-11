@@ -4,5 +4,6 @@
 import '@testing-library/jest-dom';
 
 beforeEach(() => {
-  document.getElementById('chakra-toast-portal')?.remove();
+  // console.warn(document.getElementsByClassName('chakra-env'));
+  // console.warn(document.getElementsByClassName('chakra-portal'));
 });

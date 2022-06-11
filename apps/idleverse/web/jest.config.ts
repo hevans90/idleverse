@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   displayName: 'idleverse-web',
   preset: '../../../jest.preset.js',
   transform: {
@@ -7,6 +7,5 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../../coverage/apps/idleverse/web',
-
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };

@@ -23,9 +23,11 @@ export const ResponsiveGrid = styled.div`
   grid-template-areas: ${({ sideNav }: LayoutConfig) =>
     sideNav
       ? `'side-nav   toolbar'
-         'side-nav   main   '`
+         'side-nav   main   '
+         `
       : `'toolbar'
         ' main   '`};
+
   div.sidenav {
     grid-area: side-nav;
   }

@@ -281,7 +281,7 @@
           "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/apps/idleverse/web"],
           "options": {
-            "jestConfig": "apps/idleverse/web/jest.config.js",
+            "jestConfig": "apps/idleverse/web/jest.config.ts",
             "passWithNoTests": true
           }
         },
