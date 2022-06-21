@@ -18,6 +18,7 @@ import {
   NumberInputStepper,
   RangeSlider,
   RangeSliderFilledTrack,
+  RangeSliderProps,
   RangeSliderThumb,
   RangeSliderTrack,
   Table,
@@ -32,7 +33,7 @@ import {
   useTheme,
   VStack,
 } from '@chakra-ui/react';
-import { Fragment, useRef } from 'react';
+import { Fragment, useRef, useState } from 'react';
 import { v4 } from 'uuid';
 import { RingConfig, RingKey, RING_TYPES } from '../../../_state/models';
 import { planetGenerationRingDrawerVar } from '../../../_state/planet-generation';
@@ -48,7 +49,7 @@ type RingTerrainBiases = {
 };
 
 const defaultTerrainBiases: RingTerrainBiases = {
-  rocky: [0.6, 0.725, 0.85, 0.975],
+  rocky: [0.8, 0.85, 0.9, 0.95],
   banded: [0.3, 0.5, 0.6, 0.8],
 };
 
@@ -71,10 +72,22 @@ export const PlanetGeneratorRingDrawer = () => {
 
   const drawerState = useReactiveVar(planetGenerationRingDrawerVar);
 
+  const [ringProps, setRingProps] = useState<{
+    [key: string]: RangeSliderProps;
+  }>(() => {
+    const obj: { [key: string]: RangeSliderProps } = {};
+
+    drawerState.rings.forEach(
+      ({ id, terrainBias }) => (obj[id] = { defaultValue: terrainBias })
+    );
+
+    return obj;
+  });
+
   const defaultRing = useRef<Omit<RingConfig, 'id'>>({
     // don't generate a UUID here or it will always be the same, you idiot
     rotation: [Math.PI / 2, 0, 0],
-    type: 'banded',
+    type: 'rocky',
     innerRadius: 2,
     outerRadius: 3,
     resolution: 1024,
@@ -84,7 +97,7 @@ export const PlanetGeneratorRingDrawer = () => {
       hexToRGB(themeColors.gray['800']),
       hexToRGB(themeColors.gray['900']),
     ],
-    terrainBias: defaultTerrainBiases['banded'],
+    terrainBias: defaultTerrainBiases['rocky'],
   });
 
   const updateRings = () =>
@@ -99,15 +112,19 @@ export const PlanetGeneratorRingDrawer = () => {
 
         {drawerState.panelOpen && (
           <Button
-            onClick={() =>
+            onClick={() => {
+              const id = v4();
+
+              setRingProps({
+                ...ringProps,
+                ...{ [id]: { defaultValue: defaultRing.current.terrainBias } },
+              });
+
               planetGenerationRingDrawerVar({
                 ...drawerState,
-                rings: [
-                  ...drawerState.rings,
-                  { id: v4(), ...defaultRing.current },
-                ],
-              })
-            }
+                rings: [...drawerState.rings, { id, ...defaultRing.current }],
+              });
+            }}
           >
             Add ring
           </Button>
@@ -147,6 +164,7 @@ export const PlanetGeneratorRingDrawer = () => {
               {drawerState.rings.map(
                 (
                   {
+                    id,
                     type,
                     innerRadius,
                     outerRadius,
@@ -182,8 +200,30 @@ export const PlanetGeneratorRingDrawer = () => {
                                     drawerState.rings[index] = {
                                       ...drawerState.rings[index],
                                       type,
+                                      terrainBias: defaultTerrainBiases[type],
                                     };
                                     updateRings();
+
+                                    setRingProps({
+                                      ...ringProps,
+                                      ...{
+                                        [id]: {
+                                          value: defaultTerrainBiases[type],
+                                        },
+                                      },
+                                    });
+
+                                    setTimeout(() => {
+                                      setRingProps({
+                                        ...ringProps,
+                                        ...{
+                                          [id]: {
+                                            defaultValue:
+                                              defaultTerrainBiases[type],
+                                          },
+                                        },
+                                      });
+                                    }, 200);
                                   }}
                                 >
                                   {type}
@@ -268,9 +308,14 @@ export const PlanetGeneratorRingDrawer = () => {
 
                       <Td borderColor={tableBorderColor}>
                         <Box padding={3} w="100%" minWidth="275px">
+                          <Box mb={2}>
+                            {JSON.stringify(terrainBias, null, 2)}
+                            {JSON.stringify(ringProps[id])}
+                          </Box>
+
                           <RangeSlider
-                            defaultValue={terrainBias}
-                            min={0}
+                            {...ringProps[id]}
+                            min={type === 'banded' ? 0 : 0.675}
                             max={1}
                             step={0.01}
                             onChangeEnd={(

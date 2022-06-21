@@ -18,6 +18,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  _numeric: any;
+  _text: any;
   numeric: any;
   timestamp: any;
   uuid: any;
@@ -79,6 +81,32 @@ export type String_Comparison_Exp = {
   _similar?: InputMaybe<Scalars['String']>;
 };
 
+/** Boolean expression to compare columns of type "_numeric". All fields are combined with logical 'AND'. */
+export type _Numeric_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['_numeric']>;
+  _gt?: InputMaybe<Scalars['_numeric']>;
+  _gte?: InputMaybe<Scalars['_numeric']>;
+  _in?: InputMaybe<Array<Scalars['_numeric']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['_numeric']>;
+  _lte?: InputMaybe<Scalars['_numeric']>;
+  _neq?: InputMaybe<Scalars['_numeric']>;
+  _nin?: InputMaybe<Array<Scalars['_numeric']>>;
+};
+
+/** Boolean expression to compare columns of type "_text". All fields are combined with logical 'AND'. */
+export type _Text_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['_text']>;
+  _gt?: InputMaybe<Scalars['_text']>;
+  _gte?: InputMaybe<Scalars['_text']>;
+  _in?: InputMaybe<Array<Scalars['_text']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['_text']>;
+  _lte?: InputMaybe<Scalars['_text']>;
+  _neq?: InputMaybe<Scalars['_text']>;
+  _nin?: InputMaybe<Array<Scalars['_text']>>;
+};
+
 /** columns and relationships of "celestial" */
 export type Celestial = {
   __typename?: 'celestial';
@@ -88,8 +116,30 @@ export type Celestial = {
   id: Scalars['String'];
   name?: Maybe<Scalars['String']>;
   owner_id?: Maybe<Scalars['String']>;
+  /** An array relationship */
+  planets: Array<Planet>;
+  /** An aggregate relationship */
+  planets_aggregate: Planet_Aggregate;
   /** An object relationship */
   user_info?: Maybe<User_Info>;
+};
+
+/** columns and relationships of "celestial" */
+export type CelestialPlanetsArgs = {
+  distinct_on?: InputMaybe<Array<Planet_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Planet_Order_By>>;
+  where?: InputMaybe<Planet_Bool_Exp>;
+};
+
+/** columns and relationships of "celestial" */
+export type CelestialPlanets_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Planet_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Planet_Order_By>>;
+  where?: InputMaybe<Planet_Bool_Exp>;
 };
 
 /** aggregated selection of "celestial" */
@@ -137,6 +187,7 @@ export type Celestial_Bool_Exp = {
   id?: InputMaybe<String_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   owner_id?: InputMaybe<String_Comparison_Exp>;
+  planets?: InputMaybe<Planet_Bool_Exp>;
   user_info?: InputMaybe<User_Info_Bool_Exp>;
 };
 
@@ -153,6 +204,7 @@ export type Celestial_Insert_Input = {
   id?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   owner_id?: InputMaybe<Scalars['String']>;
+  planets?: InputMaybe<Planet_Arr_Rel_Insert_Input>;
   user_info?: InputMaybe<User_Info_Obj_Rel_Insert_Input>;
 };
 
@@ -213,6 +265,7 @@ export type Celestial_Order_By = {
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   owner_id?: InputMaybe<Order_By>;
+  planets_aggregate?: InputMaybe<Planet_Aggregate_Order_By>;
   user_info?: InputMaybe<User_Info_Order_By>;
 };
 
@@ -773,6 +826,18 @@ export type Mutation_Root = {
   delete_galaxy?: Maybe<Galaxy_Mutation_Response>;
   /** delete single row from the table: "galaxy" */
   delete_galaxy_by_pk?: Maybe<Galaxy>;
+  /** delete data from the table: "planet" */
+  delete_planet?: Maybe<Planet_Mutation_Response>;
+  /** delete single row from the table: "planet" */
+  delete_planet_by_pk?: Maybe<Planet>;
+  /** delete data from the table: "planetary_ring" */
+  delete_planetary_ring?: Maybe<Planetary_Ring_Mutation_Response>;
+  /** delete single row from the table: "planetary_ring" */
+  delete_planetary_ring_by_pk?: Maybe<Planetary_Ring>;
+  /** delete data from the table: "terrain_hex_palette" */
+  delete_terrain_hex_palette?: Maybe<Terrain_Hex_Palette_Mutation_Response>;
+  /** delete single row from the table: "terrain_hex_palette" */
+  delete_terrain_hex_palette_by_pk?: Maybe<Terrain_Hex_Palette>;
   /** delete data from the table: "user_info" */
   delete_user_info?: Maybe<User_Info_Mutation_Response>;
   /** delete single row from the table: "user_info" */
@@ -793,6 +858,18 @@ export type Mutation_Root = {
   insert_galaxy?: Maybe<Galaxy_Mutation_Response>;
   /** insert a single row into the table: "galaxy" */
   insert_galaxy_one?: Maybe<Galaxy>;
+  /** insert data into the table: "planet" */
+  insert_planet?: Maybe<Planet_Mutation_Response>;
+  /** insert a single row into the table: "planet" */
+  insert_planet_one?: Maybe<Planet>;
+  /** insert data into the table: "planetary_ring" */
+  insert_planetary_ring?: Maybe<Planetary_Ring_Mutation_Response>;
+  /** insert a single row into the table: "planetary_ring" */
+  insert_planetary_ring_one?: Maybe<Planetary_Ring>;
+  /** insert data into the table: "terrain_hex_palette" */
+  insert_terrain_hex_palette?: Maybe<Terrain_Hex_Palette_Mutation_Response>;
+  /** insert a single row into the table: "terrain_hex_palette" */
+  insert_terrain_hex_palette_one?: Maybe<Terrain_Hex_Palette>;
   /** insert data into the table: "user_info" */
   insert_user_info?: Maybe<User_Info_Mutation_Response>;
   /** insert a single row into the table: "user_info" */
@@ -819,6 +896,18 @@ export type Mutation_Root = {
   update_galaxy?: Maybe<Galaxy_Mutation_Response>;
   /** update single row of the table: "galaxy" */
   update_galaxy_by_pk?: Maybe<Galaxy>;
+  /** update data of the table: "planet" */
+  update_planet?: Maybe<Planet_Mutation_Response>;
+  /** update single row of the table: "planet" */
+  update_planet_by_pk?: Maybe<Planet>;
+  /** update data of the table: "planetary_ring" */
+  update_planetary_ring?: Maybe<Planetary_Ring_Mutation_Response>;
+  /** update single row of the table: "planetary_ring" */
+  update_planetary_ring_by_pk?: Maybe<Planetary_Ring>;
+  /** update data of the table: "terrain_hex_palette" */
+  update_terrain_hex_palette?: Maybe<Terrain_Hex_Palette_Mutation_Response>;
+  /** update single row of the table: "terrain_hex_palette" */
+  update_terrain_hex_palette_by_pk?: Maybe<Terrain_Hex_Palette>;
   /** update data of the table: "user_info" */
   update_user_info?: Maybe<User_Info_Mutation_Response>;
   /** update single row of the table: "user_info" */
@@ -856,6 +945,36 @@ export type Mutation_RootDelete_GalaxyArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Galaxy_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_PlanetArgs = {
+  where: Planet_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Planet_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Planetary_RingArgs = {
+  where: Planetary_Ring_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Planetary_Ring_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Terrain_Hex_PaletteArgs = {
+  where: Terrain_Hex_Palette_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Terrain_Hex_Palette_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -913,6 +1032,42 @@ export type Mutation_RootInsert_GalaxyArgs = {
 export type Mutation_RootInsert_Galaxy_OneArgs = {
   object: Galaxy_Insert_Input;
   on_conflict?: InputMaybe<Galaxy_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_PlanetArgs = {
+  objects: Array<Planet_Insert_Input>;
+  on_conflict?: InputMaybe<Planet_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Planet_OneArgs = {
+  object: Planet_Insert_Input;
+  on_conflict?: InputMaybe<Planet_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Planetary_RingArgs = {
+  objects: Array<Planetary_Ring_Insert_Input>;
+  on_conflict?: InputMaybe<Planetary_Ring_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Planetary_Ring_OneArgs = {
+  object: Planetary_Ring_Insert_Input;
+  on_conflict?: InputMaybe<Planetary_Ring_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Terrain_Hex_PaletteArgs = {
+  objects: Array<Terrain_Hex_Palette_Insert_Input>;
+  on_conflict?: InputMaybe<Terrain_Hex_Palette_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Terrain_Hex_Palette_OneArgs = {
+  object: Terrain_Hex_Palette_Insert_Input;
+  on_conflict?: InputMaybe<Terrain_Hex_Palette_On_Conflict>;
 };
 
 /** mutation root */
@@ -996,6 +1151,46 @@ export type Mutation_RootUpdate_Galaxy_By_PkArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootUpdate_PlanetArgs = {
+  _inc?: InputMaybe<Planet_Inc_Input>;
+  _set?: InputMaybe<Planet_Set_Input>;
+  where: Planet_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Planet_By_PkArgs = {
+  _inc?: InputMaybe<Planet_Inc_Input>;
+  _set?: InputMaybe<Planet_Set_Input>;
+  pk_columns: Planet_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Planetary_RingArgs = {
+  _inc?: InputMaybe<Planetary_Ring_Inc_Input>;
+  _set?: InputMaybe<Planetary_Ring_Set_Input>;
+  where: Planetary_Ring_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Planetary_Ring_By_PkArgs = {
+  _inc?: InputMaybe<Planetary_Ring_Inc_Input>;
+  _set?: InputMaybe<Planetary_Ring_Set_Input>;
+  pk_columns: Planetary_Ring_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Terrain_Hex_PaletteArgs = {
+  _set?: InputMaybe<Terrain_Hex_Palette_Set_Input>;
+  where: Terrain_Hex_Palette_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Terrain_Hex_Palette_By_PkArgs = {
+  _set?: InputMaybe<Terrain_Hex_Palette_Set_Input>;
+  pk_columns: Terrain_Hex_Palette_Pk_Columns_Input;
+};
+
+/** mutation root */
 export type Mutation_RootUpdate_User_InfoArgs = {
   _inc?: InputMaybe<User_Info_Inc_Input>;
   _set?: InputMaybe<User_Info_Set_Input>;
@@ -1051,6 +1246,728 @@ export enum Order_By {
   DescNullsLast = 'desc_nulls_last',
 }
 
+/** columns and relationships of "planet" */
+export type Planet = {
+  __typename?: 'planet';
+  celestial_id: Scalars['String'];
+  id: Scalars['uuid'];
+  name: Scalars['String'];
+  owner_id: Scalars['String'];
+  radius: Scalars['numeric'];
+  /** An array relationship */
+  rings: Array<Planetary_Ring>;
+  /** An aggregate relationship */
+  rings_aggregate: Planetary_Ring_Aggregate;
+  terrain_bias: Scalars['_numeric'];
+  /** An object relationship */
+  terrain_hex_palette: Terrain_Hex_Palette;
+  terrain_hex_palette_id: Scalars['uuid'];
+  texture_resolution: Scalars['Int'];
+  /** An object relationship */
+  user_info?: Maybe<User_Info>;
+};
+
+/** columns and relationships of "planet" */
+export type PlanetRingsArgs = {
+  distinct_on?: InputMaybe<Array<Planetary_Ring_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Planetary_Ring_Order_By>>;
+  where?: InputMaybe<Planetary_Ring_Bool_Exp>;
+};
+
+/** columns and relationships of "planet" */
+export type PlanetRings_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Planetary_Ring_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Planetary_Ring_Order_By>>;
+  where?: InputMaybe<Planetary_Ring_Bool_Exp>;
+};
+
+/** aggregated selection of "planet" */
+export type Planet_Aggregate = {
+  __typename?: 'planet_aggregate';
+  aggregate?: Maybe<Planet_Aggregate_Fields>;
+  nodes: Array<Planet>;
+};
+
+/** aggregate fields of "planet" */
+export type Planet_Aggregate_Fields = {
+  __typename?: 'planet_aggregate_fields';
+  avg?: Maybe<Planet_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Planet_Max_Fields>;
+  min?: Maybe<Planet_Min_Fields>;
+  stddev?: Maybe<Planet_Stddev_Fields>;
+  stddev_pop?: Maybe<Planet_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Planet_Stddev_Samp_Fields>;
+  sum?: Maybe<Planet_Sum_Fields>;
+  var_pop?: Maybe<Planet_Var_Pop_Fields>;
+  var_samp?: Maybe<Planet_Var_Samp_Fields>;
+  variance?: Maybe<Planet_Variance_Fields>;
+};
+
+/** aggregate fields of "planet" */
+export type Planet_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Planet_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "planet" */
+export type Planet_Aggregate_Order_By = {
+  avg?: InputMaybe<Planet_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Planet_Max_Order_By>;
+  min?: InputMaybe<Planet_Min_Order_By>;
+  stddev?: InputMaybe<Planet_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Planet_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Planet_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Planet_Sum_Order_By>;
+  var_pop?: InputMaybe<Planet_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Planet_Var_Samp_Order_By>;
+  variance?: InputMaybe<Planet_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "planet" */
+export type Planet_Arr_Rel_Insert_Input = {
+  data: Array<Planet_Insert_Input>;
+  /** on conflict condition */
+  on_conflict?: InputMaybe<Planet_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Planet_Avg_Fields = {
+  __typename?: 'planet_avg_fields';
+  radius?: Maybe<Scalars['Float']>;
+  texture_resolution?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "planet" */
+export type Planet_Avg_Order_By = {
+  radius?: InputMaybe<Order_By>;
+  texture_resolution?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "planet". All fields are combined with a logical 'AND'. */
+export type Planet_Bool_Exp = {
+  _and?: InputMaybe<Array<Planet_Bool_Exp>>;
+  _not?: InputMaybe<Planet_Bool_Exp>;
+  _or?: InputMaybe<Array<Planet_Bool_Exp>>;
+  celestial_id?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  owner_id?: InputMaybe<String_Comparison_Exp>;
+  radius?: InputMaybe<Numeric_Comparison_Exp>;
+  rings?: InputMaybe<Planetary_Ring_Bool_Exp>;
+  terrain_bias?: InputMaybe<_Numeric_Comparison_Exp>;
+  terrain_hex_palette?: InputMaybe<Terrain_Hex_Palette_Bool_Exp>;
+  terrain_hex_palette_id?: InputMaybe<Uuid_Comparison_Exp>;
+  texture_resolution?: InputMaybe<Int_Comparison_Exp>;
+  user_info?: InputMaybe<User_Info_Bool_Exp>;
+};
+
+/** unique or primary key constraints on table "planet" */
+export enum Planet_Constraint {
+  /** unique or primary key constraint */
+  PlanetNameKey = 'planet_name_key',
+  /** unique or primary key constraint */
+  PlanetPkey = 'planet_pkey',
+}
+
+/** input type for incrementing numeric columns in table "planet" */
+export type Planet_Inc_Input = {
+  radius?: InputMaybe<Scalars['numeric']>;
+  texture_resolution?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "planet" */
+export type Planet_Insert_Input = {
+  celestial_id?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  owner_id?: InputMaybe<Scalars['String']>;
+  radius?: InputMaybe<Scalars['numeric']>;
+  rings?: InputMaybe<Planetary_Ring_Arr_Rel_Insert_Input>;
+  terrain_bias?: InputMaybe<Scalars['_numeric']>;
+  terrain_hex_palette?: InputMaybe<Terrain_Hex_Palette_Obj_Rel_Insert_Input>;
+  terrain_hex_palette_id?: InputMaybe<Scalars['uuid']>;
+  texture_resolution?: InputMaybe<Scalars['Int']>;
+  user_info?: InputMaybe<User_Info_Obj_Rel_Insert_Input>;
+};
+
+/** aggregate max on columns */
+export type Planet_Max_Fields = {
+  __typename?: 'planet_max_fields';
+  celestial_id?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  owner_id?: Maybe<Scalars['String']>;
+  radius?: Maybe<Scalars['numeric']>;
+  terrain_hex_palette_id?: Maybe<Scalars['uuid']>;
+  texture_resolution?: Maybe<Scalars['Int']>;
+};
+
+/** order by max() on columns of table "planet" */
+export type Planet_Max_Order_By = {
+  celestial_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  owner_id?: InputMaybe<Order_By>;
+  radius?: InputMaybe<Order_By>;
+  terrain_hex_palette_id?: InputMaybe<Order_By>;
+  texture_resolution?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Planet_Min_Fields = {
+  __typename?: 'planet_min_fields';
+  celestial_id?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  owner_id?: Maybe<Scalars['String']>;
+  radius?: Maybe<Scalars['numeric']>;
+  terrain_hex_palette_id?: Maybe<Scalars['uuid']>;
+  texture_resolution?: Maybe<Scalars['Int']>;
+};
+
+/** order by min() on columns of table "planet" */
+export type Planet_Min_Order_By = {
+  celestial_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  owner_id?: InputMaybe<Order_By>;
+  radius?: InputMaybe<Order_By>;
+  terrain_hex_palette_id?: InputMaybe<Order_By>;
+  texture_resolution?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "planet" */
+export type Planet_Mutation_Response = {
+  __typename?: 'planet_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Planet>;
+};
+
+/** on conflict condition type for table "planet" */
+export type Planet_On_Conflict = {
+  constraint: Planet_Constraint;
+  update_columns?: Array<Planet_Update_Column>;
+  where?: InputMaybe<Planet_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "planet". */
+export type Planet_Order_By = {
+  celestial_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  owner_id?: InputMaybe<Order_By>;
+  radius?: InputMaybe<Order_By>;
+  rings_aggregate?: InputMaybe<Planetary_Ring_Aggregate_Order_By>;
+  terrain_bias?: InputMaybe<Order_By>;
+  terrain_hex_palette?: InputMaybe<Terrain_Hex_Palette_Order_By>;
+  terrain_hex_palette_id?: InputMaybe<Order_By>;
+  texture_resolution?: InputMaybe<Order_By>;
+  user_info?: InputMaybe<User_Info_Order_By>;
+};
+
+/** primary key columns input for table: planet */
+export type Planet_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "planet" */
+export enum Planet_Select_Column {
+  /** column name */
+  CelestialId = 'celestial_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  OwnerId = 'owner_id',
+  /** column name */
+  Radius = 'radius',
+  /** column name */
+  TerrainBias = 'terrain_bias',
+  /** column name */
+  TerrainHexPaletteId = 'terrain_hex_palette_id',
+  /** column name */
+  TextureResolution = 'texture_resolution',
+}
+
+/** input type for updating data in table "planet" */
+export type Planet_Set_Input = {
+  celestial_id?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  owner_id?: InputMaybe<Scalars['String']>;
+  radius?: InputMaybe<Scalars['numeric']>;
+  terrain_bias?: InputMaybe<Scalars['_numeric']>;
+  terrain_hex_palette_id?: InputMaybe<Scalars['uuid']>;
+  texture_resolution?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate stddev on columns */
+export type Planet_Stddev_Fields = {
+  __typename?: 'planet_stddev_fields';
+  radius?: Maybe<Scalars['Float']>;
+  texture_resolution?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "planet" */
+export type Planet_Stddev_Order_By = {
+  radius?: InputMaybe<Order_By>;
+  texture_resolution?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Planet_Stddev_Pop_Fields = {
+  __typename?: 'planet_stddev_pop_fields';
+  radius?: Maybe<Scalars['Float']>;
+  texture_resolution?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "planet" */
+export type Planet_Stddev_Pop_Order_By = {
+  radius?: InputMaybe<Order_By>;
+  texture_resolution?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Planet_Stddev_Samp_Fields = {
+  __typename?: 'planet_stddev_samp_fields';
+  radius?: Maybe<Scalars['Float']>;
+  texture_resolution?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "planet" */
+export type Planet_Stddev_Samp_Order_By = {
+  radius?: InputMaybe<Order_By>;
+  texture_resolution?: InputMaybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Planet_Sum_Fields = {
+  __typename?: 'planet_sum_fields';
+  radius?: Maybe<Scalars['numeric']>;
+  texture_resolution?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "planet" */
+export type Planet_Sum_Order_By = {
+  radius?: InputMaybe<Order_By>;
+  texture_resolution?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "planet" */
+export enum Planet_Update_Column {
+  /** column name */
+  CelestialId = 'celestial_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  OwnerId = 'owner_id',
+  /** column name */
+  Radius = 'radius',
+  /** column name */
+  TerrainBias = 'terrain_bias',
+  /** column name */
+  TerrainHexPaletteId = 'terrain_hex_palette_id',
+  /** column name */
+  TextureResolution = 'texture_resolution',
+}
+
+/** aggregate var_pop on columns */
+export type Planet_Var_Pop_Fields = {
+  __typename?: 'planet_var_pop_fields';
+  radius?: Maybe<Scalars['Float']>;
+  texture_resolution?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "planet" */
+export type Planet_Var_Pop_Order_By = {
+  radius?: InputMaybe<Order_By>;
+  texture_resolution?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Planet_Var_Samp_Fields = {
+  __typename?: 'planet_var_samp_fields';
+  radius?: Maybe<Scalars['Float']>;
+  texture_resolution?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "planet" */
+export type Planet_Var_Samp_Order_By = {
+  radius?: InputMaybe<Order_By>;
+  texture_resolution?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Planet_Variance_Fields = {
+  __typename?: 'planet_variance_fields';
+  radius?: Maybe<Scalars['Float']>;
+  texture_resolution?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "planet" */
+export type Planet_Variance_Order_By = {
+  radius?: InputMaybe<Order_By>;
+  texture_resolution?: InputMaybe<Order_By>;
+};
+
+/** columns and relationships of "planetary_ring" */
+export type Planetary_Ring = {
+  __typename?: 'planetary_ring';
+  colors: Scalars['_text'];
+  id: Scalars['uuid'];
+  inner_radius: Scalars['numeric'];
+  outer_radius: Scalars['numeric'];
+  resolution: Scalars['Int'];
+  rotation: Scalars['_numeric'];
+  terrain_bias: Scalars['_numeric'];
+  type: Scalars['String'];
+};
+
+/** aggregated selection of "planetary_ring" */
+export type Planetary_Ring_Aggregate = {
+  __typename?: 'planetary_ring_aggregate';
+  aggregate?: Maybe<Planetary_Ring_Aggregate_Fields>;
+  nodes: Array<Planetary_Ring>;
+};
+
+/** aggregate fields of "planetary_ring" */
+export type Planetary_Ring_Aggregate_Fields = {
+  __typename?: 'planetary_ring_aggregate_fields';
+  avg?: Maybe<Planetary_Ring_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Planetary_Ring_Max_Fields>;
+  min?: Maybe<Planetary_Ring_Min_Fields>;
+  stddev?: Maybe<Planetary_Ring_Stddev_Fields>;
+  stddev_pop?: Maybe<Planetary_Ring_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Planetary_Ring_Stddev_Samp_Fields>;
+  sum?: Maybe<Planetary_Ring_Sum_Fields>;
+  var_pop?: Maybe<Planetary_Ring_Var_Pop_Fields>;
+  var_samp?: Maybe<Planetary_Ring_Var_Samp_Fields>;
+  variance?: Maybe<Planetary_Ring_Variance_Fields>;
+};
+
+/** aggregate fields of "planetary_ring" */
+export type Planetary_Ring_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Planetary_Ring_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "planetary_ring" */
+export type Planetary_Ring_Aggregate_Order_By = {
+  avg?: InputMaybe<Planetary_Ring_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Planetary_Ring_Max_Order_By>;
+  min?: InputMaybe<Planetary_Ring_Min_Order_By>;
+  stddev?: InputMaybe<Planetary_Ring_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Planetary_Ring_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Planetary_Ring_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Planetary_Ring_Sum_Order_By>;
+  var_pop?: InputMaybe<Planetary_Ring_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Planetary_Ring_Var_Samp_Order_By>;
+  variance?: InputMaybe<Planetary_Ring_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "planetary_ring" */
+export type Planetary_Ring_Arr_Rel_Insert_Input = {
+  data: Array<Planetary_Ring_Insert_Input>;
+  /** on conflict condition */
+  on_conflict?: InputMaybe<Planetary_Ring_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Planetary_Ring_Avg_Fields = {
+  __typename?: 'planetary_ring_avg_fields';
+  inner_radius?: Maybe<Scalars['Float']>;
+  outer_radius?: Maybe<Scalars['Float']>;
+  resolution?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "planetary_ring" */
+export type Planetary_Ring_Avg_Order_By = {
+  inner_radius?: InputMaybe<Order_By>;
+  outer_radius?: InputMaybe<Order_By>;
+  resolution?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "planetary_ring". All fields are combined with a logical 'AND'. */
+export type Planetary_Ring_Bool_Exp = {
+  _and?: InputMaybe<Array<Planetary_Ring_Bool_Exp>>;
+  _not?: InputMaybe<Planetary_Ring_Bool_Exp>;
+  _or?: InputMaybe<Array<Planetary_Ring_Bool_Exp>>;
+  colors?: InputMaybe<_Text_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  inner_radius?: InputMaybe<Numeric_Comparison_Exp>;
+  outer_radius?: InputMaybe<Numeric_Comparison_Exp>;
+  resolution?: InputMaybe<Int_Comparison_Exp>;
+  rotation?: InputMaybe<_Numeric_Comparison_Exp>;
+  terrain_bias?: InputMaybe<_Numeric_Comparison_Exp>;
+  type?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "planetary_ring" */
+export enum Planetary_Ring_Constraint {
+  /** unique or primary key constraint */
+  PlanetaryRingPkey = 'planetary_ring_pkey',
+}
+
+/** input type for incrementing numeric columns in table "planetary_ring" */
+export type Planetary_Ring_Inc_Input = {
+  inner_radius?: InputMaybe<Scalars['numeric']>;
+  outer_radius?: InputMaybe<Scalars['numeric']>;
+  resolution?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "planetary_ring" */
+export type Planetary_Ring_Insert_Input = {
+  colors?: InputMaybe<Scalars['_text']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  inner_radius?: InputMaybe<Scalars['numeric']>;
+  outer_radius?: InputMaybe<Scalars['numeric']>;
+  resolution?: InputMaybe<Scalars['Int']>;
+  rotation?: InputMaybe<Scalars['_numeric']>;
+  terrain_bias?: InputMaybe<Scalars['_numeric']>;
+  type?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Planetary_Ring_Max_Fields = {
+  __typename?: 'planetary_ring_max_fields';
+  id?: Maybe<Scalars['uuid']>;
+  inner_radius?: Maybe<Scalars['numeric']>;
+  outer_radius?: Maybe<Scalars['numeric']>;
+  resolution?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "planetary_ring" */
+export type Planetary_Ring_Max_Order_By = {
+  id?: InputMaybe<Order_By>;
+  inner_radius?: InputMaybe<Order_By>;
+  outer_radius?: InputMaybe<Order_By>;
+  resolution?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Planetary_Ring_Min_Fields = {
+  __typename?: 'planetary_ring_min_fields';
+  id?: Maybe<Scalars['uuid']>;
+  inner_radius?: Maybe<Scalars['numeric']>;
+  outer_radius?: Maybe<Scalars['numeric']>;
+  resolution?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "planetary_ring" */
+export type Planetary_Ring_Min_Order_By = {
+  id?: InputMaybe<Order_By>;
+  inner_radius?: InputMaybe<Order_By>;
+  outer_radius?: InputMaybe<Order_By>;
+  resolution?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "planetary_ring" */
+export type Planetary_Ring_Mutation_Response = {
+  __typename?: 'planetary_ring_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Planetary_Ring>;
+};
+
+/** on conflict condition type for table "planetary_ring" */
+export type Planetary_Ring_On_Conflict = {
+  constraint: Planetary_Ring_Constraint;
+  update_columns?: Array<Planetary_Ring_Update_Column>;
+  where?: InputMaybe<Planetary_Ring_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "planetary_ring". */
+export type Planetary_Ring_Order_By = {
+  colors?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  inner_radius?: InputMaybe<Order_By>;
+  outer_radius?: InputMaybe<Order_By>;
+  resolution?: InputMaybe<Order_By>;
+  rotation?: InputMaybe<Order_By>;
+  terrain_bias?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: planetary_ring */
+export type Planetary_Ring_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "planetary_ring" */
+export enum Planetary_Ring_Select_Column {
+  /** column name */
+  Colors = 'colors',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  InnerRadius = 'inner_radius',
+  /** column name */
+  OuterRadius = 'outer_radius',
+  /** column name */
+  Resolution = 'resolution',
+  /** column name */
+  Rotation = 'rotation',
+  /** column name */
+  TerrainBias = 'terrain_bias',
+  /** column name */
+  Type = 'type',
+}
+
+/** input type for updating data in table "planetary_ring" */
+export type Planetary_Ring_Set_Input = {
+  colors?: InputMaybe<Scalars['_text']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  inner_radius?: InputMaybe<Scalars['numeric']>;
+  outer_radius?: InputMaybe<Scalars['numeric']>;
+  resolution?: InputMaybe<Scalars['Int']>;
+  rotation?: InputMaybe<Scalars['_numeric']>;
+  terrain_bias?: InputMaybe<Scalars['_numeric']>;
+  type?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate stddev on columns */
+export type Planetary_Ring_Stddev_Fields = {
+  __typename?: 'planetary_ring_stddev_fields';
+  inner_radius?: Maybe<Scalars['Float']>;
+  outer_radius?: Maybe<Scalars['Float']>;
+  resolution?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "planetary_ring" */
+export type Planetary_Ring_Stddev_Order_By = {
+  inner_radius?: InputMaybe<Order_By>;
+  outer_radius?: InputMaybe<Order_By>;
+  resolution?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Planetary_Ring_Stddev_Pop_Fields = {
+  __typename?: 'planetary_ring_stddev_pop_fields';
+  inner_radius?: Maybe<Scalars['Float']>;
+  outer_radius?: Maybe<Scalars['Float']>;
+  resolution?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "planetary_ring" */
+export type Planetary_Ring_Stddev_Pop_Order_By = {
+  inner_radius?: InputMaybe<Order_By>;
+  outer_radius?: InputMaybe<Order_By>;
+  resolution?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Planetary_Ring_Stddev_Samp_Fields = {
+  __typename?: 'planetary_ring_stddev_samp_fields';
+  inner_radius?: Maybe<Scalars['Float']>;
+  outer_radius?: Maybe<Scalars['Float']>;
+  resolution?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "planetary_ring" */
+export type Planetary_Ring_Stddev_Samp_Order_By = {
+  inner_radius?: InputMaybe<Order_By>;
+  outer_radius?: InputMaybe<Order_By>;
+  resolution?: InputMaybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Planetary_Ring_Sum_Fields = {
+  __typename?: 'planetary_ring_sum_fields';
+  inner_radius?: Maybe<Scalars['numeric']>;
+  outer_radius?: Maybe<Scalars['numeric']>;
+  resolution?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "planetary_ring" */
+export type Planetary_Ring_Sum_Order_By = {
+  inner_radius?: InputMaybe<Order_By>;
+  outer_radius?: InputMaybe<Order_By>;
+  resolution?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "planetary_ring" */
+export enum Planetary_Ring_Update_Column {
+  /** column name */
+  Colors = 'colors',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  InnerRadius = 'inner_radius',
+  /** column name */
+  OuterRadius = 'outer_radius',
+  /** column name */
+  Resolution = 'resolution',
+  /** column name */
+  Rotation = 'rotation',
+  /** column name */
+  TerrainBias = 'terrain_bias',
+  /** column name */
+  Type = 'type',
+}
+
+/** aggregate var_pop on columns */
+export type Planetary_Ring_Var_Pop_Fields = {
+  __typename?: 'planetary_ring_var_pop_fields';
+  inner_radius?: Maybe<Scalars['Float']>;
+  outer_radius?: Maybe<Scalars['Float']>;
+  resolution?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "planetary_ring" */
+export type Planetary_Ring_Var_Pop_Order_By = {
+  inner_radius?: InputMaybe<Order_By>;
+  outer_radius?: InputMaybe<Order_By>;
+  resolution?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Planetary_Ring_Var_Samp_Fields = {
+  __typename?: 'planetary_ring_var_samp_fields';
+  inner_radius?: Maybe<Scalars['Float']>;
+  outer_radius?: Maybe<Scalars['Float']>;
+  resolution?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "planetary_ring" */
+export type Planetary_Ring_Var_Samp_Order_By = {
+  inner_radius?: InputMaybe<Order_By>;
+  outer_radius?: InputMaybe<Order_By>;
+  resolution?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Planetary_Ring_Variance_Fields = {
+  __typename?: 'planetary_ring_variance_fields';
+  inner_radius?: Maybe<Scalars['Float']>;
+  outer_radius?: Maybe<Scalars['Float']>;
+  resolution?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "planetary_ring" */
+export type Planetary_Ring_Variance_Order_By = {
+  inner_radius?: InputMaybe<Order_By>;
+  outer_radius?: InputMaybe<Order_By>;
+  resolution?: InputMaybe<Order_By>;
+};
+
 export type Query_Root = {
   __typename?: 'query_root';
   /** fetch data from the table: "celestial" */
@@ -1071,7 +1988,25 @@ export type Query_Root = {
   galaxy_aggregate: Galaxy_Aggregate;
   /** fetch data from the table: "galaxy" using primary key columns */
   galaxy_by_pk?: Maybe<Galaxy>;
+  /** fetch data from the table: "planet" */
+  planet: Array<Planet>;
+  /** fetch aggregated fields from the table: "planet" */
+  planet_aggregate: Planet_Aggregate;
+  /** fetch data from the table: "planet" using primary key columns */
+  planet_by_pk?: Maybe<Planet>;
+  /** fetch data from the table: "planetary_ring" */
+  planetary_ring: Array<Planetary_Ring>;
+  /** fetch aggregated fields from the table: "planetary_ring" */
+  planetary_ring_aggregate: Planetary_Ring_Aggregate;
+  /** fetch data from the table: "planetary_ring" using primary key columns */
+  planetary_ring_by_pk?: Maybe<Planetary_Ring>;
   returnNothing?: Maybe<GalaxyManagement>;
+  /** fetch data from the table: "terrain_hex_palette" */
+  terrain_hex_palette: Array<Terrain_Hex_Palette>;
+  /** fetch aggregated fields from the table: "terrain_hex_palette" */
+  terrain_hex_palette_aggregate: Terrain_Hex_Palette_Aggregate;
+  /** fetch data from the table: "terrain_hex_palette" using primary key columns */
+  terrain_hex_palette_by_pk?: Maybe<Terrain_Hex_Palette>;
   /** fetch data from the table: "user_info" */
   user_info: Array<User_Info>;
   /** fetch aggregated fields from the table: "user_info" */
@@ -1148,6 +2083,66 @@ export type Query_RootGalaxy_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+export type Query_RootPlanetArgs = {
+  distinct_on?: InputMaybe<Array<Planet_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Planet_Order_By>>;
+  where?: InputMaybe<Planet_Bool_Exp>;
+};
+
+export type Query_RootPlanet_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Planet_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Planet_Order_By>>;
+  where?: InputMaybe<Planet_Bool_Exp>;
+};
+
+export type Query_RootPlanet_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+export type Query_RootPlanetary_RingArgs = {
+  distinct_on?: InputMaybe<Array<Planetary_Ring_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Planetary_Ring_Order_By>>;
+  where?: InputMaybe<Planetary_Ring_Bool_Exp>;
+};
+
+export type Query_RootPlanetary_Ring_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Planetary_Ring_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Planetary_Ring_Order_By>>;
+  where?: InputMaybe<Planetary_Ring_Bool_Exp>;
+};
+
+export type Query_RootPlanetary_Ring_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+export type Query_RootTerrain_Hex_PaletteArgs = {
+  distinct_on?: InputMaybe<Array<Terrain_Hex_Palette_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Terrain_Hex_Palette_Order_By>>;
+  where?: InputMaybe<Terrain_Hex_Palette_Bool_Exp>;
+};
+
+export type Query_RootTerrain_Hex_Palette_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Terrain_Hex_Palette_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Terrain_Hex_Palette_Order_By>>;
+  where?: InputMaybe<Terrain_Hex_Palette_Bool_Exp>;
+};
+
+export type Query_RootTerrain_Hex_Palette_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
 export type Query_RootUser_InfoArgs = {
   distinct_on?: InputMaybe<Array<User_Info_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -1220,6 +2215,24 @@ export type Subscription_Root = {
   galaxy_aggregate: Galaxy_Aggregate;
   /** fetch data from the table: "galaxy" using primary key columns */
   galaxy_by_pk?: Maybe<Galaxy>;
+  /** fetch data from the table: "planet" */
+  planet: Array<Planet>;
+  /** fetch aggregated fields from the table: "planet" */
+  planet_aggregate: Planet_Aggregate;
+  /** fetch data from the table: "planet" using primary key columns */
+  planet_by_pk?: Maybe<Planet>;
+  /** fetch data from the table: "planetary_ring" */
+  planetary_ring: Array<Planetary_Ring>;
+  /** fetch aggregated fields from the table: "planetary_ring" */
+  planetary_ring_aggregate: Planetary_Ring_Aggregate;
+  /** fetch data from the table: "planetary_ring" using primary key columns */
+  planetary_ring_by_pk?: Maybe<Planetary_Ring>;
+  /** fetch data from the table: "terrain_hex_palette" */
+  terrain_hex_palette: Array<Terrain_Hex_Palette>;
+  /** fetch aggregated fields from the table: "terrain_hex_palette" */
+  terrain_hex_palette_aggregate: Terrain_Hex_Palette_Aggregate;
+  /** fetch data from the table: "terrain_hex_palette" using primary key columns */
+  terrain_hex_palette_by_pk?: Maybe<Terrain_Hex_Palette>;
   /** fetch data from the table: "user_info" */
   user_info: Array<User_Info>;
   /** fetch aggregated fields from the table: "user_info" */
@@ -1296,6 +2309,66 @@ export type Subscription_RootGalaxy_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+export type Subscription_RootPlanetArgs = {
+  distinct_on?: InputMaybe<Array<Planet_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Planet_Order_By>>;
+  where?: InputMaybe<Planet_Bool_Exp>;
+};
+
+export type Subscription_RootPlanet_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Planet_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Planet_Order_By>>;
+  where?: InputMaybe<Planet_Bool_Exp>;
+};
+
+export type Subscription_RootPlanet_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+export type Subscription_RootPlanetary_RingArgs = {
+  distinct_on?: InputMaybe<Array<Planetary_Ring_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Planetary_Ring_Order_By>>;
+  where?: InputMaybe<Planetary_Ring_Bool_Exp>;
+};
+
+export type Subscription_RootPlanetary_Ring_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Planetary_Ring_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Planetary_Ring_Order_By>>;
+  where?: InputMaybe<Planetary_Ring_Bool_Exp>;
+};
+
+export type Subscription_RootPlanetary_Ring_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+export type Subscription_RootTerrain_Hex_PaletteArgs = {
+  distinct_on?: InputMaybe<Array<Terrain_Hex_Palette_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Terrain_Hex_Palette_Order_By>>;
+  where?: InputMaybe<Terrain_Hex_Palette_Bool_Exp>;
+};
+
+export type Subscription_RootTerrain_Hex_Palette_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Terrain_Hex_Palette_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Terrain_Hex_Palette_Order_By>>;
+  where?: InputMaybe<Terrain_Hex_Palette_Bool_Exp>;
+};
+
+export type Subscription_RootTerrain_Hex_Palette_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
 export type Subscription_RootUser_InfoArgs = {
   distinct_on?: InputMaybe<Array<User_Info_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -1348,6 +2421,171 @@ export type Subscription_RootUser_Private_AggregateArgs = {
   where?: InputMaybe<User_Private_Bool_Exp>;
 };
 
+/** columns and relationships of "terrain_hex_palette" */
+export type Terrain_Hex_Palette = {
+  __typename?: 'terrain_hex_palette';
+  forest: Scalars['String'];
+  grass: Scalars['String'];
+  id: Scalars['uuid'];
+  name: Scalars['String'];
+  sand: Scalars['String'];
+  water: Scalars['String'];
+};
+
+/** aggregated selection of "terrain_hex_palette" */
+export type Terrain_Hex_Palette_Aggregate = {
+  __typename?: 'terrain_hex_palette_aggregate';
+  aggregate?: Maybe<Terrain_Hex_Palette_Aggregate_Fields>;
+  nodes: Array<Terrain_Hex_Palette>;
+};
+
+/** aggregate fields of "terrain_hex_palette" */
+export type Terrain_Hex_Palette_Aggregate_Fields = {
+  __typename?: 'terrain_hex_palette_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Terrain_Hex_Palette_Max_Fields>;
+  min?: Maybe<Terrain_Hex_Palette_Min_Fields>;
+};
+
+/** aggregate fields of "terrain_hex_palette" */
+export type Terrain_Hex_Palette_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Terrain_Hex_Palette_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "terrain_hex_palette". All fields are combined with a logical 'AND'. */
+export type Terrain_Hex_Palette_Bool_Exp = {
+  _and?: InputMaybe<Array<Terrain_Hex_Palette_Bool_Exp>>;
+  _not?: InputMaybe<Terrain_Hex_Palette_Bool_Exp>;
+  _or?: InputMaybe<Array<Terrain_Hex_Palette_Bool_Exp>>;
+  forest?: InputMaybe<String_Comparison_Exp>;
+  grass?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  sand?: InputMaybe<String_Comparison_Exp>;
+  water?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "terrain_hex_palette" */
+export enum Terrain_Hex_Palette_Constraint {
+  /** unique or primary key constraint */
+  TerrainHexPaletteNameKey = 'terrain_hex_palette_name_key',
+  /** unique or primary key constraint */
+  TerrainHexPalettePkey = 'terrain_hex_palette_pkey',
+}
+
+/** input type for inserting data into table "terrain_hex_palette" */
+export type Terrain_Hex_Palette_Insert_Input = {
+  forest?: InputMaybe<Scalars['String']>;
+  grass?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  sand?: InputMaybe<Scalars['String']>;
+  water?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Terrain_Hex_Palette_Max_Fields = {
+  __typename?: 'terrain_hex_palette_max_fields';
+  forest?: Maybe<Scalars['String']>;
+  grass?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  sand?: Maybe<Scalars['String']>;
+  water?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Terrain_Hex_Palette_Min_Fields = {
+  __typename?: 'terrain_hex_palette_min_fields';
+  forest?: Maybe<Scalars['String']>;
+  grass?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  sand?: Maybe<Scalars['String']>;
+  water?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "terrain_hex_palette" */
+export type Terrain_Hex_Palette_Mutation_Response = {
+  __typename?: 'terrain_hex_palette_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Terrain_Hex_Palette>;
+};
+
+/** input type for inserting object relation for remote table "terrain_hex_palette" */
+export type Terrain_Hex_Palette_Obj_Rel_Insert_Input = {
+  data: Terrain_Hex_Palette_Insert_Input;
+  /** on conflict condition */
+  on_conflict?: InputMaybe<Terrain_Hex_Palette_On_Conflict>;
+};
+
+/** on conflict condition type for table "terrain_hex_palette" */
+export type Terrain_Hex_Palette_On_Conflict = {
+  constraint: Terrain_Hex_Palette_Constraint;
+  update_columns?: Array<Terrain_Hex_Palette_Update_Column>;
+  where?: InputMaybe<Terrain_Hex_Palette_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "terrain_hex_palette". */
+export type Terrain_Hex_Palette_Order_By = {
+  forest?: InputMaybe<Order_By>;
+  grass?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  sand?: InputMaybe<Order_By>;
+  water?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: terrain_hex_palette */
+export type Terrain_Hex_Palette_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "terrain_hex_palette" */
+export enum Terrain_Hex_Palette_Select_Column {
+  /** column name */
+  Forest = 'forest',
+  /** column name */
+  Grass = 'grass',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Sand = 'sand',
+  /** column name */
+  Water = 'water',
+}
+
+/** input type for updating data in table "terrain_hex_palette" */
+export type Terrain_Hex_Palette_Set_Input = {
+  forest?: InputMaybe<Scalars['String']>;
+  grass?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  sand?: InputMaybe<Scalars['String']>;
+  water?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "terrain_hex_palette" */
+export enum Terrain_Hex_Palette_Update_Column {
+  /** column name */
+  Forest = 'forest',
+  /** column name */
+  Grass = 'grass',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Sand = 'sand',
+  /** column name */
+  Water = 'water',
+}
+
 /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
 export type Timestamp_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['timestamp']>;
@@ -1366,6 +2604,10 @@ export type User_Info = {
   __typename?: 'user_info';
   avatar_url?: Maybe<Scalars['String']>;
   /** An array relationship */
+  celestials: Array<Celestial>;
+  /** An aggregate relationship */
+  celestials_aggregate: Celestial_Aggregate;
+  /** An array relationship */
   chat_messages: Array<Chat_Message>;
   /** An aggregate relationship */
   chat_messages_aggregate: Chat_Message_Aggregate;
@@ -1375,10 +2617,24 @@ export type User_Info = {
   name?: Maybe<Scalars['String']>;
   nickname: Scalars['String'];
   secret_setting_test?: Maybe<Scalars['String']>;
-  /** An array relationship */
-  systems: Array<Celestial>;
-  /** An aggregate relationship */
-  systems_aggregate: Celestial_Aggregate;
+};
+
+/** columns and relationships of "user_info" */
+export type User_InfoCelestialsArgs = {
+  distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Celestial_Order_By>>;
+  where?: InputMaybe<Celestial_Bool_Exp>;
+};
+
+/** columns and relationships of "user_info" */
+export type User_InfoCelestials_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Celestial_Order_By>>;
+  where?: InputMaybe<Celestial_Bool_Exp>;
 };
 
 /** columns and relationships of "user_info" */
@@ -1397,24 +2653,6 @@ export type User_InfoChat_Messages_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Chat_Message_Order_By>>;
   where?: InputMaybe<Chat_Message_Bool_Exp>;
-};
-
-/** columns and relationships of "user_info" */
-export type User_InfoSystemsArgs = {
-  distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Celestial_Order_By>>;
-  where?: InputMaybe<Celestial_Bool_Exp>;
-};
-
-/** columns and relationships of "user_info" */
-export type User_InfoSystems_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Celestial_Order_By>>;
-  where?: InputMaybe<Celestial_Bool_Exp>;
 };
 
 /** aggregated selection of "user_info" */
@@ -1458,6 +2696,7 @@ export type User_Info_Bool_Exp = {
   _not?: InputMaybe<User_Info_Bool_Exp>;
   _or?: InputMaybe<Array<User_Info_Bool_Exp>>;
   avatar_url?: InputMaybe<String_Comparison_Exp>;
+  celestials?: InputMaybe<Celestial_Bool_Exp>;
   chat_messages?: InputMaybe<Chat_Message_Bool_Exp>;
   display_name?: InputMaybe<String_Comparison_Exp>;
   free_claims?: InputMaybe<Int_Comparison_Exp>;
@@ -1465,7 +2704,6 @@ export type User_Info_Bool_Exp = {
   name?: InputMaybe<String_Comparison_Exp>;
   nickname?: InputMaybe<String_Comparison_Exp>;
   secret_setting_test?: InputMaybe<String_Comparison_Exp>;
-  systems?: InputMaybe<Celestial_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "user_info" */
@@ -1484,6 +2722,7 @@ export type User_Info_Inc_Input = {
 /** input type for inserting data into table "user_info" */
 export type User_Info_Insert_Input = {
   avatar_url?: InputMaybe<Scalars['String']>;
+  celestials?: InputMaybe<Celestial_Arr_Rel_Insert_Input>;
   chat_messages?: InputMaybe<Chat_Message_Arr_Rel_Insert_Input>;
   display_name?: InputMaybe<Scalars['String']>;
   free_claims?: InputMaybe<Scalars['Int']>;
@@ -1491,7 +2730,6 @@ export type User_Info_Insert_Input = {
   name?: InputMaybe<Scalars['String']>;
   nickname?: InputMaybe<Scalars['String']>;
   secret_setting_test?: InputMaybe<Scalars['String']>;
-  systems?: InputMaybe<Celestial_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -1544,6 +2782,7 @@ export type User_Info_On_Conflict = {
 /** Ordering options when selecting data from "user_info". */
 export type User_Info_Order_By = {
   avatar_url?: InputMaybe<Order_By>;
+  celestials_aggregate?: InputMaybe<Celestial_Aggregate_Order_By>;
   chat_messages_aggregate?: InputMaybe<Chat_Message_Aggregate_Order_By>;
   display_name?: InputMaybe<Order_By>;
   free_claims?: InputMaybe<Order_By>;
@@ -1551,7 +2790,6 @@ export type User_Info_Order_By = {
   name?: InputMaybe<Order_By>;
   nickname?: InputMaybe<Order_By>;
   secret_setting_test?: InputMaybe<Order_By>;
-  systems_aggregate?: InputMaybe<Celestial_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: user_info */
@@ -1991,6 +3229,29 @@ export type CelestialByIdQuery = {
   } | null;
 };
 
+export type EdNewGalaxyQueryQueryVariables = Exact<{ [key: string]: never }>;
+
+export type EdNewGalaxyQueryQuery = {
+  __typename?: 'query_root';
+  galaxy: Array<{
+    __typename?: 'galaxy';
+    id: any;
+    arms: any;
+    celestials: Array<{
+      __typename?: 'celestial';
+      id: string;
+      name?: string | null;
+      user_info?: {
+        __typename?: 'user_info';
+        avatar_url?: string | null;
+        id: string;
+        name?: string | null;
+        nickname: string;
+      } | null;
+    }>;
+  }>;
+};
+
 export type CelestialsSubscriptionVariables = Exact<{ [key: string]: never }>;
 
 export type CelestialsSubscription = {
@@ -2336,6 +3597,28 @@ export const CelestialByIdDocument = gql`
 export type CelestialByIdQueryResult = Apollo.QueryResult<
   CelestialByIdQuery,
   CelestialByIdQueryVariables
+>;
+export const EdNewGalaxyQueryDocument = gql`
+  query EdNewGalaxyQuery {
+    galaxy {
+      id
+      arms
+      celestials {
+        id
+        name
+        user_info {
+          avatar_url
+          id
+          name
+          nickname
+        }
+      }
+    }
+  }
+`;
+export type EdNewGalaxyQueryQueryResult = Apollo.QueryResult<
+  EdNewGalaxyQueryQuery,
+  EdNewGalaxyQueryQueryVariables
 >;
 export const CelestialsDocument = gql`
   subscription Celestials {

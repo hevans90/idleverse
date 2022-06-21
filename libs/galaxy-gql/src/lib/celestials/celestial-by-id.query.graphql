@@ -14,3 +14,20 @@ query CelestialById($id: String!) {
     }
   }
 }
+
+query EdNewGalaxyQuery {
+  galaxy {
+    id
+    arms
+    celestials {
+      id
+      name
+      user_info {
+        avatar_url
+        id
+        name
+        nickname
+      }
+    }
+  }
+}

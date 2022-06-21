@@ -56,8 +56,6 @@ export const PlanetGeneratorColorDrawer = () => {
     },
   ];
 
-  console.log(palettePresets);
-
   // set a default here because we need access to the useTheme hook to pull colors
   const [localPalette, setLocalPalette] = useState<{
     name: string;
