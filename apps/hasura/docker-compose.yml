@@ -1,0 +1,56 @@
+version: '3.6'
+services:
+  postgres:
+    container_name: idleverse-db
+    image: postgres:12
+    restart: always
+    ports:
+      - '5432:5432'
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgrespassword
+
+  hasura:
+    container_name: idleverse-hasura
+    image: hasura/graphql-engine:v2.1.1
+    ports:
+      - '8080:8080'
+    depends_on:
+      - 'postgres'
+    restart: always
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+      ## enable the console served by server
+      HASURA_GRAPHQL_ENABLE_CONSOLE: 'false' # set to "false" to disable console
+      ## enable debugging mode. It is recommended to disable this in production
+      HASURA_GRAPHQL_DEV_MODE: 'true'
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      ## enable experimental features.
+      HASURA_GRAPHQL_EXPERIMENTAL_FEATURES: inherited_roles
+      ## uncomment next line to set an admin secret
+      HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+      REMOTE_SCHEMA_ENDPOINT: http://$REMOTE_SCHEMA_URI:4000/graphql/v1
+      HASURA_GRAPHQL_JWT_SECRET: '{"type": "RS512", "allowed_skew": 86400, "key": "-----BEGIN CERTIFICATE-----\nMIIDDTCCAfWgAwIBAgIJHDn12QbUE+/oMA0GCSqGSIb3DQEBCwUAMCQxIjAgBgNV\nBAMTGWRldi11eWVyLXZ1bi51cy5hdXRoMC5jb20wHhcNMjEwOTE1MTYyMDEzWhcN\nMzUwNTI1MTYyMDEzWjAkMSIwIAYDVQQDExlkZXYtdXllci12dW4udXMuYXV0aDAu\nY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvVWSBAzS/JRsn1Zr\n7K0Y0Q8NEL7d+sKUy8KPvOf6Pla5jBSV+zYKXN0ZjRMu6LIwpMT5zuVcOmLK5fj8\nL6LCBU47lXX9kxwsPfqGVFFBxqatOOZ/gh2NqbJI/ILlKjmjHEt5YMdwZ1YWllOD\nX8z5coQJpdYp86lIq/DBba+9AoQKkgRgE0bAFkTt0KD4+mosSsm8g4hSp3Z0Y7F0\nUCbUQojR4XHx1luG3KNq2hY3Prwf3S3hprWB9D60qRC5me6IgsWNo40SLcrh8sV8\nCzStCgYu+do2cC/lxzmgnlW8XF3jr9AZwv/dqpGL9LcvFrppQkwQU+zilczLK9Rp\nYVKC1wIDAQABo0IwQDAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSqlqEf+Ll/\nPgHNFvxXiK5kOKJfnDAOBgNVHQ8BAf8EBAMCAoQwDQYJKoZIhvcNAQELBQADggEB\nABQr3nhRFAybZbZLJWhdslw4mn9VN9tmHBcrUy1oNBPoGjIUMZ9m4ENHBgNOlHT+\n7ReyMFJgMZzEqq4+N32mZgXa2gFmiX7u6/VvOWE14OA2a7PjYJiA2xtkRaZzjEGz\nQEvbmDgQ3hqpZZ70acoVhQxHSPcCoDfBFyInERqWWJO1DbTVoUgBNYUNFL3neZwH\niCS8+O/EzGHA1OeI2xIs9qkiH9BpZDH8TtuW+gJNP1MXu0Rv7lWTEl9qTNBTLMrv\nDRDPC+xTlvNbLif3U6rpliCnjXt/mUWwVmHJ0af61MKS6qGI75VOkwXPp4dBMXQe\n+KYyIxqRH3vOscVKMkOi3x8=\n-----END CERTIFICATE-----"}'
+
+  game-server:
+    container_name: idleverse-game-server
+    build:
+      dockerfile: $PWD/apps/game-server/Dockerfile
+    ports:
+      - '4000:4000'
+    restart: always
+    environment:
+      SECURE_HASURA: false
+      AUTH0_DOMAIN: $AUTH0_DOMAIN
+      AUTH0_CLIENT_ID: $AUTH0_CLIENT_ID
+      AUTH0_MANAGEMENT_API_CLIENT_ID: $AUTH0_MANAGEMENT_API_CLIENT_ID
+      AUTH0_MANAGEMENT_API_CLIENT_SECRET: $AUTH0_MANAGEMENT_API_CLIENT_SECRET
+      HASURA_ADMIN_SECRET: myadminsecretkey
+      HASURA_URI: host.docker.internal:8080/v1/graphql
+      HASURA_NAMESPACE: https://hasura.io/jwt/claims
+    volumes:
+      - $PWD/dist/apps/game-server:/dist
+
+volumes:
+  db-data:

@@ -4,9 +4,9 @@
 /coverage
 /hasura-local
 /hasura
-/apps/food/hasura
-/apps/idleverse/hasura
+
+/apps/hasura
 
 galaxy-api.ts
-food-api.ts
+
 schema.gql

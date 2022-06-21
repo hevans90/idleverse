@@ -11,10 +11,8 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     env:
-      IDLEVERSE_HASURA_URL: https://idleverse-hasura.herokuapp.com
-      IDLEVERSE_HASURA_ADMIN_SECRET: ${{ secrets.IDLEVERSE_HASURA_ADMIN_SECRET }}
-      FOOD_HASURA_URL: https://food-hasura.herokuapp.com
-      FOOD_HASURA_ADMIN_SECRET: ${{ secrets.FOOD_HASURA_ADMIN_SECRET }}
+      HASURA_URL: https://idleverse-hasura.herokuapp.com
+      HASURA_ADMIN_SECRET: ${{ secrets.HASURA_ADMIN_SECRET }}
 
     steps:
       - name: Checkout 🛎️
