@@ -163,7 +163,7 @@ export const PlanetGeneratorRingDrawer = () => {
                     <Tr>
                       <Td
                         borderColor={tableBorderColor}
-                        paddingLeft={1}
+                        paddingLeft={0}
                         paddingRight={1}
                       >
                         <Menu>
@@ -415,8 +415,8 @@ export const PlanetGeneratorRingDrawer = () => {
                       </Td>
                       <Td
                         borderColor={tableBorderColor}
-                        paddingLeft={1}
-                        paddingRight={1}
+                        paddingLeft={6}
+                        paddingRight={0}
                       >
                         <IconButton
                           aria-label="delete ring"
