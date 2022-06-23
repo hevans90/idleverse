@@ -190,7 +190,7 @@ export const PlanetGeneratorSliders = () => {
               min={slider.min}
               max={slider.max}
               step={slider.step}
-              onChange={(event) => {
+              onChange={(event: number) => {
                 setLocalValues({ ...localConfigValues, [slider.name]: event });
                 planetGeneratorConfigVar({
                   ...planetGeneratorConfigVar(),
@@ -216,11 +216,14 @@ export const PlanetGeneratorSliders = () => {
               min={slider.min}
               max={slider.max}
               step={slider.step}
-              onChange={(event) => {
-                setLocalValues({ ...localConfigValues, [slider.name]: event });
+              onChange={(event: string) => {
+                setLocalValues({
+                  ...localConfigValues,
+                  [slider.name]: parseFloat(event),
+                });
                 planetGeneratorConfigVar({
                   ...planetGeneratorConfigVar(),
-                  [slider.name]: event,
+                  [slider.name]: parseFloat(event),
                 });
               }}
             >
