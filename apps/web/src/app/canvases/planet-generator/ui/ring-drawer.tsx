@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import { useReactiveVar } from '@apollo/client';
-import { AddIcon, MinusIcon } from '@chakra-ui/icons';
+import { AddIcon, DeleteIcon, MinusIcon } from '@chakra-ui/icons';
 import {
   Box,
   Button,
@@ -59,9 +59,8 @@ const columns: { name: string; numeric?: boolean }[] = [
   { name: 'y°' },
   { name: 'colors' },
   { name: 'biases' },
-  { name: 'inner rad.', numeric: true },
-  { name: 'outer rad.', numeric: true },
-  { name: 'res.', numeric: true },
+  { name: 'inner/outer radii', numeric: true },
+  { name: 'resolution', numeric: true },
 ];
 
 export const PlanetGeneratorRingDrawer = () => {
@@ -135,6 +134,8 @@ export const PlanetGeneratorRingDrawer = () => {
                   <Th
                     borderColor={tableBorderColor}
                     fontSize="xxs"
+                    paddingLeft={2}
+                    paddingRight={1}
                     isNumeric={numeric}
                   >
                     {name}
@@ -160,7 +161,11 @@ export const PlanetGeneratorRingDrawer = () => {
                 ) => (
                   <Fragment key={index}>
                     <Tr>
-                      <Td borderColor={tableBorderColor}>
+                      <Td
+                        borderColor={tableBorderColor}
+                        paddingLeft={1}
+                        paddingRight={1}
+                      >
                         <Menu>
                           <MenuButton
                             px={4}
@@ -169,6 +174,7 @@ export const PlanetGeneratorRingDrawer = () => {
                             transition="all 0.2s"
                             borderRadius="md"
                             borderWidth="1px"
+                            fontSize="xxs"
                             _hover={{ bg: 'gray.500' }}
                             _expanded={{ bg: 'gray.700' }}
                             _focus={{ boxShadow: 'outline' }}
@@ -196,7 +202,11 @@ export const PlanetGeneratorRingDrawer = () => {
                         </Menu>
                       </Td>
 
-                      <Td borderColor={tableBorderColor}>
+                      <Td
+                        borderColor={tableBorderColor}
+                        paddingLeft={1}
+                        paddingRight={1}
+                      >
                         <NumberInput
                           maxW="100px"
                           flexGrow={0}
@@ -216,7 +226,7 @@ export const PlanetGeneratorRingDrawer = () => {
                             updateRings();
                           }}
                         >
-                          <NumberInputField fontSize="xs" autoFocus />
+                          <NumberInputField fontSize="xxs" autoFocus />
                           <NumberInputStepper>
                             <NumberIncrementStepper />
                             <NumberDecrementStepper />
@@ -224,7 +234,11 @@ export const PlanetGeneratorRingDrawer = () => {
                         </NumberInput>
                       </Td>
 
-                      <Td borderColor={tableBorderColor}>
+                      <Td
+                        borderColor={tableBorderColor}
+                        paddingLeft={1}
+                        paddingRight={1}
+                      >
                         <NumberInput
                           maxW="100px"
                           flexGrow={0}
@@ -245,7 +259,7 @@ export const PlanetGeneratorRingDrawer = () => {
                             updateRings();
                           }}
                         >
-                          <NumberInputField fontSize="xs" autoFocus />
+                          <NumberInputField fontSize="xxs" autoFocus />
                           <NumberInputStepper>
                             <NumberIncrementStepper />
                             <NumberDecrementStepper />
@@ -253,7 +267,11 @@ export const PlanetGeneratorRingDrawer = () => {
                         </NumberInput>
                       </Td>
 
-                      <Td borderColor={tableBorderColor}>
+                      <Td
+                        borderColor={tableBorderColor}
+                        paddingRight={1}
+                        textAlign="center"
+                      >
                         <ColorQuadPicker
                           colors={colors}
                           onChange={(val) => {
@@ -267,7 +285,11 @@ export const PlanetGeneratorRingDrawer = () => {
                         ></ColorQuadPicker>
                       </Td>
 
-                      <Td borderColor={tableBorderColor}>
+                      <Td
+                        borderColor={tableBorderColor}
+                        paddingLeft={1}
+                        paddingRight={1}
+                      >
                         <Box padding={3} w="100%" minWidth="275px">
                           <RangeSlider
                             defaultValue={terrainBias}
@@ -312,55 +334,65 @@ export const PlanetGeneratorRingDrawer = () => {
                         </Box>
                       </Td>
 
-                      <Td borderColor={tableBorderColor} isNumeric>
-                        <NumberInput
-                          maxW="100px"
-                          flexGrow={0}
-                          value={innerRadius}
-                          min={2}
-                          max={outerRadius - 0.1}
-                          step={0.1}
-                          onChange={(event) => {
-                            drawerState.rings[index] = {
-                              ...drawerState.rings[index],
-                              innerRadius: parseFloat(event),
-                            };
-                            updateRings();
-                          }}
-                        >
-                          <NumberInputField fontSize="xs" autoFocus />
-                          <NumberInputStepper>
-                            <NumberIncrementStepper />
-                            <NumberDecrementStepper />
-                          </NumberInputStepper>
-                        </NumberInput>
+                      <Td
+                        borderColor={tableBorderColor}
+                        isNumeric
+                        paddingLeft={1}
+                        paddingRight={1}
+                      >
+                        <HStack justifyContent="center">
+                          <NumberInput
+                            maxW="90px"
+                            flexGrow={0}
+                            value={innerRadius}
+                            min={2}
+                            max={outerRadius - 0.1}
+                            step={0.1}
+                            onChange={(event) => {
+                              drawerState.rings[index] = {
+                                ...drawerState.rings[index],
+                                innerRadius: parseFloat(event),
+                              };
+                              updateRings();
+                            }}
+                          >
+                            <NumberInputField fontSize="xxs" autoFocus />
+                            <NumberInputStepper>
+                              <NumberIncrementStepper />
+                              <NumberDecrementStepper />
+                            </NumberInputStepper>
+                          </NumberInput>
+                          <NumberInput
+                            maxW="90px"
+                            flexGrow={0}
+                            value={outerRadius}
+                            min={0.1}
+                            max={7}
+                            step={0.1}
+                            onChange={(event) => {
+                              drawerState.rings[index] = {
+                                ...drawerState.rings[index],
+                                outerRadius: parseFloat(event),
+                              };
+                              updateRings();
+                            }}
+                          >
+                            <NumberInputField fontSize="xxs" autoFocus />
+                            <NumberInputStepper>
+                              <NumberIncrementStepper />
+                              <NumberDecrementStepper />
+                            </NumberInputStepper>
+                          </NumberInput>
+                        </HStack>
                       </Td>
-                      <Td borderColor={tableBorderColor} isNumeric>
+                      <Td
+                        borderColor={tableBorderColor}
+                        isNumeric
+                        paddingLeft={1}
+                        paddingRight={1}
+                      >
                         <NumberInput
-                          maxW="100px"
-                          flexGrow={0}
-                          value={outerRadius}
-                          min={0.1}
-                          max={7}
-                          step={0.1}
-                          onChange={(event) => {
-                            drawerState.rings[index] = {
-                              ...drawerState.rings[index],
-                              outerRadius: parseFloat(event),
-                            };
-                            updateRings();
-                          }}
-                        >
-                          <NumberInputField fontSize="xs" autoFocus />
-                          <NumberInputStepper>
-                            <NumberIncrementStepper />
-                            <NumberDecrementStepper />
-                          </NumberInputStepper>
-                        </NumberInput>
-                      </Td>
-                      <Td borderColor={tableBorderColor} isNumeric>
-                        <NumberInput
-                          maxW="120px"
+                          maxW="175px"
                           flexGrow={0}
                           value={resolution}
                           min={128}
@@ -374,17 +406,21 @@ export const PlanetGeneratorRingDrawer = () => {
                             updateRings();
                           }}
                         >
-                          <NumberInputField fontSize="xs" autoFocus />
+                          <NumberInputField fontSize="xxs" autoFocus />
                           <NumberInputStepper>
                             <NumberIncrementStepper />
                             <NumberDecrementStepper />
                           </NumberInputStepper>
                         </NumberInput>
                       </Td>
-                      <Td borderColor={tableBorderColor}>
+                      <Td
+                        borderColor={tableBorderColor}
+                        paddingLeft={1}
+                        paddingRight={1}
+                      >
                         <IconButton
                           aria-label="delete ring"
-                          icon={<MinusIcon />}
+                          icon={<DeleteIcon />}
                           onClick={() => {
                             drawerState.rings.splice(index, 1);
                             updateRings();

@@ -1,4 +1,4 @@
-import { HStack, Theme, useTheme, VStack } from '@chakra-ui/react';
+import { Grid, Theme, useTheme } from '@chakra-ui/react';
 import { hexToRGB, rgb, rgbToHex, themeColorToHex } from '@idleverse/theme';
 import { useCallback, useEffect, useState } from 'react';
 import { ColorPicker } from '../../../components/color-picker';
@@ -89,27 +89,23 @@ export const ColorQuadPicker = ({
   );
 
   return (
-    <HStack>
-      <VStack>
-        <ColorPicker
-          onChange={callback1}
-          defaultColor={rgbToHex(colors[0])}
-        ></ColorPicker>
-        <ColorPicker
-          onChange={callback2}
-          defaultColor={rgbToHex(colors[1])}
-        ></ColorPicker>
-      </VStack>
-      <VStack>
-        <ColorPicker
-          onChange={callback3}
-          defaultColor={rgbToHex(colors[2])}
-        ></ColorPicker>
-        <ColorPicker
-          onChange={callback4}
-          defaultColor={rgbToHex(colors[3])}
-        ></ColorPicker>
-      </VStack>
-    </HStack>
+    <Grid templateColumns="repeat(2, 25px)" gap="5px">
+      <ColorPicker
+        onChange={callback1}
+        defaultColor={rgbToHex(colors[0])}
+      ></ColorPicker>
+      <ColorPicker
+        onChange={callback2}
+        defaultColor={rgbToHex(colors[1])}
+      ></ColorPicker>
+      <ColorPicker
+        onChange={callback3}
+        defaultColor={rgbToHex(colors[2])}
+      ></ColorPicker>
+      <ColorPicker
+        onChange={callback4}
+        defaultColor={rgbToHex(colors[3])}
+      ></ColorPicker>
+    </Grid>
   );
 };
