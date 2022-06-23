@@ -88,6 +88,7 @@ export const PlanetGeneratorSliders = () => {
       height={`${planetGenerationControlsHeight}px`}
       width="100%"
       alignItems="start"
+      justifyContent="space-between"
     >
       <Box
         maxWidth="600px"
@@ -97,7 +98,7 @@ export const PlanetGeneratorSliders = () => {
         marginRight="2rem"
       >
         <HStack mb={1}>
-          <Text minWidth="100px" fontSize="small">
+          <Text minWidth="100px" fontSize={['xxs', 'xs']}>
             name
           </Text>
           <Input
@@ -138,7 +139,7 @@ export const PlanetGeneratorSliders = () => {
           />
         </HStack>
         <HStack>
-          <Text minWidth="100px" fontSize="small">
+          <Text minWidth="100px" fontSize={['xxs', 'xs']}>
             seed
           </Text>
           <Input
@@ -167,21 +168,27 @@ export const PlanetGeneratorSliders = () => {
           />
         </HStack>
       </Box>
-      <Box display="flex" flexDirection="column" flexGrow={2}>
+      <Box
+        display="flex"
+        flexDirection="column"
+        flexGrow={2}
+        maxWidth={['unset', '80%', '70%', '60%', '50%', '40%']}
+      >
         {planetGeneratorSlidersConfig.map((slider, index) => (
           <HStack
             key={`${index}-container`}
             alignItems="center"
             marginBottom="5px"
             justifyContent="space-between"
+            spacing={5}
           >
-            <Text minWidth="300px" fontSize="small">
+            <Text minWidth="250px" fontSize={['xxs', 'xs']}>
               {slider.displayName}
             </Text>
             <Slider
+              mr={10}
               key={`${index}-slider`}
-              flexGrow={1}
-              maxWidth="400px"
+              maxWidth={[200, 300, 400]}
               aria-label={`${slider.name}-slider`}
               value={localConfigValues[slider.name] as number}
               defaultValue={
@@ -206,9 +213,7 @@ export const PlanetGeneratorSliders = () => {
             </Slider>
 
             <NumberInput
-              ml="1rem"
               key={`${index}-number`}
-              flexGrow={0}
               value={localConfigValues[slider.name] as number}
               defaultValue={
                 initialPlanetGenerationConfig[slider.name] as number
