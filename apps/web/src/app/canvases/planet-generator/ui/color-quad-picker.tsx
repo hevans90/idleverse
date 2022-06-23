@@ -10,6 +10,21 @@ export const ColorQuadPicker = ({
   colors: [rgb, rgb, rgb, rgb];
   onChange: (val: [rgb, rgb, rgb, rgb]) => void;
 }) => {
+  // un-comment for debug
+  // useEffect(() => {
+  //   console.log('INITIAL RENDER in QUAD PICKER');
+  //   console.log(
+  //     '%c 1 ' + ' %c 3 ',
+  //     `background: ${rgbToHex(colors[0])}; color: #bada55`,
+  //     `background: ${rgbToHex(colors[2])}; color: #bada55`
+  //   );
+  //   console.log(
+  //     '%c 2 ' + ' %c 4 ',
+  //     `background: ${rgbToHex(colors[1])}; color: #bada55`,
+  //     `background: ${rgbToHex(colors[3])}; color: #bada55`
+  //   );
+  // });
+
   const { colors: themeColors } = useTheme<Theme>();
 
   const [localHexColors, setLocalColors] = useState<
@@ -42,7 +57,7 @@ export const ColorQuadPicker = ({
   const callback2 = useCallback(
     (val: string) => {
       setLocalColors([
-        localHexColors[1],
+        localHexColors[0],
         themeColorToHex(val, themeColors),
         localHexColors[2],
         localHexColors[3],
@@ -53,8 +68,8 @@ export const ColorQuadPicker = ({
   const callback3 = useCallback(
     (val: string) => {
       setLocalColors([
+        localHexColors[0],
         localHexColors[1],
-        localHexColors[2],
         themeColorToHex(val, themeColors),
         localHexColors[3],
       ]);
@@ -64,9 +79,9 @@ export const ColorQuadPicker = ({
   const callback4 = useCallback(
     (val: string) => {
       setLocalColors([
+        localHexColors[0],
         localHexColors[1],
         localHexColors[2],
-        localHexColors[3],
         themeColorToHex(val, themeColors),
       ]);
     },
