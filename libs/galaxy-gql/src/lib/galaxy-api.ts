@@ -12,8 +12,6 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
-  JSONObject: any;
   _numeric: any;
   _text: any;
   numeric: any;
@@ -58,7 +56,7 @@ export type PlanetCreationInput = {
   name: Scalars['String'];
   owner_id: Scalars['String'];
   radius: Scalars['Float'];
-  rings: RingInsertInput;
+  rings: RingInsertInputWrapper;
   terrain_bias: Array<Scalars['Float']>;
   terrain_hex_palette_id: Scalars['String'];
   texture_resolution: Scalars['Float'];
@@ -70,7 +68,18 @@ export type Register = {
 };
 
 export type RingInsertInput = {
-  data: Array<Scalars['JSONObject']>;
+  colors: Array<Scalars['String']>;
+  id: Scalars['ID'];
+  inner_radius: Scalars['Float'];
+  outer_radius: Scalars['Float'];
+  resolution: Scalars['Float'];
+  rotation: Array<Scalars['Float']>;
+  terrain_bias: Array<Scalars['Float']>;
+  type: Scalars['String'];
+};
+
+export type RingInsertInputWrapper = {
+  data: Array<RingInsertInput>;
 };
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
@@ -3443,6 +3452,13 @@ export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables =
 
 export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery = { __typename?: 'query_root', user_info_by_pk?: { __typename?: 'user_info', free_claims: number } | null, galaxy_by_pk?: { __typename?: 'galaxy', id: any, stars: number } | null, celestial: Array<{ __typename?: 'celestial', id: string }> };
 
+export type CreatePlanetMutationVariables = Exact<{
+  input: PlanetCreationInput;
+}>;
+
+
+export type CreatePlanetMutation = { __typename?: 'mutation_root', createPlanet?: { __typename?: 'CelestialManagement', createdPlanet: { __typename?: 'PartialPlanet', id: string, name: string, owner_id: string } } | null };
+
 export type PlanetsByCelestialIdQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
@@ -3699,6 +3715,20 @@ export const GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsDocument = gql`
 }
     `;
 export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryResult = Apollo.QueryResult<GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery, GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables>;
+export const CreatePlanetDocument = gql`
+    mutation CreatePlanet($input: PlanetCreationInput!) {
+  createPlanet(input: $input) {
+    createdPlanet {
+      id
+      name
+      owner_id
+    }
+  }
+}
+    `;
+export type CreatePlanetMutationFn = Apollo.MutationFunction<CreatePlanetMutation, CreatePlanetMutationVariables>;
+export type CreatePlanetMutationResult = Apollo.MutationResult<CreatePlanetMutation>;
+export type CreatePlanetMutationOptions = Apollo.BaseMutationOptions<CreatePlanetMutation, CreatePlanetMutationVariables>;
 export const PlanetsByCelestialIdDocument = gql`
     query PlanetsByCelestialId($id: String!) {
   celestial_by_pk(id: $id) {
