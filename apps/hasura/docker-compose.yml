@@ -13,7 +13,7 @@ services:
 
   hasura:
     container_name: idleverse-hasura
-    image: hasura/graphql-engine:v2.1.1
+    image: hasura/graphql-engine:v2.8.1
     ports:
       - '8080:8080'
     depends_on:
