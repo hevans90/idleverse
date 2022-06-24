@@ -90,6 +90,7 @@
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/game-server",
+            "deleteOutputPath": false,
             "main": "apps/game-server/src/main.ts",
             "tsConfig": "apps/game-server/tsconfig.app.json",
             "assets": [

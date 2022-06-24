@@ -20,14 +20,6 @@
       }
     }
   },
-  "targetDependencies": {
-    "build": [
-      {
-        "target": "build",
-        "projects": "dependencies"
-      }
-    ]
-  },
   "cli": {
     "defaultCollection": "@nrwl/react"
   },
@@ -47,5 +39,10 @@
       }
     }
   },
-  "defaultProject": "idleverse-web"
+  "defaultProject": "idleverse-web",
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"]
+    }
+  }
 }
