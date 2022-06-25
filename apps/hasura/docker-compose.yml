@@ -13,7 +13,7 @@ services:
 
   hasura:
     container_name: idleverse-hasura
-    image: hasura/graphql-engine:v2.1.1
+    image: hasura/graphql-engine:v2.8.1
     ports:
       - '8080:8080'
     depends_on:
@@ -41,7 +41,7 @@ services:
       - '4000:4000'
     restart: always
     environment:
-      SECURE_HASURA: false
+      SECURE_HASURA: null
       AUTH0_DOMAIN: $AUTH0_DOMAIN
       AUTH0_CLIENT_ID: $AUTH0_CLIENT_ID
       AUTH0_MANAGEMENT_API_CLIENT_ID: $AUTH0_MANAGEMENT_API_CLIENT_ID

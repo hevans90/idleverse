@@ -1,0 +1,9 @@
+mutation CreatePlanet($input: PlanetCreationInput!) {
+  createPlanet(input: $input) {
+    createdPlanet {
+      id
+      name
+      owner_id
+    }
+  }
+}

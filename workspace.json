@@ -80,8 +80,11 @@
           "options": {
             "sources": ["apps/game-server/src"],
             "commands": [
-              "nx build idleverse-game-server && docker restart idleverse-game-server",
-              "echo Successfully rebuilt idleverse game server docker volume"
+              "nx build idleverse-game-server",
+              "docker restart --time 0 idleverse-game-server",
+              "echo Successfully rebuilt idleverse game server docker volume. Reloading metadata...",
+              "sleep 5",
+              "yarn metadata-reload"
             ]
           }
         },
@@ -90,6 +93,7 @@
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/game-server",
+            "deleteOutputPath": false,
             "main": "apps/game-server/src/main.ts",
             "tsConfig": "apps/game-server/tsconfig.app.json",
             "assets": [
