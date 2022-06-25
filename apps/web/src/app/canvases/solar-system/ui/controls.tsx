@@ -28,12 +28,6 @@ export const solarSystemControlsHeight = 160;
 
 export const solarSystemSlidersConfig: SolarSystemSliderType[] = [
   {
-    name: 'viewAngle',
-    displayName: 'View Angle',
-    max: 90,
-    step: 1,
-  },
-  {
     name: 'simulationSpeed',
     displayName: 'Sim. Speed',
     min: 1,
@@ -114,11 +108,14 @@ export const SolarSystemControls = () => {
             min={slider.min}
             max={slider.max}
             step={slider.step}
-            onChange={(event) => {
-              setLocalValues({ ...localConfigValues, [slider.name]: event });
+            onChange={(event: string) => {
+              setLocalValues({
+                ...localConfigValues,
+                [slider.name]: parseFloat(event),
+              });
               solarSystemConfigVar({
                 ...solarSystemConfigVar(),
-                [slider.name]: event,
+                [slider.name]: parseFloat(event),
               });
             }}
           >

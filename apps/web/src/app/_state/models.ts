@@ -27,7 +27,6 @@ export type LayoutConfig = {
 };
 
 export type SolarSystemConfig = {
-  viewAngle: number;
   simulationSpeed: number;
 };
 

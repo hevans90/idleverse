@@ -19,27 +19,11 @@ export type Planet = {
   };
 };
 
-export const drawPlanet = (
-  planet: Planet,
-  systemOrigin: Vector2D,
-  viewDistance: number,
-  viewAngle: number
-) => {
+export const drawPlanet = (planet: Planet, systemOrigin: Vector2D) => {
   planet.sprite.zIndex = planet.position.y;
-  planet.scale = horizontalScaleFactor(
-    planet.position,
-    systemOrigin,
-    viewAngle,
-    viewDistance
-  );
   planet.sprite.height = planet.originalDimensions.height * planet.scale;
   planet.sprite.width = planet.originalDimensions.width * planet.scale;
-  const drawPosition = transformPosition(
-    planet.position,
-    systemOrigin,
-    viewDistance,
-    viewAngle
-  );
+  const drawPosition = transformPosition(planet.position, systemOrigin);
   planet.sprite.x = drawPosition.x - planet.sprite.height / 2;
   planet.sprite.y = drawPosition.y - planet.sprite.width / 2;
 };
@@ -59,43 +43,13 @@ export const updatePlanetPosition = (
   };
 };
 
-export const horizontalScaleFactor = (
-  position: Vector2D,
-  systemOrigin: Vector2D,
-  viewAngle: number,
-  viewDistance: number
-) => {
-  const y = systemOrigin.y - position.y;
-  return 1000 / (viewDistance + Math.sin(viewAngle) * y);
-};
-
-export const verticalScaleFactor = (
-  position: Vector2D,
-  systemOrigin: Vector2D,
-  viewAngle: number,
-  viewDistance: number
-) => {
-  const x = systemOrigin.x - position.x;
-  return (
-    (1000 / (viewDistance + Math.sin(viewAngle) * x)) * Math.cos(viewAngle)
-  );
-};
-
 export const transformPosition = (
   position: { x: number; y: number },
-  systemOrigin: Vector2D,
-  viewDistance: number,
-  viewAngle: number
+  systemOrigin: Vector2D
 ) => {
   return {
-    x:
-      systemOrigin.x +
-      (position.x - systemOrigin.x) *
-        horizontalScaleFactor(position, systemOrigin, viewAngle, viewDistance),
-    y:
-      systemOrigin.y +
-      (position.y - systemOrigin.y) *
-        verticalScaleFactor(position, systemOrigin, viewAngle, viewDistance),
+    x: systemOrigin.x + (position.x - systemOrigin.x),
+    y: systemOrigin.y + (position.y - systemOrigin.y),
   };
 };
 

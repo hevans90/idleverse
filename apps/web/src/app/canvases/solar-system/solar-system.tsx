@@ -7,13 +7,7 @@ import { solarSystemConfigVar, timeVar } from '../../_state/reactive-variables';
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
 import { useResize } from '../_utils/use-resize.hook';
 import { useViewport } from '../_utils/use-viewport';
-import {
-  earthSpriteConfig,
-  marsSpriteConfig,
-  moonSpriteConfig,
-  sunSpriteConfig,
-  topDownDesertSpriteConfig,
-} from './graphics/config';
+import { sunSpriteConfig, topDownDesertSpriteConfig } from './graphics/config';
 import { createAnimatedPlanetSprite } from './graphics/graphics-utils';
 import {
   createPlanet,
@@ -61,51 +55,6 @@ export const SolarSystem = () => {
       sprite: sunSprite,
     });
 
-    const earthConfig: PlanetConfig = {
-      origin: { x: 0, y: 0 },
-      orbit: { x: 200, y: 200, speed: 1 },
-    };
-    const earthSprite = createAnimatedPlanetSprite(
-      solarSystemContainerRef.current,
-      earthSpriteConfig
-    );
-    const earth: Planet = createPlanet({
-      name: 'earth',
-      config: earthConfig,
-      sprite: earthSprite,
-      parent: sun,
-    });
-
-    const marsSprite = createAnimatedPlanetSprite(
-      solarSystemContainerRef.current,
-      marsSpriteConfig
-    );
-    const marsConfig: PlanetConfig = {
-      origin: { x: 0, y: 0 },
-      orbit: { x: 300, y: 300, speed: 0.53 },
-    };
-    const mars: Planet = createPlanet({
-      name: 'mars',
-      config: marsConfig,
-      sprite: marsSprite,
-      parent: sun,
-    });
-
-    const moonSprite = createAnimatedPlanetSprite(
-      solarSystemContainerRef.current,
-      moonSpriteConfig
-    );
-    const moonConfig: PlanetConfig = {
-      origin: { x: 0, y: 0 },
-      orbit: { x: 50, y: 50, speed: 12.36 },
-    };
-    const moon: Planet = createPlanet({
-      name: 'Moon',
-      config: moonConfig,
-      sprite: moonSprite,
-      parent: earth,
-    });
-
     const desertSprite = createAnimatedPlanetSprite(
       solarSystemContainerRef.current,
       topDownDesertSpriteConfig
@@ -121,22 +70,18 @@ export const SolarSystem = () => {
       parent: sun,
     });
 
-    const planets = [sun, earth, mars, moon, desert];
+    const planets = [sun, desert];
 
     app.ticker.add(() => {
       // eslint-disable-next-line prefer-const
-      let { viewAngle, simulationSpeed } = solarSystemConfigVar();
+      let { simulationSpeed } = solarSystemConfigVar();
 
       const viewDistance = size.height;
-
-      viewAngle = (viewAngle * Math.PI) / 180;
 
       planets.forEach((planet) =>
         updatePlanetPosition(timeVar(), planet, simulationSpeed)
       );
-      planets.forEach((planet) =>
-        drawPlanet(planet, systemOrigin, viewDistance, viewAngle)
-      );
+      planets.forEach((planet) => drawPlanet(planet, systemOrigin));
     });
   }, []);
 
