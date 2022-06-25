@@ -8,7 +8,10 @@ import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
 import { useResize } from '../_utils/use-resize.hook';
 import { useViewport } from '../_utils/use-viewport';
 import { sunSpriteConfig, topDownDesertSpriteConfig } from './graphics/config';
-import { createAnimatedPlanetSprite } from './graphics/graphics-utils';
+import {
+  createAnimatedPlanetSprite,
+  createRadialEllipse,
+} from './graphics/graphics-utils';
 import {
   createPlanet,
   drawPlanet,
@@ -16,6 +19,8 @@ import {
   PlanetConfig,
   updatePlanetPosition,
 } from './planets/planet';
+
+import { hexStringToNumber, theme } from '@idleverse/theme';
 
 export const SolarSystem = () => {
   const app = useApp();
@@ -41,10 +46,7 @@ export const SolarSystem = () => {
       timeVar(timeVar() + 1);
     });
 
-    const sunSprite = createAnimatedPlanetSprite(
-      solarSystemContainerRef.current,
-      sunSpriteConfig
-    );
+    const sunSprite = createAnimatedPlanetSprite(sunSpriteConfig);
     const sunConfig: PlanetConfig = {
       origin: { x: systemOrigin.x, y: systemOrigin.y },
       orbit: { x: 0, y: 0, speed: 1 },
@@ -55,28 +57,61 @@ export const SolarSystem = () => {
       sprite: sunSprite,
     });
 
-    const desertSprite = createAnimatedPlanetSprite(
-      solarSystemContainerRef.current,
-      topDownDesertSpriteConfig
-    );
+    const desertSprite = createAnimatedPlanetSprite(topDownDesertSpriteConfig);
     const desertConfig: PlanetConfig = {
       origin: { x: 0, y: 0 },
-      orbit: { x: 400, y: 400, speed: 0.3 },
+      orbit: { x: 300, y: 400, speed: 10 },
     };
     const desert: Planet = createPlanet({
-      name: 'desrt',
+      name: 'desert',
       config: desertConfig,
       sprite: desertSprite,
       parent: sun,
     });
 
-    const planets = [sun, desert];
+    const desertSprite2 = createAnimatedPlanetSprite(topDownDesertSpriteConfig);
+    const desertConfig2: PlanetConfig = {
+      origin: { x: 0, y: 0 },
+      orbit: { x: 200, y: 200, speed: 3 },
+    };
+    const desert2: Planet = createPlanet({
+      name: 'desert2',
+      config: desertConfig2,
+      sprite: desertSprite2,
+      parent: sun,
+    });
+
+    const planets = [sun, desert, desert2];
+
+    planets.forEach(({ sprite }) =>
+      solarSystemContainerRef.current.addChild(sprite)
+    );
+
+    planets
+      // all planets that have a parent i.e. not the central star, or other freely floating objects
+      .filter((planet) => planet?.parent)
+      .forEach(
+        ({
+          parent: {
+            config: { origin },
+          },
+          config: { orbit },
+        }) => {
+          const radialCircle = createRadialEllipse(
+            origin.x,
+            origin.y,
+            orbit.x,
+            orbit.y,
+            hexStringToNumber(theme.colors.gray['300'])
+          );
+
+          solarSystemContainerRef.current.addChild(radialCircle);
+        }
+      );
 
     app.ticker.add(() => {
       // eslint-disable-next-line prefer-const
       let { simulationSpeed } = solarSystemConfigVar();
-
-      const viewDistance = size.height;
 
       planets.forEach((planet) =>
         updatePlanetPosition(timeVar(), planet, simulationSpeed)

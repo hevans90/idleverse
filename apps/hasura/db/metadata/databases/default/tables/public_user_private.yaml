@@ -1,38 +1,38 @@
 table:
-  name: user_private
   schema: public
+  name: user_private
 insert_permissions:
-- permission:
-    backend_only: false
-    check:
-      user_id:
-        _eq: X-Hasura-User-Id
-    columns:
-    - secret_setting_test
-  role: user
+  - role: user
+    permission:
+      check:
+        user_id:
+          _eq: X-Hasura-User-Id
+      columns:
+        - secret_setting_test
 select_permissions:
-- permission:
-    columns:
-    - secret_setting_test
-    - user_id
-    filter:
-      user_id:
-        _eq: X-Hasura-User-Id
-  role: user
+  - role: user
+    permission:
+      columns:
+        - secret_setting_test
+        - user_id
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
 update_permissions:
-- permission:
-    check:
-      user_id:
-        _eq: X-Hasura-User-Id
-    columns:
-    - secret_setting_test
-    filter:
-      user_id:
-        _eq: X-Hasura-User-Id
-  role: user
+  - role: user
+    permission:
+      columns:
+        - secret_setting_test
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+      check:
+        user_id:
+          _eq: X-Hasura-User-Id
 delete_permissions:
-- permission:
-    filter:
-      user_id:
-        _eq: X-Hasura-User-Id
-  role: user
+  - role: user
+    permission:
+      backend_only: false
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id

@@ -219,8 +219,7 @@
             ],
             "styles": ["apps/web/src/styles.css"],
             "scripts": [],
-            "webpackConfig": "@nrwl/react/plugins/webpack",
-            "baseHref": "/idleverse/"
+            "webpackConfig": "@nrwl/react/plugins/webpack"
           },
           "configurations": {
             "production": {
@@ -243,7 +242,8 @@
                   "maximumWarning": "1mb",
                   "maximumError": "3mb"
                 }
-              ]
+              ],
+              "baseHref": "/idleverse/"
             },
             "docker": {
               "sourceMap": true,

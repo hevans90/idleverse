@@ -19,10 +19,7 @@ export type SpriteSheetConfig = {
   spriteScale: number;
 };
 
-export const createAnimatedPlanetSprite = (
-  container: Container,
-  conf: SpriteSheetConfig
-) => {
+export const createAnimatedPlanetSprite = (conf: SpriteSheetConfig) => {
   const sheet = BaseTexture.from(conf.name);
 
   const frames = [];
@@ -50,10 +47,24 @@ export const createAnimatedPlanetSprite = (
   sprite.animationSpeed = conf.animationSpeed;
   sprite.height = sprite.height * conf.spriteScale;
   sprite.width = sprite.width * conf.spriteScale;
+  sprite.zIndex = 1;
   sprite.play();
-
-  container.addChild(sprite);
   return sprite;
+};
+
+export const createRadialEllipse = (
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  color: number
+) => {
+  const gr = new Graphics();
+  gr.lineStyle(1, color);
+  gr.drawEllipse(x, y, width, height);
+  gr.endFill();
+  gr.zIndex = 0;
+  return gr;
 };
 
 const createBasicPlanetSprite = (
@@ -63,6 +74,5 @@ const createBasicPlanetSprite = (
 ) => {
   const sunTexture = renderer.generateTexture(graphic);
   const sprite = new Sprite(sunTexture);
-  container.addChild(sprite);
   return sprite;
 };

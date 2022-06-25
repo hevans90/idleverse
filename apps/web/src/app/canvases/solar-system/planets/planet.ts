@@ -20,7 +20,6 @@ export type Planet = {
 };
 
 export const drawPlanet = (planet: Planet, systemOrigin: Vector2D) => {
-  planet.sprite.zIndex = planet.position.y;
   planet.sprite.height = planet.originalDimensions.height * planet.scale;
   planet.sprite.width = planet.originalDimensions.width * planet.scale;
   const drawPosition = transformPosition(planet.position, systemOrigin);

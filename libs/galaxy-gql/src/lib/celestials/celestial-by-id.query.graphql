@@ -3,14 +3,23 @@ query CelestialById($id: String!) {
     id
     name
     owner_id
-    galaxy {
-      name
-      stars
-      id
-    }
     user_info {
       display_name
       id
+    }
+    planets {
+      id
+      name
+      radius
+      rings {
+        id
+        type
+        colors
+      }
+      terrain_bias
+      texture_resolution
+      terrain_hex_palette_id
+      atmospheric_distance
     }
   }
 }

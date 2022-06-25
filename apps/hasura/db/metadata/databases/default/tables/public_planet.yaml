@@ -1,39 +1,40 @@
 table:
-  name: planet
   schema: public
+  name: planet
 object_relationships:
-- name: terrain_hex_palette
-  using:
-    foreign_key_constraint_on: terrain_hex_palette_id
-- name: user_info
-  using:
-    manual_configuration:
-      column_mapping:
-        owner_id: id
-      insertion_order: null
-      remote_table:
-        name: user_info
-        schema: public
+  - name: terrain_hex_palette
+    using:
+      foreign_key_constraint_on: terrain_hex_palette_id
+  - name: user_info
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: user_info
+        insertion_order: null
+        column_mapping:
+          owner_id: id
 array_relationships:
-- name: rings
-  using:
-    manual_configuration:
-      column_mapping:
-        id: id
-      insertion_order: null
-      remote_table:
-        name: planetary_ring
-        schema: public
+  - name: rings
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: planetary_ring
+        insertion_order: null
+        column_mapping:
+          id: id
 select_permissions:
-- permission:
-    columns:
-    - celestial_id
-    - id
-    - name
-    - owner_id
-    - radius
-    - terrain_bias
-    - terrain_hex_palette_id
-    - texture_resolution
-    filter: {}
-  role: user
+  - role: user
+    permission:
+      columns:
+        - atmospheric_distance
+        - celestial_id
+        - id
+        - name
+        - owner_id
+        - radius
+        - terrain_bias
+        - terrain_hex_palette_id
+        - texture_resolution
+      filter: {}

@@ -3389,7 +3389,7 @@ export type CelestialByIdQueryVariables = Exact<{
 }>;
 
 
-export type CelestialByIdQuery = { __typename?: 'query_root', celestial_by_pk?: { __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, galaxy: { __typename?: 'galaxy', name?: string | null, stars: number, id: any }, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string } | null } | null };
+export type CelestialByIdQuery = { __typename?: 'query_root', celestial_by_pk?: { __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string } | null, planets: Array<{ __typename?: 'planet', id: any, name: string, radius: any, terrain_bias: any, texture_resolution: number, terrain_hex_palette_id: any, atmospheric_distance: any, rings: Array<{ __typename?: 'planetary_ring', id: any, type: string, colors: any }> }> } | null };
 
 export type CelestialsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -3564,14 +3564,23 @@ export const CelestialByIdDocument = gql`
     id
     name
     owner_id
-    galaxy {
-      name
-      stars
-      id
-    }
     user_info {
       display_name
       id
+    }
+    planets {
+      id
+      name
+      radius
+      rings {
+        id
+        type
+        colors
+      }
+      terrain_bias
+      texture_resolution
+      terrain_hex_palette_id
+      atmospheric_distance
     }
   }
 }
