@@ -10,9 +10,9 @@ export const assetLoader = async (
     addOptions.forEach(({ name }, index, arr) => {
       if (PIXI.Loader.shared.resources[name]) {
         arr.splice(index, 1);
-        // console.log(name, 'ALREADY LOADED, skipping');
+        console.log(name, 'ALREADY LOADED, skipping');
       } else {
-        // console.log(name, 'BEING ADDED');
+        console.log(name, 'BEING ADDED');
       }
     });
 

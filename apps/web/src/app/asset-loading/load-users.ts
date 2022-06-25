@@ -5,13 +5,18 @@ import { assetLoader } from './asset-loader';
 export const loadUserInfo = async (data: UserInfoQuery) => {
   usersVar(data.user_info);
 
-  try {
-    const assetCollection = await assetLoader(
-      data.user_info.map(({ id: name, avatar_url: url }) => ({ name, url }))
-    );
+  const local = window.location.origin.includes('localhost');
 
-    userAvatarResourcesVar(assetCollection);
-  } catch (e) {
-    console.error(e);
+  // localhost has CORS issues with AUTH0's profile picture API :(
+  if (!local) {
+    try {
+      const assetCollection = await assetLoader(
+        data.user_info.map(({ id: name, avatar_url: url }) => ({ name, url }))
+      );
+
+      userAvatarResourcesVar(assetCollection);
+    } catch (e) {
+      console.error(e);
+    }
   }
 };
