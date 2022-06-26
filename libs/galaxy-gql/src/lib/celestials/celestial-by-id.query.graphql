@@ -6,6 +6,7 @@ query CelestialById($id: String!) {
     user_info {
       display_name
       id
+      avatar_url
     }
     planets {
       id
@@ -18,8 +19,14 @@ query CelestialById($id: String!) {
       }
       terrain_bias
       texture_resolution
-      terrain_hex_palette_id
       atmospheric_distance
+      terrain_hex_palette {
+        forest
+        grass
+        name
+        sand
+        water
+      }
     }
   }
 }

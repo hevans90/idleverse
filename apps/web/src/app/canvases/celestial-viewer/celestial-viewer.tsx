@@ -1,16 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useReactiveVar } from '@apollo/client';
 import { CelestialByIdQuery } from '@idleverse/galaxy-gql';
 import { hexStringToNumber, theme } from '@idleverse/theme';
 import { useApp } from '@inlet/react-pixi';
 import { PixelateFilter } from '@pixi/filter-pixelate';
-import { Container } from 'pixi.js';
+import { Container, Graphics, Sprite } from 'pixi.js';
 import { useEffect, useRef } from 'react';
+import { assetLoader } from '../../asset-loading/asset-loader';
+import { celestialViewerPlanetDataUris } from '../../_state/celestial-viewer';
 import { solarSystemConfigVar, timeVar } from '../../_state/reactive-variables';
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
-import {
-  sunSpriteConfig,
-  topDownDesertSpriteConfig,
-} from '../solar-system/graphics/config';
+import { sunSpriteConfig } from '../solar-system/graphics/config';
 import {
   createAnimatedPlanetSprite,
   createRadialEllipse,
@@ -32,7 +32,9 @@ type CelestialViewerProps = {
 export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
   const app = useApp();
 
-  const size = useResize('solar-system');
+  const size = useResize();
+
+  const planetDataUris = useReactiveVar(celestialViewerPlanetDataUris);
 
   const solarSystemContainerRef = useRef(new Container());
 
@@ -64,57 +66,73 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
       sprite: sunSprite,
     });
 
-    const desertSprite = createAnimatedPlanetSprite(topDownDesertSpriteConfig);
-    const desertConfig: PlanetConfig = {
-      origin: { x: 0, y: 0 },
-      orbit: { x: 300, y: 400, speed: 10 },
-    };
-    const desert: Planet = createPlanet({
-      name: 'desert',
-      config: desertConfig,
-      sprite: desertSprite,
-      parent: sun,
-    });
+    const planets: Planet[] = [sun];
 
-    const desertSprite2 = createAnimatedPlanetSprite(topDownDesertSpriteConfig);
-    const desertConfig2: PlanetConfig = {
-      origin: { x: 0, y: 0 },
-      orbit: { x: 200, y: 200, speed: 3 },
-    };
-    const desert2: Planet = createPlanet({
-      name: 'desert2',
-      config: desertConfig2,
-      sprite: desertSprite2,
-      parent: sun,
-    });
+    // load planet data uris in to pixi textures
+    assetLoader(
+      celestial.planets.map(({ id, name }) => ({
+        name: `${name}_${id}`,
+        url: planetDataUris.uris.find(({ seed }) => seed === id).uri,
+      }))
+    ).then((assetCollection) => {
+      celestial.planets.forEach(({ id, name, radius }) => {
+        const planetTexture = assetCollection?.[`${name}_${id}`]?.texture;
 
-    const planets = [sun, desert, desert2];
+        const planetGraphic = new Graphics()
+          .beginTextureFill({
+            texture: planetTexture,
+          })
+          .drawCircle(0, 0, radius * 18)
+          .endFill();
 
-    planets.forEach(({ sprite }) =>
-      solarSystemContainerRef.current.addChild(sprite)
-    );
+        const texture = app.renderer.generateTexture(planetGraphic);
+        const sprite = new Sprite(texture);
 
-    planets
-      // all planets that have a parent i.e. not the central star, or other freely floating objects
-      .filter((planet) => planet?.parent)
-      .forEach(
-        ({
-          parent: {
-            config: { origin },
-          },
-          config: { orbit },
-        }) => {
-          const radialCircle = createRadialEllipse(
-            origin.x,
-            origin.y,
-            orbit.x,
-            orbit.y,
-            hexStringToNumber(theme.colors.gray['300'])
-          );
+        sprite.name = name;
+        sprite.interactive = true;
+        sprite.cursor = 'pointer';
+        sprite.zIndex = 1;
+        sprite.scale = { x: 0.6, y: 0.6 };
 
-          solarSystemContainerRef.current.addChild(radialCircle);
-        }
+        const config: PlanetConfig = {
+          origin: { x: 0, y: 0 },
+          orbit: { x: 150 * radius, y: 100 * radius, speed: radius * 0.5 },
+        };
+        const planet: Planet = createPlanet({
+          name,
+          config,
+          sprite,
+          parent: sun,
+        });
+
+        planets.push(planet);
+      });
+
+      planets.forEach(({ sprite }) =>
+        solarSystemContainerRef.current.addChild(sprite)
       );
+      planets
+        // all planets that have a parent i.e. not the central star, or other freely floating objects
+        .filter((planet) => planet?.parent)
+        .forEach(
+          ({
+            parent: {
+              config: { origin },
+            },
+            config: { orbit },
+          }) => {
+            const radialCircle = createRadialEllipse(
+              origin.x,
+              origin.y,
+              orbit.x,
+              orbit.y,
+              hexStringToNumber(theme.colors.gray['300'])
+            );
+
+            solarSystemContainerRef.current.addChild(radialCircle);
+          }
+        );
+    });
 
     app.ticker.add(() => {
       // eslint-disable-next-line prefer-const

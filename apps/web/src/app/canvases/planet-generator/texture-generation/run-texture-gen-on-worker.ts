@@ -7,7 +7,7 @@ export const worker = new Worker(new URL('./worker.ts', import.meta.url));
 const { simplexTexture, perlinTexture, generateColorBands } =
   wrap<import('./worker').RunTextureGenWorker>(worker);
 
-export const runTextureGenOnWorker = async (
+export const runDataGenOnWorker = async (
   type: 'banded' | 'simplex' | 'perlin',
   resolution: number,
   colors: [rgb, rgb, rgb, rgb],
@@ -29,6 +29,47 @@ export const runTextureGenOnWorker = async (
           colors,
           terrainBias
         );
+
+  return { data, height, width };
+};
+
+export const runDataUriGenOnWorker = async (
+  type: 'banded' | 'simplex' | 'perlin',
+  resolution: number,
+  colors: [rgb, rgb, rgb, rgb],
+  terrainBias: [number, number, number, number],
+  seed: string
+) => {
+  const { data, width, height } = await runDataGenOnWorker(
+    type,
+    resolution,
+    colors,
+    terrainBias,
+    seed
+  );
+
+  return {
+    seed,
+    data,
+    width,
+    height,
+  };
+};
+
+export const runTextureGenOnWorker = async (
+  type: 'banded' | 'simplex' | 'perlin',
+  resolution: number,
+  colors: [rgb, rgb, rgb, rgb],
+  terrainBias: [number, number, number, number],
+  seed: string
+) => {
+  const { data, width, height } = await runDataGenOnWorker(
+    type,
+    resolution,
+    colors,
+    terrainBias,
+    seed
+  );
 
   const texture = new DataTexture(data, width, height);
   texture.needsUpdate = true;

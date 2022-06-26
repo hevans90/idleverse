@@ -74,9 +74,9 @@ export const createPlanet = ({
 }: {
   name: string;
   config: PlanetConfig;
-  sprite: AnimatedSprite;
+  sprite: AnimatedSprite | Sprite;
   parent?: Planet;
-}) => ({
+}): Planet => ({
   name,
   config,
   sprite,

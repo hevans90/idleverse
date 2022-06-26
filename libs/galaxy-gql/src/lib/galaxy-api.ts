@@ -3389,7 +3389,7 @@ export type CelestialByIdQueryVariables = Exact<{
 }>;
 
 
-export type CelestialByIdQuery = { __typename?: 'query_root', celestial_by_pk?: { __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string } | null, planets: Array<{ __typename?: 'planet', id: any, name: string, radius: any, terrain_bias: any, texture_resolution: number, terrain_hex_palette_id: any, atmospheric_distance: any, rings: Array<{ __typename?: 'planetary_ring', id: any, type: string, colors: any }> }> } | null };
+export type CelestialByIdQuery = { __typename?: 'query_root', celestial_by_pk?: { __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string, avatar_url?: string | null } | null, planets: Array<{ __typename?: 'planet', id: any, name: string, radius: any, terrain_bias: any, texture_resolution: number, atmospheric_distance: any, rings: Array<{ __typename?: 'planetary_ring', id: any, type: string, colors: any }>, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string } }> } | null };
 
 export type CelestialsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -3567,6 +3567,7 @@ export const CelestialByIdDocument = gql`
     user_info {
       display_name
       id
+      avatar_url
     }
     planets {
       id
@@ -3579,8 +3580,14 @@ export const CelestialByIdDocument = gql`
       }
       terrain_bias
       texture_resolution
-      terrain_hex_palette_id
       atmospheric_distance
+      terrain_hex_palette {
+        forest
+        grass
+        name
+        sand
+        water
+      }
     }
   }
 }
