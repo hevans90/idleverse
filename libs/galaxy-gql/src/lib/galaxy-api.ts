@@ -29,8 +29,13 @@ export type GalaxyManagement = {
   freeClaimsLeft: Scalars['Float'];
 };
 
+export type Int_Cast_Exp = {
+  String?: InputMaybe<String_Comparison_Exp>;
+};
+
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 export type Int_Comparison_Exp = {
+  _cast?: InputMaybe<Int_Cast_Exp>;
   _eq?: InputMaybe<Scalars['Int']>;
   _gt?: InputMaybe<Scalars['Int']>;
   _gte?: InputMaybe<Scalars['Int']>;
@@ -210,7 +215,7 @@ export type Celestial_Aggregate_Order_By = {
 /** input type for inserting array relation for remote table "celestial" */
 export type Celestial_Arr_Rel_Insert_Input = {
   data: Array<Celestial_Insert_Input>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<Celestial_On_Conflict>;
 };
 
@@ -230,7 +235,7 @@ export type Celestial_Bool_Exp = {
 
 /** unique or primary key constraints on table "celestial" */
 export enum Celestial_Constraint {
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "id" */
   SystemPkey = 'system_pkey'
 }
 
@@ -288,7 +293,7 @@ export type Celestial_Mutation_Response = {
   returning: Array<Celestial>;
 };
 
-/** on conflict condition type for table "celestial" */
+/** on_conflict condition type for table "celestial" */
 export type Celestial_On_Conflict = {
   constraint: Celestial_Constraint;
   update_columns?: Array<Celestial_Update_Column>;
@@ -386,7 +391,7 @@ export type Chat_Message_Aggregate_Order_By = {
 /** input type for inserting array relation for remote table "chat_message" */
 export type Chat_Message_Arr_Rel_Insert_Input = {
   data: Array<Chat_Message_Insert_Input>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<Chat_Message_On_Conflict>;
 };
 
@@ -404,7 +409,7 @@ export type Chat_Message_Bool_Exp = {
 
 /** unique or primary key constraints on table "chat_message" */
 export enum Chat_Message_Constraint {
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "id" */
   ChatMessagesPkey = 'chat_messages_pkey'
 }
 
@@ -460,7 +465,7 @@ export type Chat_Message_Mutation_Response = {
   returning: Array<Chat_Message>;
 };
 
-/** on conflict condition type for table "chat_message" */
+/** on_conflict condition type for table "chat_message" */
 export type Chat_Message_On_Conflict = {
   constraint: Chat_Message_Constraint;
   update_columns?: Array<Chat_Message_Update_Column>;
@@ -612,7 +617,7 @@ export type Galaxy_Bool_Exp = {
 
 /** unique or primary key constraints on table "galaxy" */
 export enum Galaxy_Constraint {
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "id" */
   GalaxyPkey = 'galaxy_pkey'
 }
 
@@ -681,11 +686,11 @@ export type Galaxy_Mutation_Response = {
 /** input type for inserting object relation for remote table "galaxy" */
 export type Galaxy_Obj_Rel_Insert_Input = {
   data: Galaxy_Insert_Input;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<Galaxy_On_Conflict>;
 };
 
-/** on conflict condition type for table "galaxy" */
+/** on_conflict condition type for table "galaxy" */
 export type Galaxy_On_Conflict = {
   constraint: Galaxy_Constraint;
   update_columns?: Array<Galaxy_Update_Column>;
@@ -1317,8 +1322,13 @@ export type Mutation_RootUpdate_User_PrivateArgs = {
   where: User_Private_Bool_Exp;
 };
 
+export type Numeric_Cast_Exp = {
+  String?: InputMaybe<String_Comparison_Exp>;
+};
+
 /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
 export type Numeric_Comparison_Exp = {
+  _cast?: InputMaybe<Numeric_Cast_Exp>;
   _eq?: InputMaybe<Scalars['numeric']>;
   _gt?: InputMaybe<Scalars['numeric']>;
   _gte?: InputMaybe<Scalars['numeric']>;
@@ -1436,7 +1446,7 @@ export type Planet_Aggregate_Order_By = {
 /** input type for inserting array relation for remote table "planet" */
 export type Planet_Arr_Rel_Insert_Input = {
   data: Array<Planet_Insert_Input>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<Planet_On_Conflict>;
 };
 
@@ -1476,9 +1486,9 @@ export type Planet_Bool_Exp = {
 
 /** unique or primary key constraints on table "planet" */
 export enum Planet_Constraint {
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "name" */
   PlanetNameKey = 'planet_name_key',
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "id" */
   PlanetPkey = 'planet_pkey'
 }
 
@@ -1564,7 +1574,7 @@ export type Planet_Mutation_Response = {
   returning: Array<Planet>;
 };
 
-/** on conflict condition type for table "planet" */
+/** on_conflict condition type for table "planet" */
 export type Planet_On_Conflict = {
   constraint: Planet_Constraint;
   update_columns?: Array<Planet_Update_Column>;
@@ -1815,7 +1825,7 @@ export type Planetary_Ring_Aggregate_Order_By = {
 /** input type for inserting array relation for remote table "planetary_ring" */
 export type Planetary_Ring_Arr_Rel_Insert_Input = {
   data: Array<Planetary_Ring_Insert_Input>;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<Planetary_Ring_On_Conflict>;
 };
 
@@ -1851,7 +1861,7 @@ export type Planetary_Ring_Bool_Exp = {
 
 /** unique or primary key constraints on table "planetary_ring" */
 export enum Planetary_Ring_Constraint {
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "id" */
   PlanetaryRingPkey = 'planetary_ring_pkey'
 }
 
@@ -1921,7 +1931,7 @@ export type Planetary_Ring_Mutation_Response = {
   returning: Array<Planetary_Ring>;
 };
 
-/** on conflict condition type for table "planetary_ring" */
+/** on_conflict condition type for table "planetary_ring" */
 export type Planetary_Ring_On_Conflict = {
   constraint: Planetary_Ring_Constraint;
   update_columns?: Array<Planetary_Ring_Update_Column>;
@@ -2653,9 +2663,9 @@ export type Terrain_Hex_Palette_Bool_Exp = {
 
 /** unique or primary key constraints on table "terrain_hex_palette" */
 export enum Terrain_Hex_Palette_Constraint {
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "name" */
   TerrainHexPaletteNameKey = 'terrain_hex_palette_name_key',
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "id" */
   TerrainHexPalettePkey = 'terrain_hex_palette_pkey'
 }
 
@@ -2703,11 +2713,11 @@ export type Terrain_Hex_Palette_Mutation_Response = {
 /** input type for inserting object relation for remote table "terrain_hex_palette" */
 export type Terrain_Hex_Palette_Obj_Rel_Insert_Input = {
   data: Terrain_Hex_Palette_Insert_Input;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<Terrain_Hex_Palette_On_Conflict>;
 };
 
-/** on conflict condition type for table "terrain_hex_palette" */
+/** on_conflict condition type for table "terrain_hex_palette" */
 export type Terrain_Hex_Palette_On_Conflict = {
   constraint: Terrain_Hex_Palette_Constraint;
   update_columns?: Array<Terrain_Hex_Palette_Update_Column>;
@@ -2771,8 +2781,13 @@ export enum Terrain_Hex_Palette_Update_Column {
   Water = 'water'
 }
 
+export type Timestamp_Cast_Exp = {
+  String?: InputMaybe<String_Comparison_Exp>;
+};
+
 /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
 export type Timestamp_Comparison_Exp = {
+  _cast?: InputMaybe<Timestamp_Cast_Exp>;
   _eq?: InputMaybe<Scalars['timestamp']>;
   _gt?: InputMaybe<Scalars['timestamp']>;
   _gte?: InputMaybe<Scalars['timestamp']>;
@@ -2898,9 +2913,9 @@ export type User_Info_Bool_Exp = {
 
 /** unique or primary key constraints on table "user_info" */
 export enum User_Info_Constraint {
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "display_name" */
   UserInfoDisplayNameKey = 'user_info_display_name_key',
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "id" */
   UserPkey = 'user_pkey'
 }
 
@@ -2958,11 +2973,11 @@ export type User_Info_Mutation_Response = {
 /** input type for inserting object relation for remote table "user_info" */
 export type User_Info_Obj_Rel_Insert_Input = {
   data: User_Info_Insert_Input;
-  /** on conflict condition */
+  /** upsert condition */
   on_conflict?: InputMaybe<User_Info_On_Conflict>;
 };
 
-/** on conflict condition type for table "user_info" */
+/** on_conflict condition type for table "user_info" */
 export type User_Info_On_Conflict = {
   constraint: User_Info_Constraint;
   update_columns?: Array<User_Info_Update_Column>;
@@ -3347,8 +3362,13 @@ export type User_Private_Set_Input = {
   user_id?: InputMaybe<Scalars['String']>;
 };
 
+export type Uuid_Cast_Exp = {
+  String?: InputMaybe<String_Comparison_Exp>;
+};
+
 /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
 export type Uuid_Comparison_Exp = {
+  _cast?: InputMaybe<Uuid_Cast_Exp>;
   _eq?: InputMaybe<Scalars['uuid']>;
   _gt?: InputMaybe<Scalars['uuid']>;
   _gte?: InputMaybe<Scalars['uuid']>;
@@ -3369,7 +3389,7 @@ export type CelestialByIdQueryVariables = Exact<{
 }>;
 
 
-export type CelestialByIdQuery = { __typename?: 'query_root', celestial_by_pk?: { __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, galaxy: { __typename?: 'galaxy', name?: string | null, stars: number, id: any }, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string } | null } | null };
+export type CelestialByIdQuery = { __typename?: 'query_root', celestial_by_pk?: { __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string, avatar_url?: string | null } | null, planets: Array<{ __typename?: 'planet', id: any, name: string, radius: any, terrain_bias: any, texture_resolution: number, atmospheric_distance: any, rings: Array<{ __typename?: 'planetary_ring', id: any, type: string, colors: any }>, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string } }> } | null };
 
 export type CelestialsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -3544,14 +3564,30 @@ export const CelestialByIdDocument = gql`
     id
     name
     owner_id
-    galaxy {
-      name
-      stars
-      id
-    }
     user_info {
       display_name
       id
+      avatar_url
+    }
+    planets {
+      id
+      name
+      radius
+      rings {
+        id
+        type
+        colors
+      }
+      terrain_bias
+      texture_resolution
+      atmospheric_distance
+      terrain_hex_palette {
+        forest
+        grass
+        name
+        sand
+        water
+      }
     }
   }
 }

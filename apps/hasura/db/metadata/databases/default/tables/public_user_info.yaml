@@ -1,47 +1,47 @@
 table:
-  name: user_info
   schema: public
+  name: user_info
 array_relationships:
-- name: celestials
-  using:
-    foreign_key_constraint_on:
-      column: owner_id
-      table:
-        name: celestial
-        schema: public
-- name: chat_messages
-  using:
-    foreign_key_constraint_on:
-      column: poster_id
-      table:
-        name: chat_message
-        schema: public
+  - name: celestials
+    using:
+      foreign_key_constraint_on:
+        column: owner_id
+        table:
+          schema: public
+          name: celestial
+  - name: chat_messages
+    using:
+      foreign_key_constraint_on:
+        column: poster_id
+        table:
+          schema: public
+          name: chat_message
 select_permissions:
-- permission:
-    columns:
-    - avatar_url
-    - display_name
-    - free_claims
-    - id
-    - name
-    - nickname
-    filter: {}
-  role: unregistered
-- permission:
-    columns:
-    - avatar_url
-    - display_name
-    - free_claims
-    - id
-    - name
-    - nickname
-    filter: {}
-  role: user
+  - role: unregistered
+    permission:
+      columns:
+        - avatar_url
+        - display_name
+        - free_claims
+        - id
+        - name
+        - nickname
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - avatar_url
+        - display_name
+        - free_claims
+        - id
+        - name
+        - nickname
+      filter: {}
 update_permissions:
-- permission:
-    check: {}
-    columns: []
-    filter:
-      id:
-        _eq: X-Hasura-User-Id
-  role: user
+  - role: user
+    permission:
+      columns: []
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+      check: {}

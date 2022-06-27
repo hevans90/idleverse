@@ -1,28 +1,28 @@
 table:
-  name: celestial
   schema: public
+  name: celestial
 object_relationships:
-- name: galaxy
-  using:
-    foreign_key_constraint_on: galaxy_id
-- name: user_info
-  using:
-    foreign_key_constraint_on: owner_id
+  - name: galaxy
+    using:
+      foreign_key_constraint_on: galaxy_id
+  - name: user_info
+    using:
+      foreign_key_constraint_on: owner_id
 array_relationships:
-- name: planets
-  using:
-    foreign_key_constraint_on:
-      column: celestial_id
-      table:
-        name: planet
-        schema: public
+  - name: planets
+    using:
+      foreign_key_constraint_on:
+        column: celestial_id
+        table:
+          schema: public
+          name: planet
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - name
-    - galaxy_id
-    - owner_id
-    - id
-    filter: {}
-  role: user
+  - role: user
+    permission:
+      columns:
+        - name
+        - galaxy_id
+        - owner_id
+        - id
+      filter: {}
+      allow_aggregations: true

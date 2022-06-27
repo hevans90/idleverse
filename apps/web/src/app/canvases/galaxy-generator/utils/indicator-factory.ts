@@ -4,12 +4,14 @@ export const indicatorFactory = (
   text: string,
   x: number,
   y: number,
-  name: string
+  name: string,
+  fontSize = 18,
+  color = 0xffffff
 ) => {
   const ind = new Text(text, {
     fontFamily: 'zx spectrum',
-    fontSize: 18,
-    fill: 0xffffff,
+    fontSize,
+    fill: color,
   });
 
   ind.x = x;

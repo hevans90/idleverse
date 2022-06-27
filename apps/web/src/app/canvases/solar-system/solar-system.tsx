@@ -7,21 +7,23 @@ import { solarSystemConfigVar, timeVar } from '../../_state/reactive-variables';
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
 import { useResize } from '../_utils/use-resize.hook';
 import { useViewport } from '../_utils/use-viewport';
+
 import {
-  earthSpriteConfig,
-  marsSpriteConfig,
-  moonSpriteConfig,
-  sunSpriteConfig,
-  topDownDesertSpriteConfig,
-} from './graphics/config';
-import { createAnimatedPlanetSprite } from './graphics/graphics-utils';
+  createAnimatedPlanetSprite,
+  createRadialEllipse,
+} from '../celestial-viewer/utils/graphics-utils';
+
+import { hexStringToNumber, theme } from '@idleverse/theme';
+import { Planet, PlanetConfig } from '../celestial-viewer/models';
 import {
   createPlanet,
   drawPlanet,
-  Planet,
-  PlanetConfig,
   updatePlanetPosition,
-} from './planets/planet';
+} from '../celestial-viewer/utils/drawing-utils';
+import {
+  sunSpriteConfig,
+  topDownDesertSpriteConfig,
+} from '../celestial-viewer/utils/static-sprite-configs';
 
 export const SolarSystem = () => {
   const app = useApp();
@@ -47,11 +49,10 @@ export const SolarSystem = () => {
       timeVar(timeVar() + 1);
     });
 
-    const sunSprite = createAnimatedPlanetSprite(
-      solarSystemContainerRef.current,
-      sunSpriteConfig
-    );
+    const sunSprite = createAnimatedPlanetSprite(sunSpriteConfig);
     const sunConfig: PlanetConfig = {
+      id: '1',
+      radius: 1,
       origin: { x: systemOrigin.x, y: systemOrigin.y },
       orbit: { x: 0, y: 0, speed: 1 },
     };
@@ -61,82 +62,70 @@ export const SolarSystem = () => {
       sprite: sunSprite,
     });
 
-    const earthConfig: PlanetConfig = {
-      origin: { x: 0, y: 0 },
-      orbit: { x: 200, y: 200, speed: 1 },
-    };
-    const earthSprite = createAnimatedPlanetSprite(
-      solarSystemContainerRef.current,
-      earthSpriteConfig
-    );
-    const earth: Planet = createPlanet({
-      name: 'earth',
-      config: earthConfig,
-      sprite: earthSprite,
-      parent: sun,
-    });
-
-    const marsSprite = createAnimatedPlanetSprite(
-      solarSystemContainerRef.current,
-      marsSpriteConfig
-    );
-    const marsConfig: PlanetConfig = {
-      origin: { x: 0, y: 0 },
-      orbit: { x: 300, y: 300, speed: 0.53 },
-    };
-    const mars: Planet = createPlanet({
-      name: 'mars',
-      config: marsConfig,
-      sprite: marsSprite,
-      parent: sun,
-    });
-
-    const moonSprite = createAnimatedPlanetSprite(
-      solarSystemContainerRef.current,
-      moonSpriteConfig
-    );
-    const moonConfig: PlanetConfig = {
-      origin: { x: 0, y: 0 },
-      orbit: { x: 50, y: 50, speed: 12.36 },
-    };
-    const moon: Planet = createPlanet({
-      name: 'Moon',
-      config: moonConfig,
-      sprite: moonSprite,
-      parent: earth,
-    });
-
-    const desertSprite = createAnimatedPlanetSprite(
-      solarSystemContainerRef.current,
-      topDownDesertSpriteConfig
-    );
+    const desertSprite = createAnimatedPlanetSprite(topDownDesertSpriteConfig);
     const desertConfig: PlanetConfig = {
+      id: '1',
+      radius: 1,
       origin: { x: 0, y: 0 },
-      orbit: { x: 400, y: 400, speed: 0.3 },
+      orbit: { x: 300, y: 400, speed: 10 },
     };
     const desert: Planet = createPlanet({
-      name: 'desrt',
+      name: 'desert',
       config: desertConfig,
       sprite: desertSprite,
       parent: sun,
     });
 
-    const planets = [sun, earth, mars, moon, desert];
+    const desertSprite2 = createAnimatedPlanetSprite(topDownDesertSpriteConfig);
+    const desertConfig2: PlanetConfig = {
+      id: '1',
+      radius: 1,
+      origin: { x: 0, y: 0 },
+      orbit: { x: 200, y: 200, speed: 3 },
+    };
+    const desert2: Planet = createPlanet({
+      name: 'desert2',
+      config: desertConfig2,
+      sprite: desertSprite2,
+      parent: sun,
+    });
+
+    const planets = [sun, desert, desert2];
+
+    planets.forEach(({ sprite }) =>
+      solarSystemContainerRef.current.addChild(sprite)
+    );
+
+    planets
+      // all planets that have a parent i.e. not the central star, or other freely floating objects
+      .filter((planet) => planet?.parent)
+      .forEach(
+        ({
+          parent: {
+            config: { origin },
+          },
+          config: { orbit },
+        }) => {
+          const radialCircle = createRadialEllipse(
+            origin.x,
+            origin.y,
+            orbit.x,
+            orbit.y,
+            hexStringToNumber(theme.colors.gray['300'])
+          );
+
+          solarSystemContainerRef.current.addChild(radialCircle);
+        }
+      );
 
     app.ticker.add(() => {
       // eslint-disable-next-line prefer-const
-      let { viewAngle, simulationSpeed } = solarSystemConfigVar();
-
-      const viewDistance = size.height;
-
-      viewAngle = (viewAngle * Math.PI) / 180;
+      let { simulationSpeed } = solarSystemConfigVar();
 
       planets.forEach((planet) =>
         updatePlanetPosition(timeVar(), planet, simulationSpeed)
       );
-      planets.forEach((planet) =>
-        drawPlanet(planet, systemOrigin, viewDistance, viewAngle)
-      );
+      planets.forEach((planet) => drawPlanet(planet, systemOrigin));
     });
   }, []);
 

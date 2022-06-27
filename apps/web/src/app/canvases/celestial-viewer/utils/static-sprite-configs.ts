@@ -7,7 +7,7 @@ export const sunSpriteConfig: SpriteSheetConfig = {
   rows: 12,
   lastRowItemCount: 5,
   animationSpeed: 0.25,
-  spriteScale: 0.5,
+  spriteScale: 0.2,
 };
 
 export const earthSpriteConfig: SpriteSheetConfig = {
