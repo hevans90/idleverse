@@ -7,20 +7,21 @@ export const assetLoader = async (
   loadType: LoaderResource.LOAD_TYPE = LoaderResource.LOAD_TYPE.IMAGE
 ): Promise<AssetCollection> =>
   new Promise<AssetCollection>((resolve, reject) => {
-    addOptions.forEach(({ name }, index, arr) => {
-      if (PIXI.Loader.shared.resources[name]) {
-        arr.splice(index, 1);
-        console.log(name, 'ALREADY LOADED, skipping');
-      } else {
-        console.log(name, 'BEING ADDED');
-      }
-    });
+    const paths = addOptions
+      .map((props) => ({
+        ...props,
+        crossOrigin: 'anonymous',
+        loadType,
+      }))
+      .filter(({ name }) => {
+        const alreadyLoaded = PIXI.Loader.shared.resources[name];
 
-    const paths = addOptions.map((props) => ({
-      ...props,
-      crossOrigin: 'anonymous',
-      loadType,
-    }));
+        if (alreadyLoaded) {
+          console.log(name, 'ALREADY LOADED, skipping');
+        }
+
+        return !alreadyLoaded;
+      });
 
     PIXI.Loader.shared
       .add(paths)
@@ -30,7 +31,8 @@ export const assetLoader = async (
       console.error(e);
       reject('Failed to load resources.');
     });
+    console.log('PIXI Asset Loader run started...');
     PIXI.Loader.shared.onProgress.add((loader, resource) => {
-      // console.log(loader.progress, resource.name)
+      console.log(loader.progress, resource.name);
     });
   });

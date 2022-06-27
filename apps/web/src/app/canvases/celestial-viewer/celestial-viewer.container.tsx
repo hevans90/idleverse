@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { Box, Theme, useTheme } from '@chakra-ui/react';
 import {
   CelestialByIdDocument,
@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { loadPlanets } from '../../asset-loading/load-planets';
 import { Loading } from '../../components/loading';
+import { celestialViewerSelectedPlanet } from '../../_state/celestial-viewer';
 import { celestialVar } from '../../_state/reactive-variables';
 import { GameUIBottomBar } from '../galaxy-generator/ui/bottom-bar';
 import { runDataUriGenOnWorker } from '../planet-generator/texture-generation/run-texture-gen-on-worker';
@@ -33,6 +34,8 @@ export const CelestialViewerContainer = () => {
   const [texturesGenerating, setTexturesGenerating] = useState(true);
   const [celestialSpritesLoading, setCelestialSpritesLoading] = useState(true);
 
+  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanet);
+
   const [pixelData, setPixelData] = useState<
     {
       seed: string;
@@ -52,6 +55,14 @@ export const CelestialViewerContainer = () => {
   useEffect(() => {
     if (data) {
       celestialVar(data.celestial_by_pk);
+
+      // if a previously selected planet isn't a part of this system, wipe it to avoid bugs
+      if (
+        selectedPlanet &&
+        !data.celestial_by_pk.planets.find(({ id }) => id === selectedPlanet.id)
+      ) {
+        celestialViewerSelectedPlanet(null);
+      }
 
       const urisToGenerate: Promise<{
         seed: string;

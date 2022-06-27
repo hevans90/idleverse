@@ -68,61 +68,71 @@ export const InfoBox = ({
         </HStack>
       </HStack>
       <HStack {...rowProps} align="start">
-        <Text>Planets:</Text>
-        <VStack
-          align="end"
-          borderWidth="1px"
-          borderStyle="solid"
-          borderColor={border}
-          spacing={0}
-          flexGrow={1}
-        >
-          {planets.map((planet, i) => (
-            <Box
-              key={i}
-              textAlign="end"
-              width="100%"
-              position="relative"
-              padding={2}
-              paddingLeft={4}
-              _hover={{
-                fontWeight: 'bold',
-                cursor: 'pointer',
-                background: 'gray.500',
-                color: 'teal.500',
-              }}
-              onClick={() =>
-                celestialViewerSelectedPlanet({
-                  name: planet.name,
-                  id: planet.id,
-                })
-              }
-              color={selectedPlanetId === planet.id ? 'teal.500' : 'white'}
+        {planets.length && (
+          <>
+            <Text>Planets:</Text>
+            <VStack
+              align="end"
+              borderWidth="1px"
+              borderStyle="solid"
+              borderColor={border}
+              spacing={0}
+              flexGrow={1}
             >
-              {selectedPlanetId === planet.id && (
-                <ChevronRightIcon
-                  position="absolute"
-                  left="0"
-                  top="10px"
-                  boxSize={5}
-                ></ChevronRightIcon>
-              )}
-              {planet.name}
-            </Box>
-          ))}
-        </VStack>
+              {planets.map((planet, i) => (
+                <Box
+                  key={i}
+                  textAlign="end"
+                  width="100%"
+                  position="relative"
+                  padding={2}
+                  paddingLeft={4}
+                  _hover={{
+                    fontWeight: 'bold',
+                    cursor: 'pointer',
+                    background: 'gray.500',
+                    color: 'teal.500',
+                  }}
+                  onClick={() =>
+                    celestialViewerSelectedPlanet({
+                      name: planet.name,
+                      id: planet.id,
+                    })
+                  }
+                  color={selectedPlanetId === planet.id ? 'teal.500' : 'white'}
+                >
+                  {selectedPlanetId === planet.id && (
+                    <ChevronRightIcon
+                      position="absolute"
+                      left="0"
+                      top="10px"
+                      boxSize={5}
+                    ></ChevronRightIcon>
+                  )}
+                  {planet.name}
+                </Box>
+              ))}
+            </VStack>
+          </>
+        )}
       </HStack>
 
       {!selectedPlanetId && (
         <Box paddingTop={5}>
-          <Text>Click to select a planet.</Text>
+          <Text>
+            {planets.length ? (
+              <>Click to select a planet.</>
+            ) : (
+              <>This system has no planets.</>
+            )}
+          </Text>
         </Box>
       )}
       {selectedPlanetId && (
         <PlanetInfo
           planetImageUrl={
             planetDataUris.uris.find(({ seed }) => seed === selectedPlanetId)
-              .uri
+              ?.uri
           }
           planetInfo={planets.find(({ id }) => id === selectedPlanetId)}
           onClose={() => celestialViewerSelectedPlanet(null)}
