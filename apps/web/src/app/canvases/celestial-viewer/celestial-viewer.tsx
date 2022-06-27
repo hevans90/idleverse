@@ -4,10 +4,13 @@ import { CelestialByIdQuery } from '@idleverse/galaxy-gql';
 import { hexStringToNumber, theme } from '@idleverse/theme';
 import { useApp } from '@inlet/react-pixi';
 import { PixelateFilter } from '@pixi/filter-pixelate';
-import { Container, Graphics, Matrix, Sprite } from 'pixi.js';
-import { useEffect, useRef } from 'react';
+import { Container, Graphics, Matrix, Sprite, TickerCallback } from 'pixi.js';
+import { useEffect, useRef, useState } from 'react';
 import { assetLoader } from '../../asset-loading/asset-loader';
-import { celestialViewerPlanetDataUris } from '../../_state/celestial-viewer';
+import {
+  celestialViewerPlanetDataUris,
+  celestialViewerSelectedPlanet,
+} from '../../_state/celestial-viewer';
 import { solarSystemConfigVar, timeVar } from '../../_state/reactive-variables';
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
 import { sunSpriteConfig } from '../solar-system/graphics/config';
@@ -24,6 +27,7 @@ import {
 } from '../solar-system/planets/planet';
 import { useResize } from '../_utils/use-resize.hook';
 import { useViewport } from '../_utils/use-viewport';
+import { useSelectedPlanet } from './use-selected-planet';
 
 type CelestialViewerProps = {
   celestial: CelestialByIdQuery['celestial_by_pk'];
@@ -34,9 +38,26 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
 
   const size = useResize();
 
+  const selectedIndicatorTickerRef = useRef<TickerCallback<unknown>>();
+
+  const [selectedPlanetPosition, setSelectedPlanetPosition] = useState<{
+    x: number;
+    y: number;
+  }>(null);
+
+  const [planets, setPlanets] = useState<Planet[]>([]);
+
+  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanet);
   const planetDataUris = useReactiveVar(celestialViewerPlanetDataUris);
 
   const solarSystemContainerRef = useRef(new Container());
+
+  useSelectedPlanet(
+    solarSystemContainerRef.current,
+    selectedPlanet?.name,
+    selectedPlanetPosition?.x,
+    selectedPlanetPosition?.y
+  );
 
   useFpsTracker(app, size);
 
@@ -57,17 +78,18 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
 
     const sunSprite = createAnimatedPlanetSprite(sunSpriteConfig);
     const sunConfig: PlanetConfig = {
+      id: celestial.id,
       radius: 100,
       origin: { x: systemOrigin.x, y: systemOrigin.y },
       orbit: { x: 0, y: 0, speed: 1 },
     };
     const sun: Planet = createPlanet({
-      name: 'sun',
+      name: celestial.name,
       config: sunConfig,
       sprite: sunSprite,
     });
 
-    const planets: Planet[] = [sun];
+    const tempPlanets: Planet[] = [sun];
 
     // load planet data uris in to pixi textures
     assetLoader(
@@ -100,6 +122,7 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
         sprite.anchor.set(0.5, 0.5);
 
         const config: PlanetConfig = {
+          id,
           radius,
           origin: { x: 0, y: 0 },
           orbit: {
@@ -115,13 +138,13 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
           parent: sun,
         });
 
-        planets.push(planet);
+        tempPlanets.push(planet);
       });
 
-      planets.forEach(({ sprite }) =>
+      tempPlanets.forEach(({ sprite }) =>
         solarSystemContainerRef.current.addChild(sprite)
       );
-      planets
+      tempPlanets
         // all planets that have a parent i.e. not the central star, or other freely floating objects
         .filter((planet) => planet?.parent)
         .forEach(
@@ -142,23 +165,57 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
             solarSystemContainerRef.current.addChild(radialCircle);
           }
         );
+
+      if (selectedPlanet) {
+        setupTicker(tempPlanets);
+      }
     });
 
     app.ticker.add(() => {
       // eslint-disable-next-line prefer-const
       let { simulationSpeed } = solarSystemConfigVar();
 
-      planets.forEach((planet) => {
+      tempPlanets.forEach((planet) => {
         if (planet.name !== 'sun') {
           planet.sprite.rotation += (1 / planet.config.radius) * 0.01;
         }
         updatePlanetPosition(timeVar(), planet, simulationSpeed);
+        drawPlanet(planet, systemOrigin, planet.name === celestial.name);
       });
-      planets.forEach((planet) =>
-        drawPlanet(planet, systemOrigin, planet.name === 'sun')
-      );
+
+      setPlanets(tempPlanets);
     });
   }, []);
+
+  useEffect(() => {
+    try {
+      app.ticker.remove(selectedIndicatorTickerRef.current);
+    } catch (e) {
+      //
+    }
+
+    setupTicker(planets);
+  }, [selectedPlanet.id]);
+
+  const setupTicker = (planetArr: Planet[]) => {
+    const selectedFound = planetArr.find(
+      (planet) => planet.config.id === selectedPlanet.id
+    );
+
+    if (selectedFound) {
+      selectedIndicatorTickerRef.current = () => {
+        setSelectedPlanetPosition({
+          x:
+            selectedFound.sprite.x -
+            selectedFound.sprite.width / 2 -
+            // rough character width of zx-spectrum mono font characters
+            selectedPlanet.name.length * 8,
+          y: selectedFound.sprite.y - selectedFound.sprite.height - 10,
+        });
+      };
+      app.ticker.add(selectedIndicatorTickerRef.current);
+    }
+  };
 
   // eslint-disable-next-line react/jsx-no-useless-fragment
   return <></>;

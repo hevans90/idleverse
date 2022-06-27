@@ -2,6 +2,7 @@ import { AnimatedSprite, Sprite } from 'pixi.js';
 import { Vector2D } from '../../../_state/models';
 
 export type PlanetConfig = {
+  id: string;
   radius: number; // km
   origin: { x: number; y: number };
   orbit: { x: number; y: number; speed: number };

@@ -39,7 +39,7 @@ export const InfoBox = ({
   const bg = useColorModeValue('gray.300', 'gray.700');
   const border = useColorModeValue('gray.200', 'gray.600');
 
-  const selectedPlanetId = useReactiveVar(celestialViewerSelectedPlanet).id;
+  const selectedPlanetId = useReactiveVar(celestialViewerSelectedPlanet)?.id;
 
   return (
     <VStack

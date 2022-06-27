@@ -48,6 +48,7 @@ export const SolarSystem = () => {
 
     const sunSprite = createAnimatedPlanetSprite(sunSpriteConfig);
     const sunConfig: PlanetConfig = {
+      id: '1',
       radius: 1,
       origin: { x: systemOrigin.x, y: systemOrigin.y },
       orbit: { x: 0, y: 0, speed: 1 },
@@ -60,6 +61,7 @@ export const SolarSystem = () => {
 
     const desertSprite = createAnimatedPlanetSprite(topDownDesertSpriteConfig);
     const desertConfig: PlanetConfig = {
+      id: '1',
       radius: 1,
       origin: { x: 0, y: 0 },
       orbit: { x: 300, y: 400, speed: 10 },
@@ -73,6 +75,7 @@ export const SolarSystem = () => {
 
     const desertSprite2 = createAnimatedPlanetSprite(topDownDesertSpriteConfig);
     const desertConfig2: PlanetConfig = {
+      id: '1',
       radius: 1,
       origin: { x: 0, y: 0 },
       orbit: { x: 200, y: 200, speed: 3 },
