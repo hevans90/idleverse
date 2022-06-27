@@ -37,8 +37,12 @@ export const GalaxyGalleryContainer = () => {
 
   const textProps: TextProps = {
     position: 'absolute',
-    fontSize: 'xs',
-    marginBottom: '0.5rem',
+    fontSize: 'xxs',
+    bgColor: 'gray.600',
+    padding: 1,
+    paddingTop: 1.5,
+    opacity: 0.85,
+    margin: 'unset !important',
   };
 
   useEffect(() => {
@@ -72,7 +76,15 @@ export const GalaxyGalleryContainer = () => {
           galaxiesToJoin.map((galaxyConfig, i) => (
             <GalaxyTile
               key={i}
-              {...{ galaxyConfig, bgcol, col, i, textProps }}
+              {...{
+                galaxyConfig,
+                bgcol,
+                col,
+                i,
+                textProps,
+                displayOwnershipTotals: false,
+                totalUserOwns: 0,
+              }}
             />
           ))}
       </Box>
@@ -83,7 +95,17 @@ export const GalaxyGalleryContainer = () => {
           galaxiesJoined.map((galaxyConfig, i) => (
             <GalaxyTile
               key={i}
-              {...{ galaxyConfig, bgcol, col, i, textProps }}
+              {...{
+                galaxyConfig,
+                bgcol,
+                col,
+                i,
+                textProps,
+                displayOwnershipTotals: true,
+                totalUserOwns: myGalaxyIds.galaxy_aggregate.nodes.filter(
+                  (x) => x.id === galaxyConfig.id
+                ).length,
+              }}
             />
           ))}
       </Box>
@@ -113,13 +135,16 @@ const GalaxyTile = ({
   col,
   i,
   textProps,
+  displayOwnershipTotals,
+  totalUserOwns,
 }: {
   galaxyConfig: GalaxiesSubscription['galaxy'][0];
   bgcol: string;
   col: string;
-
   i: number;
   textProps: TextProps;
+  displayOwnershipTotals: boolean;
+  totalUserOwns: number;
 }) => {
   const hoverCol = useColorModeValue('teal.900', 'teal.200');
   const hoverBg = useColorModeValue('teal.300', 'teal.800');
@@ -160,21 +185,36 @@ const GalaxyTile = ({
           thumbnailNumber={i}
         />
 
-        <Text fontSize="xxs" top="0.5rem" left="0.5rem" {...textProps}>
+        <Text top="0.5rem" left="0.5rem" {...textProps}>
           {galaxyConfig.name}
         </Text>
-        <Text fontSize="xxs" top="0.5rem" right="0.5rem" {...textProps}>
+        <Text top="2.5rem" left="0.5rem" {...textProps}>
           Stars: {galaxyConfig.stars}
         </Text>
-        <Text
-          fontSize="xxs"
+        {displayOwnershipTotals && (
+          <HStack
+            bottom="2.5rem"
+            left="0.5rem"
+            {...textProps}
+            width="calc(100% - 1rem)"
+            justify="space-between"
+          >
+            <Text>My Celestials:</Text>
+            <Text>{totalUserOwns}</Text>
+          </HStack>
+        )}
+
+        <HStack
           bottom="0.5rem"
           left="0.5rem"
           {...textProps}
-          mb="unset"
+          width="calc(100% - 1rem)"
+          justify="space-between"
+          color="red.200"
         >
-          Total Owned Celestials: {galaxyConfig.celestials.length}
-        </Text>
+          <Text>Owned Celestials:</Text>
+          <Text>{galaxyConfig.celestials.length}</Text>
+        </HStack>
       </HStack>
     </Link>
   );
