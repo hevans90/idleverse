@@ -209,7 +209,7 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
             selectedFound.sprite.x -
             selectedFound.sprite.width / 2 -
             // rough character width of zx-spectrum mono font characters
-            selectedPlanet.name.length * 8,
+            selectedPlanet.name.length * 7.75,
           y: selectedFound.sprite.y - selectedFound.sprite.height - 10,
         });
       };
