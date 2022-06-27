@@ -25,6 +25,20 @@ array_relationships:
         column_mapping:
           id: id
 select_permissions:
+  - role: dev
+    permission:
+      columns:
+        - terrain_bias
+        - owner_id
+        - texture_resolution
+        - atmospheric_distance
+        - radius
+        - celestial_id
+        - name
+        - id
+        - terrain_hex_palette_id
+      filter: {}
+      allow_aggregations: true
   - role: user
     permission:
       columns:
@@ -38,3 +52,4 @@ select_permissions:
         - terrain_hex_palette_id
         - texture_resolution
       filter: {}
+      allow_aggregations: true
