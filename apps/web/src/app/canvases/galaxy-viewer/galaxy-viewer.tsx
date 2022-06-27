@@ -110,9 +110,7 @@ export const GalaxyViewer = ({
 
       if (_star.children.length > 1) {
         const avatar = _star.getChildByName('avatar') as Graphics;
-        // avatar.on('mouseover', () => {
-        //   console.warn(userById(ownerId).display_name);
-        // });
+
         avatar.on('mousedown', () => {
           navigateToCelestial(id);
         });

@@ -108,7 +108,13 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
             app,
             name,
             id,
-            sun
+            sun,
+            () => {
+              celestialViewerSelectedPlanet({
+                name,
+                id,
+              });
+            }
           )
         )
       );

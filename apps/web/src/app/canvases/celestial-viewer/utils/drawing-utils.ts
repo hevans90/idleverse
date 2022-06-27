@@ -17,7 +17,8 @@ export const buildPlanet = (
   app: Application,
   name: string,
   id: string,
-  sun: Planet
+  sun: Planet,
+  selectionFunction: () => void
 ) => {
   const radiusFactor = 28;
 
@@ -38,6 +39,8 @@ export const buildPlanet = (
   sprite.zIndex = 1;
   sprite.scale = { x: 0.3, y: 0.3 };
   sprite.anchor.set(0.5, 0.5);
+
+  sprite.on('mousedown', () => selectionFunction());
 
   const config: PlanetConfig = {
     id,
