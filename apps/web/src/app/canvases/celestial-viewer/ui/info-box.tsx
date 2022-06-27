@@ -15,7 +15,7 @@ import {
 import { CelestialByIdQuery } from '@idleverse/galaxy-gql';
 import {
   celestialViewerPlanetDataUris,
-  celestialViewerSelectedPlanetId,
+  celestialViewerSelectedPlanet,
 } from '../../../_state/celestial-viewer';
 
 type Props = Pick<
@@ -39,7 +39,7 @@ export const InfoBox = ({
   const bg = useColorModeValue('gray.300', 'gray.700');
   const border = useColorModeValue('gray.200', 'gray.600');
 
-  const selectedPlanetId = useReactiveVar(celestialViewerSelectedPlanetId);
+  const selectedPlanetId = useReactiveVar(celestialViewerSelectedPlanet).id;
 
   return (
     <VStack
@@ -91,7 +91,12 @@ export const InfoBox = ({
                 background: 'gray.500',
                 color: 'teal.500',
               }}
-              onClick={() => celestialViewerSelectedPlanetId(planet.id)}
+              onClick={() =>
+                celestialViewerSelectedPlanet({
+                  name: planet.name,
+                  id: planet.id,
+                })
+              }
               color={selectedPlanetId === planet.id ? 'teal.500' : 'white'}
             >
               {selectedPlanetId === planet.id && (
@@ -120,7 +125,7 @@ export const InfoBox = ({
               .uri
           }
           planetInfo={planets.find(({ id }) => id === selectedPlanetId)}
-          onClose={() => celestialViewerSelectedPlanetId(null)}
+          onClose={() => celestialViewerSelectedPlanet(null)}
         ></PlanetInfo>
       )}
     </VStack>

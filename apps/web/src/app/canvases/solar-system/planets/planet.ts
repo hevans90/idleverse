@@ -2,6 +2,7 @@ import { AnimatedSprite, Sprite } from 'pixi.js';
 import { Vector2D } from '../../../_state/models';
 
 export type PlanetConfig = {
+  radius: number; // km
   origin: { x: number; y: number };
   orbit: { x: number; y: number; speed: number };
 };
@@ -19,12 +20,21 @@ export type Planet = {
   };
 };
 
-export const drawPlanet = (planet: Planet, systemOrigin: Vector2D) => {
+export const drawPlanet = (
+  planet: Planet,
+  systemOrigin: Vector2D,
+  isOriginCelestial = false
+) => {
   planet.sprite.height = planet.originalDimensions.height * planet.scale;
   planet.sprite.width = planet.originalDimensions.width * planet.scale;
+
   const drawPosition = transformPosition(planet.position, systemOrigin);
-  planet.sprite.x = drawPosition.x - planet.sprite.height / 2;
-  planet.sprite.y = drawPosition.y - planet.sprite.width / 2;
+  planet.sprite.x = isOriginCelestial
+    ? drawPosition.x - planet.sprite.height / 2
+    : drawPosition.x;
+  planet.sprite.y = isOriginCelestial
+    ? drawPosition.y - planet.sprite.width / 2
+    : drawPosition.y;
 };
 
 export const updatePlanetPosition = (
