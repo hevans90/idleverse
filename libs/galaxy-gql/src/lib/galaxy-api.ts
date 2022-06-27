@@ -3464,6 +3464,13 @@ export type GalaxyByIdQueryVariables = Exact<{
 
 export type GalaxyByIdQuery = { __typename?: 'query_root', galaxy_by_pk?: { __typename?: 'galaxy', arm_width: any, arms: any, core_concentration_factor: any, core_radius_factor: any, curvature: any, id: any, name?: string | null, radius: number, stars: number } | null };
 
+export type OngoingGalaxySessionsSubscriptionVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type OngoingGalaxySessionsSubscription = { __typename?: 'subscription_root', galaxy_aggregate: { __typename?: 'galaxy_aggregate', nodes: Array<{ __typename?: 'galaxy', id: any, name?: string | null, celestials_aggregate: { __typename?: 'celestial_aggregate', nodes: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets_aggregate: { __typename?: 'planet_aggregate', nodes: Array<{ __typename?: 'planet', name: string }> } }> } }> } };
+
 export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables = Exact<{
   userId: Scalars['String'];
   galaxyId: Scalars['uuid'];
@@ -3734,6 +3741,28 @@ export const GalaxyByIdDocument = gql`
 }
     `;
 export type GalaxyByIdQueryResult = Apollo.QueryResult<GalaxyByIdQuery, GalaxyByIdQueryVariables>;
+export const OngoingGalaxySessionsDocument = gql`
+    subscription OngoingGalaxySessions($id: String!) {
+  galaxy_aggregate(where: {celestials: {owner_id: {_eq: $id}}}) {
+    nodes {
+      id
+      name
+      celestials_aggregate(where: {owner_id: {_eq: $id}}) {
+        nodes {
+          id
+          name
+          planets_aggregate {
+            nodes {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+export type OngoingGalaxySessionsSubscriptionResult = Apollo.SubscriptionResult<OngoingGalaxySessionsSubscription>;
 export const GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsDocument = gql`
     query GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestials($userId: String!, $galaxyId: uuid!) {
   user_info_by_pk(id: $userId) {

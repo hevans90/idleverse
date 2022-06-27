@@ -1,0 +1,19 @@
+subscription OngoingGalaxySessions($id: String!) {
+  galaxy_aggregate(where: { celestials: { owner_id: { _eq: $id } } }) {
+    nodes {
+      id
+      name
+      celestials_aggregate(where: { owner_id: { _eq: $id } }) {
+        nodes {
+          id
+          name
+          planets_aggregate {
+            nodes {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}
