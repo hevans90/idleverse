@@ -63,8 +63,8 @@ export const GalaxyThumbnail = ({ galaxyConfig }: GalaxyThumbnailProps) => {
       id={divId}
       width="20vw"
       height="20vw"
-      minWidth="200px"
-      minHeight="200px"
+      minWidth="250px"
+      minHeight="250px"
       maxHeight="400px"
       maxWidth="400px"
     ></Box>

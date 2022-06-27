@@ -135,8 +135,8 @@ const GalaxyTile = ({
     <Link
       height="20vw"
       width="20vw"
-      minWidth="200px"
-      minHeight="200px"
+      minWidth="250px"
+      minHeight="250px"
       maxHeight="400px"
       maxWidth="400px"
       as={ReactRouterLink}
@@ -145,7 +145,8 @@ const GalaxyTile = ({
       color={col}
       to={`/galaxies/${galaxyConfig.id}`}
       {...customHover}
-      margin={3}
+      marginRight={2}
+      marginBottom={2}
     >
       <HStack
         justify="center"
@@ -159,13 +160,19 @@ const GalaxyTile = ({
           thumbnailNumber={i}
         />
 
-        <Text top="0.5rem" left="0.5rem" {...textProps}>
+        <Text fontSize="xxs" top="0.5rem" left="0.5rem" {...textProps}>
           {galaxyConfig.name}
         </Text>
-        <Text top="0.5rem" right="0.5rem" {...textProps}>
+        <Text fontSize="xxs" top="0.5rem" right="0.5rem" {...textProps}>
           Stars: {galaxyConfig.stars}
         </Text>
-        <Text bottom="0.5rem" left="0.5rem" {...textProps} mb="unset">
+        <Text
+          fontSize="xxs"
+          bottom="0.5rem"
+          left="0.5rem"
+          {...textProps}
+          mb="unset"
+        >
           Total Owned Celestials: {galaxyConfig.celestials.length}
         </Text>
       </HStack>
