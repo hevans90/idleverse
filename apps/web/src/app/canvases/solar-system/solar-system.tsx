@@ -7,20 +7,23 @@ import { solarSystemConfigVar, timeVar } from '../../_state/reactive-variables';
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
 import { useResize } from '../_utils/use-resize.hook';
 import { useViewport } from '../_utils/use-viewport';
-import { sunSpriteConfig, topDownDesertSpriteConfig } from './graphics/config';
+
 import {
   createAnimatedPlanetSprite,
   createRadialEllipse,
-} from './graphics/graphics-utils';
+} from '../celestial-viewer/utils/graphics-utils';
+
+import { hexStringToNumber, theme } from '@idleverse/theme';
+import { Planet, PlanetConfig } from '../celestial-viewer/models';
 import {
   createPlanet,
   drawPlanet,
-  Planet,
-  PlanetConfig,
   updatePlanetPosition,
-} from './planets/planet';
-
-import { hexStringToNumber, theme } from '@idleverse/theme';
+} from '../celestial-viewer/utils/drawing-utils';
+import {
+  sunSpriteConfig,
+  topDownDesertSpriteConfig,
+} from '../celestial-viewer/utils/static-sprite-configs';
 
 export const SolarSystem = () => {
   const app = useApp();

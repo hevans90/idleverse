@@ -7,62 +7,17 @@ import {
 import { hexStringToNumber, hexToRGB } from '@idleverse/theme';
 import { Stage } from '@inlet/react-pixi';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { loadPlanets } from '../../asset-loading/load-planets';
 import { Loading } from '../../components/loading';
-import { celestialViewerPlanetDataUris } from '../../_state/celestial-viewer';
 import { celestialVar } from '../../_state/reactive-variables';
 import { GameUIBottomBar } from '../galaxy-generator/ui/bottom-bar';
 import { runDataUriGenOnWorker } from '../planet-generator/texture-generation/run-texture-gen-on-worker';
 import { useResize } from '../_utils/use-resize.hook';
 import { CelestialViewer } from './celestial-viewer';
+import { DataUriGenerator } from './data-uri-generator';
 import { InfoBox } from './ui/info-box';
-
-const ImageGen = ({
-  celestialId,
-  input,
-  onGenerationFinished,
-}: {
-  onGenerationFinished: () => void;
-  celestialId: string;
-  input: { seed: string; data: Uint8Array; width: number; height: number }[];
-}) => {
-  const canvasRef = useRef<HTMLCanvasElement>();
-
-  useEffect(() => {
-    const uris: { seed: string; uri: string }[] = [];
-
-    input.forEach(({ seed, data, width, height }) => {
-      const canvasContext = canvasRef.current.getContext('2d');
-      canvasRef.current.width = width;
-      canvasRef.current.height = height;
-
-      const pixels = canvasContext.createImageData(width, height);
-
-      let row = 4 * width;
-      let col = 4 * width;
-      const k = 4 * width;
-
-      for (let i = 0; i < data.length; i++) {
-        row = Math.floor(i / k);
-        col = i % k;
-        pixels.data[(width - row) * k + col] = data[i];
-      }
-
-      canvasContext.putImageData(pixels, 0, 0);
-
-      const uri = canvasRef.current.toDataURL();
-
-      uris.push({ seed, uri });
-    });
-
-    celestialViewerPlanetDataUris({ celestialId, uris });
-    onGenerationFinished();
-  }, []);
-
-  return <canvas ref={canvasRef} />;
-};
 
 export const CelestialViewerContainer = () => {
   const { id } = useParams<{ id: string }>();
@@ -166,7 +121,7 @@ export const CelestialViewerContainer = () => {
           text="Generating planet textures"
         ></Loading>
 
-        <ImageGen
+        <DataUriGenerator
           celestialId={id}
           input={pixelData}
           onGenerationFinished={() => setTexturesGenerating(false)}

@@ -1,25 +1,85 @@
-import { AnimatedSprite, Sprite } from 'pixi.js';
+import {
+  AnimatedSprite,
+  Application,
+  Graphics,
+  Matrix,
+  Resource,
+  Sprite,
+  Texture,
+} from 'pixi.js';
 import { Vector2D } from '../../../_state/models';
 
-export type PlanetConfig = {
-  id: string;
-  radius: number; // km
-  origin: { x: number; y: number };
-  orbit: { x: number; y: number; speed: number };
+import { Planet, PlanetConfig } from '../models';
+
+export const buildPlanet = (
+  planetTexture: Texture<Resource>,
+  radius: number,
+  app: Application,
+  name: string,
+  id: string,
+  sun: Planet
+) => {
+  const radiusFactor = 28;
+
+  const planetGraphic = new Graphics()
+    .beginTextureFill({
+      texture: planetTexture,
+      matrix: new Matrix(1, 0, 0, 1, 0, radius * radiusFactor),
+    })
+    .drawCircle(0, 0, radius * radiusFactor)
+    .endFill();
+
+  const texture = app.renderer.generateTexture(planetGraphic);
+  const sprite = new Sprite(texture);
+
+  sprite.name = name;
+  sprite.interactive = true;
+  sprite.cursor = 'pointer';
+  sprite.zIndex = 1;
+  sprite.scale = { x: 0.3, y: 0.3 };
+  sprite.anchor.set(0.5, 0.5);
+
+  const config: PlanetConfig = {
+    id,
+    radius,
+    origin: { x: 0, y: 0 },
+    orbit: {
+      x: Math.random() > 0.2 ? 200 * radius : 100 * radius,
+      y: Math.random() > 0.2 ? 200 * radius : 100 * radius,
+      speed: 1 / radius,
+    },
+  };
+  const planet: Planet = createPlanet({
+    name,
+    config,
+    sprite,
+    parent: sun,
+  });
+  return planet;
 };
 
-export type Planet = {
+export const createPlanet = ({
+  name,
+  config,
+  sprite,
+  parent = null,
+}: {
   name: string;
   config: PlanetConfig;
   sprite: AnimatedSprite | Sprite;
   parent?: Planet;
-  position?: { x: number; y: number };
-  scale?: number;
-  originalDimensions?: {
-    height: number;
-    width: number;
-  };
-};
+}): Planet => ({
+  name,
+  config,
+  sprite,
+  parent,
+  position: config.origin,
+  scale: 1,
+  originalDimensions: {
+    height: sprite.height,
+    width: sprite.width,
+  },
+});
 
 export const drawPlanet = (
   planet: Planet,
@@ -75,27 +135,4 @@ export const getPlanetPositionOffset = (
     planet.config.orbit.y *
     Math.cos(time * planet.config.orbit.speed * 0.002 * simulationSpeed),
   scale: 1,
-});
-
-export const createPlanet = ({
-  name,
-  config,
-  sprite,
-  parent = null,
-}: {
-  name: string;
-  config: PlanetConfig;
-  sprite: AnimatedSprite | Sprite;
-  parent?: Planet;
-}): Planet => ({
-  name,
-  config,
-  sprite,
-  parent,
-  position: config.origin,
-  scale: 1,
-  originalDimensions: {
-    height: sprite.height,
-    width: sprite.width,
-  },
 });
