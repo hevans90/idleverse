@@ -3457,6 +3457,13 @@ export type GalaxiesSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 export type GalaxiesSubscription = { __typename?: 'subscription_root', galaxy: Array<{ __typename?: 'galaxy', id: any, name?: string | null, curvature: any, core_radius_factor: any, core_concentration_factor: any, arms: any, arm_width: any, radius: number, stars: number, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> }> };
 
+export type GalaxiesWithOwnedCelestialsSubscriptionVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+
+export type GalaxiesWithOwnedCelestialsSubscription = { __typename?: 'subscription_root', galaxy_aggregate: { __typename?: 'galaxy_aggregate', nodes: Array<{ __typename?: 'galaxy', id: any }> } };
+
 export type GalaxyByIdQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
@@ -3725,6 +3732,16 @@ export const GalaxiesDocument = gql`
 }
     ${GalaxyFieldsFragmentDoc}`;
 export type GalaxiesSubscriptionResult = Apollo.SubscriptionResult<GalaxiesSubscription>;
+export const GalaxiesWithOwnedCelestialsDocument = gql`
+    subscription GalaxiesWithOwnedCelestials($userId: String!) {
+  galaxy_aggregate(where: {celestials: {owner_id: {_eq: $userId}}}) {
+    nodes {
+      id
+    }
+  }
+}
+    `;
+export type GalaxiesWithOwnedCelestialsSubscriptionResult = Apollo.SubscriptionResult<GalaxiesWithOwnedCelestialsSubscription>;
 export const GalaxyByIdDocument = gql`
     query GalaxyById($id: uuid!) {
   galaxy_by_pk(id: $id) {

@@ -3,3 +3,11 @@ subscription Galaxies {
     ...GalaxyFields
   }
 }
+
+subscription GalaxiesWithOwnedCelestials($userId: String!) {
+  galaxy_aggregate(where: { celestials: { owner_id: { _eq: $userId } } }) {
+    nodes {
+      id
+    }
+  }
+}

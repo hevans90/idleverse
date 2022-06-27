@@ -36,13 +36,6 @@ export const Home = () => {
     },
   };
 
-  const links: { route: string; display: string }[] = [
-    {
-      route: 'showreel',
-      display: 'Old Showreel',
-    },
-  ];
-
   const { data, loading: loadingGameplaySessions } =
     useSubscription<OngoingGalaxySessionsSubscription>(
       OngoingGalaxySessionsDocument,
@@ -61,42 +54,46 @@ export const Home = () => {
       flexDirection="column"
       margin="0 1rem 0 1rem"
     >
-      <Text fontSize="5xl" textAlign="center" marginBottom={5}>
+      <Text fontSize="5xl" textAlign="center" marginBottom={10}>
         Welcome back commander.
       </Text>
 
-      <VStack marginBottom={10}>
-        {links.map(({ route, display }, i) => (
-          <Link as={ReactRouterLink} key={i} to={`/${route}`}>
-            <Button colorScheme="teal" height="40px">
-              {display}
-            </Button>
-          </Link>
-        ))}
-      </VStack>
-
-      <HStack width="100%" spacing={5} divider={<StackDivider />} align="start">
+      <HStack width="100%" divider={<StackDivider />} align="start" spacing={5}>
         <HStack width="50%" justify="end">
-          <Link as={ReactRouterLink} to="/galaxies">
-            <Button size="lg">Join a galaxy</Button>
-          </Link>
+          <VStack divider={<StackDivider />} spacing={5}>
+            <Link as={ReactRouterLink} to="/showreel">
+              <Button size="lg">Old showreel</Button>
+            </Link>
+            <Link as={ReactRouterLink} to="/galaxy-gen">
+              <Button size="lg">Make a galaxy</Button>
+            </Link>
+            <Link as={ReactRouterLink} to="/galaxies">
+              <Button size="lg" colorScheme="teal">
+                Join a galaxy
+              </Button>
+            </Link>
+          </VStack>
         </HStack>
+
         <VStack width="50%" align="start">
           <>
             <Text marginBottom={5}>
-              You are a member of {data.galaxy_aggregate.nodes.length}{' '}
-              {data.galaxy_aggregate.nodes.length === 1 ? 'galaxy' : 'galaxies'}
-              .
+              You have {data.galaxy_aggregate.nodes.length} galactic&nbsp;
+              {data.galaxy_aggregate.nodes.length === 1 ? 'empire' : 'empires'}.
             </Text>
 
             <SimpleGrid columns={2} spacing={5}>
               {data.galaxy_aggregate.nodes.map(
-                ({
-                  name,
-                  id: galaxyId,
-                  celestials_aggregate: { nodes: ownedCelestials },
-                }) => (
+                (
+                  {
+                    name,
+                    id: galaxyId,
+                    celestials_aggregate: { nodes: ownedCelestials },
+                  },
+                  i
+                ) => (
                   <Box
+                    key={i}
                     bgColor={bgCol}
                     borderWidth="1px"
                     borderStyle="solid"
@@ -124,12 +121,12 @@ export const Home = () => {
                         overflow="scroll"
                       >
                         {ownedCelestials.map(
-                          ({
-                            id,
-                            name,
-                            planets_aggregate: { nodes: planets },
-                          }) => (
+                          (
+                            { id, name, planets_aggregate: { nodes: planets } },
+                            i
+                          ) => (
                             <Link
+                              key={i}
                               as={ReactRouterLink}
                               to={`/celestials/${id}`}
                               borderRadius="3px"
