@@ -141,7 +141,7 @@ export const Home = () => {
                               <Text fontSize="xs" marginBottom={1}>
                                 {name}
                               </Text>
-                              {planets.length > 1 ? (
+                              {planets.length >= 1 ? (
                                 <Text fontSize="xxs" color={tealTextColor}>
                                   {planets.length}{' '}
                                   {planets.length > 1 ? 'planets' : 'planet'}
