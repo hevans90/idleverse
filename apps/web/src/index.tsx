@@ -1,8 +1,8 @@
 import { Auth0Provider } from '@auth0/auth0-react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { theme } from '@idleverse/theme';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import { App } from './app/App';
 
 import './index.css';
@@ -13,8 +13,10 @@ const auth = {
   clientId: 'UMMpI9y0OurEwa9M6lEf5wwG6kFqfj91',
 };
 
-ReactDOM.render(
-  <React.StrictMode>
+const container = document.getElementById('root');
+const root = createRoot(container); // createRoot(container!) if you use TypeScript
+root.render(
+  <StrictMode>
     <Auth0Provider
       domain={auth.domain}
       clientId={auth.clientId}
@@ -24,8 +26,7 @@ ReactDOM.render(
         <App />
       </ChakraProvider>
     </Auth0Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
