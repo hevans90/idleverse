@@ -195,11 +195,11 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
     }
 
     setupTicker(planets);
-  }, [selectedPlanet.id]);
+  }, [selectedPlanet]);
 
   const setupTicker = (planetArr: Planet[]) => {
     const selectedFound = planetArr.find(
-      (planet) => planet.config.id === selectedPlanet.id
+      (planet) => planet.config.id === selectedPlanet?.id
     );
 
     if (selectedFound) {
