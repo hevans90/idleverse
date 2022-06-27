@@ -1,29 +1,56 @@
-import { VStack, Box, Button, Text } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import { useSubscription } from '@apollo/client';
+import { useAuth0 } from '@auth0/auth0-react';
+import {
+  Box,
+  Button,
+  HStack,
+  Link,
+  SimpleGrid,
+  StackDivider,
+  Text,
+  useColorModeValue,
+  VStack,
+} from '@chakra-ui/react';
+import {
+  OngoingGalaxySessionsDocument,
+  OngoingGalaxySessionsSubscription,
+} from '@idleverse/galaxy-gql';
+import { Link as ReactRouterLink } from 'react-router-dom';
+import { Loading } from '../components/loading';
 
 export const Home = () => {
+  const { user } = useAuth0();
+
+  const bgCol = useColorModeValue('gray.400', 'gray.900');
+  const tealTextColor = useColorModeValue('teal.900', 'teal.300');
+  const redTextColor = useColorModeValue('red.900', 'red.300');
+  const border = useColorModeValue('gray.200', 'gray.600');
+  const hoverCol = useColorModeValue('teal.900', 'teal.200');
+  const hoverBg = useColorModeValue('teal.300', 'teal.800');
+
+  const customHover = {
+    _hover: {
+      textDecor: 'unset',
+      background: hoverBg,
+      color: hoverCol,
+    },
+  };
+
   const links: { route: string; display: string }[] = [
     {
-      route: 'galaxies',
-      display: 'Galaxy Gallery',
-    },
-    {
-      route: 'galaxy-gen',
-      display: 'Galaxy Generator',
-    },
-    {
-      route: 'solar-system',
-      display: 'Solar System Viewer',
-    },
-    {
-      route: 'gravity-sim',
-      display: '2D Gravity Simulation',
-    },
-    {
-      route: 'planet-gen',
-      display: '3D Planet Generator',
+      route: 'showreel',
+      display: 'Old Showreel',
     },
   ];
+
+  const { data, loading: loadingGameplaySessions } =
+    useSubscription<OngoingGalaxySessionsSubscription>(
+      OngoingGalaxySessionsDocument,
+      { variables: { id: user.sub } }
+    );
+
+  if (loadingGameplaySessions)
+    return <Loading text="Loading gameplay sessions"></Loading>;
 
   return (
     <Box
@@ -34,24 +61,118 @@ export const Home = () => {
       flexDirection="column"
       margin="0 1rem 0 1rem"
     >
-      <Text fontSize="5xl" textAlign="center" marginBottom="2rem">
-        Welcome to Idleverse
-      </Text>
-      <Text fontSize="l" textAlign="center" marginBottom="2rem">
-        There is no game yet, just proof-of-concepts for realtime software
-        architecture. Check out the galaxy gallery to see the beginnings of the
-        multiplayer experience.
+      <Text fontSize="5xl" textAlign="center" marginBottom={5}>
+        Welcome back commander.
       </Text>
 
-      <VStack>
-        {links.map(({ route, display }) => (
-          <Link to={`/${route}`}>
+      <VStack marginBottom={10}>
+        {links.map(({ route, display }, i) => (
+          <Link as={ReactRouterLink} key={i} to={`/${route}`}>
             <Button colorScheme="teal" height="40px">
               {display}
             </Button>
           </Link>
         ))}
       </VStack>
+
+      <HStack width="100%" spacing={5} divider={<StackDivider />} align="start">
+        <HStack width="50%" justify="end">
+          <Link as={ReactRouterLink} to="/galaxies">
+            <Button size="lg">Join a galaxy</Button>
+          </Link>
+        </HStack>
+        <VStack width="50%" align="start">
+          <>
+            <Text marginBottom={5}>
+              You are a member of {data.galaxy_aggregate.nodes.length}{' '}
+              {data.galaxy_aggregate.nodes.length === 1 ? 'galaxy' : 'galaxies'}
+              .
+            </Text>
+
+            <SimpleGrid columns={2} spacing={5}>
+              {data.galaxy_aggregate.nodes.map(
+                ({
+                  name,
+                  id: galaxyId,
+                  celestials_aggregate: { nodes: ownedCelestials },
+                }) => (
+                  <Box
+                    bgColor={bgCol}
+                    borderWidth="1px"
+                    borderStyle="solid"
+                    borderColor={border}
+                    minHeight="20vh"
+                  >
+                    <VStack height="100%" padding={3} align="start">
+                      <VStack width="100%" align="start">
+                        <HStack width="100%" justifyContent="space-between">
+                          <Text fontSize="sm">Galaxy Name:</Text>
+                          <Text fontSize="sm">{name}</Text>
+                        </HStack>
+                        <HStack width="100%" justifyContent="space-between">
+                          <Text fontSize="sm">Owned celestials:</Text>
+                          <Text fontSize="sm" color={tealTextColor}>
+                            {ownedCelestials.length}
+                          </Text>
+                        </HStack>
+                      </VStack>
+                      <SimpleGrid
+                        width="100%"
+                        columns={2}
+                        spacing={2}
+                        maxHeight="200px"
+                        overflow="scroll"
+                      >
+                        {ownedCelestials.map(
+                          ({
+                            id,
+                            name,
+                            planets_aggregate: { nodes: planets },
+                          }) => (
+                            <Link
+                              as={ReactRouterLink}
+                              to={`/celestials/${id}`}
+                              borderRadius="3px"
+                              borderWidth="1px"
+                              borderStyle="solid"
+                              padding={2}
+                              {...customHover}
+                            >
+                              <Text fontSize="xs" marginBottom={1}>
+                                {name}
+                              </Text>
+                              {planets.length > 1 ? (
+                                <Text fontSize="xxs" color={tealTextColor}>
+                                  {planets.length}{' '}
+                                  {planets.length > 1 ? 'planets' : 'planet'}
+                                </Text>
+                              ) : (
+                                <Text fontSize="xxs" color={redTextColor}>
+                                  no planets
+                                </Text>
+                              )}
+                            </Link>
+                          )
+                        )}
+                      </SimpleGrid>
+
+                      <VStack flexGrow={1} justify="end" width="100%">
+                        <Link
+                          width="100%"
+                          as={ReactRouterLink}
+                          to={`/galaxies/${galaxyId}`}
+                        >
+                          <Button width="100%">Go to Galaxy</Button>
+                        </Link>
+                      </VStack>
+                    </VStack>
+                  </Box>
+                )
+              )}
+            </SimpleGrid>
+          </>
+        </VStack>
+      </HStack>
     </Box>
   );
 };
