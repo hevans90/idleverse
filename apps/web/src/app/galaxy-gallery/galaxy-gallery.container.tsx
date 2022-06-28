@@ -1,7 +1,7 @@
 import { useSubscription } from '@apollo/client';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Box, Link, Text, TextProps } from '@chakra-ui/layout';
-import { Button, HStack, useColorModeValue, VStack } from '@chakra-ui/react';
+import { Box, Link, Text } from '@chakra-ui/layout';
+import { Button, VStack } from '@chakra-ui/react';
 import {
   GalaxiesDocument,
   GalaxiesSubscription,
@@ -10,9 +10,9 @@ import {
 } from '@idleverse/galaxy-gql';
 import { useEffect, useState } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
-import { GalaxyThumbnail } from '../canvases/galaxy-thumbnail/galaxy-thumbnail';
-import { dbGalaxyToGalaxyConfig } from '../canvases/_utils/db-galaxy-to-galaxy-config';
 import { Loading } from '../components/loading';
+
+import { GalaxyTile } from './galaxy-tile';
 
 export const GalaxyGalleryContainer = () => {
   const { user } = useAuth0();
@@ -31,19 +31,6 @@ export const GalaxyGalleryContainer = () => {
 
   const [galaxiesToJoin, setGalaxiesToJoin] =
     useState<GalaxiesSubscription['galaxy']>(null);
-
-  const bgcol = useColorModeValue('gray.400', 'gray.900');
-  const col = useColorModeValue('teal.900', 'teal.300');
-
-  const textProps: TextProps = {
-    position: 'absolute',
-    fontSize: 'xxs',
-    bgColor: 'gray.600',
-    padding: 1,
-    paddingTop: 1.5,
-    opacity: 0.85,
-    margin: 'unset !important',
-  };
 
   useEffect(() => {
     if (data && myGalaxyIds) {
@@ -77,11 +64,9 @@ export const GalaxyGalleryContainer = () => {
             <GalaxyTile
               key={i}
               {...{
+                alreadyJoined: false,
                 galaxyConfig,
-                bgcol,
-                col,
                 i,
-                textProps,
                 displayOwnershipTotals: false,
                 totalUserOwns: 0,
               }}
@@ -96,11 +81,9 @@ export const GalaxyGalleryContainer = () => {
             <GalaxyTile
               key={i}
               {...{
+                alreadyJoined: true,
                 galaxyConfig,
-                bgcol,
-                col,
                 i,
-                textProps,
                 displayOwnershipTotals: true,
                 totalUserOwns: myGalaxyIds.galaxy_aggregate.nodes.filter(
                   (x) => x.id === galaxyConfig.id
@@ -126,96 +109,5 @@ export const GalaxyGalleryContainer = () => {
         </Button>
       </Link>
     </Box>
-  );
-};
-
-const GalaxyTile = ({
-  galaxyConfig,
-  bgcol,
-  col,
-  i,
-  textProps,
-  displayOwnershipTotals,
-  totalUserOwns,
-}: {
-  galaxyConfig: GalaxiesSubscription['galaxy'][0];
-  bgcol: string;
-  col: string;
-  i: number;
-  textProps: TextProps;
-  displayOwnershipTotals: boolean;
-  totalUserOwns: number;
-}) => {
-  const hoverCol = useColorModeValue('teal.900', 'teal.200');
-  const hoverBg = useColorModeValue('teal.300', 'teal.800');
-
-  const customHover = {
-    _hover: {
-      textDecor: 'unset',
-      background: hoverBg,
-      color: hoverCol,
-    },
-  };
-  return (
-    <Link
-      height="20vw"
-      width="20vw"
-      minWidth="250px"
-      minHeight="250px"
-      maxHeight="400px"
-      maxWidth="400px"
-      as={ReactRouterLink}
-      key={galaxyConfig.id}
-      bgColor={bgcol}
-      color={col}
-      to={`/galaxies/${galaxyConfig.id}`}
-      {...customHover}
-      marginRight={2}
-      marginBottom={2}
-    >
-      <HStack
-        justify="center"
-        position="relative"
-        width="100%"
-        height="100%"
-        marginRight={5}
-      >
-        <GalaxyThumbnail
-          galaxyConfig={dbGalaxyToGalaxyConfig(galaxyConfig)}
-          thumbnailNumber={i}
-        />
-
-        <Text top="0.5rem" left="0.5rem" {...textProps}>
-          {galaxyConfig.name}
-        </Text>
-        <Text top="2.5rem" left="0.5rem" {...textProps}>
-          Stars: {galaxyConfig.stars}
-        </Text>
-        {displayOwnershipTotals && (
-          <HStack
-            bottom="2.5rem"
-            left="0.5rem"
-            {...textProps}
-            width="calc(100% - 1rem)"
-            justify="space-between"
-          >
-            <Text>My Celestials:</Text>
-            <Text>{totalUserOwns}</Text>
-          </HStack>
-        )}
-
-        <HStack
-          bottom="0.5rem"
-          left="0.5rem"
-          {...textProps}
-          width="calc(100% - 1rem)"
-          justify="space-between"
-          color="red.200"
-        >
-          <Text>Owned Celestials:</Text>
-          <Text>{galaxyConfig.celestials.length}</Text>
-        </HStack>
-      </HStack>
-    </Link>
   );
 };
