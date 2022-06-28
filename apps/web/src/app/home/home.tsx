@@ -82,7 +82,16 @@ export const Home = () => {
               {data.galaxy_aggregate.nodes.length === 1 ? 'empire' : 'empires'}.
             </Text>
 
-            <SimpleGrid columns={2} spacing={5}>
+            <SimpleGrid
+              padding={2}
+              columns={2}
+              spacing={5}
+              maxHeight="50vh"
+              overflow="scroll"
+              borderWidth="1px"
+              borderStyle="solid"
+              borderColor={border}
+            >
               {data.galaxy_aggregate.nodes.map(
                 (
                   {
