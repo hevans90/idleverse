@@ -15,11 +15,8 @@ type GalaxyThumbnailProps = {
   thumbnailNumber: number;
 };
 
-export const GalaxyThumbnail = ({
-  galaxyConfig,
-  thumbnailNumber,
-}: GalaxyThumbnailProps) => {
-  const divId = `thumbnail-${thumbnailNumber}`;
+export const GalaxyThumbnail = ({ galaxyConfig }: GalaxyThumbnailProps) => {
+  const divId = `thumbnail-${galaxyConfig.seed}`;
 
   useEffect(() => {
     const gameElement = document.getElementById(divId);
@@ -61,5 +58,15 @@ export const GalaxyThumbnail = ({
     return () => app.destroy(true, true);
   }, []);
 
-  return <Box id={divId} width="20vw" height="20vw"></Box>;
+  return (
+    <Box
+      id={divId}
+      width="20vw"
+      height="20vw"
+      minWidth="250px"
+      minHeight="250px"
+      maxHeight="400px"
+      maxWidth="400px"
+    ></Box>
+  );
 };
