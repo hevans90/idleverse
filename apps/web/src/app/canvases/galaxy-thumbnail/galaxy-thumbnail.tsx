@@ -29,7 +29,7 @@ export const GalaxyThumbnail = ({ galaxyConfig }: GalaxyThumbnailProps) => {
     app.stage.addChild(galaxyContainer);
 
     const celestials = generateCelestials(
-      galaxyConfig.stars,
+      galaxyConfig.stars > 500 ? 500 : galaxyConfig.stars,
       galaxyConfig.seed
     );
 
