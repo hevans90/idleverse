@@ -7,6 +7,7 @@ import {
 } from '@idleverse/galaxy-gql';
 import { useEffect, useState } from 'react';
 import { loadUserInfo } from '../asset-loading/load-users';
+import { Loading } from '../components/loading';
 import { selfVar } from '../_state/reactive-variables';
 
 /**
@@ -34,11 +35,11 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [usersLoading]);
 
-  // if (usersLoading) return <Loading text="Loading Users"></Loading>;
+  if (usersLoading) return <Loading text="Loading Users"></Loading>;
 
-  // if (profileLoading) return <Loading text="Loading Profile"></Loading>;
+  if (profileLoading) return <Loading text="Loading Profile"></Loading>;
 
-  // if (userAvatarsLoading) return <Loading text="Loading Avatars"></Loading>;
+  if (userAvatarsLoading) return <Loading text="Loading Avatars"></Loading>;
 
   return children;
 };
