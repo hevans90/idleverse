@@ -12,7 +12,6 @@ import { Star } from '../galaxy-generator/graphics/star';
 
 type GalaxyThumbnailProps = {
   galaxyConfig: GalaxyConfig;
-  thumbnailNumber: number;
 };
 
 export const GalaxyThumbnail = ({ galaxyConfig }: GalaxyThumbnailProps) => {
