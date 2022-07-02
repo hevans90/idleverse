@@ -12,16 +12,7 @@ import { GalaxiesSubscription } from '@idleverse/galaxy-gql';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { GalaxyThumbnail } from '../canvases/galaxy-thumbnail/galaxy-thumbnail';
 import { dbGalaxyToGalaxyConfig } from '../canvases/_utils/db-galaxy-to-galaxy-config';
-
-const textProps: TextProps = {
-  position: 'absolute',
-  fontSize: 'xxs',
-  bgColor: 'gray.600',
-  padding: 1,
-  paddingTop: 1.5,
-  opacity: 0.85,
-  margin: 'unset !important',
-};
+import { galaxyConfigVar } from '../_state/reactive-variables';
 
 export const GalaxyTile = ({
   alreadyJoined,
@@ -65,6 +56,17 @@ export const GalaxyTile = ({
     as: ReactRouterLink,
     to: galaxyUrl,
   };
+
+  const textProps: TextProps = {
+    position: 'absolute',
+    fontSize: 'xxs',
+    bgColor: 'gray.600',
+    padding: 1,
+    paddingTop: 1.5,
+    opacity: 0.85,
+    margin: 'unset !important',
+  };
+
   return (
     <Box
       height="20vw"
@@ -91,10 +93,7 @@ export const GalaxyTile = ({
         height="100%"
         marginRight={5}
       >
-        <GalaxyThumbnail
-          galaxyConfig={dbGalaxyToGalaxyConfig(galaxyConfig)}
-          thumbnailNumber={i}
-        />
+        <GalaxyThumbnail galaxyConfig={dbGalaxyToGalaxyConfig(galaxyConfig)} />
 
         <Text top="0.5rem" left="0.5rem" {...textProps}>
           {galaxyConfig.name}
@@ -125,11 +124,18 @@ export const GalaxyTile = ({
             margin="auto !important"
             justify="center"
           >
-            <Link as={ReactRouterLink} to={galaxyUrl}>
-              <Button colorScheme="teal" size="sm">
+            <Link as={ReactRouterLink} to={`${galaxyUrl}/join`}>
+              <Button
+                colorScheme="teal"
+                size="sm"
+                onClick={() => {
+                  galaxyConfigVar(dbGalaxyToGalaxyConfig(galaxyConfig));
+                }}
+              >
                 Join
               </Button>
             </Link>
+
             <Link as={ReactRouterLink} to={galaxyUrl}>
               <Button
                 _hover={{ backgroundColor: 'gray.400' }}
