@@ -47,18 +47,27 @@ export const Home = () => {
 
   return (
     <Box
-      height="100%"
+      height={`calc(100% - 1rem)`}
       display="flex"
       alignItems="center"
       justifyContent="center"
       flexDirection="column"
-      margin="0 1rem 0 1rem"
+      margin="0 1rem 1rem 1rem"
     >
-      <Text fontSize="5xl" textAlign="center" marginBottom={10}>
-        Welcome back commander.
-      </Text>
+      <VStack justify="end" flexGrow={1}>
+        <Text fontSize="5xl" textAlign="center" marginBottom={10}>
+          Welcome back commander.
+        </Text>
+      </VStack>
 
-      <HStack width="100%" divider={<StackDivider />} align="start" spacing={5}>
+      <HStack
+        width="100%"
+        divider={<StackDivider />}
+        align="start"
+        spacing={5}
+        flexGrow={2}
+        maxHeight="70vh"
+      >
         <HStack width="50%" justify="end">
           <VStack divider={<StackDivider />} spacing={5}>
             <Link as={ReactRouterLink} to="/showreel">
@@ -75,7 +84,7 @@ export const Home = () => {
           </VStack>
         </HStack>
 
-        <VStack width="50%" align="start">
+        <VStack width="50%" align="start" height="100%">
           <>
             <Text marginBottom={5}>
               You have {data.galaxy_aggregate.nodes.length} galactic&nbsp;
@@ -86,8 +95,7 @@ export const Home = () => {
               padding={2}
               columns={2}
               spacing={5}
-              maxHeight="50vh"
-              overflow="scroll"
+              overflow="auto"
               borderWidth="1px"
               borderStyle="solid"
               borderColor={border}
