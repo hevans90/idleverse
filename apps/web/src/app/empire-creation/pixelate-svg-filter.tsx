@@ -1,34 +1,67 @@
 import { useEffect, useState } from 'react';
 
-export const PixelateSVGFilter = () => {
+export const PixelateSVGFilter = ({
+  reversed,
+  minDistortion,
+  maxDistortion,
+}: {
+  reversed: boolean;
+  minDistortion: number;
+  maxDistortion: number;
+}) => {
   const [distortionState, setDistortionState] = useState<{
     opacity: number;
     distortion: number;
-  }>({ opacity: 1, distortion: 0.1 });
+  }>({
+    opacity: reversed ? 0 : 1,
+    distortion: reversed ? maxDistortion : minDistortion,
+  });
 
-  const maxDistortion = 20;
+  const opacityIterator = 0.002;
+  const distortionIterator = 0.05;
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setDistortionState(
-        ({ opacity: prevOpacity, distortion: prevDistortion }) => {
-          // console.log('distorting');
+    let interval: NodeJS.Timer;
 
-          if (prevOpacity < 0 && prevDistortion >= maxDistortion) {
-            // console.log('finished distorting');
-            clearInterval(interval);
+    if (reversed) {
+      interval = setInterval(() => {
+        setDistortionState(
+          ({ opacity: prevOpacity, distortion: prevDistortion }) => {
+            if (prevOpacity >= 1 && prevDistortion <= minDistortion) {
+              // console.log('finished distorting');
+              clearInterval(interval);
+            }
+
+            return {
+              opacity: prevOpacity >= 1 ? 1 : prevOpacity + opacityIterator,
+              distortion:
+                prevDistortion > minDistortion
+                  ? prevDistortion - distortionIterator
+                  : prevDistortion,
+            };
           }
+        );
+      });
+    } else {
+      interval = setInterval(() => {
+        setDistortionState(
+          ({ opacity: prevOpacity, distortion: prevDistortion }) => {
+            if (prevOpacity < 0 && prevDistortion >= maxDistortion) {
+              // console.log('finished distorting');
+              clearInterval(interval);
+            }
 
-          return {
-            opacity: prevOpacity < 0 ? 0 : prevOpacity - 0.002,
-            distortion:
-              prevDistortion < maxDistortion
-                ? prevDistortion + 0.05
-                : prevDistortion,
-          };
-        }
-      );
-    });
+            return {
+              opacity: prevOpacity < 0 ? 0 : prevOpacity - opacityIterator,
+              distortion:
+                prevDistortion < maxDistortion
+                  ? prevDistortion + distortionIterator
+                  : prevDistortion,
+            };
+          }
+        );
+      });
+    }
   }, []);
   return (
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="0" height="0">
@@ -47,10 +80,7 @@ export const PixelateSVGFilter = () => {
           />
           <feTile result="a" />
           <feComposite in="SourceGraphic" in2="a" operator="in" />
-          <feMorphology
-            operator="dilate"
-            radius={distortionState.distortion / 2}
-          />
+          <feMorphology operator="dilate" radius={distortionState.distortion} />
         </filter>
       </defs>
     </svg>
