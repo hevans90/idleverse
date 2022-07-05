@@ -2,6 +2,7 @@ import { useReactiveVar } from '@apollo/client';
 import { Box, useColorModeValue } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
+import { responsiveFontProps } from '../_responsive-utils/font-props';
 import { celestialVar, galaxyConfigVar } from '../_state/reactive-variables';
 
 export const Breadcrumb = () => {
@@ -42,6 +43,7 @@ export const Breadcrumb = () => {
       borderLeft="unset"
       borderTop="unset"
       zIndex="2"
+      {...responsiveFontProps}
     >
       {crumbs.map(({ key, match, breadcrumb }, i) => (
         <span key={match.pathname}>

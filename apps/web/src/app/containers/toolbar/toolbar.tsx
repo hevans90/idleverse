@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { useKeypress } from '../../hooks/use-keypress';
 import { Auth } from '../../_auth/auth';
+import { responsiveFontProps } from '../../_responsive-utils/font-props';
 import { layoutVar } from '../../_state/persisted-reactive-variables';
 import { EscMenuContainer } from '../esc-menu/escape-menu.container';
 
@@ -28,6 +29,7 @@ export const ToolBar = () => {
     <>
       <EscMenuContainer isOpen={isOpen} onClose={onClose}></EscMenuContainer>
       <Box
+        fontSize="xs"
         className="toolbar"
         padding={2}
         display="flex"
@@ -37,17 +39,20 @@ export const ToolBar = () => {
         borderColor={borderColor}
         borderBottomStyle="solid"
         borderBottomWidth="1px"
+        {...responsiveFontProps}
       >
         <HStack>
           <Button
             onClick={() => {
               layoutVar({ sideNav: !sideNav, toolBar });
             }}
+            {...responsiveFontProps}
           >
-            <ChatIcon></ChatIcon>
+            <ChatIcon {...responsiveFontProps}></ChatIcon>
           </Button>
-          <Button onClick={() => onOpen()}>
-            <SettingsIcon></SettingsIcon>&nbsp; <Kbd>Esc</Kbd>
+          <Button onClick={() => onOpen()} {...responsiveFontProps}>
+            <SettingsIcon {...responsiveFontProps}></SettingsIcon>&nbsp;{' '}
+            <Kbd>Esc</Kbd>
           </Button>
         </HStack>
         <Auth></Auth>
