@@ -67,7 +67,6 @@ export const JoinGalaxy = () => {
 
             stepFunctions[creationStep]();
           }}
-          padding={[3, 4, 5]}
         />
       </VStack>
 

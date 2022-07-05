@@ -1,4 +1,4 @@
-import { Box, Button, SimpleGrid, SpaceProps } from '@chakra-ui/react';
+import { Box, Button, SimpleGrid } from '@chakra-ui/react';
 import { creationStep } from './creation-types';
 
 const WorkflowButton = ({
@@ -44,17 +44,13 @@ const WorkflowButton = ({
 };
 
 export const CreationWorkflow = ({
-  padding,
   onStepClicked,
 }: {
-  padding?: SpaceProps['padding'];
   onStepClicked: (step: creationStep) => unknown;
 }) => {
-  // const props = { height: '100%', flex: '1 1 0' };
-
   return (
     <SimpleGrid
-      width={['95%', '95%', '95%', '80%', '60%']}
+      width={['95%', '95%', '95%', '95%', '95%', '70%']}
       minChildWidth="120px"
       spacing={3}
     >
