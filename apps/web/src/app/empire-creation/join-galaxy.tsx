@@ -39,13 +39,15 @@ export const JoinGalaxy = () => {
       <VStack
         height="100%"
         justify="center"
-        spacing={5}
+        spacing={10}
         filter={'url(#pixelate)'}
       >
-        <Text textAlign="center">It's time to begin your journey in:</Text>
-        <Text textAlign="center" fontWeight="bold" color="teal.500">
-          {data.galaxy_by_pk.name}
-        </Text>
+        <VStack spacing={3}>
+          <Text textAlign="center">It's time to begin your journey in:</Text>
+          <Text textAlign="center" fontWeight="bold" color="teal.500">
+            {data.galaxy_by_pk.name}
+          </Text>
+        </VStack>
 
         <Box>
           <GalaxyThumbnail
