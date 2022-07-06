@@ -7,9 +7,9 @@ import { GalaxyThumbnail } from '../canvases/galaxy-thumbnail/galaxy-thumbnail';
 import { dbGalaxyToGalaxyConfig } from '../canvases/_utils/db-galaxy-to-galaxy-config';
 import { Loading } from '../components/loading';
 import { galaxyConfigVar } from '../_state/reactive-variables';
+import { PixelateSVGFilter } from './components/pixelate-svg-filter';
 import { creationStep } from './creation-types';
 import { CreationWorkflow } from './creation-workflow';
-import { PixelateSVGFilter } from './pixelate-svg-filter';
 import { RaceSelectionModal } from './workflow-step-modals/race-selection-modal';
 
 export const JoinGalaxy = () => {
