@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { Box, Text, VStack } from '@chakra-ui/react';
+import { Box, Text, useDisclosure, VStack } from '@chakra-ui/react';
 import { GalaxyByIdDocument, GalaxyByIdQuery } from '@idleverse/galaxy-gql';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -10,6 +10,7 @@ import { galaxyConfigVar } from '../_state/reactive-variables';
 import { creationStep } from './creation-types';
 import { CreationWorkflow } from './creation-workflow';
 import { PixelateSVGFilter } from './pixelate-svg-filter';
+import { RaceSelectionModal } from './workflow-step-modals/race-selection-modal';
 
 export const JoinGalaxy = () => {
   const { id } = useParams<{ id: string }>();
@@ -19,6 +20,12 @@ export const JoinGalaxy = () => {
   });
 
   const [ready, setReady] = useState<boolean>(false);
+
+  const {
+    isOpen: raceSelectionOpen,
+    onOpen: onRaceSelectionOpen,
+    onClose: onRaceSelectionClose,
+  } = useDisclosure();
 
   useEffect(() => {
     if (data) {
@@ -36,6 +43,11 @@ export const JoinGalaxy = () => {
 
   return (
     <>
+      <RaceSelectionModal
+        isOpen={raceSelectionOpen}
+        onClose={onRaceSelectionClose}
+      />
+
       <VStack
         height="100%"
         justify="center"
@@ -60,7 +72,7 @@ export const JoinGalaxy = () => {
             const stepFunctions: {
               [key in creationStep]: () => void;
             } = {
-              race: () => undefined,
+              race: () => onRaceSelectionOpen(),
               background: () => undefined,
               faction: () => undefined,
               homeworld: () => undefined,
