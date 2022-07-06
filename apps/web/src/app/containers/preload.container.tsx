@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import {
-  PlayableRacesDocument,
-  PlayableRacesQuery,
+  CharacterDataDocument,
+  CharacterDataQuery,
   SelfDocument,
   SelfQuery,
   UserInfoDocument,
@@ -10,6 +10,8 @@ import {
 import { useEffect, useState } from 'react';
 import { loadUserInfo } from '../asset-loading/load-users';
 import { Loading } from '../components/loading';
+import { backgroundsVar } from '../_state/backgrounds';
+import { factionsVar } from '../_state/factions';
 import { playableRacesVar } from '../_state/playable-races';
 import { selfVar } from '../_state/reactive-variables';
 
@@ -31,10 +33,14 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
   const { data: userInfo, loading: usersLoading } =
     useQuery<UserInfoQuery>(UserInfoDocument);
 
-  const { loading: playableRacesLoading } = useQuery<PlayableRacesQuery>(
-    PlayableRacesDocument,
+  const { loading: characterDataLoading } = useQuery<CharacterDataQuery>(
+    CharacterDataDocument,
     {
-      onCompleted: (data) => playableRacesVar(data.playable_race),
+      onCompleted: ({ playable_race, background, faction }) => {
+        playableRacesVar(playable_race);
+        backgroundsVar(background);
+        factionsVar(faction);
+      },
     }
   );
 
@@ -49,8 +55,8 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
 
   if (profileLoading) return <Loading text="Loading Profile"></Loading>;
 
-  if (playableRacesLoading)
-    return <Loading text="Loading Playable Races"></Loading>;
+  if (characterDataLoading)
+    return <Loading text="Loading Races, Backgrounds &amp; Factions"></Loading>;
 
   if (userAvatarsLoading) return <Loading text="Loading Avatars"></Loading>;
 
