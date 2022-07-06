@@ -1,40 +1,57 @@
 import { useReactiveVar } from '@apollo/client';
 import {
+  Button,
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
-import { playableRacesVar } from '../../_state/playable-races';
+import { useState } from 'react';
+import { PlayableRace, playableRacesVar } from '../../_state/playable-races';
+import { GallerySelector } from '../components/gallery-selector';
 
 export const RaceSelectionModal = ({
   isOpen,
   onClose,
 }: {
   isOpen: boolean;
-  onClose: () => void;
+  onClose: (race: PlayableRace) => void;
 }) => {
   const playableRaces = useReactiveVar(playableRacesVar);
+
+  const [selectedRace, setSelectedRace] = useState<PlayableRace>();
+
   return (
     <Modal
       closeOnOverlayClick={false}
       isOpen={isOpen}
-      onClose={onClose}
-      size="2xl"
+      onClose={() => onClose(selectedRace)}
+      size="3xl"
       isCentered
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader borderBottom="1px solid" borderBottomColor="gray.600">
+        <ModalHeader borderBottom="2px solid" borderBottomColor="gray.600">
           Select Race
         </ModalHeader>
-        <ModalCloseButton />
-        <ModalBody paddingBottom={4}>{JSON.stringify(playableRaces)}</ModalBody>
+        <ModalBody padding={0}>
+          <GallerySelector
+            items={playableRaces}
+            defaultItem={selectedRace}
+            onSelectionChange={(race) => setSelectedRace(race)}
+          />
+        </ModalBody>
 
-        <ModalFooter></ModalFooter>
+        <ModalFooter borderTop="2px solid" borderTopColor="gray.600">
+          <Button
+            disabled={!selectedRace}
+            onClick={() => onClose(selectedRace)}
+          >
+            Confirm
+          </Button>
+        </ModalFooter>
       </ModalContent>
     </Modal>
   );

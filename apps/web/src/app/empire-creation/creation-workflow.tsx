@@ -1,4 +1,5 @@
 import { Box, Button, SimpleGrid } from '@chakra-ui/react';
+import { characterCreationVar } from '../_state/character-creation';
 import { creationStep } from './creation-types';
 
 const WorkflowButton = ({
@@ -6,11 +7,13 @@ const WorkflowButton = ({
   onClick,
   displayName,
   disabled,
+  value,
 }: {
   stepName: creationStep;
   displayName?: string;
   disabled?: boolean;
   onClick: (stepName: creationStep) => unknown;
+  value?: string;
 }) => {
   return (
     <Box
@@ -26,7 +29,7 @@ const WorkflowButton = ({
       borderRadius="3px"
       fontWeight="semibold"
       fontSize={['xxs', 'xs', 'xs', 'sm', 'md']}
-      bg="whiteAlpha.200"
+      bg={value ? 'teal.600' : 'whiteAlpha.200'}
       color="white.900"
       _hover={{ bg: 'whiteAlpha.300' }}
       _active={{
@@ -38,15 +41,17 @@ const WorkflowButton = ({
       paddingInlineEnd={4}
       onClick={() => onClick(stepName)}
     >
-      {displayName || stepName}
+      {value || displayName || stepName}
     </Box>
   );
 };
 
 export const CreationWorkflow = ({
   onStepClicked,
+  value: { race },
 }: {
   onStepClicked: (step: creationStep) => unknown;
+  value: ReturnType<typeof characterCreationVar>;
 }) => {
   return (
     <SimpleGrid
@@ -54,7 +59,11 @@ export const CreationWorkflow = ({
       minChildWidth="120px"
       spacing={3}
     >
-      <WorkflowButton onClick={() => onStepClicked('race')} stepName="race" />
+      <WorkflowButton
+        onClick={() => onStepClicked('race')}
+        stepName="race"
+        value={race?.name}
+      />
       <WorkflowButton
         onClick={() => onStepClicked('background')}
         stepName="background"

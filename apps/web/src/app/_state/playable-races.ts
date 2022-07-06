@@ -1,6 +1,6 @@
 import { makeVar } from '@apollo/client';
 import { PlayableRacesQuery } from '@idleverse/galaxy-gql';
 
-export const playableRacesVar = makeVar<PlayableRacesQuery['playable_race']>(
-  []
-);
+export type PlayableRace = PlayableRacesQuery['playable_race'][0];
+
+export const playableRacesVar = makeVar<PlayableRace[]>([]);

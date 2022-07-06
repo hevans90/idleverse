@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { Box, Text, useDisclosure, VStack } from '@chakra-ui/react';
 import { GalaxyByIdDocument, GalaxyByIdQuery } from '@idleverse/galaxy-gql';
 import { useEffect, useState } from 'react';
@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { GalaxyThumbnail } from '../canvases/galaxy-thumbnail/galaxy-thumbnail';
 import { dbGalaxyToGalaxyConfig } from '../canvases/_utils/db-galaxy-to-galaxy-config';
 import { Loading } from '../components/loading';
+import { characterCreationVar } from '../_state/character-creation';
 import { galaxyConfigVar } from '../_state/reactive-variables';
 import { PixelateSVGFilter } from './components/pixelate-svg-filter';
 import { creationStep } from './creation-types';
@@ -27,6 +28,8 @@ export const JoinGalaxy = () => {
     onClose: onRaceSelectionClose,
   } = useDisclosure();
 
+  const characterCreationState = useReactiveVar(characterCreationVar);
+
   useEffect(() => {
     if (data) {
       galaxyConfigVar(dbGalaxyToGalaxyConfig(data.galaxy_by_pk));
@@ -45,7 +48,10 @@ export const JoinGalaxy = () => {
     <>
       <RaceSelectionModal
         isOpen={raceSelectionOpen}
-        onClose={onRaceSelectionClose}
+        onClose={(race) => {
+          characterCreationVar({ ...characterCreationVar(), race });
+          onRaceSelectionClose();
+        }}
       />
 
       <VStack
@@ -81,6 +87,7 @@ export const JoinGalaxy = () => {
 
             stepFunctions[creationStep]();
           }}
+          value={characterCreationState}
         />
       </VStack>
 
