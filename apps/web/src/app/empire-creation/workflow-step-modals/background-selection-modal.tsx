@@ -8,47 +8,47 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
-import { Playable_Race } from '@idleverse/galaxy-gql';
+import { Background } from '@idleverse/galaxy-gql';
 import { useState } from 'react';
-import { playableRacesVar } from '../../_state/playable-races';
+import { backgroundsVar } from '../../_state/backgrounds';
 import { GallerySelector } from '../components/gallery-selector';
 
-export const RaceSelectionModal = ({
+export const BackgroundSelectionModal = ({
   isOpen,
   onClose,
 }: {
   isOpen: boolean;
-  onClose: (race: Playable_Race) => void;
+  onClose: (background: Background) => void;
 }) => {
-  const playableRaces = useReactiveVar(playableRacesVar);
+  const backgrounds = useReactiveVar(backgroundsVar);
 
-  const [selectedRace, setSelectedRace] = useState<Playable_Race>();
+  const [selectedBackground, setSelectedBackround] = useState<Background>();
 
   return (
     <Modal
       isOpen={isOpen}
-      onClose={() => onClose(selectedRace)}
+      onClose={() => onClose(selectedBackground)}
       size="3xl"
       isCentered
     >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader borderBottom="2px solid" borderBottomColor="gray.600">
-          Select Race
+          Select Background
         </ModalHeader>
         <ModalBody padding={0}>
           <GallerySelector
-            name="race"
-            items={playableRaces}
-            defaultItem={selectedRace}
-            onSelectionChange={(race) => setSelectedRace(race)}
+            name="background"
+            items={backgrounds}
+            defaultItem={selectedBackground}
+            onSelectionChange={(background) => setSelectedBackround(background)}
           />
         </ModalBody>
 
         <ModalFooter borderTop="2px solid" borderTopColor="gray.600">
           <Button
-            disabled={!selectedRace}
-            onClick={() => onClose(selectedRace)}
+            disabled={!selectedBackground}
+            onClick={() => onClose(selectedBackground)}
           >
             Confirm
           </Button>

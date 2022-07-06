@@ -11,6 +11,8 @@ import { galaxyConfigVar } from '../_state/reactive-variables';
 import { PixelateSVGFilter } from './components/pixelate-svg-filter';
 import { creationStep } from './creation-types';
 import { CreationWorkflow } from './creation-workflow';
+import { BackgroundSelectionModal } from './workflow-step-modals/background-selection-modal';
+import { FactionSelectionModal } from './workflow-step-modals/faction-selection-modal';
 import { RaceSelectionModal } from './workflow-step-modals/race-selection-modal';
 
 export const JoinGalaxy = () => {
@@ -73,6 +75,22 @@ export const JoinGalaxy = () => {
         onClose={(race) => {
           characterCreationVar({ ...characterCreationVar(), race });
           onRaceSelectionClose();
+        }}
+      />
+
+      <BackgroundSelectionModal
+        isOpen={backgroundSelectionOpen}
+        onClose={(background) => {
+          characterCreationVar({ ...characterCreationVar(), background });
+          onBackgroundSelectionClose();
+        }}
+      />
+
+      <FactionSelectionModal
+        isOpen={factionSelectionOpen}
+        onClose={(faction) => {
+          characterCreationVar({ ...characterCreationVar(), faction });
+          onFactionSelectionClose();
         }}
       />
 

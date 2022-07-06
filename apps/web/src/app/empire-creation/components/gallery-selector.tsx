@@ -8,28 +8,22 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
-type GalleryItem = {
+type GalleryItem<T> = {
   id: string;
   name: string;
   description: string;
   imageUrl?: string;
-};
+} & T;
 
-export type GallerySelectionProps = {
-  items: GalleryItem[];
-  onSelectionChange: (item: GalleryItem) => void;
-  defaultItem?: GalleryItem;
-};
-
-const GalleryButton = ({
+const GalleryButton = <T,>({
   item,
   selected,
   onClick,
 }: {
-  item: GalleryItem;
+  item: GalleryItem<T>;
   selected?: boolean;
 
-  onClick: (item: GalleryItem) => unknown;
+  onClick: (item: GalleryItem<T>) => unknown;
 }) => {
   return (
     <Box
@@ -68,12 +62,20 @@ const GalleryButton = ({
   );
 };
 
-export const GallerySelector = ({
+type GallerySelectionProps<T> = {
+  name: string;
+  items: GalleryItem<T>[];
+  onSelectionChange: (item: GalleryItem<T>) => void;
+  defaultItem?: GalleryItem<T>;
+};
+
+export const GallerySelector = <T,>({
+  name,
   items,
   defaultItem,
   onSelectionChange,
-}: GallerySelectionProps) => {
-  const [selectedItem, setSelectedItem] = useState<GalleryItem>();
+}: GallerySelectionProps<T>) => {
+  const [selectedItem, setSelectedItem] = useState<GalleryItem<T>>();
 
   useEffect(() => setSelectedItem(defaultItem), [defaultItem]);
 
@@ -123,7 +125,7 @@ export const GallerySelector = ({
             <Text fontSize="xxs"> {selectedItem.description}</Text>
           </>
         )}
-        {!selectedItem && <Text>Pick a race</Text>}
+        {!selectedItem && <Text>Pick a {name}</Text>}
       </Box>
     </Stack>
   );

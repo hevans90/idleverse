@@ -8,47 +8,47 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
-import { Playable_Race } from '@idleverse/galaxy-gql';
+import { Faction } from '@idleverse/galaxy-gql';
 import { useState } from 'react';
-import { playableRacesVar } from '../../_state/playable-races';
+import { factionsVar } from '../../_state/factions';
 import { GallerySelector } from '../components/gallery-selector';
 
-export const RaceSelectionModal = ({
+export const FactionSelectionModal = ({
   isOpen,
   onClose,
 }: {
   isOpen: boolean;
-  onClose: (race: Playable_Race) => void;
+  onClose: (faction: Faction) => void;
 }) => {
-  const playableRaces = useReactiveVar(playableRacesVar);
+  const factions = useReactiveVar(factionsVar);
 
-  const [selectedRace, setSelectedRace] = useState<Playable_Race>();
+  const [selectedFaction, setSelectedFaction] = useState<Faction>();
 
   return (
     <Modal
       isOpen={isOpen}
-      onClose={() => onClose(selectedRace)}
+      onClose={() => onClose(selectedFaction)}
       size="3xl"
       isCentered
     >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader borderBottom="2px solid" borderBottomColor="gray.600">
-          Select Race
+          Select Faction
         </ModalHeader>
         <ModalBody padding={0}>
           <GallerySelector
-            name="race"
-            items={playableRaces}
-            defaultItem={selectedRace}
-            onSelectionChange={(race) => setSelectedRace(race)}
+            name="faction"
+            items={factions}
+            defaultItem={selectedFaction}
+            onSelectionChange={(faction) => setSelectedFaction(faction)}
           />
         </ModalBody>
 
         <ModalFooter borderTop="2px solid" borderTopColor="gray.600">
           <Button
-            disabled={!selectedRace}
-            onClick={() => onClose(selectedRace)}
+            disabled={!selectedFaction}
+            onClick={() => onClose(selectedFaction)}
           >
             Confirm
           </Button>

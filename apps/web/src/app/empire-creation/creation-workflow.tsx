@@ -48,7 +48,7 @@ const WorkflowButton = ({
 
 export const CreationWorkflow = ({
   onStepClicked,
-  value: { race },
+  value: { race, background, faction },
 }: {
   onStepClicked: (step: creationStep) => unknown;
   value: ReturnType<typeof characterCreationVar>;
@@ -67,10 +67,12 @@ export const CreationWorkflow = ({
       <WorkflowButton
         onClick={() => onStepClicked('background')}
         stepName="background"
+        value={background?.name}
       />
       <WorkflowButton
         onClick={() => onStepClicked('faction')}
         stepName="faction"
+        value={faction?.name}
       />
       <WorkflowButton
         onClick={() => onStepClicked('homeworld')}
