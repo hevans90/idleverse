@@ -3,6 +3,7 @@
 - "!include public_galaxy.yaml"
 - "!include public_planet.yaml"
 - "!include public_planetary_ring.yaml"
+- "!include public_playable_race.yaml"
 - "!include public_terrain_hex_palette.yaml"
 - "!include public_user_info.yaml"
 - "!include public_user_me.yaml"
