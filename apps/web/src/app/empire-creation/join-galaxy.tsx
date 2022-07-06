@@ -28,7 +28,29 @@ export const JoinGalaxy = () => {
     onClose: onRaceSelectionClose,
   } = useDisclosure();
 
+  const {
+    isOpen: backgroundSelectionOpen,
+    onOpen: onBackgroundSelectionOpen,
+    onClose: onBackgroundSelectionClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: factionSelectionOpen,
+    onOpen: onFactionSelectionOpen,
+    onClose: onFactionSelectionClose,
+  } = useDisclosure();
+
   const characterCreationState = useReactiveVar(characterCreationVar);
+
+  useEffect(() => {
+    return () => {
+      characterCreationVar({
+        race: undefined,
+        background: undefined,
+        faction: undefined,
+      });
+    };
+  }, []);
 
   useEffect(() => {
     if (data) {
@@ -79,8 +101,8 @@ export const JoinGalaxy = () => {
               [key in creationStep]: () => void;
             } = {
               race: () => onRaceSelectionOpen(),
-              background: () => undefined,
-              faction: () => undefined,
+              background: () => onBackgroundSelectionOpen(),
+              faction: () => onFactionSelectionOpen(),
               homeworld: () => undefined,
               start: () => setReady(true),
             };

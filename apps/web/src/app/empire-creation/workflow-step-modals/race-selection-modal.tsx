@@ -8,8 +8,9 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
+import { Playable_Race } from '@idleverse/galaxy-gql';
 import { useState } from 'react';
-import { PlayableRace, playableRacesVar } from '../../_state/playable-races';
+import { playableRacesVar } from '../../_state/playable-races';
 import { GallerySelector } from '../components/gallery-selector';
 
 export const RaceSelectionModal = ({
@@ -17,11 +18,11 @@ export const RaceSelectionModal = ({
   onClose,
 }: {
   isOpen: boolean;
-  onClose: (race: PlayableRace) => void;
+  onClose: (race: Playable_Race) => void;
 }) => {
   const playableRaces = useReactiveVar(playableRacesVar);
 
-  const [selectedRace, setSelectedRace] = useState<PlayableRace>();
+  const [selectedRace, setSelectedRace] = useState<Playable_Race>();
 
   return (
     <Modal

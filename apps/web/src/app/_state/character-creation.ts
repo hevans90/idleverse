@@ -1,6 +1,12 @@
 import { makeVar } from '@apollo/client';
-import { PlayableRace } from './playable-races';
+import { Background, Faction, Playable_Race } from '@idleverse/galaxy-gql';
 
-export const characterCreationVar = makeVar<{ race: PlayableRace }>({
+export const characterCreationVar = makeVar<{
+  race: Playable_Race;
+  background: Background;
+  faction: Faction;
+}>({
   race: undefined,
+  background: undefined,
+  faction: undefined,
 });

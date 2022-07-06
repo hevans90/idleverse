@@ -1,6 +1,4 @@
 import { makeVar } from '@apollo/client';
-import { CharacterDataQuery } from '@idleverse/galaxy-gql';
-
-export type Background = CharacterDataQuery['background'][0];
+import { Background } from '@idleverse/galaxy-gql';
 
 export const backgroundsVar = makeVar<Background[]>([]);

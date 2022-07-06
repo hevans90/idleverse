@@ -1,6 +1,4 @@
 import { makeVar } from '@apollo/client';
-import { CharacterDataQuery } from '@idleverse/galaxy-gql';
-
-export type Faction = CharacterDataQuery['faction'][0];
+import { Faction } from '@idleverse/galaxy-gql';
 
 export const factionsVar = makeVar<Faction[]>([]);
