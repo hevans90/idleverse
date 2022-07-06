@@ -881,6 +881,10 @@ export type Mutation_Root = {
   delete_planetary_ring?: Maybe<Planetary_Ring_Mutation_Response>;
   /** delete single row from the table: "planetary_ring" */
   delete_planetary_ring_by_pk?: Maybe<Planetary_Ring>;
+  /** delete data from the table: "playable_race" */
+  delete_playable_race?: Maybe<Playable_Race_Mutation_Response>;
+  /** delete single row from the table: "playable_race" */
+  delete_playable_race_by_pk?: Maybe<Playable_Race>;
   /** delete data from the table: "terrain_hex_palette" */
   delete_terrain_hex_palette?: Maybe<Terrain_Hex_Palette_Mutation_Response>;
   /** delete single row from the table: "terrain_hex_palette" */
@@ -913,6 +917,10 @@ export type Mutation_Root = {
   insert_planetary_ring?: Maybe<Planetary_Ring_Mutation_Response>;
   /** insert a single row into the table: "planetary_ring" */
   insert_planetary_ring_one?: Maybe<Planetary_Ring>;
+  /** insert data into the table: "playable_race" */
+  insert_playable_race?: Maybe<Playable_Race_Mutation_Response>;
+  /** insert a single row into the table: "playable_race" */
+  insert_playable_race_one?: Maybe<Playable_Race>;
   /** insert data into the table: "terrain_hex_palette" */
   insert_terrain_hex_palette?: Maybe<Terrain_Hex_Palette_Mutation_Response>;
   /** insert a single row into the table: "terrain_hex_palette" */
@@ -951,6 +959,10 @@ export type Mutation_Root = {
   update_planetary_ring?: Maybe<Planetary_Ring_Mutation_Response>;
   /** update single row of the table: "planetary_ring" */
   update_planetary_ring_by_pk?: Maybe<Planetary_Ring>;
+  /** update data of the table: "playable_race" */
+  update_playable_race?: Maybe<Playable_Race_Mutation_Response>;
+  /** update single row of the table: "playable_race" */
+  update_playable_race_by_pk?: Maybe<Playable_Race>;
   /** update data of the table: "terrain_hex_palette" */
   update_terrain_hex_palette?: Maybe<Terrain_Hex_Palette_Mutation_Response>;
   /** update single row of the table: "terrain_hex_palette" */
@@ -1028,6 +1040,18 @@ export type Mutation_RootDelete_Planetary_RingArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Planetary_Ring_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Playable_RaceArgs = {
+  where: Playable_Race_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Playable_Race_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -1135,6 +1159,20 @@ export type Mutation_RootInsert_Planetary_RingArgs = {
 export type Mutation_RootInsert_Planetary_Ring_OneArgs = {
   object: Planetary_Ring_Insert_Input;
   on_conflict?: InputMaybe<Planetary_Ring_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Playable_RaceArgs = {
+  objects: Array<Playable_Race_Insert_Input>;
+  on_conflict?: InputMaybe<Playable_Race_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Playable_Race_OneArgs = {
+  object: Playable_Race_Insert_Input;
+  on_conflict?: InputMaybe<Playable_Race_On_Conflict>;
 };
 
 
@@ -1275,6 +1313,20 @@ export type Mutation_RootUpdate_Planetary_Ring_By_PkArgs = {
   _inc?: InputMaybe<Planetary_Ring_Inc_Input>;
   _set?: InputMaybe<Planetary_Ring_Set_Input>;
   pk_columns: Planetary_Ring_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Playable_RaceArgs = {
+  _set?: InputMaybe<Playable_Race_Set_Input>;
+  where: Playable_Race_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Playable_Race_By_PkArgs = {
+  _set?: InputMaybe<Playable_Race_Set_Input>;
+  pk_columns: Playable_Race_Pk_Columns_Input;
 };
 
 
@@ -2112,6 +2164,130 @@ export type Planetary_Ring_Variance_Order_By = {
   resolution?: InputMaybe<Order_By>;
 };
 
+/** Playable races */
+export type Playable_Race = {
+  __typename?: 'playable_race';
+  description: Scalars['String'];
+  id: Scalars['uuid'];
+  name: Scalars['String'];
+};
+
+/** aggregated selection of "playable_race" */
+export type Playable_Race_Aggregate = {
+  __typename?: 'playable_race_aggregate';
+  aggregate?: Maybe<Playable_Race_Aggregate_Fields>;
+  nodes: Array<Playable_Race>;
+};
+
+/** aggregate fields of "playable_race" */
+export type Playable_Race_Aggregate_Fields = {
+  __typename?: 'playable_race_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Playable_Race_Max_Fields>;
+  min?: Maybe<Playable_Race_Min_Fields>;
+};
+
+
+/** aggregate fields of "playable_race" */
+export type Playable_Race_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Playable_Race_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "playable_race". All fields are combined with a logical 'AND'. */
+export type Playable_Race_Bool_Exp = {
+  _and?: InputMaybe<Array<Playable_Race_Bool_Exp>>;
+  _not?: InputMaybe<Playable_Race_Bool_Exp>;
+  _or?: InputMaybe<Array<Playable_Race_Bool_Exp>>;
+  description?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "playable_race" */
+export enum Playable_Race_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  PlayableRacePkey = 'playable_race_pkey'
+}
+
+/** input type for inserting data into table "playable_race" */
+export type Playable_Race_Insert_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Playable_Race_Max_Fields = {
+  __typename?: 'playable_race_max_fields';
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Playable_Race_Min_Fields = {
+  __typename?: 'playable_race_min_fields';
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "playable_race" */
+export type Playable_Race_Mutation_Response = {
+  __typename?: 'playable_race_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Playable_Race>;
+};
+
+/** on_conflict condition type for table "playable_race" */
+export type Playable_Race_On_Conflict = {
+  constraint: Playable_Race_Constraint;
+  update_columns?: Array<Playable_Race_Update_Column>;
+  where?: InputMaybe<Playable_Race_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "playable_race". */
+export type Playable_Race_Order_By = {
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: playable_race */
+export type Playable_Race_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "playable_race" */
+export enum Playable_Race_Select_Column {
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
+/** input type for updating data in table "playable_race" */
+export type Playable_Race_Set_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "playable_race" */
+export enum Playable_Race_Update_Column {
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
 export type Query_Root = {
   __typename?: 'query_root';
   /** fetch data from the table: "celestial" */
@@ -2144,6 +2320,12 @@ export type Query_Root = {
   planetary_ring_aggregate: Planetary_Ring_Aggregate;
   /** fetch data from the table: "planetary_ring" using primary key columns */
   planetary_ring_by_pk?: Maybe<Planetary_Ring>;
+  /** fetch data from the table: "playable_race" */
+  playable_race: Array<Playable_Race>;
+  /** fetch aggregated fields from the table: "playable_race" */
+  playable_race_aggregate: Playable_Race_Aggregate;
+  /** fetch data from the table: "playable_race" using primary key columns */
+  playable_race_by_pk?: Maybe<Playable_Race>;
   returnNothing?: Maybe<GalaxyManagement>;
   /** fetch data from the table: "terrain_hex_palette" */
   terrain_hex_palette: Array<Terrain_Hex_Palette>;
@@ -2283,6 +2465,29 @@ export type Query_RootPlanetary_Ring_By_PkArgs = {
 };
 
 
+export type Query_RootPlayable_RaceArgs = {
+  distinct_on?: InputMaybe<Array<Playable_Race_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Playable_Race_Order_By>>;
+  where?: InputMaybe<Playable_Race_Bool_Exp>;
+};
+
+
+export type Query_RootPlayable_Race_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Playable_Race_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Playable_Race_Order_By>>;
+  where?: InputMaybe<Playable_Race_Bool_Exp>;
+};
+
+
+export type Query_RootPlayable_Race_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type Query_RootTerrain_Hex_PaletteArgs = {
   distinct_on?: InputMaybe<Array<Terrain_Hex_Palette_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2396,6 +2601,12 @@ export type Subscription_Root = {
   planetary_ring_aggregate: Planetary_Ring_Aggregate;
   /** fetch data from the table: "planetary_ring" using primary key columns */
   planetary_ring_by_pk?: Maybe<Planetary_Ring>;
+  /** fetch data from the table: "playable_race" */
+  playable_race: Array<Playable_Race>;
+  /** fetch aggregated fields from the table: "playable_race" */
+  playable_race_aggregate: Playable_Race_Aggregate;
+  /** fetch data from the table: "playable_race" using primary key columns */
+  playable_race_by_pk?: Maybe<Playable_Race>;
   /** fetch data from the table: "terrain_hex_palette" */
   terrain_hex_palette: Array<Terrain_Hex_Palette>;
   /** fetch aggregated fields from the table: "terrain_hex_palette" */
@@ -2530,6 +2741,29 @@ export type Subscription_RootPlanetary_Ring_AggregateArgs = {
 
 
 export type Subscription_RootPlanetary_Ring_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootPlayable_RaceArgs = {
+  distinct_on?: InputMaybe<Array<Playable_Race_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Playable_Race_Order_By>>;
+  where?: InputMaybe<Playable_Race_Bool_Exp>;
+};
+
+
+export type Subscription_RootPlayable_Race_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Playable_Race_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Playable_Race_Order_By>>;
+  where?: InputMaybe<Playable_Race_Bool_Exp>;
+};
+
+
+export type Subscription_RootPlayable_Race_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -3512,6 +3746,11 @@ export type TryInsertPlanetMutationVariables = Exact<{
 
 export type TryInsertPlanetMutation = { __typename?: 'mutation_root', insert_planet_one?: { __typename?: 'planet', id: any, name: string, owner_id: string } | null };
 
+export type PlayableRacesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PlayableRacesQuery = { __typename?: 'query_root', playable_race: Array<{ __typename?: 'playable_race', description: string, id: any, name: string }> };
+
 export type SelfQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -3862,6 +4101,16 @@ export const TryInsertPlanetDocument = gql`
 export type TryInsertPlanetMutationFn = Apollo.MutationFunction<TryInsertPlanetMutation, TryInsertPlanetMutationVariables>;
 export type TryInsertPlanetMutationResult = Apollo.MutationResult<TryInsertPlanetMutation>;
 export type TryInsertPlanetMutationOptions = Apollo.BaseMutationOptions<TryInsertPlanetMutation, TryInsertPlanetMutationVariables>;
+export const PlayableRacesDocument = gql`
+    query PlayableRaces {
+  playable_race {
+    description
+    id
+    name
+  }
+}
+    `;
+export type PlayableRacesQueryResult = Apollo.QueryResult<PlayableRacesQuery, PlayableRacesQueryVariables>;
 export const SelfDocument = gql`
     query Self {
   user_me {

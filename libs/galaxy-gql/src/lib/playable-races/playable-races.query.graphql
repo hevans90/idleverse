@@ -1,0 +1,7 @@
+query PlayableRaces {
+  playable_race {
+    description
+    id
+    name
+  }
+}
