@@ -29,7 +29,7 @@ const GalleryButton = <T,>({
     <Box
       as={Button}
       height="125px"
-      minWidth={['unset']}
+      minWidth={['30vw', 'unset']}
       maxWidth={['40vw', '30vw', '20vw']}
       lineHeight="inherit"
       whiteSpace="normal"
@@ -92,7 +92,7 @@ export const GallerySelector = <T,>({
       paddingTop={3}
       paddingBottom={3}
       paddingLeft={[2, 'unset', 'unset', 'unset', 'unset']}
-      paddingRight={[2, 'unset', 'unset', 'unset', 'unset']}
+      paddingRight={[2, 1]}
       divider={<StackDivider borderColor="gray.500" />}
     >
       <Stack
@@ -100,6 +100,9 @@ export const GallerySelector = <T,>({
         spacing={2}
         divider={<StackDivider borderColor="gray.500" />}
         paddingLeft={['unset', 3]}
+        flexGrow={1}
+        minWidth={['unset', '200px']}
+        maxWidth={['unset', '200px']}
       >
         {items.map((item) => (
           <GalleryButton
@@ -110,7 +113,7 @@ export const GallerySelector = <T,>({
           />
         ))}
       </Stack>
-      <Box minHeight="450px" minWidth="450px">
+      <Box minHeight="450px" flexGrow={3} width="auto">
         {selectedItem && (
           <>
             <Image

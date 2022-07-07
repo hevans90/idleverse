@@ -31,7 +31,7 @@ const WorkflowButton = ({
       fontSize={['xxs', 'xs', 'xs', 'sm', 'md']}
       bg={value ? 'teal.600' : 'whiteAlpha.200'}
       color="white.900"
-      _hover={{ bg: 'whiteAlpha.300' }}
+      _hover={{ bg: value ? 'teal.500' : 'whiteAlpha.300' }}
       _active={{
         bg: 'whiteAlpha.300',
         transform: 'scale(0.98)',
