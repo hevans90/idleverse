@@ -1,5 +1,5 @@
 import { useReactiveVar } from '@apollo/client';
-import { Box, Button, Image, SimpleGrid } from '@chakra-ui/react';
+import { Box, Button, Image, SimpleGrid, Text, VStack } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { DataUriGenerator } from '../canvases/celestial-viewer/data-uri-generator';
 import { runPixelDataGenOnWorker } from '../canvases/planet-generator/texture-generation/run-texture-gen-on-worker';
@@ -13,12 +13,14 @@ const WorkflowButton = ({
   displayName,
   disabled,
   value,
+  imageUrl,
 }: {
   stepName: creationStep;
   displayName?: string;
   disabled?: boolean;
   onClick: (stepName: creationStep) => unknown;
   value?: string;
+  imageUrl?: string;
 }) => {
   return (
     <Box
@@ -46,7 +48,12 @@ const WorkflowButton = ({
       paddingInlineEnd={4}
       onClick={() => onClick(stepName)}
     >
-      {value || displayName || stepName}
+      <VStack>
+        {imageUrl && (
+          <Image boxSize="50px" src={imageUrl} borderRadius="full" />
+        )}
+        <Text>{value || displayName || stepName}</Text>
+      </VStack>
     </Box>
   );
 };
@@ -130,6 +137,7 @@ export const CreationWorkflow = ({
         stepName="homeworld"
         displayName="generate homeworld"
         value={homeworld?.name}
+        imageUrl={homeworldDataURI ? homeworldDataURI : undefined}
       />
       {!generatingPlanetThumbnailPixelData && generatingPlanetThumbnailDataURI && (
         <DataUriGenerator
@@ -140,9 +148,6 @@ export const CreationWorkflow = ({
             setGeneratingPlanetThumbnailDataURI(false);
           }}
         />
-      )}
-      {homeworldDataURI && (
-        <Image boxSize="150px" src={homeworldDataURI} borderRadius="full" />
       )}
       <WorkflowButton
         onClick={() => onStepClicked('start')}
