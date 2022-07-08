@@ -33,7 +33,7 @@ export const runDataGenOnWorker = async (
   return { data, height, width };
 };
 
-export const runDataUriGenOnWorker = async (
+export const runPixelDataGenOnWorker = async (
   type: 'banded' | 'simplex' | 'perlin',
   resolution: number,
   colors: [rgb, rgb, rgb, rgb],
