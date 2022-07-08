@@ -84,6 +84,8 @@ export const GallerySelector = <T,>({
     [onSelectionChange, selectedItem]
   );
 
+  const local = window.location.origin.includes('localhost');
+
   return (
     <Stack
       bgColor="gray.600"
@@ -120,7 +122,9 @@ export const GallerySelector = <T,>({
               float="left"
               boxSize="150px"
               src={selectedItem.imageUrl}
-              fallbackSrc="/placeholders/150x150.png"
+              fallbackSrc={`${
+                local ? '' : '/idleverse'
+              }/placeholders/150x150.png`}
               marginRight={4}
               marginBottom={1}
             />
