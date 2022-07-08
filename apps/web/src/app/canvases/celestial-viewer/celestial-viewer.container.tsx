@@ -14,7 +14,7 @@ import { Loading } from '../../components/loading';
 import { celestialViewerSelectedPlanet } from '../../_state/celestial-viewer';
 import { celestialVar } from '../../_state/reactive-variables';
 import { GameUIBottomBar } from '../galaxy-generator/ui/bottom-bar';
-import { runDataUriGenOnWorker } from '../planet-generator/texture-generation/run-texture-gen-on-worker';
+import { runPixelDataGenOnWorker } from '../planet-generator/texture-generation/run-texture-gen-on-worker';
 import { useResize } from '../_utils/use-resize.hook';
 import { CelestialViewer } from './celestial-viewer';
 import { DataUriGenerator } from './data-uri-generator';
@@ -64,7 +64,7 @@ export const CelestialViewerContainer = () => {
         celestialViewerSelectedPlanet(null);
       }
 
-      const urisToGenerate: Promise<{
+      const pixelDataToGenerate: Promise<{
         seed: string;
         data: Uint8Array;
         width: number;
@@ -77,8 +77,8 @@ export const CelestialViewerContainer = () => {
           terrain_hex_palette: { water, sand, grass, forest },
           terrain_bias,
         }) =>
-          urisToGenerate.push(
-            runDataUriGenOnWorker(
+          pixelDataToGenerate.push(
+            runPixelDataGenOnWorker(
               'perlin',
               textureResolution,
               [
@@ -93,7 +93,7 @@ export const CelestialViewerContainer = () => {
           )
       );
 
-      Promise.all(urisToGenerate).then((values) => {
+      Promise.all(pixelDataToGenerate).then((values) => {
         setPixelData(values);
         setPixelDataGenerating(false);
       });

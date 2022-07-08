@@ -146,6 +146,132 @@ export type _Text_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['_text']>>;
 };
 
+/** Playable backgrounds */
+export type Background = {
+  __typename?: 'background';
+  description: Scalars['String'];
+  id: Scalars['uuid'];
+  name: Scalars['String'];
+};
+
+/** aggregated selection of "background" */
+export type Background_Aggregate = {
+  __typename?: 'background_aggregate';
+  aggregate?: Maybe<Background_Aggregate_Fields>;
+  nodes: Array<Background>;
+};
+
+/** aggregate fields of "background" */
+export type Background_Aggregate_Fields = {
+  __typename?: 'background_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Background_Max_Fields>;
+  min?: Maybe<Background_Min_Fields>;
+};
+
+
+/** aggregate fields of "background" */
+export type Background_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Background_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "background". All fields are combined with a logical 'AND'. */
+export type Background_Bool_Exp = {
+  _and?: InputMaybe<Array<Background_Bool_Exp>>;
+  _not?: InputMaybe<Background_Bool_Exp>;
+  _or?: InputMaybe<Array<Background_Bool_Exp>>;
+  description?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "background" */
+export enum Background_Constraint {
+  /** unique or primary key constraint on columns "name" */
+  BackgroundNameKey = 'background_name_key',
+  /** unique or primary key constraint on columns "id" */
+  BackgroundPkey = 'background_pkey'
+}
+
+/** input type for inserting data into table "background" */
+export type Background_Insert_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Background_Max_Fields = {
+  __typename?: 'background_max_fields';
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Background_Min_Fields = {
+  __typename?: 'background_min_fields';
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "background" */
+export type Background_Mutation_Response = {
+  __typename?: 'background_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Background>;
+};
+
+/** on_conflict condition type for table "background" */
+export type Background_On_Conflict = {
+  constraint: Background_Constraint;
+  update_columns?: Array<Background_Update_Column>;
+  where?: InputMaybe<Background_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "background". */
+export type Background_Order_By = {
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: background */
+export type Background_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "background" */
+export enum Background_Select_Column {
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
+/** input type for updating data in table "background" */
+export type Background_Set_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "background" */
+export enum Background_Update_Column {
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
 /** columns and relationships of "celestial" */
 export type Celestial = {
   __typename?: 'celestial';
@@ -518,6 +644,132 @@ export enum Chat_Message_Update_Column {
   Timestamp = 'timestamp'
 }
 
+/** NPC factions */
+export type Faction = {
+  __typename?: 'faction';
+  description: Scalars['String'];
+  id: Scalars['uuid'];
+  name: Scalars['String'];
+};
+
+/** aggregated selection of "faction" */
+export type Faction_Aggregate = {
+  __typename?: 'faction_aggregate';
+  aggregate?: Maybe<Faction_Aggregate_Fields>;
+  nodes: Array<Faction>;
+};
+
+/** aggregate fields of "faction" */
+export type Faction_Aggregate_Fields = {
+  __typename?: 'faction_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Faction_Max_Fields>;
+  min?: Maybe<Faction_Min_Fields>;
+};
+
+
+/** aggregate fields of "faction" */
+export type Faction_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Faction_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "faction". All fields are combined with a logical 'AND'. */
+export type Faction_Bool_Exp = {
+  _and?: InputMaybe<Array<Faction_Bool_Exp>>;
+  _not?: InputMaybe<Faction_Bool_Exp>;
+  _or?: InputMaybe<Array<Faction_Bool_Exp>>;
+  description?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "faction" */
+export enum Faction_Constraint {
+  /** unique or primary key constraint on columns "name" */
+  FactionNameKey = 'faction_name_key',
+  /** unique or primary key constraint on columns "id" */
+  FactionPkey = 'faction_pkey'
+}
+
+/** input type for inserting data into table "faction" */
+export type Faction_Insert_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Faction_Max_Fields = {
+  __typename?: 'faction_max_fields';
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Faction_Min_Fields = {
+  __typename?: 'faction_min_fields';
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "faction" */
+export type Faction_Mutation_Response = {
+  __typename?: 'faction_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Faction>;
+};
+
+/** on_conflict condition type for table "faction" */
+export type Faction_On_Conflict = {
+  constraint: Faction_Constraint;
+  update_columns?: Array<Faction_Update_Column>;
+  where?: InputMaybe<Faction_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "faction". */
+export type Faction_Order_By = {
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: faction */
+export type Faction_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "faction" */
+export enum Faction_Select_Column {
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
+/** input type for updating data in table "faction" */
+export type Faction_Set_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "faction" */
+export enum Faction_Update_Column {
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
 /** columns and relationships of "galaxy" */
 export type Galaxy = {
   __typename?: 'galaxy';
@@ -861,6 +1113,10 @@ export type Galaxy_Variance_Fields = {
 export type Mutation_Root = {
   __typename?: 'mutation_root';
   createPlanet?: Maybe<CelestialManagement>;
+  /** delete data from the table: "background" */
+  delete_background?: Maybe<Background_Mutation_Response>;
+  /** delete single row from the table: "background" */
+  delete_background_by_pk?: Maybe<Background>;
   /** delete data from the table: "celestial" */
   delete_celestial?: Maybe<Celestial_Mutation_Response>;
   /** delete single row from the table: "celestial" */
@@ -869,6 +1125,10 @@ export type Mutation_Root = {
   delete_chat_message?: Maybe<Chat_Message_Mutation_Response>;
   /** delete single row from the table: "chat_message" */
   delete_chat_message_by_pk?: Maybe<Chat_Message>;
+  /** delete data from the table: "faction" */
+  delete_faction?: Maybe<Faction_Mutation_Response>;
+  /** delete single row from the table: "faction" */
+  delete_faction_by_pk?: Maybe<Faction>;
   /** delete data from the table: "galaxy" */
   delete_galaxy?: Maybe<Galaxy_Mutation_Response>;
   /** delete single row from the table: "galaxy" */
@@ -881,6 +1141,10 @@ export type Mutation_Root = {
   delete_planetary_ring?: Maybe<Planetary_Ring_Mutation_Response>;
   /** delete single row from the table: "planetary_ring" */
   delete_planetary_ring_by_pk?: Maybe<Planetary_Ring>;
+  /** delete data from the table: "playable_race" */
+  delete_playable_race?: Maybe<Playable_Race_Mutation_Response>;
+  /** delete single row from the table: "playable_race" */
+  delete_playable_race_by_pk?: Maybe<Playable_Race>;
   /** delete data from the table: "terrain_hex_palette" */
   delete_terrain_hex_palette?: Maybe<Terrain_Hex_Palette_Mutation_Response>;
   /** delete single row from the table: "terrain_hex_palette" */
@@ -893,6 +1157,10 @@ export type Mutation_Root = {
   delete_user_me?: Maybe<User_Me_Mutation_Response>;
   /** delete data from the table: "user_private" */
   delete_user_private?: Maybe<User_Private_Mutation_Response>;
+  /** insert data into the table: "background" */
+  insert_background?: Maybe<Background_Mutation_Response>;
+  /** insert a single row into the table: "background" */
+  insert_background_one?: Maybe<Background>;
   /** insert data into the table: "celestial" */
   insert_celestial?: Maybe<Celestial_Mutation_Response>;
   /** insert a single row into the table: "celestial" */
@@ -901,6 +1169,10 @@ export type Mutation_Root = {
   insert_chat_message?: Maybe<Chat_Message_Mutation_Response>;
   /** insert a single row into the table: "chat_message" */
   insert_chat_message_one?: Maybe<Chat_Message>;
+  /** insert data into the table: "faction" */
+  insert_faction?: Maybe<Faction_Mutation_Response>;
+  /** insert a single row into the table: "faction" */
+  insert_faction_one?: Maybe<Faction>;
   /** insert data into the table: "galaxy" */
   insert_galaxy?: Maybe<Galaxy_Mutation_Response>;
   /** insert a single row into the table: "galaxy" */
@@ -913,6 +1185,10 @@ export type Mutation_Root = {
   insert_planetary_ring?: Maybe<Planetary_Ring_Mutation_Response>;
   /** insert a single row into the table: "planetary_ring" */
   insert_planetary_ring_one?: Maybe<Planetary_Ring>;
+  /** insert data into the table: "playable_race" */
+  insert_playable_race?: Maybe<Playable_Race_Mutation_Response>;
+  /** insert a single row into the table: "playable_race" */
+  insert_playable_race_one?: Maybe<Playable_Race>;
   /** insert data into the table: "terrain_hex_palette" */
   insert_terrain_hex_palette?: Maybe<Terrain_Hex_Palette_Mutation_Response>;
   /** insert a single row into the table: "terrain_hex_palette" */
@@ -931,6 +1207,10 @@ export type Mutation_Root = {
   insert_user_private_one?: Maybe<User_Private>;
   requestRandomCelestial?: Maybe<GalaxyManagement>;
   setDisplayName?: Maybe<Register>;
+  /** update data of the table: "background" */
+  update_background?: Maybe<Background_Mutation_Response>;
+  /** update single row of the table: "background" */
+  update_background_by_pk?: Maybe<Background>;
   /** update data of the table: "celestial" */
   update_celestial?: Maybe<Celestial_Mutation_Response>;
   /** update single row of the table: "celestial" */
@@ -939,6 +1219,10 @@ export type Mutation_Root = {
   update_chat_message?: Maybe<Chat_Message_Mutation_Response>;
   /** update single row of the table: "chat_message" */
   update_chat_message_by_pk?: Maybe<Chat_Message>;
+  /** update data of the table: "faction" */
+  update_faction?: Maybe<Faction_Mutation_Response>;
+  /** update single row of the table: "faction" */
+  update_faction_by_pk?: Maybe<Faction>;
   /** update data of the table: "galaxy" */
   update_galaxy?: Maybe<Galaxy_Mutation_Response>;
   /** update single row of the table: "galaxy" */
@@ -951,6 +1235,10 @@ export type Mutation_Root = {
   update_planetary_ring?: Maybe<Planetary_Ring_Mutation_Response>;
   /** update single row of the table: "planetary_ring" */
   update_planetary_ring_by_pk?: Maybe<Planetary_Ring>;
+  /** update data of the table: "playable_race" */
+  update_playable_race?: Maybe<Playable_Race_Mutation_Response>;
+  /** update single row of the table: "playable_race" */
+  update_playable_race_by_pk?: Maybe<Playable_Race>;
   /** update data of the table: "terrain_hex_palette" */
   update_terrain_hex_palette?: Maybe<Terrain_Hex_Palette_Mutation_Response>;
   /** update single row of the table: "terrain_hex_palette" */
@@ -969,6 +1257,18 @@ export type Mutation_Root = {
 /** mutation root */
 export type Mutation_RootCreatePlanetArgs = {
   input: PlanetCreationInput;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_BackgroundArgs = {
+  where: Background_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Background_By_PkArgs = {
+  id: Scalars['uuid'];
 };
 
 
@@ -992,6 +1292,18 @@ export type Mutation_RootDelete_Chat_MessageArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Chat_Message_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_FactionArgs = {
+  where: Faction_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Faction_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -1033,6 +1345,18 @@ export type Mutation_RootDelete_Planetary_Ring_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_Playable_RaceArgs = {
+  where: Playable_Race_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Playable_Race_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_Terrain_Hex_PaletteArgs = {
   where: Terrain_Hex_Palette_Bool_Exp;
 };
@@ -1069,6 +1393,20 @@ export type Mutation_RootDelete_User_PrivateArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_BackgroundArgs = {
+  objects: Array<Background_Insert_Input>;
+  on_conflict?: InputMaybe<Background_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Background_OneArgs = {
+  object: Background_Insert_Input;
+  on_conflict?: InputMaybe<Background_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_CelestialArgs = {
   objects: Array<Celestial_Insert_Input>;
   on_conflict?: InputMaybe<Celestial_On_Conflict>;
@@ -1093,6 +1431,20 @@ export type Mutation_RootInsert_Chat_MessageArgs = {
 export type Mutation_RootInsert_Chat_Message_OneArgs = {
   object: Chat_Message_Insert_Input;
   on_conflict?: InputMaybe<Chat_Message_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_FactionArgs = {
+  objects: Array<Faction_Insert_Input>;
+  on_conflict?: InputMaybe<Faction_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Faction_OneArgs = {
+  object: Faction_Insert_Input;
+  on_conflict?: InputMaybe<Faction_On_Conflict>;
 };
 
 
@@ -1135,6 +1487,20 @@ export type Mutation_RootInsert_Planetary_RingArgs = {
 export type Mutation_RootInsert_Planetary_Ring_OneArgs = {
   object: Planetary_Ring_Insert_Input;
   on_conflict?: InputMaybe<Planetary_Ring_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Playable_RaceArgs = {
+  objects: Array<Playable_Race_Insert_Input>;
+  on_conflict?: InputMaybe<Playable_Race_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Playable_Race_OneArgs = {
+  object: Playable_Race_Insert_Input;
+  on_conflict?: InputMaybe<Playable_Race_On_Conflict>;
 };
 
 
@@ -1203,6 +1569,20 @@ export type Mutation_RootSetDisplayNameArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_BackgroundArgs = {
+  _set?: InputMaybe<Background_Set_Input>;
+  where: Background_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Background_By_PkArgs = {
+  _set?: InputMaybe<Background_Set_Input>;
+  pk_columns: Background_Pk_Columns_Input;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_CelestialArgs = {
   _set?: InputMaybe<Celestial_Set_Input>;
   where: Celestial_Bool_Exp;
@@ -1227,6 +1607,20 @@ export type Mutation_RootUpdate_Chat_MessageArgs = {
 export type Mutation_RootUpdate_Chat_Message_By_PkArgs = {
   _set?: InputMaybe<Chat_Message_Set_Input>;
   pk_columns: Chat_Message_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_FactionArgs = {
+  _set?: InputMaybe<Faction_Set_Input>;
+  where: Faction_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Faction_By_PkArgs = {
+  _set?: InputMaybe<Faction_Set_Input>;
+  pk_columns: Faction_Pk_Columns_Input;
 };
 
 
@@ -1275,6 +1669,20 @@ export type Mutation_RootUpdate_Planetary_Ring_By_PkArgs = {
   _inc?: InputMaybe<Planetary_Ring_Inc_Input>;
   _set?: InputMaybe<Planetary_Ring_Set_Input>;
   pk_columns: Planetary_Ring_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Playable_RaceArgs = {
+  _set?: InputMaybe<Playable_Race_Set_Input>;
+  where: Playable_Race_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Playable_Race_By_PkArgs = {
+  _set?: InputMaybe<Playable_Race_Set_Input>;
+  pk_columns: Playable_Race_Pk_Columns_Input;
 };
 
 
@@ -2112,8 +2520,138 @@ export type Planetary_Ring_Variance_Order_By = {
   resolution?: InputMaybe<Order_By>;
 };
 
+/** Playable races */
+export type Playable_Race = {
+  __typename?: 'playable_race';
+  description: Scalars['String'];
+  id: Scalars['uuid'];
+  name: Scalars['String'];
+};
+
+/** aggregated selection of "playable_race" */
+export type Playable_Race_Aggregate = {
+  __typename?: 'playable_race_aggregate';
+  aggregate?: Maybe<Playable_Race_Aggregate_Fields>;
+  nodes: Array<Playable_Race>;
+};
+
+/** aggregate fields of "playable_race" */
+export type Playable_Race_Aggregate_Fields = {
+  __typename?: 'playable_race_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Playable_Race_Max_Fields>;
+  min?: Maybe<Playable_Race_Min_Fields>;
+};
+
+
+/** aggregate fields of "playable_race" */
+export type Playable_Race_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Playable_Race_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "playable_race". All fields are combined with a logical 'AND'. */
+export type Playable_Race_Bool_Exp = {
+  _and?: InputMaybe<Array<Playable_Race_Bool_Exp>>;
+  _not?: InputMaybe<Playable_Race_Bool_Exp>;
+  _or?: InputMaybe<Array<Playable_Race_Bool_Exp>>;
+  description?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "playable_race" */
+export enum Playable_Race_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  PlayableRacePkey = 'playable_race_pkey'
+}
+
+/** input type for inserting data into table "playable_race" */
+export type Playable_Race_Insert_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Playable_Race_Max_Fields = {
+  __typename?: 'playable_race_max_fields';
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Playable_Race_Min_Fields = {
+  __typename?: 'playable_race_min_fields';
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "playable_race" */
+export type Playable_Race_Mutation_Response = {
+  __typename?: 'playable_race_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Playable_Race>;
+};
+
+/** on_conflict condition type for table "playable_race" */
+export type Playable_Race_On_Conflict = {
+  constraint: Playable_Race_Constraint;
+  update_columns?: Array<Playable_Race_Update_Column>;
+  where?: InputMaybe<Playable_Race_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "playable_race". */
+export type Playable_Race_Order_By = {
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: playable_race */
+export type Playable_Race_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "playable_race" */
+export enum Playable_Race_Select_Column {
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
+/** input type for updating data in table "playable_race" */
+export type Playable_Race_Set_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "playable_race" */
+export enum Playable_Race_Update_Column {
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
 export type Query_Root = {
   __typename?: 'query_root';
+  /** fetch data from the table: "background" */
+  background: Array<Background>;
+  /** fetch aggregated fields from the table: "background" */
+  background_aggregate: Background_Aggregate;
+  /** fetch data from the table: "background" using primary key columns */
+  background_by_pk?: Maybe<Background>;
   /** fetch data from the table: "celestial" */
   celestial: Array<Celestial>;
   /** fetch aggregated fields from the table: "celestial" */
@@ -2126,6 +2664,12 @@ export type Query_Root = {
   chat_message_aggregate: Chat_Message_Aggregate;
   /** fetch data from the table: "chat_message" using primary key columns */
   chat_message_by_pk?: Maybe<Chat_Message>;
+  /** fetch data from the table: "faction" */
+  faction: Array<Faction>;
+  /** fetch aggregated fields from the table: "faction" */
+  faction_aggregate: Faction_Aggregate;
+  /** fetch data from the table: "faction" using primary key columns */
+  faction_by_pk?: Maybe<Faction>;
   /** fetch data from the table: "galaxy" */
   galaxy: Array<Galaxy>;
   /** fetch aggregated fields from the table: "galaxy" */
@@ -2144,6 +2688,12 @@ export type Query_Root = {
   planetary_ring_aggregate: Planetary_Ring_Aggregate;
   /** fetch data from the table: "planetary_ring" using primary key columns */
   planetary_ring_by_pk?: Maybe<Planetary_Ring>;
+  /** fetch data from the table: "playable_race" */
+  playable_race: Array<Playable_Race>;
+  /** fetch aggregated fields from the table: "playable_race" */
+  playable_race_aggregate: Playable_Race_Aggregate;
+  /** fetch data from the table: "playable_race" using primary key columns */
+  playable_race_by_pk?: Maybe<Playable_Race>;
   returnNothing?: Maybe<GalaxyManagement>;
   /** fetch data from the table: "terrain_hex_palette" */
   terrain_hex_palette: Array<Terrain_Hex_Palette>;
@@ -2165,6 +2715,29 @@ export type Query_Root = {
   user_private: Array<User_Private>;
   /** fetch aggregated fields from the table: "user_private" */
   user_private_aggregate: User_Private_Aggregate;
+};
+
+
+export type Query_RootBackgroundArgs = {
+  distinct_on?: InputMaybe<Array<Background_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Background_Order_By>>;
+  where?: InputMaybe<Background_Bool_Exp>;
+};
+
+
+export type Query_RootBackground_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Background_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Background_Order_By>>;
+  where?: InputMaybe<Background_Bool_Exp>;
+};
+
+
+export type Query_RootBackground_By_PkArgs = {
+  id: Scalars['uuid'];
 };
 
 
@@ -2210,6 +2783,29 @@ export type Query_RootChat_Message_AggregateArgs = {
 
 
 export type Query_RootChat_Message_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootFactionArgs = {
+  distinct_on?: InputMaybe<Array<Faction_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Faction_Order_By>>;
+  where?: InputMaybe<Faction_Bool_Exp>;
+};
+
+
+export type Query_RootFaction_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Faction_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Faction_Order_By>>;
+  where?: InputMaybe<Faction_Bool_Exp>;
+};
+
+
+export type Query_RootFaction_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -2279,6 +2875,29 @@ export type Query_RootPlanetary_Ring_AggregateArgs = {
 
 
 export type Query_RootPlanetary_Ring_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootPlayable_RaceArgs = {
+  distinct_on?: InputMaybe<Array<Playable_Race_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Playable_Race_Order_By>>;
+  where?: InputMaybe<Playable_Race_Bool_Exp>;
+};
+
+
+export type Query_RootPlayable_Race_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Playable_Race_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Playable_Race_Order_By>>;
+  where?: InputMaybe<Playable_Race_Bool_Exp>;
+};
+
+
+export type Query_RootPlayable_Race_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -2366,6 +2985,12 @@ export type Query_RootUser_Private_AggregateArgs = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
+  /** fetch data from the table: "background" */
+  background: Array<Background>;
+  /** fetch aggregated fields from the table: "background" */
+  background_aggregate: Background_Aggregate;
+  /** fetch data from the table: "background" using primary key columns */
+  background_by_pk?: Maybe<Background>;
   /** fetch data from the table: "celestial" */
   celestial: Array<Celestial>;
   /** fetch aggregated fields from the table: "celestial" */
@@ -2378,6 +3003,12 @@ export type Subscription_Root = {
   chat_message_aggregate: Chat_Message_Aggregate;
   /** fetch data from the table: "chat_message" using primary key columns */
   chat_message_by_pk?: Maybe<Chat_Message>;
+  /** fetch data from the table: "faction" */
+  faction: Array<Faction>;
+  /** fetch aggregated fields from the table: "faction" */
+  faction_aggregate: Faction_Aggregate;
+  /** fetch data from the table: "faction" using primary key columns */
+  faction_by_pk?: Maybe<Faction>;
   /** fetch data from the table: "galaxy" */
   galaxy: Array<Galaxy>;
   /** fetch aggregated fields from the table: "galaxy" */
@@ -2396,6 +3027,12 @@ export type Subscription_Root = {
   planetary_ring_aggregate: Planetary_Ring_Aggregate;
   /** fetch data from the table: "planetary_ring" using primary key columns */
   planetary_ring_by_pk?: Maybe<Planetary_Ring>;
+  /** fetch data from the table: "playable_race" */
+  playable_race: Array<Playable_Race>;
+  /** fetch aggregated fields from the table: "playable_race" */
+  playable_race_aggregate: Playable_Race_Aggregate;
+  /** fetch data from the table: "playable_race" using primary key columns */
+  playable_race_by_pk?: Maybe<Playable_Race>;
   /** fetch data from the table: "terrain_hex_palette" */
   terrain_hex_palette: Array<Terrain_Hex_Palette>;
   /** fetch aggregated fields from the table: "terrain_hex_palette" */
@@ -2416,6 +3053,29 @@ export type Subscription_Root = {
   user_private: Array<User_Private>;
   /** fetch aggregated fields from the table: "user_private" */
   user_private_aggregate: User_Private_Aggregate;
+};
+
+
+export type Subscription_RootBackgroundArgs = {
+  distinct_on?: InputMaybe<Array<Background_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Background_Order_By>>;
+  where?: InputMaybe<Background_Bool_Exp>;
+};
+
+
+export type Subscription_RootBackground_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Background_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Background_Order_By>>;
+  where?: InputMaybe<Background_Bool_Exp>;
+};
+
+
+export type Subscription_RootBackground_By_PkArgs = {
+  id: Scalars['uuid'];
 };
 
 
@@ -2461,6 +3121,29 @@ export type Subscription_RootChat_Message_AggregateArgs = {
 
 
 export type Subscription_RootChat_Message_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootFactionArgs = {
+  distinct_on?: InputMaybe<Array<Faction_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Faction_Order_By>>;
+  where?: InputMaybe<Faction_Bool_Exp>;
+};
+
+
+export type Subscription_RootFaction_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Faction_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Faction_Order_By>>;
+  where?: InputMaybe<Faction_Bool_Exp>;
+};
+
+
+export type Subscription_RootFaction_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -2530,6 +3213,29 @@ export type Subscription_RootPlanetary_Ring_AggregateArgs = {
 
 
 export type Subscription_RootPlanetary_Ring_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootPlayable_RaceArgs = {
+  distinct_on?: InputMaybe<Array<Playable_Race_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Playable_Race_Order_By>>;
+  where?: InputMaybe<Playable_Race_Bool_Exp>;
+};
+
+
+export type Subscription_RootPlayable_Race_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Playable_Race_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Playable_Race_Order_By>>;
+  where?: InputMaybe<Playable_Race_Bool_Exp>;
+};
+
+
+export type Subscription_RootPlayable_Race_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -3421,6 +4127,11 @@ export type TryInsertClaimedCelestialMutationVariables = Exact<{
 
 export type TryInsertClaimedCelestialMutation = { __typename?: 'mutation_root', insert_celestial_one?: { __typename?: 'celestial', galaxy_id: any, id: string, name?: string | null, owner_id?: string | null } | null, update_user_info_by_pk?: { __typename?: 'user_info', free_claims: number } | null };
 
+export type CharacterDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CharacterDataQuery = { __typename?: 'query_root', playable_race: Array<{ __typename?: 'playable_race', description: string, id: any, name: string }>, faction: Array<{ __typename?: 'faction', description: string, id: any, name: string }>, background: Array<{ __typename?: 'background', description: string, id: any, name: string }> };
+
 export type GetChatMessagesSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -3668,6 +4379,26 @@ export const TryInsertClaimedCelestialDocument = gql`
 export type TryInsertClaimedCelestialMutationFn = Apollo.MutationFunction<TryInsertClaimedCelestialMutation, TryInsertClaimedCelestialMutationVariables>;
 export type TryInsertClaimedCelestialMutationResult = Apollo.MutationResult<TryInsertClaimedCelestialMutation>;
 export type TryInsertClaimedCelestialMutationOptions = Apollo.BaseMutationOptions<TryInsertClaimedCelestialMutation, TryInsertClaimedCelestialMutationVariables>;
+export const CharacterDataDocument = gql`
+    query CharacterData {
+  playable_race {
+    description
+    id
+    name
+  }
+  faction {
+    description
+    id
+    name
+  }
+  background {
+    description
+    id
+    name
+  }
+}
+    `;
+export type CharacterDataQueryResult = Apollo.QueryResult<CharacterDataQuery, CharacterDataQueryVariables>;
 export const GetChatMessagesDocument = gql`
     subscription GetChatMessages {
   chat_message(order_by: {timestamp: desc}, limit: 200) {

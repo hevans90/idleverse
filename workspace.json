@@ -266,11 +266,11 @@
           "configurations": {
             "production": {
               "buildTarget": "idleverse-web:build:production",
-              "hmr": false
+              "hmr": true
             },
             "docker": {
               "buildTarget": "idleverse-web:build:docker",
-              "hmr": false
+              "hmr": true
             }
           }
         },

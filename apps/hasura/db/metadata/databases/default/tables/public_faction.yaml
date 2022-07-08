@@ -1,0 +1,18 @@
+table:
+  schema: public
+  name: faction
+select_permissions:
+  - role: dev
+    permission:
+      columns:
+        - description
+        - name
+        - id
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - id
+        - name
+        - description
+      filter: {}

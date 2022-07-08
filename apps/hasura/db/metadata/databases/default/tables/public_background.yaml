@@ -1,0 +1,18 @@
+table:
+  schema: public
+  name: background
+select_permissions:
+  - role: dev
+    permission:
+      columns:
+        - description
+        - name
+        - id
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - description
+        - name
+        - id
+      filter: {}

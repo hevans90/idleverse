@@ -72,7 +72,7 @@ export type RingKey = RingTuple[number];
 
 export type RingConfig = {
   id: string;
-  rotation: [x: number, y: number, z: number, order?: string];
+  rotation: [x: number, y: number, z: number];
   type: RingKey;
   colors: [rgb, rgb, rgb, rgb];
   terrainBias: [number, number, number, number];

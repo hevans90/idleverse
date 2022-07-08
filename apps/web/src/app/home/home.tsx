@@ -6,6 +6,7 @@ import {
   HStack,
   Link,
   SimpleGrid,
+  Stack,
   StackDivider,
   Text,
   useColorModeValue,
@@ -17,6 +18,7 @@ import {
 } from '@idleverse/galaxy-gql';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { Loading } from '../components/loading';
+import { responsiveFontProps } from '../_responsive-utils/font-props';
 
 export const Home = () => {
   const { user } = useAuth0();
@@ -47,42 +49,71 @@ export const Home = () => {
 
   return (
     <Box
-      height="100%"
+      height={`calc(100% - 1rem)`}
       display="flex"
       alignItems="center"
       justifyContent="center"
       flexDirection="column"
-      margin="0 1rem 0 1rem"
+      margin="0 1rem 1rem 1rem"
     >
-      <Text fontSize="5xl" textAlign="center" marginBottom={10}>
-        Welcome back commander.
-      </Text>
+      <VStack justify="end" flexGrow={1}>
+        <Text
+          fontSize={['xl', '2xl', '3xl', '4xl', '5xl']}
+          textAlign="center"
+          marginBottom={10}
+        >
+          Welcome back commander.
+        </Text>
+      </VStack>
 
-      <HStack width="100%" divider={<StackDivider />} align="start" spacing={5}>
-        <HStack width="50%" justify="end">
+      <Stack
+        direction={['column', 'column', 'column', 'row']}
+        width="100%"
+        divider={<StackDivider />}
+        align="start"
+        spacing={5}
+        flexGrow={2}
+        maxHeight={['80vh', '80vh', '80vh', '70vh']}
+      >
+        <HStack
+          width={['100%', '100%', '100%', '50%']}
+          justify={['center', 'center', 'center', 'end']}
+        >
           <VStack divider={<StackDivider />} spacing={5}>
             <Link as={ReactRouterLink} to="/showreel">
-              <Button size="lg">Old showreel</Button>
+              <Button {...responsiveFontProps}>Old showreel</Button>
             </Link>
             <Link as={ReactRouterLink} to="/galaxy-gen">
-              <Button size="lg">Make a galaxy</Button>
+              <Button {...responsiveFontProps}>Make a galaxy</Button>
             </Link>
             <Link as={ReactRouterLink} to="/galaxies">
-              <Button size="lg" colorScheme="teal">
+              <Button {...responsiveFontProps} colorScheme="teal">
                 Join a galaxy
               </Button>
             </Link>
           </VStack>
         </HStack>
 
-        <VStack width="50%" align="start">
+        <VStack
+          width={['100%', '100%', '100%', '50%']}
+          align={['center', 'center', 'center', 'start']}
+          height={['75%', '75%', '75%', '100%']}
+        >
           <>
             <Text marginBottom={5}>
               You have {data.galaxy_aggregate.nodes.length} galactic&nbsp;
               {data.galaxy_aggregate.nodes.length === 1 ? 'empire' : 'empires'}.
             </Text>
 
-            <SimpleGrid columns={2} spacing={5}>
+            <SimpleGrid
+              padding={2}
+              columns={2}
+              spacing={5}
+              overflow="auto"
+              borderWidth="1px"
+              borderStyle="solid"
+              borderColor={border}
+            >
               {data.galaxy_aggregate.nodes.map(
                 (
                   {
@@ -101,14 +132,18 @@ export const Home = () => {
                     minHeight="20vh"
                   >
                     <VStack height="100%" padding={3} align="start">
-                      <VStack width="100%" align="start">
+                      <VStack
+                        width="100%"
+                        align="start"
+                        fontSize={['xxs', 'xs', 'xs', 'sm']}
+                      >
                         <HStack width="100%" justifyContent="space-between">
-                          <Text fontSize="sm">Galaxy Name:</Text>
-                          <Text fontSize="sm">{name}</Text>
+                          <Text>Galaxy Name:</Text>
+                          <Text>{name}</Text>
                         </HStack>
                         <HStack width="100%" justifyContent="space-between">
-                          <Text fontSize="sm">Owned celestials:</Text>
-                          <Text fontSize="sm" color={tealTextColor}>
+                          <Text>Owned celestials:</Text>
+                          <Text color={tealTextColor}>
                             {ownedCelestials.length}
                           </Text>
                         </HStack>
@@ -159,7 +194,9 @@ export const Home = () => {
                           as={ReactRouterLink}
                           to={`/galaxies/${galaxyId}`}
                         >
-                          <Button width="100%">Go to Galaxy</Button>
+                          <Button width="100%" {...responsiveFontProps}>
+                            Go to Galaxy
+                          </Button>
                         </Link>
                       </VStack>
                     </VStack>
@@ -169,7 +206,7 @@ export const Home = () => {
             </SimpleGrid>
           </>
         </VStack>
-      </HStack>
+      </Stack>
     </Box>
   );
 };

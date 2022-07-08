@@ -12,7 +12,6 @@ import { Star } from '../galaxy-generator/graphics/star';
 
 type GalaxyThumbnailProps = {
   galaxyConfig: GalaxyConfig;
-  thumbnailNumber: number;
 };
 
 export const GalaxyThumbnail = ({ galaxyConfig }: GalaxyThumbnailProps) => {
@@ -29,7 +28,7 @@ export const GalaxyThumbnail = ({ galaxyConfig }: GalaxyThumbnailProps) => {
     app.stage.addChild(galaxyContainer);
 
     const celestials = generateCelestials(
-      galaxyConfig.stars,
+      galaxyConfig.stars > 500 ? 500 : galaxyConfig.stars,
       galaxyConfig.seed
     );
 

@@ -1,0 +1,17 @@
+query CharacterData {
+  playable_race {
+    description
+    id
+    name
+  }
+  faction {
+    description
+    id
+    name
+  }
+  background {
+    description
+    id
+    name
+  }
+}

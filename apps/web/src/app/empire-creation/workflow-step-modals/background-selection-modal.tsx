@@ -1,0 +1,59 @@
+import { useReactiveVar } from '@apollo/client';
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+} from '@chakra-ui/react';
+import { Background } from '@idleverse/galaxy-gql';
+import { useState } from 'react';
+import { backgroundsVar } from '../../_state/backgrounds';
+import { GallerySelector } from '../components/gallery-selector';
+
+export const BackgroundSelectionModal = ({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: (background: Background) => void;
+}) => {
+  const backgrounds = useReactiveVar(backgroundsVar);
+
+  const [selectedBackground, setSelectedBackround] = useState<Background>();
+
+  return (
+    <Modal
+      isOpen={isOpen}
+      onClose={() => onClose(selectedBackground)}
+      size="3xl"
+      isCentered
+    >
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader borderBottom="2px solid" borderBottomColor="gray.600">
+          Select Background
+        </ModalHeader>
+        <ModalBody padding={0}>
+          <GallerySelector
+            name="background"
+            items={backgrounds}
+            defaultItem={selectedBackground}
+            onSelectionChange={(background) => setSelectedBackround(background)}
+          />
+        </ModalBody>
+
+        <ModalFooter borderTop="2px solid" borderTopColor="gray.600">
+          <Button
+            disabled={!selectedBackground}
+            onClick={() => onClose(selectedBackground)}
+          >
+            Confirm
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
+};
