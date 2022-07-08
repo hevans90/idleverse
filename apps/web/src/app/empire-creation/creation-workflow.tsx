@@ -1,6 +1,10 @@
-import { Box, Button, SimpleGrid } from '@chakra-ui/react';
+import { useReactiveVar } from '@apollo/client';
+import { Box, Button, Image, SimpleGrid } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import { DataUriGenerator } from '../canvases/celestial-viewer/data-uri-generator';
+import { runPixelDataGenOnWorker } from '../canvases/planet-generator/texture-generation/run-texture-gen-on-worker';
 import { characterCreationVar } from '../_state/character-creation';
+import { planetGenerationColorDrawerVar } from '../_state/planet-generation';
 import { creationStep } from './creation-types';
 
 const WorkflowButton = ({
@@ -55,6 +59,46 @@ export const CreationWorkflow = ({
   value: ReturnType<typeof characterCreationVar>;
 }) => {
   const [ready, setReady] = useState<boolean>(false);
+  const [
+    generatingPlanetThumbnailPixelData,
+    setGeneratingPlanetThumbnailPixelData,
+  ] = useState<boolean>(false);
+
+  const [
+    generatingPlanetThumbnailDataURI,
+    setGeneratingPlanetThumbnailDataURI,
+  ] = useState<boolean>(false);
+
+  const [planetThumbnailPixelData, setplanetThumbnailPixelData] = useState<{
+    seed: string;
+    data: Uint8Array;
+    width: number;
+    height: number;
+  }>(undefined);
+
+  const [homeworldDataURI, setHomeworldDataURI] = useState<string>(undefined);
+
+  const homeworldColors = useReactiveVar(planetGenerationColorDrawerVar);
+
+  useEffect(() => {
+    if (homeworld) {
+      setGeneratingPlanetThumbnailPixelData(true);
+
+      const { water, sand, grass, forest } = homeworldColors.currentPalette;
+
+      runPixelDataGenOnWorker(
+        'perlin',
+        homeworld.texture_resolution,
+        [water, sand, grass, forest],
+        homeworld.terrain_bias as [number, number, number, number],
+        homeworld.id
+      ).then((pixelData) => {
+        setplanetThumbnailPixelData(pixelData);
+        setGeneratingPlanetThumbnailPixelData(false);
+        setGeneratingPlanetThumbnailDataURI(true);
+      });
+    }
+  }, [homeworld, homeworldColors]);
 
   useEffect(() => {
     setReady(!!(race && background && faction && homeworld));
@@ -87,6 +131,19 @@ export const CreationWorkflow = ({
         displayName="generate homeworld"
         value={homeworld?.name}
       />
+      {!generatingPlanetThumbnailPixelData && generatingPlanetThumbnailDataURI && (
+        <DataUriGenerator
+          celestialId="character-creation"
+          input={[planetThumbnailPixelData]}
+          onGenerationFinished={({ uris }) => {
+            setHomeworldDataURI(uris[0].uri);
+            setGeneratingPlanetThumbnailDataURI(false);
+          }}
+        />
+      )}
+      {homeworldDataURI && (
+        <Image boxSize="150px" src={homeworldDataURI} borderRadius="full" />
+      )}
       <WorkflowButton
         onClick={() => onStepClicked('start')}
         stepName="start"

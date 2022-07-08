@@ -6,7 +6,9 @@ export const DataUriGenerator = ({
   input,
   onGenerationFinished,
 }: {
-  onGenerationFinished: () => void;
+  onGenerationFinished: (
+    uris: ReturnType<typeof celestialViewerPlanetDataUris>
+  ) => void;
   celestialId: string;
   input: { seed: string; data: Uint8Array; width: number; height: number }[];
 }) => {
@@ -40,7 +42,7 @@ export const DataUriGenerator = ({
     });
 
     celestialViewerPlanetDataUris({ celestialId, uris });
-    onGenerationFinished();
+    onGenerationFinished({ celestialId, uris });
   }, []);
 
   return <canvas ref={canvasRef} />;
