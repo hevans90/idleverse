@@ -33,7 +33,11 @@ import { PlanetGeneratorTerrainDrawer } from './ui/terrain-drawer';
 import { World } from './world';
 import { deepCompareRings } from './_utils/deep-compare-rings';
 
-export const PlanetGenerator = () => {
+export const PlanetGenerator = ({
+  customSize,
+}: {
+  customSize?: { width: number; height: number };
+}) => {
   const { data: colorPalettes, loading: colorPalettesLoading } =
     useQuery<TerrainHexPalettesQuery>(TerrainHexPalettesDocument);
 
@@ -126,9 +130,13 @@ export const PlanetGenerator = () => {
       <Box
         ref={containerRef}
         position="relative"
-        width={`${width}px`}
+        width={`${customSize?.width || width}px`}
         height={
-          ui ? `${height}px` : `${height + planetGenerationControlsHeight}`
+          ui
+            ? `${customSize?.height || height}px`
+            : `${
+                (customSize?.height || height) + planetGenerationControlsHeight
+              }`
         }
       >
         <Canvas>

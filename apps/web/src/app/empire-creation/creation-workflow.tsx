@@ -1,4 +1,5 @@
 import { Box, Button, SimpleGrid } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 import { characterCreationVar } from '../_state/character-creation';
 import { creationStep } from './creation-types';
 
@@ -48,11 +49,17 @@ const WorkflowButton = ({
 
 export const CreationWorkflow = ({
   onStepClicked,
-  value: { race, background, faction },
+  value: { race, background, faction, homeworld },
 }: {
   onStepClicked: (step: creationStep) => unknown;
   value: ReturnType<typeof characterCreationVar>;
 }) => {
+  const [ready, setReady] = useState<boolean>(false);
+
+  useEffect(() => {
+    setReady(!!(race && background && faction && homeworld));
+  }, [race, background, faction, homeworld]);
+
   return (
     <SimpleGrid
       width={['95%', '95%', '95%', '95%', '95%', '70%']}
@@ -78,12 +85,13 @@ export const CreationWorkflow = ({
         onClick={() => onStepClicked('homeworld')}
         stepName="homeworld"
         displayName="generate homeworld"
+        value={homeworld?.name}
       />
       <WorkflowButton
         onClick={() => onStepClicked('start')}
         stepName="start"
         displayName="begin your journey"
-        disabled={true}
+        disabled={!ready}
       />
     </SimpleGrid>
   );

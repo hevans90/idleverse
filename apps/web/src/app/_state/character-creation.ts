@@ -1,12 +1,22 @@
-import { makeVar } from '@apollo/client';
-import { Background, Faction, Playable_Race } from '@idleverse/galaxy-gql';
+import {
+  Background,
+  Faction,
+  PlanetCreationInput,
+  Playable_Race,
+} from '@idleverse/galaxy-gql';
+import { makeVarPersisted } from './utils';
 
-export const characterCreationVar = makeVar<{
+export const characterCreationVar = makeVarPersisted<{
   race: Playable_Race;
   background: Background;
   faction: Faction;
-}>({
-  race: undefined,
-  background: undefined,
-  faction: undefined,
-});
+  homeworld: PlanetCreationInput;
+}>(
+  {
+    race: undefined,
+    background: undefined,
+    faction: undefined,
+    homeworld: undefined,
+  },
+  'character-creation'
+);

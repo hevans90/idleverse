@@ -13,9 +13,15 @@ import { creationStep } from './creation-types';
 import { CreationWorkflow } from './creation-workflow';
 import { BackgroundSelectionModal } from './workflow-step-modals/background-selection-modal';
 import { FactionSelectionModal } from './workflow-step-modals/faction-selection-modal';
+import { HomeworldGenerationModal } from './workflow-step-modals/homeworld-generation-modal';
 import { RaceSelectionModal } from './workflow-step-modals/race-selection-modal';
 
+import { useAuth0 } from '@auth0/auth0-react';
+import { generatePlanetInsertionVars } from '../canvases/planet-generator/generate-planet-input-vars';
+
 export const JoinGalaxy = () => {
+  const { user } = useAuth0();
+
   const { id } = useParams<{ id: string }>();
 
   const { data, loading } = useQuery<GalaxyByIdQuery>(GalaxyByIdDocument, {
@@ -42,6 +48,12 @@ export const JoinGalaxy = () => {
     onClose: onFactionSelectionClose,
   } = useDisclosure();
 
+  const {
+    isOpen: homeworldGenerationOpen,
+    onOpen: onHomeworldGenerationOpen,
+    onClose: onHomeworldGenerationClose,
+  } = useDisclosure();
+
   const characterCreationState = useReactiveVar(characterCreationVar);
 
   useEffect(() => {
@@ -50,6 +62,7 @@ export const JoinGalaxy = () => {
         race: undefined,
         background: undefined,
         faction: undefined,
+        homeworld: undefined,
       });
     };
   }, []);
@@ -94,6 +107,18 @@ export const JoinGalaxy = () => {
         }}
       />
 
+      <HomeworldGenerationModal
+        isOpen={homeworldGenerationOpen}
+        onClose={() => {
+          characterCreationVar({
+            ...characterCreationVar(),
+            // make sure to set a celestial ID once a celestial is claimed at the end of the flow
+            homeworld: generatePlanetInsertionVars('', user.sub),
+          });
+          onHomeworldGenerationClose();
+        }}
+      />
+
       <VStack
         height="100%"
         justify="center"
@@ -121,7 +146,7 @@ export const JoinGalaxy = () => {
               race: () => onRaceSelectionOpen(),
               background: () => onBackgroundSelectionOpen(),
               faction: () => onFactionSelectionOpen(),
-              homeworld: () => undefined,
+              homeworld: () => onHomeworldGenerationOpen(),
               start: () => setReady(true),
             };
 

@@ -1,7 +1,5 @@
-import {
-  Planetary_Ring_Insert_Input,
-  TryInsertPlanetMutationVariables,
-} from '@idleverse/galaxy-gql';
+import { PlanetCreationInput, RingInsertInput } from '@idleverse/galaxy-gql';
+import { rgbToHex } from '@idleverse/theme';
 import { RingConfig } from '../../_state/models';
 import {
   planetGenerationColorDrawerVar,
@@ -19,8 +17,8 @@ const mapFromRingConfigToRingInsertInput = ({
   rotation,
   terrainBias,
   type,
-}: RingConfig): Planetary_Ring_Insert_Input => ({
-  colors,
+}: RingConfig): RingInsertInput => ({
+  colors: colors.map((rgb) => rgbToHex(rgb)),
   id,
   inner_radius: innerRadius,
   outer_radius: outerRadius,
@@ -33,7 +31,7 @@ const mapFromRingConfigToRingInsertInput = ({
 export const generatePlanetInsertionVars = (
   celestialId: string,
   ownerId: string
-): TryInsertPlanetMutationVariables => {
+): PlanetCreationInput => {
   const {
     seed: id,
     name,
@@ -47,19 +45,17 @@ export const generatePlanetInsertionVars = (
   const { rings } = planetGenerationRingDrawerVar();
 
   return {
-    input: {
-      id,
-      celestial_id: celestialId,
-      radius,
-      name,
-      owner_id: ownerId,
-      rings: {
-        data: rings.map((ring) => mapFromRingConfigToRingInsertInput(ring)),
-      },
-      terrain_bias: terrainBias,
-      terrain_hex_palette_id: currentPaletteId,
-      texture_resolution: textureResolution,
-      atmospheric_distance: atmosphericDistance,
+    id,
+    celestial_id: celestialId,
+    radius,
+    name,
+    owner_id: ownerId,
+    rings: {
+      data: rings.map((ring) => mapFromRingConfigToRingInsertInput(ring)),
     },
+    terrain_bias: terrainBias,
+    terrain_hex_palette_id: currentPaletteId,
+    texture_resolution: textureResolution,
+    atmospheric_distance: atmosphericDistance,
   };
 };
