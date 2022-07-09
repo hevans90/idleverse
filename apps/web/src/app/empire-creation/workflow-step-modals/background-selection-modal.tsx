@@ -16,18 +16,21 @@ import { GallerySelector } from '../components/gallery-selector';
 export const BackgroundSelectionModal = ({
   isOpen,
   onClose,
+  selectedBackground,
 }: {
   isOpen: boolean;
   onClose: (background: Background) => void;
+  selectedBackground?: Background;
 }) => {
   const backgrounds = useReactiveVar(backgroundsVar);
 
-  const [selectedBackground, setSelectedBackround] = useState<Background>();
+  const [locallySelectedBackground, setLocallySelectedBackround] =
+    useState<Background>(selectedBackground);
 
   return (
     <Modal
       isOpen={isOpen}
-      onClose={() => onClose(selectedBackground)}
+      onClose={() => onClose(locallySelectedBackground)}
       size="3xl"
       isCentered
     >
@@ -40,15 +43,17 @@ export const BackgroundSelectionModal = ({
           <GallerySelector
             name="background"
             items={backgrounds}
-            defaultItem={selectedBackground}
-            onSelectionChange={(background) => setSelectedBackround(background)}
+            defaultItem={locallySelectedBackground}
+            onSelectionChange={(background) =>
+              setLocallySelectedBackround(background)
+            }
           />
         </ModalBody>
 
         <ModalFooter borderTop="2px solid" borderTopColor="gray.600">
           <Button
-            disabled={!selectedBackground}
-            onClick={() => onClose(selectedBackground)}
+            disabled={!locallySelectedBackground}
+            onClick={() => onClose(locallySelectedBackground)}
           >
             Confirm
           </Button>
