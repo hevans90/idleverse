@@ -27,6 +27,29 @@ array_relationships:
         insertion_order: null
         column_mapping:
           id: galactic_empire_id
+insert_permissions:
+  - role: dev
+    permission:
+      check:
+        user_id:
+          _eq: X-Hasura-User-Id
+      columns:
+        - background_id
+        - faction_id
+        - galaxy_id
+        - playable_race_id
+        - user_id
+  - role: user
+    permission:
+      check:
+        user_id:
+          _eq: X-Hasura-User-Id
+      columns:
+        - background_id
+        - faction_id
+        - galaxy_id
+        - playable_race_id
+        - user_id
 select_permissions:
   - role: dev
     permission:
