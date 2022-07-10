@@ -16,18 +16,21 @@ import { GallerySelector } from '../components/gallery-selector';
 export const RaceSelectionModal = ({
   isOpen,
   onClose,
+  selectedRace,
 }: {
   isOpen: boolean;
   onClose: (race: Playable_Race) => void;
+  selectedRace?: Playable_Race;
 }) => {
   const playableRaces = useReactiveVar(playableRacesVar);
 
-  const [selectedRace, setSelectedRace] = useState<Playable_Race>();
+  const [locallySelectedRace, setLocallySelectedRace] =
+    useState<Playable_Race>(selectedRace);
 
   return (
     <Modal
       isOpen={isOpen}
-      onClose={() => onClose(selectedRace)}
+      onClose={() => onClose(locallySelectedRace)}
       size="3xl"
       isCentered
     >
@@ -40,15 +43,15 @@ export const RaceSelectionModal = ({
           <GallerySelector
             name="race"
             items={playableRaces}
-            defaultItem={selectedRace}
-            onSelectionChange={(race) => setSelectedRace(race)}
+            defaultItem={locallySelectedRace}
+            onSelectionChange={(race) => setLocallySelectedRace(race)}
           />
         </ModalBody>
 
         <ModalFooter borderTop="2px solid" borderTopColor="gray.600">
           <Button
-            disabled={!selectedRace}
-            onClick={() => onClose(selectedRace)}
+            disabled={!locallySelectedRace}
+            onClick={() => onClose(locallySelectedRace)}
           >
             Confirm
           </Button>

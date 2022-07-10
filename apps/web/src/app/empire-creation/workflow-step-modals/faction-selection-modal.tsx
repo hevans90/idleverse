@@ -16,18 +16,21 @@ import { GallerySelector } from '../components/gallery-selector';
 export const FactionSelectionModal = ({
   isOpen,
   onClose,
+  selectedFaction,
 }: {
   isOpen: boolean;
   onClose: (faction: Faction) => void;
+  selectedFaction?: Faction;
 }) => {
   const factions = useReactiveVar(factionsVar);
 
-  const [selectedFaction, setSelectedFaction] = useState<Faction>();
+  const [locallySelectedFaction, setLocallySelectedFaction] =
+    useState<Faction>(selectedFaction);
 
   return (
     <Modal
       isOpen={isOpen}
-      onClose={() => onClose(selectedFaction)}
+      onClose={() => onClose(locallySelectedFaction)}
       size="3xl"
       isCentered
     >
@@ -40,15 +43,15 @@ export const FactionSelectionModal = ({
           <GallerySelector
             name="faction"
             items={factions}
-            defaultItem={selectedFaction}
-            onSelectionChange={(faction) => setSelectedFaction(faction)}
+            defaultItem={locallySelectedFaction}
+            onSelectionChange={(faction) => setLocallySelectedFaction(faction)}
           />
         </ModalBody>
 
         <ModalFooter borderTop="2px solid" borderTopColor="gray.600">
           <Button
-            disabled={!selectedFaction}
-            onClick={() => onClose(selectedFaction)}
+            disabled={!locallySelectedFaction}
+            onClick={() => onClose(locallySelectedFaction)}
           >
             Confirm
           </Button>

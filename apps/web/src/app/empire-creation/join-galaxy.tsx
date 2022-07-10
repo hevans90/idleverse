@@ -84,6 +84,7 @@ export const JoinGalaxy = () => {
   return (
     <>
       <RaceSelectionModal
+        selectedRace={characterCreationState.race}
         isOpen={raceSelectionOpen}
         onClose={(race) => {
           characterCreationVar({ ...characterCreationVar(), race });
@@ -92,6 +93,7 @@ export const JoinGalaxy = () => {
       />
 
       <BackgroundSelectionModal
+        selectedBackground={characterCreationState.background}
         isOpen={backgroundSelectionOpen}
         onClose={(background) => {
           characterCreationVar({ ...characterCreationVar(), background });
@@ -100,6 +102,7 @@ export const JoinGalaxy = () => {
       />
 
       <FactionSelectionModal
+        selectedFaction={characterCreationState.faction}
         isOpen={factionSelectionOpen}
         onClose={(faction) => {
           characterCreationVar({ ...characterCreationVar(), faction });
