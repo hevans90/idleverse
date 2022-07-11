@@ -16,13 +16,19 @@ array_relationships:
         table:
           schema: public
           name: chat_message
+  - name: galactic_empires
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: galactic_empire
 select_permissions:
-  - role: unregistered
+  - role: dev
     permission:
       columns:
         - avatar_url
         - display_name
-        - free_claims
         - id
         - name
         - nickname
@@ -32,12 +38,18 @@ select_permissions:
       columns:
         - avatar_url
         - display_name
-        - free_claims
         - id
         - name
         - nickname
       filter: {}
 update_permissions:
+  - role: dev
+    permission:
+      columns: []
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+      check: null
   - role: user
     permission:
       columns: []

@@ -2,11 +2,21 @@ table:
   schema: public
   name: user_me
 select_permissions:
+  - role: dev
+    permission:
+      columns:
+        - display_name
+        - id
+        - name
+        - nickname
+        - secret_setting_test
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
   - role: unregistered
     permission:
       columns:
         - display_name
-        - free_claims
         - id
         - name
         - nickname
@@ -18,7 +28,6 @@ select_permissions:
     permission:
       columns:
         - display_name
-        - free_claims
         - id
         - name
         - nickname

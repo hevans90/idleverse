@@ -3,7 +3,6 @@ mutation TryInsertClaimedCelestial(
   $id: String!
   $name: String!
   $owner_id: String!
-  $free_claims: Int!
 ) {
   insert_celestial_one(
     object: { galaxy_id: $galaxy_id, id: $id, name: $name, owner_id: $owner_id }
@@ -13,11 +12,5 @@ mutation TryInsertClaimedCelestial(
     id
     name
     owner_id
-  }
-  update_user_info_by_pk(
-    pk_columns: { id: $owner_id }
-    _set: { free_claims: $free_claims }
-  ) {
-    free_claims
   }
 }
