@@ -1,5 +1,8 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import {
+  GalacticEmpiresByGalaxyIdDocument,
+  GalacticEmpiresByGalaxyIdQuery,
+  GalacticEmpiresByGalaxyIdQueryVariables,
   GetGalaxyByIdAndUnclaimedCelestialsDocument,
   GetGalaxyByIdAndUnclaimedCelestialsQuery,
   GetGalaxyByIdAndUnclaimedCelestialsQueryVariables,
@@ -33,16 +36,22 @@ export class HasuraAPI extends DataSource {
       variables: { id, display_name },
     });
 
-  getGalaxyByIdWithUnclaimedCelestials = async (
-    userId: string,
-    galaxyId: string
-  ) =>
+  getGalacticEmpiresByGalaxyId = async (galaxyId: string) =>
+    this.client.query<
+      GalacticEmpiresByGalaxyIdQuery,
+      GalacticEmpiresByGalaxyIdQueryVariables
+    >({
+      query: GalacticEmpiresByGalaxyIdDocument,
+      variables: { galaxyId },
+    });
+
+  getGalaxyByIdWithUnclaimedCelestials = async (galaxyId: string) =>
     this.client.query<
       GetGalaxyByIdAndUnclaimedCelestialsQuery,
       GetGalaxyByIdAndUnclaimedCelestialsQueryVariables
     >({
       query: GetGalaxyByIdAndUnclaimedCelestialsDocument,
-      variables: { userId, galaxyId },
+      variables: { galaxyId },
     });
 
   tryInsertClaimedCelestial = async (

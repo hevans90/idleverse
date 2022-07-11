@@ -1,4 +1,4 @@
-query GetGalaxyByIdAndUnclaimedCelestials($userId: String!, $galaxyId: uuid!) {
+query GetGalaxyByIdAndUnclaimedCelestials($galaxyId: uuid!) {
   galaxy_by_pk(id: $galaxyId) {
     id
     stars

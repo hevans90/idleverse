@@ -1,5 +1,6 @@
 mutation RequestRandomCelestialByGalaxyId($galaxy_id: String!) {
-  requestRandomCelestial(galaxy_id: $galaxy_id) {
-    freeClaimsLeft
+  createEmpireOriginCelestial(galaxy_id: $galaxy_id) {
+    insertedCelestialId
+    insertedCelestialName
   }
 }
