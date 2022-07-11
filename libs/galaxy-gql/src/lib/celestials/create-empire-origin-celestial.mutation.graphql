@@ -1,4 +1,4 @@
-mutation RequestRandomCelestialByGalaxyId($galaxy_id: String!) {
+mutation CreateEmpireOriginCelestial($galaxy_id: String!) {
   createEmpireOriginCelestial(galaxy_id: $galaxy_id) {
     insertedCelestialId
     insertedCelestialName

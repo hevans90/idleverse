@@ -1,14 +1,32 @@
-import { useQuery, useReactiveVar } from '@apollo/client';
-import { Box, Text, useDisclosure, VStack } from '@chakra-ui/react';
-import { GalaxyByIdDocument, GalaxyByIdQuery } from '@idleverse/galaxy-gql';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
+import {
+  Box,
+  Button,
+  Link,
+  Text,
+  useDisclosure,
+  VStack,
+} from '@chakra-ui/react';
+import { dbGalaxyToGalaxyConfig } from '@idleverse/galaxy-gen';
+import {
+  CreateEmpireOriginCelestialDocument,
+  CreateEmpireOriginCelestialMutation,
+  CreateEmpireOriginCelestialMutationVariables,
+  CreateGalacticEmpireDocument,
+  CreateGalacticEmpireMutation,
+  CreateGalacticEmpireMutationVariables,
+  CreatePlanetDocument,
+  CreatePlanetMutation,
+  CreatePlanetMutationVariables,
+  GalaxyByIdDocument,
+  GalaxyByIdQuery,
+} from '@idleverse/galaxy-gql';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link as ReactRouterLink, useParams } from 'react-router-dom';
 import { GalaxyThumbnail } from '../canvases/galaxy-thumbnail/galaxy-thumbnail';
-import { dbGalaxyToGalaxyConfig } from '../canvases/_utils/db-galaxy-to-galaxy-config';
 import { Loading } from '../components/loading';
 import { characterCreationVar } from '../_state/character-creation';
 import { galaxyConfigVar } from '../_state/reactive-variables';
-import { PixelateSVGFilter } from './components/pixelate-svg-filter';
 import { creationStep } from './creation-types';
 import { CreationWorkflow } from './creation-workflow';
 import { BackgroundSelectionModal } from './workflow-step-modals/background-selection-modal';
@@ -20,6 +38,8 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { generatePlanetInsertionVars } from '../canvases/planet-generator/generate-planet-input-vars';
 
 export const JoinGalaxy = () => {
+  const characterCreationState = useReactiveVar(characterCreationVar);
+
   const { user } = useAuth0();
 
   const { id } = useParams<{ id: string }>();
@@ -28,7 +48,32 @@ export const JoinGalaxy = () => {
     variables: { id },
   });
 
-  const [ready, setReady] = useState<boolean>(false);
+  const [alreadyJoinedGalaxy, setalreadyJoinedGalaxy] =
+    useState<boolean>(false);
+
+  const [readyToCreateEmpire, setReadyToCreateEmpire] =
+    useState<boolean>(false);
+
+  const [empireCreationStatus, setEmpireCreationStatus] = useState<
+    'origin system' | 'homeworld' | 'empire' | 'done'
+  >(undefined);
+
+  const [readyToTransition, setReadyToTransition] = useState<boolean>(false);
+
+  const [createEmpireOriginCelestial] = useMutation<
+    CreateEmpireOriginCelestialMutation,
+    CreateEmpireOriginCelestialMutationVariables
+  >(CreateEmpireOriginCelestialDocument);
+
+  const [createHomeworld] = useMutation<
+    CreatePlanetMutation,
+    CreatePlanetMutationVariables
+  >(CreatePlanetDocument);
+
+  const [createEmpire] = useMutation<
+    CreateGalacticEmpireMutation,
+    CreateGalacticEmpireMutationVariables
+  >(CreateGalacticEmpireDocument);
 
   const {
     isOpen: raceSelectionOpen,
@@ -54,7 +99,38 @@ export const JoinGalaxy = () => {
     onClose: onHomeworldGenerationClose,
   } = useDisclosure();
 
-  const characterCreationState = useReactiveVar(characterCreationVar);
+  const runCreationMutations = async () => {
+    setEmpireCreationStatus('origin system');
+    const celestial = await createEmpireOriginCelestial({
+      variables: { galaxy_id: data.galaxy_by_pk.id },
+    });
+    setEmpireCreationStatus('homeworld');
+
+    const homeworld = await createHomeworld({
+      variables: {
+        input: {
+          ...characterCreationState.homeworld,
+          celestial_id:
+            celestial.data.createEmpireOriginCelestial.insertedCelestialId,
+        },
+      },
+    });
+    const homeworldPlanetId = homeworld.data.createPlanet.createdPlanet.id;
+    setEmpireCreationStatus('empire');
+
+    await createEmpire({
+      variables: {
+        input: {
+          user_id: user.sub,
+          galaxy_id: data.galaxy_by_pk.id,
+          playable_race_id: characterCreationState.race.id,
+          background_id: characterCreationState.background.id,
+          faction_id: characterCreationState.faction.id,
+          homeworld_id: homeworldPlanetId,
+        },
+      },
+    });
+  };
 
   useEffect(() => {
     return () => {
@@ -70,14 +146,62 @@ export const JoinGalaxy = () => {
   useEffect(() => {
     if (data) {
       galaxyConfigVar(dbGalaxyToGalaxyConfig(data.galaxy_by_pk));
+
+      const userAlreadyHasAnEmpireHere =
+        data.galaxy_by_pk.galactic_empires.find(
+          ({ user_id }) => user_id === user.sub
+        );
+
+      if (userAlreadyHasAnEmpireHere) {
+        setalreadyJoinedGalaxy(true);
+      }
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
+  useEffect(() => {
+    if (readyToCreateEmpire) {
+      runCreationMutations().then(() => setEmpireCreationStatus('done'));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [readyToCreateEmpire]);
+
   if (loading) {
     return (
       <Loading width="100%" height="100%" text="Loading Galaxy info"></Loading>
+    );
+  }
+
+  if (alreadyJoinedGalaxy) {
+    return (
+      <VStack height="100%" justify="center" spacing={10}>
+        <Text>Your already have an empire in this galaxy.</Text>
+        <Link as={ReactRouterLink} to={`/galaxies/${data.galaxy_by_pk.id}`}>
+          <Button>Galaxy View</Button>
+        </Link>
+      </VStack>
+    );
+  }
+
+  if (empireCreationStatus && empireCreationStatus !== 'done') {
+    return (
+      <Loading
+        width="100%"
+        height="100%"
+        text={`Creating ${empireCreationStatus}`}
+      ></Loading>
+    );
+  }
+
+  if (empireCreationStatus === 'done') {
+    return (
+      <VStack height="100%" justify="center" spacing={10}>
+        <Text>Your empire was founded successfully.</Text>
+        <Link as={ReactRouterLink} to={`/galaxies/${data.galaxy_by_pk.id}`}>
+          <Button>Begin</Button>
+        </Link>
+      </VStack>
     );
   }
 
@@ -122,12 +246,7 @@ export const JoinGalaxy = () => {
         }}
       />
 
-      <VStack
-        height="100%"
-        justify="center"
-        spacing={10}
-        filter={'url(#pixelate)'}
-      >
+      <VStack height="100%" justify="center" spacing={10}>
         <VStack spacing={3}>
           <Text textAlign="center">It's time to begin your journey in:</Text>
           <Text textAlign="center" fontWeight="bold" color="teal.500">
@@ -150,7 +269,7 @@ export const JoinGalaxy = () => {
               background: () => onBackgroundSelectionOpen(),
               faction: () => onFactionSelectionOpen(),
               homeworld: () => onHomeworldGenerationOpen(),
-              start: () => setReady(true),
+              start: () => setReadyToCreateEmpire(true),
             };
 
             stepFunctions[creationStep]();
@@ -158,14 +277,6 @@ export const JoinGalaxy = () => {
           value={characterCreationState}
         />
       </VStack>
-
-      {ready && (
-        <PixelateSVGFilter
-          reversed={false}
-          minDistortion={0.1}
-          maxDistortion={20}
-        />
-      )}
     </>
   );
 };

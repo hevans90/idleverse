@@ -9,6 +9,13 @@ array_relationships:
         table:
           schema: public
           name: celestial
+  - name: galactic_empires
+    using:
+      foreign_key_constraint_on:
+        column: galaxy_id
+        table:
+          schema: public
+          name: galactic_empire
 insert_permissions:
   - role: dev
     permission:

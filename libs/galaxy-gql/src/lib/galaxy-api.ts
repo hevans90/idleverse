@@ -1195,6 +1195,10 @@ export type Galaxy = {
   core_concentration_factor: Scalars['numeric'];
   core_radius_factor: Scalars['numeric'];
   curvature: Scalars['numeric'];
+  /** An array relationship */
+  galactic_empires: Array<Galactic_Empire>;
+  /** An aggregate relationship */
+  galactic_empires_aggregate: Galactic_Empire_Aggregate;
   id: Scalars['uuid'];
   name?: Maybe<Scalars['String']>;
   radius: Scalars['Int'];
@@ -1219,6 +1223,26 @@ export type GalaxyCelestials_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Celestial_Order_By>>;
   where?: InputMaybe<Celestial_Bool_Exp>;
+};
+
+
+/** columns and relationships of "galaxy" */
+export type GalaxyGalactic_EmpiresArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Bool_Exp>;
+};
+
+
+/** columns and relationships of "galaxy" */
+export type GalaxyGalactic_Empires_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Bool_Exp>;
 };
 
 /** aggregated selection of "galaxy" */
@@ -1274,6 +1298,7 @@ export type Galaxy_Bool_Exp = {
   core_concentration_factor?: InputMaybe<Numeric_Comparison_Exp>;
   core_radius_factor?: InputMaybe<Numeric_Comparison_Exp>;
   curvature?: InputMaybe<Numeric_Comparison_Exp>;
+  galactic_empires?: InputMaybe<Galactic_Empire_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   radius?: InputMaybe<Int_Comparison_Exp>;
@@ -1305,6 +1330,7 @@ export type Galaxy_Insert_Input = {
   core_concentration_factor?: InputMaybe<Scalars['numeric']>;
   core_radius_factor?: InputMaybe<Scalars['numeric']>;
   curvature?: InputMaybe<Scalars['numeric']>;
+  galactic_empires?: InputMaybe<Galactic_Empire_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
   radius?: InputMaybe<Scalars['Int']>;
@@ -1370,6 +1396,7 @@ export type Galaxy_Order_By = {
   core_concentration_factor?: InputMaybe<Order_By>;
   core_radius_factor?: InputMaybe<Order_By>;
   curvature?: InputMaybe<Order_By>;
+  galactic_empires_aggregate?: InputMaybe<Galactic_Empire_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   radius?: InputMaybe<Order_By>;
@@ -4509,7 +4536,7 @@ export type Uuid_Comparison_Exp = {
 
 export type CelestialFieldsFragment = { __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null };
 
-export type GalaxyFieldsFragment = { __typename?: 'galaxy', id: any, name?: string | null, curvature: any, core_radius_factor: any, core_concentration_factor: any, arms: any, arm_width: any, radius: number, stars: number, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> };
+export type GalaxyFieldsFragment = { __typename?: 'galaxy', id: any, name?: string | null, curvature: any, core_radius_factor: any, core_concentration_factor: any, arms: any, arm_width: any, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', user_id: string, id: any }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> };
 
 export type CelestialByIdQueryVariables = Exact<{
   id: Scalars['String'];
@@ -4530,12 +4557,12 @@ export type CelestialsByGalaxyIdSubscriptionVariables = Exact<{
 
 export type CelestialsByGalaxyIdSubscription = { __typename?: 'subscription_root', galaxy_by_pk?: { __typename?: 'galaxy', celestials: Array<{ __typename?: 'celestial', name?: string | null, id: string, owner_id?: string | null }>, celestials_aggregate: { __typename?: 'celestial_aggregate', nodes: Array<{ __typename?: 'celestial', owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, avatar_url?: string | null } | null }> } } | null };
 
-export type RequestRandomCelestialByGalaxyIdMutationVariables = Exact<{
+export type CreateEmpireOriginCelestialMutationVariables = Exact<{
   galaxy_id: Scalars['String'];
 }>;
 
 
-export type RequestRandomCelestialByGalaxyIdMutation = { __typename?: 'mutation_root', createEmpireOriginCelestial?: { __typename?: 'GalaxyManagement', insertedCelestialId: string, insertedCelestialName: string } | null };
+export type CreateEmpireOriginCelestialMutation = { __typename?: 'mutation_root', createEmpireOriginCelestial?: { __typename?: 'GalaxyManagement', insertedCelestialId: string, insertedCelestialName: string } | null };
 
 export type TryInsertClaimedCelestialMutationVariables = Exact<{
   galaxy_id: Scalars['uuid'];
@@ -4595,7 +4622,7 @@ export type CreateGalaxyMutationVariables = Exact<{
 }>;
 
 
-export type CreateGalaxyMutation = { __typename?: 'mutation_root', insert_galaxy_one?: { __typename?: 'galaxy', id: any, name?: string | null, curvature: any, core_radius_factor: any, core_concentration_factor: any, arms: any, arm_width: any, radius: number, stars: number, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> } | null };
+export type CreateGalaxyMutation = { __typename?: 'mutation_root', insert_galaxy_one?: { __typename?: 'galaxy', id: any, name?: string | null, curvature: any, core_radius_factor: any, core_concentration_factor: any, arms: any, arm_width: any, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', user_id: string, id: any }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> } | null };
 
 export type DeleteGalaxyByIdMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -4607,7 +4634,7 @@ export type DeleteGalaxyByIdMutation = { __typename?: 'mutation_root', delete_ga
 export type GalaxiesSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GalaxiesSubscription = { __typename?: 'subscription_root', galaxy: Array<{ __typename?: 'galaxy', id: any, name?: string | null, curvature: any, core_radius_factor: any, core_concentration_factor: any, arms: any, arm_width: any, radius: number, stars: number, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> }> };
+export type GalaxiesSubscription = { __typename?: 'subscription_root', galaxy: Array<{ __typename?: 'galaxy', id: any, name?: string | null, curvature: any, core_radius_factor: any, core_concentration_factor: any, arms: any, arm_width: any, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', user_id: string, id: any }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> }> };
 
 export type GalaxiesWithOwnedCelestialsSubscriptionVariables = Exact<{
   userId: Scalars['String'];
@@ -4621,7 +4648,7 @@ export type GalaxyByIdQueryVariables = Exact<{
 }>;
 
 
-export type GalaxyByIdQuery = { __typename?: 'query_root', galaxy_by_pk?: { __typename?: 'galaxy', arm_width: any, arms: any, core_concentration_factor: any, core_radius_factor: any, curvature: any, id: any, name?: string | null, radius: number, stars: number } | null };
+export type GalaxyByIdQuery = { __typename?: 'query_root', galaxy_by_pk?: { __typename?: 'galaxy', id: any, name?: string | null, curvature: any, core_radius_factor: any, core_concentration_factor: any, arms: any, arm_width: any, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', user_id: string, id: any }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> } | null };
 
 export type OngoingGalaxySessionsSubscriptionVariables = Exact<{
   id: Scalars['String'];
@@ -4710,6 +4737,10 @@ export const GalaxyFieldsFragmentDoc = gql`
   arm_width
   radius
   stars
+  galactic_empires {
+    user_id
+    id
+  }
   celestials {
     ...CelestialFields
   }
@@ -4779,17 +4810,17 @@ export const CelestialsByGalaxyIdDocument = gql`
 }
     `;
 export type CelestialsByGalaxyIdSubscriptionResult = Apollo.SubscriptionResult<CelestialsByGalaxyIdSubscription>;
-export const RequestRandomCelestialByGalaxyIdDocument = gql`
-    mutation RequestRandomCelestialByGalaxyId($galaxy_id: String!) {
+export const CreateEmpireOriginCelestialDocument = gql`
+    mutation CreateEmpireOriginCelestial($galaxy_id: String!) {
   createEmpireOriginCelestial(galaxy_id: $galaxy_id) {
     insertedCelestialId
     insertedCelestialName
   }
 }
     `;
-export type RequestRandomCelestialByGalaxyIdMutationFn = Apollo.MutationFunction<RequestRandomCelestialByGalaxyIdMutation, RequestRandomCelestialByGalaxyIdMutationVariables>;
-export type RequestRandomCelestialByGalaxyIdMutationResult = Apollo.MutationResult<RequestRandomCelestialByGalaxyIdMutation>;
-export type RequestRandomCelestialByGalaxyIdMutationOptions = Apollo.BaseMutationOptions<RequestRandomCelestialByGalaxyIdMutation, RequestRandomCelestialByGalaxyIdMutationVariables>;
+export type CreateEmpireOriginCelestialMutationFn = Apollo.MutationFunction<CreateEmpireOriginCelestialMutation, CreateEmpireOriginCelestialMutationVariables>;
+export type CreateEmpireOriginCelestialMutationResult = Apollo.MutationResult<CreateEmpireOriginCelestialMutation>;
+export type CreateEmpireOriginCelestialMutationOptions = Apollo.BaseMutationOptions<CreateEmpireOriginCelestialMutation, CreateEmpireOriginCelestialMutationVariables>;
 export const TryInsertClaimedCelestialDocument = gql`
     mutation TryInsertClaimedCelestial($galaxy_id: uuid!, $id: String!, $name: String!, $owner_id: String!) {
   insert_celestial_one(
@@ -4953,18 +4984,10 @@ export type GalaxiesWithOwnedCelestialsSubscriptionResult = Apollo.SubscriptionR
 export const GalaxyByIdDocument = gql`
     query GalaxyById($id: uuid!) {
   galaxy_by_pk(id: $id) {
-    arm_width
-    arms
-    core_concentration_factor
-    core_radius_factor
-    curvature
-    id
-    name
-    radius
-    stars
+    ...GalaxyFields
   }
 }
-    `;
+    ${GalaxyFieldsFragmentDoc}`;
 export type GalaxyByIdQueryResult = Apollo.QueryResult<GalaxyByIdQuery, GalaxyByIdQueryVariables>;
 export const OngoingGalaxySessionsDocument = gql`
     subscription OngoingGalaxySessions($id: String!) {

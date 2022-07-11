@@ -8,6 +8,10 @@ fragment GalaxyFields on galaxy {
   arm_width
   radius
   stars
+  galactic_empires {
+    user_id
+    id
+  }
   celestials {
     ...CelestialFields
   }

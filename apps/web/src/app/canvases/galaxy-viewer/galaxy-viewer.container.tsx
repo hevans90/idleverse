@@ -1,5 +1,6 @@
 import { useQuery, useSubscription } from '@apollo/client';
 import { Box, Theme, useTheme } from '@chakra-ui/react';
+import { dbGalaxyToGalaxyConfig } from '@idleverse/galaxy-gen';
 import {
   CelestialsByGalaxyIdDocument,
   CelestialsByGalaxyIdSubscription,
@@ -14,7 +15,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Loading } from '../../components/loading';
 import { galaxyConfigVar } from '../../_state/reactive-variables';
 import { GameUIBottomBar } from '../galaxy-generator/ui/bottom-bar';
-import { dbGalaxyToGalaxyConfig } from '../_utils/db-galaxy-to-galaxy-config';
 
 import { useResize } from '../_utils/use-resize.hook';
 import { celestialOwnerMapper } from './celestial-owner';
