@@ -1,0 +1,28 @@
+subscription GalacticEmpireById($id: uuid!) {
+  galactic_empire(where: { id: { _eq: $id } }) {
+    galaxy {
+      name
+    }
+    homeworld {
+      name
+      terrain_hex_palette_id
+      texture_resolution
+      id
+    }
+    background {
+      name
+      description
+      id
+    }
+    celestials {
+      name
+      id
+      galaxy_id
+    }
+    faction {
+      description
+      id
+      name
+    }
+  }
+}

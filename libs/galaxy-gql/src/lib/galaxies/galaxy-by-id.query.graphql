@@ -1,13 +1,5 @@
 query GalaxyById($id: uuid!) {
   galaxy_by_pk(id: $id) {
-    arm_width
-    arms
-    core_concentration_factor
-    core_radius_factor
-    curvature
-    id
-    name
-    radius
-    stars
+    ...GalaxyFields
   }
 }

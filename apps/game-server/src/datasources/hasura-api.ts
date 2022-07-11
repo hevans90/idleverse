@@ -1,8 +1,11 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import {
-  GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsDocument,
-  GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery,
-  GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables,
+  GalacticEmpiresByGalaxyIdDocument,
+  GalacticEmpiresByGalaxyIdQuery,
+  GalacticEmpiresByGalaxyIdQueryVariables,
+  GetGalaxyByIdAndUnclaimedCelestialsDocument,
+  GetGalaxyByIdAndUnclaimedCelestialsQuery,
+  GetGalaxyByIdAndUnclaimedCelestialsQueryVariables,
   SetDisplayNameByUserIdDocument,
   SetDisplayNameByUserIdMutation,
   SetDisplayNameByUserIdMutationVariables,
@@ -12,9 +15,6 @@ import {
   TryInsertPlanetDocument,
   TryInsertPlanetMutation,
   TryInsertPlanetMutationVariables,
-  UpdateFreeClaimsDocument,
-  UpdateFreeClaimsMutation,
-  UpdateFreeClaimsMutationVariables,
 } from '@idleverse/galaxy-gql';
 import { DataSource } from 'apollo-datasource';
 
@@ -36,30 +36,29 @@ export class HasuraAPI extends DataSource {
       variables: { id, display_name },
     });
 
-  tryUpdateFreeClaims = async (id: string, free_claims: number) =>
-    this.client.mutate<
-      UpdateFreeClaimsMutation,
-      UpdateFreeClaimsMutationVariables
+  getGalacticEmpiresByGalaxyId = async (galaxyId: string) =>
+    this.client.query<
+      GalacticEmpiresByGalaxyIdQuery,
+      GalacticEmpiresByGalaxyIdQueryVariables
     >({
-      mutation: UpdateFreeClaimsDocument,
-      variables: { id, free_claims },
+      query: GalacticEmpiresByGalaxyIdDocument,
+      variables: { galaxyId },
     });
 
-  getFreeClaimsByIdAndGalaxyById = async (userId: string, galaxyId: string) =>
+  getGalaxyByIdWithUnclaimedCelestials = async (galaxyId: string) =>
     this.client.query<
-      GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery,
-      GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables
+      GetGalaxyByIdAndUnclaimedCelestialsQuery,
+      GetGalaxyByIdAndUnclaimedCelestialsQueryVariables
     >({
-      query: GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsDocument,
-      variables: { userId, galaxyId },
+      query: GetGalaxyByIdAndUnclaimedCelestialsDocument,
+      variables: { galaxyId },
     });
 
   tryInsertClaimedCelestial = async (
     userId: string,
     celestialId: string,
     galaxyId: string,
-    celestialName: string,
-    free_claims: number
+    celestialName: string
   ) =>
     this.client.mutate<
       TryInsertClaimedCelestialMutation,
@@ -71,7 +70,6 @@ export class HasuraAPI extends DataSource {
         owner_id: userId,
         name: celestialName,
         galaxy_id: galaxyId,
-        free_claims,
       },
     });
 

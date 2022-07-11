@@ -8,10 +8,10 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
+import { dbGalaxyToGalaxyConfig } from '@idleverse/galaxy-gen';
 import { GalaxiesSubscription } from '@idleverse/galaxy-gql';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { GalaxyThumbnail } from '../canvases/galaxy-thumbnail/galaxy-thumbnail';
-import { dbGalaxyToGalaxyConfig } from '../canvases/_utils/db-galaxy-to-galaxy-config';
 import { galaxyConfigVar } from '../_state/reactive-variables';
 
 export const GalaxyTile = ({

@@ -26,7 +26,8 @@ export type CelestialManagement = {
 
 export type GalaxyManagement = {
   __typename?: 'GalaxyManagement';
-  freeClaimsLeft: Scalars['Float'];
+  insertedCelestialId: Scalars['String'];
+  insertedCelestialName: Scalars['String'];
 };
 
 export type Int_Cast_Exp = {
@@ -226,6 +227,13 @@ export type Background_Mutation_Response = {
   returning: Array<Background>;
 };
 
+/** input type for inserting object relation for remote table "background" */
+export type Background_Obj_Rel_Insert_Input = {
+  data: Background_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Background_On_Conflict>;
+};
+
 /** on_conflict condition type for table "background" */
 export type Background_On_Conflict = {
   constraint: Background_Constraint;
@@ -275,6 +283,7 @@ export enum Background_Update_Column {
 /** columns and relationships of "celestial" */
 export type Celestial = {
   __typename?: 'celestial';
+  galactic_empire_id?: Maybe<Scalars['uuid']>;
   /** An object relationship */
   galaxy: Galaxy;
   galaxy_id: Scalars['uuid'];
@@ -350,6 +359,7 @@ export type Celestial_Bool_Exp = {
   _and?: InputMaybe<Array<Celestial_Bool_Exp>>;
   _not?: InputMaybe<Celestial_Bool_Exp>;
   _or?: InputMaybe<Array<Celestial_Bool_Exp>>;
+  galactic_empire_id?: InputMaybe<Uuid_Comparison_Exp>;
   galaxy?: InputMaybe<Galaxy_Bool_Exp>;
   galaxy_id?: InputMaybe<Uuid_Comparison_Exp>;
   id?: InputMaybe<String_Comparison_Exp>;
@@ -367,6 +377,7 @@ export enum Celestial_Constraint {
 
 /** input type for inserting data into table "celestial" */
 export type Celestial_Insert_Input = {
+  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
   galaxy?: InputMaybe<Galaxy_Obj_Rel_Insert_Input>;
   galaxy_id?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['String']>;
@@ -379,6 +390,7 @@ export type Celestial_Insert_Input = {
 /** aggregate max on columns */
 export type Celestial_Max_Fields = {
   __typename?: 'celestial_max_fields';
+  galactic_empire_id?: Maybe<Scalars['uuid']>;
   galaxy_id?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
@@ -387,6 +399,7 @@ export type Celestial_Max_Fields = {
 
 /** order by max() on columns of table "celestial" */
 export type Celestial_Max_Order_By = {
+  galactic_empire_id?: InputMaybe<Order_By>;
   galaxy_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
@@ -396,6 +409,7 @@ export type Celestial_Max_Order_By = {
 /** aggregate min on columns */
 export type Celestial_Min_Fields = {
   __typename?: 'celestial_min_fields';
+  galactic_empire_id?: Maybe<Scalars['uuid']>;
   galaxy_id?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
@@ -404,6 +418,7 @@ export type Celestial_Min_Fields = {
 
 /** order by min() on columns of table "celestial" */
 export type Celestial_Min_Order_By = {
+  galactic_empire_id?: InputMaybe<Order_By>;
   galaxy_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
@@ -428,6 +443,7 @@ export type Celestial_On_Conflict = {
 
 /** Ordering options when selecting data from "celestial". */
 export type Celestial_Order_By = {
+  galactic_empire_id?: InputMaybe<Order_By>;
   galaxy?: InputMaybe<Galaxy_Order_By>;
   galaxy_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
@@ -445,6 +461,8 @@ export type Celestial_Pk_Columns_Input = {
 /** select columns of table "celestial" */
 export enum Celestial_Select_Column {
   /** column name */
+  GalacticEmpireId = 'galactic_empire_id',
+  /** column name */
   GalaxyId = 'galaxy_id',
   /** column name */
   Id = 'id',
@@ -456,6 +474,7 @@ export enum Celestial_Select_Column {
 
 /** input type for updating data in table "celestial" */
 export type Celestial_Set_Input = {
+  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
   galaxy_id?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
@@ -464,6 +483,8 @@ export type Celestial_Set_Input = {
 
 /** update columns of table "celestial" */
 export enum Celestial_Update_Column {
+  /** column name */
+  GalacticEmpireId = 'galactic_empire_id',
   /** column name */
   GalaxyId = 'galaxy_id',
   /** column name */
@@ -724,6 +745,13 @@ export type Faction_Mutation_Response = {
   returning: Array<Faction>;
 };
 
+/** input type for inserting object relation for remote table "faction" */
+export type Faction_Obj_Rel_Insert_Input = {
+  data: Faction_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Faction_On_Conflict>;
+};
+
 /** on_conflict condition type for table "faction" */
 export type Faction_On_Conflict = {
   constraint: Faction_Constraint;
@@ -770,6 +798,391 @@ export enum Faction_Update_Column {
   Name = 'name'
 }
 
+/** columns and relationships of "galactic_empire" */
+export type Galactic_Empire = {
+  __typename?: 'galactic_empire';
+  /** An object relationship */
+  background: Background;
+  background_id: Scalars['uuid'];
+  celestial_claims: Scalars['Int'];
+  /** An array relationship */
+  celestials: Array<Celestial>;
+  /** An aggregate relationship */
+  celestials_aggregate: Celestial_Aggregate;
+  /** An object relationship */
+  faction: Faction;
+  faction_id: Scalars['uuid'];
+  /** An object relationship */
+  galaxy: Galaxy;
+  galaxy_id: Scalars['uuid'];
+  /** An object relationship */
+  homeworld?: Maybe<Planet>;
+  homeworld_id?: Maybe<Scalars['uuid']>;
+  id: Scalars['uuid'];
+  /** An object relationship */
+  playable_race: Playable_Race;
+  playable_race_id: Scalars['uuid'];
+  user_id: Scalars['String'];
+  /** An object relationship */
+  user_info: User_Info;
+};
+
+
+/** columns and relationships of "galactic_empire" */
+export type Galactic_EmpireCelestialsArgs = {
+  distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Celestial_Order_By>>;
+  where?: InputMaybe<Celestial_Bool_Exp>;
+};
+
+
+/** columns and relationships of "galactic_empire" */
+export type Galactic_EmpireCelestials_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Celestial_Order_By>>;
+  where?: InputMaybe<Celestial_Bool_Exp>;
+};
+
+/** aggregated selection of "galactic_empire" */
+export type Galactic_Empire_Aggregate = {
+  __typename?: 'galactic_empire_aggregate';
+  aggregate?: Maybe<Galactic_Empire_Aggregate_Fields>;
+  nodes: Array<Galactic_Empire>;
+};
+
+/** aggregate fields of "galactic_empire" */
+export type Galactic_Empire_Aggregate_Fields = {
+  __typename?: 'galactic_empire_aggregate_fields';
+  avg?: Maybe<Galactic_Empire_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Galactic_Empire_Max_Fields>;
+  min?: Maybe<Galactic_Empire_Min_Fields>;
+  stddev?: Maybe<Galactic_Empire_Stddev_Fields>;
+  stddev_pop?: Maybe<Galactic_Empire_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Galactic_Empire_Stddev_Samp_Fields>;
+  sum?: Maybe<Galactic_Empire_Sum_Fields>;
+  var_pop?: Maybe<Galactic_Empire_Var_Pop_Fields>;
+  var_samp?: Maybe<Galactic_Empire_Var_Samp_Fields>;
+  variance?: Maybe<Galactic_Empire_Variance_Fields>;
+};
+
+
+/** aggregate fields of "galactic_empire" */
+export type Galactic_Empire_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "galactic_empire" */
+export type Galactic_Empire_Aggregate_Order_By = {
+  avg?: InputMaybe<Galactic_Empire_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Galactic_Empire_Max_Order_By>;
+  min?: InputMaybe<Galactic_Empire_Min_Order_By>;
+  stddev?: InputMaybe<Galactic_Empire_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Galactic_Empire_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Galactic_Empire_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Galactic_Empire_Sum_Order_By>;
+  var_pop?: InputMaybe<Galactic_Empire_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Galactic_Empire_Var_Samp_Order_By>;
+  variance?: InputMaybe<Galactic_Empire_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "galactic_empire" */
+export type Galactic_Empire_Arr_Rel_Insert_Input = {
+  data: Array<Galactic_Empire_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Galactic_Empire_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Galactic_Empire_Avg_Fields = {
+  __typename?: 'galactic_empire_avg_fields';
+  celestial_claims?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "galactic_empire" */
+export type Galactic_Empire_Avg_Order_By = {
+  celestial_claims?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "galactic_empire". All fields are combined with a logical 'AND'. */
+export type Galactic_Empire_Bool_Exp = {
+  _and?: InputMaybe<Array<Galactic_Empire_Bool_Exp>>;
+  _not?: InputMaybe<Galactic_Empire_Bool_Exp>;
+  _or?: InputMaybe<Array<Galactic_Empire_Bool_Exp>>;
+  background?: InputMaybe<Background_Bool_Exp>;
+  background_id?: InputMaybe<Uuid_Comparison_Exp>;
+  celestial_claims?: InputMaybe<Int_Comparison_Exp>;
+  celestials?: InputMaybe<Celestial_Bool_Exp>;
+  faction?: InputMaybe<Faction_Bool_Exp>;
+  faction_id?: InputMaybe<Uuid_Comparison_Exp>;
+  galaxy?: InputMaybe<Galaxy_Bool_Exp>;
+  galaxy_id?: InputMaybe<Uuid_Comparison_Exp>;
+  homeworld?: InputMaybe<Planet_Bool_Exp>;
+  homeworld_id?: InputMaybe<Uuid_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  playable_race?: InputMaybe<Playable_Race_Bool_Exp>;
+  playable_race_id?: InputMaybe<Uuid_Comparison_Exp>;
+  user_id?: InputMaybe<String_Comparison_Exp>;
+  user_info?: InputMaybe<User_Info_Bool_Exp>;
+};
+
+/** unique or primary key constraints on table "galactic_empire" */
+export enum Galactic_Empire_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  GalacticEmpirePkey = 'galactic_empire_pkey',
+  /** unique or primary key constraint on columns "galaxy_id", "user_id" */
+  GalacticEmpireUserIdGalaxyIdKey = 'galactic_empire_user_id_galaxy_id_key'
+}
+
+/** input type for incrementing numeric columns in table "galactic_empire" */
+export type Galactic_Empire_Inc_Input = {
+  celestial_claims?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "galactic_empire" */
+export type Galactic_Empire_Insert_Input = {
+  background?: InputMaybe<Background_Obj_Rel_Insert_Input>;
+  background_id?: InputMaybe<Scalars['uuid']>;
+  celestial_claims?: InputMaybe<Scalars['Int']>;
+  celestials?: InputMaybe<Celestial_Arr_Rel_Insert_Input>;
+  faction?: InputMaybe<Faction_Obj_Rel_Insert_Input>;
+  faction_id?: InputMaybe<Scalars['uuid']>;
+  galaxy?: InputMaybe<Galaxy_Obj_Rel_Insert_Input>;
+  galaxy_id?: InputMaybe<Scalars['uuid']>;
+  homeworld?: InputMaybe<Planet_Obj_Rel_Insert_Input>;
+  homeworld_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  playable_race?: InputMaybe<Playable_Race_Obj_Rel_Insert_Input>;
+  playable_race_id?: InputMaybe<Scalars['uuid']>;
+  user_id?: InputMaybe<Scalars['String']>;
+  user_info?: InputMaybe<User_Info_Obj_Rel_Insert_Input>;
+};
+
+/** aggregate max on columns */
+export type Galactic_Empire_Max_Fields = {
+  __typename?: 'galactic_empire_max_fields';
+  background_id?: Maybe<Scalars['uuid']>;
+  celestial_claims?: Maybe<Scalars['Int']>;
+  faction_id?: Maybe<Scalars['uuid']>;
+  galaxy_id?: Maybe<Scalars['uuid']>;
+  homeworld_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  playable_race_id?: Maybe<Scalars['uuid']>;
+  user_id?: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "galactic_empire" */
+export type Galactic_Empire_Max_Order_By = {
+  background_id?: InputMaybe<Order_By>;
+  celestial_claims?: InputMaybe<Order_By>;
+  faction_id?: InputMaybe<Order_By>;
+  galaxy_id?: InputMaybe<Order_By>;
+  homeworld_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  playable_race_id?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Galactic_Empire_Min_Fields = {
+  __typename?: 'galactic_empire_min_fields';
+  background_id?: Maybe<Scalars['uuid']>;
+  celestial_claims?: Maybe<Scalars['Int']>;
+  faction_id?: Maybe<Scalars['uuid']>;
+  galaxy_id?: Maybe<Scalars['uuid']>;
+  homeworld_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  playable_race_id?: Maybe<Scalars['uuid']>;
+  user_id?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "galactic_empire" */
+export type Galactic_Empire_Min_Order_By = {
+  background_id?: InputMaybe<Order_By>;
+  celestial_claims?: InputMaybe<Order_By>;
+  faction_id?: InputMaybe<Order_By>;
+  galaxy_id?: InputMaybe<Order_By>;
+  homeworld_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  playable_race_id?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "galactic_empire" */
+export type Galactic_Empire_Mutation_Response = {
+  __typename?: 'galactic_empire_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Galactic_Empire>;
+};
+
+/** on_conflict condition type for table "galactic_empire" */
+export type Galactic_Empire_On_Conflict = {
+  constraint: Galactic_Empire_Constraint;
+  update_columns?: Array<Galactic_Empire_Update_Column>;
+  where?: InputMaybe<Galactic_Empire_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "galactic_empire". */
+export type Galactic_Empire_Order_By = {
+  background?: InputMaybe<Background_Order_By>;
+  background_id?: InputMaybe<Order_By>;
+  celestial_claims?: InputMaybe<Order_By>;
+  celestials_aggregate?: InputMaybe<Celestial_Aggregate_Order_By>;
+  faction?: InputMaybe<Faction_Order_By>;
+  faction_id?: InputMaybe<Order_By>;
+  galaxy?: InputMaybe<Galaxy_Order_By>;
+  galaxy_id?: InputMaybe<Order_By>;
+  homeworld?: InputMaybe<Planet_Order_By>;
+  homeworld_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  playable_race?: InputMaybe<Playable_Race_Order_By>;
+  playable_race_id?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+  user_info?: InputMaybe<User_Info_Order_By>;
+};
+
+/** primary key columns input for table: galactic_empire */
+export type Galactic_Empire_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "galactic_empire" */
+export enum Galactic_Empire_Select_Column {
+  /** column name */
+  BackgroundId = 'background_id',
+  /** column name */
+  CelestialClaims = 'celestial_claims',
+  /** column name */
+  FactionId = 'faction_id',
+  /** column name */
+  GalaxyId = 'galaxy_id',
+  /** column name */
+  HomeworldId = 'homeworld_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  PlayableRaceId = 'playable_race_id',
+  /** column name */
+  UserId = 'user_id'
+}
+
+/** input type for updating data in table "galactic_empire" */
+export type Galactic_Empire_Set_Input = {
+  background_id?: InputMaybe<Scalars['uuid']>;
+  celestial_claims?: InputMaybe<Scalars['Int']>;
+  faction_id?: InputMaybe<Scalars['uuid']>;
+  galaxy_id?: InputMaybe<Scalars['uuid']>;
+  homeworld_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  playable_race_id?: InputMaybe<Scalars['uuid']>;
+  user_id?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate stddev on columns */
+export type Galactic_Empire_Stddev_Fields = {
+  __typename?: 'galactic_empire_stddev_fields';
+  celestial_claims?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "galactic_empire" */
+export type Galactic_Empire_Stddev_Order_By = {
+  celestial_claims?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Galactic_Empire_Stddev_Pop_Fields = {
+  __typename?: 'galactic_empire_stddev_pop_fields';
+  celestial_claims?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "galactic_empire" */
+export type Galactic_Empire_Stddev_Pop_Order_By = {
+  celestial_claims?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Galactic_Empire_Stddev_Samp_Fields = {
+  __typename?: 'galactic_empire_stddev_samp_fields';
+  celestial_claims?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "galactic_empire" */
+export type Galactic_Empire_Stddev_Samp_Order_By = {
+  celestial_claims?: InputMaybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Galactic_Empire_Sum_Fields = {
+  __typename?: 'galactic_empire_sum_fields';
+  celestial_claims?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "galactic_empire" */
+export type Galactic_Empire_Sum_Order_By = {
+  celestial_claims?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "galactic_empire" */
+export enum Galactic_Empire_Update_Column {
+  /** column name */
+  BackgroundId = 'background_id',
+  /** column name */
+  CelestialClaims = 'celestial_claims',
+  /** column name */
+  FactionId = 'faction_id',
+  /** column name */
+  GalaxyId = 'galaxy_id',
+  /** column name */
+  HomeworldId = 'homeworld_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  PlayableRaceId = 'playable_race_id',
+  /** column name */
+  UserId = 'user_id'
+}
+
+/** aggregate var_pop on columns */
+export type Galactic_Empire_Var_Pop_Fields = {
+  __typename?: 'galactic_empire_var_pop_fields';
+  celestial_claims?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "galactic_empire" */
+export type Galactic_Empire_Var_Pop_Order_By = {
+  celestial_claims?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Galactic_Empire_Var_Samp_Fields = {
+  __typename?: 'galactic_empire_var_samp_fields';
+  celestial_claims?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "galactic_empire" */
+export type Galactic_Empire_Var_Samp_Order_By = {
+  celestial_claims?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Galactic_Empire_Variance_Fields = {
+  __typename?: 'galactic_empire_variance_fields';
+  celestial_claims?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "galactic_empire" */
+export type Galactic_Empire_Variance_Order_By = {
+  celestial_claims?: InputMaybe<Order_By>;
+};
+
 /** columns and relationships of "galaxy" */
 export type Galaxy = {
   __typename?: 'galaxy';
@@ -782,6 +1195,10 @@ export type Galaxy = {
   core_concentration_factor: Scalars['numeric'];
   core_radius_factor: Scalars['numeric'];
   curvature: Scalars['numeric'];
+  /** An array relationship */
+  galactic_empires: Array<Galactic_Empire>;
+  /** An aggregate relationship */
+  galactic_empires_aggregate: Galactic_Empire_Aggregate;
   id: Scalars['uuid'];
   name?: Maybe<Scalars['String']>;
   radius: Scalars['Int'];
@@ -806,6 +1223,26 @@ export type GalaxyCelestials_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Celestial_Order_By>>;
   where?: InputMaybe<Celestial_Bool_Exp>;
+};
+
+
+/** columns and relationships of "galaxy" */
+export type GalaxyGalactic_EmpiresArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Bool_Exp>;
+};
+
+
+/** columns and relationships of "galaxy" */
+export type GalaxyGalactic_Empires_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Bool_Exp>;
 };
 
 /** aggregated selection of "galaxy" */
@@ -861,6 +1298,7 @@ export type Galaxy_Bool_Exp = {
   core_concentration_factor?: InputMaybe<Numeric_Comparison_Exp>;
   core_radius_factor?: InputMaybe<Numeric_Comparison_Exp>;
   curvature?: InputMaybe<Numeric_Comparison_Exp>;
+  galactic_empires?: InputMaybe<Galactic_Empire_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   radius?: InputMaybe<Int_Comparison_Exp>;
@@ -892,6 +1330,7 @@ export type Galaxy_Insert_Input = {
   core_concentration_factor?: InputMaybe<Scalars['numeric']>;
   core_radius_factor?: InputMaybe<Scalars['numeric']>;
   curvature?: InputMaybe<Scalars['numeric']>;
+  galactic_empires?: InputMaybe<Galactic_Empire_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
   radius?: InputMaybe<Scalars['Int']>;
@@ -957,6 +1396,7 @@ export type Galaxy_Order_By = {
   core_concentration_factor?: InputMaybe<Order_By>;
   core_radius_factor?: InputMaybe<Order_By>;
   curvature?: InputMaybe<Order_By>;
+  galactic_empires_aggregate?: InputMaybe<Galactic_Empire_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   radius?: InputMaybe<Order_By>;
@@ -1112,6 +1552,7 @@ export type Galaxy_Variance_Fields = {
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
+  createEmpireOriginCelestial?: Maybe<GalaxyManagement>;
   createPlanet?: Maybe<CelestialManagement>;
   /** delete data from the table: "background" */
   delete_background?: Maybe<Background_Mutation_Response>;
@@ -1129,6 +1570,10 @@ export type Mutation_Root = {
   delete_faction?: Maybe<Faction_Mutation_Response>;
   /** delete single row from the table: "faction" */
   delete_faction_by_pk?: Maybe<Faction>;
+  /** delete data from the table: "galactic_empire" */
+  delete_galactic_empire?: Maybe<Galactic_Empire_Mutation_Response>;
+  /** delete single row from the table: "galactic_empire" */
+  delete_galactic_empire_by_pk?: Maybe<Galactic_Empire>;
   /** delete data from the table: "galaxy" */
   delete_galaxy?: Maybe<Galaxy_Mutation_Response>;
   /** delete single row from the table: "galaxy" */
@@ -1173,6 +1618,10 @@ export type Mutation_Root = {
   insert_faction?: Maybe<Faction_Mutation_Response>;
   /** insert a single row into the table: "faction" */
   insert_faction_one?: Maybe<Faction>;
+  /** insert data into the table: "galactic_empire" */
+  insert_galactic_empire?: Maybe<Galactic_Empire_Mutation_Response>;
+  /** insert a single row into the table: "galactic_empire" */
+  insert_galactic_empire_one?: Maybe<Galactic_Empire>;
   /** insert data into the table: "galaxy" */
   insert_galaxy?: Maybe<Galaxy_Mutation_Response>;
   /** insert a single row into the table: "galaxy" */
@@ -1205,7 +1654,6 @@ export type Mutation_Root = {
   insert_user_private?: Maybe<User_Private_Mutation_Response>;
   /** insert a single row into the table: "user_private" */
   insert_user_private_one?: Maybe<User_Private>;
-  requestRandomCelestial?: Maybe<GalaxyManagement>;
   setDisplayName?: Maybe<Register>;
   /** update data of the table: "background" */
   update_background?: Maybe<Background_Mutation_Response>;
@@ -1223,6 +1671,10 @@ export type Mutation_Root = {
   update_faction?: Maybe<Faction_Mutation_Response>;
   /** update single row of the table: "faction" */
   update_faction_by_pk?: Maybe<Faction>;
+  /** update data of the table: "galactic_empire" */
+  update_galactic_empire?: Maybe<Galactic_Empire_Mutation_Response>;
+  /** update single row of the table: "galactic_empire" */
+  update_galactic_empire_by_pk?: Maybe<Galactic_Empire>;
   /** update data of the table: "galaxy" */
   update_galaxy?: Maybe<Galaxy_Mutation_Response>;
   /** update single row of the table: "galaxy" */
@@ -1251,6 +1703,12 @@ export type Mutation_Root = {
   update_user_me?: Maybe<User_Me_Mutation_Response>;
   /** update data of the table: "user_private" */
   update_user_private?: Maybe<User_Private_Mutation_Response>;
+};
+
+
+/** mutation root */
+export type Mutation_RootCreateEmpireOriginCelestialArgs = {
+  galaxy_id: Scalars['String'];
 };
 
 
@@ -1304,6 +1762,18 @@ export type Mutation_RootDelete_FactionArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Faction_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Galactic_EmpireArgs = {
+  where: Galactic_Empire_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Galactic_Empire_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -1449,6 +1919,20 @@ export type Mutation_RootInsert_Faction_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_Galactic_EmpireArgs = {
+  objects: Array<Galactic_Empire_Insert_Input>;
+  on_conflict?: InputMaybe<Galactic_Empire_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Galactic_Empire_OneArgs = {
+  object: Galactic_Empire_Insert_Input;
+  on_conflict?: InputMaybe<Galactic_Empire_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_GalaxyArgs = {
   objects: Array<Galaxy_Insert_Input>;
   on_conflict?: InputMaybe<Galaxy_On_Conflict>;
@@ -1557,12 +2041,6 @@ export type Mutation_RootInsert_User_Private_OneArgs = {
 
 
 /** mutation root */
-export type Mutation_RootRequestRandomCelestialArgs = {
-  galaxy_id: Scalars['String'];
-};
-
-
-/** mutation root */
 export type Mutation_RootSetDisplayNameArgs = {
   display_name: Scalars['String'];
 };
@@ -1621,6 +2099,22 @@ export type Mutation_RootUpdate_FactionArgs = {
 export type Mutation_RootUpdate_Faction_By_PkArgs = {
   _set?: InputMaybe<Faction_Set_Input>;
   pk_columns: Faction_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Galactic_EmpireArgs = {
+  _inc?: InputMaybe<Galactic_Empire_Inc_Input>;
+  _set?: InputMaybe<Galactic_Empire_Set_Input>;
+  where: Galactic_Empire_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Galactic_Empire_By_PkArgs = {
+  _inc?: InputMaybe<Galactic_Empire_Inc_Input>;
+  _set?: InputMaybe<Galactic_Empire_Set_Input>;
+  pk_columns: Galactic_Empire_Pk_Columns_Input;
 };
 
 
@@ -1702,7 +2196,6 @@ export type Mutation_RootUpdate_Terrain_Hex_Palette_By_PkArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_User_InfoArgs = {
-  _inc?: InputMaybe<User_Info_Inc_Input>;
   _set?: InputMaybe<User_Info_Set_Input>;
   where: User_Info_Bool_Exp;
 };
@@ -1710,7 +2203,6 @@ export type Mutation_RootUpdate_User_InfoArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_User_Info_By_PkArgs = {
-  _inc?: InputMaybe<User_Info_Inc_Input>;
   _set?: InputMaybe<User_Info_Set_Input>;
   pk_columns: User_Info_Pk_Columns_Input;
 };
@@ -1718,7 +2210,6 @@ export type Mutation_RootUpdate_User_Info_By_PkArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_User_MeArgs = {
-  _inc?: InputMaybe<User_Me_Inc_Input>;
   _set?: InputMaybe<User_Me_Set_Input>;
   where: User_Me_Bool_Exp;
 };
@@ -1980,6 +2471,13 @@ export type Planet_Mutation_Response = {
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
   returning: Array<Planet>;
+};
+
+/** input type for inserting object relation for remote table "planet" */
+export type Planet_Obj_Rel_Insert_Input = {
+  data: Planet_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Planet_On_Conflict>;
 };
 
 /** on_conflict condition type for table "planet" */
@@ -2598,6 +3096,13 @@ export type Playable_Race_Mutation_Response = {
   returning: Array<Playable_Race>;
 };
 
+/** input type for inserting object relation for remote table "playable_race" */
+export type Playable_Race_Obj_Rel_Insert_Input = {
+  data: Playable_Race_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Playable_Race_On_Conflict>;
+};
+
 /** on_conflict condition type for table "playable_race" */
 export type Playable_Race_On_Conflict = {
   constraint: Playable_Race_Constraint;
@@ -2670,6 +3175,12 @@ export type Query_Root = {
   faction_aggregate: Faction_Aggregate;
   /** fetch data from the table: "faction" using primary key columns */
   faction_by_pk?: Maybe<Faction>;
+  /** fetch data from the table: "galactic_empire" */
+  galactic_empire: Array<Galactic_Empire>;
+  /** fetch aggregated fields from the table: "galactic_empire" */
+  galactic_empire_aggregate: Galactic_Empire_Aggregate;
+  /** fetch data from the table: "galactic_empire" using primary key columns */
+  galactic_empire_by_pk?: Maybe<Galactic_Empire>;
   /** fetch data from the table: "galaxy" */
   galaxy: Array<Galaxy>;
   /** fetch aggregated fields from the table: "galaxy" */
@@ -2806,6 +3317,29 @@ export type Query_RootFaction_AggregateArgs = {
 
 
 export type Query_RootFaction_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootGalactic_EmpireArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Bool_Exp>;
+};
+
+
+export type Query_RootGalactic_Empire_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Bool_Exp>;
+};
+
+
+export type Query_RootGalactic_Empire_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -3009,6 +3543,12 @@ export type Subscription_Root = {
   faction_aggregate: Faction_Aggregate;
   /** fetch data from the table: "faction" using primary key columns */
   faction_by_pk?: Maybe<Faction>;
+  /** fetch data from the table: "galactic_empire" */
+  galactic_empire: Array<Galactic_Empire>;
+  /** fetch aggregated fields from the table: "galactic_empire" */
+  galactic_empire_aggregate: Galactic_Empire_Aggregate;
+  /** fetch data from the table: "galactic_empire" using primary key columns */
+  galactic_empire_by_pk?: Maybe<Galactic_Empire>;
   /** fetch data from the table: "galaxy" */
   galaxy: Array<Galaxy>;
   /** fetch aggregated fields from the table: "galaxy" */
@@ -3144,6 +3684,29 @@ export type Subscription_RootFaction_AggregateArgs = {
 
 
 export type Subscription_RootFaction_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootGalactic_EmpireArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Bool_Exp>;
+};
+
+
+export type Subscription_RootGalactic_Empire_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Bool_Exp>;
+};
+
+
+export type Subscription_RootGalactic_Empire_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -3518,7 +4081,10 @@ export type User_Info = {
   /** An aggregate relationship */
   chat_messages_aggregate: Chat_Message_Aggregate;
   display_name?: Maybe<Scalars['String']>;
-  free_claims: Scalars['Int'];
+  /** An array relationship */
+  galactic_empires: Array<Galactic_Empire>;
+  /** An aggregate relationship */
+  galactic_empires_aggregate: Galactic_Empire_Aggregate;
   id: Scalars['String'];
   name?: Maybe<Scalars['String']>;
   nickname: Scalars['String'];
@@ -3565,6 +4131,26 @@ export type User_InfoChat_Messages_AggregateArgs = {
   where?: InputMaybe<Chat_Message_Bool_Exp>;
 };
 
+
+/** columns and relationships of "user_info" */
+export type User_InfoGalactic_EmpiresArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Bool_Exp>;
+};
+
+
+/** columns and relationships of "user_info" */
+export type User_InfoGalactic_Empires_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Bool_Exp>;
+};
+
 /** aggregated selection of "user_info" */
 export type User_Info_Aggregate = {
   __typename?: 'user_info_aggregate';
@@ -3575,17 +4161,9 @@ export type User_Info_Aggregate = {
 /** aggregate fields of "user_info" */
 export type User_Info_Aggregate_Fields = {
   __typename?: 'user_info_aggregate_fields';
-  avg?: Maybe<User_Info_Avg_Fields>;
   count: Scalars['Int'];
   max?: Maybe<User_Info_Max_Fields>;
   min?: Maybe<User_Info_Min_Fields>;
-  stddev?: Maybe<User_Info_Stddev_Fields>;
-  stddev_pop?: Maybe<User_Info_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<User_Info_Stddev_Samp_Fields>;
-  sum?: Maybe<User_Info_Sum_Fields>;
-  var_pop?: Maybe<User_Info_Var_Pop_Fields>;
-  var_samp?: Maybe<User_Info_Var_Samp_Fields>;
-  variance?: Maybe<User_Info_Variance_Fields>;
 };
 
 
@@ -3593,12 +4171,6 @@ export type User_Info_Aggregate_Fields = {
 export type User_Info_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<User_Info_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** aggregate avg on columns */
-export type User_Info_Avg_Fields = {
-  __typename?: 'user_info_avg_fields';
-  free_claims?: Maybe<Scalars['Float']>;
 };
 
 /** Boolean expression to filter rows from the table "user_info". All fields are combined with a logical 'AND'. */
@@ -3610,7 +4182,7 @@ export type User_Info_Bool_Exp = {
   celestials?: InputMaybe<Celestial_Bool_Exp>;
   chat_messages?: InputMaybe<Chat_Message_Bool_Exp>;
   display_name?: InputMaybe<String_Comparison_Exp>;
-  free_claims?: InputMaybe<Int_Comparison_Exp>;
+  galactic_empires?: InputMaybe<Galactic_Empire_Bool_Exp>;
   id?: InputMaybe<String_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   nickname?: InputMaybe<String_Comparison_Exp>;
@@ -3625,18 +4197,13 @@ export enum User_Info_Constraint {
   UserPkey = 'user_pkey'
 }
 
-/** input type for incrementing numeric columns in table "user_info" */
-export type User_Info_Inc_Input = {
-  free_claims?: InputMaybe<Scalars['Int']>;
-};
-
 /** input type for inserting data into table "user_info" */
 export type User_Info_Insert_Input = {
   avatar_url?: InputMaybe<Scalars['String']>;
   celestials?: InputMaybe<Celestial_Arr_Rel_Insert_Input>;
   chat_messages?: InputMaybe<Chat_Message_Arr_Rel_Insert_Input>;
   display_name?: InputMaybe<Scalars['String']>;
-  free_claims?: InputMaybe<Scalars['Int']>;
+  galactic_empires?: InputMaybe<Galactic_Empire_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   nickname?: InputMaybe<Scalars['String']>;
@@ -3648,7 +4215,6 @@ export type User_Info_Max_Fields = {
   __typename?: 'user_info_max_fields';
   avatar_url?: Maybe<Scalars['String']>;
   display_name?: Maybe<Scalars['String']>;
-  free_claims?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   nickname?: Maybe<Scalars['String']>;
@@ -3660,7 +4226,6 @@ export type User_Info_Min_Fields = {
   __typename?: 'user_info_min_fields';
   avatar_url?: Maybe<Scalars['String']>;
   display_name?: Maybe<Scalars['String']>;
-  free_claims?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   nickname?: Maybe<Scalars['String']>;
@@ -3696,7 +4261,7 @@ export type User_Info_Order_By = {
   celestials_aggregate?: InputMaybe<Celestial_Aggregate_Order_By>;
   chat_messages_aggregate?: InputMaybe<Chat_Message_Aggregate_Order_By>;
   display_name?: InputMaybe<Order_By>;
-  free_claims?: InputMaybe<Order_By>;
+  galactic_empires_aggregate?: InputMaybe<Galactic_Empire_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   nickname?: InputMaybe<Order_By>;
@@ -3715,8 +4280,6 @@ export enum User_Info_Select_Column {
   /** column name */
   DisplayName = 'display_name',
   /** column name */
-  FreeClaims = 'free_claims',
-  /** column name */
   Id = 'id',
   /** column name */
   Name = 'name',
@@ -3730,35 +4293,10 @@ export enum User_Info_Select_Column {
 export type User_Info_Set_Input = {
   avatar_url?: InputMaybe<Scalars['String']>;
   display_name?: InputMaybe<Scalars['String']>;
-  free_claims?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   nickname?: InputMaybe<Scalars['String']>;
   secret_setting_test?: InputMaybe<Scalars['String']>;
-};
-
-/** aggregate stddev on columns */
-export type User_Info_Stddev_Fields = {
-  __typename?: 'user_info_stddev_fields';
-  free_claims?: Maybe<Scalars['Float']>;
-};
-
-/** aggregate stddev_pop on columns */
-export type User_Info_Stddev_Pop_Fields = {
-  __typename?: 'user_info_stddev_pop_fields';
-  free_claims?: Maybe<Scalars['Float']>;
-};
-
-/** aggregate stddev_samp on columns */
-export type User_Info_Stddev_Samp_Fields = {
-  __typename?: 'user_info_stddev_samp_fields';
-  free_claims?: Maybe<Scalars['Float']>;
-};
-
-/** aggregate sum on columns */
-export type User_Info_Sum_Fields = {
-  __typename?: 'user_info_sum_fields';
-  free_claims?: Maybe<Scalars['Int']>;
 };
 
 /** update columns of table "user_info" */
@@ -3767,8 +4305,6 @@ export enum User_Info_Update_Column {
   AvatarUrl = 'avatar_url',
   /** column name */
   DisplayName = 'display_name',
-  /** column name */
-  FreeClaims = 'free_claims',
   /** column name */
   Id = 'id',
   /** column name */
@@ -3779,29 +4315,10 @@ export enum User_Info_Update_Column {
   SecretSettingTest = 'secret_setting_test'
 }
 
-/** aggregate var_pop on columns */
-export type User_Info_Var_Pop_Fields = {
-  __typename?: 'user_info_var_pop_fields';
-  free_claims?: Maybe<Scalars['Float']>;
-};
-
-/** aggregate var_samp on columns */
-export type User_Info_Var_Samp_Fields = {
-  __typename?: 'user_info_var_samp_fields';
-  free_claims?: Maybe<Scalars['Float']>;
-};
-
-/** aggregate variance on columns */
-export type User_Info_Variance_Fields = {
-  __typename?: 'user_info_variance_fields';
-  free_claims?: Maybe<Scalars['Float']>;
-};
-
 /** columns and relationships of "user_me" */
 export type User_Me = {
   __typename?: 'user_me';
   display_name?: Maybe<Scalars['String']>;
-  free_claims?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   nickname?: Maybe<Scalars['String']>;
@@ -3818,17 +4335,9 @@ export type User_Me_Aggregate = {
 /** aggregate fields of "user_me" */
 export type User_Me_Aggregate_Fields = {
   __typename?: 'user_me_aggregate_fields';
-  avg?: Maybe<User_Me_Avg_Fields>;
   count: Scalars['Int'];
   max?: Maybe<User_Me_Max_Fields>;
   min?: Maybe<User_Me_Min_Fields>;
-  stddev?: Maybe<User_Me_Stddev_Fields>;
-  stddev_pop?: Maybe<User_Me_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<User_Me_Stddev_Samp_Fields>;
-  sum?: Maybe<User_Me_Sum_Fields>;
-  var_pop?: Maybe<User_Me_Var_Pop_Fields>;
-  var_samp?: Maybe<User_Me_Var_Samp_Fields>;
-  variance?: Maybe<User_Me_Variance_Fields>;
 };
 
 
@@ -3838,34 +4347,21 @@ export type User_Me_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
-/** aggregate avg on columns */
-export type User_Me_Avg_Fields = {
-  __typename?: 'user_me_avg_fields';
-  free_claims?: Maybe<Scalars['Float']>;
-};
-
 /** Boolean expression to filter rows from the table "user_me". All fields are combined with a logical 'AND'. */
 export type User_Me_Bool_Exp = {
   _and?: InputMaybe<Array<User_Me_Bool_Exp>>;
   _not?: InputMaybe<User_Me_Bool_Exp>;
   _or?: InputMaybe<Array<User_Me_Bool_Exp>>;
   display_name?: InputMaybe<String_Comparison_Exp>;
-  free_claims?: InputMaybe<Int_Comparison_Exp>;
   id?: InputMaybe<String_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   nickname?: InputMaybe<String_Comparison_Exp>;
   secret_setting_test?: InputMaybe<String_Comparison_Exp>;
 };
 
-/** input type for incrementing numeric columns in table "user_me" */
-export type User_Me_Inc_Input = {
-  free_claims?: InputMaybe<Scalars['Int']>;
-};
-
 /** input type for inserting data into table "user_me" */
 export type User_Me_Insert_Input = {
   display_name?: InputMaybe<Scalars['String']>;
-  free_claims?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   nickname?: InputMaybe<Scalars['String']>;
@@ -3876,7 +4372,6 @@ export type User_Me_Insert_Input = {
 export type User_Me_Max_Fields = {
   __typename?: 'user_me_max_fields';
   display_name?: Maybe<Scalars['String']>;
-  free_claims?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   nickname?: Maybe<Scalars['String']>;
@@ -3887,7 +4382,6 @@ export type User_Me_Max_Fields = {
 export type User_Me_Min_Fields = {
   __typename?: 'user_me_min_fields';
   display_name?: Maybe<Scalars['String']>;
-  free_claims?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   nickname?: Maybe<Scalars['String']>;
@@ -3906,7 +4400,6 @@ export type User_Me_Mutation_Response = {
 /** Ordering options when selecting data from "user_me". */
 export type User_Me_Order_By = {
   display_name?: InputMaybe<Order_By>;
-  free_claims?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   nickname?: InputMaybe<Order_By>;
@@ -3917,8 +4410,6 @@ export type User_Me_Order_By = {
 export enum User_Me_Select_Column {
   /** column name */
   DisplayName = 'display_name',
-  /** column name */
-  FreeClaims = 'free_claims',
   /** column name */
   Id = 'id',
   /** column name */
@@ -3932,53 +4423,10 @@ export enum User_Me_Select_Column {
 /** input type for updating data in table "user_me" */
 export type User_Me_Set_Input = {
   display_name?: InputMaybe<Scalars['String']>;
-  free_claims?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   nickname?: InputMaybe<Scalars['String']>;
   secret_setting_test?: InputMaybe<Scalars['String']>;
-};
-
-/** aggregate stddev on columns */
-export type User_Me_Stddev_Fields = {
-  __typename?: 'user_me_stddev_fields';
-  free_claims?: Maybe<Scalars['Float']>;
-};
-
-/** aggregate stddev_pop on columns */
-export type User_Me_Stddev_Pop_Fields = {
-  __typename?: 'user_me_stddev_pop_fields';
-  free_claims?: Maybe<Scalars['Float']>;
-};
-
-/** aggregate stddev_samp on columns */
-export type User_Me_Stddev_Samp_Fields = {
-  __typename?: 'user_me_stddev_samp_fields';
-  free_claims?: Maybe<Scalars['Float']>;
-};
-
-/** aggregate sum on columns */
-export type User_Me_Sum_Fields = {
-  __typename?: 'user_me_sum_fields';
-  free_claims?: Maybe<Scalars['Int']>;
-};
-
-/** aggregate var_pop on columns */
-export type User_Me_Var_Pop_Fields = {
-  __typename?: 'user_me_var_pop_fields';
-  free_claims?: Maybe<Scalars['Float']>;
-};
-
-/** aggregate var_samp on columns */
-export type User_Me_Var_Samp_Fields = {
-  __typename?: 'user_me_var_samp_fields';
-  free_claims?: Maybe<Scalars['Float']>;
-};
-
-/** aggregate variance on columns */
-export type User_Me_Variance_Fields = {
-  __typename?: 'user_me_variance_fields';
-  free_claims?: Maybe<Scalars['Float']>;
 };
 
 /** columns and relationships of "user_private" */
@@ -4088,7 +4536,7 @@ export type Uuid_Comparison_Exp = {
 
 export type CelestialFieldsFragment = { __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null };
 
-export type GalaxyFieldsFragment = { __typename?: 'galaxy', id: any, name?: string | null, curvature: any, core_radius_factor: any, core_concentration_factor: any, arms: any, arm_width: any, radius: number, stars: number, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> };
+export type GalaxyFieldsFragment = { __typename?: 'galaxy', id: any, name?: string | null, curvature: any, core_radius_factor: any, core_concentration_factor: any, arms: any, arm_width: any, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', user_id: string, id: any }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> };
 
 export type CelestialByIdQueryVariables = Exact<{
   id: Scalars['String'];
@@ -4109,23 +4557,22 @@ export type CelestialsByGalaxyIdSubscriptionVariables = Exact<{
 
 export type CelestialsByGalaxyIdSubscription = { __typename?: 'subscription_root', galaxy_by_pk?: { __typename?: 'galaxy', celestials: Array<{ __typename?: 'celestial', name?: string | null, id: string, owner_id?: string | null }>, celestials_aggregate: { __typename?: 'celestial_aggregate', nodes: Array<{ __typename?: 'celestial', owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, avatar_url?: string | null } | null }> } } | null };
 
-export type RequestRandomCelestialByGalaxyIdMutationVariables = Exact<{
+export type CreateEmpireOriginCelestialMutationVariables = Exact<{
   galaxy_id: Scalars['String'];
 }>;
 
 
-export type RequestRandomCelestialByGalaxyIdMutation = { __typename?: 'mutation_root', requestRandomCelestial?: { __typename?: 'GalaxyManagement', freeClaimsLeft: number } | null };
+export type CreateEmpireOriginCelestialMutation = { __typename?: 'mutation_root', createEmpireOriginCelestial?: { __typename?: 'GalaxyManagement', insertedCelestialId: string, insertedCelestialName: string } | null };
 
 export type TryInsertClaimedCelestialMutationVariables = Exact<{
   galaxy_id: Scalars['uuid'];
   id: Scalars['String'];
   name: Scalars['String'];
   owner_id: Scalars['String'];
-  free_claims: Scalars['Int'];
 }>;
 
 
-export type TryInsertClaimedCelestialMutation = { __typename?: 'mutation_root', insert_celestial_one?: { __typename?: 'celestial', galaxy_id: any, id: string, name?: string | null, owner_id?: string | null } | null, update_user_info_by_pk?: { __typename?: 'user_info', free_claims: number } | null };
+export type TryInsertClaimedCelestialMutation = { __typename?: 'mutation_root', insert_celestial_one?: { __typename?: 'celestial', galaxy_id: any, id: string, name?: string | null, owner_id?: string | null } | null };
 
 export type CharacterDataQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4149,12 +4596,33 @@ export type SendNewMessageMutationVariables = Exact<{
 
 export type SendNewMessageMutation = { __typename?: 'mutation_root', insert_chat_message_one?: { __typename?: 'chat_message', message: string } | null };
 
+export type CreateGalacticEmpireMutationVariables = Exact<{
+  input: Galactic_Empire_Insert_Input;
+}>;
+
+
+export type CreateGalacticEmpireMutation = { __typename?: 'mutation_root', insert_galactic_empire_one?: { __typename?: 'galactic_empire', id: any } | null };
+
+export type GalacticEmpireByIdSubscriptionVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type GalacticEmpireByIdSubscription = { __typename?: 'subscription_root', galactic_empire: Array<{ __typename?: 'galactic_empire', galaxy: { __typename?: 'galaxy', name?: string | null }, homeworld?: { __typename?: 'planet', name: string, terrain_hex_palette_id: any, texture_resolution: number, id: any } | null, background: { __typename?: 'background', name: string, description: string, id: any }, celestials: Array<{ __typename?: 'celestial', name?: string | null, id: string, galaxy_id: any }>, faction: { __typename?: 'faction', description: string, id: any, name: string } }> };
+
+export type GalacticEmpiresByGalaxyIdQueryVariables = Exact<{
+  galaxyId: Scalars['uuid'];
+}>;
+
+
+export type GalacticEmpiresByGalaxyIdQuery = { __typename?: 'query_root', galactic_empire: Array<{ __typename?: 'galactic_empire', user_id: string, id: any }> };
+
 export type CreateGalaxyMutationVariables = Exact<{
   input: Galaxy_Insert_Input;
 }>;
 
 
-export type CreateGalaxyMutation = { __typename?: 'mutation_root', insert_galaxy_one?: { __typename?: 'galaxy', id: any, name?: string | null, curvature: any, core_radius_factor: any, core_concentration_factor: any, arms: any, arm_width: any, radius: number, stars: number, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> } | null };
+export type CreateGalaxyMutation = { __typename?: 'mutation_root', insert_galaxy_one?: { __typename?: 'galaxy', id: any, name?: string | null, curvature: any, core_radius_factor: any, core_concentration_factor: any, arms: any, arm_width: any, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', user_id: string, id: any }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> } | null };
 
 export type DeleteGalaxyByIdMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -4166,7 +4634,7 @@ export type DeleteGalaxyByIdMutation = { __typename?: 'mutation_root', delete_ga
 export type GalaxiesSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GalaxiesSubscription = { __typename?: 'subscription_root', galaxy: Array<{ __typename?: 'galaxy', id: any, name?: string | null, curvature: any, core_radius_factor: any, core_concentration_factor: any, arms: any, arm_width: any, radius: number, stars: number, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> }> };
+export type GalaxiesSubscription = { __typename?: 'subscription_root', galaxy: Array<{ __typename?: 'galaxy', id: any, name?: string | null, curvature: any, core_radius_factor: any, core_concentration_factor: any, arms: any, arm_width: any, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', user_id: string, id: any }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> }> };
 
 export type GalaxiesWithOwnedCelestialsSubscriptionVariables = Exact<{
   userId: Scalars['String'];
@@ -4180,7 +4648,7 @@ export type GalaxyByIdQueryVariables = Exact<{
 }>;
 
 
-export type GalaxyByIdQuery = { __typename?: 'query_root', galaxy_by_pk?: { __typename?: 'galaxy', arm_width: any, arms: any, core_concentration_factor: any, core_radius_factor: any, curvature: any, id: any, name?: string | null, radius: number, stars: number } | null };
+export type GalaxyByIdQuery = { __typename?: 'query_root', galaxy_by_pk?: { __typename?: 'galaxy', id: any, name?: string | null, curvature: any, core_radius_factor: any, core_concentration_factor: any, arms: any, arm_width: any, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', user_id: string, id: any }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> } | null };
 
 export type OngoingGalaxySessionsSubscriptionVariables = Exact<{
   id: Scalars['String'];
@@ -4189,13 +4657,12 @@ export type OngoingGalaxySessionsSubscriptionVariables = Exact<{
 
 export type OngoingGalaxySessionsSubscription = { __typename?: 'subscription_root', galaxy_aggregate: { __typename?: 'galaxy_aggregate', nodes: Array<{ __typename?: 'galaxy', id: any, name?: string | null, celestials_aggregate: { __typename?: 'celestial_aggregate', nodes: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets_aggregate: { __typename?: 'planet_aggregate', nodes: Array<{ __typename?: 'planet', name: string }> } }> } }> } };
 
-export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables = Exact<{
-  userId: Scalars['String'];
+export type GetGalaxyByIdAndUnclaimedCelestialsQueryVariables = Exact<{
   galaxyId: Scalars['uuid'];
 }>;
 
 
-export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery = { __typename?: 'query_root', user_info_by_pk?: { __typename?: 'user_info', free_claims: number } | null, galaxy_by_pk?: { __typename?: 'galaxy', id: any, stars: number } | null, celestial: Array<{ __typename?: 'celestial', id: string }> };
+export type GetGalaxyByIdAndUnclaimedCelestialsQuery = { __typename?: 'query_root', galaxy_by_pk?: { __typename?: 'galaxy', id: any, stars: number } | null, celestial: Array<{ __typename?: 'celestial', id: string }> };
 
 export type CreatePlanetMutationVariables = Exact<{
   input: PlanetCreationInput;
@@ -4226,7 +4693,7 @@ export type TryInsertPlanetMutation = { __typename?: 'mutation_root', insert_pla
 export type SelfQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SelfQuery = { __typename?: 'query_root', user_me: Array<{ __typename?: 'user_me', display_name?: string | null, id?: string | null, name?: string | null, nickname?: string | null, secret_setting_test?: string | null, free_claims?: number | null }> };
+export type SelfQuery = { __typename?: 'query_root', user_me: Array<{ __typename?: 'user_me', display_name?: string | null, id?: string | null, name?: string | null, nickname?: string | null, secret_setting_test?: string | null }> };
 
 export type SetDisplayNameByUserIdMutationVariables = Exact<{
   id: Scalars['String'];
@@ -4242,14 +4709,6 @@ export type SetNameByUserIdMutationVariables = Exact<{
 
 
 export type SetNameByUserIdMutation = { __typename?: 'mutation_root', setDisplayName?: { __typename?: 'Register', updatedName: string } | null };
-
-export type UpdateFreeClaimsMutationVariables = Exact<{
-  id: Scalars['String'];
-  free_claims: Scalars['Int'];
-}>;
-
-
-export type UpdateFreeClaimsMutation = { __typename?: 'mutation_root', update_user_info_by_pk?: { __typename?: 'user_info', free_claims: number } | null };
 
 export type UserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4278,6 +4737,10 @@ export const GalaxyFieldsFragmentDoc = gql`
   arm_width
   radius
   stars
+  galactic_empires {
+    user_id
+    id
+  }
   celestials {
     ...CelestialFields
   }
@@ -4347,18 +4810,19 @@ export const CelestialsByGalaxyIdDocument = gql`
 }
     `;
 export type CelestialsByGalaxyIdSubscriptionResult = Apollo.SubscriptionResult<CelestialsByGalaxyIdSubscription>;
-export const RequestRandomCelestialByGalaxyIdDocument = gql`
-    mutation RequestRandomCelestialByGalaxyId($galaxy_id: String!) {
-  requestRandomCelestial(galaxy_id: $galaxy_id) {
-    freeClaimsLeft
+export const CreateEmpireOriginCelestialDocument = gql`
+    mutation CreateEmpireOriginCelestial($galaxy_id: String!) {
+  createEmpireOriginCelestial(galaxy_id: $galaxy_id) {
+    insertedCelestialId
+    insertedCelestialName
   }
 }
     `;
-export type RequestRandomCelestialByGalaxyIdMutationFn = Apollo.MutationFunction<RequestRandomCelestialByGalaxyIdMutation, RequestRandomCelestialByGalaxyIdMutationVariables>;
-export type RequestRandomCelestialByGalaxyIdMutationResult = Apollo.MutationResult<RequestRandomCelestialByGalaxyIdMutation>;
-export type RequestRandomCelestialByGalaxyIdMutationOptions = Apollo.BaseMutationOptions<RequestRandomCelestialByGalaxyIdMutation, RequestRandomCelestialByGalaxyIdMutationVariables>;
+export type CreateEmpireOriginCelestialMutationFn = Apollo.MutationFunction<CreateEmpireOriginCelestialMutation, CreateEmpireOriginCelestialMutationVariables>;
+export type CreateEmpireOriginCelestialMutationResult = Apollo.MutationResult<CreateEmpireOriginCelestialMutation>;
+export type CreateEmpireOriginCelestialMutationOptions = Apollo.BaseMutationOptions<CreateEmpireOriginCelestialMutation, CreateEmpireOriginCelestialMutationVariables>;
 export const TryInsertClaimedCelestialDocument = gql`
-    mutation TryInsertClaimedCelestial($galaxy_id: uuid!, $id: String!, $name: String!, $owner_id: String!, $free_claims: Int!) {
+    mutation TryInsertClaimedCelestial($galaxy_id: uuid!, $id: String!, $name: String!, $owner_id: String!) {
   insert_celestial_one(
     object: {galaxy_id: $galaxy_id, id: $id, name: $name, owner_id: $owner_id}
     on_conflict: {constraint: system_pkey, update_columns: owner_id}
@@ -4367,12 +4831,6 @@ export const TryInsertClaimedCelestialDocument = gql`
     id
     name
     owner_id
-  }
-  update_user_info_by_pk(
-    pk_columns: {id: $owner_id}
-    _set: {free_claims: $free_claims}
-  ) {
-    free_claims
   }
 }
     `;
@@ -4434,6 +4892,56 @@ export const SendNewMessageDocument = gql`
 export type SendNewMessageMutationFn = Apollo.MutationFunction<SendNewMessageMutation, SendNewMessageMutationVariables>;
 export type SendNewMessageMutationResult = Apollo.MutationResult<SendNewMessageMutation>;
 export type SendNewMessageMutationOptions = Apollo.BaseMutationOptions<SendNewMessageMutation, SendNewMessageMutationVariables>;
+export const CreateGalacticEmpireDocument = gql`
+    mutation CreateGalacticEmpire($input: galactic_empire_insert_input!) {
+  insert_galactic_empire_one(object: $input) {
+    id
+  }
+}
+    `;
+export type CreateGalacticEmpireMutationFn = Apollo.MutationFunction<CreateGalacticEmpireMutation, CreateGalacticEmpireMutationVariables>;
+export type CreateGalacticEmpireMutationResult = Apollo.MutationResult<CreateGalacticEmpireMutation>;
+export type CreateGalacticEmpireMutationOptions = Apollo.BaseMutationOptions<CreateGalacticEmpireMutation, CreateGalacticEmpireMutationVariables>;
+export const GalacticEmpireByIdDocument = gql`
+    subscription GalacticEmpireById($id: uuid!) {
+  galactic_empire(where: {id: {_eq: $id}}) {
+    galaxy {
+      name
+    }
+    homeworld {
+      name
+      terrain_hex_palette_id
+      texture_resolution
+      id
+    }
+    background {
+      name
+      description
+      id
+    }
+    celestials {
+      name
+      id
+      galaxy_id
+    }
+    faction {
+      description
+      id
+      name
+    }
+  }
+}
+    `;
+export type GalacticEmpireByIdSubscriptionResult = Apollo.SubscriptionResult<GalacticEmpireByIdSubscription>;
+export const GalacticEmpiresByGalaxyIdDocument = gql`
+    query GalacticEmpiresByGalaxyId($galaxyId: uuid!) {
+  galactic_empire(where: {galaxy_id: {_eq: $galaxyId}}) {
+    user_id
+    id
+  }
+}
+    `;
+export type GalacticEmpiresByGalaxyIdQueryResult = Apollo.QueryResult<GalacticEmpiresByGalaxyIdQuery, GalacticEmpiresByGalaxyIdQueryVariables>;
 export const CreateGalaxyDocument = gql`
     mutation CreateGalaxy($input: galaxy_insert_input!) {
   insert_galaxy_one(object: $input) {
@@ -4476,18 +4984,10 @@ export type GalaxiesWithOwnedCelestialsSubscriptionResult = Apollo.SubscriptionR
 export const GalaxyByIdDocument = gql`
     query GalaxyById($id: uuid!) {
   galaxy_by_pk(id: $id) {
-    arm_width
-    arms
-    core_concentration_factor
-    core_radius_factor
-    curvature
-    id
-    name
-    radius
-    stars
+    ...GalaxyFields
   }
 }
-    `;
+    ${GalaxyFieldsFragmentDoc}`;
 export type GalaxyByIdQueryResult = Apollo.QueryResult<GalaxyByIdQuery, GalaxyByIdQueryVariables>;
 export const OngoingGalaxySessionsDocument = gql`
     subscription OngoingGalaxySessions($id: String!) {
@@ -4511,11 +5011,8 @@ export const OngoingGalaxySessionsDocument = gql`
 }
     `;
 export type OngoingGalaxySessionsSubscriptionResult = Apollo.SubscriptionResult<OngoingGalaxySessionsSubscription>;
-export const GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsDocument = gql`
-    query GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestials($userId: String!, $galaxyId: uuid!) {
-  user_info_by_pk(id: $userId) {
-    free_claims
-  }
+export const GetGalaxyByIdAndUnclaimedCelestialsDocument = gql`
+    query GetGalaxyByIdAndUnclaimedCelestials($galaxyId: uuid!) {
   galaxy_by_pk(id: $galaxyId) {
     id
     stars
@@ -4527,7 +5024,7 @@ export const GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsDocument = gql`
   }
 }
     `;
-export type GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryResult = Apollo.QueryResult<GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQuery, GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestialsQueryVariables>;
+export type GetGalaxyByIdAndUnclaimedCelestialsQueryResult = Apollo.QueryResult<GetGalaxyByIdAndUnclaimedCelestialsQuery, GetGalaxyByIdAndUnclaimedCelestialsQueryVariables>;
 export const CreatePlanetDocument = gql`
     mutation CreatePlanet($input: PlanetCreationInput!) {
   createPlanet(input: $input) {
@@ -4601,7 +5098,6 @@ export const SelfDocument = gql`
     name
     nickname
     secret_setting_test
-    free_claims
   }
 }
     `;
@@ -4629,16 +5125,6 @@ export const SetNameByUserIdDocument = gql`
 export type SetNameByUserIdMutationFn = Apollo.MutationFunction<SetNameByUserIdMutation, SetNameByUserIdMutationVariables>;
 export type SetNameByUserIdMutationResult = Apollo.MutationResult<SetNameByUserIdMutation>;
 export type SetNameByUserIdMutationOptions = Apollo.BaseMutationOptions<SetNameByUserIdMutation, SetNameByUserIdMutationVariables>;
-export const UpdateFreeClaimsDocument = gql`
-    mutation UpdateFreeClaims($id: String!, $free_claims: Int!) {
-  update_user_info_by_pk(pk_columns: {id: $id}, _set: {free_claims: $free_claims}) {
-    free_claims
-  }
-}
-    `;
-export type UpdateFreeClaimsMutationFn = Apollo.MutationFunction<UpdateFreeClaimsMutation, UpdateFreeClaimsMutationVariables>;
-export type UpdateFreeClaimsMutationResult = Apollo.MutationResult<UpdateFreeClaimsMutation>;
-export type UpdateFreeClaimsMutationOptions = Apollo.BaseMutationOptions<UpdateFreeClaimsMutation, UpdateFreeClaimsMutationVariables>;
 export const UserInfoDocument = gql`
     query UserInfo {
   user_info {

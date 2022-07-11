@@ -152,7 +152,7 @@ export const CreationWorkflow = ({
       <WorkflowButton
         onClick={() => onStepClicked('start')}
         stepName="start"
-        displayName="begin your journey"
+        displayName="create your empire"
         disabled={!ready}
       />
     </SimpleGrid>

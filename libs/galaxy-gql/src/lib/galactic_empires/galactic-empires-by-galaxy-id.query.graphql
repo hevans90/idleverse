@@ -1,0 +1,6 @@
+query GalacticEmpiresByGalaxyId($galaxyId: uuid!) {
+  galactic_empire(where: { galaxy_id: { _eq: $galaxyId } }) {
+    user_id
+    id
+  }
+}

@@ -1,10 +1,4 @@
-query GetUserFreeClaimsAndGalaxyByIdAndUnclaimedCelestials(
-  $userId: String!
-  $galaxyId: uuid!
-) {
-  user_info_by_pk(id: $userId) {
-    free_claims
-  }
+query GetGalaxyByIdAndUnclaimedCelestials($galaxyId: uuid!) {
   galaxy_by_pk(id: $galaxyId) {
     id
     stars

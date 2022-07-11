@@ -2,6 +2,7 @@
 - "!include public_celestial.yaml"
 - "!include public_chat_message.yaml"
 - "!include public_faction.yaml"
+- "!include public_galactic_empire.yaml"
 - "!include public_galaxy.yaml"
 - "!include public_planet.yaml"
 - "!include public_planetary_ring.yaml"

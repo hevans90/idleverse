@@ -1,0 +1,72 @@
+table:
+  schema: public
+  name: galactic_empire
+object_relationships:
+  - name: background
+    using:
+      foreign_key_constraint_on: background_id
+  - name: faction
+    using:
+      foreign_key_constraint_on: faction_id
+  - name: galaxy
+    using:
+      foreign_key_constraint_on: galaxy_id
+  - name: homeworld
+    using:
+      foreign_key_constraint_on: homeworld_id
+  - name: playable_race
+    using:
+      foreign_key_constraint_on: playable_race_id
+  - name: user_info
+    using:
+      foreign_key_constraint_on: user_id
+array_relationships:
+  - name: celestials
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: celestial
+        insertion_order: null
+        column_mapping:
+          id: galactic_empire_id
+insert_permissions:
+  - role: dev
+    permission:
+      check:
+        user_id:
+          _eq: X-Hasura-User-Id
+      columns:
+        - background_id
+        - faction_id
+        - galaxy_id
+        - homeworld_id
+        - playable_race_id
+        - user_id
+  - role: user
+    permission:
+      check:
+        user_id:
+          _eq: X-Hasura-User-Id
+      columns:
+        - background_id
+        - faction_id
+        - galaxy_id
+        - homeworld_id
+        - playable_race_id
+        - user_id
+select_permissions:
+  - role: dev
+    permission:
+      columns:
+        - galaxy_id
+        - id
+        - user_id
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - galaxy_id
+        - id
+        - user_id
+      filter: {}
