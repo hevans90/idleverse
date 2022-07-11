@@ -1,0 +1,5 @@
+mutation CreateGalacticEmpire($input: galactic_empire_insert_input!) {
+  insert_galactic_empire_one(object: $input) {
+    id
+  }
+}

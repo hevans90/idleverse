@@ -226,6 +226,13 @@ export type Background_Mutation_Response = {
   returning: Array<Background>;
 };
 
+/** input type for inserting object relation for remote table "background" */
+export type Background_Obj_Rel_Insert_Input = {
+  data: Background_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Background_On_Conflict>;
+};
+
 /** on_conflict condition type for table "background" */
 export type Background_On_Conflict = {
   constraint: Background_Constraint;
@@ -275,6 +282,7 @@ export enum Background_Update_Column {
 /** columns and relationships of "celestial" */
 export type Celestial = {
   __typename?: 'celestial';
+  galactic_empire_id?: Maybe<Scalars['uuid']>;
   /** An object relationship */
   galaxy: Galaxy;
   galaxy_id: Scalars['uuid'];
@@ -350,6 +358,7 @@ export type Celestial_Bool_Exp = {
   _and?: InputMaybe<Array<Celestial_Bool_Exp>>;
   _not?: InputMaybe<Celestial_Bool_Exp>;
   _or?: InputMaybe<Array<Celestial_Bool_Exp>>;
+  galactic_empire_id?: InputMaybe<Uuid_Comparison_Exp>;
   galaxy?: InputMaybe<Galaxy_Bool_Exp>;
   galaxy_id?: InputMaybe<Uuid_Comparison_Exp>;
   id?: InputMaybe<String_Comparison_Exp>;
@@ -367,6 +376,7 @@ export enum Celestial_Constraint {
 
 /** input type for inserting data into table "celestial" */
 export type Celestial_Insert_Input = {
+  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
   galaxy?: InputMaybe<Galaxy_Obj_Rel_Insert_Input>;
   galaxy_id?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['String']>;
@@ -379,6 +389,7 @@ export type Celestial_Insert_Input = {
 /** aggregate max on columns */
 export type Celestial_Max_Fields = {
   __typename?: 'celestial_max_fields';
+  galactic_empire_id?: Maybe<Scalars['uuid']>;
   galaxy_id?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
@@ -387,6 +398,7 @@ export type Celestial_Max_Fields = {
 
 /** order by max() on columns of table "celestial" */
 export type Celestial_Max_Order_By = {
+  galactic_empire_id?: InputMaybe<Order_By>;
   galaxy_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
@@ -396,6 +408,7 @@ export type Celestial_Max_Order_By = {
 /** aggregate min on columns */
 export type Celestial_Min_Fields = {
   __typename?: 'celestial_min_fields';
+  galactic_empire_id?: Maybe<Scalars['uuid']>;
   galaxy_id?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
@@ -404,6 +417,7 @@ export type Celestial_Min_Fields = {
 
 /** order by min() on columns of table "celestial" */
 export type Celestial_Min_Order_By = {
+  galactic_empire_id?: InputMaybe<Order_By>;
   galaxy_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
@@ -428,6 +442,7 @@ export type Celestial_On_Conflict = {
 
 /** Ordering options when selecting data from "celestial". */
 export type Celestial_Order_By = {
+  galactic_empire_id?: InputMaybe<Order_By>;
   galaxy?: InputMaybe<Galaxy_Order_By>;
   galaxy_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
@@ -445,6 +460,8 @@ export type Celestial_Pk_Columns_Input = {
 /** select columns of table "celestial" */
 export enum Celestial_Select_Column {
   /** column name */
+  GalacticEmpireId = 'galactic_empire_id',
+  /** column name */
   GalaxyId = 'galaxy_id',
   /** column name */
   Id = 'id',
@@ -456,6 +473,7 @@ export enum Celestial_Select_Column {
 
 /** input type for updating data in table "celestial" */
 export type Celestial_Set_Input = {
+  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
   galaxy_id?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
@@ -464,6 +482,8 @@ export type Celestial_Set_Input = {
 
 /** update columns of table "celestial" */
 export enum Celestial_Update_Column {
+  /** column name */
+  GalacticEmpireId = 'galactic_empire_id',
   /** column name */
   GalaxyId = 'galaxy_id',
   /** column name */
@@ -724,6 +744,13 @@ export type Faction_Mutation_Response = {
   returning: Array<Faction>;
 };
 
+/** input type for inserting object relation for remote table "faction" */
+export type Faction_Obj_Rel_Insert_Input = {
+  data: Faction_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Faction_On_Conflict>;
+};
+
 /** on_conflict condition type for table "faction" */
 export type Faction_On_Conflict = {
   constraint: Faction_Constraint;
@@ -768,6 +795,233 @@ export enum Faction_Update_Column {
   Id = 'id',
   /** column name */
   Name = 'name'
+}
+
+/** columns and relationships of "galactic_empire" */
+export type Galactic_Empire = {
+  __typename?: 'galactic_empire';
+  /** An object relationship */
+  background: Background;
+  background_id: Scalars['uuid'];
+  /** An array relationship */
+  celestials: Array<Celestial>;
+  /** An aggregate relationship */
+  celestials_aggregate: Celestial_Aggregate;
+  /** An object relationship */
+  faction: Faction;
+  faction_id: Scalars['uuid'];
+  /** An object relationship */
+  galaxy: Galaxy;
+  galaxy_id: Scalars['uuid'];
+  /** An object relationship */
+  homeworld?: Maybe<Planet>;
+  homeworld_id?: Maybe<Scalars['uuid']>;
+  id: Scalars['uuid'];
+  /** An object relationship */
+  playable_race: Playable_Race;
+  playable_race_id: Scalars['uuid'];
+  user_id: Scalars['String'];
+  /** An object relationship */
+  user_info: User_Info;
+};
+
+
+/** columns and relationships of "galactic_empire" */
+export type Galactic_EmpireCelestialsArgs = {
+  distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Celestial_Order_By>>;
+  where?: InputMaybe<Celestial_Bool_Exp>;
+};
+
+
+/** columns and relationships of "galactic_empire" */
+export type Galactic_EmpireCelestials_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Celestial_Order_By>>;
+  where?: InputMaybe<Celestial_Bool_Exp>;
+};
+
+/** aggregated selection of "galactic_empire" */
+export type Galactic_Empire_Aggregate = {
+  __typename?: 'galactic_empire_aggregate';
+  aggregate?: Maybe<Galactic_Empire_Aggregate_Fields>;
+  nodes: Array<Galactic_Empire>;
+};
+
+/** aggregate fields of "galactic_empire" */
+export type Galactic_Empire_Aggregate_Fields = {
+  __typename?: 'galactic_empire_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Galactic_Empire_Max_Fields>;
+  min?: Maybe<Galactic_Empire_Min_Fields>;
+};
+
+
+/** aggregate fields of "galactic_empire" */
+export type Galactic_Empire_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "galactic_empire". All fields are combined with a logical 'AND'. */
+export type Galactic_Empire_Bool_Exp = {
+  _and?: InputMaybe<Array<Galactic_Empire_Bool_Exp>>;
+  _not?: InputMaybe<Galactic_Empire_Bool_Exp>;
+  _or?: InputMaybe<Array<Galactic_Empire_Bool_Exp>>;
+  background?: InputMaybe<Background_Bool_Exp>;
+  background_id?: InputMaybe<Uuid_Comparison_Exp>;
+  celestials?: InputMaybe<Celestial_Bool_Exp>;
+  faction?: InputMaybe<Faction_Bool_Exp>;
+  faction_id?: InputMaybe<Uuid_Comparison_Exp>;
+  galaxy?: InputMaybe<Galaxy_Bool_Exp>;
+  galaxy_id?: InputMaybe<Uuid_Comparison_Exp>;
+  homeworld?: InputMaybe<Planet_Bool_Exp>;
+  homeworld_id?: InputMaybe<Uuid_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  playable_race?: InputMaybe<Playable_Race_Bool_Exp>;
+  playable_race_id?: InputMaybe<Uuid_Comparison_Exp>;
+  user_id?: InputMaybe<String_Comparison_Exp>;
+  user_info?: InputMaybe<User_Info_Bool_Exp>;
+};
+
+/** unique or primary key constraints on table "galactic_empire" */
+export enum Galactic_Empire_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  GalacticEmpirePkey = 'galactic_empire_pkey',
+  /** unique or primary key constraint on columns "galaxy_id", "user_id" */
+  GalacticEmpireUserIdGalaxyIdKey = 'galactic_empire_user_id_galaxy_id_key'
+}
+
+/** input type for inserting data into table "galactic_empire" */
+export type Galactic_Empire_Insert_Input = {
+  background?: InputMaybe<Background_Obj_Rel_Insert_Input>;
+  background_id?: InputMaybe<Scalars['uuid']>;
+  celestials?: InputMaybe<Celestial_Arr_Rel_Insert_Input>;
+  faction?: InputMaybe<Faction_Obj_Rel_Insert_Input>;
+  faction_id?: InputMaybe<Scalars['uuid']>;
+  galaxy?: InputMaybe<Galaxy_Obj_Rel_Insert_Input>;
+  galaxy_id?: InputMaybe<Scalars['uuid']>;
+  homeworld?: InputMaybe<Planet_Obj_Rel_Insert_Input>;
+  homeworld_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  playable_race?: InputMaybe<Playable_Race_Obj_Rel_Insert_Input>;
+  playable_race_id?: InputMaybe<Scalars['uuid']>;
+  user_id?: InputMaybe<Scalars['String']>;
+  user_info?: InputMaybe<User_Info_Obj_Rel_Insert_Input>;
+};
+
+/** aggregate max on columns */
+export type Galactic_Empire_Max_Fields = {
+  __typename?: 'galactic_empire_max_fields';
+  background_id?: Maybe<Scalars['uuid']>;
+  faction_id?: Maybe<Scalars['uuid']>;
+  galaxy_id?: Maybe<Scalars['uuid']>;
+  homeworld_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  playable_race_id?: Maybe<Scalars['uuid']>;
+  user_id?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Galactic_Empire_Min_Fields = {
+  __typename?: 'galactic_empire_min_fields';
+  background_id?: Maybe<Scalars['uuid']>;
+  faction_id?: Maybe<Scalars['uuid']>;
+  galaxy_id?: Maybe<Scalars['uuid']>;
+  homeworld_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  playable_race_id?: Maybe<Scalars['uuid']>;
+  user_id?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "galactic_empire" */
+export type Galactic_Empire_Mutation_Response = {
+  __typename?: 'galactic_empire_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Galactic_Empire>;
+};
+
+/** on_conflict condition type for table "galactic_empire" */
+export type Galactic_Empire_On_Conflict = {
+  constraint: Galactic_Empire_Constraint;
+  update_columns?: Array<Galactic_Empire_Update_Column>;
+  where?: InputMaybe<Galactic_Empire_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "galactic_empire". */
+export type Galactic_Empire_Order_By = {
+  background?: InputMaybe<Background_Order_By>;
+  background_id?: InputMaybe<Order_By>;
+  celestials_aggregate?: InputMaybe<Celestial_Aggregate_Order_By>;
+  faction?: InputMaybe<Faction_Order_By>;
+  faction_id?: InputMaybe<Order_By>;
+  galaxy?: InputMaybe<Galaxy_Order_By>;
+  galaxy_id?: InputMaybe<Order_By>;
+  homeworld?: InputMaybe<Planet_Order_By>;
+  homeworld_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  playable_race?: InputMaybe<Playable_Race_Order_By>;
+  playable_race_id?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+  user_info?: InputMaybe<User_Info_Order_By>;
+};
+
+/** primary key columns input for table: galactic_empire */
+export type Galactic_Empire_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "galactic_empire" */
+export enum Galactic_Empire_Select_Column {
+  /** column name */
+  BackgroundId = 'background_id',
+  /** column name */
+  FactionId = 'faction_id',
+  /** column name */
+  GalaxyId = 'galaxy_id',
+  /** column name */
+  HomeworldId = 'homeworld_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  PlayableRaceId = 'playable_race_id',
+  /** column name */
+  UserId = 'user_id'
+}
+
+/** input type for updating data in table "galactic_empire" */
+export type Galactic_Empire_Set_Input = {
+  background_id?: InputMaybe<Scalars['uuid']>;
+  faction_id?: InputMaybe<Scalars['uuid']>;
+  galaxy_id?: InputMaybe<Scalars['uuid']>;
+  homeworld_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  playable_race_id?: InputMaybe<Scalars['uuid']>;
+  user_id?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "galactic_empire" */
+export enum Galactic_Empire_Update_Column {
+  /** column name */
+  BackgroundId = 'background_id',
+  /** column name */
+  FactionId = 'faction_id',
+  /** column name */
+  GalaxyId = 'galaxy_id',
+  /** column name */
+  HomeworldId = 'homeworld_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  PlayableRaceId = 'playable_race_id',
+  /** column name */
+  UserId = 'user_id'
 }
 
 /** columns and relationships of "galaxy" */
@@ -1129,6 +1383,10 @@ export type Mutation_Root = {
   delete_faction?: Maybe<Faction_Mutation_Response>;
   /** delete single row from the table: "faction" */
   delete_faction_by_pk?: Maybe<Faction>;
+  /** delete data from the table: "galactic_empire" */
+  delete_galactic_empire?: Maybe<Galactic_Empire_Mutation_Response>;
+  /** delete single row from the table: "galactic_empire" */
+  delete_galactic_empire_by_pk?: Maybe<Galactic_Empire>;
   /** delete data from the table: "galaxy" */
   delete_galaxy?: Maybe<Galaxy_Mutation_Response>;
   /** delete single row from the table: "galaxy" */
@@ -1173,6 +1431,10 @@ export type Mutation_Root = {
   insert_faction?: Maybe<Faction_Mutation_Response>;
   /** insert a single row into the table: "faction" */
   insert_faction_one?: Maybe<Faction>;
+  /** insert data into the table: "galactic_empire" */
+  insert_galactic_empire?: Maybe<Galactic_Empire_Mutation_Response>;
+  /** insert a single row into the table: "galactic_empire" */
+  insert_galactic_empire_one?: Maybe<Galactic_Empire>;
   /** insert data into the table: "galaxy" */
   insert_galaxy?: Maybe<Galaxy_Mutation_Response>;
   /** insert a single row into the table: "galaxy" */
@@ -1223,6 +1485,10 @@ export type Mutation_Root = {
   update_faction?: Maybe<Faction_Mutation_Response>;
   /** update single row of the table: "faction" */
   update_faction_by_pk?: Maybe<Faction>;
+  /** update data of the table: "galactic_empire" */
+  update_galactic_empire?: Maybe<Galactic_Empire_Mutation_Response>;
+  /** update single row of the table: "galactic_empire" */
+  update_galactic_empire_by_pk?: Maybe<Galactic_Empire>;
   /** update data of the table: "galaxy" */
   update_galaxy?: Maybe<Galaxy_Mutation_Response>;
   /** update single row of the table: "galaxy" */
@@ -1304,6 +1570,18 @@ export type Mutation_RootDelete_FactionArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Faction_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Galactic_EmpireArgs = {
+  where: Galactic_Empire_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Galactic_Empire_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -1445,6 +1723,20 @@ export type Mutation_RootInsert_FactionArgs = {
 export type Mutation_RootInsert_Faction_OneArgs = {
   object: Faction_Insert_Input;
   on_conflict?: InputMaybe<Faction_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Galactic_EmpireArgs = {
+  objects: Array<Galactic_Empire_Insert_Input>;
+  on_conflict?: InputMaybe<Galactic_Empire_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Galactic_Empire_OneArgs = {
+  object: Galactic_Empire_Insert_Input;
+  on_conflict?: InputMaybe<Galactic_Empire_On_Conflict>;
 };
 
 
@@ -1621,6 +1913,20 @@ export type Mutation_RootUpdate_FactionArgs = {
 export type Mutation_RootUpdate_Faction_By_PkArgs = {
   _set?: InputMaybe<Faction_Set_Input>;
   pk_columns: Faction_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Galactic_EmpireArgs = {
+  _set?: InputMaybe<Galactic_Empire_Set_Input>;
+  where: Galactic_Empire_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Galactic_Empire_By_PkArgs = {
+  _set?: InputMaybe<Galactic_Empire_Set_Input>;
+  pk_columns: Galactic_Empire_Pk_Columns_Input;
 };
 
 
@@ -1980,6 +2286,13 @@ export type Planet_Mutation_Response = {
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
   returning: Array<Planet>;
+};
+
+/** input type for inserting object relation for remote table "planet" */
+export type Planet_Obj_Rel_Insert_Input = {
+  data: Planet_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Planet_On_Conflict>;
 };
 
 /** on_conflict condition type for table "planet" */
@@ -2598,6 +2911,13 @@ export type Playable_Race_Mutation_Response = {
   returning: Array<Playable_Race>;
 };
 
+/** input type for inserting object relation for remote table "playable_race" */
+export type Playable_Race_Obj_Rel_Insert_Input = {
+  data: Playable_Race_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Playable_Race_On_Conflict>;
+};
+
 /** on_conflict condition type for table "playable_race" */
 export type Playable_Race_On_Conflict = {
   constraint: Playable_Race_Constraint;
@@ -2670,6 +2990,12 @@ export type Query_Root = {
   faction_aggregate: Faction_Aggregate;
   /** fetch data from the table: "faction" using primary key columns */
   faction_by_pk?: Maybe<Faction>;
+  /** fetch data from the table: "galactic_empire" */
+  galactic_empire: Array<Galactic_Empire>;
+  /** fetch aggregated fields from the table: "galactic_empire" */
+  galactic_empire_aggregate: Galactic_Empire_Aggregate;
+  /** fetch data from the table: "galactic_empire" using primary key columns */
+  galactic_empire_by_pk?: Maybe<Galactic_Empire>;
   /** fetch data from the table: "galaxy" */
   galaxy: Array<Galaxy>;
   /** fetch aggregated fields from the table: "galaxy" */
@@ -2806,6 +3132,29 @@ export type Query_RootFaction_AggregateArgs = {
 
 
 export type Query_RootFaction_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootGalactic_EmpireArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Bool_Exp>;
+};
+
+
+export type Query_RootGalactic_Empire_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Bool_Exp>;
+};
+
+
+export type Query_RootGalactic_Empire_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -3009,6 +3358,12 @@ export type Subscription_Root = {
   faction_aggregate: Faction_Aggregate;
   /** fetch data from the table: "faction" using primary key columns */
   faction_by_pk?: Maybe<Faction>;
+  /** fetch data from the table: "galactic_empire" */
+  galactic_empire: Array<Galactic_Empire>;
+  /** fetch aggregated fields from the table: "galactic_empire" */
+  galactic_empire_aggregate: Galactic_Empire_Aggregate;
+  /** fetch data from the table: "galactic_empire" using primary key columns */
+  galactic_empire_by_pk?: Maybe<Galactic_Empire>;
   /** fetch data from the table: "galaxy" */
   galaxy: Array<Galaxy>;
   /** fetch aggregated fields from the table: "galaxy" */
@@ -3144,6 +3499,29 @@ export type Subscription_RootFaction_AggregateArgs = {
 
 
 export type Subscription_RootFaction_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootGalactic_EmpireArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Bool_Exp>;
+};
+
+
+export type Subscription_RootGalactic_Empire_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Bool_Exp>;
+};
+
+
+export type Subscription_RootGalactic_Empire_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -4149,6 +4527,20 @@ export type SendNewMessageMutationVariables = Exact<{
 
 export type SendNewMessageMutation = { __typename?: 'mutation_root', insert_chat_message_one?: { __typename?: 'chat_message', message: string } | null };
 
+export type CreateGalacticEmpireMutationVariables = Exact<{
+  input: Galactic_Empire_Insert_Input;
+}>;
+
+
+export type CreateGalacticEmpireMutation = { __typename?: 'mutation_root', insert_galactic_empire_one?: { __typename?: 'galactic_empire', id: any } | null };
+
+export type GalacticEmpireByIdSubscriptionVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type GalacticEmpireByIdSubscription = { __typename?: 'subscription_root', galactic_empire: Array<{ __typename?: 'galactic_empire', galaxy: { __typename?: 'galaxy', name?: string | null }, homeworld?: { __typename?: 'planet', name: string, terrain_hex_palette_id: any, texture_resolution: number, id: any } | null, background: { __typename?: 'background', name: string, description: string, id: any }, celestials: Array<{ __typename?: 'celestial', name?: string | null, id: string, galaxy_id: any }>, faction: { __typename?: 'faction', description: string, id: any, name: string } }> };
+
 export type CreateGalaxyMutationVariables = Exact<{
   input: Galaxy_Insert_Input;
 }>;
@@ -4434,6 +4826,47 @@ export const SendNewMessageDocument = gql`
 export type SendNewMessageMutationFn = Apollo.MutationFunction<SendNewMessageMutation, SendNewMessageMutationVariables>;
 export type SendNewMessageMutationResult = Apollo.MutationResult<SendNewMessageMutation>;
 export type SendNewMessageMutationOptions = Apollo.BaseMutationOptions<SendNewMessageMutation, SendNewMessageMutationVariables>;
+export const CreateGalacticEmpireDocument = gql`
+    mutation CreateGalacticEmpire($input: galactic_empire_insert_input!) {
+  insert_galactic_empire_one(object: $input) {
+    id
+  }
+}
+    `;
+export type CreateGalacticEmpireMutationFn = Apollo.MutationFunction<CreateGalacticEmpireMutation, CreateGalacticEmpireMutationVariables>;
+export type CreateGalacticEmpireMutationResult = Apollo.MutationResult<CreateGalacticEmpireMutation>;
+export type CreateGalacticEmpireMutationOptions = Apollo.BaseMutationOptions<CreateGalacticEmpireMutation, CreateGalacticEmpireMutationVariables>;
+export const GalacticEmpireByIdDocument = gql`
+    subscription GalacticEmpireById($id: uuid!) {
+  galactic_empire(where: {id: {_eq: $id}}) {
+    galaxy {
+      name
+    }
+    homeworld {
+      name
+      terrain_hex_palette_id
+      texture_resolution
+      id
+    }
+    background {
+      name
+      description
+      id
+    }
+    celestials {
+      name
+      id
+      galaxy_id
+    }
+    faction {
+      description
+      id
+      name
+    }
+  }
+}
+    `;
+export type GalacticEmpireByIdSubscriptionResult = Apollo.SubscriptionResult<GalacticEmpireByIdSubscription>;
 export const CreateGalaxyDocument = gql`
     mutation CreateGalaxy($input: galaxy_insert_input!) {
   insert_galaxy_one(object: $input) {
