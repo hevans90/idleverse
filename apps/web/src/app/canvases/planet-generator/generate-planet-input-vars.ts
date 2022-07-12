@@ -9,7 +9,6 @@ import {
 } from '../../_state/planet-generation';
 
 const mapFromRingConfigToRingInsertInput = ({
-  id,
   colors,
   innerRadius,
   outerRadius,
@@ -19,7 +18,6 @@ const mapFromRingConfigToRingInsertInput = ({
   type,
 }: RingConfig): RingInsertInput => ({
   colors: colors.map((rgb) => rgbToHex(rgb)),
-  id,
   inner_radius: innerRadius,
   outer_radius: outerRadius,
   resolution,

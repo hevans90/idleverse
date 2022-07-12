@@ -4,13 +4,12 @@ import {
   Planetary_Ring_Insert_Input,
   Planet_Insert_Input,
 } from '@idleverse/galaxy-gql';
-import { Field, Float, ID, InputType, ObjectType } from 'type-graphql';
+import { Field, Float, InputType, ObjectType } from 'type-graphql';
 
 @InputType()
-export class RingInsertInput implements Planetary_Ring_Insert_Input {
-  @Field((type) => ID)
-  id: string;
-
+export class RingInsertInput
+  implements Omit<Planetary_Ring_Insert_Input, 'id'>
+{
   @Field((type) => [String])
   colors: string[];
 
