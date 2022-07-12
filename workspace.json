@@ -242,8 +242,7 @@
                   "maximumWarning": "1mb",
                   "maximumError": "3mb"
                 }
-              ],
-              "baseHref": "/idleverse/"
+              ]
             },
             "vercel": {
               "fileReplacements": [
@@ -302,16 +301,6 @@
           "options": {
             "jestConfig": "apps/web/jest.config.ts",
             "passWithNoTests": true
-          }
-        },
-        "deploy": {
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "npx push-dir --dir=dist/apps/web --branch=gh-pages --force"
-              }
-            ]
           }
         }
       },

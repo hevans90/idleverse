@@ -13,16 +13,12 @@ const auth = {
   clientId: 'UMMpI9y0OurEwa9M6lEf5wwG6kFqfj91',
 };
 
-export const redirectUri = window.location.origin.includes('localhost')
-  ? window.location.origin
-  : `${window.location.origin}/idleverse`;
-
 ReactDOM.render(
   <React.StrictMode>
     <Auth0Provider
       domain={auth.domain}
       clientId={auth.clientId}
-      redirectUri={redirectUri}
+      redirectUri={window.location.origin}
     >
       <ChakraProvider theme={theme}>
         <App />

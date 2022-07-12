@@ -17,8 +17,6 @@ import {
   roleVar,
 } from './_state/reactive-variables';
 
-export const local = window.location.origin.includes('localhost');
-
 export const App = () => {
   const {
     getIdTokenClaims,
@@ -94,7 +92,7 @@ export const App = () => {
   return (
     <ApolloProvider client={client}>
       <PreloadContainer>
-        <BrowserRouter basename={local ? '/' : '/idleverse'}>
+        <BrowserRouter>
           <Layout>
             <Routes>
               {routes.map(({ path, component: Component }, key) => (
