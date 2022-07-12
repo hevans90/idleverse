@@ -36,6 +36,7 @@ import { RaceSelectionModal } from './workflow-step-modals/race-selection-modal'
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { generatePlanetInsertionVars } from '../canvases/planet-generator/generate-planet-input-vars';
+import { randomisePlanetSeedAndName } from '../canvases/planet-generator/_utils/randomise-planet-seed-and-name';
 
 export const JoinGalaxy = () => {
   const characterCreationState = useReactiveVar(characterCreationVar);
@@ -115,6 +116,8 @@ export const JoinGalaxy = () => {
         },
       },
     });
+
+    // we couldn't set a planet ID when generating our planet input before
     const homeworldPlanetId = homeworld.data.createPlanet.createdPlanet.id;
     setEmpireCreationStatus('empire');
 
@@ -162,7 +165,17 @@ export const JoinGalaxy = () => {
 
   useEffect(() => {
     if (readyToCreateEmpire) {
-      runCreationMutations().then(() => setEmpireCreationStatus('done'));
+      runCreationMutations().then(() => {
+        setEmpireCreationStatus('done');
+
+        /**
+         * After a successful creation, randomise the planet id & seed.
+         * Since this is a persisted reactive var (in local storage),
+         * without this the user will likely, upon trying to join another galaxy,
+         * try to insert a planet that breaks db constraints (dupe ids/names).
+         */
+        randomisePlanetSeedAndName();
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [readyToCreateEmpire]);

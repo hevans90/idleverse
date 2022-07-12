@@ -8152,10 +8152,10 @@ hash.js@^1.0.0, hash.js@^1.0.3:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
-hasura-cli@^2.7.0:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/hasura-cli/-/hasura-cli-2.7.0.tgz#981f7232dfe5f40ff6f0516aa74c674ae436ec2c"
-  integrity sha512-wxoZE781ALUV2KWwhe/ezmtaUCtK/XMVHdCAkAGJWjq1dQ4r2/nStk4RMBxRLFxd7A8YQQvd5A6CTst7S45BMA==
+hasura-cli@^2.8.4:
+  version "2.8.4"
+  resolved "https://registry.yarnpkg.com/hasura-cli/-/hasura-cli-2.8.4.tgz#075756ae8a616ed6011067ced4a2ff989fa86bbe"
+  integrity sha512-3jhTEOOt6SxEDUx/efxZKJ3X4wgQfE3KVZKF4y2M/yaZpRoXTMN/Y9KbMSisDrtbU9+tBBtTEQwLPcVALhEjWw==
   dependencies:
     axios "^0.21.1"
     chalk "^2.4.2"

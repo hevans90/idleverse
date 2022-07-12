@@ -75,7 +75,6 @@ export type Register = {
 
 export type RingInsertInput = {
   colors: Array<Scalars['String']>;
-  id: Scalars['ID'];
   inner_radius: Scalars['Float'];
   outer_radius: Scalars['Float'];
   resolution: Scalars['Float'];

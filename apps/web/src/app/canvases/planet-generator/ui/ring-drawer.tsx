@@ -130,8 +130,9 @@ export const PlanetGeneratorRingDrawer = () => {
           <Table variant="simple" fontSize="xs" size="sm">
             <Thead>
               <Tr>
-                {columns.map(({ name, numeric }) => (
+                {columns.map(({ name, numeric }, i) => (
                   <Th
+                    key={i}
                     borderColor={tableBorderColor}
                     fontSize="xxs"
                     paddingLeft={2}
@@ -433,12 +434,6 @@ export const PlanetGeneratorRingDrawer = () => {
               )}
             </Tbody>
           </Table>
-
-          {/* <Box width="800px">
-            {drawerState.rings.map((ring) => (
-              <Code fontSize="xxs">{JSON.stringify(ring, null, 2)}</Code>
-            ))}
-          </Box> */}
         </Box>
       )}
     </VStack>

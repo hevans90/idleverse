@@ -1,3 +1,4 @@
+import { RingInsertInput } from '@idleverse/galaxy-gql';
 import 'reflect-metadata';
 import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
 import { Context } from '../datasources/context';
@@ -28,9 +29,30 @@ export class CelestialManagementResolver {
       );
     }
 
+    const rings: PlanetCreationInput['rings'] = { ...input?.rings };
+
+    if (input?.rings?.data?.length) {
+      rings.data = input.rings.data.map(
+        ({ terrain_bias, rotation, colors, ...rest }) =>
+          ({
+            ...rest,
+            // Inserting arrays into postgres requires a string format
+            colors: `{${colors}}`,
+            terrain_bias: `{${terrain_bias}}`,
+            rotation: `{${rotation}}`,
+          } as unknown as RingInsertInput)
+      );
+    }
+
     const data = (
       await context.dataSources.hasuraAPI.tryInsertPlanetToCelestial({
-        input: { ...input, terrain_bias: `{${input.terrain_bias}}` },
+        input: {
+          ...input,
+          terrain_bias:
+            // Inserting arrays into postgres requires a string format
+            `{${input.terrain_bias}}`,
+          rings,
+        },
       })
     ).data;
 
