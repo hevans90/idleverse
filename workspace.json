@@ -245,6 +245,21 @@
               ],
               "baseHref": "/idleverse/"
             },
+            "vercel": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/web/src/environments/environment.ts",
+                  "with": "apps/web/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false
+            },
             "docker": {
               "sourceMap": true,
               "fileReplacements": [
