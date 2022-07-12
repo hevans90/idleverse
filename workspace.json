@@ -242,8 +242,22 @@
                   "maximumWarning": "1mb",
                   "maximumError": "3mb"
                 }
+              ]
+            },
+            "vercel": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/web/src/environments/environment.ts",
+                  "with": "apps/web/src/environments/environment.prod.ts"
+                }
               ],
-              "baseHref": "/idleverse/"
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false
             },
             "docker": {
               "sourceMap": true,
@@ -287,16 +301,6 @@
           "options": {
             "jestConfig": "apps/web/jest.config.ts",
             "passWithNoTests": true
-          }
-        },
-        "deploy": {
-          "executor": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "npx push-dir --dir=dist/apps/web --branch=gh-pages --force"
-              }
-            ]
           }
         }
       },

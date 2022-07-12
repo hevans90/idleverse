@@ -1,6 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button } from '@chakra-ui/react';
-import { redirectUri } from '../../index';
+
 import { responsiveFontProps } from '../_responsive-utils/font-props';
 
 export const LogoutButton = () => {
@@ -9,7 +9,7 @@ export const LogoutButton = () => {
   return (
     <Button
       colorScheme="gray"
-      onClick={() => logout({ returnTo: redirectUri })}
+      onClick={() => logout({ returnTo: window.location.origin })}
       {...responsiveFontProps}
     >
       Log Out
