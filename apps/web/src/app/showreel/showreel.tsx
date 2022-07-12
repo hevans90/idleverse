@@ -35,10 +35,10 @@ export const Showreel = () => {
       margin="0 1rem 0 1rem"
     >
       <Text fontSize="5xl" textAlign="center" marginBottom="2rem">
-        Old Showreel
+        Old Showreel Projects
       </Text>
       <Text fontSize="l" textAlign="center" marginBottom="2rem">
-        Legacy PoCs/experiments that are mostly outdated now.
+        Legacy experiments that are mostly outdated now.
       </Text>
 
       <VStack>
