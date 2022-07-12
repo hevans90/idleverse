@@ -38,7 +38,7 @@ export const Showreel = () => {
         Old Showreel
       </Text>
       <Text fontSize="l" textAlign="center" marginBottom="2rem">
-        Legacy PoCs/experiments that are mostly outdated now.
+        Legacy experiments that are mostly outdated now.
       </Text>
 
       <VStack>
