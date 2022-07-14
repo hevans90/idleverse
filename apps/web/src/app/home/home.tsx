@@ -153,7 +153,7 @@ export const Home = () => {
                         columns={2}
                         spacing={2}
                         maxHeight="200px"
-                        overflow="scroll"
+                        overflow="auto"
                       >
                         {ownedCelestials.map(
                           (
