@@ -23,6 +23,10 @@ export const Showreel = () => {
       route: 'planet-gen',
       display: '3D Planet Generator',
     },
+    {
+      route: 'isometric-tiles',
+      display: 'Isometric Tiles',
+    },
   ];
 
   return (
