@@ -12,14 +12,16 @@ export const gameConfigFactory = (
     mapRadius: number;
     tileWidth: number;
     tileGap: number;
-  } = { mapRadius: 8, tileWidth: 64, tileGap: 0.02 },
+  }
 ): GameConfig => ({
   canvasHeight,
   canvasWidth,
   scale: 1,
   ai: 2,
   rotation: 1,
-  ...options,
+  mapRadius: options.mapRadius,
+  tileWidth: options.tileWidth,
+  tileGap: options.tileGap,
 
   increaseScale() {
     if (this.scale === 3) {

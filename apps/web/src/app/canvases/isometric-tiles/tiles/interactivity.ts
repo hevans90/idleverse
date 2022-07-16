@@ -34,7 +34,7 @@ const setTileSelection = ({
   defaultColor?: string;
 }) => {
   if (!selectedColor) selectedColor = '0xff0000';
-  if (!defaultColor) selectedColor = '0x009900';
+  if (!defaultColor) defaultColor = '0x009900';
 
   let tileGraphic: IsometricGraphic;
   if (select && selectionCallback) {

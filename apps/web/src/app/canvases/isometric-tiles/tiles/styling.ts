@@ -43,10 +43,11 @@ export const setTile = (
   i: number,
   j: number,
   layer: PIXI.Container,
-  color = '0x009900',
-  alpha = 1,
   config: GameConfig,
-  stack: IsometricStack
+  stack: IsometricStack,
+  color: string,
+  selectedColor: string,
+  alpha = 1
 ) => {
   let tileGraphic: IsometricGraphic;
   const { tileGap } = config;
@@ -61,7 +62,7 @@ export const setTile = (
     setGraphicTileColor(tileGraphic, color, alpha);
     if (stack && stack.selected) {
       if (stack.selected.i === i && stack.selected.j === j) {
-        setGraphicTileColor(tileGraphic, '0xFF0000');
+        setGraphicTileColor(tileGraphic, selectedColor);
       }
     }
   } catch (e) {

@@ -26,19 +26,6 @@ const indicatorFactory = (
   return indicator;
 };
 
-// top left indicators
-export const cartesianIndicator = indicatorFactory(10, 10);
-export const tileIndicator = indicatorFactory(10, 30);
-export const mapVelocityIndicator = indicatorFactory(10, 50, 'Velocity: ');
-export const myContainerIndicator = indicatorFactory(10, 70);
-export const myContainerParentIndicator = indicatorFactory(10, 90);
-export const selectedIndicator = indicatorFactory(10, 120, 'Selected: ');
-export const oldSelectedIndicator = indicatorFactory(
-  10,
-  150,
-  'Prev. Selected: '
-);
-
 // bottom left indicators
 export const draggedIndicatorFactory = (height: number) =>
   indicatorFactory(10, height - 65);
@@ -64,13 +51,13 @@ export const rightArrowIndicatorFactory = (height: number, width: number) =>
 
 export const buildIndicators = (canvasHeight: number, canvasWidth: number) => ({
   topLeft: {
-    cartesianIndicator: indicatorFactory(10, 10),
-    tileIndicator: indicatorFactory(10, 30),
-    mapVelocityIndicator: indicatorFactory(10, 50, 'Velocity: '),
-    myContainerIndicator: indicatorFactory(10, 70),
-    myContainerParentIndicator: indicatorFactory(10, 90),
-    selectedIndicator: indicatorFactory(10, 120, 'Selected: '),
-    oldSelectedIndicator: indicatorFactory(10, 150, 'Prev. Selected: '),
+    cartesianIndicator: indicatorFactory(10, 60),
+    tileIndicator: indicatorFactory(10, 80),
+    mapVelocityIndicator: indicatorFactory(10, 110, 'Velocity: '),
+    myContainerIndicator: indicatorFactory(10, 130),
+    myContainerParentIndicator: indicatorFactory(10, 150),
+    selectedIndicator: indicatorFactory(10, 170, 'Selected: '),
+    oldSelectedIndicator: indicatorFactory(10, 190, 'Prev. Selected: '),
   },
   bottomLeft: {
     orientationIndicator: orientationIndicatorFactory(canvasHeight),
