@@ -137,7 +137,9 @@ export const hoverTile = ({
 
     const prevHoveredGraphic = getTileGraphic(i, j, layer, config);
 
-    removeTileOutline(prevHoveredGraphic);
+    if (prevHoveredGraphic) {
+      removeTileOutline(prevHoveredGraphic);
+    }
   }
 
   if (stack.selected?.i === tile.i && stack.selected?.j === tile.j) {

@@ -18,12 +18,12 @@ export const getTileGraphic = (
 ) => {
   const index = (i + mapRadius) * (2 * mapRadius + 1) + j + mapRadius;
 
-  let graphic: IsometricGraphic = undefined as any;
+  let graphic: IsometricGraphic = undefined;
 
   try {
     graphic = layer.getChildAt(index) as IsometricGraphic;
   } catch (e) {
-    console.error(e);
+    if (!graphic) return undefined;
   }
 
   return graphic as IsometricGraphic;
