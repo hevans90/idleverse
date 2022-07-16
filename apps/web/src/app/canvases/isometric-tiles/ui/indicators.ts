@@ -1,74 +1,64 @@
-import * as PIXI from 'pixi.js';
-import { TextStyle } from 'pixi.js';
+import { indicatorFactory } from '../../galaxy-generator/utils/indicator-factory';
 
 export enum IndicatorColor {
   white = 0xffffff,
   green = 0x00ff00,
 }
 
-const indicatorPreset: Partial<TextStyle> = {
-  fontFamily: 'Courier',
-  fontSize: 14,
-  fill: IndicatorColor.white,
-  align: 'center',
-};
-
-const indicatorFactory = (
+const smallIndicatorFactory = (
+  text: string,
   x: number,
   y: number,
-  initialText = '',
-  z: 1 | 2 | 3 = 2
-): PIXI.Text => {
-  const indicator = new PIXI.Text(initialText, indicatorPreset);
-  indicator.position.x = x;
-  indicator.position.y = y;
-  indicator.zIndex = z;
-  return indicator;
-};
+  name: string
+) => indicatorFactory(text, x, y, name, 14);
 
 // bottom left indicators
 export const draggedIndicatorFactory = (height: number) =>
-  indicatorFactory(10, height - 65);
+  smallIndicatorFactory('', 10, height - 65, 'draggedIndicator');
 
 export const dragIndicatorFactory = (height: number) =>
-  indicatorFactory(10, height - 45);
+  smallIndicatorFactory('', 10, height - 45, 'dragIndicator');
 
 export const orientationIndicatorFactory = (height: number) =>
-  indicatorFactory(10, height - 25);
-
-// bottom right indicators
-export const upArrowIndicatorFactory = (height: number, width: number) =>
-  indicatorFactory(width - 100, height - 65, ' UP');
-
-export const downArrowIndicatorFactory = (height: number, width: number) =>
-  indicatorFactory(width - 100, height - 25, 'DOWN');
-
-export const leftArrowIndicatorFactory = (height: number, width: number) =>
-  indicatorFactory(width - 145, height - 45, 'LEFT');
-
-export const rightArrowIndicatorFactory = (height: number, width: number) =>
-  indicatorFactory(width - 55, height - 45, 'RIGHT');
+  smallIndicatorFactory('', 10, height - 25, 'orientationIndicator');
 
 export const buildIndicators = (canvasHeight: number, canvasWidth: number) => ({
-  topLeft: {
-    cartesianIndicator: indicatorFactory(10, 60),
-    tileIndicator: indicatorFactory(10, 80),
-    mapVelocityIndicator: indicatorFactory(10, 110, 'Velocity: '),
-    myContainerIndicator: indicatorFactory(10, 130),
-    myContainerParentIndicator: indicatorFactory(10, 150),
-    selectedIndicator: indicatorFactory(10, 170, 'Selected: '),
-    oldSelectedIndicator: indicatorFactory(10, 190, 'Prev. Selected: '),
+  topRight: {
+    cartesianIndicator: smallIndicatorFactory(
+      '',
+      canvasWidth - 350,
+      60,
+      'cartesianIndicator'
+    ),
+    tileIndicator: smallIndicatorFactory(
+      '',
+      canvasWidth - 350,
+      80,
+      'tileIndicator'
+    ),
+    mapVelocityIndicator: smallIndicatorFactory(
+      'Velocity: ',
+      canvasWidth - 350,
+      110,
+      'velIndicator'
+    ),
+    selectedIndicator: smallIndicatorFactory(
+      'Selected: ',
+      canvasWidth - 350,
+      170,
+      'selectedIndicator'
+    ),
+    oldSelectedIndicator: smallIndicatorFactory(
+      'Prev. Selected: ',
+      canvasWidth - 350,
+      190,
+      'prevSelectedIndicator'
+    ),
   },
   bottomLeft: {
     orientationIndicator: orientationIndicatorFactory(canvasHeight),
     dragIndicator: dragIndicatorFactory(canvasHeight),
     draggedIndicator: draggedIndicatorFactory(canvasHeight),
-  },
-  bottomRight: {
-    upArrowIndicator: upArrowIndicatorFactory(canvasHeight, canvasWidth),
-    downArrowIndicator: downArrowIndicatorFactory(canvasHeight, canvasWidth),
-    leftArrowIndicator: leftArrowIndicatorFactory(canvasHeight, canvasWidth),
-    rightArrowIndicator: rightArrowIndicatorFactory(canvasHeight, canvasWidth),
   },
 });
 

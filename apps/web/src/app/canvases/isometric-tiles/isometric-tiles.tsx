@@ -3,10 +3,12 @@ import * as PIXI from 'pixi.js';
 import { useEffect, useRef, useState } from 'react';
 
 import { AssetCollection, Vector2D } from '../../_state/models';
+import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
 import { useResize } from '../_utils/use-resize.hook';
+import { useViewport } from '../_utils/use-viewport';
 import { gameConfigFactory } from './factories/game-config.factory';
 
-import { bindKeyboardListeners } from './keyboard/bind-keyboard-listeners';
+import { Container } from 'pixi.js';
 import { GameConfig } from './models/game-config';
 import { IsometricLayer } from './models/isometric-layer';
 import { IsometricStack } from './models/isometric-stack';
@@ -22,7 +24,6 @@ import { initTile } from './tiles/init-tile';
 import { hoverTile, selectTile, unSelectTile } from './tiles/interactivity';
 import { setTile } from './tiles/styling';
 import { buildIndicators, GameIndicators } from './ui/indicators';
-import { buildZoomButtons, ZoomButtons } from './ui/zoom-buttons';
 import { KeyboardItem } from './utils/keyboard';
 
 export const IsometricTiles = ({
@@ -36,6 +37,9 @@ export const IsometricTiles = ({
     selectedColor: string;
   };
 }) => {
+  const gameContainer = useRef(new Container());
+  const indicatorContainer = useRef(new Container());
+
   const size = useResize();
 
   const config = useRef<GameConfig>(
@@ -57,7 +61,6 @@ export const IsometricTiles = ({
   const [dragFrameCount, setDragFrameCount] = useState<number>(0);
 
   const indicators = useRef<GameIndicators>();
-  const zoomButtons = useRef<ZoomButtons>();
 
   const isometricLayers = useRef<IsometricLayer[]>();
 
@@ -69,17 +72,20 @@ export const IsometricTiles = ({
 
   const keyboardListeners = useRef<KeyboardItem[]>();
 
-  const { stage, renderer, ticker } = useApp();
+  const app = useApp();
 
-  const addOrRemoveIndicatorsAndZoom = (val: 'add' | 'remove') => {
+  useViewport(app, size, gameContainer);
+  useFpsTracker(app, size);
+
+  const addOrRemoveIndicators = (val: 'add' | 'remove') => {
     const items = [
-      ...zoomButtons.current,
-      ...Object.values(indicators.current.topLeft),
+      ...Object.values(indicators.current.topRight),
       ...Object.values(indicators.current.bottomLeft),
-      ...Object.values(indicators.current.bottomRight),
     ];
 
-    val === 'add' ? stage.addChild(...items) : stage.removeChild(...items);
+    val === 'add'
+      ? indicatorContainer.current.addChild(...items)
+      : indicatorContainer.current.removeChild(...items);
   };
 
   const initScene = () => {
@@ -140,8 +146,7 @@ export const IsometricTiles = ({
           width: config.current.offsetX * 2,
           height:
             (config.current.offsetY +
-              (config.current.tileWidth * config.current.scale) /
-                config.current.ai) *
+              config.current.tileWidth / config.current.ai) *
             2,
         }))
     );
@@ -160,11 +165,11 @@ export const IsometricTiles = ({
         isometricStack.current.interactive = true;
 
         if (isometricStack.current.selected) {
-          indicators.current.topLeft.selectedIndicator.text = `Selected: i: ${isometricStack.current.selected.i}, j: ${isometricStack.current.selected.j}`;
+          indicators.current.topRight.selectedIndicator.text = `Selected: i: ${isometricStack.current.selected.i}, j: ${isometricStack.current.selected.j}`;
         }
         layer.sprite = isometricStack.current;
 
-        stage.addChild(isometricStack.current);
+        gameContainer.current.addChild(isometricStack.current);
         return;
       }
       // TODO: remove above, make this generic
@@ -174,13 +179,12 @@ export const IsometricTiles = ({
     });
 
     layers.forEach(({ container, texture }) =>
-      renderer.render(container, { renderTexture: texture })
+      app.renderer.render(container, { renderTexture: texture })
     );
 
     isometricLayers.current = layers;
 
     bindMouseEvents();
-    bindKeyboardEvents();
   };
 
   const tearDownScene = () => {
@@ -194,7 +198,7 @@ export const IsometricTiles = ({
   };
 
   const tickerFunction = () => {
-    indicators.current.topLeft.mapVelocityIndicator.text = `Velocity: { x: ${velocity.x}, y: ${velocity.y} }`;
+    indicators.current.topRight.mapVelocityIndicator.text = `Velocity: { x: ${velocity.x}, y: ${velocity.y} }`;
 
     if (dragging) {
       setDragFrameCount(dragFrameCount + 1);
@@ -270,7 +274,7 @@ export const IsometricTiles = ({
               layerContainer: isometricLayers.current[0].container,
               layers: isometricLayers.current,
               config: config.current,
-              renderer,
+              renderer: app.renderer,
               defaultColor: colors.tileColor,
             });
           }
@@ -280,13 +284,13 @@ export const IsometricTiles = ({
             layerContainer: isometricLayers.current[0].container,
             layers: isometricLayers.current,
             config: config.current,
-            renderer,
+            renderer: app.renderer,
             selectionCallback: (tile) =>
               (isometricStack.current.selected = tile),
             selectedColor: colors.selectedColor,
           });
 
-          indicators.current.topLeft.selectedIndicator.text = `Selected: i: ${
+          indicators.current.topRight.selectedIndicator.text = `Selected: i: ${
             (isometricStack.current.selected as Tile).i
           }, j: ${(isometricStack.current.selected as Tile).j}`;
         },
@@ -335,16 +339,12 @@ export const IsometricTiles = ({
 
         indicators.current.bottomLeft.draggedIndicator.text =
           handledEvent.draggedIndicatorText;
-        indicators.current.topLeft.myContainerIndicator.text =
-          handledEvent.containerIndicatorText;
-        indicators.current.topLeft.myContainerParentIndicator.text =
-          handledEvent.containerParentIndicatorText;
       } else if (isCoordsUpdate(handledEvent)) {
-        indicators.current.topLeft.cartesianIndicator.text =
+        indicators.current.topRight.cartesianIndicator.text =
           handledEvent.cartesianIndicatorText;
 
         if (handledEvent.tileHovered) {
-          indicators.current.topLeft.tileIndicator.text =
+          indicators.current.topRight.tileIndicator.text =
             handledEvent.tileIndicatorText;
 
           hoverTile({
@@ -353,7 +353,7 @@ export const IsometricTiles = ({
             config: config.current,
             stack: isometricStack.current,
             layers: isometricLayers.current,
-            renderer,
+            renderer: app.renderer,
             hoverCallback: (tile) => {
               isometricStack.current.hovered = tile;
               setHoveredTile(tile);
@@ -382,60 +382,22 @@ export const IsometricTiles = ({
     );
   };
 
-  const bindKeyboardEvents = () =>
-    (keyboardListeners.current = bindKeyboardListeners(
-      indicators.current.bottomRight.upArrowIndicator,
-      indicators.current.bottomRight.downArrowIndicator,
-      indicators.current.bottomRight.rightArrowIndicator,
-      indicators.current.bottomRight.leftArrowIndicator,
-      ({ dvelx, dvely, hardSetX, hardSetY }) => {
-        if (hardSetX !== undefined) {
-          setVelocity({ x: hardSetX, y: velocity.y });
-        }
-
-        if (dvelx) {
-          setVelocity({ x: velocity.x + dvelx, y: velocity.y });
-        }
-
-        if (hardSetY !== undefined) {
-          setVelocity({ x: velocity.x, y: hardSetY });
-        }
-
-        if (dvely) {
-          setVelocity({ x: velocity.x, y: velocity.y + dvely });
-        }
-      }
-    ));
-
   // #endregion
 
   useEffect(() => {
-    stage.sortableChildren = true;
-
-    zoomButtons.current = buildZoomButtons(
-      size.height,
-      size.width,
-      assetCollection,
-      config.current
-    );
+    gameContainer.current.sortableChildren = true;
     indicators.current = buildIndicators(size.height, size.width);
-    addOrRemoveIndicatorsAndZoom('add');
+    addOrRemoveIndicators('add');
 
     initScene();
-    ticker.add(tickerFunction);
+    app.ticker.add(tickerFunction);
+    app.stage.addChild(indicatorContainer.current);
   }, []);
 
   useEffect(() => {
-    addOrRemoveIndicatorsAndZoom('remove');
-    zoomButtons.current = buildZoomButtons(
-      size.height,
-      size.width,
-      assetCollection,
-      config.current
-    );
-
+    addOrRemoveIndicators('remove');
     indicators.current = buildIndicators(size.height, size.width);
-    addOrRemoveIndicatorsAndZoom('add');
+    addOrRemoveIndicators('add');
   }, [size]);
 
   return <></>;

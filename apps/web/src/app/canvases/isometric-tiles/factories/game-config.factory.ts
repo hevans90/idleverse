@@ -16,42 +16,19 @@ export const gameConfigFactory = (
 ): GameConfig => ({
   canvasHeight,
   canvasWidth,
-  scale: 1,
   ai: 2,
   rotation: 1,
   mapRadius: options.mapRadius,
   tileWidth: options.tileWidth,
   tileGap: options.tileGap,
 
-  increaseScale() {
-    if (this.scale === 3) {
-      console.warn(`Cannot zoom out more; scale = ${this.scale}`);
-      return;
-    }
-
-    this.scale === 0.5 ? (this.scale = 1) : this.scale++;
-    reRenderCallback();
-  },
-
-  decreaseScale() {
-    if (this.scale === 0.5) {
-      console.warn(`Cannot zoom in more; scale = ${this.scale}`);
-      return;
-    }
-
-    this.scale === 1 ? (this.scale = 0.5) : this.scale--;
-    reRenderCallback();
-  },
-
   get offsetX() {
-    return (this.mapRadius * 2 + 1) * this.tileWidth * this.scale;
+    return (this.mapRadius * 2 + 1) * this.tileWidth;
   },
 
   get offsetY() {
     return (
-      (((this.mapRadius * 2 + 1) * this.tileWidth - this.tileWidth) *
-        this.scale) /
-      this.ai
+      ((this.mapRadius * 2 + 1) * this.tileWidth - this.tileWidth) / this.ai
     );
   },
 

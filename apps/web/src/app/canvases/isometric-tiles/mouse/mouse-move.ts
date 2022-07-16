@@ -36,16 +36,16 @@ export const isPositionalUpdate = (
 
 export const mouseMoveInteraction = (
   { data }: PIXI.InteractionEvent,
-  myContainer: IsometricStack,
+  stack: IsometricStack,
   config: GameConfig,
   dragging: boolean,
   draggedx: number,
   draggedy: number,
   tileClicked?: Tile
 ): CoordsUpdate | PositionalUpdate => {
-  const { x, y } = data.getLocalPosition(myContainer);
+  const { x, y } = data.getLocalPosition(stack);
   const [i, j] = isoToIndex(x, y, config);
-  const parentPosition = data.getLocalPosition(myContainer.parent);
+  const parentPosition = data.getLocalPosition(stack.parent);
 
   if (!dragging) {
     return {
@@ -54,8 +54,8 @@ export const mouseMoveInteraction = (
       tileHovered: {
         i,
         j,
-        x: x * myContainer.scale.x,
-        y: y * myContainer.scale.y,
+        x: x * stack.scale.x,
+        y: y * stack.scale.y,
         z: 0,
       },
     };
@@ -66,10 +66,10 @@ export const mouseMoveInteraction = (
     };
 
     return {
-      delx: myContainer.position.x,
-      dely: myContainer.position.y,
-      draggedx: draggedx + myContainer.position.x / 1000,
-      draggedy: draggedy + myContainer.position.y / 1000,
+      delx: stack.position.x,
+      dely: stack.position.y,
+      draggedx: draggedx + stack.position.x / 1000,
+      draggedy: draggedy + stack.position.y / 1000,
       newContainerPositionX: parentPosition.x - tileDragged.x,
       newContainerPositionY: parentPosition.y - tileDragged.y,
 
@@ -77,14 +77,14 @@ export const mouseMoveInteraction = (
         2
       )}, y: ${draggedy.toFixed(2)}}`,
 
-      containerIndicatorText: `myContainer = { x: ${(x - tileDragged.x).toFixed(
+      containerIndicatorText: `stack = { x: ${(x - tileDragged.x).toFixed(
         2
       )}, y: ${(y - tileDragged.y).toFixed(2)}}`,
 
-      containerParentIndicatorText: `myContainer.parent = { x: ${data
-        .getLocalPosition(myContainer.parent)
+      containerParentIndicatorText: `stack.parent = { x: ${data
+        .getLocalPosition(stack.parent)
         .x.toFixed(2)}, y: ${data
-        .getLocalPosition(myContainer.parent)
+        .getLocalPosition(stack.parent)
         .y.toFixed(2)} }`,
     };
   }

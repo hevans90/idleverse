@@ -34,10 +34,6 @@ export const zoomButtonsFactory = (
   zoomOutButtonSprite.position.y = canvasHeight - 40;
   zoomOutButtonSprite.zIndex = 2;
 
-  zoomInButtonSprite.on('pointerdown', () => config.increaseScale());
-
-  zoomOutButtonSprite.on('pointerdown', () => config.decreaseScale());
-
   return [zoomInButtonSprite, zoomOutButtonSprite];
 };
 
