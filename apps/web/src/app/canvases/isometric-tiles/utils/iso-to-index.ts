@@ -3,7 +3,7 @@ import { GameConfig } from '../models/game-config';
 export const isoToIndex = (
   x: number,
   y: number,
-  { ai, offsetX, offsetY, rotation, scale, tileWidth }: GameConfig,
+  { ai, offsetX, offsetY, rotation, scale, tileWidth }: GameConfig
 ): [number, number] => {
   const b = scale * tileWidth;
 

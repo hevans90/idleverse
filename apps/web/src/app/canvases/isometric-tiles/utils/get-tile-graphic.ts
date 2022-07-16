@@ -14,7 +14,7 @@ export const getTileGraphic = (
   i: number,
   j: number,
   layer: PIXI.Container,
-  { mapRadius }: GameConfig,
+  { mapRadius }: GameConfig
 ) => {
   const index = (i + mapRadius) * (2 * mapRadius + 1) + j + mapRadius;
 

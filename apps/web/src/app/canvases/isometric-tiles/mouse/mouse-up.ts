@@ -6,7 +6,7 @@ export const mouseUpInteraction = (
   callback: () => void,
   myContainer: IsometricStack,
   delx: number,
-  dely: number,
+  dely: number
 ) => {
   // if true, this will trigger a click rather than a drag
   const dragBreakpointCondition =

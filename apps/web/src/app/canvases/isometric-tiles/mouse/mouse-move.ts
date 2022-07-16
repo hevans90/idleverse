@@ -23,13 +23,13 @@ export interface PositionalUpdate {
 }
 
 export const isCoordsUpdate = (
-  update: CoordsUpdate | PositionalUpdate,
+  update: CoordsUpdate | PositionalUpdate
 ): update is CoordsUpdate =>
   (update as CoordsUpdate).cartesianIndicatorText !== undefined &&
   (update as CoordsUpdate).tileIndicatorText !== undefined;
 
 export const isPositionalUpdate = (
-  update: CoordsUpdate | PositionalUpdate,
+  update: CoordsUpdate | PositionalUpdate
 ): update is PositionalUpdate =>
   (update as PositionalUpdate).delx !== undefined &&
   (update as PositionalUpdate).dely !== undefined;
@@ -41,7 +41,7 @@ export const mouseMoveInteraction = (
   dragging: boolean,
   draggedx: number,
   draggedy: number,
-  tileClicked?: Tile,
+  tileClicked?: Tile
 ): CoordsUpdate | PositionalUpdate => {
   const { x, y } = data.getLocalPosition(myContainer);
   const [i, j] = isoToIndex(x, y, config);
@@ -74,11 +74,11 @@ export const mouseMoveInteraction = (
       newContainerPositionY: parentPosition.y - tileDragged.y,
 
       draggedIndicatorText: `dragged: { x: ${draggedx.toFixed(
-        2,
+        2
       )}, y: ${draggedy.toFixed(2)}}`,
 
       containerIndicatorText: `myContainer = { x: ${(x - tileDragged.x).toFixed(
-        2,
+        2
       )}, y: ${(y - tileDragged.y).toFixed(2)}}`,
 
       containerParentIndicatorText: `myContainer.parent = { x: ${data
