@@ -7,10 +7,12 @@ import {
 } from './models';
 import { makeVarPersisted } from './utils';
 
+import { generateCelestialName } from '@idleverse/galaxy-gen';
+
 export const planetGeneratorConfigVar =
   makeVarPersisted<PlanetGenerationConfig>(
     {
-      name: 'planet_name',
+      name: generateCelestialName(),
       ui: true,
       radius: 1,
       seed: uuidv4(),
