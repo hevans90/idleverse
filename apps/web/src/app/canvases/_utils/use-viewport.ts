@@ -11,7 +11,8 @@ import { indicatorFactory } from '../galaxy-generator/utils/indicator-factory';
 export const useViewport = (
   app: Application,
   size: { width: number; height: number },
-  containerRef?: React.MutableRefObject<Container>
+  containerRef?: React.MutableRefObject<Container>,
+  center = true
 ) => {
   const outline = useRef<Graphics>(null);
 
@@ -43,8 +44,10 @@ export const useViewport = (
 
     app.stage.addChild(viewportRef.current);
     if (containerRef) {
-      containerRef.current.x = size.width / 2;
-      containerRef.current.y = size.height / 2;
+      if (center) {
+        containerRef.current.x = size.width / 2;
+        containerRef.current.y = size.height / 2;
+      }
 
       viewportRef.current.addChild(containerRef.current);
     }

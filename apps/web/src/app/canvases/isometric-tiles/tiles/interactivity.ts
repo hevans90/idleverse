@@ -45,6 +45,10 @@ const setTileSelection = ({
     );
   }
 
+  if (!tile) {
+    return;
+  }
+
   const { i, j } = tile;
   try {
     tileGraphic = getTileGraphic(i, j, layerContainer, config);

@@ -33,21 +33,18 @@ export const gameConfigFactory = (
   },
 
   get borderL() {
-    return -this.offsetX * 2 + this.canvasWidth;
+    return -this.canvasWidth;
   },
 
   get borderR() {
-    return 0;
+    return this.canvasWidth;
   },
 
   get borderD() {
-    return (
-      -(this.offsetY + (this.tileWidth * this.scale) / this.ai) * 2 +
-      this.canvasHeight
-    );
+    return -this.canvasHeight;
   },
 
   get borderU() {
-    return 0;
+    return this.canvasHeight;
   },
 });

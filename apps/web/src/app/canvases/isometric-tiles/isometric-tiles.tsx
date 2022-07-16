@@ -54,11 +54,11 @@ export const IsometricTiles = ({
     )
   );
 
-  const [velocity, setVelocity] = useState<Vector2D>({ x: 0, y: 0 });
-  const [positionDelta, setPositionDelta] = useState<Vector2D>({ x: 0, y: 0 });
-  const [dragged, setDragged] = useState<Vector2D>({ x: 0, y: 0 });
-  const [dragging, setDragging] = useState<boolean>(false);
-  const [dragFrameCount, setDragFrameCount] = useState<number>(0);
+  let velocity: Vector2D = { x: 0, y: 0 };
+  let positionDelta: Vector2D = { x: 0, y: 0 };
+  let dragged: Vector2D = { x: 0, y: 0 };
+  let dragging = false;
+  let dragFrameCount = 0;
 
   const indicators = useRef<GameIndicators>();
 
@@ -74,7 +74,7 @@ export const IsometricTiles = ({
 
   const app = useApp();
 
-  useViewport(app, size, gameContainer);
+  useViewport(app, size, gameContainer, false);
   useFpsTracker(app, size);
 
   const addOrRemoveIndicators = (val: 'add' | 'remove') => {
@@ -165,7 +165,7 @@ export const IsometricTiles = ({
         isometricStack.current.interactive = true;
 
         if (isometricStack.current.selected) {
-          indicators.current.topRight.selectedIndicator.text = `Selected: i: ${isometricStack.current.selected.i}, j: ${isometricStack.current.selected.j}`;
+          indicators.current.topRight.selectedIndicator.text = `Selected {i, j}: ${isometricStack.current.selected.i}, ${isometricStack.current.selected.j}`;
         }
         layer.sprite = isometricStack.current;
 
@@ -201,30 +201,30 @@ export const IsometricTiles = ({
     indicators.current.topRight.mapVelocityIndicator.text = `Velocity: { x: ${velocity.x}, y: ${velocity.y} }`;
 
     if (dragging) {
-      setDragFrameCount(dragFrameCount + 1);
+      dragFrameCount += 1;
       indicators.current.bottomLeft.dragIndicator.text = `dragging for ${dragFrameCount} animation frames`;
     } else {
-      setDragFrameCount(0);
+      dragFrameCount = 1;
     }
 
     if (velocity.x > 0) {
       isometricStack.current.position.x += velocity.x;
-      setVelocity({ x: velocity.x - 1, y: velocity.y });
+      velocity = { x: velocity.x - 1, y: velocity.y };
     }
 
     if (velocity.x < 0) {
       isometricStack.current.position.x += velocity.x;
-      setVelocity({ x: velocity.x + 1, y: velocity.y });
+      velocity = { x: velocity.x + 1, y: velocity.y };
     }
 
     if (velocity.y > 0) {
       isometricStack.current.position.y += velocity.y;
-      setVelocity({ x: velocity.x, y: velocity.y - 1 });
+      velocity = { x: velocity.x, y: velocity.y - 1 };
     }
 
     if (velocity.y < 0) {
       isometricStack.current.position.y += velocity.y;
-      setVelocity({ x: velocity.x, y: velocity.y + 1 });
+      velocity = { x: velocity.x, y: velocity.y + 1 };
     }
 
     if (isometricStack.current.position.x < config.current.borderL) {
@@ -250,10 +250,10 @@ export const IsometricTiles = ({
         config.current
       );
 
-      setDragging(handledEvent.dragging);
-      setDragged({ x: handledEvent.draggedx, y: handledEvent.draggedy });
-      setPositionDelta({ x: handledEvent.delx, y: handledEvent.dely });
-      setVelocity({ x: handledEvent.velx, y: handledEvent.vely });
+      dragging = handledEvent.dragging;
+      dragged = { x: handledEvent.draggedx, y: handledEvent.draggedy };
+      positionDelta = { x: handledEvent.delx, y: handledEvent.dely };
+      velocity = { x: handledEvent.velx, y: handledEvent.vely };
 
       indicators.current.bottomLeft.draggedIndicator.text =
         handledEvent.dragIndicatorText;
@@ -277,6 +277,8 @@ export const IsometricTiles = ({
               renderer: app.renderer,
               defaultColor: colors.tileColor,
             });
+
+            indicators.current.topRight.oldSelectedIndicator.text = `Prev. selected : ${isometricStack.current.selected.i}, ${isometricStack.current.selected.j}`;
           }
           // TODO: layer context
           selectTile({
@@ -290,9 +292,7 @@ export const IsometricTiles = ({
             selectedColor: colors.selectedColor,
           });
 
-          indicators.current.topRight.selectedIndicator.text = `Selected: i: ${
-            (isometricStack.current.selected as Tile).i
-          }, j: ${(isometricStack.current.selected as Tile).j}`;
+          indicators.current.topRight.selectedIndicator.text = `Selected {i, j}: ${isometricStack.current.selected.i}, ${isometricStack.current.selected.j}`;
         },
         isometricStack.current,
         positionDelta.x,
@@ -303,18 +303,18 @@ export const IsometricTiles = ({
       indicators.current.bottomLeft.draggedIndicator.text =
         handledEvent.draggedIndicatorText;
 
-      setDragging(false);
+      dragging = false;
 
       if (handledEvent.dragged) {
-        setVelocity({
+        velocity = {
           x: handledEvent.dragged.velx,
           y: handledEvent.dragged.vely,
-        });
+        };
 
-        setPositionDelta({
+        positionDelta = {
           x: handledEvent.dragged.delx,
           y: handledEvent.dragged.dely,
-        });
+        };
       }
     };
 
@@ -330,9 +330,9 @@ export const IsometricTiles = ({
       );
 
       if (isPositionalUpdate(handledEvent)) {
-        setPositionDelta({ x: handledEvent.delx, y: handledEvent.dely });
+        positionDelta = { x: handledEvent.delx, y: handledEvent.dely };
 
-        setDragged({ x: handledEvent.draggedx, y: handledEvent.draggedy });
+        dragged = { x: handledEvent.draggedx, y: handledEvent.draggedy };
 
         isometricStack.current.position.x = handledEvent.newContainerPositionX;
         isometricStack.current.position.y = handledEvent.newContainerPositionY;
@@ -385,7 +385,10 @@ export const IsometricTiles = ({
   // #endregion
 
   useEffect(() => {
+    app.stage.sortableChildren = true;
     gameContainer.current.sortableChildren = true;
+    gameContainer.current.zIndex = 1;
+    indicatorContainer.current.zIndex = 2;
     indicators.current = buildIndicators(size.height, size.width);
     addOrRemoveIndicators('add');
 

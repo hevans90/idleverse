@@ -10,7 +10,7 @@ const smallIndicatorFactory = (
   x: number,
   y: number,
   name: string
-) => indicatorFactory(text, x, y, name, 14);
+) => indicatorFactory(text, x, y, name, 11);
 
 // bottom left indicators
 export const draggedIndicatorFactory = (height: number) =>
@@ -49,7 +49,7 @@ export const buildIndicators = (canvasHeight: number, canvasWidth: number) => ({
       'selectedIndicator'
     ),
     oldSelectedIndicator: smallIndicatorFactory(
-      'Prev. Selected: ',
+      'Prev. selected : ',
       canvasWidth - 350,
       190,
       'prevSelectedIndicator'
