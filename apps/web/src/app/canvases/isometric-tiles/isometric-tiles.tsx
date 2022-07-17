@@ -8,7 +8,9 @@ import { useResize } from '../_utils/use-resize.hook';
 import { useViewport } from '../_utils/use-viewport';
 import { gameConfigFactory } from './factories/game-config.factory';
 
+import { useReactiveVar } from '@apollo/client';
 import { Container } from 'pixi.js';
+import { planetSurfaceVar } from '../../_state/planet-surface';
 import { GameConfig } from './models/game-config';
 import { IsometricLayer } from './models/isometric-layer';
 import { IsometricStack } from './models/isometric-stack';
@@ -37,6 +39,8 @@ export const IsometricTiles = ({
     selectedColor: string;
   };
 }) => {
+  const { baseTexture } = useReactiveVar(planetSurfaceVar);
+
   const gameContainer = useRef(new Container());
   const indicatorContainer = useRef(new Container());
 
@@ -395,6 +399,12 @@ export const IsometricTiles = ({
     initScene();
     app.ticker.add(tickerFunction);
     app.stage.addChild(indicatorContainer.current);
+
+    const sprite = new PIXI.Sprite(new PIXI.Texture(baseTexture));
+
+    sprite.scale = { x: 1, y: 1 };
+
+    app.stage.addChild(sprite);
   }, []);
 
   useEffect(() => {
