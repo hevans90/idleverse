@@ -1,11 +1,11 @@
 import * as PIXI from 'pixi.js';
 import { GameConfig } from '../models/game-config';
-import { IsometricStack } from '../models/isometric-stack';
+import { IsometricContainer } from '../models/isometric-stack';
 import { isoToIndex } from '../utils/iso-to-index';
 
 export const mouseDownInteraction = (
   { data }: PIXI.InteractionEvent,
-  myContainer: IsometricStack,
+  myContainer: IsometricContainer,
   config: GameConfig
 ) => {
   const { x, y } = data.getLocalPosition(myContainer);

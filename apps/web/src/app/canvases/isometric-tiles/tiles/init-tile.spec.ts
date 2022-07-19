@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import { gameConfigFactory } from '../factories/game-config.factory';
 import { GameConfig } from '../models/game-config';
 import { IsometricGraphic } from '../models/isometric-graphic';
-import { initTile } from './init-tile';
+import { initTile } from './create-isometric-graphics';
 
 describe('initTile', () => {
   const config: GameConfig = gameConfigFactory(100, 100, () => undefined, {

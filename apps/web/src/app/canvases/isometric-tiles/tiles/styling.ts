@@ -2,7 +2,7 @@ import { OutlineFilter } from '@pixi/filter-outline';
 import * as PIXI from 'pixi.js';
 import { GameConfig } from '../models/game-config';
 import { IsometricGraphic } from '../models/isometric-graphic';
-import { IsometricStack } from '../models/isometric-stack';
+import { IsometricContainer } from '../models/isometric-stack';
 import { getTileGraphic } from '../utils/get-tile-graphic';
 import { indexToIso } from '../utils/index-to-iso';
 
@@ -44,7 +44,7 @@ export const setTile = (
   j: number,
   layer: PIXI.Container,
   config: GameConfig,
-  stack: IsometricStack,
+  stack: IsometricContainer,
   color: string,
   selectedColor: string,
   alpha = 1
