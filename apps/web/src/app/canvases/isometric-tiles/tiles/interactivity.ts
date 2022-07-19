@@ -3,7 +3,7 @@ import { AbstractRenderer, Renderer } from 'pixi.js';
 import { GameConfig } from '../models/game-config';
 import { IsometricGraphic } from '../models/isometric-graphic';
 import { IsometricLayer } from '../models/isometric-layer';
-import { IsometricStack } from '../models/isometric-stack';
+import { IsometricContainer } from '../models/isometric-stack';
 import { Tile } from '../models/tile';
 import { getTileGraphic } from '../utils/get-tile-graphic';
 import {
@@ -53,6 +53,9 @@ const setTileSelection = ({
   try {
     tileGraphic = getTileGraphic(i, j, layerContainer, config);
     setGraphicTileColor(tileGraphic, select ? selectedColor : defaultColor);
+
+    select ? (tileGraphic.alpha = 0.6) : (tileGraphic.alpha = 0.2);
+
     layers.forEach(({ container, texture }) =>
       renderer.render(container, { renderTexture: texture })
     );
@@ -128,7 +131,7 @@ export const hoverTile = ({
   tile: Tile;
   layer: PIXI.Container;
   config: GameConfig;
-  stack: IsometricStack;
+  stack: IsometricContainer;
   layers: IsometricLayer[];
   renderer: Renderer | AbstractRenderer;
   hoverCallback: (tile: Tile) => unknown;
@@ -143,6 +146,12 @@ export const hoverTile = ({
 
     if (prevHoveredGraphic) {
       removeTileOutline(prevHoveredGraphic);
+
+      // if (stack.selected) {
+      //   if (stack.selected?.i === tile.i && stack.selected?.j === tile.j) {
+      //     prevHoveredGraphic.alpha = 0.2;
+      //   }
+      // }
     }
   }
 

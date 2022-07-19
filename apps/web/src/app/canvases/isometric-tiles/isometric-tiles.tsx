@@ -13,7 +13,7 @@ import { Container } from 'pixi.js';
 import { planetSurfaceVar } from '../../_state/planet-surface';
 import { GameConfig } from './models/game-config';
 import { IsometricLayer } from './models/isometric-layer';
-import { IsometricStack } from './models/isometric-stack';
+import { IsometricContainer } from './models/isometric-stack';
 import { Tile } from './models/tile';
 import { mouseDownInteraction } from './mouse/mouse-down';
 import {
@@ -22,7 +22,7 @@ import {
   mouseMoveInteraction,
 } from './mouse/mouse-move';
 import { mouseUpInteraction } from './mouse/mouse-up';
-import { initTile } from './tiles/init-tile';
+import { initMapUnderlay, initTile } from './tiles/create-isometric-graphics';
 import { hoverTile, selectTile, unSelectTile } from './tiles/interactivity';
 import { setTile } from './tiles/styling';
 import { buildIndicators, GameIndicators } from './ui/indicators';
@@ -54,7 +54,7 @@ export const IsometricTiles = ({
         tearDownScene();
         initScene();
       },
-      { mapRadius: 8, tileWidth: 64, tileGap: 0.02 }
+      { mapRadius: 5, tileWidth: 64, tileGap: 0.02 }
     )
   );
 
@@ -72,7 +72,8 @@ export const IsometricTiles = ({
   const [hoveredTile, setHoveredTile] = useState<Tile>();
 
   const selectedTile = useRef<Tile>();
-  const isometricStack = useRef<IsometricStack>();
+  const isometricContainer = useRef<IsometricContainer>();
+  const mapUnderlay = useRef<PIXI.Sprite>();
 
   const keyboardListeners = useRef<KeyboardItem[]>();
 
@@ -93,7 +94,11 @@ export const IsometricTiles = ({
   };
 
   const initScene = () => {
-    const layers = [
+    const layers: {
+      container: PIXI.Container;
+      texture: any;
+      sprite: PIXI.Sprite;
+    }[] = [
       {
         container: new PIXI.Container(),
         texture: undefined as any,
@@ -121,7 +126,7 @@ export const IsometricTiles = ({
                 j,
                 container,
                 config.current,
-                isometricStack.current,
+                isometricContainer.current,
                 colors.tileColor,
                 colors.selectedColor
               );
@@ -133,7 +138,7 @@ export const IsometricTiles = ({
                 j,
                 container,
                 config.current,
-                isometricStack.current,
+                isometricContainer.current,
                 '0xFFFFFF',
                 '0xFFFFFF',
                 0.5
@@ -157,29 +162,32 @@ export const IsometricTiles = ({
 
     layers.forEach((layer, index) => {
       if (index === 0) {
-        if (isometricStack.current && isometricStack.current.selected) {
-          setPreviouslySelectedTile(isometricStack.current.selected);
+        if (isometricContainer.current && isometricContainer.current.selected) {
+          setPreviouslySelectedTile(isometricContainer.current.selected);
         }
+
+        isometricContainer.current = new PIXI.Container() as IsometricContainer;
+        isometricContainer.current.interactive = true;
+        isometricContainer.current.sortableChildren = true;
 
         // create a single background sprite with the texture
-        isometricStack.current = new PIXI.Sprite(
-          layers[0].texture
-        ) as IsometricStack;
-        isometricStack.current.selected = previouslySelectedTile || undefined;
-        isometricStack.current.interactive = true;
+        const layerSprite = new PIXI.Sprite(layers[0].texture);
+        layerSprite.zIndex = 2;
 
-        if (isometricStack.current.selected) {
-          indicators.current.topRight.selectedIndicator.text = `Selected {i, j}: ${isometricStack.current.selected.i}, ${isometricStack.current.selected.j}`;
+        isometricContainer.current.addChild(layerSprite);
+        isometricContainer.current.selected =
+          previouslySelectedTile || undefined;
+
+        if (isometricContainer.current.selected) {
+          indicators.current.topRight.selectedIndicator.text = `Selected {i, j}: ${isometricContainer.current.selected.i}, ${isometricContainer.current.selected.j}`;
         }
-        layer.sprite = isometricStack.current;
-
-        gameContainer.current.addChild(isometricStack.current);
+        layer.sprite = layerSprite;
         return;
       }
       // TODO: remove above, make this generic
       layer.sprite = new PIXI.Sprite(layer.texture);
       layer.sprite.y -= index * config.current.tileWidth; // vertical separation of tile isometricLayers
-      isometricStack.current.addChild(layer.sprite);
+      layer.sprite.zIndex = index;
     });
 
     layers.forEach(({ container, texture }) =>
@@ -192,17 +200,19 @@ export const IsometricTiles = ({
   };
 
   const tearDownScene = () => {
-    isometricStack.current.destroy({
+    isometricContainer.current.destroy({
       children: true,
       texture: true,
       baseTexture: true,
     });
-    isometricStack.current.removeAllListeners();
+    isometricContainer.current.removeAllListeners();
     keyboardListeners.current.forEach((item) => item.unsubscribe());
   };
 
   const tickerFunction = () => {
     indicators.current.topRight.mapVelocityIndicator.text = `Velocity: { x: ${velocity.x}, y: ${velocity.y} }`;
+
+    const itemsToMove = [isometricContainer.current];
 
     if (dragging) {
       dragFrameCount += 1;
@@ -212,36 +222,36 @@ export const IsometricTiles = ({
     }
 
     if (velocity.x > 0) {
-      isometricStack.current.position.x += velocity.x;
+      isometricContainer.current.position.x += velocity.x;
       velocity = { x: velocity.x - 1, y: velocity.y };
     }
 
     if (velocity.x < 0) {
-      isometricStack.current.position.x += velocity.x;
+      isometricContainer.current.position.x += velocity.x;
       velocity = { x: velocity.x + 1, y: velocity.y };
     }
 
     if (velocity.y > 0) {
-      isometricStack.current.position.y += velocity.y;
+      isometricContainer.current.position.y += velocity.y;
       velocity = { x: velocity.x, y: velocity.y - 1 };
     }
 
     if (velocity.y < 0) {
-      isometricStack.current.position.y += velocity.y;
+      isometricContainer.current.position.y += velocity.y;
       velocity = { x: velocity.x, y: velocity.y + 1 };
     }
 
-    if (isometricStack.current.position.x < config.current.borderL) {
-      isometricStack.current.position.x = config.current.borderL;
+    if (isometricContainer.current.position.x < config.current.borderL) {
+      isometricContainer.current.position.x = config.current.borderL;
     }
-    if (isometricStack.current.position.x > config.current.borderR) {
-      isometricStack.current.position.x = config.current.borderR;
+    if (isometricContainer.current.position.x > config.current.borderR) {
+      isometricContainer.current.position.x = config.current.borderR;
     }
-    if (isometricStack.current.position.y < config.current.borderD) {
-      isometricStack.current.position.y = config.current.borderD;
+    if (isometricContainer.current.position.y < config.current.borderD) {
+      isometricContainer.current.position.y = config.current.borderD;
     }
-    if (isometricStack.current.position.y > config.current.borderU) {
-      isometricStack.current.position.y = config.current.borderU;
+    if (isometricContainer.current.position.y > config.current.borderU) {
+      isometricContainer.current.position.y = config.current.borderU;
     }
   };
 
@@ -250,7 +260,7 @@ export const IsometricTiles = ({
     const mouseDownHandler = (event: PIXI.InteractionEvent) => {
       const handledEvent = mouseDownInteraction(
         event,
-        isometricStack.current,
+        isometricContainer.current,
         config.current
       );
 
@@ -271,10 +281,10 @@ export const IsometricTiles = ({
         dragged.x,
         dragged.y,
         () => {
-          if (isometricStack.current.selected) {
+          if (isometricContainer.current.selected) {
             // TODO: layer context
             unSelectTile({
-              tile: isometricStack.current.selected,
+              tile: isometricContainer.current.selected,
               layerContainer: isometricLayers.current[0].container,
               layers: isometricLayers.current,
               config: config.current,
@@ -282,7 +292,7 @@ export const IsometricTiles = ({
               defaultColor: colors.tileColor,
             });
 
-            indicators.current.topRight.oldSelectedIndicator.text = `Prev. selected : ${isometricStack.current.selected.i}, ${isometricStack.current.selected.j}`;
+            indicators.current.topRight.oldSelectedIndicator.text = `Prev. selected : ${isometricContainer.current.selected.i}, ${isometricContainer.current.selected.j}`;
           }
           // TODO: layer context
           selectTile({
@@ -292,13 +302,13 @@ export const IsometricTiles = ({
             config: config.current,
             renderer: app.renderer,
             selectionCallback: (tile) =>
-              (isometricStack.current.selected = tile),
+              (isometricContainer.current.selected = tile),
             selectedColor: colors.selectedColor,
           });
 
-          indicators.current.topRight.selectedIndicator.text = `Selected {i, j}: ${isometricStack.current.selected.i}, ${isometricStack.current.selected.j}`;
+          indicators.current.topRight.selectedIndicator.text = `Selected {i, j}: ${isometricContainer.current.selected.i}, ${isometricContainer.current.selected.j}`;
         },
-        isometricStack.current,
+        isometricContainer.current,
         positionDelta.x,
         positionDelta.y
       );
@@ -325,7 +335,7 @@ export const IsometricTiles = ({
     const mouseMoveHandler = (event: PIXI.InteractionEvent) => {
       const handledEvent = mouseMoveInteraction(
         event,
-        isometricStack.current,
+        isometricContainer.current,
         config.current,
         dragging,
         dragged.x,
@@ -338,8 +348,10 @@ export const IsometricTiles = ({
 
         dragged = { x: handledEvent.draggedx, y: handledEvent.draggedy };
 
-        isometricStack.current.position.x = handledEvent.newContainerPositionX;
-        isometricStack.current.position.y = handledEvent.newContainerPositionY;
+        isometricContainer.current.position.x =
+          handledEvent.newContainerPositionX;
+        isometricContainer.current.position.y =
+          handledEvent.newContainerPositionY;
 
         indicators.current.bottomLeft.draggedIndicator.text =
           handledEvent.draggedIndicatorText;
@@ -355,11 +367,11 @@ export const IsometricTiles = ({
             tile: handledEvent.tileHovered,
             layer: isometricLayers.current[0].container,
             config: config.current,
-            stack: isometricStack.current,
+            stack: isometricContainer.current,
             layers: isometricLayers.current,
             renderer: app.renderer,
             hoverCallback: (tile) => {
-              isometricStack.current.hovered = tile;
+              isometricContainer.current.hovered = tile;
               setHoveredTile(tile);
             },
             outlineColor: colors.hoverColor,
@@ -368,20 +380,20 @@ export const IsometricTiles = ({
       }
     };
 
-    isometricStack.current.addListener('mousedown', (event) =>
+    isometricContainer.current.addListener('mousedown', (event) =>
       mouseDownHandler(event)
     );
-    isometricStack.current.addListener('touchstart', (event) =>
+    isometricContainer.current.addListener('touchstart', (event) =>
       mouseDownHandler(event)
     );
 
-    isometricStack.current.addListener('mouseup', mouseUpHandler);
-    isometricStack.current.addListener('touchend', mouseUpHandler);
+    isometricContainer.current.addListener('mouseup', mouseUpHandler);
+    isometricContainer.current.addListener('touchend', mouseUpHandler);
 
-    isometricStack.current.addListener('mousemove', (event) =>
+    isometricContainer.current.addListener('mousemove', (event) =>
       mouseMoveHandler(event)
     );
-    isometricStack.current.addListener('touchmove', (event) =>
+    isometricContainer.current.addListener('touchmove', (event) =>
       mouseMoveHandler(event)
     );
   };
@@ -391,8 +403,10 @@ export const IsometricTiles = ({
   useEffect(() => {
     app.stage.sortableChildren = true;
     gameContainer.current.sortableChildren = true;
+
     gameContainer.current.zIndex = 1;
     indicatorContainer.current.zIndex = 2;
+
     indicators.current = buildIndicators(size.height, size.width);
     addOrRemoveIndicators('add');
 
@@ -400,11 +414,25 @@ export const IsometricTiles = ({
     app.ticker.add(tickerFunction);
     app.stage.addChild(indicatorContainer.current);
 
-    const sprite = new PIXI.Sprite(new PIXI.Texture(baseTexture));
+    mapUnderlay.current = new PIXI.Sprite(new PIXI.Texture(baseTexture));
 
-    sprite.scale = { x: 1, y: 1 };
+    const underlayGraphic = initMapUnderlay(config.current);
+    underlayGraphic.zIndex = 1;
+    mapUnderlay.current.zIndex = 1;
 
-    app.stage.addChild(sprite);
+    mapUnderlay.current.scale = {
+      x: config.current.mapRadius + 1,
+      y: config.current.mapRadius + 1,
+    };
+
+    underlayGraphic.y = -(config.current.tileWidth * config.current.mapRadius);
+
+    isometricContainer.current.addChild(mapUnderlay.current);
+    isometricContainer.current.addChild(underlayGraphic);
+
+    mapUnderlay.current.mask = underlayGraphic;
+
+    gameContainer.current.addChild(isometricContainer.current);
   }, []);
 
   useEffect(() => {

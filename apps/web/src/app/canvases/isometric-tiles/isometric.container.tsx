@@ -43,7 +43,7 @@ export const IsometricContainer = () => {
       const { water, sand, grass, forest } =
         colorPalettes.terrain_hex_palette[0];
 
-      const resolution = 128;
+      const resolution = 256;
 
       runPixelDataGenOnWorker(
         'perlin',
@@ -104,7 +104,7 @@ export const IsometricContainer = () => {
           <IsometricTiles
             assetCollection={assetCollection}
             colors={{
-              tileColor: `${hexStringToNumber(colors.gray['700'])}`,
+              tileColor: `${hexStringToNumber(colors.gray['300'])}`,
               hoverColor: `${hexStringToNumber(colors.teal['600'])}`,
               selectedColor: `${hexStringToNumber(colors.gray['600'])}`,
             }}

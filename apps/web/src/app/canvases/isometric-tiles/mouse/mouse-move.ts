@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 import { GameConfig } from '../models/game-config';
-import { IsometricStack } from '../models/isometric-stack';
+import { IsometricContainer } from '../models/isometric-stack';
 import { Tile } from '../models/tile';
 import { isoToIndex } from '../utils/iso-to-index';
 
@@ -36,7 +36,7 @@ export const isPositionalUpdate = (
 
 export const mouseMoveInteraction = (
   { data }: PIXI.InteractionEvent,
-  stack: IsometricStack,
+  stack: IsometricContainer,
   config: GameConfig,
   dragging: boolean,
   draggedx: number,

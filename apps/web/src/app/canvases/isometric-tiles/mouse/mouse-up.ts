@@ -1,10 +1,10 @@
-import { IsometricStack } from '../models/isometric-stack';
+import { IsometricContainer } from '../models/isometric-stack';
 
 export const mouseUpInteraction = (
   draggedx: number,
   draggedy: number,
   callback: () => void,
-  myContainer: IsometricStack,
+  myContainer: IsometricContainer,
   delx: number,
   dely: number
 ) => {
