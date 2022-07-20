@@ -3,6 +3,7 @@ import { Box, useColorModeValue } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
 import { responsiveFontProps } from '../_responsive-utils/font-props';
+import { planetVar } from '../_state/planet-viewer';
 import { celestialVar, galaxyConfigVar } from '../_state/reactive-variables';
 
 export const Breadcrumb = () => {
@@ -11,6 +12,7 @@ export const Breadcrumb = () => {
 
   const { name: galaxyName } = useReactiveVar(galaxyConfigVar);
   const celestial = useReactiveVar(celestialVar);
+  const planet = useReactiveVar(planetVar);
 
   const crumbs = useBreadcrumbs([
     {
@@ -20,6 +22,10 @@ export const Breadcrumb = () => {
     {
       path: '/celestials/:id',
       breadcrumb: () => <span>{celestial?.name}</span>,
+    },
+    {
+      path: '/planets/:id',
+      breadcrumb: () => <span>{planet?.name}</span>,
     },
   ]);
 

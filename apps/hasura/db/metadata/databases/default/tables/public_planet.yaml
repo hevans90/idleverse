@@ -2,6 +2,9 @@ table:
   schema: public
   name: planet
 object_relationships:
+  - name: celestial
+    using:
+      foreign_key_constraint_on: celestial_id
   - name: terrain_hex_palette
     using:
       foreign_key_constraint_on: terrain_hex_palette_id
