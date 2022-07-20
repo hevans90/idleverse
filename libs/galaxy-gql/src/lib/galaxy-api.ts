@@ -433,6 +433,13 @@ export type Celestial_Mutation_Response = {
   returning: Array<Celestial>;
 };
 
+/** input type for inserting object relation for remote table "celestial" */
+export type Celestial_Obj_Rel_Insert_Input = {
+  data: Celestial_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Celestial_On_Conflict>;
+};
+
 /** on_conflict condition type for table "celestial" */
 export type Celestial_On_Conflict = {
   constraint: Celestial_Constraint;
@@ -2258,6 +2265,8 @@ export enum Order_By {
 export type Planet = {
   __typename?: 'planet';
   atmospheric_distance: Scalars['numeric'];
+  /** An object relationship */
+  celestial: Celestial;
   celestial_id: Scalars['String'];
   id: Scalars['uuid'];
   name: Scalars['String'];
@@ -2369,6 +2378,7 @@ export type Planet_Bool_Exp = {
   _not?: InputMaybe<Planet_Bool_Exp>;
   _or?: InputMaybe<Array<Planet_Bool_Exp>>;
   atmospheric_distance?: InputMaybe<Numeric_Comparison_Exp>;
+  celestial?: InputMaybe<Celestial_Bool_Exp>;
   celestial_id?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
@@ -2400,6 +2410,7 @@ export type Planet_Inc_Input = {
 /** input type for inserting data into table "planet" */
 export type Planet_Insert_Input = {
   atmospheric_distance?: InputMaybe<Scalars['numeric']>;
+  celestial?: InputMaybe<Celestial_Obj_Rel_Insert_Input>;
   celestial_id?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
@@ -2489,6 +2500,7 @@ export type Planet_On_Conflict = {
 /** Ordering options when selecting data from "planet". */
 export type Planet_Order_By = {
   atmospheric_distance?: InputMaybe<Order_By>;
+  celestial?: InputMaybe<Celestial_Order_By>;
   celestial_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
@@ -4670,6 +4682,13 @@ export type CreatePlanetMutationVariables = Exact<{
 
 export type CreatePlanetMutation = { __typename?: 'mutation_root', createPlanet?: { __typename?: 'CelestialManagement', createdPlanet: { __typename?: 'PartialPlanet', id: string, name: string, owner_id: string } } | null };
 
+export type PlanetByIdQueryVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type PlanetByIdQuery = { __typename?: 'query_root', planet_by_pk?: { __typename?: 'planet', atmospheric_distance: any, id: any, name: string, owner_id: string, radius: any, terrain_bias: any, texture_resolution: number, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string, id: any }, rings: Array<{ __typename?: 'planetary_ring', colors: any, id: any, inner_radius: any, outer_radius: any, resolution: number, rotation: any, terrain_bias: any, type: string }>, user_info?: { __typename?: 'user_info', avatar_url?: string | null, name?: string | null, nickname: string, id: string } | null, celestial: { __typename?: 'celestial', name?: string | null, planets_aggregate: { __typename?: 'planet_aggregate', aggregate?: { __typename?: 'planet_aggregate_fields', count: number } | null } } } | null };
+
 export type PlanetsByCelestialIdQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
@@ -5038,6 +5057,52 @@ export const CreatePlanetDocument = gql`
 export type CreatePlanetMutationFn = Apollo.MutationFunction<CreatePlanetMutation, CreatePlanetMutationVariables>;
 export type CreatePlanetMutationResult = Apollo.MutationResult<CreatePlanetMutation>;
 export type CreatePlanetMutationOptions = Apollo.BaseMutationOptions<CreatePlanetMutation, CreatePlanetMutationVariables>;
+export const PlanetByIdDocument = gql`
+    query PlanetById($id: uuid!) {
+  planet_by_pk(id: $id) {
+    atmospheric_distance
+    id
+    name
+    owner_id
+    radius
+    terrain_bias
+    terrain_hex_palette {
+      forest
+      grass
+      name
+      sand
+      water
+      id
+    }
+    texture_resolution
+    rings {
+      colors
+      id
+      inner_radius
+      outer_radius
+      resolution
+      rotation
+      terrain_bias
+      type
+    }
+    user_info {
+      avatar_url
+      name
+      nickname
+      id
+    }
+    celestial {
+      name
+      planets_aggregate {
+        aggregate {
+          count
+        }
+      }
+    }
+  }
+}
+    `;
+export type PlanetByIdQueryResult = Apollo.QueryResult<PlanetByIdQuery, PlanetByIdQueryVariables>;
 export const PlanetsByCelestialIdDocument = gql`
     query PlanetsByCelestialId($id: String!) {
   celestial_by_pk(id: $id) {

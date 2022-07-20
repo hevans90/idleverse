@@ -4,6 +4,7 @@ import { GalaxyViewerContainer } from './canvases/galaxy-viewer/galaxy-viewer.co
 import { GravitySimulationContainer } from './canvases/gravity-simulation/gravity-simulation.container';
 import { IsometricContainer } from './canvases/isometric-tiles/isometric.container';
 import { PlanetGenerator } from './canvases/planet-generator/planet-generator';
+import { PlanetViewer } from './canvases/planet-viewer/planet-viewer';
 import { SolarSystemContainer } from './canvases/solar-system/solar-system.container';
 import { JoinGalaxy } from './empire-creation/join-galaxy';
 import { GalaxyGalleryContainer } from './galaxy-gallery/galaxy-gallery.container';
@@ -28,6 +29,11 @@ export const routes = [
     path: '/celestials/:id',
     name: 'view-celestial',
     component: CelestialViewerContainer,
+  },
+  {
+    path: '/planets/:id',
+    name: 'view-planet',
+    component: PlanetViewer,
   },
   { path: '/galaxy-gen', name: 'galaxy-gen', component: GalaxyGenContainer },
   {

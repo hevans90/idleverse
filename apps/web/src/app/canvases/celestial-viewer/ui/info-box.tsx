@@ -3,9 +3,11 @@ import { ChevronRightIcon, CloseIcon } from '@chakra-ui/icons';
 import {
   Avatar,
   Box,
+  Button,
   HStack,
   IconButton,
   Image,
+  Link,
   StackDivider,
   StackProps,
   Text,
@@ -17,6 +19,8 @@ import {
   celestialViewerPlanetDataUris,
   celestialViewerSelectedPlanet,
 } from '../../../_state/celestial-viewer';
+
+import { Link as ReactRouterLink } from 'react-router-dom';
 
 type Props = Pick<
   CelestialByIdQuery['celestial_by_pk'],
@@ -195,6 +199,10 @@ const PlanetInfo = ({
         <Text>Atmospheric Height:</Text>
         <Text>{planetInfo.atmospheric_distance * 100}m</Text>
       </HStack>
+
+      <Link as={ReactRouterLink} to={`/planets/${planetInfo.id}`} width="100%">
+        <Button width="100%">Visit</Button>
+      </Link>
     </VStack>
   );
 };
