@@ -1,0 +1,1 @@
+INSERT INTO "public"."resource_generator_type"("id", "name", "description", "resource_type_id", "generation_rate") VALUES (E'4c733bad-2f92-4504-8653-b839a8987959', E'Basic Mine', E'Where the plebs mine common metals.', E'90411ff8-c8fb-4ce0-af26-e4124fdaf0d8', 1);

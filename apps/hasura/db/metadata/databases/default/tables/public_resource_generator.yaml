@@ -1,0 +1,35 @@
+table:
+  schema: public
+  name: resource_generator
+object_relationships:
+  - name: galactic_empire
+    using:
+      foreign_key_constraint_on: galactic_empire_id
+  - name: resource_generator_type
+    using:
+      foreign_key_constraint_on: generator_type_id
+select_permissions:
+  - role: dev
+    permission:
+      columns:
+        - created_at
+        - updated_at
+        - galactic_empire_id
+        - generator_type_id
+        - id
+      filter:
+        galactic_empire:
+          user_id:
+            _eq: X-Hasura-User-Id
+  - role: user
+    permission:
+      columns:
+        - created_at
+        - updated_at
+        - galactic_empire_id
+        - generator_type_id
+        - id
+      filter:
+        galactic_empire:
+          user_id:
+            _eq: X-Hasura-User-Id

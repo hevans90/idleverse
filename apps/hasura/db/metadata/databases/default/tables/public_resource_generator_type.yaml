@@ -1,0 +1,26 @@
+table:
+  schema: public
+  name: resource_generator_type
+object_relationships:
+  - name: resource_type
+    using:
+      foreign_key_constraint_on: resource_type_id
+select_permissions:
+  - role: dev
+    permission:
+      columns:
+        - generation_rate
+        - description
+        - name
+        - id
+        - resource_type_id
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - generation_rate
+        - description
+        - name
+        - id
+        - resource_type_id
+      filter: {}
