@@ -30,6 +30,15 @@ array_relationships:
         insertion_order: null
         column_mapping:
           id: galactic_empire_id
+  - name: resources
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: galactic_empire_resources
+        insertion_order: null
+        column_mapping:
+          id: id
 insert_permissions:
   - role: dev
     permission:

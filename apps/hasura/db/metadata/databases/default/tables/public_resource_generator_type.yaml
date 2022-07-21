@@ -4,23 +4,26 @@ table:
 object_relationships:
   - name: resource_type
     using:
-      foreign_key_constraint_on: resource_type_id
+      foreign_key_constraint_on: resource_type_1_id
+  - name: resource_type_2
+    using:
+      foreign_key_constraint_on: resource_type_2_id
 select_permissions:
   - role: dev
     permission:
       columns:
-        - generation_rate
         - description
-        - name
+        - generation_rate
         - id
-        - resource_type_id
+        - image_url
+        - name
       filter: {}
   - role: user
     permission:
       columns:
-        - generation_rate
         - description
-        - name
+        - generation_rate
         - id
-        - resource_type_id
+        - image_url
+        - name
       filter: {}
