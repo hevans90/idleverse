@@ -12,15 +12,10 @@ import {
   GalaxiesSubscription,
   Galaxy_Insert_Input,
 } from '@idleverse/galaxy-gql';
-import { hexStringToNumber } from '@idleverse/theme';
-import { Stage } from '@inlet/react-pixi';
 import { useEffect, useRef } from 'react';
-import {
-  animateVar,
-  galaxyConfigVar,
-  roleVar,
-} from '../../_state/reactive-variables';
+import { galaxyConfigVar, roleVar } from '../../_state/reactive-variables';
 
+import { PixiWrapper } from '../_utils/pixi-wrapper';
 import { useResize } from '../_utils/use-resize.hook';
 import { GalaxyGenerator } from './galaxy-generator';
 import { GameUIBottomBar } from './ui/bottom-bar';
@@ -87,24 +82,20 @@ export const GalaxyGenContainer = () => {
     );
   } else if (data) {
     return (
-      <>
-        <Stage
-          {...size}
-          options={{
-            backgroundColor: hexStringToNumber(colors.gray['800']),
-            antialias: true,
-          }}
-          onUnmount={() => animateVar(false)}
-        >
-          <GalaxyGenerator />
-        </Stage>
-        <GameUIBottomBar />
-        <GameUIRightBar
-          role={role}
-          saveGalaxyFunction={() => saveGalaxyFn.current()}
-        />
-        <GeneratorControls />
-      </>
+      <PixiWrapper
+        ui={
+          <>
+            <GameUIBottomBar />
+            <GameUIRightBar
+              role={role}
+              saveGalaxyFunction={() => saveGalaxyFn.current()}
+            />
+            <GeneratorControls />
+          </>
+        }
+      >
+        <GalaxyGenerator />
+      </PixiWrapper>
     );
   } else {
     return (

@@ -1,11 +1,10 @@
 import { useQuery, useReactiveVar } from '@apollo/client';
-import { Box, Theme, useTheme } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import {
   CelestialByIdDocument,
   CelestialByIdQuery,
 } from '@idleverse/galaxy-gql';
-import { hexStringToNumber, hexToRGB } from '@idleverse/theme';
-import { Stage } from '@inlet/react-pixi';
+import { hexToRGB } from '@idleverse/theme';
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -15,7 +14,7 @@ import { celestialViewerSelectedPlanet } from '../../_state/celestial-viewer';
 import { celestialVar } from '../../_state/reactive-variables';
 import { GameUIBottomBar } from '../galaxy-generator/ui/bottom-bar';
 import { runPixelDataGenOnWorker } from '../planet-generator/texture-generation/run-texture-gen-on-worker';
-import { useResize } from '../_utils/use-resize.hook';
+import { PixiWrapper } from '../_utils/pixi-wrapper';
 import { CelestialViewer } from './celestial-viewer';
 import { DataUriGenerator } from './data-uri-generator';
 import { InfoBox } from './ui/info-box';
@@ -44,9 +43,6 @@ export const CelestialViewerContainer = () => {
       height: number;
     }[]
   >(null);
-
-  const size = useResize();
-  const { colors } = useTheme<Theme>();
 
   useEffect(() => {
     loadPlanets().then(() => setCelestialSpritesLoading(false));
@@ -141,21 +137,16 @@ export const CelestialViewerContainer = () => {
     );
   } else if (data.celestial_by_pk) {
     return (
-      <>
-        <Stage
-          {...size}
-          options={{
-            backgroundColor: hexStringToNumber(colors.gray['800']),
-            antialias: true,
-          }}
-        >
-          <CelestialViewer celestial={data.celestial_by_pk} />
-        </Stage>
-
-        <InfoBox {...data.celestial_by_pk} />
-
-        <GameUIBottomBar bottom={0} />
-      </>
+      <PixiWrapper
+        ui={
+          <>
+            <InfoBox {...data.celestial_by_pk} />
+            <GameUIBottomBar bottom={0} />
+          </>
+        }
+      >
+        <CelestialViewer celestial={data.celestial_by_pk} />
+      </PixiWrapper>
     );
   } else {
     return (

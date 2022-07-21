@@ -4,10 +4,10 @@ import { sideNavWidth, topBarHeight } from '../../components/layout';
 import { layoutVar } from '../../_state/persisted-reactive-variables';
 import { generatorControlsHeight } from '../galaxy-generator/ui/generator-controls';
 import { galaxySimControlsHeight } from '../gravity-simulation/ui/gravity-simulation-controls';
-import { solarSystemControlsHeight } from '../solar-system/ui/controls';
 import { planetGenerationControlsHeight } from '../planet-generator/ui/sliders';
+import { solarSystemControlsHeight } from '../solar-system/ui/controls';
 
-type controls =
+export type controls =
   | 'galaxy-gen'
   | 'solar-system'
   | 'gravity-sim'

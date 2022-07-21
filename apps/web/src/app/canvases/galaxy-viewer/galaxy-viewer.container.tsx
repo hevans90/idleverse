@@ -1,5 +1,5 @@
 import { useQuery, useSubscription } from '@apollo/client';
-import { Box, Theme, useTheme } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { dbGalaxyToGalaxyConfig } from '@idleverse/galaxy-gen';
 import {
   CelestialsByGalaxyIdDocument,
@@ -8,15 +8,13 @@ import {
   GalaxyByIdDocument,
   GalaxyByIdQuery,
 } from '@idleverse/galaxy-gql';
-import { hexStringToNumber } from '@idleverse/theme';
-import { Stage } from '@inlet/react-pixi';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Loading } from '../../components/loading';
 import { galaxyConfigVar } from '../../_state/reactive-variables';
 import { GameUIBottomBar } from '../galaxy-generator/ui/bottom-bar';
+import { PixiWrapper } from '../_utils/pixi-wrapper';
 
-import { useResize } from '../_utils/use-resize.hook';
 import { celestialOwnerMapper } from './celestial-owner';
 import { GalaxyViewer } from './galaxy-viewer';
 import { PlayerPanel } from './ui/player-panel';
@@ -41,8 +39,6 @@ export const GalaxyViewerContainer = () => {
     variables: { id },
   });
 
-  const { colors } = useTheme<Theme>();
-
   useEffect(() => {
     if (data) {
       galaxyConfigVar(dbGalaxyToGalaxyConfig(data.galaxy_by_pk));
@@ -51,33 +47,28 @@ export const GalaxyViewerContainer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  const size = useResize();
-
   if (loading || celestialLoading) {
     return <Loading width="100%" height="100%" text="Loading Galaxy"></Loading>;
   } else if (data && celestialData) {
     return (
-      <Box position="relative">
-        <Stage
-          {...size}
-          options={{
-            backgroundColor: hexStringToNumber(colors.gray['800']),
-            antialias: true,
-          }}
-        >
-          <GalaxyViewer
-            claimedCelestials={celestialData.galaxy_by_pk.celestials}
-            galaxyConfig={dbGalaxyToGalaxyConfig(data.galaxy_by_pk)}
-            navigate={navigate}
-          />
-        </Stage>
-        <PlayerPanel
-          owners={celestialOwnerMapper(celestialData)}
-          loading={celestialLoading}
-          error={celestialError}
-        ></PlayerPanel>
-        <GameUIBottomBar bottom={0} />
-      </Box>
+      <PixiWrapper
+        ui={
+          <>
+            <PlayerPanel
+              owners={celestialOwnerMapper(celestialData)}
+              loading={celestialLoading}
+              error={celestialError}
+            ></PlayerPanel>
+            <GameUIBottomBar bottom={0} />
+          </>
+        }
+      >
+        <GalaxyViewer
+          claimedCelestials={celestialData.galaxy_by_pk.celestials}
+          galaxyConfig={dbGalaxyToGalaxyConfig(data.galaxy_by_pk)}
+          navigate={navigate}
+        />
+      </PixiWrapper>
     );
   } else {
     return (

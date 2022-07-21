@@ -1,11 +1,10 @@
 import { useQuery } from '@apollo/client';
-import { Box, Theme, useTheme } from '@chakra-ui/react';
+import { Theme, useTheme } from '@chakra-ui/react';
 import {
   TerrainHexPalettesDocument,
   TerrainHexPalettesQuery,
 } from '@idleverse/galaxy-gql';
 import { hexStringToNumber, hexToRGB } from '@idleverse/theme';
-import { Stage } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -14,11 +13,10 @@ import { Loading } from '../../components/loading';
 import { AssetCollection } from '../../_state/models';
 import { planetSurfaceVar } from '../../_state/planet-surface';
 import { runPixelDataGenOnWorker } from '../planet-generator/texture-generation/run-texture-gen-on-worker';
-import { useResize } from '../_utils/use-resize.hook';
+import { PixiWrapper } from '../_utils/pixi-wrapper';
 import { IsometricTiles } from './isometric-tiles';
 
 export const IsometricContainer = () => {
-  const size = useResize();
   const { colors } = useTheme<Theme>();
 
   const [assetsLoading, setAssetsLoading] = useState<boolean>(true);
@@ -93,25 +91,16 @@ export const IsometricContainer = () => {
     assetCollection
   ) {
     return (
-      <Box position="relative">
-        <Stage
-          {...size}
-          options={{
-            backgroundColor: hexStringToNumber(colors.gray['800']),
-            antialias: true,
+      <PixiWrapper>
+        <IsometricTiles
+          assetCollection={assetCollection}
+          colors={{
+            tileColor: `${hexStringToNumber(colors.gray['300'])}`,
+            hoverColor: `${hexStringToNumber(colors.teal['600'])}`,
+            selectedColor: `${hexStringToNumber(colors.gray['600'])}`,
           }}
-        >
-          <IsometricTiles
-            assetCollection={assetCollection}
-            colors={{
-              tileColor: `${hexStringToNumber(colors.gray['300'])}`,
-              hoverColor: `${hexStringToNumber(colors.teal['600'])}`,
-              selectedColor: `${hexStringToNumber(colors.gray['600'])}`,
-            }}
-          />
-        </Stage>
-        {/* UI with absolute positioning */}
-      </Box>
+        />
+      </PixiWrapper>
     );
   }
 };

@@ -22,7 +22,7 @@ import {
 } from '../galaxy-generator/graphics/star';
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
 import { useResize } from '../_utils/use-resize.hook';
-import { useViewport } from '../_utils/use-viewport';
+import { useViewport } from '../_utils/use-viewport.hook';
 import {
   claimedCelestials,
   diffOwnedCelestials,

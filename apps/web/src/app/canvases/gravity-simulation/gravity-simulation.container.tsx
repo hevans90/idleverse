@@ -1,10 +1,6 @@
-import { Box, Theme, useTheme } from '@chakra-ui/react';
-import { hexStringToNumber } from '@idleverse/theme';
-import { Stage } from '@inlet/react-pixi';
-import { animateVar } from '../../_state/reactive-variables';
 import { GameUIBottomBar } from '../galaxy-generator/ui/bottom-bar';
+import { PixiWrapper } from '../_utils/pixi-wrapper';
 
-import { useResize } from '../_utils/use-resize.hook';
 import { GravitySimulation } from './gravity-simulation';
 import {
   galaxySimControlsHeight,
@@ -12,24 +8,16 @@ import {
 } from './ui/gravity-simulation-controls';
 
 export const GravitySimulationContainer = () => {
-  const size = useResize();
-
-  const { colors } = useTheme<Theme>();
-
   return (
-    <Box position="relative">
-      <Stage
-        {...size}
-        options={{
-          backgroundColor: hexStringToNumber(colors.gray['800']),
-          antialias: true,
-        }}
-        onUnmount={() => animateVar(false)}
-      >
-        <GravitySimulation />
-      </Stage>
-      <GravitySimulationControls />
-      <GameUIBottomBar bottom={galaxySimControlsHeight} />
-    </Box>
+    <PixiWrapper
+      ui={
+        <>
+          <GravitySimulationControls />
+          <GameUIBottomBar bottom={galaxySimControlsHeight} />
+        </>
+      }
+    >
+      <GravitySimulation />
+    </PixiWrapper>
   );
 };
