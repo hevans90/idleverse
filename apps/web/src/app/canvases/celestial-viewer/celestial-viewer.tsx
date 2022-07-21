@@ -20,7 +20,7 @@ import {
 } from './utils/graphics-utils';
 
 import { useResize } from '../_utils/use-resize.hook';
-import { useViewport } from '../_utils/use-viewport';
+import { useViewport } from '../_utils/use-viewport.hook';
 import { Planet, PlanetConfig } from './models';
 import { useSelectedPlanet } from './use-selected-planet';
 import {

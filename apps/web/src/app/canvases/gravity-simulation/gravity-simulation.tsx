@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { simulationPaused, timeVar } from '../../_state/reactive-variables';
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
 import { useResize } from '../_utils/use-resize.hook';
-import { useViewport } from '../_utils/use-viewport';
+import { useViewport } from '../_utils/use-viewport.hook';
 import {
   generateBalls,
   generateGravitationalCenter,

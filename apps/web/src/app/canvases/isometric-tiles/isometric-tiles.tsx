@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AssetCollection, Vector2D } from '../../_state/models';
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
 import { useResize } from '../_utils/use-resize.hook';
-import { useViewport } from '../_utils/use-viewport';
+import { useViewport } from '../_utils/use-viewport.hook';
 import { gameConfigFactory } from './factories/game-config.factory';
 
 import { useReactiveVar } from '@apollo/client';

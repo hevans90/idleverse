@@ -16,7 +16,7 @@ import {
   timeVar,
 } from '../../_state/reactive-variables';
 import { useResize } from '../_utils/use-resize.hook';
-import { useViewport } from '../_utils/use-viewport';
+import { useViewport } from '../_utils/use-viewport.hook';
 import { Star } from './graphics/star';
 import { useFpsTracker } from './utils/fps-counter';
 
