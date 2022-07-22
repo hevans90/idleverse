@@ -1,0 +1,7 @@
+table:
+  schema: public
+  name: galactic_empire_resources
+object_relationships:
+  - name: resource_type
+    using:
+      foreign_key_constraint_on: resource_type_id

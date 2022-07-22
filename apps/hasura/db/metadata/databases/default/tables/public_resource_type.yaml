@@ -1,0 +1,16 @@
+table:
+  schema: public
+  name: resource_type
+select_permissions:
+  - role: dev
+    permission:
+      columns:
+        - type
+        - id
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - type
+        - id
+      filter: {}
