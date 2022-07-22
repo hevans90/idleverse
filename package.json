@@ -138,6 +138,7 @@
     "jest": "27.5.1",
     "jest-watch-typeahead": "^0.6.4",
     "jest-webgl-canvas-mock": "^0.2.3",
+    "newrelic": "^8.16.0",
     "prettier": "2.6.2",
     "react-test-renderer": "18.2.0",
     "ts-jest": "27.1.4",
