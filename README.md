@@ -36,10 +36,9 @@ AUTH0_MANAGEMENT_API_CLIENT_SECRET=<talk_to_owners>
 
 Now:
 
-1. `yarn docker-up` will build and bring up the `idleverse` stack. This includes everything except the client. For example the game-server will now be available on <http://localhost:4000/graphql>.
-
-2. `yarn hasura` will apply all the Hasura metadata & migrations
-3. `yarn prepare-watch` will build the game server and install deps (only need to run once)
+1. `yarn prepare-watch` will build the game server and install deps (only need to run once)
+2. `yarn docker-up` will build and bring up the `idleverse` stack. This includes everything except the client. For example the game-server will now be available on <http://localhost:4000/graphql>.
+3. `yarn hasura` will apply all the Hasura metadata & migrations
 
 Now you can decide what you want to work on:
 
