@@ -13,14 +13,7 @@ import { HasuraAPI } from './datasources/hasura-api';
 import { CelestialManagementResolver } from './entities/celestial-management';
 import { GalaxyManagementResolver } from './entities/galaxy-management';
 import { RegisterResolver } from './entities/register';
-import { environment } from './environments/environment';
 import ws = require('ws');
-
-import * as newRelic from 'newrelic';
-
-if (environment.newRelic && newRelic) {
-  require('newrelic');
-}
 
 (async () => {
   const client = apolloBootstrapper(
