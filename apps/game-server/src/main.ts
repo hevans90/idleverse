@@ -16,7 +16,9 @@ import { RegisterResolver } from './entities/register';
 import { environment } from './environments/environment';
 import ws = require('ws');
 
-if (environment.newRelic) {
+import * as newRelic from 'newrelic';
+
+if (environment.newRelic && newRelic) {
   require('newrelic');
 }
 
