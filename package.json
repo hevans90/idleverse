@@ -1,0 +1,23 @@
+{
+  "name": "idleverse-game-server",
+  "version": "0.0.1",
+  "dependencies": {
+    "@apollo/client": "^3.5.10",
+    "apollo-server-express": "^3.3.0",
+    "axios": "^0.21.4",
+    "class-validator": "^0.13.1",
+    "cross-fetch": "^3.1.4",
+    "express": "^4.17.1",
+    "express-jwt": "^6.1.0",
+    "graphql": "^15.6.0",
+    "jwks-rsa": "^2.0.4",
+    "object-hash": "^2.2.0",
+    "react": "18.2.0",
+    "reflect-metadata": "^0.1.13",
+    "seedrandom": "^3.0.5",
+    "subscriptions-transport-ws": "^0.9.19",
+    "type-graphql": "^1.1.1",
+    "ws": "^8.2.2"
+  },
+  "main": "main.js"
+}
