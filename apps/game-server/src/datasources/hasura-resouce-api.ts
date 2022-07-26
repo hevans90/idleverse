@@ -1,8 +1,7 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import {
-  SetDisplayNameByUserIdDocument,
-  SetDisplayNameByUserIdMutation,
-  SetDisplayNameByUserIdMutationVariables,
+  ResourceGeneratorsDocument,
+  ResourceGeneratorsSubscription,
 } from '@idleverse/galaxy-gql';
 import { DataSource } from 'apollo-datasource';
 
@@ -15,12 +14,8 @@ export class HasuraResourceAPI extends DataSource {
 
   client: ApolloClient<NormalizedCacheObject>;
 
-  trySetDisplayName = async (id: string, display_name: string) =>
-    this.client.mutate<
-      SetDisplayNameByUserIdMutation,
-      SetDisplayNameByUserIdMutationVariables
-    >({
-      mutation: SetDisplayNameByUserIdDocument,
-      variables: { id, display_name },
+  resources = async () =>
+    this.client.subscribe<ResourceGeneratorsSubscription>({
+      query: ResourceGeneratorsDocument,
     });
 }

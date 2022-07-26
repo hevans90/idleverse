@@ -50,7 +50,7 @@ export class CelestialManagementResolver {
           ...input,
           terrain_bias:
             // Inserting arrays into postgres requires a string format
-            `{${input.terrain_bias}}`,
+            `{${input.terrain_bias}}` as unknown as number[],
           rings,
         },
       })
