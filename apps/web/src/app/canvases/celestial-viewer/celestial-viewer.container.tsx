@@ -83,7 +83,7 @@ export const CelestialViewerContainer = () => {
                 hexToRGB(grass),
                 hexToRGB(forest),
               ],
-              terrain_bias,
+              terrain_bias as [number, number, number, number],
               id
             )
           )
