@@ -14,15 +14,6 @@ subscription ResourceGenerators {
         type
       }
     }
-    galactic_empire {
-      resources {
-        resource_type {
-          id
-          type
-        }
-        value
-        updated_at
-      }
-    }
+    galactic_empire_id
   }
 }

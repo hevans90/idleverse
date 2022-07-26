@@ -1098,6 +1098,9 @@ export type Galactic_Empire_Pk_Columns_Input = {
 /** columns and relationships of "galactic_empire_resources" */
 export type Galactic_Empire_Resources = {
   __typename?: 'galactic_empire_resources';
+  /** An object relationship */
+  galactic_empire: Galactic_Empire;
+  galactic_empire_id: Scalars['uuid'];
   id: Scalars['uuid'];
   /** An object relationship */
   resource_type: Resource_Type;
@@ -1174,6 +1177,8 @@ export type Galactic_Empire_Resources_Bool_Exp = {
   _and?: InputMaybe<Array<Galactic_Empire_Resources_Bool_Exp>>;
   _not?: InputMaybe<Galactic_Empire_Resources_Bool_Exp>;
   _or?: InputMaybe<Array<Galactic_Empire_Resources_Bool_Exp>>;
+  galactic_empire?: InputMaybe<Galactic_Empire_Bool_Exp>;
+  galactic_empire_id?: InputMaybe<Uuid_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   resource_type?: InputMaybe<Resource_Type_Bool_Exp>;
   resource_type_id?: InputMaybe<Uuid_Comparison_Exp>;
@@ -1194,6 +1199,8 @@ export type Galactic_Empire_Resources_Inc_Input = {
 
 /** input type for inserting data into table "galactic_empire_resources" */
 export type Galactic_Empire_Resources_Insert_Input = {
+  galactic_empire?: InputMaybe<Galactic_Empire_Obj_Rel_Insert_Input>;
+  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
   resource_type?: InputMaybe<Resource_Type_Obj_Rel_Insert_Input>;
   resource_type_id?: InputMaybe<Scalars['uuid']>;
@@ -1204,6 +1211,7 @@ export type Galactic_Empire_Resources_Insert_Input = {
 /** aggregate max on columns */
 export type Galactic_Empire_Resources_Max_Fields = {
   __typename?: 'galactic_empire_resources_max_fields';
+  galactic_empire_id?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
   resource_type_id?: Maybe<Scalars['uuid']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
@@ -1212,6 +1220,7 @@ export type Galactic_Empire_Resources_Max_Fields = {
 
 /** order by max() on columns of table "galactic_empire_resources" */
 export type Galactic_Empire_Resources_Max_Order_By = {
+  galactic_empire_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   resource_type_id?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
@@ -1221,6 +1230,7 @@ export type Galactic_Empire_Resources_Max_Order_By = {
 /** aggregate min on columns */
 export type Galactic_Empire_Resources_Min_Fields = {
   __typename?: 'galactic_empire_resources_min_fields';
+  galactic_empire_id?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
   resource_type_id?: Maybe<Scalars['uuid']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
@@ -1229,6 +1239,7 @@ export type Galactic_Empire_Resources_Min_Fields = {
 
 /** order by min() on columns of table "galactic_empire_resources" */
 export type Galactic_Empire_Resources_Min_Order_By = {
+  galactic_empire_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   resource_type_id?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
@@ -1253,6 +1264,8 @@ export type Galactic_Empire_Resources_On_Conflict = {
 
 /** Ordering options when selecting data from "galactic_empire_resources". */
 export type Galactic_Empire_Resources_Order_By = {
+  galactic_empire?: InputMaybe<Galactic_Empire_Order_By>;
+  galactic_empire_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   resource_type?: InputMaybe<Resource_Type_Order_By>;
   resource_type_id?: InputMaybe<Order_By>;
@@ -1268,6 +1281,8 @@ export type Galactic_Empire_Resources_Pk_Columns_Input = {
 /** select columns of table "galactic_empire_resources" */
 export enum Galactic_Empire_Resources_Select_Column {
   /** column name */
+  GalacticEmpireId = 'galactic_empire_id',
+  /** column name */
   Id = 'id',
   /** column name */
   ResourceTypeId = 'resource_type_id',
@@ -1279,6 +1294,7 @@ export enum Galactic_Empire_Resources_Select_Column {
 
 /** input type for updating data in table "galactic_empire_resources" */
 export type Galactic_Empire_Resources_Set_Input = {
+  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
   resource_type_id?: InputMaybe<Scalars['uuid']>;
   updated_at?: InputMaybe<Scalars['timestamptz']>;
@@ -1331,6 +1347,8 @@ export type Galactic_Empire_Resources_Sum_Order_By = {
 
 /** update columns of table "galactic_empire_resources" */
 export enum Galactic_Empire_Resources_Update_Column {
+  /** column name */
+  GalacticEmpireId = 'galactic_empire_id',
   /** column name */
   Id = 'id',
   /** column name */
@@ -6011,7 +6029,7 @@ export type GalacticEmpiresByGalaxyIdQuery = { __typename?: 'query_root', galact
 export type ResourceGeneratorsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ResourceGeneratorsSubscription = { __typename?: 'subscription_root', resource_generator: Array<{ __typename?: 'resource_generator', created_at: string, resource_generator_type: { __typename?: 'resource_generator_type', generation_rate: number[], name: string, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null }, galactic_empire: { __typename?: 'galactic_empire', resources: Array<{ __typename?: 'galactic_empire_resources', value: number, updated_at: string, resource_type: { __typename?: 'resource_type', id: string, type: string } }> } }> };
+export type ResourceGeneratorsSubscription = { __typename?: 'subscription_root', resource_generator: Array<{ __typename?: 'resource_generator', created_at: string, galactic_empire_id: string, resource_generator_type: { __typename?: 'resource_generator_type', generation_rate: number[], name: string, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null } }> };
 
 export type CreateGalaxyMutationVariables = Exact<{
   input: Galaxy_Insert_Input;
@@ -6362,16 +6380,7 @@ export const ResourceGeneratorsDocument = gql`
         type
       }
     }
-    galactic_empire {
-      resources {
-        resource_type {
-          id
-          type
-        }
-        value
-        updated_at
-      }
-    }
+    galactic_empire_id
   }
 }
     `;
