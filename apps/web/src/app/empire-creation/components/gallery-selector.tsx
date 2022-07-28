@@ -12,7 +12,7 @@ type GalleryItem<T> = {
   id: string;
   name: string;
   description: string;
-  imageUrl?: string;
+  image_url?: string;
 } & T;
 
 const GalleryButton = <T,>({
@@ -30,7 +30,6 @@ const GalleryButton = <T,>({
       as={Button}
       height="125px"
       minWidth={['30vw', 'unset']}
-      maxWidth={['40vw', '30vw', '20vw']}
       lineHeight="inherit"
       whiteSpace="normal"
       disabled={selected || false}
@@ -113,16 +112,24 @@ export const GallerySelector = <T,>({
           />
         ))}
       </Stack>
-      <Box minHeight="450px" flexGrow={3} width="auto">
+      <Box
+        minHeight="450px"
+        flexGrow={3}
+        width="auto"
+        display={['block', 'block', 'block', 'block', 'flex']}
+        flexDir={['row-reverse']}
+      >
         {selectedItem && (
           <>
             <Image
               float="left"
-              boxSize="150px"
-              src={selectedItem.imageUrl}
+              width={['112px', '112px', '224px', '224px', '338px']}
+              height={['150px', '150px', '300px', '300px', '450px']}
+              src={selectedItem.image_url}
               fallbackSrc="/placeholders/150x150.png"
               marginRight={4}
               marginBottom={1}
+              marginLeft={1}
             />
 
             <Text fontSize="xxs"> {selectedItem.description}</Text>

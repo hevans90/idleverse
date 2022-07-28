@@ -31,7 +31,7 @@ export const BackgroundSelectionModal = ({
     <Modal
       isOpen={isOpen}
       onClose={() => onClose(locallySelectedBackground)}
-      size="3xl"
+      size="5xl"
       isCentered
     >
       <ModalOverlay />

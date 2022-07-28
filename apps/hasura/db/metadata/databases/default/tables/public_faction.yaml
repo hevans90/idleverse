@@ -6,13 +6,15 @@ select_permissions:
     permission:
       columns:
         - description
-        - name
         - id
+        - image_url
+        - name
       filter: {}
   - role: user
     permission:
       columns:
-        - id
-        - name
         - description
+        - id
+        - image_url
+        - name
       filter: {}

@@ -152,6 +152,7 @@ export type Background = {
   __typename?: 'background';
   description: Scalars['String'];
   id: Scalars['uuid'];
+  image_url?: Maybe<Scalars['String']>;
   name: Scalars['String'];
 };
 
@@ -184,6 +185,7 @@ export type Background_Bool_Exp = {
   _or?: InputMaybe<Array<Background_Bool_Exp>>;
   description?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  image_url?: InputMaybe<String_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
 };
 
@@ -199,6 +201,7 @@ export enum Background_Constraint {
 export type Background_Insert_Input = {
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
+  image_url?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
 };
 
@@ -207,6 +210,7 @@ export type Background_Max_Fields = {
   __typename?: 'background_max_fields';
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
+  image_url?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
 };
 
@@ -215,6 +219,7 @@ export type Background_Min_Fields = {
   __typename?: 'background_min_fields';
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
+  image_url?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
 };
 
@@ -245,6 +250,7 @@ export type Background_On_Conflict = {
 export type Background_Order_By = {
   description?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  image_url?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
 };
 
@@ -260,6 +266,8 @@ export enum Background_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  ImageUrl = 'image_url',
+  /** column name */
   Name = 'name'
 }
 
@@ -267,6 +275,7 @@ export enum Background_Select_Column {
 export type Background_Set_Input = {
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
+  image_url?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
 };
 
@@ -276,6 +285,8 @@ export enum Background_Update_Column {
   Description = 'description',
   /** column name */
   Id = 'id',
+  /** column name */
+  ImageUrl = 'image_url',
   /** column name */
   Name = 'name'
 }
@@ -677,6 +688,7 @@ export type Faction = {
   __typename?: 'faction';
   description: Scalars['String'];
   id: Scalars['uuid'];
+  image_url?: Maybe<Scalars['String']>;
   name: Scalars['String'];
 };
 
@@ -709,6 +721,7 @@ export type Faction_Bool_Exp = {
   _or?: InputMaybe<Array<Faction_Bool_Exp>>;
   description?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  image_url?: InputMaybe<String_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
 };
 
@@ -724,6 +737,7 @@ export enum Faction_Constraint {
 export type Faction_Insert_Input = {
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
+  image_url?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
 };
 
@@ -732,6 +746,7 @@ export type Faction_Max_Fields = {
   __typename?: 'faction_max_fields';
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
+  image_url?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
 };
 
@@ -740,6 +755,7 @@ export type Faction_Min_Fields = {
   __typename?: 'faction_min_fields';
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
+  image_url?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
 };
 
@@ -770,6 +786,7 @@ export type Faction_On_Conflict = {
 export type Faction_Order_By = {
   description?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  image_url?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
 };
 
@@ -785,6 +802,8 @@ export enum Faction_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  ImageUrl = 'image_url',
+  /** column name */
   Name = 'name'
 }
 
@@ -792,6 +811,7 @@ export enum Faction_Select_Column {
 export type Faction_Set_Input = {
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
+  image_url?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
 };
 
@@ -801,6 +821,8 @@ export enum Faction_Update_Column {
   Description = 'description',
   /** column name */
   Id = 'id',
+  /** column name */
+  ImageUrl = 'image_url',
   /** column name */
   Name = 'name'
 }
@@ -3579,6 +3601,7 @@ export type Playable_Race = {
   __typename?: 'playable_race';
   description: Scalars['String'];
   id: Scalars['uuid'];
+  image_url?: Maybe<Scalars['String']>;
   name: Scalars['String'];
 };
 
@@ -3611,6 +3634,7 @@ export type Playable_Race_Bool_Exp = {
   _or?: InputMaybe<Array<Playable_Race_Bool_Exp>>;
   description?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  image_url?: InputMaybe<String_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
 };
 
@@ -3624,6 +3648,7 @@ export enum Playable_Race_Constraint {
 export type Playable_Race_Insert_Input = {
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
+  image_url?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
 };
 
@@ -3632,6 +3657,7 @@ export type Playable_Race_Max_Fields = {
   __typename?: 'playable_race_max_fields';
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
+  image_url?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
 };
 
@@ -3640,6 +3666,7 @@ export type Playable_Race_Min_Fields = {
   __typename?: 'playable_race_min_fields';
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
+  image_url?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
 };
 
@@ -3670,6 +3697,7 @@ export type Playable_Race_On_Conflict = {
 export type Playable_Race_Order_By = {
   description?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  image_url?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
 };
 
@@ -3685,6 +3713,8 @@ export enum Playable_Race_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  ImageUrl = 'image_url',
+  /** column name */
   Name = 'name'
 }
 
@@ -3692,6 +3722,7 @@ export enum Playable_Race_Select_Column {
 export type Playable_Race_Set_Input = {
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
+  image_url?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
 };
 
@@ -3701,6 +3732,8 @@ export enum Playable_Race_Update_Column {
   Description = 'description',
   /** column name */
   Id = 'id',
+  /** column name */
+  ImageUrl = 'image_url',
   /** column name */
   Name = 'name'
 }
@@ -5986,7 +6019,7 @@ export type TryInsertClaimedCelestialMutation = { __typename?: 'mutation_root', 
 export type CharacterDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CharacterDataQuery = { __typename?: 'query_root', playable_race: Array<{ __typename?: 'playable_race', description: string, id: string, name: string }>, faction: Array<{ __typename?: 'faction', description: string, id: string, name: string }>, background: Array<{ __typename?: 'background', description: string, id: string, name: string }> };
+export type CharacterDataQuery = { __typename?: 'query_root', playable_race: Array<{ __typename?: 'playable_race', id: string, name: string, description: string, image_url?: string | null }>, faction: Array<{ __typename?: 'faction', id: string, name: string, description: string, image_url?: string | null }>, background: Array<{ __typename?: 'background', id: string, name: string, description: string, image_url?: string | null }> };
 
 export type GetChatMessagesSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -6282,19 +6315,22 @@ export type TryInsertClaimedCelestialMutationOptions = Apollo.BaseMutationOption
 export const CharacterDataDocument = gql`
     query CharacterData {
   playable_race {
-    description
     id
     name
+    description
+    image_url
   }
   faction {
-    description
     id
     name
+    description
+    image_url
   }
   background {
-    description
     id
     name
+    description
+    image_url
   }
 }
     `;

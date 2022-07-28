@@ -31,7 +31,7 @@ export const FactionSelectionModal = ({
     <Modal
       isOpen={isOpen}
       onClose={() => onClose(locallySelectedFaction)}
-      size="3xl"
+      size="5xl"
       isCentered
     >
       <ModalOverlay />

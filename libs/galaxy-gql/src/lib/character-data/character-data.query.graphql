@@ -1,17 +1,20 @@
 query CharacterData {
   playable_race {
-    description
     id
     name
+    description
+    image_url
   }
   faction {
-    description
     id
     name
+    description
+    image_url
   }
   background {
-    description
     id
     name
+    description
+    image_url
   }
 }
