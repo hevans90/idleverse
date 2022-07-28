@@ -22,7 +22,19 @@ import ws = require('ws');
     process.env.SECURE_HASURA === 'secure',
     'admin-secret',
     () => process.env.HASURA_ADMIN_SECRET,
-    {},
+    {
+      typePolicies: {
+        Subscription: {
+          fields: {
+            resource_generator: {
+              merge(existing, incoming) {
+                return { ...incoming };
+              },
+            },
+          },
+        },
+      },
+    },
     fetch,
     ws,
     {

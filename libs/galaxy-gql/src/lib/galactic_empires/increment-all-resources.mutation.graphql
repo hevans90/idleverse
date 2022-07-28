@@ -1,0 +1,54 @@
+mutation IncrementGalacticEmpireResources(
+  $galacticEmpireId: uuid!
+  $galacticCreditsIncrement: Int!
+  $commonMetalsIncrement: Int!
+  $rareMetalsIncrement: Int!
+  $hydrocarbonsIncrement: Int!
+  $voidMatterIncrement: Int!
+) {
+  common_metals: update_galactic_empire_resources(
+    _inc: { value: $commonMetalsIncrement }
+    where: {
+      galactic_empire_id: { _eq: $galacticEmpireId }
+      resource_type: { type: { _eq: "common metals" } }
+    }
+  ) {
+    affected_rows
+  }
+  galactic_credits: update_galactic_empire_resources(
+    _inc: { value: $galacticCreditsIncrement }
+    where: {
+      galactic_empire_id: { _eq: $galacticEmpireId }
+      resource_type: { type: { _eq: "galactic credits" } }
+    }
+  ) {
+    affected_rows
+  }
+  hydrocarbons: update_galactic_empire_resources(
+    _inc: { value: $hydrocarbonsIncrement }
+    where: {
+      galactic_empire_id: { _eq: $galacticEmpireId }
+      resource_type: { type: { _eq: "hydrocarbons" } }
+    }
+  ) {
+    affected_rows
+  }
+  rare_metals: update_galactic_empire_resources(
+    _inc: { value: $rareMetalsIncrement }
+    where: {
+      galactic_empire_id: { _eq: $galacticEmpireId }
+      resource_type: { type: { _eq: "rare metals" } }
+    }
+  ) {
+    affected_rows
+  }
+  void_matter: update_galactic_empire_resources(
+    _inc: { value: $voidMatterIncrement }
+    where: {
+      galactic_empire_id: { _eq: $galacticEmpireId }
+      resource_type: { type: { _eq: "void matter" } }
+    }
+  ) {
+    affected_rows
+  }
+}

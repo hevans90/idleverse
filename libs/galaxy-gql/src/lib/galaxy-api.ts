@@ -6026,6 +6026,27 @@ export type GalacticEmpiresByGalaxyIdQueryVariables = Exact<{
 
 export type GalacticEmpiresByGalaxyIdQuery = { __typename?: 'query_root', galactic_empire: Array<{ __typename?: 'galactic_empire', user_id: string, id: string }> };
 
+export type IncrementGalacticEmpireResourcesMutationVariables = Exact<{
+  galacticEmpireId: Scalars['uuid'];
+  galacticCreditsIncrement: Scalars['Int'];
+  commonMetalsIncrement: Scalars['Int'];
+  rareMetalsIncrement: Scalars['Int'];
+  hydrocarbonsIncrement: Scalars['Int'];
+  voidMatterIncrement: Scalars['Int'];
+}>;
+
+
+export type IncrementGalacticEmpireResourcesMutation = { __typename?: 'mutation_root', common_metals?: { __typename?: 'galactic_empire_resources_mutation_response', affected_rows: number } | null, galactic_credits?: { __typename?: 'galactic_empire_resources_mutation_response', affected_rows: number } | null, hydrocarbons?: { __typename?: 'galactic_empire_resources_mutation_response', affected_rows: number } | null, rare_metals?: { __typename?: 'galactic_empire_resources_mutation_response', affected_rows: number } | null, void_matter?: { __typename?: 'galactic_empire_resources_mutation_response', affected_rows: number } | null };
+
+export type IncrementResourceMutationVariables = Exact<{
+  galacticEmpireId: Scalars['uuid'];
+  resourceType: Scalars['String'];
+  increment: Scalars['Int'];
+}>;
+
+
+export type IncrementResourceMutation = { __typename?: 'mutation_root', update_galactic_empire_resources?: { __typename?: 'galactic_empire_resources_mutation_response', affected_rows: number } | null };
+
 export type ResourceGeneratorsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -6363,6 +6384,56 @@ export const GalacticEmpiresByGalaxyIdDocument = gql`
 }
     `;
 export type GalacticEmpiresByGalaxyIdQueryResult = Apollo.QueryResult<GalacticEmpiresByGalaxyIdQuery, GalacticEmpiresByGalaxyIdQueryVariables>;
+export const IncrementGalacticEmpireResourcesDocument = gql`
+    mutation IncrementGalacticEmpireResources($galacticEmpireId: uuid!, $galacticCreditsIncrement: Int!, $commonMetalsIncrement: Int!, $rareMetalsIncrement: Int!, $hydrocarbonsIncrement: Int!, $voidMatterIncrement: Int!) {
+  common_metals: update_galactic_empire_resources(
+    _inc: {value: $commonMetalsIncrement}
+    where: {galactic_empire_id: {_eq: $galacticEmpireId}, resource_type: {type: {_eq: "common metals"}}}
+  ) {
+    affected_rows
+  }
+  galactic_credits: update_galactic_empire_resources(
+    _inc: {value: $galacticCreditsIncrement}
+    where: {galactic_empire_id: {_eq: $galacticEmpireId}, resource_type: {type: {_eq: "galactic credits"}}}
+  ) {
+    affected_rows
+  }
+  hydrocarbons: update_galactic_empire_resources(
+    _inc: {value: $hydrocarbonsIncrement}
+    where: {galactic_empire_id: {_eq: $galacticEmpireId}, resource_type: {type: {_eq: "hydrocarbons"}}}
+  ) {
+    affected_rows
+  }
+  rare_metals: update_galactic_empire_resources(
+    _inc: {value: $rareMetalsIncrement}
+    where: {galactic_empire_id: {_eq: $galacticEmpireId}, resource_type: {type: {_eq: "rare metals"}}}
+  ) {
+    affected_rows
+  }
+  void_matter: update_galactic_empire_resources(
+    _inc: {value: $voidMatterIncrement}
+    where: {galactic_empire_id: {_eq: $galacticEmpireId}, resource_type: {type: {_eq: "void matter"}}}
+  ) {
+    affected_rows
+  }
+}
+    `;
+export type IncrementGalacticEmpireResourcesMutationFn = Apollo.MutationFunction<IncrementGalacticEmpireResourcesMutation, IncrementGalacticEmpireResourcesMutationVariables>;
+export type IncrementGalacticEmpireResourcesMutationResult = Apollo.MutationResult<IncrementGalacticEmpireResourcesMutation>;
+export type IncrementGalacticEmpireResourcesMutationOptions = Apollo.BaseMutationOptions<IncrementGalacticEmpireResourcesMutation, IncrementGalacticEmpireResourcesMutationVariables>;
+export const IncrementResourceDocument = gql`
+    mutation IncrementResource($galacticEmpireId: uuid!, $resourceType: String!, $increment: Int!) {
+  update_galactic_empire_resources(
+    _inc: {value: $increment}
+    where: {galactic_empire_id: {_eq: $galacticEmpireId}, resource_type: {type: {_eq: $resourceType}}}
+  ) {
+    affected_rows
+  }
+}
+    `;
+export type IncrementResourceMutationFn = Apollo.MutationFunction<IncrementResourceMutation, IncrementResourceMutationVariables>;
+export type IncrementResourceMutationResult = Apollo.MutationResult<IncrementResourceMutation>;
+export type IncrementResourceMutationOptions = Apollo.BaseMutationOptions<IncrementResourceMutation, IncrementResourceMutationVariables>;
 export const ResourceGeneratorsDocument = gql`
     subscription ResourceGenerators {
   resource_generator {
