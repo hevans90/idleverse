@@ -13,6 +13,7 @@ import { HasuraAPI } from './datasources/hasura-api';
 import { CelestialManagementResolver } from './entities/celestial-management';
 import { GalaxyManagementResolver } from './entities/galaxy-management';
 import { RegisterResolver } from './entities/register';
+import { generateResources } from './resource-generation/generate-resources';
 import ws = require('ws');
 
 (async () => {
@@ -21,7 +22,19 @@ import ws = require('ws');
     process.env.SECURE_HASURA === 'secure',
     'admin-secret',
     () => process.env.HASURA_ADMIN_SECRET,
-    {},
+    {
+      typePolicies: {
+        Subscription: {
+          fields: {
+            resource_generator: {
+              merge(existing, incoming) {
+                return { ...incoming };
+              },
+            },
+          },
+        },
+      },
+    },
     fetch,
     ws,
     {
@@ -112,6 +125,8 @@ import ws = require('ws');
   );
 
   await server.start();
+
+  generateResources(client);
 
   // Apply the GraphQL server middleware
   server.applyMiddleware({ app, path });

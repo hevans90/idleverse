@@ -1,0 +1,19 @@
+subscription ResourceGenerators {
+  resource_generator {
+    created_at
+    resource_generator_type {
+      generation_rate
+      resource_type {
+        id
+        type
+      }
+      name
+      id
+      resource_type_2 {
+        id
+        type
+      }
+    }
+    galactic_empire_id
+  }
+}

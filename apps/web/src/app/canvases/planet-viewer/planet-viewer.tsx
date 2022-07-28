@@ -64,7 +64,7 @@ export const PlanetViewer = () => {
         'perlin',
         texture_resolution,
         [hexToRGB(water), hexToRGB(sand), hexToRGB(grass), hexToRGB(forest)],
-        terrain_bias,
+        terrain_bias as [number, number, number, number],
         seed
       ).then((texture) => {
         setWorldDataTexture(texture);
@@ -87,7 +87,7 @@ export const PlanetViewer = () => {
               rgb,
               rgb
             ],
-            terrain_bias,
+            terrain_bias as [number, number, number, number],
             ring_seed
           ).then((texture) => {
             setRingDataTextures((prev) => ({ ...prev, [id]: texture }));
@@ -144,10 +144,19 @@ export const PlanetViewer = () => {
                   inner_radius,
                   outer_radius,
                   type,
+                  rotation,
+                  colors,
                   ...rest
                 }) => ({
                   ...rest,
-                  terrainBias: terrain_bias,
+                  colors: colors.map((hex) => hexToRGB(hex)) as [
+                    rgb,
+                    rgb,
+                    rgb,
+                    rgb
+                  ],
+                  rotation: rotation as [x: number, y: number, z: number],
+                  terrainBias: terrain_bias as [number, number, number, number],
                   innerRadius: inner_radius,
                   outerRadius: outer_radius,
                   type: type as 'banded' | 'rocky',
