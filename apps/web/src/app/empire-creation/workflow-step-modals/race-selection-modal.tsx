@@ -31,7 +31,7 @@ export const RaceSelectionModal = ({
     <Modal
       isOpen={isOpen}
       onClose={() => onClose(locallySelectedRace)}
-      size="3xl"
+      size="5xl"
       isCentered
     >
       <ModalOverlay />
