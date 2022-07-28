@@ -12,7 +12,7 @@ type GalleryItem<T> = {
   id: string;
   name: string;
   description: string;
-  imageUrl?: string;
+  image_url?: string;
 } & T;
 
 const GalleryButton = <T,>({
@@ -119,7 +119,7 @@ export const GallerySelector = <T,>({
             <Image
               float="left"
               boxSize="150px"
-              src={selectedItem.imageUrl}
+              src={selectedItem.image_url}
               fallbackSrc="/placeholders/150x150.png"
               marginRight={4}
               marginBottom={1}
