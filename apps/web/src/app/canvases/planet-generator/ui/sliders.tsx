@@ -85,11 +85,9 @@ export const PlanetGeneratorSliders = () => {
       className="footer"
       padding={3}
       bgColor={bg}
-      borderWidth="1px"
       borderStyle="solid"
       borderColor={border}
-      borderBottomWidth={0}
-      borderLeftWidth={0}
+      borderTopWidth="1px"
       position="absolute"
       bottom="0"
       left="0"

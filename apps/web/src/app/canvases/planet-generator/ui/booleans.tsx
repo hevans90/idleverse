@@ -16,6 +16,7 @@ export const PlanetGeneratorBooleans = () => {
       borderStyle="solid"
       borderColor={border}
       borderBottomWidth={0}
+      borderRightWidth={0}
       spacing={5}
       padding={3}
     >

@@ -41,7 +41,7 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
 
   const size = useResize();
 
-  const { canvasBg } = useUiBackground();
+  const { canvasBorder } = useUiBackground();
 
   const selectedIndicatorTickerRef = useRef<TickerCallback<unknown>>();
 
@@ -140,7 +140,7 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
               origin.y,
               orbit.x,
               orbit.y,
-              hexStringToNumber(canvasBg)
+              hexStringToNumber(canvasBorder)
             );
 
             solarSystemContainerRef.current.addChild(radialCircle);

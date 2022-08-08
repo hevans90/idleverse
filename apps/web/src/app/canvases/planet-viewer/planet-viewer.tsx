@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
 import { PlanetByIdDocument, PlanetByIdQuery } from '@idleverse/galaxy-gql';
 import { hexStringToNumber, hexToRGB, rgb } from '@idleverse/theme';
@@ -12,6 +12,7 @@ import { CameraController } from '../planet-generator/camera-controller';
 import { Pixelate } from '../planet-generator/pixelate';
 
 import { colors } from '@idleverse/theme';
+import { colorsVar } from '../../_state/colors';
 import { runTextureGenOnWorker } from '../planet-generator/texture-generation/run-texture-gen-on-worker';
 import { World } from '../planet-generator/world';
 import { useResize } from '../_utils/use-resize.hook';
@@ -24,6 +25,8 @@ export const PlanetViewer = () => {
   });
 
   const { width, height } = useResize();
+
+  const { primary } = useReactiveVar(colorsVar);
 
   const [worldDataTexture, setWorldDataTexture] =
     useState<DataTexture>(undefined);
@@ -164,7 +167,7 @@ export const PlanetViewer = () => {
             />
             <CameraController />
             <Pixelate
-              bgColor={hexStringToNumber(colors.gray['800'])}
+              bgColor={hexStringToNumber(colors[primary]['800'])}
               pixelSize={5}
             />
           </Suspense>

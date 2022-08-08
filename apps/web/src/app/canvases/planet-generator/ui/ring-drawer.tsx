@@ -101,6 +101,8 @@ export const PlanetGeneratorRingDrawer = () => {
       borderWidth="1px"
       borderStyle="solid"
       borderColor={border}
+      borderTopWidth={0}
+      borderRightWidth={0}
       position="absolute"
       right="0"
       top="0"

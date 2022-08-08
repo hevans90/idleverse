@@ -10,6 +10,7 @@ import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { DataTexture } from 'three';
 import { Loading } from '../../components/loading';
+import { colorsVar } from '../../_state/colors';
 import { RingConfig } from '../../_state/models';
 import {
   planetGenerationColorDrawerVar,
@@ -42,6 +43,8 @@ export const PlanetGenerator = ({
     useQuery<TerrainHexPalettesQuery>(TerrainHexPalettesDocument);
 
   const { width, height } = useResize('planet-gen');
+
+  const { primary } = useReactiveVar(colorsVar);
 
   const containerRef = useRef<HTMLDivElement>();
 
@@ -150,7 +153,7 @@ export const PlanetGenerator = ({
             />
             <CameraController />
             <Pixelate
-              bgColor={hexStringToNumber(colors.gray['800'])}
+              bgColor={hexStringToNumber(colors[primary]['800'])}
               pixelSize={pixelSize}
             />
           </Suspense>
