@@ -5,7 +5,7 @@ export const useKeypress = (key: string, handler: () => unknown) => {
 
   useEffect(() => {
     eventListenerRef.current = (event: KeyboardEvent) =>
-      event.key === key ? handler() : null;
+      event.code === key ? handler() : null;
   }, [key, handler]);
 
   useEffect(() => {

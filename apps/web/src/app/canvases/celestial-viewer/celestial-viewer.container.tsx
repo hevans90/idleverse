@@ -10,9 +10,10 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { loadPlanets } from '../../asset-loading/load-planets';
 import { Loading } from '../../components/loading';
+import { Dialog } from '../../game-ui/dialog';
 import { celestialViewerSelectedPlanet } from '../../_state/celestial-viewer';
+import { DialogVar } from '../../_state/dialog';
 import { celestialVar } from '../../_state/reactive-variables';
-import { GameUIBottomBar } from '../galaxy-generator/ui/bottom-bar';
 import { runPixelDataGenOnWorker } from '../planet-generator/texture-generation/run-texture-gen-on-worker';
 import { PixiWrapper } from '../_utils/pixi-wrapper';
 import { CelestialViewer } from './celestial-viewer';
@@ -34,6 +35,8 @@ export const CelestialViewerContainer = () => {
   const [celestialSpritesLoading, setCelestialSpritesLoading] = useState(true);
 
   const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanet);
+
+  const { entries } = useReactiveVar(DialogVar);
 
   const [pixelData, setPixelData] = useState<
     {
@@ -141,7 +144,13 @@ export const CelestialViewerContainer = () => {
         ui={
           <>
             <InfoBox {...data.celestial_by_pk} />
-            <GameUIBottomBar bottom={0} />
+            {/* <GameUIBottomBar bottom={0} /> */}
+            <Dialog
+              entries={entries}
+              position="absolute"
+              bottom={0}
+              left={0}
+            ></Dialog>
           </>
         }
       >
