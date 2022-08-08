@@ -54,10 +54,7 @@ export const Dialog = ({ entries, ...stackProps }: DialogProps) => {
 
   const { open } = useReactiveVar(DialogVar);
 
-  useKeypress('Space', () => {
-    console.log('spaced');
-    continueDialog();
-  });
+  useKeypress('Space', () => continueDialog());
 
   const continueDialog = () => {
     if (activeEntryIndex === entries.length - 1) {
@@ -82,51 +79,49 @@ export const Dialog = ({ entries, ...stackProps }: DialogProps) => {
     }
   };
 
-  const scrollToBottom = () => {
-    setTimeout(() => {
+  const scrollToBottom = () =>
+    setTimeout(() =>
       endOfDialogText.current?.scrollIntoView({
         behavior: 'smooth',
-      });
-      console.log(
-        'scrolling',
-        activeEntry.steps[activeEntryStepIndex].length,
-        currentEntryAnimationLength
-      );
-    });
-  };
+      })
+    );
 
   useEffect(() => {
-    const topLayer = keyframes`
+    if (activeEntry) {
+      const topLayer = keyframes`
     from { background-size: 0 200%; }
   `;
-    const bottomLayer = keyframes`
+      const bottomLayer = keyframes`
     50% { background-position: 0 -100%,0 0; }
   `;
-    setAnimation(undefined);
-    setAnimation(
-      `
+      setAnimation(undefined);
+      setAnimation(
+        `
        ${bottomLayer} ${prequelWaitTime}s infinite steps(1), 
        ${topLayer} calc(${activeEntry.steps[activeEntryStepIndex].length}*${characterWaitTime}s) steps(${activeEntry.steps[activeEntryStepIndex].length}) forwards
       `
-    );
+      );
 
-    const animationLength =
-      prequelWaitTime +
-      activeEntry.steps[activeEntryStepIndex].length * characterWaitTime * 1000;
+      const animationLength =
+        prequelWaitTime +
+        activeEntry.steps[activeEntryStepIndex].length *
+          characterWaitTime *
+          1000;
 
-    setCurrentEntryAnimationLength(animationLength);
+      setCurrentEntryAnimationLength(animationLength);
 
-    const startTime = new Date().getTime();
+      const startTime = new Date().getTime();
 
-    setTimeout(() => {
-      const interval = setInterval(function () {
-        if (new Date().getTime() - startTime > animationLength + 750) {
-          clearInterval(interval);
-          return;
-        }
-        scrollToBottom();
-      }, 500);
-    }, activeEntry.steps[activeEntryStepIndex].length * 4);
+      setTimeout(() => {
+        const interval = setInterval(function () {
+          if (new Date().getTime() - startTime > animationLength + 750) {
+            clearInterval(interval);
+            return;
+          }
+          scrollToBottom();
+        }, 500);
+      }, activeEntry.steps[activeEntryStepIndex].length * 4);
+    }
   }, [activeEntryIndex, activeEntryStepIndex]);
 
   if (open) {
