@@ -7,10 +7,12 @@ import {
   getCelestialIdHash,
   getCelestialPosition,
 } from '@idleverse/galaxy-gen';
+import { colors } from '@idleverse/theme';
 import { useApp } from '@inlet/react-pixi';
 import { Container, Graphics } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { colorsVar } from '../../_state/colors';
 import {
   galaxyConfigVar,
   galaxyRotationVar,
@@ -106,6 +108,8 @@ export const GalaxyViewer = ({
         id,
         isClaimed: star.isClaimed,
         ownerId,
+        claimedCol: colors[colorsVar().secondary]['300'],
+        unclaimedCol: colors[colorsVar().secondary]['200'],
       });
 
       if (_star.children.length > 1) {
@@ -131,9 +135,21 @@ export const GalaxyViewer = ({
     claimedCelestialsRef.current = claimedCelestials;
 
     additions?.forEach(({ id, owner_id }) =>
-      claimStar(id, owner_id, galaxyContainerRef.current, navigateToCelestial)
+      claimStar(
+        id,
+        owner_id,
+        galaxyContainerRef.current,
+        colors[colorsVar().secondary]['300'],
+        navigateToCelestial
+      )
     );
-    deletions?.forEach(({ id }) => unclaimStar(id, galaxyContainerRef.current));
+    deletions?.forEach(({ id }) =>
+      unclaimStar(
+        id,
+        galaxyContainerRef.current,
+        colors[colorsVar().secondary]['200']
+      )
+    );
   }, [claimedCelestials]);
 
   // eslint-disable-next-line react/jsx-no-useless-fragment

@@ -26,10 +26,8 @@ import {
   Text,
   Th,
   Thead,
-  Theme,
   Tr,
   useColorModeValue,
-  useTheme,
   VStack,
 } from '@chakra-ui/react';
 import { Fragment, useRef } from 'react';
@@ -37,8 +35,9 @@ import { v4 } from 'uuid';
 import { RingConfig, RingKey, RING_TYPES } from '../../../_state/models';
 import { planetGenerationRingDrawerVar } from '../../../_state/planet-generation';
 
-import { hexToRGB, rgbToHex } from '@idleverse/theme';
+import { colors as themeColors, hexToRGB, rgbToHex } from '@idleverse/theme';
 import { useUiBackground } from '../../../hooks/use-ui-background';
+import { colorsVar } from '../../../_state/colors';
 import {
   degreesToRadians,
   radiansToDegrees,
@@ -66,9 +65,12 @@ const columns: { name: string; numeric?: boolean }[] = [
 
 export const PlanetGeneratorRingDrawer = () => {
   const { bg, border } = useUiBackground();
-  const tableBorderColor = useColorModeValue('green.600', 'green.300');
 
-  const { colors: themeColors } = useTheme<Theme>();
+  const { secondary } = useReactiveVar(colorsVar);
+  const tableBorderColor = useColorModeValue(
+    `${secondary}.600`,
+    `${secondary}.300`
+  );
 
   const drawerState = useReactiveVar(planetGenerationRingDrawerVar);
 

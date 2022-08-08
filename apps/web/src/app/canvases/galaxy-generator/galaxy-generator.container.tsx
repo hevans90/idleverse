@@ -4,7 +4,7 @@ import {
   useReactiveVar,
   useSubscription,
 } from '@apollo/client';
-import { Box, Theme, useTheme, useToast } from '@chakra-ui/react';
+import { Box, useToast } from '@chakra-ui/react';
 import {
   CreateGalaxyDocument,
   CreateGalaxyMutation,
@@ -16,7 +16,6 @@ import { useEffect, useRef } from 'react';
 import { galaxyConfigVar, roleVar } from '../../_state/reactive-variables';
 
 import { PixiWrapper } from '../_utils/pixi-wrapper';
-import { useResize } from '../_utils/use-resize.hook';
 import { GalaxyGenerator } from './galaxy-generator';
 import { GameUIBottomBar } from './ui/bottom-bar';
 import { GeneratorControls } from './ui/generator-controls';
@@ -25,8 +24,6 @@ import { GameUIRightBar } from './ui/right-bar';
 export const GalaxyGenContainer = () => {
   const { data, loading } =
     useSubscription<GalaxiesSubscription>(GalaxiesDocument);
-
-  const size = useResize();
 
   const toast = useToast();
 
@@ -39,8 +36,6 @@ export const GalaxyGenContainer = () => {
   const galaxyConfig = useReactiveVar(galaxyConfigVar);
 
   const saveGalaxyFn = useRef<() => unknown>(null);
-
-  const { colors } = useTheme<Theme>();
 
   useEffect(() => {
     saveGalaxyFn.current = async () => {

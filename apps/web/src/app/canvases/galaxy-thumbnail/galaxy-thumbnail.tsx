@@ -5,8 +5,10 @@ import {
   generateCelestials,
   getCelestialPosition,
 } from '@idleverse/galaxy-gen';
+import { colors } from '@idleverse/theme';
 import { Application, Container } from 'pixi.js';
 import { useEffect } from 'react';
+import { colorsVar } from '../../_state/colors';
 import { galaxyRotationVar } from '../../_state/reactive-variables';
 import { Star } from '../galaxy-generator/graphics/star';
 
@@ -36,6 +38,8 @@ export const GalaxyThumbnail = ({ galaxyConfig }: GalaxyThumbnailProps) => {
       galaxyContainer.addChild(
         Star({
           ...getCelestialPosition(celestial, galaxyConfig),
+          claimedCol: colors[colorsVar().secondary]['300'],
+          unclaimedCol: colors[colorsVar().secondary]['200'],
         })
       );
     });

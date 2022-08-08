@@ -1,10 +1,10 @@
 import { useQuery, useReactiveVar } from '@apollo/client';
-import { Box, Theme, useTheme } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import {
   TerrainHexPalettesDocument,
   TerrainHexPalettesQuery,
 } from '@idleverse/galaxy-gql';
-import { hexStringToNumber } from '@idleverse/theme';
+import { colors, hexStringToNumber } from '@idleverse/theme';
 import { Stats } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useRef, useState } from 'react';
@@ -44,8 +44,6 @@ export const PlanetGenerator = ({
   const { width, height } = useResize('planet-gen');
 
   const containerRef = useRef<HTMLDivElement>();
-
-  const { colors } = useTheme<Theme>();
 
   const {
     ui,

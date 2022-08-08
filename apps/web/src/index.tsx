@@ -1,16 +1,37 @@
+import { useReactiveVar } from '@apollo/client';
 import { Auth0Provider } from '@auth0/auth0-react';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, Theme } from '@chakra-ui/react';
 import { theme } from '@idleverse/theme';
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { App } from './app/App';
+import { colorsVar } from './app/_state/colors';
 
+import { useEffect } from 'react';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 const auth = {
   domain: 'dev-uyer-vun.us.auth0.com',
   clientId: 'UMMpI9y0OurEwa9M6lEf5wwG6kFqfj91',
+};
+
+const AppWithDynamicTheme = () => {
+  const { primary, secondary } = useReactiveVar(colorsVar);
+
+  const [currentTheme, setCurrentTheme] = useState<Partial<Theme>>(
+    theme({ primary, secondary })
+  );
+
+  useEffect(() => {
+    setCurrentTheme(theme({ primary, secondary }));
+  }, [primary, secondary]);
+
+  return (
+    <ChakraProvider theme={currentTheme}>
+      <App />
+    </ChakraProvider>
+  );
 };
 
 ReactDOM.render(
@@ -20,9 +41,7 @@ ReactDOM.render(
       clientId={auth.clientId}
       redirectUri={window.location.origin}
     >
-      <ChakraProvider theme={theme}>
-        <App />
-      </ChakraProvider>
+      <AppWithDynamicTheme />
     </Auth0Provider>
   </React.StrictMode>,
   document.getElementById('root')

@@ -5,21 +5,37 @@ import { useKeypress } from '../../hooks/use-keypress';
 import { useUiBackground } from '../../hooks/use-ui-background';
 import { Auth } from '../../_auth/auth';
 import { responsiveFontProps } from '../../_responsive-utils/font-props';
+import { globalUiVar } from '../../_state/global-ui';
 import { layoutVar } from '../../_state/persisted-reactive-variables';
 import { EscMenuContainer } from '../esc-menu/escape-menu.container';
 
 export const ToolBar = () => {
   const { bg, border } = useUiBackground();
 
-  useKeypress('Escape', () => isOpen || onOpen());
+  useKeypress('Escape', () => {
+    if (!isOpen || !escapeMenuOpen) {
+      onOpen();
+      globalUiVar({ ...globalUiVar, escapeMenuOpen: true });
+    } else {
+      globalUiVar({ ...globalUiVar, escapeMenuOpen: false });
+    }
+  });
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { sideNav, toolBar } = useReactiveVar(layoutVar);
 
+  const { escapeMenuOpen } = useReactiveVar(globalUiVar);
+
   return (
     <>
-      <EscMenuContainer isOpen={isOpen} onClose={onClose}></EscMenuContainer>
+      <EscMenuContainer
+        isOpen={isOpen || escapeMenuOpen}
+        onClose={() => {
+          globalUiVar({ ...globalUiVar, escapeMenuOpen: false });
+          onClose();
+        }}
+      ></EscMenuContainer>
       <Box
         fontSize="xs"
         className="toolbar"

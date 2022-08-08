@@ -1,5 +1,6 @@
 import { useReactiveVar } from '@apollo/client';
 import {
+  Button,
   HStack,
   Modal,
   ModalBody,
@@ -13,6 +14,7 @@ import {
   useColorMode,
   VStack,
 } from '@chakra-ui/react';
+import { useUiBackground } from '../../hooks/use-ui-background';
 import { colorsVar } from '../../_state/colors';
 import {
   debugVar,
@@ -29,21 +31,34 @@ export const EscMenuContainer = ({ isOpen, onClose }) => {
 
   const fps = useReactiveVar(fpsVar);
 
+  const { bg, border, bgLight } = useUiBackground();
+
   const { secondary } = useReactiveVar(colorsVar);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="2xl" isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader borderBottom="1px solid" borderBottomColor="gray.600">
+        <ModalHeader
+          bg={bg}
+          borderTopRightRadius={6}
+          borderTopLeftRadius={6}
+          borderBottom="1px solid"
+          borderBottomColor={border}
+        >
           Settings
         </ModalHeader>
         <ModalCloseButton />
-        <ModalBody paddingBottom={4}>
-          <HStack divider={<StackDivider borderColor="gray.600" />}>
+        <ModalBody
+          bg={bg}
+          paddingBottom={4}
+          borderBottomRightRadius={6}
+          borderBottomLeftRadius={6}
+        >
+          <HStack divider={<StackDivider borderColor={border} />}>
             <VStack
               width="50%"
-              divider={<StackDivider borderColor="gray.600" />}
+              divider={<StackDivider borderColor={border} />}
               spacing={5}
             >
               <HStack width="100%" paddingTop={3}>
@@ -69,12 +84,18 @@ export const EscMenuContainer = ({ isOpen, onClose }) => {
                 />
               </HStack>
               <HStack width="100%">
-                <Text flexGrow={1}>...</Text>
+                <Button
+                  onClick={() => {
+                    colorsVar({ ...colorsVar(), primary: 'blue' });
+                  }}
+                >
+                  Change to blue
+                </Button>
               </HStack>
             </VStack>
             <VStack
               width="50%"
-              divider={<StackDivider borderColor="gray.600" />}
+              divider={<StackDivider borderColor={border} />}
               spacing={5}
             >
               <HStack width="100%" paddingTop={3}>
@@ -98,7 +119,7 @@ export const EscMenuContainer = ({ isOpen, onClose }) => {
                 />
               </HStack>
               <HStack width="100%">
-                <Text flexGrow={1}>...</Text>
+                <Text flexGrow={1}>&nbsp;</Text>
               </HStack>
             </VStack>
           </HStack>

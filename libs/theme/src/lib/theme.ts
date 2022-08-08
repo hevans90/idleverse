@@ -1,3 +1,6 @@
+import { Theme } from '@chakra-ui/theme';
+import { StyleFunctionProps } from '@chakra-ui/theme-tools';
+
 import {
   Checkbox,
   extendTheme,
@@ -6,8 +9,6 @@ import {
   RangeSliderFilledTrack,
   Slider,
 } from '@chakra-ui/react';
-import { Theme } from '@chakra-ui/theme';
-import { StyleFunctionProps } from '@chakra-ui/theme-tools';
 
 export const colors: Partial<Theme['colors']> = {
   pink: {
@@ -132,39 +133,51 @@ export const colors: Partial<Theme['colors']> = {
   },
 };
 
-export const theme: Partial<Theme> = extendTheme({
-  styles: {
-    global: (props: StyleFunctionProps) => ({
-      body: {
-        background: props.colorMode === 'dark' ? 'gray.800' : 'gray.300',
-      },
-    }),
-  } as Partial<Pick<Theme, 'styles'>>,
-  config: { initialColorMode: 'dark', useSystemColorMode: false },
-  colors,
-  fonts: {
-    body: 'zx spectrum',
-    heading: 'zx spectrum',
-    mono: 'zx spectrum',
-  } as Partial<Pick<Theme, 'fonts'>>,
-  fontSizes: {
-    xxs: '0.7rem',
-  },
-  shadows: { outline: '0 0 0 3px var(--chakra-colors-green-400)' },
-});
+export const theme: ({
+  primary,
+  secondary,
+}: {
+  primary: keyof Theme['colors'];
+  secondary: keyof Theme['colors'];
+}) => Partial<Theme> = ({ primary, secondary }) => {
+  Slider.defaultProps = { ...Slider.defaultProps, colorScheme: secondary };
+  Input.defaultProps = {
+    ...Input.defaultProps,
+    focusBorderColor: `${secondary}.400`,
+  };
+  NumberInput.defaultProps = {
+    ...NumberInput.defaultProps,
+    focusBorderColor: `${secondary}.400`,
+  };
 
-Slider.defaultProps = { ...Slider.defaultProps, colorScheme: 'green' };
-Input.defaultProps = { ...Input.defaultProps, focusBorderColor: 'green.400' };
-NumberInput.defaultProps = {
-  ...NumberInput.defaultProps,
-  focusBorderColor: 'green.400',
-};
+  RangeSliderFilledTrack.defaultProps = {
+    ...RangeSliderFilledTrack.defaultProps,
+    background: `${secondary}.200`,
+  };
+  Checkbox.defaultProps = {
+    ...Checkbox.defaultProps,
+    colorScheme: secondary,
+  };
 
-RangeSliderFilledTrack.defaultProps = {
-  ...RangeSliderFilledTrack.defaultProps,
-  background: 'green.200',
-};
-Checkbox.defaultProps = {
-  ...Checkbox.defaultProps,
-  colorScheme: 'green',
+  return extendTheme({
+    styles: {
+      global: (props: StyleFunctionProps) => ({
+        body: {
+          background:
+            props.colorMode === 'dark' ? `${primary}.800` : `${primary}.300`,
+        },
+      }),
+    } as Partial<Pick<Theme, 'styles'>>,
+    config: { initialColorMode: 'dark', useSystemColorMode: false },
+    colors,
+    fonts: {
+      body: 'zx spectrum',
+      heading: 'zx spectrum',
+      mono: 'zx spectrum',
+    } as Partial<Pick<Theme, 'fonts'>>,
+    fontSizes: {
+      xxs: '0.7rem',
+    },
+    shadows: { outline: `0 0 0 3px var(--chakra-colors-${secondary}-400)` },
+  });
 };

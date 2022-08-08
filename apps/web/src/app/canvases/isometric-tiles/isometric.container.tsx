@@ -1,10 +1,9 @@
 import { useQuery, useReactiveVar } from '@apollo/client';
-import { Theme, useTheme } from '@chakra-ui/react';
 import {
   TerrainHexPalettesDocument,
   TerrainHexPalettesQuery,
 } from '@idleverse/galaxy-gql';
-import { hexStringToNumber, hexToRGB } from '@idleverse/theme';
+import { colors, hexStringToNumber, hexToRGB } from '@idleverse/theme';
 import * as PIXI from 'pixi.js';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -18,8 +17,6 @@ import { PixiWrapper } from '../_utils/pixi-wrapper';
 import { IsometricTiles } from './isometric-tiles';
 
 export const IsometricContainer = () => {
-  const { colors } = useTheme<Theme>();
-
   const { primary, secondary } = useReactiveVar(colorsVar);
 
   const [assetsLoading, setAssetsLoading] = useState<boolean>(true);

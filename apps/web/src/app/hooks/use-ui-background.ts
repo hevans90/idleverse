@@ -1,10 +1,10 @@
 import { useReactiveVar } from '@apollo/client';
-import { Theme, useColorModeValue, useTheme } from '@chakra-ui/react';
+import { useColorModeValue } from '@chakra-ui/react';
 import { colorsVar } from '../_state/colors';
 
-export const useUiBackground = () => {
-  const { colors } = useTheme<Theme>();
+import { colors } from '@idleverse/theme';
 
+export const useUiBackground = () => {
   const { primary } = useReactiveVar(colorsVar);
 
   const bgLight = useColorModeValue(`${primary}.200`, `${primary}.600`);

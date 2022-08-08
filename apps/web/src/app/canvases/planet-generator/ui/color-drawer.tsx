@@ -16,6 +16,7 @@ import { TerrainHexPalettesQuery } from '@idleverse/galaxy-gql';
 import { hexToRGB } from '@idleverse/theme';
 import { Fragment, useEffect, useState } from 'react';
 import { useUiBackground } from '../../../hooks/use-ui-background';
+import { colorsVar } from '../../../_state/colors';
 import { planetGenerationColorDrawerVar } from '../../../_state/planet-generation';
 
 import { ColorQuad } from './color-quad';
@@ -27,6 +28,7 @@ export const PlanetGeneratorColorDrawer = ({
 }) => {
   const drawerState = useReactiveVar(planetGenerationColorDrawerVar);
   const { bg, border } = useUiBackground();
+  const { primary, secondary } = useReactiveVar(colorsVar);
 
   const palettePresets = paletteData.terrain_hex_palette;
 
@@ -109,19 +111,21 @@ export const PlanetGeneratorColorDrawer = ({
               transition="all 0.2s"
               borderRadius="md"
               borderWidth="1px"
-              _hover={{ bg: 'gray.500' }}
-              _expanded={{ bg: 'gray.700' }}
+              borderColor={border}
+              _hover={{ bg: `${primary}.500` }}
+              _expanded={{ bg: `${primary}.700` }}
               _focus={{ boxShadow: 'outline' }}
             >
               <HStack minWidth="200px" justifyContent="space-between">
                 <Text>{localPalette.name}</Text> <ColorQuad {...localPalette} />
               </HStack>
             </MenuButton>
-            <MenuList>
+            <MenuList bg={bg} borderColor={border}>
               {palettePresets.map(
                 ({ name, water, sand, grass, forest, id }, i) => (
                   <Fragment key={id}>
                     <MenuItem
+                      bg={bg}
                       onClick={() =>
                         setLocalPalette({
                           name,

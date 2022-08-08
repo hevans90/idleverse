@@ -1,7 +1,9 @@
-import { Grid, Theme, useTheme } from '@chakra-ui/react';
+import { Grid } from '@chakra-ui/react';
 import { hexToRGB, rgb, rgbToHex, themeColorToHex } from '@idleverse/theme';
 import { useCallback, useEffect, useState } from 'react';
 import { ColorPicker } from '../../../components/color-picker';
+
+import { colors as themeColors } from '@idleverse/theme';
 
 export const ColorQuadPicker = ({
   colors,
@@ -24,8 +26,6 @@ export const ColorQuadPicker = ({
   //     `background: ${rgbToHex(colors[3])}; color: #bada55`
   //   );
   // });
-
-  const { colors: themeColors } = useTheme<Theme>();
 
   const [localHexColors, setLocalColors] = useState<
     [string, string, string, string]

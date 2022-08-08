@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { Box, Theme, useTheme } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { PlanetByIdDocument, PlanetByIdQuery } from '@idleverse/galaxy-gql';
 import { hexStringToNumber, hexToRGB, rgb } from '@idleverse/theme';
 import { Canvas } from '@react-three/fiber';
@@ -11,6 +11,7 @@ import { planetVar } from '../../_state/planet-viewer';
 import { CameraController } from '../planet-generator/camera-controller';
 import { Pixelate } from '../planet-generator/pixelate';
 
+import { colors } from '@idleverse/theme';
 import { runTextureGenOnWorker } from '../planet-generator/texture-generation/run-texture-gen-on-worker';
 import { World } from '../planet-generator/world';
 import { useResize } from '../_utils/use-resize.hook';
@@ -21,8 +22,6 @@ export const PlanetViewer = () => {
   const { data, loading } = useQuery<PlanetByIdQuery>(PlanetByIdDocument, {
     variables: { id },
   });
-
-  const { colors } = useTheme<Theme>();
 
   const { width, height } = useResize();
 
