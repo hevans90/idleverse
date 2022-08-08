@@ -19,6 +19,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { ResponsiveGrid } from '../components/layout';
 import { ToolBar } from '../containers/toolbar/toolbar';
+import { useUiBackground } from '../hooks/use-ui-background';
 import { layoutVar } from '../_state/persisted-reactive-variables';
 import { selfVar } from '../_state/reactive-variables';
 
@@ -27,6 +28,8 @@ type Inputs = {
 };
 
 export const Registration = () => {
+  const { bg, border } = useUiBackground();
+
   const {
     handleSubmit,
     register,
@@ -70,7 +73,7 @@ export const Registration = () => {
         >
           <form onSubmit={handleSubmit(onSubmit)}>
             <VStack
-              divider={<StackDivider borderColor="gray.500" />}
+              divider={<StackDivider borderColor={border} />}
               spacing={5}
               align="stretch"
               maxWidth={450}

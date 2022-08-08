@@ -3,6 +3,7 @@ import { Box } from '@chakra-ui/layout';
 import styled from 'styled-components';
 import { SideNav } from '../containers/sidenav/sidenav';
 import { ToolBar } from '../containers/toolbar/toolbar';
+import { useUiBackground } from '../hooks/use-ui-background';
 import { LayoutConfig } from '../_state/models';
 import { layoutVar } from '../_state/persisted-reactive-variables';
 import { Breadcrumb } from './breadcrumb';
@@ -48,13 +49,15 @@ export const ResponsiveGrid = styled.div`
 export const Layout = (props: { children?: JSX.Element }) => {
   const layoutConfig = useReactiveVar(layoutVar);
 
+  const { bgDark } = useUiBackground();
+
   return (
     <ResponsiveGrid {...layoutConfig}>
       {layoutConfig.sideNav ? <SideNav></SideNav> : null}
       <ToolBar></ToolBar>
       <main>
         <Breadcrumb />
-        <Box className="container" overflow="auto">
+        <Box className="container" overflow="auto" bg={bgDark}>
           {props?.children}
         </Box>
       </main>

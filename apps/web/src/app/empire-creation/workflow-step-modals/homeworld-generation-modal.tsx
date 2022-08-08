@@ -8,6 +8,7 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react';
 import { PlanetGenerator } from '../../canvases/planet-generator/planet-generator';
+import { useUiBackground } from '../../hooks/use-ui-background';
 
 export const HomeworldGenerationModal = ({
   isOpen,
@@ -16,18 +17,32 @@ export const HomeworldGenerationModal = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
+  const { bg, border, bgLight } = useUiBackground();
+
   return (
     <Modal isOpen={isOpen} onClose={() => onClose()} size="full" isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader borderBottom="2px solid" borderBottomColor="gray.600">
+        <ModalHeader
+          borderBottom="1px solid"
+          bg={bg}
+          borderTopRightRadius={6}
+          borderTopLeftRadius={6}
+          borderBottomColor={border}
+        >
           Create your homeworld
         </ModalHeader>
-        <ModalBody padding={0} position="relative">
+        <ModalBody bg={bgLight} padding={0} position="relative">
           <PlanetGenerator />
         </ModalBody>
 
-        <ModalFooter borderTop="2px solid" borderTopColor="gray.600">
+        <ModalFooter
+          borderTop="1px solid"
+          bg={bg}
+          borderTopColor={border}
+          borderBottomRightRadius={6}
+          borderBottomLeftRadius={6}
+        >
           <Button onClick={onClose}>Confirm</Button>
         </ModalFooter>
       </ModalContent>

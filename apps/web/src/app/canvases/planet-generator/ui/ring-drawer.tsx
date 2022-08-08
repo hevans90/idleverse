@@ -38,6 +38,7 @@ import { RingConfig, RingKey, RING_TYPES } from '../../../_state/models';
 import { planetGenerationRingDrawerVar } from '../../../_state/planet-generation';
 
 import { hexToRGB, rgbToHex } from '@idleverse/theme';
+import { useUiBackground } from '../../../hooks/use-ui-background';
 import {
   degreesToRadians,
   radiansToDegrees,
@@ -64,7 +65,7 @@ const columns: { name: string; numeric?: boolean }[] = [
 ];
 
 export const PlanetGeneratorRingDrawer = () => {
-  const bgColor = useColorModeValue('gray.200', 'gray.600');
+  const { bg, border } = useUiBackground();
   const tableBorderColor = useColorModeValue('green.600', 'green.300');
 
   const { colors: themeColors } = useTheme<Theme>();
@@ -93,7 +94,16 @@ export const PlanetGeneratorRingDrawer = () => {
     });
 
   return (
-    <VStack bgColor={bgColor} position="absolute" right="0" top="0" padding={3}>
+    <VStack
+      bgColor={bg}
+      borderWidth="1px"
+      borderStyle="solid"
+      borderColor={border}
+      position="absolute"
+      right="0"
+      top="0"
+      padding={3}
+    >
       <HStack width="100%" justifyContent="space-between">
         <Text>Rings</Text>
 

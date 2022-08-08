@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { Faction } from '@idleverse/galaxy-gql';
 import { useState } from 'react';
+import { useUiBackground } from '../../hooks/use-ui-background';
 import { factionsVar } from '../../_state/factions';
 import { GallerySelector } from '../components/gallery-selector';
 
@@ -27,6 +28,8 @@ export const FactionSelectionModal = ({
   const [locallySelectedFaction, setLocallySelectedFaction] =
     useState<Faction>(selectedFaction);
 
+  const { bg, border, bgLight } = useUiBackground();
+
   return (
     <Modal
       isOpen={isOpen}
@@ -36,7 +39,13 @@ export const FactionSelectionModal = ({
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader borderBottom="2px solid" borderBottomColor="gray.600">
+        <ModalHeader
+          borderBottom="1px solid"
+          bg={bg}
+          borderTopRightRadius={6}
+          borderTopLeftRadius={6}
+          borderBottomColor={border}
+        >
           Select Faction
         </ModalHeader>
         <ModalBody padding={0}>
@@ -48,7 +57,13 @@ export const FactionSelectionModal = ({
           />
         </ModalBody>
 
-        <ModalFooter borderTop="2px solid" borderTopColor="gray.600">
+        <ModalFooter
+          bg={bg}
+          borderBottomRightRadius={6}
+          borderBottomLeftRadius={6}
+          borderTop="1px solid"
+          borderTopColor={border}
+        >
           <Button
             disabled={!locallySelectedFaction}
             onClick={() => onClose(locallySelectedFaction)}

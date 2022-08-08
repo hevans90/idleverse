@@ -13,10 +13,11 @@ import {
   useColorMode,
   VStack,
 } from '@chakra-ui/react';
+import { colorsVar } from '../../_state/colors';
 import {
-  layoutVar,
   debugVar,
   fpsVar,
+  layoutVar,
 } from '../../_state/persisted-reactive-variables';
 
 export const EscMenuContainer = ({ isOpen, onClose }) => {
@@ -27,6 +28,8 @@ export const EscMenuContainer = ({ isOpen, onClose }) => {
   const debug = useReactiveVar(debugVar);
 
   const fps = useReactiveVar(fpsVar);
+
+  const { secondary } = useReactiveVar(colorsVar);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="2xl" isCentered>
@@ -50,7 +53,7 @@ export const EscMenuContainer = ({ isOpen, onClose }) => {
                   onChange={() => {
                     layoutVar({ sideNav: !sideNav, toolBar });
                   }}
-                  colorScheme="teal"
+                  colorScheme={secondary}
                   size="lg"
                 />
               </HStack>
@@ -61,7 +64,7 @@ export const EscMenuContainer = ({ isOpen, onClose }) => {
                   onChange={() => {
                     debugVar(!debug);
                   }}
-                  colorScheme="teal"
+                  colorScheme={secondary}
                   size="lg"
                 />
               </HStack>
@@ -79,7 +82,7 @@ export const EscMenuContainer = ({ isOpen, onClose }) => {
                 <Switch
                   isChecked={colorMode === 'dark'}
                   onChange={toggleColorMode}
-                  colorScheme="teal"
+                  colorScheme={secondary}
                   size="lg"
                 />
               </HStack>
@@ -90,7 +93,7 @@ export const EscMenuContainer = ({ isOpen, onClose }) => {
                   onChange={() => {
                     fpsVar(!fps);
                   }}
-                  colorScheme="teal"
+                  colorScheme={secondary}
                   size="lg"
                 />
               </HStack>

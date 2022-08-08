@@ -10,23 +10,27 @@ import {
   RangeSliderThumb,
   RangeSliderTrack,
   Text,
-  useColorModeValue,
   VStack,
 } from '@chakra-ui/react';
+import { useUiBackground } from '../../../hooks/use-ui-background';
 import {
   planetGenerationColorDrawerVar,
   planetGenerationTerrainDrawerVar,
 } from '../../../_state/planet-generation';
 
 export const PlanetGeneratorTerrainDrawer = () => {
-  const bgColor = useColorModeValue('gray.200', 'gray.600');
+  const { bg, border } = useUiBackground();
 
   const { currentHexPalette } = useReactiveVar(planetGenerationColorDrawerVar);
   const drawerState = useReactiveVar(planetGenerationTerrainDrawerVar);
 
   return (
     <VStack
-      bgColor={bgColor}
+      bgColor={bg}
+      borderWidth="1px"
+      borderStyle="solid"
+      borderColor={border}
+      borderLeftWidth={0}
       position="absolute"
       left="0"
       top="40%"

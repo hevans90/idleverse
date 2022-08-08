@@ -1,4 +1,7 @@
-import { Box, Button, Checkbox, useColorModeValue } from '@chakra-ui/react';
+import { useReactiveVar } from '@apollo/client';
+import { Box, Button, Checkbox } from '@chakra-ui/react';
+import { useUiBackground } from '../../../hooks/use-ui-background';
+import { colorsVar } from '../../../_state/colors';
 import { animateVar } from '../../../_state/reactive-variables';
 import { generatorControlsHeight } from './generator-controls';
 
@@ -8,8 +11,9 @@ type Props = {
 };
 
 export const GameUIRightBar = ({ role, saveGalaxyFunction }: Props) => {
-  const bg = useColorModeValue('gray.300', 'gray.700');
-  const border = useColorModeValue('gray.200', 'gray.600');
+  const { bg, border } = useUiBackground();
+
+  const { secondary } = useReactiveVar(colorsVar);
 
   return (
     <Box
@@ -25,6 +29,7 @@ export const GameUIRightBar = ({ role, saveGalaxyFunction }: Props) => {
       borderStyle="solid"
       borderColor={border}
       borderRight="unset"
+      borderBottomWidth={0}
     >
       <Checkbox
         checked={animateVar()}
@@ -36,7 +41,7 @@ export const GameUIRightBar = ({ role, saveGalaxyFunction }: Props) => {
         <Button
           width="100%"
           marginTop="1rem"
-          colorScheme="teal"
+          colorScheme={secondary}
           onClick={() => saveGalaxyFunction()}
         >
           Save

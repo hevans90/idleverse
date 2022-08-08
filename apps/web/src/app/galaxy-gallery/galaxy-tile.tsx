@@ -1,3 +1,4 @@
+import { useReactiveVar } from '@apollo/client';
 import {
   Box,
   Button,
@@ -12,6 +13,8 @@ import { dbGalaxyToGalaxyConfig } from '@idleverse/galaxy-gen';
 import { GalaxiesSubscription } from '@idleverse/galaxy-gql';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { GalaxyThumbnail } from '../canvases/galaxy-thumbnail/galaxy-thumbnail';
+import { useUiBackground } from '../hooks/use-ui-background';
+import { colorsVar } from '../_state/colors';
 import { galaxyConfigVar } from '../_state/reactive-variables';
 
 export const GalaxyTile = ({
@@ -27,13 +30,15 @@ export const GalaxyTile = ({
   displayOwnershipTotals: boolean;
   totalUserOwns: number;
 }) => {
-  const bgcol = useColorModeValue('gray.800', 'gray.900');
-  const col = useColorModeValue('teal.500', 'teal.300');
+  const { bgDarker } = useUiBackground();
+  const { secondary } = useReactiveVar(colorsVar);
 
-  const hoverCol = useColorModeValue('teal.300', 'teal.200');
+  const col = useColorModeValue(`${secondary}.500`, `${secondary}.300`);
+
+  const hoverCol = useColorModeValue(`${secondary}.300`, `${secondary}.200`);
   const hoverBg = useColorModeValue(
-    alreadyJoined ? 'teal.800' : 'teal.900',
-    alreadyJoined ? 'teal.800' : 'teal.900'
+    alreadyJoined ? `${secondary}.800` : `${secondary}.900`,
+    alreadyJoined ? `${secondary}.800` : `${secondary}.900`
   );
 
   const {
@@ -76,7 +81,7 @@ export const GalaxyTile = ({
       maxHeight="400px"
       maxWidth="400px"
       key={galaxyConfig.id}
-      bgColor={bgcol}
+      bgColor={bgDarker}
       color={col}
       {...customHover}
       marginRight={2}
@@ -126,7 +131,7 @@ export const GalaxyTile = ({
           >
             <Link as={ReactRouterLink} to={`${galaxyUrl}/join`}>
               <Button
-                colorScheme="teal"
+                colorScheme={secondary}
                 size="sm"
                 onClick={() => {
                   galaxyConfigVar(dbGalaxyToGalaxyConfig(galaxyConfig));

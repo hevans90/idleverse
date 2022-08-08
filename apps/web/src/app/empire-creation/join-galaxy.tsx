@@ -37,9 +37,12 @@ import { RaceSelectionModal } from './workflow-step-modals/race-selection-modal'
 import { useAuth0 } from '@auth0/auth0-react';
 import { generatePlanetInsertionVars } from '../canvases/planet-generator/generate-planet-input-vars';
 import { randomisePlanetSeedAndName } from '../canvases/planet-generator/_utils/randomise-planet-seed-and-name';
+import { colorsVar } from '../_state/colors';
 
 export const JoinGalaxy = () => {
   const characterCreationState = useReactiveVar(characterCreationVar);
+
+  const { secondary } = useReactiveVar(colorsVar);
 
   const { user } = useAuth0();
 
@@ -262,7 +265,7 @@ export const JoinGalaxy = () => {
       <VStack height="100%" justify="center" spacing={10}>
         <VStack spacing={3}>
           <Text textAlign="center">It's time to begin your journey in:</Text>
-          <Text textAlign="center" fontWeight="bold" color="teal.500">
+          <Text textAlign="center" fontWeight="bold" color={`${secondary}.500`}>
             {data.galaxy_by_pk.name}
           </Text>
         </VStack>

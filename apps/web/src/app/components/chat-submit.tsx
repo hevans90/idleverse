@@ -1,10 +1,12 @@
-import { useMutation } from '@apollo/client';
-import { Box, Button, Input, useColorModeValue } from '@chakra-ui/react';
+import { useMutation, useReactiveVar } from '@apollo/client';
+import { Box, Button, Input } from '@chakra-ui/react';
 import {
   SendNewMessageDocument,
   SendNewMessageMutation,
 } from '@idleverse/galaxy-gql';
 import React from 'react';
+import { useUiBackground } from '../hooks/use-ui-background';
+import { colorsVar } from '../_state/colors';
 import { sideNavWidth } from './layout';
 
 export const ChatSubmit = () => {
@@ -22,8 +24,8 @@ export const ChatSubmit = () => {
     setMessage('');
   };
 
-  const bg = useColorModeValue('gray.200', 'gray.600');
-  const inputBg = useColorModeValue('gray.300', 'gray.700');
+  const { bg, border } = useUiBackground();
+  const { secondary } = useReactiveVar(colorsVar);
 
   return (
     <Box
@@ -33,10 +35,14 @@ export const ChatSubmit = () => {
       bottom="0"
       padding="1"
       width={sideNavWidth}
+      borderColor={border}
+      borderStyle="solid"
+      borderTopWidth="1px"
+      borderRightWidth="1px"
       bgColor={bg}
     >
       <Input
-        bg={inputBg}
+        bg={bg}
         placeholder="Type to chat..."
         value={message}
         onChange={(event) => {
@@ -47,7 +53,7 @@ export const ChatSubmit = () => {
         }}
       />
       <Button
-        colorScheme="teal"
+        colorScheme={secondary}
         size="xs"
         height="40px"
         marginLeft={1}

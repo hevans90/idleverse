@@ -1,6 +1,7 @@
 import { hexStringToNumber, theme } from '@idleverse/theme';
 import * as PIXI from 'pixi.js';
 import { Container } from 'pixi.js';
+import { colorsVar } from '../../../_state/colors';
 import { userAvatarResourcesVar } from '../../../_state/reactive-variables';
 
 export type StarProps = {
@@ -11,9 +12,13 @@ export type StarProps = {
   ownerId?: string;
 };
 
-const claimedCol = hexStringToNumber(theme.colors.red['300']);
+const claimedCol = hexStringToNumber(
+  theme.colors[colorsVar().secondary]['300']
+);
 const claimedRadius = 4;
-const unclaimedCol = hexStringToNumber(theme.colors.teal['200']);
+const unclaimedCol = hexStringToNumber(
+  theme.colors[colorsVar().secondary]['200']
+);
 const unclaimedRadius = 2;
 const userIndicatorRadius = 24;
 const userIndicatorLineHeight = 20;

@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { Theme, useTheme } from '@chakra-ui/react';
 import {
   TerrainHexPalettesDocument,
@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { assetLoader } from '../../asset-loading/asset-loader';
 import { Loading } from '../../components/loading';
+import { colorsVar } from '../../_state/colors';
 import { AssetCollection } from '../../_state/models';
 import { planetSurfaceVar } from '../../_state/planet-surface';
 import { runPixelDataGenOnWorker } from '../planet-generator/texture-generation/run-texture-gen-on-worker';
@@ -18,6 +19,8 @@ import { IsometricTiles } from './isometric-tiles';
 
 export const IsometricContainer = () => {
   const { colors } = useTheme<Theme>();
+
+  const { primary, secondary } = useReactiveVar(colorsVar);
 
   const [assetsLoading, setAssetsLoading] = useState<boolean>(true);
   const [mapGenerating, setMapGenerating] = useState<boolean>(true);
@@ -95,9 +98,9 @@ export const IsometricContainer = () => {
         <IsometricTiles
           assetCollection={assetCollection}
           colors={{
-            tileColor: `${hexStringToNumber(colors.gray['300'])}`,
-            hoverColor: `${hexStringToNumber(colors.teal['600'])}`,
-            selectedColor: `${hexStringToNumber(colors.gray['600'])}`,
+            tileColor: `${hexStringToNumber(colors[primary]['300'])}`,
+            hoverColor: `${hexStringToNumber(colors[secondary]['600'])}`,
+            selectedColor: `${hexStringToNumber(colors[primary]['600'])}`,
           }}
         />
       </PixiWrapper>

@@ -10,14 +10,12 @@ import {
   MenuItem,
   MenuList,
   Text,
-  Theme,
-  useColorModeValue,
-  useTheme,
   VStack,
 } from '@chakra-ui/react';
 import { TerrainHexPalettesQuery } from '@idleverse/galaxy-gql';
 import { hexToRGB } from '@idleverse/theme';
 import { Fragment, useEffect, useState } from 'react';
+import { useUiBackground } from '../../../hooks/use-ui-background';
 import { planetGenerationColorDrawerVar } from '../../../_state/planet-generation';
 
 import { ColorQuad } from './color-quad';
@@ -28,8 +26,7 @@ export const PlanetGeneratorColorDrawer = ({
   paletteData: TerrainHexPalettesQuery;
 }) => {
   const drawerState = useReactiveVar(planetGenerationColorDrawerVar);
-  const { colors } = useTheme<Theme>();
-  const bgColor = useColorModeValue('gray.200', 'gray.600');
+  const { bg, border } = useUiBackground();
 
   const palettePresets = paletteData.terrain_hex_palette;
 
@@ -75,7 +72,11 @@ export const PlanetGeneratorColorDrawer = ({
 
   return (
     <VStack
-      bgColor={bgColor}
+      bgColor={bg}
+      borderWidth="1px"
+      borderStyle="solid"
+      borderColor={border}
+      borderLeftWidth={0}
       position="absolute"
       left="0"
       top="10%"

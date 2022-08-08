@@ -6,6 +6,7 @@ import {
   TypographyProps,
   useTheme,
 } from '@chakra-ui/react';
+import { useUiBackground } from '../hooks/use-ui-background';
 
 type LoadingProps = {
   height?: string;
@@ -22,12 +23,12 @@ export const Loading = ({
 }: LoadingProps | undefined) => {
   const { fontSizes, fonts } = useTheme<Theme>();
 
+  const { bgDark } = useUiBackground();
+
   const ellipsis = keyframes`
   to {
     width: 6.5rem;    
-  }
-}
-`;
+  }`;
 
   const loadingEllipsis = {
     _after: {
@@ -47,6 +48,7 @@ export const Loading = ({
 
   return (
     <Box
+      bg={bgDark}
       height={height}
       width={width}
       display="flex"

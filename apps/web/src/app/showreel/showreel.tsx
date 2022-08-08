@@ -1,7 +1,11 @@
-import { Box, Button, Text, VStack } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import { useReactiveVar } from '@apollo/client';
+import { Box, Button, Link, Text, VStack } from '@chakra-ui/react';
+import { Link as ReactRouterLink } from 'react-router-dom';
+import { colorsVar } from '../_state/colors';
 
 export const Showreel = () => {
+  const { secondary } = useReactiveVar(colorsVar);
+
   const links: { route: string; display: string }[] = [
     {
       route: 'galaxies',
@@ -47,8 +51,8 @@ export const Showreel = () => {
 
       <VStack>
         {links.map(({ route, display }, i) => (
-          <Link key={i} to={`/${route}`}>
-            <Button colorScheme="teal" height="40px">
+          <Link as={ReactRouterLink} key={i} to={`/${route}`}>
+            <Button colorScheme={secondary} height="40px">
               {display}
             </Button>
           </Link>

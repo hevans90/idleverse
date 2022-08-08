@@ -1,6 +1,7 @@
 import { ApolloError } from '@apollo/client';
-import { Avatar, Box, Text, useColorModeValue } from '@chakra-ui/react';
+import { Avatar, Box, Text } from '@chakra-ui/react';
 import { Loading } from '../../../components/loading';
+import { useUiBackground } from '../../../hooks/use-ui-background';
 import { CelestialOwner } from '../celestial-owner';
 
 type PlayerPanelProps = {
@@ -10,8 +11,7 @@ type PlayerPanelProps = {
 };
 
 export const PlayerPanel = ({ owners, loading, error }: PlayerPanelProps) => {
-  const bg = useColorModeValue('gray.300', 'gray.700');
-  const border = useColorModeValue('gray.200', 'gray.600');
+  const { bg, border } = useUiBackground();
 
   if (loading) {
     return <Loading text="Loading players"></Loading>;

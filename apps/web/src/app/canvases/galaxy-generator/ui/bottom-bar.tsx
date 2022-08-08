@@ -1,15 +1,9 @@
-import {
-  Box,
-  ListItem,
-  UnorderedList,
-  useColorModeValue,
-  VStack,
-} from '@chakra-ui/react';
+import { Box, ListItem, UnorderedList, VStack } from '@chakra-ui/react';
+import { useUiBackground } from '../../../hooks/use-ui-background';
 import { generatorControlsHeight } from './generator-controls';
 
 export const GameUIBottomBar = ({ bottom }: { bottom?: number }) => {
-  const bg = useColorModeValue('gray.300', 'gray.700');
-  const border = useColorModeValue('gray.200', 'gray.600');
+  const { bg, border } = useUiBackground();
 
   if (bottom === undefined) {
     bottom = generatorControlsHeight;

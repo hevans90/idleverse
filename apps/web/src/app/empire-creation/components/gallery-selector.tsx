@@ -1,3 +1,4 @@
+import { useReactiveVar } from '@apollo/client';
 import {
   Box,
   Button,
@@ -7,6 +8,8 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import { useUiBackground } from '../../hooks/use-ui-background';
+import { colorsVar } from '../../_state/colors';
 
 type GalleryItem<T> = {
   id: string;
@@ -25,6 +28,7 @@ const GalleryButton = <T,>({
 
   onClick: (item: GalleryItem<T>) => unknown;
 }) => {
+  const { secondary } = useReactiveVar(colorsVar);
   return (
     <Box
       as={Button}
@@ -44,10 +48,10 @@ const GalleryButton = <T,>({
       _active={{
         bg: 'whiteAlpha.300',
         transform: 'scale(0.98)',
-        borderColor: 'teal.700',
+        borderColor: `${secondary}.700`,
       }}
       _disabled={{
-        bg: 'teal.600',
+        bg: `${secondary}.600`,
         transform: 'scale(0.98)',
         pointerEvents: 'none',
         opacity: 1,
@@ -74,6 +78,8 @@ export const GallerySelector = <T,>({
   defaultItem,
   onSelectionChange,
 }: GallerySelectionProps<T>) => {
+  const { bg, border } = useUiBackground();
+
   const [selectedItem, setSelectedItem] = useState<GalleryItem<T>>();
 
   useEffect(() => setSelectedItem(defaultItem), [defaultItem]);
@@ -85,19 +91,19 @@ export const GallerySelector = <T,>({
 
   return (
     <Stack
-      bgColor="gray.600"
+      bg={bg}
       direction={['column', 'row']}
       spacing={2}
       paddingTop={3}
       paddingBottom={3}
       paddingLeft={[2, 'unset', 'unset', 'unset', 'unset']}
       paddingRight={[2, 1]}
-      divider={<StackDivider borderColor="gray.500" />}
+      divider={<StackDivider borderColor={border} />}
     >
       <Stack
         direction={['row', 'column']}
         spacing={2}
-        divider={<StackDivider borderColor="gray.500" />}
+        divider={<StackDivider borderColor={border} />}
         paddingLeft={['unset', 3]}
         flexGrow={1}
         minWidth={['unset', '200px']}

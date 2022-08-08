@@ -1,9 +1,9 @@
-import { Box, useColorModeValue } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import { useUiBackground } from '../hooks/use-ui-background';
 
 export const Back = () => {
-  const bg = useColorModeValue('gray.300', 'gray.700');
-  const border = useColorModeValue('gray.200', 'gray.600');
+  const { bg, border } = useUiBackground();
 
   const navigate = useNavigate();
 
