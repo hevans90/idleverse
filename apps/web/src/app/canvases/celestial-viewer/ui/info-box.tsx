@@ -94,7 +94,7 @@ export const InfoBox = ({
                   _hover={{
                     fontWeight: 'bold',
                     cursor: 'pointer',
-                    background: 'gray.500',
+                    background: 'gray.600',
                     color: 'teal.500',
                   }}
                   onClick={() =>

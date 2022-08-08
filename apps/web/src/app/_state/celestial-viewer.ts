@@ -3,7 +3,7 @@ import { makeVarPersisted } from './utils';
 export const celestialViewerSelectedPlanet = makeVarPersisted<{
   name: string;
   id: string;
-}>(null, 'selectedPlanetId');
+}>(null, 'selectedPlanet');
 
 export const celestialViewerPlanetDataUris = makeVarPersisted<{
   celestialId: string;

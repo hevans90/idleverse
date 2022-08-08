@@ -16,16 +16,18 @@ export const PixiWrapper = (props: {
   const size = useResize(props.resizeControls || 'none');
 
   return (
-    <Box position="relative" ref={disableZoomCallback}>
-      <Stage
-        {...size}
-        options={{
-          backgroundColor: hexStringToNumber(colors.gray['800']),
-          antialias: true,
-        }}
-      >
-        {props?.children}
-      </Stage>
+    <Box position="relative">
+      <Box ref={disableZoomCallback}>
+        <Stage
+          {...size}
+          options={{
+            backgroundColor: hexStringToNumber(colors.gray['800']),
+            antialias: true,
+          }}
+        >
+          {props?.children}
+        </Stage>
+      </Box>
       {props?.ui}
     </Box>
   );
