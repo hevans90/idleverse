@@ -10,7 +10,34 @@ import {
   Slider,
 } from '@chakra-ui/react';
 
-export const colors: Partial<Theme['colors']> = {
+type themePalettes = Pick<
+  Theme['colors'],
+  | 'pink'
+  | 'orange'
+  | 'red'
+  | 'yellow'
+  | 'green'
+  | 'teal'
+  | 'cyan'
+  | 'blue'
+  | 'purple'
+  | 'gray'
+>;
+
+export const themePaletteKeys: (keyof themePalettes)[] = [
+  'pink',
+  'orange',
+  'red',
+  'yellow',
+  'green',
+  'teal',
+  'cyan',
+  'blue',
+  'purple',
+  'gray',
+];
+
+export const colors: themePalettes = {
   pink: {
     '50': '#F4F1F2',
     '100': '#E0D6DB',

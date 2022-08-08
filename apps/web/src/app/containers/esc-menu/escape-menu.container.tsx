@@ -1,6 +1,5 @@
 import { useReactiveVar } from '@apollo/client';
 import {
-  Button,
   HStack,
   Modal,
   ModalBody,
@@ -21,6 +20,7 @@ import {
   fpsVar,
   layoutVar,
 } from '../../_state/persisted-reactive-variables';
+import { ThemePalettePicker } from './theme-palette-picker';
 
 export const EscMenuContainer = ({ isOpen, onClose }) => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -84,13 +84,7 @@ export const EscMenuContainer = ({ isOpen, onClose }) => {
                 />
               </HStack>
               <HStack width="100%">
-                <Button
-                  onClick={() => {
-                    colorsVar({ ...colorsVar(), primary: 'blue' });
-                  }}
-                >
-                  Change to blue
-                </Button>
+                <ThemePalettePicker />
               </HStack>
             </VStack>
             <VStack
