@@ -3,10 +3,10 @@
 exports[`loading should render 1`] = `
 <div>
   <div
-    class="css-p1pjm1"
+    class="css-sidcim"
   >
     <p
-      class="chakra-text css-18spay2"
+      class="chakra-text css-12b1bq9"
     >
       Loading
     </p>
@@ -21,10 +21,10 @@ exports[`loading should render 1`] = `
 exports[`loading should render custom text 1`] = `
 <div>
   <div
-    class="css-p1pjm1"
+    class="css-sidcim"
   >
     <p
-      class="chakra-text css-18spay2"
+      class="chakra-text css-12b1bq9"
     >
       Loading memes
     </p>
@@ -39,10 +39,10 @@ exports[`loading should render custom text 1`] = `
 exports[`loading should render custom text and size 1`] = `
 <div>
   <div
-    class="css-1i92xjz"
+    class="css-n4refw"
   >
     <p
-      class="chakra-text css-18spay2"
+      class="chakra-text css-12b1bq9"
     >
       Loading memes
     </p>
