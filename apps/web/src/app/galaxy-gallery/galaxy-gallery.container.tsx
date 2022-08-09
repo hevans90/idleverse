@@ -1,4 +1,4 @@
-import { useSubscription } from '@apollo/client';
+import { useReactiveVar, useSubscription } from '@apollo/client';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Link, Text } from '@chakra-ui/layout';
 import { Button, VStack } from '@chakra-ui/react';
@@ -11,11 +11,14 @@ import {
 import { useEffect, useState } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { Loading } from '../components/loading';
+import { colorsVar } from '../_state/colors';
 
 import { GalaxyTile } from './galaxy-tile';
 
 export const GalaxyGalleryContainer = () => {
   const { user } = useAuth0();
+
+  const { secondary } = useReactiveVar(colorsVar);
 
   const { data: myGalaxyIds, loading: myGalaxyIdsLoading } =
     useSubscription<GalaxiesWithOwnedCelestialsSubscription>(
@@ -104,7 +107,7 @@ export const GalaxyGalleryContainer = () => {
       <Text fontSize="2xl">No galaxies found...</Text>
 
       <Link as={ReactRouterLink} to="../galaxy-gen" ml="1rem">
-        <Button colorScheme="teal" height="40px">
+        <Button colorScheme={secondary} height="40px">
           Go create one!
         </Button>
       </Link>

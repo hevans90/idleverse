@@ -1,4 +1,4 @@
-import { hexStringToNumber, theme } from '@idleverse/theme';
+import { hexStringToNumber } from '@idleverse/theme';
 import * as PIXI from 'pixi.js';
 import { Container } from 'pixi.js';
 import { userAvatarResourcesVar } from '../../../_state/reactive-variables';
@@ -7,18 +7,18 @@ export type StarProps = {
   id: string;
   x: number;
   y: number;
+  claimedCol: string;
+  unclaimedCol: string;
   isClaimed?: boolean;
   ownerId?: string;
 };
 
-const claimedCol = hexStringToNumber(theme.colors.red['300']);
 const claimedRadius = 4;
-const unclaimedCol = hexStringToNumber(theme.colors.teal['200']);
 const unclaimedRadius = 2;
 const userIndicatorRadius = 24;
 const userIndicatorLineHeight = 20;
 
-const styleOwnedStar = (ownerId: string) => {
+const styleOwnedStar = (ownerId: string, claimedCol: number) => {
   const starGraphic = new PIXI.Graphics()
     .clear()
     .beginFill(claimedCol)
@@ -64,20 +64,34 @@ const styleOwnedStar = (ownerId: string) => {
   };
 };
 
-export const Star = ({ x, y, isClaimed, id, ownerId }: Partial<StarProps>) => {
+export const Star = ({
+  x,
+  y,
+  isClaimed,
+  id,
+  ownerId,
+  claimedCol,
+  unclaimedCol,
+}: Partial<StarProps>) => {
   const container = new PIXI.Container();
 
   const r = isClaimed ? claimedRadius : unclaimedRadius;
 
   let starGraphic = new PIXI.Graphics()
     .clear()
-    .beginFill(isClaimed ? claimedCol : unclaimedCol)
+    .beginFill(
+      isClaimed
+        ? hexStringToNumber(claimedCol)
+        : hexStringToNumber(unclaimedCol)
+    )
     .drawCircle(0, 0, r)
     .endFill();
 
   if (isClaimed) {
-    const { starGraphic: ownedStarGraphic, avatarGraphic } =
-      styleOwnedStar(ownerId);
+    const { starGraphic: ownedStarGraphic, avatarGraphic } = styleOwnedStar(
+      ownerId,
+      hexStringToNumber(claimedCol)
+    );
 
     starGraphic = ownedStarGraphic;
 
@@ -101,12 +115,16 @@ export const claimStar = (
   id: string,
   ownerId: string,
   parentContainer: Container,
+  claimedCol: string,
   navigationFunction: (id: string) => void
 ) => {
   const starContainer = parentContainer.getChildByName(id, true) as Container;
   starContainer.removeChildren();
 
-  const { starGraphic, avatarGraphic } = styleOwnedStar(ownerId);
+  const { starGraphic, avatarGraphic } = styleOwnedStar(
+    ownerId,
+    hexStringToNumber(claimedCol)
+  );
 
   avatarGraphic.on('mousedown', () => {
     navigationFunction(id);
@@ -116,13 +134,17 @@ export const claimStar = (
   starContainer.addChild(starGraphic, avatarGraphic);
 };
 
-export const unclaimStar = (id: string, parentContainer: Container) => {
+export const unclaimStar = (
+  id: string,
+  parentContainer: Container,
+  unclaimedCol: string
+) => {
   const starContainer = parentContainer.getChildByName(id, true) as Container;
   starContainer.removeChildren();
 
   const starGraphic = new PIXI.Graphics()
     .clear()
-    .beginFill(unclaimedCol)
+    .beginFill(hexStringToNumber(unclaimedCol))
     .drawCircle(0, 0, unclaimedRadius)
     .endFill();
 

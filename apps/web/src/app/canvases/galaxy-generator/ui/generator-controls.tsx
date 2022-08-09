@@ -1,3 +1,4 @@
+import { useReactiveVar } from '@apollo/client';
 import { RepeatIcon } from '@chakra-ui/icons';
 import {
   Box,
@@ -14,17 +15,20 @@ import {
   SliderThumb,
   SliderTrack,
   Text,
-  useColorModeValue,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { useUiBackground } from '../../../hooks/use-ui-background';
+import { colorsVar } from '../../../_state/colors';
 import { galaxyConfigVar } from '../../../_state/reactive-variables';
 import { galaxySlidersConfig } from './sliders';
 
 export const generatorControlsHeight = 350;
 
 export const GeneratorControls = () => {
-  const color = useColorModeValue('gray.200', 'gray.600');
+  const { bg, border } = useUiBackground();
+
+  const { secondary } = useReactiveVar(colorsVar);
 
   const initialGalaxyConfig = galaxyConfigVar();
 
@@ -39,7 +43,11 @@ export const GeneratorControls = () => {
     <HStack
       className="footer"
       padding="1rem"
-      bgColor={color}
+      bgColor={bg}
+      borderWidth="1px"
+      borderStyle="solid"
+      borderColor={border}
+      borderBottomWidth={0}
       position="absolute"
       bottom="0"
       left="0"
@@ -94,7 +102,7 @@ export const GeneratorControls = () => {
           />
           <IconButton
             marginLeft="0.3rem"
-            colorScheme="teal"
+            colorScheme={secondary}
             aria-label="Generate new seed"
             icon={<RepeatIcon />}
             onClick={() => {

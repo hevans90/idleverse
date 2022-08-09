@@ -26,10 +26,8 @@ import {
   Text,
   Th,
   Thead,
-  Theme,
   Tr,
   useColorModeValue,
-  useTheme,
   VStack,
 } from '@chakra-ui/react';
 import { Fragment, useRef } from 'react';
@@ -37,7 +35,9 @@ import { v4 } from 'uuid';
 import { RingConfig, RingKey, RING_TYPES } from '../../../_state/models';
 import { planetGenerationRingDrawerVar } from '../../../_state/planet-generation';
 
-import { hexToRGB, rgbToHex } from '@idleverse/theme';
+import { colors as themeColors, hexToRGB, rgbToHex } from '@idleverse/theme';
+import { useUiBackground } from '../../../hooks/use-ui-background';
+import { colorsVar } from '../../../_state/colors';
 import {
   degreesToRadians,
   radiansToDegrees,
@@ -64,10 +64,13 @@ const columns: { name: string; numeric?: boolean }[] = [
 ];
 
 export const PlanetGeneratorRingDrawer = () => {
-  const bgColor = useColorModeValue('gray.200', 'gray.600');
-  const tableBorderColor = useColorModeValue('green.600', 'green.300');
+  const { bg, border } = useUiBackground();
 
-  const { colors: themeColors } = useTheme<Theme>();
+  const { secondary } = useReactiveVar(colorsVar);
+  const tableBorderColor = useColorModeValue(
+    `${secondary}.600`,
+    `${secondary}.300`
+  );
 
   const drawerState = useReactiveVar(planetGenerationRingDrawerVar);
 
@@ -93,7 +96,18 @@ export const PlanetGeneratorRingDrawer = () => {
     });
 
   return (
-    <VStack bgColor={bgColor} position="absolute" right="0" top="0" padding={3}>
+    <VStack
+      bgColor={bg}
+      borderWidth="1px"
+      borderStyle="solid"
+      borderColor={border}
+      borderTopWidth={0}
+      borderRightWidth={0}
+      position="absolute"
+      right="0"
+      top="0"
+      padding={3}
+    >
       <HStack width="100%" justifyContent="space-between">
         <Text>Rings</Text>
 

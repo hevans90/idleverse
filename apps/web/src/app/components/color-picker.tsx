@@ -17,6 +17,7 @@ import {
   useBoolean,
 } from '@chakra-ui/react';
 import { memo, useRef } from 'react';
+import { useUiBackground } from '../hooks/use-ui-background';
 
 const defaultColors = [
   'gray.100',
@@ -65,6 +66,8 @@ export const ColorPicker = memo(
     const colorPalette = colors || defaultColors;
     const selectedColor = useRef<string>(defaultColor || colorPalette[0]);
 
+    const { bg: uiBg, border: uiBorder } = useUiBackground();
+
     return (
       <Popover
         isOpen={isOpen && !isDisabled}
@@ -85,8 +88,21 @@ export const ColorPicker = memo(
             isDisabled={isDisabled}
           ></Button>
         </PopoverTrigger>
-        <PopoverContent w="auto" bg={bg} boxShadow="md">
-          <PopoverArrow />
+        <PopoverContent
+          w="auto"
+          bg={uiBg}
+          borderWidth="1px"
+          borderStyle="solid"
+          borderColor={uiBorder}
+        >
+          <PopoverArrow
+            bg={uiBg}
+            borderColor={uiBorder}
+            borderLeftWidth="1px"
+            borderTopWidth="1px"
+            boxShadow="unset !important"
+            top="-1px !important"
+          />
           <SimpleGrid columns={5} p={1} spacing={1}>
             {colorPalette.map((color, index) => (
               <Button

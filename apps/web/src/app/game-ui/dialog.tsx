@@ -9,11 +9,11 @@ import {
   StackDivider,
   StackProps,
   Text,
-  useColorModeValue,
   VStack,
 } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
 import { useKeypress } from '../hooks/use-keypress';
+import { useUiBackground } from '../hooks/use-ui-background';
 import { DialogVar } from '../_state/dialog';
 
 type DialogProps = StackProps & {
@@ -31,8 +31,7 @@ const prequelWaitTime = 0.3;
 const characterWaitTime = 0.01;
 
 export const Dialog = ({ entries, ...stackProps }: DialogProps) => {
-  const bg = useColorModeValue('gray.300', 'gray.700');
-  const border = useColorModeValue('gray.200', 'gray.600');
+  const { bg, border } = useUiBackground();
 
   const [activeEntryIndex, setActiveEntryIndex] = useState<number>(0);
   const [activeEntryStepIndex, setActiveEntryStepIndex] = useState<number>(0);
@@ -54,10 +53,7 @@ export const Dialog = ({ entries, ...stackProps }: DialogProps) => {
 
   const { open } = useReactiveVar(DialogVar);
 
-  useKeypress('Space', () => {
-    console.log('spaced');
-    continueDialog();
-  });
+  useKeypress('Space', () => continueDialog());
 
   const continueDialog = () => {
     if (activeEntryIndex === entries.length - 1) {
@@ -82,51 +78,49 @@ export const Dialog = ({ entries, ...stackProps }: DialogProps) => {
     }
   };
 
-  const scrollToBottom = () => {
-    setTimeout(() => {
+  const scrollToBottom = () =>
+    setTimeout(() =>
       endOfDialogText.current?.scrollIntoView({
         behavior: 'smooth',
-      });
-      console.log(
-        'scrolling',
-        activeEntry.steps[activeEntryStepIndex].length,
-        currentEntryAnimationLength
-      );
-    });
-  };
+      })
+    );
 
   useEffect(() => {
-    const topLayer = keyframes`
+    if (activeEntry) {
+      const topLayer = keyframes`
     from { background-size: 0 200%; }
   `;
-    const bottomLayer = keyframes`
+      const bottomLayer = keyframes`
     50% { background-position: 0 -100%,0 0; }
   `;
-    setAnimation(undefined);
-    setAnimation(
-      `
+      setAnimation(undefined);
+      setAnimation(
+        `
        ${bottomLayer} ${prequelWaitTime}s infinite steps(1), 
        ${topLayer} calc(${activeEntry.steps[activeEntryStepIndex].length}*${characterWaitTime}s) steps(${activeEntry.steps[activeEntryStepIndex].length}) forwards
       `
-    );
+      );
 
-    const animationLength =
-      prequelWaitTime +
-      activeEntry.steps[activeEntryStepIndex].length * characterWaitTime * 1000;
+      const animationLength =
+        prequelWaitTime +
+        activeEntry.steps[activeEntryStepIndex].length *
+          characterWaitTime *
+          1000;
 
-    setCurrentEntryAnimationLength(animationLength);
+      setCurrentEntryAnimationLength(animationLength);
 
-    const startTime = new Date().getTime();
+      const startTime = new Date().getTime();
 
-    setTimeout(() => {
-      const interval = setInterval(function () {
-        if (new Date().getTime() - startTime > animationLength + 750) {
-          clearInterval(interval);
-          return;
-        }
-        scrollToBottom();
-      }, 500);
-    }, activeEntry.steps[activeEntryStepIndex].length * 4);
+      setTimeout(() => {
+        const interval = setInterval(function () {
+          if (new Date().getTime() - startTime > animationLength + 750) {
+            clearInterval(interval);
+            return;
+          }
+          scrollToBottom();
+        }, 500);
+      }, activeEntry.steps[activeEntryStepIndex].length * 4);
+    }
   }, [activeEntryIndex, activeEntryStepIndex]);
 
   if (open) {
@@ -140,7 +134,7 @@ export const Dialog = ({ entries, ...stackProps }: DialogProps) => {
         width="100%"
         alignItems="flex-start"
         divider={
-          <StackDivider borderColor="gray.600" margin="unset !important" />
+          <StackDivider borderColor={border} margin="unset !important" />
         }
         maxHeight="300px"
       >
@@ -155,7 +149,7 @@ export const Dialog = ({ entries, ...stackProps }: DialogProps) => {
 
         <VStack
           divider={
-            <StackDivider borderColor="gray.600" margin="unset !important" />
+            <StackDivider borderColor={border} margin="unset !important" />
           }
           flexGrow={1}
         >

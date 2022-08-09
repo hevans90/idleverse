@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useReactiveVar } from '@apollo/client';
 import { CelestialByIdQuery } from '@idleverse/galaxy-gql';
-import { hexStringToNumber, theme } from '@idleverse/theme';
+import { hexStringToNumber } from '@idleverse/theme';
 import { useApp } from '@inlet/react-pixi';
 import { PixelateFilter } from '@pixi/filter-pixelate';
 import { Container, TickerCallback } from 'pixi.js';
@@ -19,6 +19,7 @@ import {
   createRadialEllipse,
 } from './utils/graphics-utils';
 
+import { useUiBackground } from '../../hooks/use-ui-background';
 import { useResize } from '../_utils/use-resize.hook';
 import { useViewport } from '../_utils/use-viewport.hook';
 import { Planet, PlanetConfig } from './models';
@@ -39,6 +40,8 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
   const app = useApp();
 
   const size = useResize();
+
+  const { canvasBorder } = useUiBackground();
 
   const selectedIndicatorTickerRef = useRef<TickerCallback<unknown>>();
 
@@ -137,7 +140,7 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
               origin.y,
               orbit.x,
               orbit.y,
-              hexStringToNumber(theme.colors.gray['700'])
+              hexStringToNumber(canvasBorder)
             );
 
             solarSystemContainerRef.current.addChild(radialCircle);

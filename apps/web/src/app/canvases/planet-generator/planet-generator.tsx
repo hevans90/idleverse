@@ -1,15 +1,16 @@
 import { useQuery, useReactiveVar } from '@apollo/client';
-import { Box, Theme, useTheme } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import {
   TerrainHexPalettesDocument,
   TerrainHexPalettesQuery,
 } from '@idleverse/galaxy-gql';
-import { hexStringToNumber } from '@idleverse/theme';
+import { colors, hexStringToNumber } from '@idleverse/theme';
 import { Stats } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { DataTexture } from 'three';
 import { Loading } from '../../components/loading';
+import { colorsVar } from '../../_state/colors';
 import { RingConfig } from '../../_state/models';
 import {
   planetGenerationColorDrawerVar,
@@ -43,9 +44,9 @@ export const PlanetGenerator = ({
 
   const { width, height } = useResize('planet-gen');
 
-  const containerRef = useRef<HTMLDivElement>();
+  const { primary } = useReactiveVar(colorsVar);
 
-  const { colors } = useTheme<Theme>();
+  const containerRef = useRef<HTMLDivElement>();
 
   const {
     ui,
@@ -152,7 +153,7 @@ export const PlanetGenerator = ({
             />
             <CameraController />
             <Pixelate
-              bgColor={hexStringToNumber(colors.gray['800'])}
+              bgColor={hexStringToNumber(colors[primary]['800'])}
               pixelSize={pixelSize}
             />
           </Suspense>

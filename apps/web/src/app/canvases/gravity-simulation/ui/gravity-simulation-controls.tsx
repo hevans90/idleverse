@@ -1,12 +1,13 @@
 import { useReactiveVar } from '@apollo/client';
-import { Box, Button, HStack, Text, useColorModeValue } from '@chakra-ui/react';
+import { Box, Button, HStack, Text } from '@chakra-ui/react';
 import { useEffect } from 'react';
+import { useUiBackground } from '../../../hooks/use-ui-background';
 import { simulationPaused, timeVar } from '../../../_state/reactive-variables';
 
 export const galaxySimControlsHeight = 80;
 
 export const GravitySimulationControls = () => {
-  const color = useColorModeValue('gray.200', 'gray.600');
+  const { bg, border } = useUiBackground();
 
   const time = useReactiveVar(timeVar);
   const paused = useReactiveVar(simulationPaused);
@@ -21,7 +22,11 @@ export const GravitySimulationControls = () => {
       padding="1rem"
       display="flex"
       flexDirection="column"
-      bgColor={color}
+      bgColor={bg}
+      borderWidth="1px"
+      borderStyle="solid"
+      borderColor={border}
+      borderBottomWidth={0}
       position="absolute"
       bottom="0"
       left="0"

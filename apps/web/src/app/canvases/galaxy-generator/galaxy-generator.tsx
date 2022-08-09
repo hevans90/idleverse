@@ -6,9 +6,11 @@ import {
   generateCelestials,
   getCelestialPosition,
 } from '@idleverse/galaxy-gen';
+import { colors } from '@idleverse/theme';
 import { useApp } from '@inlet/react-pixi';
 import { Container, Graphics, TickerCallback } from 'pixi.js';
 import { useEffect, useRef } from 'react';
+import { colorsVar } from '../../_state/colors';
 import {
   animateVar,
   galaxyConfigVar,
@@ -105,7 +107,11 @@ export const GalaxyGenerator = () => {
     stars.current = generateCelestials(galaxyConfig.stars, galaxyConfig.seed);
 
     stars.current.forEach((star) => {
-      const _star = Star(getCelestialPosition(star, galaxyConfigVar()));
+      const _star = Star({
+        ...getCelestialPosition(star, galaxyConfigVar()),
+        claimedCol: colors[colorsVar().secondary]['300'],
+        unclaimedCol: colors[colorsVar().secondary]['200'],
+      });
       galaxyContainer.current.addChild(_star);
     });
   }, [galaxyConfig.stars, galaxyConfig.seed]);

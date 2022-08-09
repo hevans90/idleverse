@@ -7,17 +7,19 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  StackDivider,
+  SimpleGrid,
   Switch,
   Text,
   useColorMode,
-  VStack,
 } from '@chakra-ui/react';
+import { useUiBackground } from '../../hooks/use-ui-background';
+import { colorsVar } from '../../_state/colors';
 import {
-  layoutVar,
   debugVar,
   fpsVar,
+  layoutVar,
 } from '../../_state/persisted-reactive-variables';
+import { ThemePalettePicker } from './theme-palette-picker';
 
 export const EscMenuContainer = ({ isOpen, onClose }) => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -28,77 +30,76 @@ export const EscMenuContainer = ({ isOpen, onClose }) => {
 
   const fps = useReactiveVar(fpsVar);
 
+  const { bg, border, bgLight } = useUiBackground();
+
+  const { secondary } = useReactiveVar(colorsVar);
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="2xl" isCentered>
+    <Modal isOpen={isOpen} onClose={onClose} size="3xl" isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader borderBottom="1px solid" borderBottomColor="gray.600">
+        <ModalHeader
+          bg={bg}
+          borderTopRightRadius={6}
+          borderTopLeftRadius={6}
+          borderBottom="1px solid"
+          borderBottomColor={border}
+        >
           Settings
         </ModalHeader>
         <ModalCloseButton />
-        <ModalBody paddingBottom={4}>
-          <HStack divider={<StackDivider borderColor="gray.600" />}>
-            <VStack
-              width="50%"
-              divider={<StackDivider borderColor="gray.600" />}
-              spacing={5}
-            >
-              <HStack width="100%" paddingTop={3}>
-                <Text flexGrow={1}>Chat</Text>
-                <Switch
-                  isChecked={sideNav}
-                  onChange={() => {
-                    layoutVar({ sideNav: !sideNav, toolBar });
-                  }}
-                  colorScheme="teal"
-                  size="lg"
-                />
-              </HStack>
-              <HStack width="100%">
-                <Text flexGrow={1}>Debug</Text>
-                <Switch
-                  isChecked={debug}
-                  onChange={() => {
-                    debugVar(!debug);
-                  }}
-                  colorScheme="teal"
-                  size="lg"
-                />
-              </HStack>
-              <HStack width="100%">
-                <Text flexGrow={1}>...</Text>
-              </HStack>
-            </VStack>
-            <VStack
-              width="50%"
-              divider={<StackDivider borderColor="gray.600" />}
-              spacing={5}
-            >
-              <HStack width="100%" paddingTop={3}>
-                <Text flexGrow={1}>Dark Theme</Text>
-                <Switch
-                  isChecked={colorMode === 'dark'}
-                  onChange={toggleColorMode}
-                  colorScheme="teal"
-                  size="lg"
-                />
-              </HStack>
-              <HStack width="100%">
-                <Text flexGrow={1}>FPS Counters</Text>
-                <Switch
-                  isChecked={fps}
-                  onChange={() => {
-                    fpsVar(!fps);
-                  }}
-                  colorScheme="teal"
-                  size="lg"
-                />
-              </HStack>
-              <HStack width="100%">
-                <Text flexGrow={1}>...</Text>
-              </HStack>
-            </VStack>
-          </HStack>
+        <ModalBody
+          bg={bg}
+          paddingBottom={4}
+          borderBottomRightRadius={6}
+          borderBottomLeftRadius={6}
+        >
+          <SimpleGrid minChildWidth="300px" spacing={5}>
+            <ThemePalettePicker palette="primary" />
+            <ThemePalettePicker palette="secondary" />
+            <HStack>
+              <Text flexGrow={1}>Chat</Text>
+              <Switch
+                isChecked={sideNav}
+                onChange={() => {
+                  layoutVar({ sideNav: !sideNav, toolBar });
+                }}
+                colorScheme={secondary}
+                size="lg"
+              />
+            </HStack>
+            <HStack>
+              <Text flexGrow={1}>Debug</Text>
+              <Switch
+                isChecked={debug}
+                onChange={() => {
+                  debugVar(!debug);
+                }}
+                colorScheme={secondary}
+                size="lg"
+              />
+            </HStack>
+            <HStack>
+              <Text flexGrow={1}>Dark Theme</Text>
+              <Switch
+                isChecked={colorMode === 'dark'}
+                onChange={toggleColorMode}
+                colorScheme={secondary}
+                size="lg"
+              />
+            </HStack>
+            <HStack>
+              <Text flexGrow={1}>FPS Counters</Text>
+              <Switch
+                isChecked={fps}
+                onChange={() => {
+                  fpsVar(!fps);
+                }}
+                colorScheme={secondary}
+                size="lg"
+              />
+            </HStack>
+          </SimpleGrid>
         </ModalBody>
 
         {/* <ModalFooter></ModalFooter> */}

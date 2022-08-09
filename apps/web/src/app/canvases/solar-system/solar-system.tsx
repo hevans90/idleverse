@@ -13,7 +13,7 @@ import {
   createRadialEllipse,
 } from '../celestial-viewer/utils/graphics-utils';
 
-import { hexStringToNumber, theme } from '@idleverse/theme';
+import { colors, hexStringToNumber } from '@idleverse/theme';
 import { Planet, PlanetConfig } from '../celestial-viewer/models';
 import {
   createPlanet,
@@ -111,7 +111,7 @@ export const SolarSystem = () => {
             origin.y,
             orbit.x,
             orbit.y,
-            hexStringToNumber(theme.colors.gray['300'])
+            hexStringToNumber(colors.gray['300'])
           );
 
           solarSystemContainerRef.current.addChild(radialCircle);

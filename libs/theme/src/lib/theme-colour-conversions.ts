@@ -13,7 +13,10 @@ export type ThemeShades =
   | '800'
   | '900';
 
-export const themeColorToHex = (col: string, colors: Theme['colors']) => {
+export const themeColorToHex = (
+  col: string,
+  colors: Partial<Theme['colors']>
+) => {
   const split = col.split('.');
 
   const palette = split[0] as keyof Theme['colors'];

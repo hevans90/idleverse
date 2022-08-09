@@ -1,14 +1,14 @@
 import { useReactiveVar } from '@apollo/client';
-import { Box, useColorModeValue } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
+import { useUiBackground } from '../hooks/use-ui-background';
 import { responsiveFontProps } from '../_responsive-utils/font-props';
 import { planetVar } from '../_state/planet-viewer';
 import { celestialVar, galaxyConfigVar } from '../_state/reactive-variables';
 
 export const Breadcrumb = () => {
-  const bg = useColorModeValue('gray.300', 'gray.700');
-  const border = useColorModeValue('gray.200', 'gray.600');
+  const { bg, border } = useUiBackground();
 
   const { name: galaxyName } = useReactiveVar(galaxyConfigVar);
   const celestial = useReactiveVar(celestialVar);

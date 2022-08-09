@@ -1,3 +1,4 @@
+import { useReactiveVar } from '@apollo/client';
 import { RepeatIcon } from '@chakra-ui/icons';
 import {
   Box,
@@ -14,11 +15,12 @@ import {
   SliderThumb,
   SliderTrack,
   Text,
-  useColorModeValue,
 } from '@chakra-ui/react';
 import { generateCelestialName } from '@idleverse/galaxy-gen';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { useUiBackground } from '../../../hooks/use-ui-background';
+import { colorsVar } from '../../../_state/colors';
 import { PlanetGenerationConfig } from '../../../_state/models';
 import { planetGeneratorConfigVar } from '../../../_state/planet-generation';
 
@@ -64,7 +66,8 @@ export const planetGeneratorSlidersConfig: PlanetGeneratorSliderType[] = [
 ];
 
 export const PlanetGeneratorSliders = () => {
-  const bgColor = useColorModeValue('gray.200', 'gray.600');
+  const { bg, border } = useUiBackground();
+  const { secondary } = useReactiveVar(colorsVar);
 
   const initialPlanetGenerationConfig = planetGeneratorConfigVar();
 
@@ -81,7 +84,10 @@ export const PlanetGeneratorSliders = () => {
     <HStack
       className="footer"
       padding={3}
-      bgColor={bgColor}
+      bgColor={bg}
+      borderStyle="solid"
+      borderColor={border}
+      borderTopWidth="1px"
       position="absolute"
       bottom="0"
       left="0"
@@ -120,7 +126,7 @@ export const PlanetGeneratorSliders = () => {
           />
           <IconButton
             marginLeft="0.3rem"
-            colorScheme="teal"
+            colorScheme={secondary}
             aria-label="Generate new name"
             icon={<RepeatIcon />}
             onClick={() => {
@@ -150,7 +156,7 @@ export const PlanetGeneratorSliders = () => {
           />
           <IconButton
             marginLeft="0.3rem"
-            colorScheme="teal"
+            colorScheme={secondary}
             aria-label="Generate new seed"
             icon={<RepeatIcon />}
             onClick={() => {

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { DataUriGenerator } from '../canvases/celestial-viewer/data-uri-generator';
 import { runPixelDataGenOnWorker } from '../canvases/planet-generator/texture-generation/run-texture-gen-on-worker';
 import { characterCreationVar } from '../_state/character-creation';
+import { colorsVar } from '../_state/colors';
 import { planetGenerationColorDrawerVar } from '../_state/planet-generation';
 import { creationStep } from './creation-types';
 
@@ -22,6 +23,7 @@ const WorkflowButton = ({
   value?: string;
   imageUrl?: string;
 }) => {
+  const { secondary } = useReactiveVar(colorsVar);
   return (
     <Box
       as={Button}
@@ -36,13 +38,13 @@ const WorkflowButton = ({
       borderRadius="3px"
       fontWeight="semibold"
       fontSize={['xxs', 'xs', 'xs', 'sm', 'md']}
-      bg={value ? 'teal.600' : 'whiteAlpha.200'}
+      bg={value ? `${secondary}.600` : 'whiteAlpha.200'}
       color="white.900"
-      _hover={{ bg: value ? 'teal.500' : 'whiteAlpha.300' }}
+      _hover={{ bg: value ? `${secondary}.500` : 'whiteAlpha.300' }}
       _active={{
         bg: 'whiteAlpha.300',
         transform: 'scale(0.98)',
-        borderColor: 'teal.700',
+        borderColor: `${secondary}.700`,
       }}
       paddingInlineStart={4}
       paddingInlineEnd={4}

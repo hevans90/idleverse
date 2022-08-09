@@ -14,11 +14,10 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import { ChatSubmit } from '../../components/chat-submit';
 import { Loading } from '../../components/loading';
+import { useUiBackground } from '../../hooks/use-ui-background';
 
 export const SideNav = () => {
-  const color = useColorModeValue('gray.200', 'gray.700');
-
-  const borderColor = useColorModeValue('gray.200', 'gray.600');
+  const { bg, border } = useUiBackground();
 
   const endOfChat = useRef<HTMLDivElement>(null);
 
@@ -59,8 +58,8 @@ export const SideNav = () => {
         overflowY="auto"
         maxHeight="100vh"
         position="relative"
-        bgColor={color}
-        borderColor={borderColor}
+        bgColor={bg}
+        borderColor={border}
         borderRightStyle="solid"
         borderRightWidth="1px"
       >

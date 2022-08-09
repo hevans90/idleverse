@@ -1,4 +1,4 @@
-import { useSubscription } from '@apollo/client';
+import { useReactiveVar, useSubscription } from '@apollo/client';
 import { useAuth0 } from '@auth0/auth0-react';
 import {
   Box,
@@ -18,17 +18,24 @@ import {
 } from '@idleverse/galaxy-gql';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { Loading } from '../components/loading';
+import { useUiBackground } from '../hooks/use-ui-background';
 import { responsiveFontProps } from '../_responsive-utils/font-props';
+import { colorsVar } from '../_state/colors';
 
 export const Home = () => {
   const { user } = useAuth0();
 
-  const bgCol = useColorModeValue('gray.400', 'gray.900');
-  const tealTextColor = useColorModeValue('teal.900', 'teal.300');
+  const { bgDarker, border } = useUiBackground();
+
+  const { secondary } = useReactiveVar(colorsVar);
+
+  const secondaryTextColor = useColorModeValue(
+    `${secondary}.900`,
+    `${secondary}.300`
+  );
   const redTextColor = useColorModeValue('red.900', 'red.300');
-  const border = useColorModeValue('gray.200', 'gray.600');
-  const hoverCol = useColorModeValue('teal.900', 'teal.200');
-  const hoverBg = useColorModeValue('teal.300', 'teal.800');
+  const hoverCol = useColorModeValue(`${secondary}.900`, `${secondary}.200`);
+  const hoverBg = useColorModeValue(`${secondary}.300`, `${secondary}.800`);
 
   const customHover = {
     _hover: {
@@ -87,7 +94,7 @@ export const Home = () => {
               <Button {...responsiveFontProps}>Make a galaxy</Button>
             </Link>
             <Link as={ReactRouterLink} to="/galaxies">
-              <Button {...responsiveFontProps} colorScheme="teal">
+              <Button {...responsiveFontProps} colorScheme={secondary}>
                 Join a galaxy
               </Button>
             </Link>
@@ -125,7 +132,7 @@ export const Home = () => {
                 ) => (
                   <Box
                     key={i}
-                    bgColor={bgCol}
+                    bgColor={bgDarker}
                     borderWidth="1px"
                     borderStyle="solid"
                     borderColor={border}
@@ -143,7 +150,7 @@ export const Home = () => {
                         </HStack>
                         <HStack width="100%" justifyContent="space-between">
                           <Text>Owned celestials:</Text>
-                          <Text color={tealTextColor}>
+                          <Text color={secondaryTextColor}>
                             {ownedCelestials.length}
                           </Text>
                         </HStack>
@@ -174,7 +181,7 @@ export const Home = () => {
                                 {name}
                               </Text>
                               {planets.length >= 1 ? (
-                                <Text fontSize="xxs" color={tealTextColor}>
+                                <Text fontSize="xxs" color={secondaryTextColor}>
                                   {planets.length}{' '}
                                   {planets.length > 1 ? 'planets' : 'planet'}
                                 </Text>

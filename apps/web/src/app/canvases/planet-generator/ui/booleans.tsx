@@ -1,22 +1,22 @@
-import {
-  Checkbox,
-  HStack,
-  Text,
-  useColorModeValue,
-  VStack,
-} from '@chakra-ui/react';
+import { Checkbox, HStack, Text, VStack } from '@chakra-ui/react';
+import { useUiBackground } from '../../../hooks/use-ui-background';
 import { planetGeneratorConfigVar } from '../../../_state/planet-generation';
 import { planetGenerationControlsHeight } from './sliders';
 
 export const PlanetGeneratorBooleans = () => {
-  const bgColor = useColorModeValue('gray.200', 'gray.600');
+  const { bg, border } = useUiBackground();
 
   return (
     <VStack
       position="absolute"
       right="0"
       bottom={`${planetGenerationControlsHeight}px`}
-      bgColor={bgColor}
+      bgColor={bg}
+      borderWidth="1px"
+      borderStyle="solid"
+      borderColor={border}
+      borderBottomWidth={0}
+      borderRightWidth={0}
       spacing={5}
       padding={3}
     >

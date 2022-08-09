@@ -11,7 +11,6 @@ import {
   StackDivider,
   StackProps,
   Text,
-  useColorModeValue,
   VStack,
 } from '@chakra-ui/react';
 import { CelestialByIdQuery } from '@idleverse/galaxy-gql';
@@ -21,6 +20,8 @@ import {
 } from '../../../_state/celestial-viewer';
 
 import { Link as ReactRouterLink } from 'react-router-dom';
+import { useUiBackground } from '../../../hooks/use-ui-background';
+import { colorsVar } from '../../../_state/colors';
 
 type Props = Pick<
   CelestialByIdQuery['celestial_by_pk'],
@@ -40,8 +41,9 @@ export const InfoBox = ({
 }: Props) => {
   const planetDataUris = useReactiveVar(celestialViewerPlanetDataUris);
 
-  const bg = useColorModeValue('gray.300', 'gray.700');
-  const border = useColorModeValue('gray.200', 'gray.600');
+  const { bg, border } = useUiBackground();
+
+  const { primary, secondary } = useReactiveVar(colorsVar);
 
   const selectedPlanetId = useReactiveVar(celestialViewerSelectedPlanet)?.id;
 
@@ -94,8 +96,8 @@ export const InfoBox = ({
                   _hover={{
                     fontWeight: 'bold',
                     cursor: 'pointer',
-                    background: 'gray.600',
-                    color: 'teal.500',
+                    background: `${primary}.600`,
+                    color: `${secondary}.500`,
                   }}
                   onClick={() =>
                     celestialViewerSelectedPlanet({
@@ -103,7 +105,11 @@ export const InfoBox = ({
                       id: planet.id,
                     })
                   }
-                  color={selectedPlanetId === planet.id ? 'teal.500' : 'white'}
+                  color={
+                    selectedPlanetId === planet.id
+                      ? `${secondary}.500`
+                      : 'white'
+                  }
                 >
                   {selectedPlanetId === planet.id && (
                     <ChevronRightIcon
@@ -158,7 +164,7 @@ const PlanetInfo = ({
     'planets'
   >['planets'][0];
 }) => {
-  const border = useColorModeValue('gray.200', 'gray.600');
+  const { border } = useUiBackground();
 
   return (
     <VStack
