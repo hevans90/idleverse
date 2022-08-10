@@ -14,11 +14,8 @@ import {
 } from '@chakra-ui/react';
 import { useUiBackground } from '../../hooks/use-ui-background';
 import { colorsVar } from '../../_state/colors';
-import {
-  debugVar,
-  fpsVar,
-  layoutVar,
-} from '../../_state/persisted-reactive-variables';
+import { debugVar, fpsVar, layoutVar } from '../../_state/global-settings';
+
 import { ThemePalettePicker } from './theme-palette-picker';
 
 export const EscMenuContainer = ({ isOpen, onClose }) => {

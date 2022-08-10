@@ -2,7 +2,7 @@ import { useReactiveVar } from '@apollo/client';
 import { Viewport } from 'pixi-viewport';
 import { Application, Container, Graphics, Text } from 'pixi.js';
 import { useEffect, useRef } from 'react';
-import { debugVar } from '../../_state/persisted-reactive-variables';
+import { debugVar } from '../../_state/global-settings';
 import { indicatorFactory } from '../galaxy-generator/utils/indicator-factory';
 
 /**

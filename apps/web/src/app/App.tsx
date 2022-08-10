@@ -7,7 +7,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { environment } from '../environments/environment';
 import { Layout } from './components/layout';
 import { Loading } from './components/loading';
-import { PreloadContainer } from './containers/preload.container';
+import { PreloadContainer } from './preload.container';
 import { Registration } from './registration/registration';
 import { routes } from './routes';
 import {

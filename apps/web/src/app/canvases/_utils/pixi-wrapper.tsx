@@ -36,7 +36,7 @@ export const PixiWrapper = (props: {
         </Stage>
       </Box>
       {props?.ui}
-      <InGameMenu />
+      <InGameMenu position="absolute" bottom="30vh" left={0} />
       <Dialog
         entries={entries}
         position="absolute"

@@ -1,7 +1,7 @@
 import { useReactiveVar } from '@apollo/client';
 import { Application, Text, TickerCallback } from 'pixi.js';
 import { useEffect, useRef } from 'react';
-import { fpsVar } from '../../../_state/persisted-reactive-variables';
+import { fpsVar } from '../../../_state/global-settings';
 import { indicatorFactory } from './indicator-factory';
 
 export const useFpsTracker = (

@@ -1,5 +1,14 @@
-import { HStack, StackDivider, StackProps } from '@chakra-ui/react';
+import { SettingsIcon } from '@chakra-ui/icons';
+import {
+  Icon,
+  IconButton,
+  StackDivider,
+  StackProps,
+  VStack,
+} from '@chakra-ui/react';
+import { MdMenuBook } from 'react-icons/md';
 import { useUiBackground } from '../hooks/use-ui-background';
+import { globalUiVar } from '../_state/global-ui';
 
 type InGameMenuProps = StackProps;
 
@@ -7,16 +16,35 @@ export const InGameMenu = ({ ...stackProps }: InGameMenuProps) => {
   const { bg, border } = useUiBackground();
 
   return (
-    <HStack
+    <VStack
       {...stackProps}
       bgColor={bg}
       borderWidth="1px"
       borderStyle="solid"
       borderColor={border}
-      width="100%"
       alignItems="flex-start"
+      width={['50px']}
       divider={<StackDivider borderColor={border} margin="unset !important" />}
       maxHeight="300px"
-    ></HStack>
+    >
+      <IconButton
+        borderRadius={0}
+        aria-label="Quest Log"
+        size="lg"
+        icon={<Icon as={MdMenuBook} />}
+        onClick={() => {
+          //
+        }}
+      />
+      <IconButton
+        borderRadius={0}
+        aria-label="Quest Log"
+        size="lg"
+        icon={<SettingsIcon />}
+        onClick={() => {
+          globalUiVar({ ...globalUiVar(), escapeMenuOpen: true });
+        }}
+      />
+    </VStack>
   );
 };

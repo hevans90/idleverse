@@ -5,8 +5,8 @@ import { useKeypress } from '../../hooks/use-keypress';
 import { useUiBackground } from '../../hooks/use-ui-background';
 import { Auth } from '../../_auth/auth';
 import { responsiveFontProps } from '../../_responsive-utils/font-props';
+import { layoutVar } from '../../_state/global-settings';
 import { globalUiVar } from '../../_state/global-ui';
-import { layoutVar } from '../../_state/persisted-reactive-variables';
 import { EscMenuContainer } from '../esc-menu/escape-menu.container';
 
 export const ToolBar = () => {
@@ -15,9 +15,9 @@ export const ToolBar = () => {
   useKeypress('Escape', () => {
     if (!isOpen || !escapeMenuOpen) {
       onOpen();
-      globalUiVar({ ...globalUiVar, escapeMenuOpen: true });
+      globalUiVar({ ...globalUiVar(), escapeMenuOpen: true });
     } else {
-      globalUiVar({ ...globalUiVar, escapeMenuOpen: false });
+      globalUiVar({ ...globalUiVar(), escapeMenuOpen: false });
     }
   });
 
@@ -32,7 +32,7 @@ export const ToolBar = () => {
       <EscMenuContainer
         isOpen={isOpen || escapeMenuOpen}
         onClose={() => {
-          globalUiVar({ ...globalUiVar, escapeMenuOpen: false });
+          globalUiVar({ ...globalUiVar(), escapeMenuOpen: false });
           onClose();
         }}
       ></EscMenuContainer>

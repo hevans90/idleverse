@@ -8,12 +8,12 @@ import {
   UserInfoQuery,
 } from '@idleverse/galaxy-gql';
 import { useEffect, useState } from 'react';
-import { loadUserInfo } from '../asset-loading/load-users';
-import { Loading } from '../components/loading';
-import { backgroundsVar } from '../_state/backgrounds';
-import { factionsVar } from '../_state/factions';
-import { playableRacesVar } from '../_state/playable-races';
-import { selfVar } from '../_state/reactive-variables';
+import { loadUserInfo } from './asset-loading/load-users';
+import { Loading } from './components/loading';
+import { backgroundsVar } from './_state/backgrounds';
+import { factionsVar } from './_state/factions';
+import { playableRacesVar } from './_state/playable-races';
+import { selfVar } from './_state/reactive-variables';
 
 /**
  * Performs all async loading and blocks any children rendering until complete.

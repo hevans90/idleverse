@@ -18,9 +18,9 @@ import {
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { ResponsiveGrid } from '../components/layout';
-import { ToolBar } from '../containers/toolbar/toolbar';
+import { ToolBar } from '../global-ui/toolbar/toolbar';
 import { useUiBackground } from '../hooks/use-ui-background';
-import { layoutVar } from '../_state/persisted-reactive-variables';
+import { layoutVar } from '../_state/global-settings';
 import { selfVar } from '../_state/reactive-variables';
 
 type Inputs = {
