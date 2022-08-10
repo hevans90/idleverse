@@ -4,8 +4,11 @@ import { Box, Button, HStack, Kbd, useDisclosure } from '@chakra-ui/react';
 import { useKeypress } from '../../hooks/use-keypress';
 import { useUiBackground } from '../../hooks/use-ui-background';
 import { Auth } from '../../_auth/auth';
-import { responsiveFontProps } from '../../_responsive-utils/font-props';
-import { layoutVar } from '../../_state/global-settings';
+import {
+  responsiveFontProps,
+  responsiveIconProps,
+} from '../../_responsive-utils/font-props';
+import { hotkeyHintsVar, layoutVar } from '../../_state/global-settings';
 import { globalUiVar } from '../../_state/global-ui';
 import { EscMenuContainer } from '../esc-menu/escape-menu.container';
 
@@ -26,6 +29,8 @@ export const ToolBar = () => {
   const { sideNav, toolBar } = useReactiveVar(layoutVar);
 
   const { escapeMenuOpen } = useReactiveVar(globalUiVar);
+
+  const hotkeyHints = useReactiveVar(hotkeyHintsVar);
 
   return (
     <>
@@ -56,11 +61,15 @@ export const ToolBar = () => {
             }}
             {...responsiveFontProps}
           >
-            <ChatIcon {...responsiveFontProps}></ChatIcon>
+            <ChatIcon {...responsiveIconProps}></ChatIcon>
           </Button>
           <Button onClick={() => onOpen()} {...responsiveFontProps}>
-            <SettingsIcon {...responsiveFontProps}></SettingsIcon>&nbsp;{' '}
-            <Kbd>Esc</Kbd>
+            <SettingsIcon {...responsiveIconProps}></SettingsIcon>
+            {hotkeyHints && (
+              <>
+                &nbsp; <Kbd>Esc</Kbd>
+              </>
+            )}
           </Button>
         </HStack>
         <Auth></Auth>

@@ -1,6 +1,8 @@
 import { LayoutConfig } from './models';
 import { makeVarPersisted } from './utils';
 
+export const hotkeyHintsVar = makeVarPersisted<boolean>(true, 'hotkeyHints');
+
 export const debugVar = makeVarPersisted<boolean>(false, 'debug');
 
 export const fpsVar = makeVarPersisted<boolean>(false, 'fps');

@@ -14,7 +14,8 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import { useKeypress } from '../hooks/use-keypress';
 import { useUiBackground } from '../hooks/use-ui-background';
-import { DialogVar } from '../_state/dialog';
+import { dialogVar } from '../_state/dialog';
+import { hotkeyHintsVar } from '../_state/global-settings';
 
 type DialogProps = StackProps & {
   entries: DialogEntry[];
@@ -51,7 +52,8 @@ export const Dialog = ({ entries, ...stackProps }: DialogProps) => {
 
   const endOfDialogText = useRef<HTMLDivElement>(null);
 
-  const { open } = useReactiveVar(DialogVar);
+  const { open } = useReactiveVar(dialogVar);
+  const hotkeyHints = useReactiveVar(hotkeyHintsVar);
 
   useKeypress('Space', () => continueDialog());
 
@@ -67,7 +69,7 @@ export const Dialog = ({ entries, ...stackProps }: DialogProps) => {
       // end of entry, check if there is a next entry
       if (activeEntryIndex === entries.length - 1) {
         // END OF DIALOG
-        DialogVar({ ...DialogVar(), open: false });
+        dialogVar({ ...dialogVar(), open: false });
       } else {
         setActiveEntryIndex((prev) => prev + 1);
         setActiveEntry(entries[activeEntryIndex + 1]);
@@ -179,7 +181,7 @@ export const Dialog = ({ entries, ...stackProps }: DialogProps) => {
           <HStack width="100%" justifyContent="end" padding={2}>
             <Button onClick={continueDialog}>
               {continueButtonText} &nbsp;
-              <Kbd>Space</Kbd>
+              {hotkeyHints && <Kbd>Space</Kbd>}
             </Button>
           </HStack>
         </VStack>

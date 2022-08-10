@@ -1,7 +1,7 @@
 import { makeVar } from '@apollo/client';
 import { DialogEntry } from '../game-ui/dialog';
 
-export const DialogVar = makeVar<{ open: boolean; entries: DialogEntry[] }>({
+export const dialogVar = makeVar<{ open: boolean; entries: DialogEntry[] }>({
   open: false,
   entries: [
     {

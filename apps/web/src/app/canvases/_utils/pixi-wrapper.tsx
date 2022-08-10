@@ -5,7 +5,7 @@ import { Stage } from '@inlet/react-pixi';
 import { Dialog } from '../../game-ui/dialog';
 import { InGameMenu } from '../../game-ui/in-game-menu';
 import { useUiBackground } from '../../hooks/use-ui-background';
-import { DialogVar } from '../../_state/dialog';
+import { dialogVar } from '../../_state/dialog';
 import { useDisableWheelZoom } from './use-disable-wheel-zoom.hook';
 import { controls, useResize } from './use-resize.hook';
 
@@ -20,7 +20,7 @@ export const PixiWrapper = (props: {
 
   const size = useResize(props.resizeControls || 'none');
 
-  const { entries } = useReactiveVar(DialogVar);
+  const { entries } = useReactiveVar(dialogVar);
 
   return (
     <Box position="relative">
