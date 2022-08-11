@@ -13,8 +13,8 @@ export const useUiBackground = () => {
   const bgDarker = useColorModeValue(`${primary}.500`, `${primary}.900`);
   const border = useColorModeValue(`${primary}.200`, `${primary}.600`);
 
-  const canvasBg = colors[primary]['800'];
-  const canvasBorder = colors[primary]['600'];
+  const canvasBg: string = colors[primary]['800'];
+  const canvasBorder: string = colors[primary]['600'];
 
   return { bg, bgLight, bgDark, bgDarker, border, canvasBg, canvasBorder };
 };
