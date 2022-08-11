@@ -11,8 +11,10 @@ import {
   StackProps,
   Text,
   Tooltip,
+  useColorModeValue,
   VStack,
 } from '@chakra-ui/react';
+import { GiTalk } from 'react-icons/gi';
 import { MdMenuBook } from 'react-icons/md';
 import { useUiBackground } from '../hooks/use-ui-background';
 import {
@@ -35,10 +37,13 @@ const MenuToolTip = ({
 }) => {
   const { bgLight } = useUiBackground();
 
+  const color = useColorModeValue('gray.800', 'white');
+
   return (
     <Tooltip
       placement="right"
       bg={bgLight}
+      color={color}
       label={
         <HStack>
           <Text>{name}</Text> <Kbd>{kbd}</Kbd>
@@ -92,6 +97,17 @@ export const InGameMenu = ({ ...stackProps }: InGameMenuProps) => {
           }}
         >
           <Icon as={MdMenuBook} {...iconProps} />
+          {hotkeyHints && <Kbd {...responsiveFontProps}>J</Kbd>}
+        </Button>
+      </MenuToolTip>
+      <MenuToolTip name="NPC Dialog" kbd="D">
+        <Button
+          {...buttonProps}
+          onClick={() => {
+            globalUiVar({ ...globalUiVar(), npcDialogOpen: true });
+          }}
+        >
+          <Icon as={GiTalk} {...iconProps} />
           {hotkeyHints && <Kbd {...responsiveFontProps}>J</Kbd>}
         </Button>
       </MenuToolTip>

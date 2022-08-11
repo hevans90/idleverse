@@ -43,10 +43,10 @@ export const SideNav = () => {
     }
   }, [data]);
 
-  const chatUserColor = useColorModeValue('pink.500', 'pink.400');
-  const myUserColor = useColorModeValue('teal.700', 'teal.500');
+  const chatUserColor = useColorModeValue('pink.800', 'pink.400');
+  const myUserColor = useColorModeValue('teal.800', 'teal.500');
 
-  const chatMessageColor = useColorModeValue('gray.500', 'gray.300');
+  const chatMessageColor = useColorModeValue('gray.800', 'gray.300');
 
   return (
     <>
