@@ -16,7 +16,7 @@ export const ToolBar = () => {
   const { bg, border } = useUiBackground();
 
   useKeypress('Escape', () => {
-    if (!isOpen || !escapeMenuOpen) {
+    if (!escapeMenuOpen) {
       onOpen();
       globalUiVar({ ...globalUiVar(), escapeMenuOpen: true });
     } else {
@@ -24,7 +24,7 @@ export const ToolBar = () => {
     }
   });
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { onOpen, onClose } = useDisclosure();
 
   const { sideNav, toolBar } = useReactiveVar(layoutVar);
 
@@ -35,7 +35,7 @@ export const ToolBar = () => {
   return (
     <>
       <EscMenuContainer
-        isOpen={isOpen || escapeMenuOpen}
+        isOpen={escapeMenuOpen}
         onClose={() => {
           globalUiVar({ ...globalUiVar(), escapeMenuOpen: false });
           onClose();
