@@ -109,20 +109,12 @@ export const PlanetViewer = () => {
   }
   if (worldTextureGenerating) {
     return (
-      <Loading
-        width="100%"
-        height="100%"
-        text="Generating planetary surface"
-      ></Loading>
+      <Loading width="100%" height="100%" text="Generating planetary surface" />
     );
   }
   if (ringTexturesGenerating) {
     return (
-      <Loading
-        width="100%"
-        height="100%"
-        text="Generating planetary rings"
-      ></Loading>
+      <Loading width="100%" height="100%" text="Generating planetary rings" />
     );
   }
 
@@ -131,8 +123,12 @@ export const PlanetViewer = () => {
 
     return (
       <Box position="relative" width={width} height={height}>
-        <Canvas>
-          <Suspense fallback={null}>
+        <Suspense
+          fallback={
+            <Loading width="100%" height="100%" text="Rendering planet" />
+          }
+        >
+          <Canvas>
             <World
               planetRadius={radius}
               worldTexture={worldDataTexture}
@@ -168,10 +164,10 @@ export const PlanetViewer = () => {
             <CameraController />
             <Pixelate
               bgColor={hexStringToNumber(colors[primary]['800'])}
-              pixelSize={5}
+              pixelSize={2}
             />
-          </Suspense>
-        </Canvas>
+          </Canvas>
+        </Suspense>
       </Box>
     );
   } else {
