@@ -17,7 +17,7 @@ import { Loading } from '../../components/loading';
 import { useUiBackground } from '../../hooks/use-ui-background';
 
 export const SideNav = () => {
-  const { bg, border } = useUiBackground();
+  const { bgDark, border } = useUiBackground();
 
   const endOfChat = useRef<HTMLDivElement>(null);
 
@@ -58,7 +58,7 @@ export const SideNav = () => {
         overflowY="auto"
         maxHeight="100vh"
         position="relative"
-        bgColor={bg}
+        bgColor={bgDark}
         borderColor={border}
         borderRightStyle="solid"
         borderRightWidth="1px"
