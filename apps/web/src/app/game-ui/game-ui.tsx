@@ -5,12 +5,13 @@ import { dialogVar } from '../_state/dialog';
 import { globalUiVar } from '../_state/global-ui';
 import { Dialog } from './dialog';
 import { InGameMenu } from './in-game-menu';
+import { NpcContact } from './npc-contact/npc-contact';
 import { QuestJournal } from './quest-journal/quest-journal';
 
 export const GameUI = () => {
   const { entries } = useReactiveVar(dialogVar);
 
-  const { questJournalOpen } = useReactiveVar(globalUiVar);
+  const { questJournalOpen, npcContactOpen } = useReactiveVar(globalUiVar);
 
   useKeypress('KeyJ', () => {
     if (!questJournalOpen) {
@@ -20,8 +21,19 @@ export const GameUI = () => {
       globalUiVar({ ...globalUiVar(), questJournalOpen: false });
     }
   });
+  useKeypress('KeyD', () => {
+    if (!npcContactOpen) {
+      onNpcContactOpen();
+      globalUiVar({ ...globalUiVar(), npcContactOpen: true });
+    } else {
+      globalUiVar({ ...globalUiVar(), npcContactOpen: false });
+    }
+  });
 
   const { onOpen: onQuestJournalOpen, onClose: onQuestJournalClose } =
+    useDisclosure();
+
+  const { onOpen: onNpcContactOpen, onClose: onNpcContactClose } =
     useDisclosure();
 
   return (
@@ -32,6 +44,13 @@ export const GameUI = () => {
         onClose={() => {
           globalUiVar({ ...globalUiVar(), questJournalOpen: false });
           onQuestJournalClose();
+        }}
+      />
+      <NpcContact
+        isOpen={npcContactOpen}
+        onClose={() => {
+          globalUiVar({ ...globalUiVar(), npcContactOpen: false });
+          onNpcContactClose();
         }}
       />
       <Dialog

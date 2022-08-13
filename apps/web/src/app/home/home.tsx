@@ -13,8 +13,9 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import {
-  OngoingGalaxySessionsDocument,
-  OngoingGalaxySessionsSubscription,
+  GalacticEmpiresByUserIdDocument,
+  GalacticEmpiresByUserIdSubscription,
+  GalacticEmpiresByUserIdSubscriptionVariables,
 } from '@idleverse/galaxy-gql';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { Loading } from '../components/loading';
@@ -45,11 +46,10 @@ export const Home = () => {
     },
   };
 
-  const { data, loading: loadingGameplaySessions } =
-    useSubscription<OngoingGalaxySessionsSubscription>(
-      OngoingGalaxySessionsDocument,
-      { variables: { id: user.sub } }
-    );
+  const { data, loading: loadingGameplaySessions } = useSubscription<
+    GalacticEmpiresByUserIdSubscription,
+    GalacticEmpiresByUserIdSubscriptionVariables
+  >(GalacticEmpiresByUserIdDocument, { variables: { userId: user.sub } });
 
   if (loadingGameplaySessions)
     return <Loading text="Loading gameplay sessions"></Loading>;
@@ -108,8 +108,8 @@ export const Home = () => {
         >
           <>
             <Text marginBottom={5}>
-              You have {data.galaxy_aggregate.nodes.length} galactic&nbsp;
-              {data.galaxy_aggregate.nodes.length === 1 ? 'empire' : 'empires'}.
+              You have {data.galactic_empire.length} galactic&nbsp;
+              {data.galactic_empire.length === 1 ? 'empire' : 'empires'}.
             </Text>
 
             <SimpleGrid
@@ -121,12 +121,11 @@ export const Home = () => {
               borderStyle="solid"
               borderColor={border}
             >
-              {data.galaxy_aggregate.nodes.map(
+              {data.galactic_empire.map(
                 (
                   {
-                    name,
-                    id: galaxyId,
-                    celestials_aggregate: { nodes: ownedCelestials },
+                    galaxy: { name, id: galaxyId },
+                    celestials: ownedCelestials,
                   },
                   i
                 ) => (
@@ -162,37 +161,32 @@ export const Home = () => {
                         maxHeight="200px"
                         overflow="auto"
                       >
-                        {ownedCelestials.map(
-                          (
-                            { id, name, planets_aggregate: { nodes: planets } },
-                            i
-                          ) => (
-                            <Link
-                              key={i}
-                              as={ReactRouterLink}
-                              to={`/celestials/${id}`}
-                              borderRadius="3px"
-                              borderWidth="1px"
-                              borderStyle="solid"
-                              padding={2}
-                              {...customHover}
-                            >
-                              <Text fontSize="xs" marginBottom={1}>
-                                {name}
+                        {ownedCelestials.map(({ id, name, planets }, i) => (
+                          <Link
+                            key={i}
+                            as={ReactRouterLink}
+                            to={`/celestials/${id}`}
+                            borderRadius="3px"
+                            borderWidth="1px"
+                            borderStyle="solid"
+                            padding={2}
+                            {...customHover}
+                          >
+                            <Text fontSize="xs" marginBottom={1}>
+                              {name}
+                            </Text>
+                            {planets.length >= 1 ? (
+                              <Text fontSize="xxs" color={secondaryTextColor}>
+                                {planets.length}{' '}
+                                {planets.length > 1 ? 'planets' : 'planet'}
                               </Text>
-                              {planets.length >= 1 ? (
-                                <Text fontSize="xxs" color={secondaryTextColor}>
-                                  {planets.length}{' '}
-                                  {planets.length > 1 ? 'planets' : 'planet'}
-                                </Text>
-                              ) : (
-                                <Text fontSize="xxs" color={redTextColor}>
-                                  no planets
-                                </Text>
-                              )}
-                            </Link>
-                          )
-                        )}
+                            ) : (
+                              <Text fontSize="xxs" color={redTextColor}>
+                                no planets
+                              </Text>
+                            )}
+                          </Link>
+                        ))}
                       </SimpleGrid>
 
                       <VStack flexGrow={1} justify="end" width="100%">

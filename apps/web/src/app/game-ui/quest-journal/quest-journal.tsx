@@ -19,13 +19,16 @@ import {
 } from '@chakra-ui/react';
 import { useUiBackground } from '../../hooks/use-ui-background';
 import { colorsVar } from '../../_state/colors';
-import { hotkeyHintsVar } from '../../_state/global-settings';
 import { globalUiVar } from '../../_state/global-ui';
 import { QuestList } from './quest-list';
 
-export const QuestJournal = ({ isOpen, onClose }) => {
-  const hotkeyHints = useReactiveVar(hotkeyHintsVar);
-
+export const QuestJournal = ({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => unknown;
+}) => {
   const { bg, border, bgDark, bgLight } = useUiBackground();
 
   const { secondary } = useReactiveVar(colorsVar);

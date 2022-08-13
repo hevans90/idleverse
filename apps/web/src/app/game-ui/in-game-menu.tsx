@@ -100,15 +100,15 @@ export const InGameMenu = ({ ...stackProps }: InGameMenuProps) => {
           {hotkeyHints && <Kbd {...responsiveFontProps}>J</Kbd>}
         </Button>
       </MenuToolTip>
-      <MenuToolTip name="NPC Dialog" kbd="D">
+      <MenuToolTip name="NPC Contact" kbd="D">
         <Button
           {...buttonProps}
           onClick={() => {
-            globalUiVar({ ...globalUiVar(), npcDialogOpen: true });
+            globalUiVar({ ...globalUiVar(), npcContactOpen: true });
           }}
         >
           <Icon as={GiTalk} {...iconProps} />
-          {hotkeyHints && <Kbd {...responsiveFontProps}>J</Kbd>}
+          {hotkeyHints && <Kbd {...responsiveFontProps}>D</Kbd>}
         </Button>
       </MenuToolTip>
       <MenuToolTip name="Settings" kbd="Esc">
