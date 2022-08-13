@@ -1,5 +1,4 @@
 import { useReactiveVar, useSubscription } from '@apollo/client';
-import { useAuth0 } from '@auth0/auth0-react';
 import {
   Box,
   Button,
@@ -22,9 +21,10 @@ import { Loading } from '../components/loading';
 import { useUiBackground } from '../hooks/use-ui-background';
 import { responsiveFontProps } from '../_responsive-utils/font-props';
 import { colorsVar } from '../_state/colors';
+import { selfVar } from '../_state/reactive-variables';
 
 export const Home = () => {
-  const { user } = useAuth0();
+  const { id: userId } = useReactiveVar(selfVar);
 
   const { bgDarker, border } = useUiBackground();
 
@@ -49,7 +49,7 @@ export const Home = () => {
   const { data, loading: loadingGameplaySessions } = useSubscription<
     GalacticEmpiresByUserIdSubscription,
     GalacticEmpiresByUserIdSubscriptionVariables
-  >(GalacticEmpiresByUserIdDocument, { variables: { userId: user.sub } });
+  >(GalacticEmpiresByUserIdDocument, { variables: { userId } });
 
   if (loadingGameplaySessions)
     return <Loading text="Loading gameplay sessions"></Loading>;

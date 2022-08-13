@@ -9,8 +9,7 @@ fragment GalaxyFields on galaxy {
   radius
   stars
   galactic_empires {
-    user_id
-    id
+    ...GalacticEmpireFields
   }
   celestials {
     ...CelestialFields

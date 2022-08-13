@@ -6557,7 +6557,7 @@ export type CelestialFieldsFragment = { __typename?: 'celestial', id: string, na
 
 export type GalacticEmpireFieldsFragment = { __typename?: 'galactic_empire', id: string, user_id: string, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> };
 
-export type GalaxyFieldsFragment = { __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', user_id: string, id: string }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> };
+export type GalaxyFieldsFragment = { __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> };
 
 export type CelestialByIdQueryVariables = Exact<{
   id: Scalars['String'];
@@ -6683,7 +6683,7 @@ export type CreateGalaxyMutationVariables = Exact<{
 }>;
 
 
-export type CreateGalaxyMutation = { __typename?: 'mutation_root', insert_galaxy_one?: { __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', user_id: string, id: string }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> } | null };
+export type CreateGalaxyMutation = { __typename?: 'mutation_root', insert_galaxy_one?: { __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> } | null };
 
 export type DeleteGalaxyByIdMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -6695,7 +6695,7 @@ export type DeleteGalaxyByIdMutation = { __typename?: 'mutation_root', delete_ga
 export type GalaxiesSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GalaxiesSubscription = { __typename?: 'subscription_root', galaxy: Array<{ __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', user_id: string, id: string }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> }> };
+export type GalaxiesSubscription = { __typename?: 'subscription_root', galaxy: Array<{ __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> }> };
 
 export type GalaxiesWithOwnedCelestialsSubscriptionVariables = Exact<{
   userId: Scalars['String'];
@@ -6709,7 +6709,7 @@ export type GalaxyByIdQueryVariables = Exact<{
 }>;
 
 
-export type GalaxyByIdQuery = { __typename?: 'query_root', galaxy_by_pk?: { __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', user_id: string, id: string }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> } | null };
+export type GalaxyByIdQuery = { __typename?: 'query_root', galaxy_by_pk?: { __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> } | null };
 
 export type GetGalaxyByIdAndUnclaimedCelestialsQueryVariables = Exact<{
   galaxyId: Scalars['uuid'];
@@ -6834,14 +6834,14 @@ export const GalaxyFieldsFragmentDoc = gql`
   radius
   stars
   galactic_empires {
-    user_id
-    id
+    ...GalacticEmpireFields
   }
   celestials {
     ...CelestialFields
   }
 }
-    ${CelestialFieldsFragmentDoc}`;
+    ${GalacticEmpireFieldsFragmentDoc}
+${CelestialFieldsFragmentDoc}`;
 export const CelestialByIdDocument = gql`
     query CelestialById($id: String!) {
   celestial_by_pk(id: $id) {

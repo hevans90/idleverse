@@ -1,5 +1,4 @@
 import { useReactiveVar, useSubscription } from '@apollo/client';
-import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Link, Text } from '@chakra-ui/layout';
 import { Button, VStack } from '@chakra-ui/react';
 import {
@@ -12,18 +11,19 @@ import { useEffect, useState } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { Loading } from '../components/loading';
 import { colorsVar } from '../_state/colors';
+import { selfVar } from '../_state/reactive-variables';
 
 import { GalaxyTile } from './galaxy-tile';
 
 export const GalaxyGalleryContainer = () => {
-  const { user } = useAuth0();
+  const { id: userId } = useReactiveVar(selfVar);
 
   const { secondary } = useReactiveVar(colorsVar);
 
   const { data: myGalaxyIds, loading: myGalaxyIdsLoading } =
     useSubscription<GalaxiesWithOwnedCelestialsSubscription>(
       GalaxiesWithOwnedCelestialsDocument,
-      { variables: { userId: user.sub } }
+      { variables: { userId } }
     );
 
   const { data, loading } =

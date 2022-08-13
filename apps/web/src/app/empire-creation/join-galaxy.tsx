@@ -24,9 +24,12 @@ import {
 import { useEffect, useState } from 'react';
 import { Link as ReactRouterLink, useParams } from 'react-router-dom';
 import { GalaxyThumbnail } from '../canvases/galaxy-thumbnail/galaxy-thumbnail';
+import { generatePlanetInsertionVars } from '../canvases/planet-generator/generate-planet-input-vars';
+import { randomisePlanetSeedAndName } from '../canvases/planet-generator/_utils/randomise-planet-seed-and-name';
 import { Loading } from '../components/loading';
 import { characterCreationVar } from '../_state/character-creation';
-import { galaxyConfigVar } from '../_state/reactive-variables';
+import { colorsVar } from '../_state/colors';
+import { galaxyConfigVar, selfVar } from '../_state/reactive-variables';
 import { creationStep } from './creation-types';
 import { CreationWorkflow } from './creation-workflow';
 import { BackgroundSelectionModal } from './workflow-step-modals/background-selection-modal';
@@ -34,17 +37,12 @@ import { FactionSelectionModal } from './workflow-step-modals/faction-selection-
 import { HomeworldGenerationModal } from './workflow-step-modals/homeworld-generation-modal';
 import { RaceSelectionModal } from './workflow-step-modals/race-selection-modal';
 
-import { useAuth0 } from '@auth0/auth0-react';
-import { generatePlanetInsertionVars } from '../canvases/planet-generator/generate-planet-input-vars';
-import { randomisePlanetSeedAndName } from '../canvases/planet-generator/_utils/randomise-planet-seed-and-name';
-import { colorsVar } from '../_state/colors';
-
 export const JoinGalaxy = () => {
   const characterCreationState = useReactiveVar(characterCreationVar);
 
   const { secondary } = useReactiveVar(colorsVar);
 
-  const { user } = useAuth0();
+  const { id: userId } = useReactiveVar(selfVar);
 
   const { id } = useParams<{ id: string }>();
 
@@ -127,7 +125,7 @@ export const JoinGalaxy = () => {
     await createEmpire({
       variables: {
         input: {
-          user_id: user.sub,
+          user_id: userId,
           galaxy_id: data.galaxy_by_pk.id,
           playable_race_id: characterCreationState.race.id,
           background_id: characterCreationState.background.id,
@@ -155,7 +153,7 @@ export const JoinGalaxy = () => {
 
       const userAlreadyHasAnEmpireHere =
         data.galaxy_by_pk.galactic_empires.find(
-          ({ user_id }) => user_id === user.sub
+          ({ user_id }) => user_id === userId
         );
 
       if (userAlreadyHasAnEmpireHere) {
@@ -256,7 +254,7 @@ export const JoinGalaxy = () => {
           characterCreationVar({
             ...characterCreationVar(),
             // make sure to set a celestial ID once a celestial is claimed at the end of the flow
-            homeworld: generatePlanetInsertionVars('', user.sub),
+            homeworld: generatePlanetInsertionVars('', userId),
           });
           onHomeworldGenerationClose();
         }}

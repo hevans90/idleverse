@@ -52,6 +52,7 @@ export const PlayerPanel = ({ owners, loading, error }: PlayerPanelProps) => {
           <Text>{ownedCount}</Text>
         </Box>
       ))}
+      {!owners.length && <Text>No celestials owned</Text>}
     </Box>
   );
 };
