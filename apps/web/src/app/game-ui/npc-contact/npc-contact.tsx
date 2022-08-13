@@ -11,6 +11,7 @@ import {
   ModalHeader,
   SimpleGrid,
   Text,
+  useColorModeValue,
   VStack,
 } from '@chakra-ui/react';
 import {
@@ -34,6 +35,11 @@ export const NpcContact = ({
   const { bg, border, bgDark, bgLight } = useUiBackground();
 
   const { secondary } = useReactiveVar(colorsVar);
+
+  const factionColor = useColorModeValue(
+    `${secondary}.900`,
+    `${secondary}.300`
+  );
   const { id: galacticEmpireId } = useReactiveVar(galacticEmpireVar);
   const { open } = useReactiveVar(dialogVar);
 
@@ -88,7 +94,9 @@ export const NpcContact = ({
                       marginLeft={1}
                     />
                     <Text>{npc.name}</Text>
-                    <Text>{npc?.playable_race.name || npc?.faction.name}</Text>
+                    <Text color={factionColor}>
+                      {npc?.playable_race.name || npc?.faction.name}
+                    </Text>
                     <Button
                       onClick={() => dialogVar({ ...dialogVar(), open: true })}
                     >
