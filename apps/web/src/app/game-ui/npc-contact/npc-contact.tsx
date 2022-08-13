@@ -18,7 +18,7 @@ import {
   NpcsByEmpireIdDocument,
   NpcsByEmpireIdQuery,
   NpcsByEmpireIdQueryVariables,
-} from '../../../../../../libs/galaxy-gql/src/lib/galaxy-api';
+} from '@idleverse/galaxy-gql';
 import { Loading } from '../../components/loading';
 import { useUiBackground } from '../../hooks/use-ui-background';
 import { colorsVar } from '../../_state/colors';
