@@ -2,7 +2,7 @@ import { ToolBar } from '../global-ui/toolbar/toolbar';
 import { renderWithChakra } from '../_test-utils/render-with-chakra';
 import { ResponsiveGrid } from './layout';
 
-jest.mock('../containers/toolbar/toolbar', () => ({
+jest.mock('../global-ui/toolbar/toolbar', () => ({
   ToolBar: () => <div className="toolbar"></div>,
 }));
 
