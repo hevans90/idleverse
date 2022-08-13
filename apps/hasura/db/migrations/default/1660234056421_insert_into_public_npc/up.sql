@@ -1,0 +1,1 @@
+INSERT INTO "public"."npc"("id", "name", "race_id", "faction_id", "image_url") VALUES (E'b01a69e5-aedc-421c-8a4c-8b729e5338a2', E'Harkas Sanima', E'98f22f43-e36c-4b0c-9554-b13af42de556', null, E'/races/arrakkens.png');
