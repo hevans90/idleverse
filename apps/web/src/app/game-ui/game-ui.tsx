@@ -5,7 +5,7 @@ import { dialogVar } from '../_state/dialog';
 import { globalUiVar } from '../_state/global-ui';
 import { Dialog } from './dialog';
 import { InGameMenu } from './in-game-menu';
-import { QuestJournal } from './quest-journal';
+import { QuestJournal } from './quest-journal/quest-journal';
 
 export const GameUI = () => {
   const { entries } = useReactiveVar(dialogVar);
