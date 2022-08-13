@@ -12,7 +12,7 @@ import { loadPlanets } from '../../asset-loading/load-planets';
 import { Loading } from '../../components/loading';
 import { celestialViewerSelectedPlanet } from '../../_state/celestial-viewer';
 import { galacticEmpireVar } from '../../_state/galactic-empire';
-import { celestialVar } from '../../_state/reactive-variables';
+import { celestialVar, selfVar } from '../../_state/reactive-variables';
 import { runPixelDataGenOnWorker } from '../planet-generator/texture-generation/run-texture-gen-on-worker';
 import { PixiWrapper } from '../_utils/pixi-wrapper';
 import { CelestialViewer } from './celestial-viewer';
@@ -21,6 +21,8 @@ import { InfoBox } from './ui/info-box';
 
 export const CelestialViewerContainer = () => {
   const { id } = useParams<{ id: string }>();
+
+  const { id: userId } = useReactiveVar(selfVar);
 
   const { data, loading } = useQuery<CelestialByIdQuery>(
     CelestialByIdDocument,
@@ -51,7 +53,14 @@ export const CelestialViewerContainer = () => {
   useEffect(() => {
     if (data) {
       celestialVar(data.celestial_by_pk);
-      galacticEmpireVar(data.celestial_by_pk.galactic_empire);
+
+      const myEmpire = data.celestial_by_pk.galactic_empire.user_id === userId;
+
+      if (myEmpire) {
+        galacticEmpireVar(data.celestial_by_pk.galactic_empire);
+      } else {
+        galacticEmpireVar(null);
+      }
 
       // if a previously selected planet isn't a part of this system, wipe it to avoid bugs
       if (
