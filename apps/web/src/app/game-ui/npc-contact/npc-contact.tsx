@@ -79,7 +79,8 @@ export const NpcContact = ({
         >
           <>
             {loading && <Loading text="NPCs loading"></Loading>}
-            {data?.galactic_empire_npc.length && (
+
+            {data?.galactic_empire_npc.length ? (
               <SimpleGrid padding={5} minChildWidth="150px">
                 {data.galactic_empire_npc.map(({ npc }, i) => (
                   <VStack key={i}>
@@ -105,8 +106,7 @@ export const NpcContact = ({
                   </VStack>
                 ))}
               </SimpleGrid>
-            )}
-            {!data?.galactic_empire_npc.length && (
+            ) : (
               <HStack padding={5} justifyContent="center" alignItems="center">
                 <Text>
                   You are all alone... try doing some quests to find some
