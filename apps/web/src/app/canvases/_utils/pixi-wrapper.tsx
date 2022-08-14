@@ -1,11 +1,8 @@
-import { useReactiveVar } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
 import { hexStringToNumber } from '@idleverse/theme';
 import { Stage } from '@inlet/react-pixi';
-import { Dialog } from '../../game-ui/dialog';
-import { InGameMenu } from '../../game-ui/in-game-menu';
+import { GameUI } from '../../game-ui/game-ui';
 import { useUiBackground } from '../../hooks/use-ui-background';
-import { DialogVar } from '../../_state/dialog';
 import { useDisableWheelZoom } from './use-disable-wheel-zoom.hook';
 import { controls, useResize } from './use-resize.hook';
 
@@ -19,8 +16,6 @@ export const PixiWrapper = (props: {
   const { canvasBg } = useUiBackground();
 
   const size = useResize(props.resizeControls || 'none');
-
-  const { entries } = useReactiveVar(DialogVar);
 
   return (
     <Box position="relative">
@@ -36,13 +31,7 @@ export const PixiWrapper = (props: {
         </Stage>
       </Box>
       {props?.ui}
-      <InGameMenu />
-      <Dialog
-        entries={entries}
-        position="absolute"
-        bottom={0}
-        left={0}
-      ></Dialog>
+      <GameUI />
     </Box>
   );
 };

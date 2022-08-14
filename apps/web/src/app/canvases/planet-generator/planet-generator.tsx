@@ -140,8 +140,12 @@ export const PlanetGenerator = ({
               }`
         }
       >
-        <Canvas>
-          <Suspense fallback={null}>
+        <Suspense
+          fallback={
+            <Loading width="100%" height="100%" text="Rendering planet" />
+          }
+        >
+          <Canvas>
             <World
               planetRadius={radius}
               worldTexture={worldDataTexture}
@@ -156,9 +160,9 @@ export const PlanetGenerator = ({
               bgColor={hexStringToNumber(colors[primary]['800'])}
               pixelSize={pixelSize}
             />
-          </Suspense>
-          <Stats className="planet-gen-stats" parent={containerRef} />
-        </Canvas>
+            <Stats className="planet-gen-stats" parent={containerRef} />
+          </Canvas>
+        </Suspense>
       </Box>
 
       <PlanetGeneratorBooleans />

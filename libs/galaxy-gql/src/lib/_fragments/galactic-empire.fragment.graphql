@@ -1,0 +1,33 @@
+fragment GalacticEmpireFields on galactic_empire {
+  id
+  user_id
+  background {
+    name
+    image_url
+    id
+    description
+  }
+  faction {
+    description
+    id
+    image_url
+    name
+  }
+  playable_race {
+    description
+    id
+    image_url
+    name
+  }
+  galaxy {
+    name
+    id
+  }
+  celestials {
+    id
+    name
+    planets {
+      name
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { useQuery, useSubscription } from '@apollo/client';
+import { useQuery, useReactiveVar, useSubscription } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
 import { dbGalaxyToGalaxyConfig } from '@idleverse/galaxy-gen';
 import {
@@ -11,7 +11,8 @@ import {
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Loading } from '../../components/loading';
-import { galaxyConfigVar } from '../../_state/reactive-variables';
+import { galacticEmpireVar } from '../../_state/galactic-empire';
+import { galaxyConfigVar, selfVar } from '../../_state/reactive-variables';
 import { GameUIBottomBar } from '../galaxy-generator/ui/bottom-bar';
 import { PixiWrapper } from '../_utils/pixi-wrapper';
 
@@ -21,6 +22,8 @@ import { PlayerPanel } from './ui/player-panel';
 
 export const GalaxyViewerContainer = () => {
   const { id } = useParams<{ id: string }>();
+
+  const { id: userId } = useReactiveVar(selfVar);
 
   const { data, loading } = useQuery<GalaxyByIdQuery>(GalaxyByIdDocument, {
     variables: { id },
@@ -42,6 +45,16 @@ export const GalaxyViewerContainer = () => {
   useEffect(() => {
     if (data) {
       galaxyConfigVar(dbGalaxyToGalaxyConfig(data.galaxy_by_pk));
+
+      const myEmpire = data.galaxy_by_pk.galactic_empires.find(
+        (x) => x.user_id === userId
+      );
+
+      if (myEmpire) {
+        galacticEmpireVar(myEmpire);
+      } else {
+        galacticEmpireVar(null);
+      }
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

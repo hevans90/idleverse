@@ -1,11 +1,11 @@
 import { useReactiveVar } from '@apollo/client';
 import { Box } from '@chakra-ui/layout';
 import styled from 'styled-components';
-import { SideNav } from '../containers/sidenav/sidenav';
-import { ToolBar } from '../containers/toolbar/toolbar';
+import { SideNav } from '../global-ui/sidenav/sidenav';
+import { ToolBar } from '../global-ui/toolbar/toolbar';
 import { useUiBackground } from '../hooks/use-ui-background';
+import { layoutVar } from '../_state/global-settings';
 import { LayoutConfig } from '../_state/models';
-import { layoutVar } from '../_state/persisted-reactive-variables';
 import { Breadcrumb } from './breadcrumb';
 
 export const sideNavWidth = 450;

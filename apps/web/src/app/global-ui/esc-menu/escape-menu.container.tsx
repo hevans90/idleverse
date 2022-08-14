@@ -1,6 +1,7 @@
 import { useReactiveVar } from '@apollo/client';
 import {
   HStack,
+  Kbd,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -17,8 +18,10 @@ import { colorsVar } from '../../_state/colors';
 import {
   debugVar,
   fpsVar,
+  hotkeyHintsVar,
   layoutVar,
-} from '../../_state/persisted-reactive-variables';
+} from '../../_state/global-settings';
+
 import { ThemePalettePicker } from './theme-palette-picker';
 
 export const EscMenuContainer = ({ isOpen, onClose }) => {
@@ -30,7 +33,9 @@ export const EscMenuContainer = ({ isOpen, onClose }) => {
 
   const fps = useReactiveVar(fpsVar);
 
-  const { bg, border, bgLight } = useUiBackground();
+  const hotkeyHints = useReactiveVar(hotkeyHintsVar);
+
+  const { bg, border, bgDark } = useUiBackground();
 
   const { secondary } = useReactiveVar(colorsVar);
 
@@ -39,7 +44,7 @@ export const EscMenuContainer = ({ isOpen, onClose }) => {
       <ModalOverlay />
       <ModalContent>
         <ModalHeader
-          bg={bg}
+          bg={bgDark}
           borderTopRightRadius={6}
           borderTopLeftRadius={6}
           borderBottom="1px solid"
@@ -50,6 +55,7 @@ export const EscMenuContainer = ({ isOpen, onClose }) => {
         <ModalCloseButton />
         <ModalBody
           bg={bg}
+          padding={[3, 4, 5, 6, 7]}
           paddingBottom={4}
           borderBottomRightRadius={6}
           borderBottomLeftRadius={6}
@@ -94,6 +100,19 @@ export const EscMenuContainer = ({ isOpen, onClose }) => {
                 isChecked={fps}
                 onChange={() => {
                   fpsVar(!fps);
+                }}
+                colorScheme={secondary}
+                size="lg"
+              />
+            </HStack>
+            <HStack>
+              <Text flexGrow={1}>
+                <Kbd>Hotkey Hints</Kbd>
+              </Text>
+              <Switch
+                isChecked={hotkeyHints}
+                onChange={() => {
+                  hotkeyHintsVar(!hotkeyHints);
                 }}
                 colorScheme={secondary}
                 size="lg"

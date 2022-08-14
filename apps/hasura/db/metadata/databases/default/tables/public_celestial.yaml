@@ -2,6 +2,15 @@ table:
   schema: public
   name: celestial
 object_relationships:
+  - name: galactic_empire
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: galactic_empire
+        insertion_order: null
+        column_mapping:
+          galactic_empire_id: id
   - name: galaxy
     using:
       foreign_key_constraint_on: galaxy_id
@@ -17,12 +26,23 @@ array_relationships:
           schema: public
           name: planet
 select_permissions:
+  - role: dev
+    permission:
+      columns:
+        - galactic_empire_id
+        - galaxy_id
+        - id
+        - name
+        - owner_id
+      filter: {}
+      allow_aggregations: true
   - role: user
     permission:
       columns:
-        - name
+        - galactic_empire_id
         - galaxy_id
-        - owner_id
         - id
+        - name
+        - owner_id
       filter: {}
       allow_aggregations: true

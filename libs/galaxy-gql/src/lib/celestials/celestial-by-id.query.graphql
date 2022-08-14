@@ -28,5 +28,8 @@ query CelestialById($id: String!) {
         water
       }
     }
+    galactic_empire {
+      ...GalacticEmpireFields
+    }
   }
 }

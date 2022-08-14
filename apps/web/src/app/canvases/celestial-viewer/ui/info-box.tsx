@@ -11,6 +11,7 @@ import {
   StackDivider,
   StackProps,
   Text,
+  useColorModeValue,
   VStack,
 } from '@chakra-ui/react';
 import { CelestialByIdQuery } from '@idleverse/galaxy-gql';
@@ -46,6 +47,11 @@ export const InfoBox = ({
   const { primary, secondary } = useReactiveVar(colorsVar);
 
   const selectedPlanetId = useReactiveVar(celestialViewerSelectedPlanet)?.id;
+
+  const selectedPlanetColor = useColorModeValue(
+    `${secondary}.900`,
+    `${secondary}.300`
+  );
 
   return (
     <VStack
@@ -107,7 +113,7 @@ export const InfoBox = ({
                   }
                   color={
                     selectedPlanetId === planet.id
-                      ? `${secondary}.500`
+                      ? selectedPlanetColor
                       : 'white'
                   }
                 >

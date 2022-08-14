@@ -1,0 +1,2 @@
+CREATE TABLE "public"."npc" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "name" text NOT NULL, "race_id" uuid, "faction_id" uuid, "image_url" text NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("race_id") REFERENCES "public"."playable_race"("id") ON UPDATE restrict ON DELETE restrict, FOREIGN KEY ("faction_id") REFERENCES "public"."faction"("id") ON UPDATE restrict ON DELETE restrict);COMMENT ON TABLE "public"."npc" IS E'non-playable characters';
+CREATE EXTENSION IF NOT EXISTS pgcrypto;

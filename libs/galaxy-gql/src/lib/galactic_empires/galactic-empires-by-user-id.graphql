@@ -1,0 +1,5 @@
+subscription GalacticEmpiresByUserId($userId: String!) {
+  galactic_empire(where: { user_id: { _eq: $userId } }) {
+    ...GalacticEmpireFields
+  }
+}

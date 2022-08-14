@@ -1,0 +1,29 @@
+table:
+  schema: public
+  name: npc
+object_relationships:
+  - name: faction
+    using:
+      foreign_key_constraint_on: faction_id
+  - name: playable_race
+    using:
+      foreign_key_constraint_on: race_id
+select_permissions:
+  - role: dev
+    permission:
+      columns:
+        - id
+        - name
+        - race_id
+        - faction_id
+        - image_url
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - id
+        - name
+        - race_id
+        - faction_id
+        - image_url
+      filter: {}
