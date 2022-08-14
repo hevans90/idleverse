@@ -17,14 +17,13 @@ export const ToolBar = () => {
 
   useKeypress('Escape', () => {
     if (!escapeMenuOpen) {
-      onOpen();
       globalUiVar({ ...globalUiVar(), escapeMenuOpen: true });
     } else {
       globalUiVar({ ...globalUiVar(), escapeMenuOpen: false });
     }
   });
 
-  const { onOpen, onClose } = useDisclosure();
+  const { onClose } = useDisclosure();
 
   const { sideNav, toolBar } = useReactiveVar(layoutVar);
 
@@ -63,7 +62,12 @@ export const ToolBar = () => {
           >
             <ChatIcon {...responsiveIconProps}></ChatIcon>
           </Button>
-          <Button onClick={() => onOpen()} {...responsiveFontProps}>
+          <Button
+            onClick={() =>
+              globalUiVar({ ...globalUiVar(), escapeMenuOpen: !escapeMenuOpen })
+            }
+            {...responsiveFontProps}
+          >
             <SettingsIcon {...responsiveIconProps}></SettingsIcon>
             {hotkeyHints && (
               <>
