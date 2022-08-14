@@ -1,16 +1,24 @@
 mutation TryInsertClaimedCelestial(
   $galaxy_id: uuid!
+  $galactic_empire_id: uuid!
   $id: String!
   $name: String!
   $owner_id: String!
 ) {
   insert_celestial_one(
-    object: { galaxy_id: $galaxy_id, id: $id, name: $name, owner_id: $owner_id }
+    object: {
+      galaxy_id: $galaxy_id
+      id: $id
+      name: $name
+      owner_id: $owner_id
+      galactic_empire_id: $galactic_empire_id
+    }
     on_conflict: { constraint: system_pkey, update_columns: owner_id }
   ) {
     galaxy_id
     id
     name
     owner_id
+    galactic_empire_id
   }
 }

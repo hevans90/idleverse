@@ -28,10 +28,16 @@ type GalacticResourceGenerationRate = {
   voidMatterIncrement: number;
 };
 
+const generationRate = 1000;
+
 export const generateResources = (
   client: ApolloClient<NormalizedCacheObject>
 ) => {
-  console.log('Beginning resource generation');
+  console.log(
+    `Beginning resource generation at 1 tick every ${
+      generationRate / 1000
+    } seconds.`
+  );
 
   let galacticEmpireIdsInPlay: string[] = [];
   let generationRates: GalacticResourceGenerationRate[] = [];
@@ -161,12 +167,13 @@ export const generateResources = (
         )
     );
 
-    Promise.all(promises).then((results) =>
-      console.log(
-        `Resources generated for ${
-          results.length
-        } empires at ${new Date().toLocaleTimeString()}`
-      )
-    );
-  }, 1000);
+    Promise.all(promises).then((results) => {
+      results.length &&
+        console.log(
+          `Resources generated for ${
+            results.length
+          } empires at ${new Date().toLocaleTimeString()}`
+        );
+    });
+  }, generationRate);
 };

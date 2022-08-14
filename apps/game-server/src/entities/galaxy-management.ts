@@ -35,7 +35,8 @@ export class GalaxyManagementResolver {
   @Mutation((returns) => GalaxyManagement, { nullable: true })
   async createEmpireOriginCelestial(
     @Ctx() context: Context,
-    @Arg('galaxy_id') galaxyId: string
+    @Arg('galaxy_id') galaxyId: string,
+    @Arg('galactic_empire_id') galacticEmpireId: string
   ) {
     if (!context.id) throw new Error('User id not in token.');
 
@@ -47,8 +48,11 @@ export class GalaxyManagementResolver {
       ({ user_id }) => user_id === context.id
     );
 
-    if (userAlreadyHasEmpire)
-      throw new Error('This user has an existing empire in this galaxy.');
+    if (!userAlreadyHasEmpire) {
+      throw new Error(
+        `Failed to claim celestial, user: ${context.id} has no empire! Something likely went wrong with the creation process.`
+      );
+    }
 
     const data = (
       await context.dataSources.hasuraAPI.getGalaxyByIdWithUnclaimedCelestials(
@@ -67,12 +71,13 @@ export class GalaxyManagementResolver {
 
     const {
       data: { insert_celestial_one },
-    } = await context.dataSources.hasuraAPI.tryInsertClaimedCelestial(
-      context.id,
-      randomCelestialId,
+    } = await context.dataSources.hasuraAPI.tryInsertClaimedCelestial({
+      celestialId: randomCelestialId,
+      userId: context.id,
       galaxyId,
-      generateCelestialName()
-    );
+      galacticEmpireId,
+      celestialName: generateCelestialName(),
+    });
 
     const temp = new GalaxyManagement();
     temp.insertedCelestialId = insert_celestial_one.id;

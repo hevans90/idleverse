@@ -1,5 +1,11 @@
-mutation CreateEmpireOriginCelestial($galaxy_id: String!) {
-  createEmpireOriginCelestial(galaxy_id: $galaxy_id) {
+mutation CreateEmpireOriginCelestial(
+  $galaxy_id: String!
+  $galacticEmpireId: String!
+) {
+  createEmpireOriginCelestial(
+    galaxy_id: $galaxy_id
+    galactic_empire_id: $galacticEmpireId
+  ) {
     insertedCelestialId
     insertedCelestialName
   }
