@@ -2334,6 +2334,7 @@ export type Mutation_Root = {
 
 /** mutation root */
 export type Mutation_RootCreateEmpireOriginCelestialArgs = {
+  galactic_empire_id: Scalars['String'];
   galaxy_id: Scalars['String'];
 };
 
@@ -6580,6 +6581,7 @@ export type CelestialsByGalaxyIdSubscription = { __typename?: 'subscription_root
 
 export type CreateEmpireOriginCelestialMutationVariables = Exact<{
   galaxy_id: Scalars['String'];
+  galacticEmpireId: Scalars['String'];
 }>;
 
 
@@ -6587,13 +6589,14 @@ export type CreateEmpireOriginCelestialMutation = { __typename?: 'mutation_root'
 
 export type TryInsertClaimedCelestialMutationVariables = Exact<{
   galaxy_id: Scalars['uuid'];
+  galactic_empire_id: Scalars['uuid'];
   id: Scalars['String'];
   name: Scalars['String'];
   owner_id: Scalars['String'];
 }>;
 
 
-export type TryInsertClaimedCelestialMutation = { __typename?: 'mutation_root', insert_celestial_one?: { __typename?: 'celestial', galaxy_id: string, id: string, name?: string | null, owner_id?: string | null } | null };
+export type TryInsertClaimedCelestialMutation = { __typename?: 'mutation_root', insert_celestial_one?: { __typename?: 'celestial', galaxy_id: string, id: string, name?: string | null, owner_id?: string | null, galactic_empire_id?: string | null } | null };
 
 export type CharacterDataQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -6910,8 +6913,11 @@ export const CelestialsByGalaxyIdDocument = gql`
     `;
 export type CelestialsByGalaxyIdSubscriptionResult = Apollo.SubscriptionResult<CelestialsByGalaxyIdSubscription>;
 export const CreateEmpireOriginCelestialDocument = gql`
-    mutation CreateEmpireOriginCelestial($galaxy_id: String!) {
-  createEmpireOriginCelestial(galaxy_id: $galaxy_id) {
+    mutation CreateEmpireOriginCelestial($galaxy_id: String!, $galacticEmpireId: String!) {
+  createEmpireOriginCelestial(
+    galaxy_id: $galaxy_id
+    galactic_empire_id: $galacticEmpireId
+  ) {
     insertedCelestialId
     insertedCelestialName
   }
@@ -6921,15 +6927,16 @@ export type CreateEmpireOriginCelestialMutationFn = Apollo.MutationFunction<Crea
 export type CreateEmpireOriginCelestialMutationResult = Apollo.MutationResult<CreateEmpireOriginCelestialMutation>;
 export type CreateEmpireOriginCelestialMutationOptions = Apollo.BaseMutationOptions<CreateEmpireOriginCelestialMutation, CreateEmpireOriginCelestialMutationVariables>;
 export const TryInsertClaimedCelestialDocument = gql`
-    mutation TryInsertClaimedCelestial($galaxy_id: uuid!, $id: String!, $name: String!, $owner_id: String!) {
+    mutation TryInsertClaimedCelestial($galaxy_id: uuid!, $galactic_empire_id: uuid!, $id: String!, $name: String!, $owner_id: String!) {
   insert_celestial_one(
-    object: {galaxy_id: $galaxy_id, id: $id, name: $name, owner_id: $owner_id}
+    object: {galaxy_id: $galaxy_id, id: $id, name: $name, owner_id: $owner_id, galactic_empire_id: $galactic_empire_id}
     on_conflict: {constraint: system_pkey, update_columns: owner_id}
   ) {
     galaxy_id
     id
     name
     owner_id
+    galactic_empire_id
   }
 }
     `;

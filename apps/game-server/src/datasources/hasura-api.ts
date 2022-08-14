@@ -54,12 +54,19 @@ export class HasuraAPI extends DataSource {
       variables: { galaxyId },
     });
 
-  tryInsertClaimedCelestial = async (
-    userId: string,
-    celestialId: string,
-    galaxyId: string,
-    celestialName: string
-  ) =>
+  tryInsertClaimedCelestial = async ({
+    userId,
+    celestialId,
+    galaxyId,
+    galacticEmpireId,
+    celestialName,
+  }: {
+    userId: string;
+    celestialId: string;
+    galaxyId: string;
+    galacticEmpireId: string;
+    celestialName: string;
+  }) =>
     this.client.mutate<
       TryInsertClaimedCelestialMutation,
       TryInsertClaimedCelestialMutationVariables
@@ -70,6 +77,7 @@ export class HasuraAPI extends DataSource {
         owner_id: userId,
         name: celestialName,
         galaxy_id: galaxyId,
+        galactic_empire_id: galacticEmpireId,
       },
     });
 

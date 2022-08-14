@@ -46,9 +46,12 @@ export const JoinGalaxy = () => {
 
   const { id } = useParams<{ id: string }>();
 
-  const { data, loading } = useQuery<GalaxyByIdQuery>(GalaxyByIdDocument, {
-    variables: { id },
-  });
+  const { data: galaxyData, loading } = useQuery<GalaxyByIdQuery>(
+    GalaxyByIdDocument,
+    {
+      variables: { id },
+    }
+  );
 
   const [alreadyJoinedGalaxy, setalreadyJoinedGalaxy] =
     useState<boolean>(false);
@@ -62,6 +65,11 @@ export const JoinGalaxy = () => {
 
   const [readyToTransition, setReadyToTransition] = useState<boolean>(false);
 
+  const [createEmpire] = useMutation<
+    CreateGalacticEmpireMutation,
+    CreateGalacticEmpireMutationVariables
+  >(CreateGalacticEmpireDocument);
+
   const [createEmpireOriginCelestial] = useMutation<
     CreateEmpireOriginCelestialMutation,
     CreateEmpireOriginCelestialMutationVariables
@@ -71,11 +79,6 @@ export const JoinGalaxy = () => {
     CreatePlanetMutation,
     CreatePlanetMutationVariables
   >(CreatePlanetDocument);
-
-  const [createEmpire] = useMutation<
-    CreateGalacticEmpireMutation,
-    CreateGalacticEmpireMutationVariables
-  >(CreateGalacticEmpireDocument);
 
   const {
     isOpen: raceSelectionOpen,
@@ -102,35 +105,35 @@ export const JoinGalaxy = () => {
   } = useDisclosure();
 
   const runCreationMutations = async () => {
+    setEmpireCreationStatus('empire');
+
+    const { data: empireData } = await createEmpire({
+      variables: {
+        input: {
+          user_id: userId,
+          galaxy_id: galaxyData.galaxy_by_pk.id,
+          playable_race_id: characterCreationState.race.id,
+          background_id: characterCreationState.background.id,
+          faction_id: characterCreationState.faction.id,
+        },
+      },
+    });
+
     setEmpireCreationStatus('origin system');
     const celestial = await createEmpireOriginCelestial({
-      variables: { galaxy_id: data.galaxy_by_pk.id },
+      variables: {
+        galaxy_id: galaxyData.galaxy_by_pk.id,
+        galacticEmpireId: empireData.insert_galactic_empire_one.id,
+      },
     });
     setEmpireCreationStatus('homeworld');
 
-    const homeworld = await createHomeworld({
+    await createHomeworld({
       variables: {
         input: {
           ...characterCreationState.homeworld,
           celestial_id:
             celestial.data.createEmpireOriginCelestial.insertedCelestialId,
-        },
-      },
-    });
-
-    // we couldn't set a planet ID when generating our planet input before
-    const homeworldPlanetId = homeworld.data.createPlanet.createdPlanet.id;
-    setEmpireCreationStatus('empire');
-
-    await createEmpire({
-      variables: {
-        input: {
-          user_id: userId,
-          galaxy_id: data.galaxy_by_pk.id,
-          playable_race_id: characterCreationState.race.id,
-          background_id: characterCreationState.background.id,
-          faction_id: characterCreationState.faction.id,
-          homeworld_id: homeworldPlanetId,
         },
       },
     });
@@ -148,11 +151,11 @@ export const JoinGalaxy = () => {
   }, []);
 
   useEffect(() => {
-    if (data) {
-      galaxyConfigVar(dbGalaxyToGalaxyConfig(data.galaxy_by_pk));
+    if (galaxyData) {
+      galaxyConfigVar(dbGalaxyToGalaxyConfig(galaxyData.galaxy_by_pk));
 
       const userAlreadyHasAnEmpireHere =
-        data.galaxy_by_pk.galactic_empires.find(
+        galaxyData.galaxy_by_pk.galactic_empires.find(
           ({ user_id }) => user_id === userId
         );
 
@@ -162,7 +165,7 @@ export const JoinGalaxy = () => {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  }, [galaxyData]);
 
   useEffect(() => {
     if (readyToCreateEmpire) {
@@ -191,7 +194,10 @@ export const JoinGalaxy = () => {
     return (
       <VStack height="100%" justify="center" spacing={10}>
         <Text>Your already have an empire in this galaxy.</Text>
-        <Link as={ReactRouterLink} to={`/galaxies/${data.galaxy_by_pk.id}`}>
+        <Link
+          as={ReactRouterLink}
+          to={`/galaxies/${galaxyData.galaxy_by_pk.id}`}
+        >
           <Button>Galaxy View</Button>
         </Link>
       </VStack>
@@ -212,7 +218,10 @@ export const JoinGalaxy = () => {
     return (
       <VStack height="100%" justify="center" spacing={10}>
         <Text>Your empire was founded successfully.</Text>
-        <Link as={ReactRouterLink} to={`/galaxies/${data.galaxy_by_pk.id}`}>
+        <Link
+          as={ReactRouterLink}
+          to={`/galaxies/${galaxyData.galaxy_by_pk.id}`}
+        >
           <Button>Begin</Button>
         </Link>
       </VStack>
@@ -264,13 +273,13 @@ export const JoinGalaxy = () => {
         <VStack spacing={3}>
           <Text textAlign="center">It's time to begin your journey in:</Text>
           <Text textAlign="center" fontWeight="bold" color={`${secondary}.500`}>
-            {data.galaxy_by_pk.name}
+            {galaxyData.galaxy_by_pk.name}
           </Text>
         </VStack>
 
         <Box>
           <GalaxyThumbnail
-            galaxyConfig={dbGalaxyToGalaxyConfig(data.galaxy_by_pk)}
+            galaxyConfig={dbGalaxyToGalaxyConfig(galaxyData.galaxy_by_pk)}
           />
         </Box>
 

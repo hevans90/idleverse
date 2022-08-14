@@ -54,7 +54,7 @@ export const CelestialViewerContainer = () => {
     if (data) {
       celestialVar(data.celestial_by_pk);
 
-      const myEmpire = data.celestial_by_pk.galactic_empire.user_id === userId;
+      const myEmpire = data.celestial_by_pk?.galactic_empire.user_id === userId;
 
       if (myEmpire) {
         galacticEmpireVar(data.celestial_by_pk.galactic_empire);
