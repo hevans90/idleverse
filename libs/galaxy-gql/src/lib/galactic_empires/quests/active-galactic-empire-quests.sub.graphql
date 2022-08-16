@@ -1,0 +1,27 @@
+subscription ActiveGalacticEmpireQuests {
+  galactic_empire_quest(where: { completed: { _neq: true } }) {
+    galactic_empire_id
+    quest_step_id
+    id
+    quest {
+      rewards {
+        npc_unlock_id
+        type
+        resource_unlock_id
+        resource_accrual_type_id
+        resource_accrual_amount
+      }
+      steps {
+        next_step_in_quest
+        npc_contact_id
+        type
+        resource_cost_amount
+        resource_cost_id
+      }
+      next_quest_in_chain
+      quest_type {
+        value
+      }
+    }
+  }
+}

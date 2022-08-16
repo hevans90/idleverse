@@ -1,0 +1,9 @@
+mutation CompleteGalacticEmpireQuestById($id: uuid!) {
+  update_galactic_empire_quest_by_pk(
+    pk_columns: { id: $id }
+    _set: { completed: true }
+  ) {
+    completed
+    quest_id
+  }
+}
