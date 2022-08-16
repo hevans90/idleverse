@@ -28,7 +28,7 @@ type GalacticResourceGenerationRate = {
   voidMatterIncrement: number;
 };
 
-const generationRate = 1000;
+export const generationRate = 1000;
 
 export const generateResources = (
   client: ApolloClient<NormalizedCacheObject>
