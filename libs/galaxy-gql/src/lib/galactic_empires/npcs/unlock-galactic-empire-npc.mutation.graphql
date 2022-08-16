@@ -1,0 +1,8 @@
+mutation UnlockGalacticEmpireNpc($empireId: uuid!, $npcId: uuid!) {
+  insert_galactic_empire_npc_one(
+    object: { galactic_empire_id: $empireId, npc_id: $npcId }
+  ) {
+    npc_id
+    galactic_empire_id
+  }
+}

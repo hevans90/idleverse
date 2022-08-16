@@ -8862,6 +8862,14 @@ export type NpcsByEmpireIdQueryVariables = Exact<{
 
 export type NpcsByEmpireIdQuery = { __typename?: 'query_root', galactic_empire_npc: Array<{ __typename?: 'galactic_empire_npc', npc: { __typename?: 'npc', name: string, image_url: string, playable_race?: { __typename?: 'playable_race', name: string, id: string, image_url?: string | null } | null, faction?: { __typename?: 'faction', image_url?: string | null, id: string, name: string } | null } }> };
 
+export type UnlockGalacticEmpireNpcMutationVariables = Exact<{
+  empireId: Scalars['uuid'];
+  npcId: Scalars['uuid'];
+}>;
+
+
+export type UnlockGalacticEmpireNpcMutation = { __typename?: 'mutation_root', insert_galactic_empire_npc_one?: { __typename?: 'galactic_empire_npc', npc_id: string, galactic_empire_id: string } | null };
+
 export type ActiveGalacticEmpireQuestsByEmpireIdSubscriptionVariables = Exact<{
   id: Scalars['uuid'];
 }>;
@@ -8875,7 +8883,7 @@ export type ActiveGalacticEmpireQuestsSubscriptionVariables = Exact<{ [key: stri
 export type ActiveGalacticEmpireQuestsSubscription = { __typename?: 'subscription_root', galactic_empire_quest: Array<{ __typename?: 'galactic_empire_quest', galactic_empire_id: string, quest_step_id: string, id: string, quest: { __typename?: 'quest', next_quest_in_chain?: string | null, rewards: Array<{ __typename?: 'quest_reward', npc_unlock_id?: string | null, type: Quest_Reward_Type_Enum, resource_unlock_id?: string | null, resource_accrual_type_id?: string | null, resource_accrual_amount?: number | null }>, steps: Array<{ __typename?: 'quest_step', next_step_in_quest?: string | null, npc_contact_id?: string | null, type: Quest_Step_Type_Enum, resource_cost_amount?: number | null, resource_cost_id?: string | null }>, quest_type: { __typename?: 'quest_type', value: string } } }> };
 
 export type CompleteGalacticEmpireQuestByIdMutationVariables = Exact<{
-  id: Scalars['uuid'];
+  questId: Scalars['uuid'];
 }>;
 
 
@@ -8893,6 +8901,14 @@ export type ResourceGeneratorsSubscriptionVariables = Exact<{ [key: string]: nev
 
 
 export type ResourceGeneratorsSubscription = { __typename?: 'subscription_root', resource_generator: Array<{ __typename?: 'resource_generator', created_at: string, galactic_empire_id: string, resource_generator_type: { __typename?: 'resource_generator_type', generation_rate: number[], name: string, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null } }> };
+
+export type UnlockGalacticEmpireResourceMutationVariables = Exact<{
+  empireId: Scalars['uuid'];
+  resourceTypeId: Scalars['uuid'];
+}>;
+
+
+export type UnlockGalacticEmpireResourceMutation = { __typename?: 'mutation_root', insert_galactic_empire_resources_one?: { __typename?: 'galactic_empire_resources', galactic_empire_id: string, resource_type_id: string } | null };
 
 export type CreateGalaxyMutationVariables = Exact<{
   input: Galaxy_Insert_Input;
@@ -9342,6 +9358,19 @@ export const NpcsByEmpireIdDocument = gql`
 }
     `;
 export type NpcsByEmpireIdQueryResult = Apollo.QueryResult<NpcsByEmpireIdQuery, NpcsByEmpireIdQueryVariables>;
+export const UnlockGalacticEmpireNpcDocument = gql`
+    mutation UnlockGalacticEmpireNpc($empireId: uuid!, $npcId: uuid!) {
+  insert_galactic_empire_npc_one(
+    object: {galactic_empire_id: $empireId, npc_id: $npcId}
+  ) {
+    npc_id
+    galactic_empire_id
+  }
+}
+    `;
+export type UnlockGalacticEmpireNpcMutationFn = Apollo.MutationFunction<UnlockGalacticEmpireNpcMutation, UnlockGalacticEmpireNpcMutationVariables>;
+export type UnlockGalacticEmpireNpcMutationResult = Apollo.MutationResult<UnlockGalacticEmpireNpcMutation>;
+export type UnlockGalacticEmpireNpcMutationOptions = Apollo.BaseMutationOptions<UnlockGalacticEmpireNpcMutation, UnlockGalacticEmpireNpcMutationVariables>;
 export const ActiveGalacticEmpireQuestsByEmpireIdDocument = gql`
     subscription ActiveGalacticEmpireQuestsByEmpireId($id: uuid!) {
   galactic_empire_quest(where: {galactic_empire_id: {_eq: $id}}) {
@@ -9402,9 +9431,9 @@ export const ActiveGalacticEmpireQuestsDocument = gql`
     `;
 export type ActiveGalacticEmpireQuestsSubscriptionResult = Apollo.SubscriptionResult<ActiveGalacticEmpireQuestsSubscription>;
 export const CompleteGalacticEmpireQuestByIdDocument = gql`
-    mutation CompleteGalacticEmpireQuestById($id: uuid!) {
+    mutation CompleteGalacticEmpireQuestById($questId: uuid!) {
   update_galactic_empire_quest_by_pk(
-    pk_columns: {id: $id}
+    pk_columns: {id: $questId}
     _set: {completed: true}
   ) {
     completed
@@ -9451,6 +9480,19 @@ export const ResourceGeneratorsDocument = gql`
 }
     `;
 export type ResourceGeneratorsSubscriptionResult = Apollo.SubscriptionResult<ResourceGeneratorsSubscription>;
+export const UnlockGalacticEmpireResourceDocument = gql`
+    mutation UnlockGalacticEmpireResource($empireId: uuid!, $resourceTypeId: uuid!) {
+  insert_galactic_empire_resources_one(
+    object: {galactic_empire_id: $empireId, resource_type_id: $resourceTypeId, value: 0}
+  ) {
+    galactic_empire_id
+    resource_type_id
+  }
+}
+    `;
+export type UnlockGalacticEmpireResourceMutationFn = Apollo.MutationFunction<UnlockGalacticEmpireResourceMutation, UnlockGalacticEmpireResourceMutationVariables>;
+export type UnlockGalacticEmpireResourceMutationResult = Apollo.MutationResult<UnlockGalacticEmpireResourceMutation>;
+export type UnlockGalacticEmpireResourceMutationOptions = Apollo.BaseMutationOptions<UnlockGalacticEmpireResourceMutation, UnlockGalacticEmpireResourceMutationVariables>;
 export const CreateGalaxyDocument = gql`
     mutation CreateGalaxy($input: galaxy_insert_input!) {
   insert_galaxy_one(object: $input) {
