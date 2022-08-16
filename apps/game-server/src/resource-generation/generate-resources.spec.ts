@@ -60,7 +60,7 @@ describe('generateResources', () => {
     jest.spyOn(mockClient, 'mutate');
   });
 
-  it('should generate resources at the correct rate and interval', async () => {
+  it('should generate resources at the correct rate and interval', () => {
     generateResources(mockClient);
     link.simulateResult(mockedSubResult);
 
