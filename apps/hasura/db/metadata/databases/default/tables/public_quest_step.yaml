@@ -1,22 +1,25 @@
 table:
   schema: public
-  name: resource_type
+  name: quest_step
 insert_permissions:
   - role: dev
     permission:
       check: {}
       columns:
+        - description
         - type
 select_permissions:
   - role: dev
     permission:
       columns:
+        - description
         - type
         - id
       filter: {}
   - role: user
     permission:
       columns:
+        - description
         - type
         - id
       filter: {}

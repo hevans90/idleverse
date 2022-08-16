@@ -1,11 +1,12 @@
 table:
   schema: public
-  name: resource_type
+  name: quest_reward
 insert_permissions:
   - role: dev
     permission:
       check: {}
       columns:
+        - quest_id
         - type
 select_permissions:
   - role: dev
@@ -13,10 +14,12 @@ select_permissions:
       columns:
         - type
         - id
+        - quest_id
       filter: {}
   - role: user
     permission:
       columns:
         - type
         - id
+        - quest_id
       filter: {}

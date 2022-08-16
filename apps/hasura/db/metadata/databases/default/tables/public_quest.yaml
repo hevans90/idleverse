@@ -1,0 +1,37 @@
+table:
+  schema: public
+  name: quest
+array_relationships:
+  - name: rewards
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: quest_reward
+        insertion_order: null
+        column_mapping:
+          id: id
+  - name: steps
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: quest_step
+        insertion_order: null
+        column_mapping:
+          id: id
+insert_permissions:
+  - role: dev
+    permission:
+      check: {}
+      columns:
+        - description
+        - name
+select_permissions:
+  - role: dev
+    permission:
+      columns:
+        - description
+        - id
+        - name
+      filter: {}

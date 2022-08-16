@@ -1,0 +1,4 @@
+table:
+  schema: public
+  name: quest_reward_type
+is_enum: true
