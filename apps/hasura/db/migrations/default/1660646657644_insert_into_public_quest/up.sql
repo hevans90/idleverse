@@ -1,0 +1,1 @@
+INSERT INTO "public"."quest"("id", "name", "description", "type", "next_quest_in_chain") VALUES (E'35146464-74d4-4eed-ba17-cced675c1aa9', E'Learning the Ropes (I)', E'An introduction to your empire.', E'main', E'06e6e615-bc80-4a84-b85a-275dc702c17d');

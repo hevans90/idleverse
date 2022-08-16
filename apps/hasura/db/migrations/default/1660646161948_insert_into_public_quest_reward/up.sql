@@ -1,0 +1,1 @@
+INSERT INTO "public"."quest_reward"("id", "quest_id", "type", "resource_accrual_type_id", "resource_accrual_amount", "npc_unlock_id", "resource_unlock_id") VALUES (E'dd04ff94-1219-4cfd-a9c5-0c3ab380cc44', E'06e6e615-bc80-4a84-b85a-275dc702c17d', E'resource_unlock', null, null, null, E'21b6f220-4f66-4454-a08c-f98e8a25f72b');

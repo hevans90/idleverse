@@ -1,25 +1,25 @@
 table:
   schema: public
   name: quest
+object_relationships:
+  - name: quest_type
+    using:
+      foreign_key_constraint_on: type
 array_relationships:
   - name: rewards
     using:
-      manual_configuration:
-        remote_table:
+      foreign_key_constraint_on:
+        column: quest_id
+        table:
           schema: public
           name: quest_reward
-        insertion_order: null
-        column_mapping:
-          id: id
   - name: steps
     using:
-      manual_configuration:
-        remote_table:
+      foreign_key_constraint_on:
+        column: quest_id
+        table:
           schema: public
           name: quest_step
-        insertion_order: null
-        column_mapping:
-          id: id
 insert_permissions:
   - role: dev
     permission:
@@ -27,6 +27,8 @@ insert_permissions:
       columns:
         - description
         - name
+        - next_quest_in_chain
+        - type
 select_permissions:
   - role: dev
     permission:
@@ -34,4 +36,6 @@ select_permissions:
         - description
         - id
         - name
+        - next_quest_in_chain
+        - type
       filter: {}

@@ -1,25 +1,44 @@
 table:
   schema: public
   name: quest_step
+object_relationships:
+  - name: npc
+    using:
+      foreign_key_constraint_on: npc_contact_id
 insert_permissions:
   - role: dev
     permission:
       check: {}
       columns:
         - description
+        - next_step_in_quest
+        - npc_contact_id
+        - quest_id
+        - resource_cost_amount
+        - resource_cost_id
         - type
 select_permissions:
   - role: dev
     permission:
       columns:
         - description
-        - type
         - id
+        - next_step_in_quest
+        - npc_contact_id
+        - quest_id
+        - resource_cost_amount
+        - resource_cost_id
+        - type
       filter: {}
   - role: user
     permission:
       columns:
         - description
-        - type
         - id
+        - next_step_in_quest
+        - npc_contact_id
+        - quest_id
+        - resource_cost_amount
+        - resource_cost_id
+        - type
       filter: {}
