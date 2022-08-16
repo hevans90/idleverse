@@ -1,0 +1,15 @@
+table:
+  schema: public
+  name: quest_type
+is_enum: true
+select_permissions:
+  - role: dev
+    permission:
+      columns:
+        - value
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - value
+      filter: {}

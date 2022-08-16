@@ -1,0 +1,17 @@
+table:
+  schema: public
+  name: quest_reward_type
+is_enum: true
+select_permissions:
+  - role: dev
+    permission:
+      columns:
+        - description
+        - value
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - description
+        - value
+      filter: {}

@@ -1,6 +1,12 @@
 table:
   schema: public
   name: resource_type
+insert_permissions:
+  - role: dev
+    permission:
+      check: {}
+      columns:
+        - type
 select_permissions:
   - role: dev
     permission:

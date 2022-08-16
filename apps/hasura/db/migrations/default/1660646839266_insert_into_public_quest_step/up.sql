@@ -1,0 +1,1 @@
+INSERT INTO "public"."quest_step"("id", "description", "type", "quest_id", "npc_contact_id", "resource_cost_id", "resource_cost_amount") VALUES (E'df989c66-0f6b-4360-831b-c01cfcbac849', E'Open your quest journal by pressing J, or clicking the icon from the side menu.', E'cta', E'35146464-74d4-4eed-ba17-cced675c1aa9', null, null, null);

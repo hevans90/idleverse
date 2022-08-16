@@ -1,0 +1,1 @@
+INSERT INTO "public"."quest_step"("id", "description", "type", "quest_id", "npc_contact_id", "resource_cost_id", "resource_cost_amount") VALUES (E'33c7a786-7d99-4376-8c9f-6ec1944d002e', E'Talk to Harkas about resources.', E'npc_contact', E'06e6e615-bc80-4a84-b85a-275dc702c17d', E'b01a69e5-aedc-421c-8a4c-8b729e5338a2', null, null);

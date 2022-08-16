@@ -1,0 +1,26 @@
+table:
+  schema: public
+  name: galactic_empire_quest
+select_permissions:
+  - role: dev
+    permission:
+      columns:
+        - completed
+        - user_id
+        - galactic_empire_id
+        - id
+        - quest_id
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+  - role: user
+    permission:
+      columns:
+        - completed
+        - user_id
+        - galactic_empire_id
+        - id
+        - quest_id
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id

@@ -1,0 +1,41 @@
+table:
+  schema: public
+  name: quest
+object_relationships:
+  - name: quest_type
+    using:
+      foreign_key_constraint_on: type
+array_relationships:
+  - name: rewards
+    using:
+      foreign_key_constraint_on:
+        column: quest_id
+        table:
+          schema: public
+          name: quest_reward
+  - name: steps
+    using:
+      foreign_key_constraint_on:
+        column: quest_id
+        table:
+          schema: public
+          name: quest_step
+insert_permissions:
+  - role: dev
+    permission:
+      check: {}
+      columns:
+        - description
+        - name
+        - next_quest_in_chain
+        - type
+select_permissions:
+  - role: dev
+    permission:
+      columns:
+        - description
+        - id
+        - name
+        - next_quest_in_chain
+        - type
+      filter: {}

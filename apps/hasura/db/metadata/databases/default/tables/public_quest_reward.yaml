@@ -1,0 +1,35 @@
+table:
+  schema: public
+  name: quest_reward
+insert_permissions:
+  - role: dev
+    permission:
+      check: {}
+      columns:
+        - npc_unlock_id
+        - quest_id
+        - resource_accrual_amount
+        - resource_accrual_type_id
+        - resource_unlock_id
+        - type
+select_permissions:
+  - role: dev
+    permission:
+      columns:
+        - id
+        - npc_unlock_id
+        - quest_id
+        - resource_accrual_amount
+        - resource_accrual_type_id
+        - resource_unlock_id
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - id
+        - npc_unlock_id
+        - quest_id
+        - resource_accrual_amount
+        - resource_accrual_type_id
+        - resource_unlock_id
+      filter: {}
