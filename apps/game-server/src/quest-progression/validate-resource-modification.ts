@@ -1,17 +1,34 @@
 import { GalacticEmpireQuestByIdQuery } from '@idleverse/galaxy-gql';
-import { ResourceModifierKey } from '../datasources/hasura-empire-resource-modifiers';
+import {
+  ResourceModification,
+  ResourceModifierKey,
+} from '../datasources/hasura-empire-resource-modifiers';
 
+export const emptyResourceModification = (
+  galacticEmpireId: string
+): ResourceModification => ({
+  galacticEmpireId,
+  commonMetalsIncrement: 0,
+  galacticCreditsIncrement: 0,
+  hydrocarbonsIncrement: 0,
+  rareMetalsIncrement: 0,
+  voidMatterIncrement: 0,
+});
+
+/**
+ * Validates that the empire's resources include the specified resource type to modify, and that (if decrementing), the user has enough to spend.
+ */
 export const validateResourceModification = ({
   resources,
-  resource_cost_amount,
-  resource_cost_id,
+  resource_amount,
+  resource_id,
 }: {
   resources: GalacticEmpireQuestByIdQuery['galactic_empire_quest_by_pk']['galactic_empire']['resources'];
-  resource_cost_amount: number;
-  resource_cost_id: string;
+  resource_amount: number;
+  resource_id: string;
 }): { error?: string; modifierKey?: ResourceModifierKey } => {
   const resourceToModify = resources.find(
-    ({ resource_type: { id } }) => id === resource_cost_id
+    ({ resource_type: { id } }) => id === resource_id
   );
 
   if (!resourceToModify) {
@@ -21,7 +38,8 @@ export const validateResourceModification = ({
     };
   }
 
-  if (resourceToModify.value < resource_cost_amount) {
+  // if decrement, and decrement amount is greater than total
+  if (resource_amount < 0 && -resource_amount > resourceToModify.value) {
     return { error: "You don't have enough resources to spend!" };
   }
   let modifierKey: ResourceModifierKey;

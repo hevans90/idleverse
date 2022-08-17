@@ -87,8 +87,9 @@ export type PlanetCreationInput = {
   texture_resolution: Scalars['Float'];
 };
 
-export type QuestManagement = {
-  __typename?: 'QuestManagement';
+export type QuestCompletion = {
+  __typename?: 'QuestCompletion';
+  nextQuestInChainAdded: Scalars['String'];
   questId: Scalars['String'];
 };
 
@@ -2283,7 +2284,7 @@ export type Galaxy_Variance_Fields = {
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
-  completeQuest?: Maybe<QuestManagement>;
+  completeQuest?: Maybe<QuestCompletion>;
   createEmpireOriginCelestial?: Maybe<GalaxyManagement>;
   createPlanet?: Maybe<CelestialManagement>;
   /** delete data from the table: "background" */
@@ -8931,7 +8932,7 @@ export type SubmitEmpireQuestCompletionRequestMutationVariables = Exact<{
 }>;
 
 
-export type SubmitEmpireQuestCompletionRequestMutation = { __typename?: 'mutation_root', completeQuest?: { __typename?: 'QuestManagement', questId: string } | null };
+export type SubmitEmpireQuestCompletionRequestMutation = { __typename?: 'mutation_root', completeQuest?: { __typename?: 'QuestCompletion', questId: string, nextQuestInChainAdded: string } | null };
 
 export type ResourceGeneratorsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -9524,6 +9525,7 @@ export const SubmitEmpireQuestCompletionRequestDocument = gql`
     mutation SubmitEmpireQuestCompletionRequest($empireQuestId: String!) {
   completeQuest(empire_quest_id: $empireQuestId) {
     questId
+    nextQuestInChainAdded
   }
 }
     `;
