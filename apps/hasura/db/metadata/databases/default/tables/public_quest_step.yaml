@@ -23,6 +23,7 @@ select_permissions:
       columns:
         - description
         - id
+        - initial
         - next_step_in_quest
         - npc_contact_id
         - quest_id
@@ -35,6 +36,7 @@ select_permissions:
       columns:
         - description
         - id
+        - initial
         - next_step_in_quest
         - npc_contact_id
         - quest_id

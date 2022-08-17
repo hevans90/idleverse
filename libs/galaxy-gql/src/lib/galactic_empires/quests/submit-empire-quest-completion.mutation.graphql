@@ -1,6 +1,6 @@
 mutation SubmitEmpireQuestCompletionRequest($empireQuestId: String!) {
   completeQuest(empire_quest_id: $empireQuestId) {
-    questId
-    nextQuestInChainAdded
+    quest_id
+    next_quest_in_chain_added
   }
 }

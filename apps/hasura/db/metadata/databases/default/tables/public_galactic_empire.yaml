@@ -37,6 +37,13 @@ array_relationships:
         table:
           schema: public
           name: galactic_empire_npc
+  - name: quests
+    using:
+      foreign_key_constraint_on:
+        column: galactic_empire_id
+        table:
+          schema: public
+          name: galactic_empire_quest
   - name: resources
     using:
       manual_configuration:
@@ -79,6 +86,7 @@ select_permissions:
         - id
         - user_id
       filter: {}
+      allow_aggregations: true
   - role: user
     permission:
       columns:

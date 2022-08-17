@@ -29,6 +29,7 @@ insert_permissions:
       check: {}
       columns:
         - description
+        - initial
         - name
         - next_quest_in_chain
         - type
@@ -38,6 +39,7 @@ select_permissions:
       columns:
         - description
         - id
+        - initial
         - name
         - next_quest_in_chain
         - type

@@ -8,7 +8,6 @@ import {
   Field,
   Mutation,
   ObjectType,
-  registerEnumType,
   Resolver,
 } from 'type-graphql';
 import { Context } from '../datasources/context';
@@ -19,11 +18,6 @@ import {
   validateResourceModification,
 } from '../quest-progression/validate-resource-modification';
 
-registerEnumType(Quest_Reward_Type_Enum, {
-  name: 'Quest_Reward_Type_Enum',
-  description: 'Quest reward types.',
-});
-
 @ObjectType()
 export class QuestManagement {
   @Field()
@@ -32,8 +26,8 @@ export class QuestManagement {
 
 @ObjectType()
 export class QuestReward {
-  @Field((type) => Quest_Reward_Type_Enum)
-  type: Quest_Reward_Type_Enum;
+  @Field()
+  type: string;
   @Field()
   npc_unlock_id?: string;
   @Field()

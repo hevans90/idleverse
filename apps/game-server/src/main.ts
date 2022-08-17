@@ -16,6 +16,7 @@ import { CelestialManagementResolver } from './entities/celestial-management';
 import { GalaxyManagementResolver } from './entities/galaxy-management';
 import { QuestManagementResolver } from './entities/quest-management';
 import { RegisterResolver } from './entities/register';
+import { automaticMainQuestAssignment } from './quest-progression/automatic-quest-assignment';
 import { generateResources } from './resource-generation/generate-resources';
 import ws = require('ws');
 
@@ -135,6 +136,8 @@ import ws = require('ws');
   await server.start();
 
   generateResources(client);
+
+  automaticMainQuestAssignment(client, new HasuraQuestProgression(client));
 
   // Apply the GraphQL server middleware
   server.applyMiddleware({ app, path });

@@ -89,8 +89,18 @@ export type PlanetCreationInput = {
 
 export type QuestCompletion = {
   __typename?: 'QuestCompletion';
-  nextQuestInChainAdded: Scalars['String'];
-  questId: Scalars['String'];
+  next_quest_in_chain_added?: Maybe<Scalars['String']>;
+  quest_id: Scalars['String'];
+  rewards: Array<QuestReward>;
+};
+
+export type QuestReward = {
+  __typename?: 'QuestReward';
+  npc_unlock_id: Scalars['String'];
+  resource_accrual_amount: Scalars['Float'];
+  resource_accrual_type_id: Scalars['String'];
+  resource_unlock_id: Scalars['String'];
+  type: Scalars['String'];
 };
 
 export type Register = {
@@ -885,6 +895,10 @@ export type Galactic_Empire = {
   playable_race: Playable_Race;
   playable_race_id: Scalars['uuid'];
   /** An array relationship */
+  quests: Array<Galactic_Empire_Quest>;
+  /** An aggregate relationship */
+  quests_aggregate: Galactic_Empire_Quest_Aggregate;
+  /** An array relationship */
   resources: Array<Galactic_Empire_Resources>;
   /** An aggregate relationship */
   resources_aggregate: Galactic_Empire_Resources_Aggregate;
@@ -931,6 +945,26 @@ export type Galactic_EmpireNpcs_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Npc_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Npc_Bool_Exp>;
+};
+
+
+/** columns and relationships of "galactic_empire" */
+export type Galactic_EmpireQuestsArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Quest_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Quest_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Quest_Bool_Exp>;
+};
+
+
+/** columns and relationships of "galactic_empire" */
+export type Galactic_EmpireQuests_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Quest_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Quest_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Quest_Bool_Exp>;
 };
 
 
@@ -1035,6 +1069,7 @@ export type Galactic_Empire_Bool_Exp = {
   npcs?: InputMaybe<Galactic_Empire_Npc_Bool_Exp>;
   playable_race?: InputMaybe<Playable_Race_Bool_Exp>;
   playable_race_id?: InputMaybe<Uuid_Comparison_Exp>;
+  quests?: InputMaybe<Galactic_Empire_Quest_Bool_Exp>;
   resources?: InputMaybe<Galactic_Empire_Resources_Bool_Exp>;
   user_id?: InputMaybe<String_Comparison_Exp>;
   user_info?: InputMaybe<User_Info_Bool_Exp>;
@@ -1069,6 +1104,7 @@ export type Galactic_Empire_Insert_Input = {
   npcs?: InputMaybe<Galactic_Empire_Npc_Arr_Rel_Insert_Input>;
   playable_race?: InputMaybe<Playable_Race_Obj_Rel_Insert_Input>;
   playable_race_id?: InputMaybe<Scalars['uuid']>;
+  quests?: InputMaybe<Galactic_Empire_Quest_Arr_Rel_Insert_Input>;
   resources?: InputMaybe<Galactic_Empire_Resources_Arr_Rel_Insert_Input>;
   user_id?: InputMaybe<Scalars['String']>;
   user_info?: InputMaybe<User_Info_Obj_Rel_Insert_Input>;
@@ -1325,6 +1361,7 @@ export type Galactic_Empire_Order_By = {
   npcs_aggregate?: InputMaybe<Galactic_Empire_Npc_Aggregate_Order_By>;
   playable_race?: InputMaybe<Playable_Race_Order_By>;
   playable_race_id?: InputMaybe<Order_By>;
+  quests_aggregate?: InputMaybe<Galactic_Empire_Quest_Aggregate_Order_By>;
   resources_aggregate?: InputMaybe<Galactic_Empire_Resources_Aggregate_Order_By>;
   user_id?: InputMaybe<Order_By>;
   user_info?: InputMaybe<User_Info_Order_By>;
@@ -1371,6 +1408,20 @@ export type Galactic_Empire_Quest_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "galactic_empire_quest" */
+export type Galactic_Empire_Quest_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Galactic_Empire_Quest_Max_Order_By>;
+  min?: InputMaybe<Galactic_Empire_Quest_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "galactic_empire_quest" */
+export type Galactic_Empire_Quest_Arr_Rel_Insert_Input = {
+  data: Array<Galactic_Empire_Quest_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Galactic_Empire_Quest_On_Conflict>;
+};
+
 /** Boolean expression to filter rows from the table "galactic_empire_quest". All fields are combined with a logical 'AND'. */
 export type Galactic_Empire_Quest_Bool_Exp = {
   _and?: InputMaybe<Array<Galactic_Empire_Quest_Bool_Exp>>;
@@ -1411,6 +1462,14 @@ export type Galactic_Empire_Quest_Max_Fields = {
   quest_step_id?: Maybe<Scalars['uuid']>;
 };
 
+/** order by max() on columns of table "galactic_empire_quest" */
+export type Galactic_Empire_Quest_Max_Order_By = {
+  galactic_empire_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  quest_id?: InputMaybe<Order_By>;
+  quest_step_id?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Galactic_Empire_Quest_Min_Fields = {
   __typename?: 'galactic_empire_quest_min_fields';
@@ -1418,6 +1477,14 @@ export type Galactic_Empire_Quest_Min_Fields = {
   id?: Maybe<Scalars['uuid']>;
   quest_id?: Maybe<Scalars['uuid']>;
   quest_step_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "galactic_empire_quest" */
+export type Galactic_Empire_Quest_Min_Order_By = {
+  galactic_empire_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  quest_id?: InputMaybe<Order_By>;
+  quest_step_id?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "galactic_empire_quest" */
@@ -5503,6 +5570,7 @@ export type Quest = {
   __typename?: 'quest';
   description: Scalars['String'];
   id: Scalars['uuid'];
+  initial?: Maybe<Scalars['Boolean']>;
   name: Scalars['String'];
   /** An object relationship */
   next_quest?: Maybe<Quest>;
@@ -5589,6 +5657,7 @@ export type Quest_Bool_Exp = {
   _or?: InputMaybe<Array<Quest_Bool_Exp>>;
   description?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  initial?: InputMaybe<Boolean_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   next_quest?: InputMaybe<Quest_Bool_Exp>;
   next_quest_in_chain?: InputMaybe<Uuid_Comparison_Exp>;
@@ -5610,6 +5679,7 @@ export enum Quest_Constraint {
 export type Quest_Insert_Input = {
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
+  initial?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
   next_quest?: InputMaybe<Quest_Obj_Rel_Insert_Input>;
   next_quest_in_chain?: InputMaybe<Scalars['uuid']>;
@@ -5664,6 +5734,7 @@ export type Quest_On_Conflict = {
 export type Quest_Order_By = {
   description?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  initial?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   next_quest?: InputMaybe<Quest_Order_By>;
   next_quest_in_chain?: InputMaybe<Order_By>;
@@ -6125,6 +6196,8 @@ export enum Quest_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  Initial = 'initial',
+  /** column name */
   Name = 'name',
   /** column name */
   NextQuestInChain = 'next_quest_in_chain',
@@ -6136,6 +6209,7 @@ export enum Quest_Select_Column {
 export type Quest_Set_Input = {
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
+  initial?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
   next_quest_in_chain?: InputMaybe<Scalars['uuid']>;
   type?: InputMaybe<Quest_Type_Enum>;
@@ -6738,6 +6812,8 @@ export enum Quest_Update_Column {
   Description = 'description',
   /** column name */
   Id = 'id',
+  /** column name */
+  Initial = 'initial',
   /** column name */
   Name = 'name',
   /** column name */
@@ -8912,12 +8988,22 @@ export type CompleteGalacticEmpireQuestByIdMutationVariables = Exact<{
 
 export type CompleteGalacticEmpireQuestByIdMutation = { __typename?: 'mutation_root', update_galactic_empire_quest_by_pk?: { __typename?: 'galactic_empire_quest', completed: boolean, quest_id: string } | null };
 
+export type EmpiresWithoutQuestsSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type EmpiresWithoutQuestsSubscription = { __typename?: 'subscription_root', galactic_empire_aggregate: { __typename?: 'galactic_empire_aggregate', nodes: Array<{ __typename?: 'galactic_empire', id: string }> } };
+
 export type GalacticEmpireQuestByIdQueryVariables = Exact<{
   empireQuestId: Scalars['uuid'];
 }>;
 
 
 export type GalacticEmpireQuestByIdQuery = { __typename?: 'query_root', galactic_empire_quest_by_pk?: { __typename?: 'galactic_empire_quest', completed: boolean, quest_step_id: string, quest: { __typename?: 'quest', steps: Array<{ __typename?: 'quest_step', next_step_in_quest?: string | null, id: string, npc_contact_id?: string | null, resource_cost_amount?: number | null, resource_cost_id?: string | null, type: Quest_Step_Type_Enum }>, rewards: Array<{ __typename?: 'quest_reward', npc_unlock_id?: string | null, resource_accrual_amount?: number | null, resource_accrual_type_id?: string | null, resource_unlock_id?: string | null, type: Quest_Reward_Type_Enum }>, quest_type: { __typename?: 'quest_type', value: string }, next_quest?: { __typename?: 'quest', id: string, steps: Array<{ __typename?: 'quest_step', id: string }> } | null }, galactic_empire: { __typename?: 'galactic_empire', id: string, resources: Array<{ __typename?: 'galactic_empire_resources', value: number, resource_type: { __typename?: 'resource_type', type: string, id: string } }> } } | null };
+
+export type InitialMainQuestIdQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type InitialMainQuestIdQuery = { __typename?: 'query_root', quest: Array<{ __typename?: 'quest', id: string, steps: Array<{ __typename?: 'quest_step', id: string }> }> };
 
 export type ProgressGalacticEmpireQuestStepByIdMutationVariables = Exact<{
   questId: Scalars['uuid'];
@@ -8932,7 +9018,7 @@ export type SubmitEmpireQuestCompletionRequestMutationVariables = Exact<{
 }>;
 
 
-export type SubmitEmpireQuestCompletionRequestMutation = { __typename?: 'mutation_root', completeQuest?: { __typename?: 'QuestCompletion', questId: string, nextQuestInChainAdded: string } | null };
+export type SubmitEmpireQuestCompletionRequestMutation = { __typename?: 'mutation_root', completeQuest?: { __typename?: 'QuestCompletion', quest_id: string, next_quest_in_chain_added?: string | null } | null };
 
 export type ResourceGeneratorsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -9462,6 +9548,16 @@ export const CompleteGalacticEmpireQuestByIdDocument = gql`
 export type CompleteGalacticEmpireQuestByIdMutationFn = Apollo.MutationFunction<CompleteGalacticEmpireQuestByIdMutation, CompleteGalacticEmpireQuestByIdMutationVariables>;
 export type CompleteGalacticEmpireQuestByIdMutationResult = Apollo.MutationResult<CompleteGalacticEmpireQuestByIdMutation>;
 export type CompleteGalacticEmpireQuestByIdMutationOptions = Apollo.BaseMutationOptions<CompleteGalacticEmpireQuestByIdMutation, CompleteGalacticEmpireQuestByIdMutationVariables>;
+export const EmpiresWithoutQuestsDocument = gql`
+    subscription EmpiresWithoutQuests {
+  galactic_empire_aggregate(where: {_not: {quests: {}}}) {
+    nodes {
+      id
+    }
+  }
+}
+    `;
+export type EmpiresWithoutQuestsSubscriptionResult = Apollo.SubscriptionResult<EmpiresWithoutQuestsSubscription>;
 export const GalacticEmpireQuestByIdDocument = gql`
     query GalacticEmpireQuestById($empireQuestId: uuid!) {
   galactic_empire_quest_by_pk(id: $empireQuestId) {
@@ -9507,6 +9603,17 @@ export const GalacticEmpireQuestByIdDocument = gql`
 }
     `;
 export type GalacticEmpireQuestByIdQueryResult = Apollo.QueryResult<GalacticEmpireQuestByIdQuery, GalacticEmpireQuestByIdQueryVariables>;
+export const InitialMainQuestIdDocument = gql`
+    query InitialMainQuestId {
+  quest(where: {type: {_eq: main}, initial: {_eq: true}}) {
+    id
+    steps(where: {initial: {_eq: true}}) {
+      id
+    }
+  }
+}
+    `;
+export type InitialMainQuestIdQueryResult = Apollo.QueryResult<InitialMainQuestIdQuery, InitialMainQuestIdQueryVariables>;
 export const ProgressGalacticEmpireQuestStepByIdDocument = gql`
     mutation ProgressGalacticEmpireQuestStepById($questId: uuid!, $stepId: uuid!) {
   update_galactic_empire_quest_by_pk(
@@ -9524,8 +9631,8 @@ export type ProgressGalacticEmpireQuestStepByIdMutationOptions = Apollo.BaseMuta
 export const SubmitEmpireQuestCompletionRequestDocument = gql`
     mutation SubmitEmpireQuestCompletionRequest($empireQuestId: String!) {
   completeQuest(empire_quest_id: $empireQuestId) {
-    questId
-    nextQuestInChainAdded
+    quest_id
+    next_quest_in_chain_added
   }
 }
     `;
