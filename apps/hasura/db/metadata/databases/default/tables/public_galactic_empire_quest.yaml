@@ -2,6 +2,9 @@ table:
   schema: public
   name: galactic_empire_quest
 object_relationships:
+  - name: galactic_empire
+    using:
+      foreign_key_constraint_on: galactic_empire_id
   - name: quest
     using:
       foreign_key_constraint_on: quest_id
@@ -14,10 +17,10 @@ select_permissions:
         - id
         - quest_id
         - quest_step_id
-        - user_id
       filter:
-        user_id:
-          _eq: X-Hasura-User-Id
+        galactic_empire:
+          user_id:
+            _eq: X-Hasura-User-Id
   - role: user
     permission:
       columns:
@@ -26,7 +29,7 @@ select_permissions:
         - id
         - quest_id
         - quest_step_id
-        - user_id
       filter:
-        user_id:
-          _eq: X-Hasura-User-Id
+        galactic_empire:
+          user_id:
+            _eq: X-Hasura-User-Id

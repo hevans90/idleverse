@@ -1,0 +1,42 @@
+query GalacticEmpireQuestById($empireQuestId: uuid!) {
+  galactic_empire_quest_by_pk(id: $empireQuestId) {
+    completed
+    quest_step_id
+    quest {
+      steps {
+        next_step_in_quest
+        id
+        npc_contact_id
+        resource_cost_amount
+        resource_cost_id
+        type
+      }
+      rewards {
+        npc_unlock_id
+        resource_accrual_amount
+        resource_accrual_type_id
+        resource_unlock_id
+        type
+      }
+      quest_type {
+        value
+      }
+      next_quest {
+        id
+        steps(where: { initial: { _eq: true } }) {
+          id
+        }
+      }
+    }
+    galactic_empire {
+      id
+      resources {
+        value
+        resource_type {
+          type
+          id
+        }
+      }
+    }
+  }
+}

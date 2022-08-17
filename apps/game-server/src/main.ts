@@ -10,8 +10,11 @@ import { authChecker } from './authChecker';
 import { Auth0API } from './datasources/auth0';
 import { Context } from './datasources/context';
 import { HasuraAPI } from './datasources/hasura-api';
+import { HasuraEmpireResourceModifiers } from './datasources/hasura-empire-resource-modifiers';
+import { HasuraQuestProgression } from './datasources/hasura-quest-progression';
 import { CelestialManagementResolver } from './entities/celestial-management';
 import { GalaxyManagementResolver } from './entities/galaxy-management';
+import { QuestManagementResolver } from './entities/quest-management';
 import { RegisterResolver } from './entities/register';
 import { generateResources } from './resource-generation/generate-resources';
 import ws = require('ws');
@@ -52,6 +55,7 @@ import ws = require('ws');
       RegisterResolver,
       GalaxyManagementResolver,
       CelestialManagementResolver,
+      QuestManagementResolver,
     ],
     authChecker,
     emitSchemaFile: true,
@@ -96,6 +100,10 @@ import ws = require('ws');
     dataSources: (): DataSources<Partial<Context['dataSources']>> => {
       return {
         hasuraAPI: new HasuraAPI(client),
+        hasuraQuestProgression: new HasuraQuestProgression(client),
+        hasuraEmpireResourceModifiers: new HasuraEmpireResourceModifiers(
+          client
+        ),
         auth0API: new Auth0API(),
       };
     },

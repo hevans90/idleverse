@@ -1,0 +1,5 @@
+mutation SubmitEmpireQuestCompletionRequest($empireQuestId: String!) {
+  completeQuest(empire_quest_id: $empireQuestId) {
+    questId
+  }
+}
