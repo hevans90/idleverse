@@ -1,0 +1,3 @@
+UPDATE quest_step
+SET next_step_in_quest = '64495408-9e95-4b44-844e-5bebeb40bbac'
+WHERE id = '33c7a786-7d99-4376-8c9f-6ec1944d002e';

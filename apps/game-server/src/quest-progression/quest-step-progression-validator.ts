@@ -6,7 +6,10 @@ import {
   ResourceModification,
   resourceModificationFactory,
 } from '../datasources/hasura-empire-resource-modifiers';
-import { validateResourceModification } from './validate-resource-modification';
+import {
+  nullifyEmptyResourceModification,
+  validateResourceModification,
+} from './validate-resource-modification';
 
 export const questStepProgressionValidator = ({
   step,
@@ -20,7 +23,6 @@ export const questStepProgressionValidator = ({
   error?: string;
   resourceModification?: ResourceModification;
 } => {
-  // process the final step first
   switch (step.type) {
     case Quest_Step_Type_Enum.Cta:
       // no completion requirements
@@ -58,14 +60,7 @@ export const questStepProgressionValidator = ({
       break;
   }
 
-  if (
-    resourceModification.commonMetalsIncrement === 0 &&
-    resourceModification.galacticCreditsIncrement === 0 &&
-    resourceModification.hydrocarbonsIncrement === 0 &&
-    resourceModification.rareMetalsIncrement === 0 &&
-    resourceModification.voidMatterIncrement === 0
-  ) {
-    resourceModification = undefined;
-  }
+  resourceModification = nullifyEmptyResourceModification(resourceModification);
+
   return { resourceModification };
 };

@@ -13,8 +13,10 @@ import {
 import { Context } from '../datasources/context';
 import { resourceModificationFactory } from '../datasources/hasura-empire-resource-modifiers';
 import { questCompletionValidator } from '../quest-progression/quest-completion-validator';
+import { questStepProgressionValidator } from '../quest-progression/quest-step-progression-validator';
 import {
   emptyResourceModification,
+  nullifyEmptyResourceModification,
   validateResourceModification,
 } from '../quest-progression/validate-resource-modification';
 
@@ -38,6 +40,14 @@ export class QuestReward {
   resource_unlock_id?: string;
 }
 
+@ObjectType()
+export class QuestStepProgression {
+  @Field()
+  quest_id: string;
+
+  @Field({ nullable: true })
+  next_step_in_quest_added: string;
+}
 @ObjectType()
 export class QuestCompletion {
   @Field()
@@ -65,10 +75,14 @@ export class QuestManagementResolver {
         empireQuestId
       );
 
-    if (!questData) throw new Error('No quest to complete.');
+    if (!questData || !questData.galactic_empire_quest_by_pk) {
+      throw new Error('No quest to complete.');
+    }
 
     const galactic_empire_id =
       questData.galactic_empire_quest_by_pk.galactic_empire.id;
+
+    if (!galactic_empire_id) throw new Error('No galactic empire found.');
 
     // validate & process the final step in the quest
     const questCompletionValidation = questCompletionValidator({ questData });
@@ -167,5 +181,78 @@ export class QuestManagementResolver {
     rewardResults.forEach(({ data }) => console.log(data));
 
     return questCompletionResponse;
+  }
+
+  @Authorized('user')
+  @Mutation((returns) => QuestStepProgression, { nullable: true })
+  async progressQuestStep(
+    @Ctx() { dataSources, id: userId }: Context,
+    @Arg('empire_quest_id') empireQuestId: string
+  ) {
+    if (!userId) throw new Error('User id not in token');
+
+    const { data: questData } =
+      await dataSources.hasuraQuestProgression.getGalacticEmpireQuestById(
+        empireQuestId
+      );
+
+    if (!questData || !questData.galactic_empire_quest_by_pk) {
+      throw new Error('No quest to progress.');
+    }
+
+    const galactic_empire_id =
+      questData.galactic_empire_quest_by_pk.galactic_empire.id;
+
+    if (!questData) throw new Error('No empire ID.');
+
+    const {
+      galactic_empire_quest_by_pk: { quest_step_id, quest, galactic_empire },
+    } = questData;
+
+    const step = quest.steps.find(({ id }) => id === quest_step_id);
+
+    if (!step) throw new Error('No step to progress.');
+
+    let resourceModification = emptyResourceModification(galactic_empire_id);
+
+    const stepValidation = questStepProgressionValidator({
+      step,
+      galactic_empire,
+      resourceModification,
+    });
+
+    if (stepValidation.error) throw new Error(stepValidation.error);
+
+    if (stepValidation.resourceModification) {
+      resourceModification = stepValidation.resourceModification;
+    }
+
+    resourceModification =
+      nullifyEmptyResourceModification(resourceModification);
+
+    // process step requirements (initially just resource costs)
+    if (resourceModification) {
+      await dataSources.hasuraEmpireResourceModifiers.incrementEmpireResources(
+        resourceModification
+      );
+    }
+
+    // progress step
+
+    const next_step = step?.next_step_in_quest;
+
+    if (!next_step) throw new Error('No next step in quest.');
+
+    await dataSources.hasuraQuestProgression.progressQuestStep(
+      empireQuestId,
+      next_step
+    );
+
+    const questProgressionResponse = new QuestStepProgression();
+
+    questProgressionResponse.quest_id = empireQuestId;
+    questProgressionResponse.next_step_in_quest_added = next_step;
+
+    return questProgressionResponse;
   }
 }

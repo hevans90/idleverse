@@ -15,6 +15,33 @@ export const emptyResourceModification = (
   voidMatterIncrement: 0,
 });
 
+export const nullifyEmptyResourceModification = ({
+  commonMetalsIncrement,
+  galacticCreditsIncrement,
+  hydrocarbonsIncrement,
+  rareMetalsIncrement,
+  voidMatterIncrement,
+  ...rest
+}: ResourceModification): ResourceModification | undefined => {
+  if (
+    commonMetalsIncrement === 0 &&
+    galacticCreditsIncrement === 0 &&
+    hydrocarbonsIncrement === 0 &&
+    rareMetalsIncrement === 0 &&
+    voidMatterIncrement === 0
+  ) {
+    return undefined;
+  }
+  return {
+    commonMetalsIncrement,
+    galacticCreditsIncrement,
+    hydrocarbonsIncrement,
+    rareMetalsIncrement,
+    voidMatterIncrement,
+    ...rest,
+  };
+};
+
 /**
  * Validates that the empire's resources include the specified resource type to modify, and that (if decrementing), the user has enough to spend.
  */

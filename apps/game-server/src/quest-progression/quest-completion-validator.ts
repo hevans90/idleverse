@@ -1,7 +1,10 @@
 import { GalacticEmpireQuestByIdQuery } from '@idleverse/galaxy-gql';
 import { ResourceModification } from '../datasources/hasura-empire-resource-modifiers';
 import { questStepProgressionValidator } from './quest-step-progression-validator';
-import { emptyResourceModification } from './validate-resource-modification';
+import {
+  emptyResourceModification,
+  nullifyEmptyResourceModification,
+} from './validate-resource-modification';
 
 /**
  * Ensures that the given quest data can proceed to a completion. Includes logic to validate that the final quest step is completable.
@@ -55,14 +58,7 @@ export const questCompletionValidator = ({
     resourceModification = stepValidation.resourceModification;
   }
 
-  if (
-    resourceModification.commonMetalsIncrement === 0 &&
-    resourceModification.galacticCreditsIncrement === 0 &&
-    resourceModification.hydrocarbonsIncrement === 0 &&
-    resourceModification.rareMetalsIncrement === 0 &&
-    resourceModification.voidMatterIncrement === 0
-  ) {
-    resourceModification = undefined;
-  }
+  resourceModification = nullifyEmptyResourceModification(resourceModification);
+
   return { resourceModification, resourceUnlockId, npcUnlockId };
 };
