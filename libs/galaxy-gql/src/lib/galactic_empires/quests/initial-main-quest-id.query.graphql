@@ -1,0 +1,8 @@
+query InitialMainQuestId {
+  quest(where: { type: { _eq: main }, initial: { _eq: true } }) {
+    id
+    steps(where: { initial: { _eq: true } }) {
+      id
+    }
+  }
+}

@@ -1,7 +1,6 @@
 import {
   ApolloClient,
   FetchResult,
-  InMemoryCache,
   NormalizedCacheObject,
 } from '@apollo/client';
 import { MockSubscriptionLink } from '@apollo/client/testing';
@@ -11,6 +10,7 @@ import {
   ResourceGeneratorsSubscription,
 } from '@idleverse/galaxy-gql';
 import { v4 as uuidv4 } from 'uuid';
+import { mockApolloClient } from '../_test-utils/mock-apollo-client.test-util';
 import { generateResources, generationRate } from './generate-resources';
 
 const generatorsSubResults: FetchResult<ResourceGeneratorsSubscription> = {
@@ -50,12 +50,10 @@ describe('generateResources', () => {
   let link: MockSubscriptionLink;
 
   beforeEach(() => {
-    link = new MockSubscriptionLink();
+    const mock = mockApolloClient();
 
-    mockClient = new ApolloClient({
-      link,
-      cache: new InMemoryCache(),
-    });
+    link = mock.link;
+    mockClient = mock.client;
 
     jest.spyOn(mockClient, 'mutate');
   });

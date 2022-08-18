@@ -20,6 +20,24 @@ export type Scalars = {
   uuid: string;
 };
 
+export type Boolean_Cast_Exp = {
+  String?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
+export type Boolean_Comparison_Exp = {
+  _cast?: InputMaybe<Boolean_Cast_Exp>;
+  _eq?: InputMaybe<Scalars['Boolean']>;
+  _gt?: InputMaybe<Scalars['Boolean']>;
+  _gte?: InputMaybe<Scalars['Boolean']>;
+  _in?: InputMaybe<Array<Scalars['Boolean']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['Boolean']>;
+  _lte?: InputMaybe<Scalars['Boolean']>;
+  _neq?: InputMaybe<Scalars['Boolean']>;
+  _nin?: InputMaybe<Array<Scalars['Boolean']>>;
+};
+
 export type CelestialManagement = {
   __typename?: 'CelestialManagement';
   createdPlanet: PartialPlanet;
@@ -67,6 +85,22 @@ export type PlanetCreationInput = {
   terrain_bias: Array<Scalars['Float']>;
   terrain_hex_palette_id: Scalars['String'];
   texture_resolution: Scalars['Float'];
+};
+
+export type QuestCompletion = {
+  __typename?: 'QuestCompletion';
+  next_quest_in_chain_added?: Maybe<Scalars['String']>;
+  quest_id: Scalars['String'];
+  rewards: Array<QuestReward>;
+};
+
+export type QuestReward = {
+  __typename?: 'QuestReward';
+  npc_unlock_id: Scalars['String'];
+  resource_accrual_amount: Scalars['Float'];
+  resource_accrual_type_id: Scalars['String'];
+  resource_unlock_id: Scalars['String'];
+  type: Scalars['String'];
 };
 
 export type Register = {
@@ -861,6 +895,10 @@ export type Galactic_Empire = {
   playable_race: Playable_Race;
   playable_race_id: Scalars['uuid'];
   /** An array relationship */
+  quests: Array<Galactic_Empire_Quest>;
+  /** An aggregate relationship */
+  quests_aggregate: Galactic_Empire_Quest_Aggregate;
+  /** An array relationship */
   resources: Array<Galactic_Empire_Resources>;
   /** An aggregate relationship */
   resources_aggregate: Galactic_Empire_Resources_Aggregate;
@@ -907,6 +945,26 @@ export type Galactic_EmpireNpcs_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Npc_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Npc_Bool_Exp>;
+};
+
+
+/** columns and relationships of "galactic_empire" */
+export type Galactic_EmpireQuestsArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Quest_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Quest_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Quest_Bool_Exp>;
+};
+
+
+/** columns and relationships of "galactic_empire" */
+export type Galactic_EmpireQuests_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Quest_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Quest_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Quest_Bool_Exp>;
 };
 
 
@@ -1011,6 +1069,7 @@ export type Galactic_Empire_Bool_Exp = {
   npcs?: InputMaybe<Galactic_Empire_Npc_Bool_Exp>;
   playable_race?: InputMaybe<Playable_Race_Bool_Exp>;
   playable_race_id?: InputMaybe<Uuid_Comparison_Exp>;
+  quests?: InputMaybe<Galactic_Empire_Quest_Bool_Exp>;
   resources?: InputMaybe<Galactic_Empire_Resources_Bool_Exp>;
   user_id?: InputMaybe<String_Comparison_Exp>;
   user_info?: InputMaybe<User_Info_Bool_Exp>;
@@ -1045,6 +1104,7 @@ export type Galactic_Empire_Insert_Input = {
   npcs?: InputMaybe<Galactic_Empire_Npc_Arr_Rel_Insert_Input>;
   playable_race?: InputMaybe<Playable_Race_Obj_Rel_Insert_Input>;
   playable_race_id?: InputMaybe<Scalars['uuid']>;
+  quests?: InputMaybe<Galactic_Empire_Quest_Arr_Rel_Insert_Input>;
   resources?: InputMaybe<Galactic_Empire_Resources_Arr_Rel_Insert_Input>;
   user_id?: InputMaybe<Scalars['String']>;
   user_info?: InputMaybe<User_Info_Obj_Rel_Insert_Input>;
@@ -1301,6 +1361,7 @@ export type Galactic_Empire_Order_By = {
   npcs_aggregate?: InputMaybe<Galactic_Empire_Npc_Aggregate_Order_By>;
   playable_race?: InputMaybe<Playable_Race_Order_By>;
   playable_race_id?: InputMaybe<Order_By>;
+  quests_aggregate?: InputMaybe<Galactic_Empire_Quest_Aggregate_Order_By>;
   resources_aggregate?: InputMaybe<Galactic_Empire_Resources_Aggregate_Order_By>;
   user_id?: InputMaybe<Order_By>;
   user_info?: InputMaybe<User_Info_Order_By>;
@@ -1310,6 +1371,190 @@ export type Galactic_Empire_Order_By = {
 export type Galactic_Empire_Pk_Columns_Input = {
   id: Scalars['uuid'];
 };
+
+/** columns and relationships of "galactic_empire_quest" */
+export type Galactic_Empire_Quest = {
+  __typename?: 'galactic_empire_quest';
+  completed: Scalars['Boolean'];
+  /** An object relationship */
+  galactic_empire: Galactic_Empire;
+  galactic_empire_id: Scalars['uuid'];
+  id: Scalars['uuid'];
+  /** An object relationship */
+  quest: Quest;
+  quest_id: Scalars['uuid'];
+  quest_step_id: Scalars['uuid'];
+};
+
+/** aggregated selection of "galactic_empire_quest" */
+export type Galactic_Empire_Quest_Aggregate = {
+  __typename?: 'galactic_empire_quest_aggregate';
+  aggregate?: Maybe<Galactic_Empire_Quest_Aggregate_Fields>;
+  nodes: Array<Galactic_Empire_Quest>;
+};
+
+/** aggregate fields of "galactic_empire_quest" */
+export type Galactic_Empire_Quest_Aggregate_Fields = {
+  __typename?: 'galactic_empire_quest_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Galactic_Empire_Quest_Max_Fields>;
+  min?: Maybe<Galactic_Empire_Quest_Min_Fields>;
+};
+
+
+/** aggregate fields of "galactic_empire_quest" */
+export type Galactic_Empire_Quest_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Galactic_Empire_Quest_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "galactic_empire_quest" */
+export type Galactic_Empire_Quest_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Galactic_Empire_Quest_Max_Order_By>;
+  min?: InputMaybe<Galactic_Empire_Quest_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "galactic_empire_quest" */
+export type Galactic_Empire_Quest_Arr_Rel_Insert_Input = {
+  data: Array<Galactic_Empire_Quest_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Galactic_Empire_Quest_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "galactic_empire_quest". All fields are combined with a logical 'AND'. */
+export type Galactic_Empire_Quest_Bool_Exp = {
+  _and?: InputMaybe<Array<Galactic_Empire_Quest_Bool_Exp>>;
+  _not?: InputMaybe<Galactic_Empire_Quest_Bool_Exp>;
+  _or?: InputMaybe<Array<Galactic_Empire_Quest_Bool_Exp>>;
+  completed?: InputMaybe<Boolean_Comparison_Exp>;
+  galactic_empire?: InputMaybe<Galactic_Empire_Bool_Exp>;
+  galactic_empire_id?: InputMaybe<Uuid_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  quest?: InputMaybe<Quest_Bool_Exp>;
+  quest_id?: InputMaybe<Uuid_Comparison_Exp>;
+  quest_step_id?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "galactic_empire_quest" */
+export enum Galactic_Empire_Quest_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  GalacticEmpireQuestPkey = 'galactic_empire_quest_pkey'
+}
+
+/** input type for inserting data into table "galactic_empire_quest" */
+export type Galactic_Empire_Quest_Insert_Input = {
+  completed?: InputMaybe<Scalars['Boolean']>;
+  galactic_empire?: InputMaybe<Galactic_Empire_Obj_Rel_Insert_Input>;
+  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  quest?: InputMaybe<Quest_Obj_Rel_Insert_Input>;
+  quest_id?: InputMaybe<Scalars['uuid']>;
+  quest_step_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type Galactic_Empire_Quest_Max_Fields = {
+  __typename?: 'galactic_empire_quest_max_fields';
+  galactic_empire_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  quest_id?: Maybe<Scalars['uuid']>;
+  quest_step_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "galactic_empire_quest" */
+export type Galactic_Empire_Quest_Max_Order_By = {
+  galactic_empire_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  quest_id?: InputMaybe<Order_By>;
+  quest_step_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Galactic_Empire_Quest_Min_Fields = {
+  __typename?: 'galactic_empire_quest_min_fields';
+  galactic_empire_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  quest_id?: Maybe<Scalars['uuid']>;
+  quest_step_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "galactic_empire_quest" */
+export type Galactic_Empire_Quest_Min_Order_By = {
+  galactic_empire_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  quest_id?: InputMaybe<Order_By>;
+  quest_step_id?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "galactic_empire_quest" */
+export type Galactic_Empire_Quest_Mutation_Response = {
+  __typename?: 'galactic_empire_quest_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Galactic_Empire_Quest>;
+};
+
+/** on_conflict condition type for table "galactic_empire_quest" */
+export type Galactic_Empire_Quest_On_Conflict = {
+  constraint: Galactic_Empire_Quest_Constraint;
+  update_columns?: Array<Galactic_Empire_Quest_Update_Column>;
+  where?: InputMaybe<Galactic_Empire_Quest_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "galactic_empire_quest". */
+export type Galactic_Empire_Quest_Order_By = {
+  completed?: InputMaybe<Order_By>;
+  galactic_empire?: InputMaybe<Galactic_Empire_Order_By>;
+  galactic_empire_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  quest?: InputMaybe<Quest_Order_By>;
+  quest_id?: InputMaybe<Order_By>;
+  quest_step_id?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: galactic_empire_quest */
+export type Galactic_Empire_Quest_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "galactic_empire_quest" */
+export enum Galactic_Empire_Quest_Select_Column {
+  /** column name */
+  Completed = 'completed',
+  /** column name */
+  GalacticEmpireId = 'galactic_empire_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  QuestId = 'quest_id',
+  /** column name */
+  QuestStepId = 'quest_step_id'
+}
+
+/** input type for updating data in table "galactic_empire_quest" */
+export type Galactic_Empire_Quest_Set_Input = {
+  completed?: InputMaybe<Scalars['Boolean']>;
+  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  quest_id?: InputMaybe<Scalars['uuid']>;
+  quest_step_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "galactic_empire_quest" */
+export enum Galactic_Empire_Quest_Update_Column {
+  /** column name */
+  Completed = 'completed',
+  /** column name */
+  GalacticEmpireId = 'galactic_empire_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  QuestId = 'quest_id',
+  /** column name */
+  QuestStepId = 'quest_step_id'
+}
 
 /** columns and relationships of "galactic_empire_resources" */
 export type Galactic_Empire_Resources = {
@@ -2106,6 +2351,7 @@ export type Galaxy_Variance_Fields = {
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
+  completeQuest?: Maybe<QuestCompletion>;
   createEmpireOriginCelestial?: Maybe<GalaxyManagement>;
   createPlanet?: Maybe<CelestialManagement>;
   /** delete data from the table: "background" */
@@ -2132,6 +2378,10 @@ export type Mutation_Root = {
   delete_galactic_empire_npc?: Maybe<Galactic_Empire_Npc_Mutation_Response>;
   /** delete single row from the table: "galactic_empire_npc" */
   delete_galactic_empire_npc_by_pk?: Maybe<Galactic_Empire_Npc>;
+  /** delete data from the table: "galactic_empire_quest" */
+  delete_galactic_empire_quest?: Maybe<Galactic_Empire_Quest_Mutation_Response>;
+  /** delete single row from the table: "galactic_empire_quest" */
+  delete_galactic_empire_quest_by_pk?: Maybe<Galactic_Empire_Quest>;
   /** delete data from the table: "galactic_empire_resources" */
   delete_galactic_empire_resources?: Maybe<Galactic_Empire_Resources_Mutation_Response>;
   /** delete single row from the table: "galactic_empire_resources" */
@@ -2156,6 +2406,30 @@ export type Mutation_Root = {
   delete_playable_race?: Maybe<Playable_Race_Mutation_Response>;
   /** delete single row from the table: "playable_race" */
   delete_playable_race_by_pk?: Maybe<Playable_Race>;
+  /** delete data from the table: "quest" */
+  delete_quest?: Maybe<Quest_Mutation_Response>;
+  /** delete single row from the table: "quest" */
+  delete_quest_by_pk?: Maybe<Quest>;
+  /** delete data from the table: "quest_reward" */
+  delete_quest_reward?: Maybe<Quest_Reward_Mutation_Response>;
+  /** delete single row from the table: "quest_reward" */
+  delete_quest_reward_by_pk?: Maybe<Quest_Reward>;
+  /** delete data from the table: "quest_reward_type" */
+  delete_quest_reward_type?: Maybe<Quest_Reward_Type_Mutation_Response>;
+  /** delete single row from the table: "quest_reward_type" */
+  delete_quest_reward_type_by_pk?: Maybe<Quest_Reward_Type>;
+  /** delete data from the table: "quest_step" */
+  delete_quest_step?: Maybe<Quest_Step_Mutation_Response>;
+  /** delete single row from the table: "quest_step" */
+  delete_quest_step_by_pk?: Maybe<Quest_Step>;
+  /** delete data from the table: "quest_step_type" */
+  delete_quest_step_type?: Maybe<Quest_Step_Type_Mutation_Response>;
+  /** delete single row from the table: "quest_step_type" */
+  delete_quest_step_type_by_pk?: Maybe<Quest_Step_Type>;
+  /** delete data from the table: "quest_type" */
+  delete_quest_type?: Maybe<Quest_Type_Mutation_Response>;
+  /** delete single row from the table: "quest_type" */
+  delete_quest_type_by_pk?: Maybe<Quest_Type>;
   /** delete data from the table: "resource_generator" */
   delete_resource_generator?: Maybe<Resource_Generator_Mutation_Response>;
   /** delete single row from the table: "resource_generator" */
@@ -2204,6 +2478,10 @@ export type Mutation_Root = {
   insert_galactic_empire_npc_one?: Maybe<Galactic_Empire_Npc>;
   /** insert a single row into the table: "galactic_empire" */
   insert_galactic_empire_one?: Maybe<Galactic_Empire>;
+  /** insert data into the table: "galactic_empire_quest" */
+  insert_galactic_empire_quest?: Maybe<Galactic_Empire_Quest_Mutation_Response>;
+  /** insert a single row into the table: "galactic_empire_quest" */
+  insert_galactic_empire_quest_one?: Maybe<Galactic_Empire_Quest>;
   /** insert data into the table: "galactic_empire_resources" */
   insert_galactic_empire_resources?: Maybe<Galactic_Empire_Resources_Mutation_Response>;
   /** insert a single row into the table: "galactic_empire_resources" */
@@ -2228,6 +2506,30 @@ export type Mutation_Root = {
   insert_playable_race?: Maybe<Playable_Race_Mutation_Response>;
   /** insert a single row into the table: "playable_race" */
   insert_playable_race_one?: Maybe<Playable_Race>;
+  /** insert data into the table: "quest" */
+  insert_quest?: Maybe<Quest_Mutation_Response>;
+  /** insert a single row into the table: "quest" */
+  insert_quest_one?: Maybe<Quest>;
+  /** insert data into the table: "quest_reward" */
+  insert_quest_reward?: Maybe<Quest_Reward_Mutation_Response>;
+  /** insert a single row into the table: "quest_reward" */
+  insert_quest_reward_one?: Maybe<Quest_Reward>;
+  /** insert data into the table: "quest_reward_type" */
+  insert_quest_reward_type?: Maybe<Quest_Reward_Type_Mutation_Response>;
+  /** insert a single row into the table: "quest_reward_type" */
+  insert_quest_reward_type_one?: Maybe<Quest_Reward_Type>;
+  /** insert data into the table: "quest_step" */
+  insert_quest_step?: Maybe<Quest_Step_Mutation_Response>;
+  /** insert a single row into the table: "quest_step" */
+  insert_quest_step_one?: Maybe<Quest_Step>;
+  /** insert data into the table: "quest_step_type" */
+  insert_quest_step_type?: Maybe<Quest_Step_Type_Mutation_Response>;
+  /** insert a single row into the table: "quest_step_type" */
+  insert_quest_step_type_one?: Maybe<Quest_Step_Type>;
+  /** insert data into the table: "quest_type" */
+  insert_quest_type?: Maybe<Quest_Type_Mutation_Response>;
+  /** insert a single row into the table: "quest_type" */
+  insert_quest_type_one?: Maybe<Quest_Type>;
   /** insert data into the table: "resource_generator" */
   insert_resource_generator?: Maybe<Resource_Generator_Mutation_Response>;
   /** insert a single row into the table: "resource_generator" */
@@ -2281,6 +2583,10 @@ export type Mutation_Root = {
   update_galactic_empire_npc?: Maybe<Galactic_Empire_Npc_Mutation_Response>;
   /** update single row of the table: "galactic_empire_npc" */
   update_galactic_empire_npc_by_pk?: Maybe<Galactic_Empire_Npc>;
+  /** update data of the table: "galactic_empire_quest" */
+  update_galactic_empire_quest?: Maybe<Galactic_Empire_Quest_Mutation_Response>;
+  /** update single row of the table: "galactic_empire_quest" */
+  update_galactic_empire_quest_by_pk?: Maybe<Galactic_Empire_Quest>;
   /** update data of the table: "galactic_empire_resources" */
   update_galactic_empire_resources?: Maybe<Galactic_Empire_Resources_Mutation_Response>;
   /** update single row of the table: "galactic_empire_resources" */
@@ -2305,6 +2611,30 @@ export type Mutation_Root = {
   update_playable_race?: Maybe<Playable_Race_Mutation_Response>;
   /** update single row of the table: "playable_race" */
   update_playable_race_by_pk?: Maybe<Playable_Race>;
+  /** update data of the table: "quest" */
+  update_quest?: Maybe<Quest_Mutation_Response>;
+  /** update single row of the table: "quest" */
+  update_quest_by_pk?: Maybe<Quest>;
+  /** update data of the table: "quest_reward" */
+  update_quest_reward?: Maybe<Quest_Reward_Mutation_Response>;
+  /** update single row of the table: "quest_reward" */
+  update_quest_reward_by_pk?: Maybe<Quest_Reward>;
+  /** update data of the table: "quest_reward_type" */
+  update_quest_reward_type?: Maybe<Quest_Reward_Type_Mutation_Response>;
+  /** update single row of the table: "quest_reward_type" */
+  update_quest_reward_type_by_pk?: Maybe<Quest_Reward_Type>;
+  /** update data of the table: "quest_step" */
+  update_quest_step?: Maybe<Quest_Step_Mutation_Response>;
+  /** update single row of the table: "quest_step" */
+  update_quest_step_by_pk?: Maybe<Quest_Step>;
+  /** update data of the table: "quest_step_type" */
+  update_quest_step_type?: Maybe<Quest_Step_Type_Mutation_Response>;
+  /** update single row of the table: "quest_step_type" */
+  update_quest_step_type_by_pk?: Maybe<Quest_Step_Type>;
+  /** update data of the table: "quest_type" */
+  update_quest_type?: Maybe<Quest_Type_Mutation_Response>;
+  /** update single row of the table: "quest_type" */
+  update_quest_type_by_pk?: Maybe<Quest_Type>;
   /** update data of the table: "resource_generator" */
   update_resource_generator?: Maybe<Resource_Generator_Mutation_Response>;
   /** update single row of the table: "resource_generator" */
@@ -2329,6 +2659,12 @@ export type Mutation_Root = {
   update_user_me?: Maybe<User_Me_Mutation_Response>;
   /** update data of the table: "user_private" */
   update_user_private?: Maybe<User_Private_Mutation_Response>;
+};
+
+
+/** mutation root */
+export type Mutation_RootCompleteQuestArgs = {
+  empire_quest_id: Scalars['String'];
 };
 
 
@@ -2418,6 +2754,18 @@ export type Mutation_RootDelete_Galactic_Empire_Npc_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_Galactic_Empire_QuestArgs = {
+  where: Galactic_Empire_Quest_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Galactic_Empire_Quest_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_Galactic_Empire_ResourcesArgs = {
   where: Galactic_Empire_Resources_Bool_Exp;
 };
@@ -2486,6 +2834,78 @@ export type Mutation_RootDelete_Playable_RaceArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Playable_Race_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_QuestArgs = {
+  where: Quest_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Quest_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Quest_RewardArgs = {
+  where: Quest_Reward_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Quest_Reward_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Quest_Reward_TypeArgs = {
+  where: Quest_Reward_Type_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Quest_Reward_Type_By_PkArgs = {
+  value: Scalars['String'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Quest_StepArgs = {
+  where: Quest_Step_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Quest_Step_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Quest_Step_TypeArgs = {
+  where: Quest_Step_Type_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Quest_Step_Type_By_PkArgs = {
+  value: Scalars['String'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Quest_TypeArgs = {
+  where: Quest_Type_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Quest_Type_By_PkArgs = {
+  value: Scalars['String'];
 };
 
 
@@ -2646,6 +3066,20 @@ export type Mutation_RootInsert_Galactic_Empire_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_Galactic_Empire_QuestArgs = {
+  objects: Array<Galactic_Empire_Quest_Insert_Input>;
+  on_conflict?: InputMaybe<Galactic_Empire_Quest_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Galactic_Empire_Quest_OneArgs = {
+  object: Galactic_Empire_Quest_Insert_Input;
+  on_conflict?: InputMaybe<Galactic_Empire_Quest_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_Galactic_Empire_ResourcesArgs = {
   objects: Array<Galactic_Empire_Resources_Insert_Input>;
   on_conflict?: InputMaybe<Galactic_Empire_Resources_On_Conflict>;
@@ -2726,6 +3160,90 @@ export type Mutation_RootInsert_Playable_RaceArgs = {
 export type Mutation_RootInsert_Playable_Race_OneArgs = {
   object: Playable_Race_Insert_Input;
   on_conflict?: InputMaybe<Playable_Race_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_QuestArgs = {
+  objects: Array<Quest_Insert_Input>;
+  on_conflict?: InputMaybe<Quest_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Quest_OneArgs = {
+  object: Quest_Insert_Input;
+  on_conflict?: InputMaybe<Quest_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Quest_RewardArgs = {
+  objects: Array<Quest_Reward_Insert_Input>;
+  on_conflict?: InputMaybe<Quest_Reward_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Quest_Reward_OneArgs = {
+  object: Quest_Reward_Insert_Input;
+  on_conflict?: InputMaybe<Quest_Reward_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Quest_Reward_TypeArgs = {
+  objects: Array<Quest_Reward_Type_Insert_Input>;
+  on_conflict?: InputMaybe<Quest_Reward_Type_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Quest_Reward_Type_OneArgs = {
+  object: Quest_Reward_Type_Insert_Input;
+  on_conflict?: InputMaybe<Quest_Reward_Type_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Quest_StepArgs = {
+  objects: Array<Quest_Step_Insert_Input>;
+  on_conflict?: InputMaybe<Quest_Step_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Quest_Step_OneArgs = {
+  object: Quest_Step_Insert_Input;
+  on_conflict?: InputMaybe<Quest_Step_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Quest_Step_TypeArgs = {
+  objects: Array<Quest_Step_Type_Insert_Input>;
+  on_conflict?: InputMaybe<Quest_Step_Type_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Quest_Step_Type_OneArgs = {
+  object: Quest_Step_Type_Insert_Input;
+  on_conflict?: InputMaybe<Quest_Step_Type_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Quest_TypeArgs = {
+  objects: Array<Quest_Type_Insert_Input>;
+  on_conflict?: InputMaybe<Quest_Type_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Quest_Type_OneArgs = {
+  object: Quest_Type_Insert_Input;
+  on_conflict?: InputMaybe<Quest_Type_On_Conflict>;
 };
 
 
@@ -2916,6 +3434,20 @@ export type Mutation_RootUpdate_Galactic_Empire_Npc_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Galactic_Empire_QuestArgs = {
+  _set?: InputMaybe<Galactic_Empire_Quest_Set_Input>;
+  where: Galactic_Empire_Quest_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Galactic_Empire_Quest_By_PkArgs = {
+  _set?: InputMaybe<Galactic_Empire_Quest_Set_Input>;
+  pk_columns: Galactic_Empire_Quest_Pk_Columns_Input;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Galactic_Empire_ResourcesArgs = {
   _inc?: InputMaybe<Galactic_Empire_Resources_Inc_Input>;
   _set?: InputMaybe<Galactic_Empire_Resources_Set_Input>;
@@ -3004,6 +3536,94 @@ export type Mutation_RootUpdate_Playable_RaceArgs = {
 export type Mutation_RootUpdate_Playable_Race_By_PkArgs = {
   _set?: InputMaybe<Playable_Race_Set_Input>;
   pk_columns: Playable_Race_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_QuestArgs = {
+  _set?: InputMaybe<Quest_Set_Input>;
+  where: Quest_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Quest_By_PkArgs = {
+  _set?: InputMaybe<Quest_Set_Input>;
+  pk_columns: Quest_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Quest_RewardArgs = {
+  _inc?: InputMaybe<Quest_Reward_Inc_Input>;
+  _set?: InputMaybe<Quest_Reward_Set_Input>;
+  where: Quest_Reward_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Quest_Reward_By_PkArgs = {
+  _inc?: InputMaybe<Quest_Reward_Inc_Input>;
+  _set?: InputMaybe<Quest_Reward_Set_Input>;
+  pk_columns: Quest_Reward_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Quest_Reward_TypeArgs = {
+  _set?: InputMaybe<Quest_Reward_Type_Set_Input>;
+  where: Quest_Reward_Type_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Quest_Reward_Type_By_PkArgs = {
+  _set?: InputMaybe<Quest_Reward_Type_Set_Input>;
+  pk_columns: Quest_Reward_Type_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Quest_StepArgs = {
+  _inc?: InputMaybe<Quest_Step_Inc_Input>;
+  _set?: InputMaybe<Quest_Step_Set_Input>;
+  where: Quest_Step_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Quest_Step_By_PkArgs = {
+  _inc?: InputMaybe<Quest_Step_Inc_Input>;
+  _set?: InputMaybe<Quest_Step_Set_Input>;
+  pk_columns: Quest_Step_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Quest_Step_TypeArgs = {
+  _set?: InputMaybe<Quest_Step_Type_Set_Input>;
+  where: Quest_Step_Type_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Quest_Step_Type_By_PkArgs = {
+  _set?: InputMaybe<Quest_Step_Type_Set_Input>;
+  pk_columns: Quest_Step_Type_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Quest_TypeArgs = {
+  _set?: InputMaybe<Quest_Type_Set_Input>;
+  where: Quest_Type_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Quest_Type_By_PkArgs = {
+  _set?: InputMaybe<Quest_Type_Set_Input>;
+  pk_columns: Quest_Type_Pk_Columns_Input;
 };
 
 
@@ -4238,6 +4858,12 @@ export type Query_Root = {
   galactic_empire_npc_aggregate: Galactic_Empire_Npc_Aggregate;
   /** fetch data from the table: "galactic_empire_npc" using primary key columns */
   galactic_empire_npc_by_pk?: Maybe<Galactic_Empire_Npc>;
+  /** fetch data from the table: "galactic_empire_quest" */
+  galactic_empire_quest: Array<Galactic_Empire_Quest>;
+  /** fetch aggregated fields from the table: "galactic_empire_quest" */
+  galactic_empire_quest_aggregate: Galactic_Empire_Quest_Aggregate;
+  /** fetch data from the table: "galactic_empire_quest" using primary key columns */
+  galactic_empire_quest_by_pk?: Maybe<Galactic_Empire_Quest>;
   /** fetch data from the table: "galactic_empire_resources" */
   galactic_empire_resources: Array<Galactic_Empire_Resources>;
   /** fetch aggregated fields from the table: "galactic_empire_resources" */
@@ -4274,6 +4900,42 @@ export type Query_Root = {
   playable_race_aggregate: Playable_Race_Aggregate;
   /** fetch data from the table: "playable_race" using primary key columns */
   playable_race_by_pk?: Maybe<Playable_Race>;
+  /** fetch data from the table: "quest" */
+  quest: Array<Quest>;
+  /** fetch aggregated fields from the table: "quest" */
+  quest_aggregate: Quest_Aggregate;
+  /** fetch data from the table: "quest" using primary key columns */
+  quest_by_pk?: Maybe<Quest>;
+  /** fetch data from the table: "quest_reward" */
+  quest_reward: Array<Quest_Reward>;
+  /** fetch aggregated fields from the table: "quest_reward" */
+  quest_reward_aggregate: Quest_Reward_Aggregate;
+  /** fetch data from the table: "quest_reward" using primary key columns */
+  quest_reward_by_pk?: Maybe<Quest_Reward>;
+  /** fetch data from the table: "quest_reward_type" */
+  quest_reward_type: Array<Quest_Reward_Type>;
+  /** fetch aggregated fields from the table: "quest_reward_type" */
+  quest_reward_type_aggregate: Quest_Reward_Type_Aggregate;
+  /** fetch data from the table: "quest_reward_type" using primary key columns */
+  quest_reward_type_by_pk?: Maybe<Quest_Reward_Type>;
+  /** fetch data from the table: "quest_step" */
+  quest_step: Array<Quest_Step>;
+  /** fetch aggregated fields from the table: "quest_step" */
+  quest_step_aggregate: Quest_Step_Aggregate;
+  /** fetch data from the table: "quest_step" using primary key columns */
+  quest_step_by_pk?: Maybe<Quest_Step>;
+  /** fetch data from the table: "quest_step_type" */
+  quest_step_type: Array<Quest_Step_Type>;
+  /** fetch aggregated fields from the table: "quest_step_type" */
+  quest_step_type_aggregate: Quest_Step_Type_Aggregate;
+  /** fetch data from the table: "quest_step_type" using primary key columns */
+  quest_step_type_by_pk?: Maybe<Quest_Step_Type>;
+  /** fetch data from the table: "quest_type" */
+  quest_type: Array<Quest_Type>;
+  /** fetch aggregated fields from the table: "quest_type" */
+  quest_type_aggregate: Quest_Type_Aggregate;
+  /** fetch data from the table: "quest_type" using primary key columns */
+  quest_type_by_pk?: Maybe<Quest_Type>;
   /** fetch data from the table: "resource_generator" */
   resource_generator: Array<Resource_Generator>;
   /** fetch aggregated fields from the table: "resource_generator" */
@@ -4454,6 +5116,29 @@ export type Query_RootGalactic_Empire_Npc_By_PkArgs = {
 };
 
 
+export type Query_RootGalactic_Empire_QuestArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Quest_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Quest_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Quest_Bool_Exp>;
+};
+
+
+export type Query_RootGalactic_Empire_Quest_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Quest_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Quest_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Quest_Bool_Exp>;
+};
+
+
+export type Query_RootGalactic_Empire_Quest_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type Query_RootGalactic_Empire_ResourcesArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Resources_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -4589,6 +5274,144 @@ export type Query_RootPlayable_Race_AggregateArgs = {
 
 export type Query_RootPlayable_Race_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Query_RootQuestArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Order_By>>;
+  where?: InputMaybe<Quest_Bool_Exp>;
+};
+
+
+export type Query_RootQuest_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Order_By>>;
+  where?: InputMaybe<Quest_Bool_Exp>;
+};
+
+
+export type Query_RootQuest_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootQuest_RewardArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Reward_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Reward_Order_By>>;
+  where?: InputMaybe<Quest_Reward_Bool_Exp>;
+};
+
+
+export type Query_RootQuest_Reward_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Reward_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Reward_Order_By>>;
+  where?: InputMaybe<Quest_Reward_Bool_Exp>;
+};
+
+
+export type Query_RootQuest_Reward_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootQuest_Reward_TypeArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Reward_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Reward_Type_Order_By>>;
+  where?: InputMaybe<Quest_Reward_Type_Bool_Exp>;
+};
+
+
+export type Query_RootQuest_Reward_Type_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Reward_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Reward_Type_Order_By>>;
+  where?: InputMaybe<Quest_Reward_Type_Bool_Exp>;
+};
+
+
+export type Query_RootQuest_Reward_Type_By_PkArgs = {
+  value: Scalars['String'];
+};
+
+
+export type Query_RootQuest_StepArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Step_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Step_Order_By>>;
+  where?: InputMaybe<Quest_Step_Bool_Exp>;
+};
+
+
+export type Query_RootQuest_Step_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Step_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Step_Order_By>>;
+  where?: InputMaybe<Quest_Step_Bool_Exp>;
+};
+
+
+export type Query_RootQuest_Step_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootQuest_Step_TypeArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Step_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Step_Type_Order_By>>;
+  where?: InputMaybe<Quest_Step_Type_Bool_Exp>;
+};
+
+
+export type Query_RootQuest_Step_Type_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Step_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Step_Type_Order_By>>;
+  where?: InputMaybe<Quest_Step_Type_Bool_Exp>;
+};
+
+
+export type Query_RootQuest_Step_Type_By_PkArgs = {
+  value: Scalars['String'];
+};
+
+
+export type Query_RootQuest_TypeArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Type_Order_By>>;
+  where?: InputMaybe<Quest_Type_Bool_Exp>;
+};
+
+
+export type Query_RootQuest_Type_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Type_Order_By>>;
+  where?: InputMaybe<Quest_Type_Bool_Exp>;
+};
+
+
+export type Query_RootQuest_Type_By_PkArgs = {
+  value: Scalars['String'];
 };
 
 
@@ -4741,6 +5564,1263 @@ export type Query_RootUser_Private_AggregateArgs = {
   order_by?: InputMaybe<Array<User_Private_Order_By>>;
   where?: InputMaybe<User_Private_Bool_Exp>;
 };
+
+/** columns and relationships of "quest" */
+export type Quest = {
+  __typename?: 'quest';
+  description: Scalars['String'];
+  id: Scalars['uuid'];
+  initial?: Maybe<Scalars['Boolean']>;
+  name: Scalars['String'];
+  /** An object relationship */
+  next_quest?: Maybe<Quest>;
+  next_quest_in_chain?: Maybe<Scalars['uuid']>;
+  /** An object relationship */
+  quest_type: Quest_Type;
+  /** An array relationship */
+  rewards: Array<Quest_Reward>;
+  /** An aggregate relationship */
+  rewards_aggregate: Quest_Reward_Aggregate;
+  /** An array relationship */
+  steps: Array<Quest_Step>;
+  /** An aggregate relationship */
+  steps_aggregate: Quest_Step_Aggregate;
+  type: Quest_Type_Enum;
+};
+
+
+/** columns and relationships of "quest" */
+export type QuestRewardsArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Reward_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Reward_Order_By>>;
+  where?: InputMaybe<Quest_Reward_Bool_Exp>;
+};
+
+
+/** columns and relationships of "quest" */
+export type QuestRewards_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Reward_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Reward_Order_By>>;
+  where?: InputMaybe<Quest_Reward_Bool_Exp>;
+};
+
+
+/** columns and relationships of "quest" */
+export type QuestStepsArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Step_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Step_Order_By>>;
+  where?: InputMaybe<Quest_Step_Bool_Exp>;
+};
+
+
+/** columns and relationships of "quest" */
+export type QuestSteps_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Step_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Step_Order_By>>;
+  where?: InputMaybe<Quest_Step_Bool_Exp>;
+};
+
+/** aggregated selection of "quest" */
+export type Quest_Aggregate = {
+  __typename?: 'quest_aggregate';
+  aggregate?: Maybe<Quest_Aggregate_Fields>;
+  nodes: Array<Quest>;
+};
+
+/** aggregate fields of "quest" */
+export type Quest_Aggregate_Fields = {
+  __typename?: 'quest_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Quest_Max_Fields>;
+  min?: Maybe<Quest_Min_Fields>;
+};
+
+
+/** aggregate fields of "quest" */
+export type Quest_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Quest_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "quest". All fields are combined with a logical 'AND'. */
+export type Quest_Bool_Exp = {
+  _and?: InputMaybe<Array<Quest_Bool_Exp>>;
+  _not?: InputMaybe<Quest_Bool_Exp>;
+  _or?: InputMaybe<Array<Quest_Bool_Exp>>;
+  description?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  initial?: InputMaybe<Boolean_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  next_quest?: InputMaybe<Quest_Bool_Exp>;
+  next_quest_in_chain?: InputMaybe<Uuid_Comparison_Exp>;
+  quest_type?: InputMaybe<Quest_Type_Bool_Exp>;
+  rewards?: InputMaybe<Quest_Reward_Bool_Exp>;
+  steps?: InputMaybe<Quest_Step_Bool_Exp>;
+  type?: InputMaybe<Quest_Type_Enum_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "quest" */
+export enum Quest_Constraint {
+  /** unique or primary key constraint on columns "name" */
+  QuestNameKey = 'quest_name_key',
+  /** unique or primary key constraint on columns "id" */
+  QuestPkey = 'quest_pkey'
+}
+
+/** input type for inserting data into table "quest" */
+export type Quest_Insert_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  initial?: InputMaybe<Scalars['Boolean']>;
+  name?: InputMaybe<Scalars['String']>;
+  next_quest?: InputMaybe<Quest_Obj_Rel_Insert_Input>;
+  next_quest_in_chain?: InputMaybe<Scalars['uuid']>;
+  quest_type?: InputMaybe<Quest_Type_Obj_Rel_Insert_Input>;
+  rewards?: InputMaybe<Quest_Reward_Arr_Rel_Insert_Input>;
+  steps?: InputMaybe<Quest_Step_Arr_Rel_Insert_Input>;
+  type?: InputMaybe<Quest_Type_Enum>;
+};
+
+/** aggregate max on columns */
+export type Quest_Max_Fields = {
+  __typename?: 'quest_max_fields';
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  next_quest_in_chain?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregate min on columns */
+export type Quest_Min_Fields = {
+  __typename?: 'quest_min_fields';
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  next_quest_in_chain?: Maybe<Scalars['uuid']>;
+};
+
+/** response of any mutation on the table "quest" */
+export type Quest_Mutation_Response = {
+  __typename?: 'quest_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Quest>;
+};
+
+/** input type for inserting object relation for remote table "quest" */
+export type Quest_Obj_Rel_Insert_Input = {
+  data: Quest_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Quest_On_Conflict>;
+};
+
+/** on_conflict condition type for table "quest" */
+export type Quest_On_Conflict = {
+  constraint: Quest_Constraint;
+  update_columns?: Array<Quest_Update_Column>;
+  where?: InputMaybe<Quest_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "quest". */
+export type Quest_Order_By = {
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  initial?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  next_quest?: InputMaybe<Quest_Order_By>;
+  next_quest_in_chain?: InputMaybe<Order_By>;
+  quest_type?: InputMaybe<Quest_Type_Order_By>;
+  rewards_aggregate?: InputMaybe<Quest_Reward_Aggregate_Order_By>;
+  steps_aggregate?: InputMaybe<Quest_Step_Aggregate_Order_By>;
+  type?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: quest */
+export type Quest_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** columns and relationships of "quest_reward" */
+export type Quest_Reward = {
+  __typename?: 'quest_reward';
+  id: Scalars['uuid'];
+  npc_unlock_id?: Maybe<Scalars['uuid']>;
+  quest_id: Scalars['uuid'];
+  resource_accrual_amount?: Maybe<Scalars['Int']>;
+  resource_accrual_type_id?: Maybe<Scalars['uuid']>;
+  resource_unlock_id?: Maybe<Scalars['uuid']>;
+  type: Quest_Reward_Type_Enum;
+};
+
+/** aggregated selection of "quest_reward" */
+export type Quest_Reward_Aggregate = {
+  __typename?: 'quest_reward_aggregate';
+  aggregate?: Maybe<Quest_Reward_Aggregate_Fields>;
+  nodes: Array<Quest_Reward>;
+};
+
+/** aggregate fields of "quest_reward" */
+export type Quest_Reward_Aggregate_Fields = {
+  __typename?: 'quest_reward_aggregate_fields';
+  avg?: Maybe<Quest_Reward_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Quest_Reward_Max_Fields>;
+  min?: Maybe<Quest_Reward_Min_Fields>;
+  stddev?: Maybe<Quest_Reward_Stddev_Fields>;
+  stddev_pop?: Maybe<Quest_Reward_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Quest_Reward_Stddev_Samp_Fields>;
+  sum?: Maybe<Quest_Reward_Sum_Fields>;
+  var_pop?: Maybe<Quest_Reward_Var_Pop_Fields>;
+  var_samp?: Maybe<Quest_Reward_Var_Samp_Fields>;
+  variance?: Maybe<Quest_Reward_Variance_Fields>;
+};
+
+
+/** aggregate fields of "quest_reward" */
+export type Quest_Reward_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Quest_Reward_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "quest_reward" */
+export type Quest_Reward_Aggregate_Order_By = {
+  avg?: InputMaybe<Quest_Reward_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Quest_Reward_Max_Order_By>;
+  min?: InputMaybe<Quest_Reward_Min_Order_By>;
+  stddev?: InputMaybe<Quest_Reward_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Quest_Reward_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Quest_Reward_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Quest_Reward_Sum_Order_By>;
+  var_pop?: InputMaybe<Quest_Reward_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Quest_Reward_Var_Samp_Order_By>;
+  variance?: InputMaybe<Quest_Reward_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "quest_reward" */
+export type Quest_Reward_Arr_Rel_Insert_Input = {
+  data: Array<Quest_Reward_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Quest_Reward_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Quest_Reward_Avg_Fields = {
+  __typename?: 'quest_reward_avg_fields';
+  resource_accrual_amount?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "quest_reward" */
+export type Quest_Reward_Avg_Order_By = {
+  resource_accrual_amount?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "quest_reward". All fields are combined with a logical 'AND'. */
+export type Quest_Reward_Bool_Exp = {
+  _and?: InputMaybe<Array<Quest_Reward_Bool_Exp>>;
+  _not?: InputMaybe<Quest_Reward_Bool_Exp>;
+  _or?: InputMaybe<Array<Quest_Reward_Bool_Exp>>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  npc_unlock_id?: InputMaybe<Uuid_Comparison_Exp>;
+  quest_id?: InputMaybe<Uuid_Comparison_Exp>;
+  resource_accrual_amount?: InputMaybe<Int_Comparison_Exp>;
+  resource_accrual_type_id?: InputMaybe<Uuid_Comparison_Exp>;
+  resource_unlock_id?: InputMaybe<Uuid_Comparison_Exp>;
+  type?: InputMaybe<Quest_Reward_Type_Enum_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "quest_reward" */
+export enum Quest_Reward_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  QuestRewardPkey = 'quest_reward_pkey'
+}
+
+/** input type for incrementing numeric columns in table "quest_reward" */
+export type Quest_Reward_Inc_Input = {
+  resource_accrual_amount?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "quest_reward" */
+export type Quest_Reward_Insert_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  npc_unlock_id?: InputMaybe<Scalars['uuid']>;
+  quest_id?: InputMaybe<Scalars['uuid']>;
+  resource_accrual_amount?: InputMaybe<Scalars['Int']>;
+  resource_accrual_type_id?: InputMaybe<Scalars['uuid']>;
+  resource_unlock_id?: InputMaybe<Scalars['uuid']>;
+  type?: InputMaybe<Quest_Reward_Type_Enum>;
+};
+
+/** aggregate max on columns */
+export type Quest_Reward_Max_Fields = {
+  __typename?: 'quest_reward_max_fields';
+  id?: Maybe<Scalars['uuid']>;
+  npc_unlock_id?: Maybe<Scalars['uuid']>;
+  quest_id?: Maybe<Scalars['uuid']>;
+  resource_accrual_amount?: Maybe<Scalars['Int']>;
+  resource_accrual_type_id?: Maybe<Scalars['uuid']>;
+  resource_unlock_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "quest_reward" */
+export type Quest_Reward_Max_Order_By = {
+  id?: InputMaybe<Order_By>;
+  npc_unlock_id?: InputMaybe<Order_By>;
+  quest_id?: InputMaybe<Order_By>;
+  resource_accrual_amount?: InputMaybe<Order_By>;
+  resource_accrual_type_id?: InputMaybe<Order_By>;
+  resource_unlock_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Quest_Reward_Min_Fields = {
+  __typename?: 'quest_reward_min_fields';
+  id?: Maybe<Scalars['uuid']>;
+  npc_unlock_id?: Maybe<Scalars['uuid']>;
+  quest_id?: Maybe<Scalars['uuid']>;
+  resource_accrual_amount?: Maybe<Scalars['Int']>;
+  resource_accrual_type_id?: Maybe<Scalars['uuid']>;
+  resource_unlock_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "quest_reward" */
+export type Quest_Reward_Min_Order_By = {
+  id?: InputMaybe<Order_By>;
+  npc_unlock_id?: InputMaybe<Order_By>;
+  quest_id?: InputMaybe<Order_By>;
+  resource_accrual_amount?: InputMaybe<Order_By>;
+  resource_accrual_type_id?: InputMaybe<Order_By>;
+  resource_unlock_id?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "quest_reward" */
+export type Quest_Reward_Mutation_Response = {
+  __typename?: 'quest_reward_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Quest_Reward>;
+};
+
+/** on_conflict condition type for table "quest_reward" */
+export type Quest_Reward_On_Conflict = {
+  constraint: Quest_Reward_Constraint;
+  update_columns?: Array<Quest_Reward_Update_Column>;
+  where?: InputMaybe<Quest_Reward_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "quest_reward". */
+export type Quest_Reward_Order_By = {
+  id?: InputMaybe<Order_By>;
+  npc_unlock_id?: InputMaybe<Order_By>;
+  quest_id?: InputMaybe<Order_By>;
+  resource_accrual_amount?: InputMaybe<Order_By>;
+  resource_accrual_type_id?: InputMaybe<Order_By>;
+  resource_unlock_id?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: quest_reward */
+export type Quest_Reward_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "quest_reward" */
+export enum Quest_Reward_Select_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  NpcUnlockId = 'npc_unlock_id',
+  /** column name */
+  QuestId = 'quest_id',
+  /** column name */
+  ResourceAccrualAmount = 'resource_accrual_amount',
+  /** column name */
+  ResourceAccrualTypeId = 'resource_accrual_type_id',
+  /** column name */
+  ResourceUnlockId = 'resource_unlock_id',
+  /** column name */
+  Type = 'type'
+}
+
+/** input type for updating data in table "quest_reward" */
+export type Quest_Reward_Set_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  npc_unlock_id?: InputMaybe<Scalars['uuid']>;
+  quest_id?: InputMaybe<Scalars['uuid']>;
+  resource_accrual_amount?: InputMaybe<Scalars['Int']>;
+  resource_accrual_type_id?: InputMaybe<Scalars['uuid']>;
+  resource_unlock_id?: InputMaybe<Scalars['uuid']>;
+  type?: InputMaybe<Quest_Reward_Type_Enum>;
+};
+
+/** aggregate stddev on columns */
+export type Quest_Reward_Stddev_Fields = {
+  __typename?: 'quest_reward_stddev_fields';
+  resource_accrual_amount?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "quest_reward" */
+export type Quest_Reward_Stddev_Order_By = {
+  resource_accrual_amount?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Quest_Reward_Stddev_Pop_Fields = {
+  __typename?: 'quest_reward_stddev_pop_fields';
+  resource_accrual_amount?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "quest_reward" */
+export type Quest_Reward_Stddev_Pop_Order_By = {
+  resource_accrual_amount?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Quest_Reward_Stddev_Samp_Fields = {
+  __typename?: 'quest_reward_stddev_samp_fields';
+  resource_accrual_amount?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "quest_reward" */
+export type Quest_Reward_Stddev_Samp_Order_By = {
+  resource_accrual_amount?: InputMaybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Quest_Reward_Sum_Fields = {
+  __typename?: 'quest_reward_sum_fields';
+  resource_accrual_amount?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "quest_reward" */
+export type Quest_Reward_Sum_Order_By = {
+  resource_accrual_amount?: InputMaybe<Order_By>;
+};
+
+/** columns and relationships of "quest_reward_type" */
+export type Quest_Reward_Type = {
+  __typename?: 'quest_reward_type';
+  description: Scalars['String'];
+  value: Scalars['String'];
+};
+
+/** aggregated selection of "quest_reward_type" */
+export type Quest_Reward_Type_Aggregate = {
+  __typename?: 'quest_reward_type_aggregate';
+  aggregate?: Maybe<Quest_Reward_Type_Aggregate_Fields>;
+  nodes: Array<Quest_Reward_Type>;
+};
+
+/** aggregate fields of "quest_reward_type" */
+export type Quest_Reward_Type_Aggregate_Fields = {
+  __typename?: 'quest_reward_type_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Quest_Reward_Type_Max_Fields>;
+  min?: Maybe<Quest_Reward_Type_Min_Fields>;
+};
+
+
+/** aggregate fields of "quest_reward_type" */
+export type Quest_Reward_Type_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Quest_Reward_Type_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "quest_reward_type". All fields are combined with a logical 'AND'. */
+export type Quest_Reward_Type_Bool_Exp = {
+  _and?: InputMaybe<Array<Quest_Reward_Type_Bool_Exp>>;
+  _not?: InputMaybe<Quest_Reward_Type_Bool_Exp>;
+  _or?: InputMaybe<Array<Quest_Reward_Type_Bool_Exp>>;
+  description?: InputMaybe<String_Comparison_Exp>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "quest_reward_type" */
+export enum Quest_Reward_Type_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  QuestRewardTypePkey = 'quest_reward_type_pkey'
+}
+
+export enum Quest_Reward_Type_Enum {
+  /** A quest reward that unlocks a specific NPC for the player's empire. */
+  NpcUnlock = 'npc_unlock',
+  /** A quest reward that gives the player an amount of a specific resource. */
+  ResourceAccrual = 'resource_accrual',
+  /** A quest reward that unlocks a specific resource type for the player's empire. */
+  ResourceUnlock = 'resource_unlock'
+}
+
+/** Boolean expression to compare columns of type "quest_reward_type_enum". All fields are combined with logical 'AND'. */
+export type Quest_Reward_Type_Enum_Comparison_Exp = {
+  _eq?: InputMaybe<Quest_Reward_Type_Enum>;
+  _in?: InputMaybe<Array<Quest_Reward_Type_Enum>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _neq?: InputMaybe<Quest_Reward_Type_Enum>;
+  _nin?: InputMaybe<Array<Quest_Reward_Type_Enum>>;
+};
+
+/** input type for inserting data into table "quest_reward_type" */
+export type Quest_Reward_Type_Insert_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Quest_Reward_Type_Max_Fields = {
+  __typename?: 'quest_reward_type_max_fields';
+  description?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Quest_Reward_Type_Min_Fields = {
+  __typename?: 'quest_reward_type_min_fields';
+  description?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "quest_reward_type" */
+export type Quest_Reward_Type_Mutation_Response = {
+  __typename?: 'quest_reward_type_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Quest_Reward_Type>;
+};
+
+/** on_conflict condition type for table "quest_reward_type" */
+export type Quest_Reward_Type_On_Conflict = {
+  constraint: Quest_Reward_Type_Constraint;
+  update_columns?: Array<Quest_Reward_Type_Update_Column>;
+  where?: InputMaybe<Quest_Reward_Type_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "quest_reward_type". */
+export type Quest_Reward_Type_Order_By = {
+  description?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: quest_reward_type */
+export type Quest_Reward_Type_Pk_Columns_Input = {
+  value: Scalars['String'];
+};
+
+/** select columns of table "quest_reward_type" */
+export enum Quest_Reward_Type_Select_Column {
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Value = 'value'
+}
+
+/** input type for updating data in table "quest_reward_type" */
+export type Quest_Reward_Type_Set_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "quest_reward_type" */
+export enum Quest_Reward_Type_Update_Column {
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Value = 'value'
+}
+
+/** update columns of table "quest_reward" */
+export enum Quest_Reward_Update_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  NpcUnlockId = 'npc_unlock_id',
+  /** column name */
+  QuestId = 'quest_id',
+  /** column name */
+  ResourceAccrualAmount = 'resource_accrual_amount',
+  /** column name */
+  ResourceAccrualTypeId = 'resource_accrual_type_id',
+  /** column name */
+  ResourceUnlockId = 'resource_unlock_id',
+  /** column name */
+  Type = 'type'
+}
+
+/** aggregate var_pop on columns */
+export type Quest_Reward_Var_Pop_Fields = {
+  __typename?: 'quest_reward_var_pop_fields';
+  resource_accrual_amount?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "quest_reward" */
+export type Quest_Reward_Var_Pop_Order_By = {
+  resource_accrual_amount?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Quest_Reward_Var_Samp_Fields = {
+  __typename?: 'quest_reward_var_samp_fields';
+  resource_accrual_amount?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "quest_reward" */
+export type Quest_Reward_Var_Samp_Order_By = {
+  resource_accrual_amount?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Quest_Reward_Variance_Fields = {
+  __typename?: 'quest_reward_variance_fields';
+  resource_accrual_amount?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "quest_reward" */
+export type Quest_Reward_Variance_Order_By = {
+  resource_accrual_amount?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "quest" */
+export enum Quest_Select_Column {
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Initial = 'initial',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  NextQuestInChain = 'next_quest_in_chain',
+  /** column name */
+  Type = 'type'
+}
+
+/** input type for updating data in table "quest" */
+export type Quest_Set_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  initial?: InputMaybe<Scalars['Boolean']>;
+  name?: InputMaybe<Scalars['String']>;
+  next_quest_in_chain?: InputMaybe<Scalars['uuid']>;
+  type?: InputMaybe<Quest_Type_Enum>;
+};
+
+/** columns and relationships of "quest_step" */
+export type Quest_Step = {
+  __typename?: 'quest_step';
+  description: Scalars['String'];
+  id: Scalars['uuid'];
+  initial: Scalars['Boolean'];
+  next_step_in_quest?: Maybe<Scalars['uuid']>;
+  /** An object relationship */
+  npc?: Maybe<Npc>;
+  npc_contact_id?: Maybe<Scalars['uuid']>;
+  quest_id: Scalars['uuid'];
+  resource_cost_amount?: Maybe<Scalars['Int']>;
+  resource_cost_id?: Maybe<Scalars['uuid']>;
+  type: Quest_Step_Type_Enum;
+};
+
+/** aggregated selection of "quest_step" */
+export type Quest_Step_Aggregate = {
+  __typename?: 'quest_step_aggregate';
+  aggregate?: Maybe<Quest_Step_Aggregate_Fields>;
+  nodes: Array<Quest_Step>;
+};
+
+/** aggregate fields of "quest_step" */
+export type Quest_Step_Aggregate_Fields = {
+  __typename?: 'quest_step_aggregate_fields';
+  avg?: Maybe<Quest_Step_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Quest_Step_Max_Fields>;
+  min?: Maybe<Quest_Step_Min_Fields>;
+  stddev?: Maybe<Quest_Step_Stddev_Fields>;
+  stddev_pop?: Maybe<Quest_Step_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Quest_Step_Stddev_Samp_Fields>;
+  sum?: Maybe<Quest_Step_Sum_Fields>;
+  var_pop?: Maybe<Quest_Step_Var_Pop_Fields>;
+  var_samp?: Maybe<Quest_Step_Var_Samp_Fields>;
+  variance?: Maybe<Quest_Step_Variance_Fields>;
+};
+
+
+/** aggregate fields of "quest_step" */
+export type Quest_Step_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Quest_Step_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "quest_step" */
+export type Quest_Step_Aggregate_Order_By = {
+  avg?: InputMaybe<Quest_Step_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Quest_Step_Max_Order_By>;
+  min?: InputMaybe<Quest_Step_Min_Order_By>;
+  stddev?: InputMaybe<Quest_Step_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Quest_Step_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Quest_Step_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Quest_Step_Sum_Order_By>;
+  var_pop?: InputMaybe<Quest_Step_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Quest_Step_Var_Samp_Order_By>;
+  variance?: InputMaybe<Quest_Step_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "quest_step" */
+export type Quest_Step_Arr_Rel_Insert_Input = {
+  data: Array<Quest_Step_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Quest_Step_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Quest_Step_Avg_Fields = {
+  __typename?: 'quest_step_avg_fields';
+  resource_cost_amount?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "quest_step" */
+export type Quest_Step_Avg_Order_By = {
+  resource_cost_amount?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "quest_step". All fields are combined with a logical 'AND'. */
+export type Quest_Step_Bool_Exp = {
+  _and?: InputMaybe<Array<Quest_Step_Bool_Exp>>;
+  _not?: InputMaybe<Quest_Step_Bool_Exp>;
+  _or?: InputMaybe<Array<Quest_Step_Bool_Exp>>;
+  description?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  initial?: InputMaybe<Boolean_Comparison_Exp>;
+  next_step_in_quest?: InputMaybe<Uuid_Comparison_Exp>;
+  npc?: InputMaybe<Npc_Bool_Exp>;
+  npc_contact_id?: InputMaybe<Uuid_Comparison_Exp>;
+  quest_id?: InputMaybe<Uuid_Comparison_Exp>;
+  resource_cost_amount?: InputMaybe<Int_Comparison_Exp>;
+  resource_cost_id?: InputMaybe<Uuid_Comparison_Exp>;
+  type?: InputMaybe<Quest_Step_Type_Enum_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "quest_step" */
+export enum Quest_Step_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  QuestStepPkey = 'quest_step_pkey'
+}
+
+/** input type for incrementing numeric columns in table "quest_step" */
+export type Quest_Step_Inc_Input = {
+  resource_cost_amount?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "quest_step" */
+export type Quest_Step_Insert_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  initial?: InputMaybe<Scalars['Boolean']>;
+  next_step_in_quest?: InputMaybe<Scalars['uuid']>;
+  npc?: InputMaybe<Npc_Obj_Rel_Insert_Input>;
+  npc_contact_id?: InputMaybe<Scalars['uuid']>;
+  quest_id?: InputMaybe<Scalars['uuid']>;
+  resource_cost_amount?: InputMaybe<Scalars['Int']>;
+  resource_cost_id?: InputMaybe<Scalars['uuid']>;
+  type?: InputMaybe<Quest_Step_Type_Enum>;
+};
+
+/** aggregate max on columns */
+export type Quest_Step_Max_Fields = {
+  __typename?: 'quest_step_max_fields';
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  next_step_in_quest?: Maybe<Scalars['uuid']>;
+  npc_contact_id?: Maybe<Scalars['uuid']>;
+  quest_id?: Maybe<Scalars['uuid']>;
+  resource_cost_amount?: Maybe<Scalars['Int']>;
+  resource_cost_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "quest_step" */
+export type Quest_Step_Max_Order_By = {
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  next_step_in_quest?: InputMaybe<Order_By>;
+  npc_contact_id?: InputMaybe<Order_By>;
+  quest_id?: InputMaybe<Order_By>;
+  resource_cost_amount?: InputMaybe<Order_By>;
+  resource_cost_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Quest_Step_Min_Fields = {
+  __typename?: 'quest_step_min_fields';
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  next_step_in_quest?: Maybe<Scalars['uuid']>;
+  npc_contact_id?: Maybe<Scalars['uuid']>;
+  quest_id?: Maybe<Scalars['uuid']>;
+  resource_cost_amount?: Maybe<Scalars['Int']>;
+  resource_cost_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "quest_step" */
+export type Quest_Step_Min_Order_By = {
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  next_step_in_quest?: InputMaybe<Order_By>;
+  npc_contact_id?: InputMaybe<Order_By>;
+  quest_id?: InputMaybe<Order_By>;
+  resource_cost_amount?: InputMaybe<Order_By>;
+  resource_cost_id?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "quest_step" */
+export type Quest_Step_Mutation_Response = {
+  __typename?: 'quest_step_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Quest_Step>;
+};
+
+/** on_conflict condition type for table "quest_step" */
+export type Quest_Step_On_Conflict = {
+  constraint: Quest_Step_Constraint;
+  update_columns?: Array<Quest_Step_Update_Column>;
+  where?: InputMaybe<Quest_Step_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "quest_step". */
+export type Quest_Step_Order_By = {
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  initial?: InputMaybe<Order_By>;
+  next_step_in_quest?: InputMaybe<Order_By>;
+  npc?: InputMaybe<Npc_Order_By>;
+  npc_contact_id?: InputMaybe<Order_By>;
+  quest_id?: InputMaybe<Order_By>;
+  resource_cost_amount?: InputMaybe<Order_By>;
+  resource_cost_id?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: quest_step */
+export type Quest_Step_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "quest_step" */
+export enum Quest_Step_Select_Column {
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Initial = 'initial',
+  /** column name */
+  NextStepInQuest = 'next_step_in_quest',
+  /** column name */
+  NpcContactId = 'npc_contact_id',
+  /** column name */
+  QuestId = 'quest_id',
+  /** column name */
+  ResourceCostAmount = 'resource_cost_amount',
+  /** column name */
+  ResourceCostId = 'resource_cost_id',
+  /** column name */
+  Type = 'type'
+}
+
+/** input type for updating data in table "quest_step" */
+export type Quest_Step_Set_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  initial?: InputMaybe<Scalars['Boolean']>;
+  next_step_in_quest?: InputMaybe<Scalars['uuid']>;
+  npc_contact_id?: InputMaybe<Scalars['uuid']>;
+  quest_id?: InputMaybe<Scalars['uuid']>;
+  resource_cost_amount?: InputMaybe<Scalars['Int']>;
+  resource_cost_id?: InputMaybe<Scalars['uuid']>;
+  type?: InputMaybe<Quest_Step_Type_Enum>;
+};
+
+/** aggregate stddev on columns */
+export type Quest_Step_Stddev_Fields = {
+  __typename?: 'quest_step_stddev_fields';
+  resource_cost_amount?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "quest_step" */
+export type Quest_Step_Stddev_Order_By = {
+  resource_cost_amount?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Quest_Step_Stddev_Pop_Fields = {
+  __typename?: 'quest_step_stddev_pop_fields';
+  resource_cost_amount?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "quest_step" */
+export type Quest_Step_Stddev_Pop_Order_By = {
+  resource_cost_amount?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Quest_Step_Stddev_Samp_Fields = {
+  __typename?: 'quest_step_stddev_samp_fields';
+  resource_cost_amount?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "quest_step" */
+export type Quest_Step_Stddev_Samp_Order_By = {
+  resource_cost_amount?: InputMaybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Quest_Step_Sum_Fields = {
+  __typename?: 'quest_step_sum_fields';
+  resource_cost_amount?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "quest_step" */
+export type Quest_Step_Sum_Order_By = {
+  resource_cost_amount?: InputMaybe<Order_By>;
+};
+
+/** columns and relationships of "quest_step_type" */
+export type Quest_Step_Type = {
+  __typename?: 'quest_step_type';
+  description: Scalars['String'];
+  value: Scalars['String'];
+};
+
+/** aggregated selection of "quest_step_type" */
+export type Quest_Step_Type_Aggregate = {
+  __typename?: 'quest_step_type_aggregate';
+  aggregate?: Maybe<Quest_Step_Type_Aggregate_Fields>;
+  nodes: Array<Quest_Step_Type>;
+};
+
+/** aggregate fields of "quest_step_type" */
+export type Quest_Step_Type_Aggregate_Fields = {
+  __typename?: 'quest_step_type_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Quest_Step_Type_Max_Fields>;
+  min?: Maybe<Quest_Step_Type_Min_Fields>;
+};
+
+
+/** aggregate fields of "quest_step_type" */
+export type Quest_Step_Type_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Quest_Step_Type_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "quest_step_type". All fields are combined with a logical 'AND'. */
+export type Quest_Step_Type_Bool_Exp = {
+  _and?: InputMaybe<Array<Quest_Step_Type_Bool_Exp>>;
+  _not?: InputMaybe<Quest_Step_Type_Bool_Exp>;
+  _or?: InputMaybe<Array<Quest_Step_Type_Bool_Exp>>;
+  description?: InputMaybe<String_Comparison_Exp>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "quest_step_type" */
+export enum Quest_Step_Type_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  QuestStepTypePkey = 'quest_step_type_pkey'
+}
+
+export enum Quest_Step_Type_Enum {
+  /** An arbitrary user-action like opening a modal or clicking an accept button. */
+  Cta = 'cta',
+  /** A quest step requiring completing dialog with a given npc. */
+  NpcContact = 'npc_contact',
+  /** A quest step requiring payment of resources. */
+  ResourceCost = 'resource_cost'
+}
+
+/** Boolean expression to compare columns of type "quest_step_type_enum". All fields are combined with logical 'AND'. */
+export type Quest_Step_Type_Enum_Comparison_Exp = {
+  _eq?: InputMaybe<Quest_Step_Type_Enum>;
+  _in?: InputMaybe<Array<Quest_Step_Type_Enum>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _neq?: InputMaybe<Quest_Step_Type_Enum>;
+  _nin?: InputMaybe<Array<Quest_Step_Type_Enum>>;
+};
+
+/** input type for inserting data into table "quest_step_type" */
+export type Quest_Step_Type_Insert_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Quest_Step_Type_Max_Fields = {
+  __typename?: 'quest_step_type_max_fields';
+  description?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Quest_Step_Type_Min_Fields = {
+  __typename?: 'quest_step_type_min_fields';
+  description?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "quest_step_type" */
+export type Quest_Step_Type_Mutation_Response = {
+  __typename?: 'quest_step_type_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Quest_Step_Type>;
+};
+
+/** on_conflict condition type for table "quest_step_type" */
+export type Quest_Step_Type_On_Conflict = {
+  constraint: Quest_Step_Type_Constraint;
+  update_columns?: Array<Quest_Step_Type_Update_Column>;
+  where?: InputMaybe<Quest_Step_Type_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "quest_step_type". */
+export type Quest_Step_Type_Order_By = {
+  description?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: quest_step_type */
+export type Quest_Step_Type_Pk_Columns_Input = {
+  value: Scalars['String'];
+};
+
+/** select columns of table "quest_step_type" */
+export enum Quest_Step_Type_Select_Column {
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Value = 'value'
+}
+
+/** input type for updating data in table "quest_step_type" */
+export type Quest_Step_Type_Set_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "quest_step_type" */
+export enum Quest_Step_Type_Update_Column {
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Value = 'value'
+}
+
+/** update columns of table "quest_step" */
+export enum Quest_Step_Update_Column {
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Initial = 'initial',
+  /** column name */
+  NextStepInQuest = 'next_step_in_quest',
+  /** column name */
+  NpcContactId = 'npc_contact_id',
+  /** column name */
+  QuestId = 'quest_id',
+  /** column name */
+  ResourceCostAmount = 'resource_cost_amount',
+  /** column name */
+  ResourceCostId = 'resource_cost_id',
+  /** column name */
+  Type = 'type'
+}
+
+/** aggregate var_pop on columns */
+export type Quest_Step_Var_Pop_Fields = {
+  __typename?: 'quest_step_var_pop_fields';
+  resource_cost_amount?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "quest_step" */
+export type Quest_Step_Var_Pop_Order_By = {
+  resource_cost_amount?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Quest_Step_Var_Samp_Fields = {
+  __typename?: 'quest_step_var_samp_fields';
+  resource_cost_amount?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "quest_step" */
+export type Quest_Step_Var_Samp_Order_By = {
+  resource_cost_amount?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Quest_Step_Variance_Fields = {
+  __typename?: 'quest_step_variance_fields';
+  resource_cost_amount?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "quest_step" */
+export type Quest_Step_Variance_Order_By = {
+  resource_cost_amount?: InputMaybe<Order_By>;
+};
+
+/** columns and relationships of "quest_type" */
+export type Quest_Type = {
+  __typename?: 'quest_type';
+  value: Scalars['String'];
+};
+
+/** aggregated selection of "quest_type" */
+export type Quest_Type_Aggregate = {
+  __typename?: 'quest_type_aggregate';
+  aggregate?: Maybe<Quest_Type_Aggregate_Fields>;
+  nodes: Array<Quest_Type>;
+};
+
+/** aggregate fields of "quest_type" */
+export type Quest_Type_Aggregate_Fields = {
+  __typename?: 'quest_type_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Quest_Type_Max_Fields>;
+  min?: Maybe<Quest_Type_Min_Fields>;
+};
+
+
+/** aggregate fields of "quest_type" */
+export type Quest_Type_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Quest_Type_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "quest_type". All fields are combined with a logical 'AND'. */
+export type Quest_Type_Bool_Exp = {
+  _and?: InputMaybe<Array<Quest_Type_Bool_Exp>>;
+  _not?: InputMaybe<Quest_Type_Bool_Exp>;
+  _or?: InputMaybe<Array<Quest_Type_Bool_Exp>>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "quest_type" */
+export enum Quest_Type_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  QuestTypePkey = 'quest_type_pkey'
+}
+
+export enum Quest_Type_Enum {
+  Main = 'main',
+  Race = 'race',
+  Side = 'side'
+}
+
+/** Boolean expression to compare columns of type "quest_type_enum". All fields are combined with logical 'AND'. */
+export type Quest_Type_Enum_Comparison_Exp = {
+  _eq?: InputMaybe<Quest_Type_Enum>;
+  _in?: InputMaybe<Array<Quest_Type_Enum>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _neq?: InputMaybe<Quest_Type_Enum>;
+  _nin?: InputMaybe<Array<Quest_Type_Enum>>;
+};
+
+/** input type for inserting data into table "quest_type" */
+export type Quest_Type_Insert_Input = {
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Quest_Type_Max_Fields = {
+  __typename?: 'quest_type_max_fields';
+  value?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Quest_Type_Min_Fields = {
+  __typename?: 'quest_type_min_fields';
+  value?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "quest_type" */
+export type Quest_Type_Mutation_Response = {
+  __typename?: 'quest_type_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Quest_Type>;
+};
+
+/** input type for inserting object relation for remote table "quest_type" */
+export type Quest_Type_Obj_Rel_Insert_Input = {
+  data: Quest_Type_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Quest_Type_On_Conflict>;
+};
+
+/** on_conflict condition type for table "quest_type" */
+export type Quest_Type_On_Conflict = {
+  constraint: Quest_Type_Constraint;
+  update_columns?: Array<Quest_Type_Update_Column>;
+  where?: InputMaybe<Quest_Type_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "quest_type". */
+export type Quest_Type_Order_By = {
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: quest_type */
+export type Quest_Type_Pk_Columns_Input = {
+  value: Scalars['String'];
+};
+
+/** select columns of table "quest_type" */
+export enum Quest_Type_Select_Column {
+  /** column name */
+  Value = 'value'
+}
+
+/** input type for updating data in table "quest_type" */
+export type Quest_Type_Set_Input = {
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "quest_type" */
+export enum Quest_Type_Update_Column {
+  /** column name */
+  Value = 'value'
+}
+
+/** update columns of table "quest" */
+export enum Quest_Update_Column {
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Initial = 'initial',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  NextQuestInChain = 'next_quest_in_chain',
+  /** column name */
+  Type = 'type'
+}
 
 /** columns and relationships of "resource_generator" */
 export type Resource_Generator = {
@@ -5241,6 +7321,12 @@ export type Subscription_Root = {
   galactic_empire_npc_aggregate: Galactic_Empire_Npc_Aggregate;
   /** fetch data from the table: "galactic_empire_npc" using primary key columns */
   galactic_empire_npc_by_pk?: Maybe<Galactic_Empire_Npc>;
+  /** fetch data from the table: "galactic_empire_quest" */
+  galactic_empire_quest: Array<Galactic_Empire_Quest>;
+  /** fetch aggregated fields from the table: "galactic_empire_quest" */
+  galactic_empire_quest_aggregate: Galactic_Empire_Quest_Aggregate;
+  /** fetch data from the table: "galactic_empire_quest" using primary key columns */
+  galactic_empire_quest_by_pk?: Maybe<Galactic_Empire_Quest>;
   /** fetch data from the table: "galactic_empire_resources" */
   galactic_empire_resources: Array<Galactic_Empire_Resources>;
   /** fetch aggregated fields from the table: "galactic_empire_resources" */
@@ -5277,6 +7363,42 @@ export type Subscription_Root = {
   playable_race_aggregate: Playable_Race_Aggregate;
   /** fetch data from the table: "playable_race" using primary key columns */
   playable_race_by_pk?: Maybe<Playable_Race>;
+  /** fetch data from the table: "quest" */
+  quest: Array<Quest>;
+  /** fetch aggregated fields from the table: "quest" */
+  quest_aggregate: Quest_Aggregate;
+  /** fetch data from the table: "quest" using primary key columns */
+  quest_by_pk?: Maybe<Quest>;
+  /** fetch data from the table: "quest_reward" */
+  quest_reward: Array<Quest_Reward>;
+  /** fetch aggregated fields from the table: "quest_reward" */
+  quest_reward_aggregate: Quest_Reward_Aggregate;
+  /** fetch data from the table: "quest_reward" using primary key columns */
+  quest_reward_by_pk?: Maybe<Quest_Reward>;
+  /** fetch data from the table: "quest_reward_type" */
+  quest_reward_type: Array<Quest_Reward_Type>;
+  /** fetch aggregated fields from the table: "quest_reward_type" */
+  quest_reward_type_aggregate: Quest_Reward_Type_Aggregate;
+  /** fetch data from the table: "quest_reward_type" using primary key columns */
+  quest_reward_type_by_pk?: Maybe<Quest_Reward_Type>;
+  /** fetch data from the table: "quest_step" */
+  quest_step: Array<Quest_Step>;
+  /** fetch aggregated fields from the table: "quest_step" */
+  quest_step_aggregate: Quest_Step_Aggregate;
+  /** fetch data from the table: "quest_step" using primary key columns */
+  quest_step_by_pk?: Maybe<Quest_Step>;
+  /** fetch data from the table: "quest_step_type" */
+  quest_step_type: Array<Quest_Step_Type>;
+  /** fetch aggregated fields from the table: "quest_step_type" */
+  quest_step_type_aggregate: Quest_Step_Type_Aggregate;
+  /** fetch data from the table: "quest_step_type" using primary key columns */
+  quest_step_type_by_pk?: Maybe<Quest_Step_Type>;
+  /** fetch data from the table: "quest_type" */
+  quest_type: Array<Quest_Type>;
+  /** fetch aggregated fields from the table: "quest_type" */
+  quest_type_aggregate: Quest_Type_Aggregate;
+  /** fetch data from the table: "quest_type" using primary key columns */
+  quest_type_by_pk?: Maybe<Quest_Type>;
   /** fetch data from the table: "resource_generator" */
   resource_generator: Array<Resource_Generator>;
   /** fetch aggregated fields from the table: "resource_generator" */
@@ -5456,6 +7578,29 @@ export type Subscription_RootGalactic_Empire_Npc_By_PkArgs = {
 };
 
 
+export type Subscription_RootGalactic_Empire_QuestArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Quest_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Quest_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Quest_Bool_Exp>;
+};
+
+
+export type Subscription_RootGalactic_Empire_Quest_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Quest_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Quest_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Quest_Bool_Exp>;
+};
+
+
+export type Subscription_RootGalactic_Empire_Quest_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type Subscription_RootGalactic_Empire_ResourcesArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Resources_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -5591,6 +7736,144 @@ export type Subscription_RootPlayable_Race_AggregateArgs = {
 
 export type Subscription_RootPlayable_Race_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootQuestArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Order_By>>;
+  where?: InputMaybe<Quest_Bool_Exp>;
+};
+
+
+export type Subscription_RootQuest_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Order_By>>;
+  where?: InputMaybe<Quest_Bool_Exp>;
+};
+
+
+export type Subscription_RootQuest_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootQuest_RewardArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Reward_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Reward_Order_By>>;
+  where?: InputMaybe<Quest_Reward_Bool_Exp>;
+};
+
+
+export type Subscription_RootQuest_Reward_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Reward_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Reward_Order_By>>;
+  where?: InputMaybe<Quest_Reward_Bool_Exp>;
+};
+
+
+export type Subscription_RootQuest_Reward_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootQuest_Reward_TypeArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Reward_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Reward_Type_Order_By>>;
+  where?: InputMaybe<Quest_Reward_Type_Bool_Exp>;
+};
+
+
+export type Subscription_RootQuest_Reward_Type_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Reward_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Reward_Type_Order_By>>;
+  where?: InputMaybe<Quest_Reward_Type_Bool_Exp>;
+};
+
+
+export type Subscription_RootQuest_Reward_Type_By_PkArgs = {
+  value: Scalars['String'];
+};
+
+
+export type Subscription_RootQuest_StepArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Step_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Step_Order_By>>;
+  where?: InputMaybe<Quest_Step_Bool_Exp>;
+};
+
+
+export type Subscription_RootQuest_Step_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Step_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Step_Order_By>>;
+  where?: InputMaybe<Quest_Step_Bool_Exp>;
+};
+
+
+export type Subscription_RootQuest_Step_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootQuest_Step_TypeArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Step_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Step_Type_Order_By>>;
+  where?: InputMaybe<Quest_Step_Type_Bool_Exp>;
+};
+
+
+export type Subscription_RootQuest_Step_Type_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Step_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Step_Type_Order_By>>;
+  where?: InputMaybe<Quest_Step_Type_Bool_Exp>;
+};
+
+
+export type Subscription_RootQuest_Step_Type_By_PkArgs = {
+  value: Scalars['String'];
+};
+
+
+export type Subscription_RootQuest_TypeArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Type_Order_By>>;
+  where?: InputMaybe<Quest_Type_Bool_Exp>;
+};
+
+
+export type Subscription_RootQuest_Type_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Quest_Type_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Quest_Type_Order_By>>;
+  where?: InputMaybe<Quest_Type_Bool_Exp>;
+};
+
+
+export type Subscription_RootQuest_Type_By_PkArgs = {
+  value: Scalars['String'];
 };
 
 
@@ -6676,10 +8959,79 @@ export type NpcsByEmpireIdQueryVariables = Exact<{
 
 export type NpcsByEmpireIdQuery = { __typename?: 'query_root', galactic_empire_npc: Array<{ __typename?: 'galactic_empire_npc', npc: { __typename?: 'npc', name: string, image_url: string, playable_race?: { __typename?: 'playable_race', name: string, id: string, image_url?: string | null } | null, faction?: { __typename?: 'faction', image_url?: string | null, id: string, name: string } | null } }> };
 
+export type UnlockGalacticEmpireNpcMutationVariables = Exact<{
+  empireId: Scalars['uuid'];
+  npcId: Scalars['uuid'];
+}>;
+
+
+export type UnlockGalacticEmpireNpcMutation = { __typename?: 'mutation_root', insert_galactic_empire_npc_one?: { __typename?: 'galactic_empire_npc', npc_id: string, galactic_empire_id: string } | null };
+
+export type ActiveGalacticEmpireQuestsByEmpireIdSubscriptionVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type ActiveGalacticEmpireQuestsByEmpireIdSubscription = { __typename?: 'subscription_root', galactic_empire_quest: Array<{ __typename?: 'galactic_empire_quest', quest_step_id: string, id: string, quest: { __typename?: 'quest', next_quest_in_chain?: string | null, rewards: Array<{ __typename?: 'quest_reward', npc_unlock_id?: string | null, type: Quest_Reward_Type_Enum, resource_unlock_id?: string | null, resource_accrual_type_id?: string | null, resource_accrual_amount?: number | null }>, steps: Array<{ __typename?: 'quest_step', next_step_in_quest?: string | null, npc_contact_id?: string | null, type: Quest_Step_Type_Enum, resource_cost_amount?: number | null, resource_cost_id?: string | null }>, quest_type: { __typename?: 'quest_type', value: string } } }> };
+
+export type AddGalacticEmpireQuestMutationVariables = Exact<{
+  input: Galactic_Empire_Quest_Insert_Input;
+}>;
+
+
+export type AddGalacticEmpireQuestMutation = { __typename?: 'mutation_root', insert_galactic_empire_quest_one?: { __typename?: 'galactic_empire_quest', quest_id: string, galactic_empire_id: string } | null };
+
+export type CompleteGalacticEmpireQuestByIdMutationVariables = Exact<{
+  questId: Scalars['uuid'];
+}>;
+
+
+export type CompleteGalacticEmpireQuestByIdMutation = { __typename?: 'mutation_root', update_galactic_empire_quest_by_pk?: { __typename?: 'galactic_empire_quest', completed: boolean, quest_id: string } | null };
+
+export type EmpiresWithoutQuestsSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type EmpiresWithoutQuestsSubscription = { __typename?: 'subscription_root', galactic_empire_aggregate: { __typename?: 'galactic_empire_aggregate', nodes: Array<{ __typename?: 'galactic_empire', id: string }> } };
+
+export type GalacticEmpireQuestByIdQueryVariables = Exact<{
+  empireQuestId: Scalars['uuid'];
+}>;
+
+
+export type GalacticEmpireQuestByIdQuery = { __typename?: 'query_root', galactic_empire_quest_by_pk?: { __typename?: 'galactic_empire_quest', completed: boolean, quest_step_id: string, quest: { __typename?: 'quest', steps: Array<{ __typename?: 'quest_step', next_step_in_quest?: string | null, id: string, npc_contact_id?: string | null, resource_cost_amount?: number | null, resource_cost_id?: string | null, type: Quest_Step_Type_Enum }>, rewards: Array<{ __typename?: 'quest_reward', npc_unlock_id?: string | null, resource_accrual_amount?: number | null, resource_accrual_type_id?: string | null, resource_unlock_id?: string | null, type: Quest_Reward_Type_Enum }>, quest_type: { __typename?: 'quest_type', value: string }, next_quest?: { __typename?: 'quest', id: string, steps: Array<{ __typename?: 'quest_step', id: string }> } | null }, galactic_empire: { __typename?: 'galactic_empire', id: string, resources: Array<{ __typename?: 'galactic_empire_resources', value: number, resource_type: { __typename?: 'resource_type', type: string, id: string } }> } } | null };
+
+export type InitialMainQuestIdQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type InitialMainQuestIdQuery = { __typename?: 'query_root', quest: Array<{ __typename?: 'quest', id: string, steps: Array<{ __typename?: 'quest_step', id: string }> }> };
+
+export type ProgressGalacticEmpireQuestStepByIdMutationVariables = Exact<{
+  questId: Scalars['uuid'];
+  stepId: Scalars['uuid'];
+}>;
+
+
+export type ProgressGalacticEmpireQuestStepByIdMutation = { __typename?: 'mutation_root', update_galactic_empire_quest_by_pk?: { __typename?: 'galactic_empire_quest', completed: boolean, quest_id: string } | null };
+
+export type SubmitEmpireQuestCompletionRequestMutationVariables = Exact<{
+  empireQuestId: Scalars['String'];
+}>;
+
+
+export type SubmitEmpireQuestCompletionRequestMutation = { __typename?: 'mutation_root', completeQuest?: { __typename?: 'QuestCompletion', quest_id: string, next_quest_in_chain_added?: string | null } | null };
+
 export type ResourceGeneratorsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ResourceGeneratorsSubscription = { __typename?: 'subscription_root', resource_generator: Array<{ __typename?: 'resource_generator', created_at: string, galactic_empire_id: string, resource_generator_type: { __typename?: 'resource_generator_type', generation_rate: number[], name: string, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null } }> };
+
+export type UnlockGalacticEmpireResourceMutationVariables = Exact<{
+  empireId: Scalars['uuid'];
+  resourceTypeId: Scalars['uuid'];
+}>;
+
+
+export type UnlockGalacticEmpireResourceMutation = { __typename?: 'mutation_root', insert_galactic_empire_resources_one?: { __typename?: 'galactic_empire_resources', galactic_empire_id: string, resource_type_id: string } | null };
 
 export type CreateGalaxyMutationVariables = Exact<{
   input: Galaxy_Insert_Input;
@@ -7129,6 +9481,164 @@ export const NpcsByEmpireIdDocument = gql`
 }
     `;
 export type NpcsByEmpireIdQueryResult = Apollo.QueryResult<NpcsByEmpireIdQuery, NpcsByEmpireIdQueryVariables>;
+export const UnlockGalacticEmpireNpcDocument = gql`
+    mutation UnlockGalacticEmpireNpc($empireId: uuid!, $npcId: uuid!) {
+  insert_galactic_empire_npc_one(
+    object: {galactic_empire_id: $empireId, npc_id: $npcId}
+  ) {
+    npc_id
+    galactic_empire_id
+  }
+}
+    `;
+export type UnlockGalacticEmpireNpcMutationFn = Apollo.MutationFunction<UnlockGalacticEmpireNpcMutation, UnlockGalacticEmpireNpcMutationVariables>;
+export type UnlockGalacticEmpireNpcMutationResult = Apollo.MutationResult<UnlockGalacticEmpireNpcMutation>;
+export type UnlockGalacticEmpireNpcMutationOptions = Apollo.BaseMutationOptions<UnlockGalacticEmpireNpcMutation, UnlockGalacticEmpireNpcMutationVariables>;
+export const ActiveGalacticEmpireQuestsByEmpireIdDocument = gql`
+    subscription ActiveGalacticEmpireQuestsByEmpireId($id: uuid!) {
+  galactic_empire_quest(where: {galactic_empire_id: {_eq: $id}}) {
+    quest_step_id
+    id
+    quest {
+      rewards {
+        npc_unlock_id
+        type
+        resource_unlock_id
+        resource_accrual_type_id
+        resource_accrual_amount
+      }
+      steps {
+        next_step_in_quest
+        npc_contact_id
+        type
+        resource_cost_amount
+        resource_cost_id
+      }
+      next_quest_in_chain
+      quest_type {
+        value
+      }
+    }
+  }
+}
+    `;
+export type ActiveGalacticEmpireQuestsByEmpireIdSubscriptionResult = Apollo.SubscriptionResult<ActiveGalacticEmpireQuestsByEmpireIdSubscription>;
+export const AddGalacticEmpireQuestDocument = gql`
+    mutation AddGalacticEmpireQuest($input: galactic_empire_quest_insert_input!) {
+  insert_galactic_empire_quest_one(object: $input) {
+    quest_id
+    galactic_empire_id
+  }
+}
+    `;
+export type AddGalacticEmpireQuestMutationFn = Apollo.MutationFunction<AddGalacticEmpireQuestMutation, AddGalacticEmpireQuestMutationVariables>;
+export type AddGalacticEmpireQuestMutationResult = Apollo.MutationResult<AddGalacticEmpireQuestMutation>;
+export type AddGalacticEmpireQuestMutationOptions = Apollo.BaseMutationOptions<AddGalacticEmpireQuestMutation, AddGalacticEmpireQuestMutationVariables>;
+export const CompleteGalacticEmpireQuestByIdDocument = gql`
+    mutation CompleteGalacticEmpireQuestById($questId: uuid!) {
+  update_galactic_empire_quest_by_pk(
+    pk_columns: {id: $questId}
+    _set: {completed: true}
+  ) {
+    completed
+    quest_id
+  }
+}
+    `;
+export type CompleteGalacticEmpireQuestByIdMutationFn = Apollo.MutationFunction<CompleteGalacticEmpireQuestByIdMutation, CompleteGalacticEmpireQuestByIdMutationVariables>;
+export type CompleteGalacticEmpireQuestByIdMutationResult = Apollo.MutationResult<CompleteGalacticEmpireQuestByIdMutation>;
+export type CompleteGalacticEmpireQuestByIdMutationOptions = Apollo.BaseMutationOptions<CompleteGalacticEmpireQuestByIdMutation, CompleteGalacticEmpireQuestByIdMutationVariables>;
+export const EmpiresWithoutQuestsDocument = gql`
+    subscription EmpiresWithoutQuests {
+  galactic_empire_aggregate(where: {_not: {quests: {}}}) {
+    nodes {
+      id
+    }
+  }
+}
+    `;
+export type EmpiresWithoutQuestsSubscriptionResult = Apollo.SubscriptionResult<EmpiresWithoutQuestsSubscription>;
+export const GalacticEmpireQuestByIdDocument = gql`
+    query GalacticEmpireQuestById($empireQuestId: uuid!) {
+  galactic_empire_quest_by_pk(id: $empireQuestId) {
+    completed
+    quest_step_id
+    quest {
+      steps {
+        next_step_in_quest
+        id
+        npc_contact_id
+        resource_cost_amount
+        resource_cost_id
+        type
+      }
+      rewards {
+        npc_unlock_id
+        resource_accrual_amount
+        resource_accrual_type_id
+        resource_unlock_id
+        type
+      }
+      quest_type {
+        value
+      }
+      next_quest {
+        id
+        steps(where: {initial: {_eq: true}}) {
+          id
+        }
+      }
+    }
+    galactic_empire {
+      id
+      resources {
+        value
+        resource_type {
+          type
+          id
+        }
+      }
+    }
+  }
+}
+    `;
+export type GalacticEmpireQuestByIdQueryResult = Apollo.QueryResult<GalacticEmpireQuestByIdQuery, GalacticEmpireQuestByIdQueryVariables>;
+export const InitialMainQuestIdDocument = gql`
+    query InitialMainQuestId {
+  quest(where: {type: {_eq: main}, initial: {_eq: true}}) {
+    id
+    steps(where: {initial: {_eq: true}}) {
+      id
+    }
+  }
+}
+    `;
+export type InitialMainQuestIdQueryResult = Apollo.QueryResult<InitialMainQuestIdQuery, InitialMainQuestIdQueryVariables>;
+export const ProgressGalacticEmpireQuestStepByIdDocument = gql`
+    mutation ProgressGalacticEmpireQuestStepById($questId: uuid!, $stepId: uuid!) {
+  update_galactic_empire_quest_by_pk(
+    pk_columns: {id: $questId}
+    _set: {quest_step_id: $stepId}
+  ) {
+    completed
+    quest_id
+  }
+}
+    `;
+export type ProgressGalacticEmpireQuestStepByIdMutationFn = Apollo.MutationFunction<ProgressGalacticEmpireQuestStepByIdMutation, ProgressGalacticEmpireQuestStepByIdMutationVariables>;
+export type ProgressGalacticEmpireQuestStepByIdMutationResult = Apollo.MutationResult<ProgressGalacticEmpireQuestStepByIdMutation>;
+export type ProgressGalacticEmpireQuestStepByIdMutationOptions = Apollo.BaseMutationOptions<ProgressGalacticEmpireQuestStepByIdMutation, ProgressGalacticEmpireQuestStepByIdMutationVariables>;
+export const SubmitEmpireQuestCompletionRequestDocument = gql`
+    mutation SubmitEmpireQuestCompletionRequest($empireQuestId: String!) {
+  completeQuest(empire_quest_id: $empireQuestId) {
+    quest_id
+    next_quest_in_chain_added
+  }
+}
+    `;
+export type SubmitEmpireQuestCompletionRequestMutationFn = Apollo.MutationFunction<SubmitEmpireQuestCompletionRequestMutation, SubmitEmpireQuestCompletionRequestMutationVariables>;
+export type SubmitEmpireQuestCompletionRequestMutationResult = Apollo.MutationResult<SubmitEmpireQuestCompletionRequestMutation>;
+export type SubmitEmpireQuestCompletionRequestMutationOptions = Apollo.BaseMutationOptions<SubmitEmpireQuestCompletionRequestMutation, SubmitEmpireQuestCompletionRequestMutationVariables>;
 export const ResourceGeneratorsDocument = gql`
     subscription ResourceGenerators {
   resource_generator {
@@ -7151,6 +9661,19 @@ export const ResourceGeneratorsDocument = gql`
 }
     `;
 export type ResourceGeneratorsSubscriptionResult = Apollo.SubscriptionResult<ResourceGeneratorsSubscription>;
+export const UnlockGalacticEmpireResourceDocument = gql`
+    mutation UnlockGalacticEmpireResource($empireId: uuid!, $resourceTypeId: uuid!) {
+  insert_galactic_empire_resources_one(
+    object: {galactic_empire_id: $empireId, resource_type_id: $resourceTypeId, value: 0}
+  ) {
+    galactic_empire_id
+    resource_type_id
+  }
+}
+    `;
+export type UnlockGalacticEmpireResourceMutationFn = Apollo.MutationFunction<UnlockGalacticEmpireResourceMutation, UnlockGalacticEmpireResourceMutationVariables>;
+export type UnlockGalacticEmpireResourceMutationResult = Apollo.MutationResult<UnlockGalacticEmpireResourceMutation>;
+export type UnlockGalacticEmpireResourceMutationOptions = Apollo.BaseMutationOptions<UnlockGalacticEmpireResourceMutation, UnlockGalacticEmpireResourceMutationVariables>;
 export const CreateGalaxyDocument = gql`
     mutation CreateGalaxy($input: galaxy_insert_input!) {
   insert_galaxy_one(object: $input) {

@@ -2,6 +2,9 @@ table:
   schema: public
   name: quest
 object_relationships:
+  - name: next_quest
+    using:
+      foreign_key_constraint_on: next_quest_in_chain
   - name: quest_type
     using:
       foreign_key_constraint_on: type
@@ -26,6 +29,7 @@ insert_permissions:
       check: {}
       columns:
         - description
+        - initial
         - name
         - next_quest_in_chain
         - type
@@ -35,6 +39,7 @@ select_permissions:
       columns:
         - description
         - id
+        - initial
         - name
         - next_quest_in_chain
         - type

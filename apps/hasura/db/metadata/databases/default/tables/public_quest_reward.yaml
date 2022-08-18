@@ -22,6 +22,7 @@ select_permissions:
         - resource_accrual_amount
         - resource_accrual_type_id
         - resource_unlock_id
+        - type
       filter: {}
   - role: user
     permission:
@@ -32,4 +33,5 @@ select_permissions:
         - resource_accrual_amount
         - resource_accrual_type_id
         - resource_unlock_id
+        - type
       filter: {}

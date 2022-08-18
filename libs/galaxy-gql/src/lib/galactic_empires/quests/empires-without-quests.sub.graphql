@@ -1,0 +1,7 @@
+subscription EmpiresWithoutQuests {
+  galactic_empire_aggregate(where: { _not: { quests: {} } }) {
+    nodes {
+      id
+    }
+  }
+}
