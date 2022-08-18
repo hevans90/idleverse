@@ -1,5 +1,6 @@
 import { GalacticEmpireQuestByIdQuery } from '@idleverse/galaxy-gql';
 import { ResourceModification } from '../datasources/hasura-empire-resource-modifiers';
+import { QuestErrorTypes } from '../entities/error-enums/quest-errors';
 import { questStepProgressionValidator } from './quest-step-progression-validator';
 import {
   emptyResourceModification,
@@ -14,7 +15,7 @@ export const questCompletionValidator = ({
 }: {
   questData: GalacticEmpireQuestByIdQuery;
 }): {
-  error?: string;
+  error?: QuestErrorTypes;
   resourceModification?: ResourceModification;
   resourceUnlockId?: string;
   npcUnlockId?: string;
@@ -29,14 +30,14 @@ export const questCompletionValidator = ({
   } = questData;
 
   if (completed) {
-    return { error: 'Quest already completed' };
+    return { error: QuestErrorTypes.AlreadyCompleted };
   }
 
   const step = quest.steps.find(({ id }) => id === quest_step_id);
 
   if (!step) {
     return {
-      error: 'Could not find the current step to validate before completion.',
+      error: QuestErrorTypes.NoStep,
     };
   }
 

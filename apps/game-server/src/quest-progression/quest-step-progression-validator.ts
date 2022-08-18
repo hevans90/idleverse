@@ -1,3 +1,5 @@
+import { QuestErrorTypes } from '../entities/error-enums/quest-errors';
+
 import {
   GalacticEmpireQuestByIdQuery,
   Quest_Step_Type_Enum,
@@ -20,7 +22,7 @@ export const questStepProgressionValidator = ({
   galactic_empire: GalacticEmpireQuestByIdQuery['galactic_empire_quest_by_pk']['galactic_empire'];
   resourceModification: ResourceModification;
 }): {
-  error?: string;
+  error?: QuestErrorTypes;
   resourceModification?: ResourceModification;
 } => {
   switch (step.type) {
@@ -35,7 +37,7 @@ export const questStepProgressionValidator = ({
     case Quest_Step_Type_Enum.ResourceCost:
       {
         if (!galactic_empire.resources.length) {
-          return { error: 'No unlocked empire resources to modify.' };
+          return { error: QuestErrorTypes.NoResourcesUnlocked };
         }
         const resourceValidation = validateResourceModification({
           resources: galactic_empire.resources,

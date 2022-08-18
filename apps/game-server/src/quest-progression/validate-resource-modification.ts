@@ -3,6 +3,7 @@ import {
   ResourceModification,
   ResourceModifierKey,
 } from '../datasources/hasura-empire-resource-modifiers';
+import { QuestErrorTypes } from '../entities/error-enums/quest-errors';
 
 export const emptyResourceModification = (
   galacticEmpireId: string
@@ -53,21 +54,20 @@ export const validateResourceModification = ({
   resources: GalacticEmpireQuestByIdQuery['galactic_empire_quest_by_pk']['galactic_empire']['resources'];
   resource_amount: number;
   resource_id: string;
-}): { error?: string; modifierKey?: ResourceModifierKey } => {
+}): { error?: QuestErrorTypes; modifierKey?: ResourceModifierKey } => {
   const resourceToModify = resources.find(
     ({ resource_type: { id } }) => id === resource_id
   );
 
   if (!resourceToModify) {
     return {
-      error:
-        'This empire has not yet unlocked the specified resource you tried to modify.',
+      error: QuestErrorTypes.ResourceNotUnlocked,
     };
   }
 
   // if decrement, and decrement amount is greater than total
   if (resource_amount < 0 && -resource_amount > resourceToModify.value) {
-    return { error: "You don't have enough resources to spend!" };
+    return { error: QuestErrorTypes.NotEnoughResources };
   }
   let modifierKey: ResourceModifierKey;
 
@@ -90,7 +90,7 @@ export const validateResourceModification = ({
 
     default: {
       return {
-        error: `Resource type: ${resourceToModify.resource_type.type} is not valid.`,
+        error: QuestErrorTypes.InvalidResourceType,
       };
     }
   }
