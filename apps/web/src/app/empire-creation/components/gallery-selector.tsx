@@ -25,14 +25,14 @@ const GalleryButton = <T,>({
 }: {
   item: GalleryItem<T>;
   selected?: boolean;
-
   onClick: (item: GalleryItem<T>) => unknown;
 }) => {
   const { secondary } = useReactiveVar(colorsVar);
+
   return (
     <Box
       as={Button}
-      height="125px"
+      height={['60px', '125px']}
       minWidth={['30vw', 'unset']}
       lineHeight="inherit"
       whiteSpace="normal"
@@ -42,11 +42,11 @@ const GalleryButton = <T,>({
       borderRadius="3px"
       fontWeight="semibold"
       fontSize={['xxs', 'xs', 'xs', 'sm', 'md']}
-      bg="whiteAlpha.200"
+      bg={selected ? `${secondary}.600` : 'whiteAlpha.100'}
       color="white.900"
       _hover={!selected && { bg: 'whiteAlpha.300' }}
       _active={{
-        bg: 'whiteAlpha.300',
+        bg: `${secondary}.600`,
         transform: 'scale(0.98)',
         borderColor: `${secondary}.700`,
       }}
@@ -55,6 +55,7 @@ const GalleryButton = <T,>({
         transform: 'scale(0.98)',
         pointerEvents: 'none',
         opacity: 1,
+        _hover: { bg: `${secondary}.600` },
       }}
       paddingInlineStart={4}
       paddingInlineEnd={4}
@@ -91,6 +92,7 @@ export const GallerySelector = <T,>({
 
   return (
     <Stack
+      flexGrow={1}
       bg={bg}
       direction={['column', 'row']}
       spacing={2}
@@ -101,11 +103,11 @@ export const GallerySelector = <T,>({
       divider={<StackDivider borderColor={border} />}
     >
       <Stack
-        direction={['row', 'column']}
+        direction={['column']}
         spacing={2}
         divider={<StackDivider borderColor={border} />}
         paddingLeft={['unset', 3]}
-        flexGrow={1}
+        flexGrow={[0, 1]}
         minWidth={['unset', '200px']}
         maxWidth={['unset', '200px']}
       >

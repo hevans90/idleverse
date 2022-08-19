@@ -23,7 +23,7 @@ export const HomeworldGenerationModal = ({
   const { width, height } = useResize('planet-gen', { sidenavOverride: true });
 
   return (
-    <Modal isOpen={isOpen} onClose={() => onClose()} size="full" isCentered>
+    <Modal isOpen={isOpen} onClose={() => onClose()} size={['full']} isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader

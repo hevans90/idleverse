@@ -34,7 +34,7 @@ export const FactionSelectionModal = ({
     <Modal
       isOpen={isOpen}
       onClose={() => onClose(locallySelectedFaction)}
-      size="5xl"
+      size={['full', '6xl', '5xl']}
       isCentered
     >
       <ModalOverlay />
@@ -48,7 +48,7 @@ export const FactionSelectionModal = ({
         >
           Select Faction
         </ModalHeader>
-        <ModalBody padding={0}>
+        <ModalBody bg={bgLight} padding={0} display="flex">
           <GallerySelector
             name="faction"
             items={factions}

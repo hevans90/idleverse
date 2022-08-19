@@ -34,7 +34,7 @@ export const RaceSelectionModal = ({
     <Modal
       isOpen={isOpen}
       onClose={() => onClose(locallySelectedRace)}
-      size="5xl"
+      size={['full', '6xl', '5xl']}
       isCentered
     >
       <ModalOverlay />
@@ -48,7 +48,7 @@ export const RaceSelectionModal = ({
         >
           Select Race
         </ModalHeader>
-        <ModalBody bg={bgLight} padding={0}>
+        <ModalBody bg={bgLight} padding={0} display="flex">
           <GallerySelector
             name="race"
             items={playableRaces}

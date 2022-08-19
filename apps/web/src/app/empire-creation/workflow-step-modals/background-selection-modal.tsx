@@ -34,7 +34,7 @@ export const BackgroundSelectionModal = ({
     <Modal
       isOpen={isOpen}
       onClose={() => onClose(locallySelectedBackground)}
-      size="5xl"
+      size={['full', '6xl', '5xl']}
       isCentered
     >
       <ModalOverlay />
@@ -48,7 +48,7 @@ export const BackgroundSelectionModal = ({
         >
           Select Background
         </ModalHeader>
-        <ModalBody padding={0}>
+        <ModalBody bg={bgLight} padding={0} display="flex">
           <GallerySelector
             name="background"
             items={backgrounds}
