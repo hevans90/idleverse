@@ -16,6 +16,7 @@ import { TerrainHexPalettesQuery } from '@idleverse/galaxy-gql';
 import { hexToRGB } from '@idleverse/theme';
 import { Fragment, useEffect, useState } from 'react';
 import { useUiBackground } from '../../../hooks/use-ui-background';
+import { responsiveFontProps } from '../../../_responsive-utils/font-props';
 import { colorsVar } from '../../../_state/colors';
 import { planetGenerationColorDrawerVar } from '../../../_state/planet-generation';
 
@@ -82,10 +83,11 @@ export const PlanetGeneratorColorDrawer = ({
       position="absolute"
       left="0"
       top="10%"
-      padding={3}
+      padding={[2, 2, 3]}
     >
       <HStack width="100%" justifyContent="space-between">
         <IconButton
+          size={['xs', 'sm', 'sm', 'md']}
           aria-label="close color drawer"
           icon={drawerState.panelOpen ? <MinusIcon /> : <AddIcon />}
           onClick={() =>
@@ -96,7 +98,7 @@ export const PlanetGeneratorColorDrawer = ({
           }
         />
 
-        {drawerState.panelOpen && <Text>Colors</Text>}
+        {drawerState.panelOpen && <Text {...responsiveFontProps}>Colors</Text>}
 
         {localPalette && !drawerState.panelOpen && (
           <ColorQuad {...localPalette} />
