@@ -20,6 +20,7 @@ import { generateCelestialName } from '@idleverse/galaxy-gen';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useUiBackground } from '../../../hooks/use-ui-background';
+import { responsiveFontProps } from '../../../_responsive-utils/font-props';
 import { colorsVar } from '../../../_state/colors';
 import { PlanetGenerationConfig } from '../../../_state/models';
 import { planetGeneratorConfigVar } from '../../../_state/planet-generation';
@@ -97,8 +98,8 @@ export const PlanetGeneratorSliders = () => {
       justifyContent="space-between"
     >
       <Box
+        display={['none', 'none', 'none', 'flex']}
         maxWidth="600px"
-        display="flex"
         flexDirection="column"
         flexGrow={1}
         marginRight="2rem"
@@ -178,7 +179,7 @@ export const PlanetGeneratorSliders = () => {
         display="flex"
         flexDirection="column"
         flexGrow={2}
-        maxWidth={['unset', '80%', '70%', '60%', '50%', '40%']}
+        maxWidth={['unset', 'unset', 'unset', '60%', '50%', '40%']}
       >
         {planetGeneratorSlidersConfig.map((slider, index) => (
           <HStack
@@ -192,6 +193,7 @@ export const PlanetGeneratorSliders = () => {
               {slider.displayName}
             </Text>
             <Slider
+              display={['none', 'none', 'none', 'block']}
               mr={10}
               key={`${index}-slider`}
               maxWidth={[200, 300, 400]}
@@ -238,7 +240,7 @@ export const PlanetGeneratorSliders = () => {
                 });
               }}
             >
-              <NumberInputField autoFocus />
+              <NumberInputField autoFocus {...responsiveFontProps} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />

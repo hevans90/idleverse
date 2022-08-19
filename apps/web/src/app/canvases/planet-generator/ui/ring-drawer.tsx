@@ -37,6 +37,7 @@ import { planetGenerationRingDrawerVar } from '../../../_state/planet-generation
 
 import { colors as themeColors, hexToRGB, rgbToHex } from '@idleverse/theme';
 import { useUiBackground } from '../../../hooks/use-ui-background';
+import { responsiveFontProps } from '../../../_responsive-utils/font-props';
 import { colorsVar } from '../../../_state/colors';
 import {
   degreesToRadians,
@@ -106,13 +107,14 @@ export const PlanetGeneratorRingDrawer = () => {
       position="absolute"
       right="0"
       top="0"
-      padding={3}
+      padding={[2, 2, 3]}
     >
       <HStack width="100%" justifyContent="space-between">
-        <Text>Rings</Text>
+        <Text {...responsiveFontProps}>Rings</Text>
 
         {drawerState.panelOpen && (
           <Button
+            {...responsiveFontProps}
             onClick={() =>
               planetGenerationRingDrawerVar({
                 ...drawerState,
@@ -128,6 +130,7 @@ export const PlanetGeneratorRingDrawer = () => {
         )}
 
         <IconButton
+          size={['xs', 'sm', 'sm', 'md']}
           aria-label="close color drawer"
           icon={drawerState.panelOpen ? <MinusIcon /> : <AddIcon />}
           onClick={() =>

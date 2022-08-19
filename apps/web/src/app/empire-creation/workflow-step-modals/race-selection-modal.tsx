@@ -11,6 +11,10 @@ import {
 import { Playable_Race } from '@idleverse/galaxy-gql';
 import { useState } from 'react';
 import { useUiBackground } from '../../hooks/use-ui-background';
+import {
+  headerResponsiveFontProps,
+  responsiveFontProps,
+} from '../../_responsive-utils/font-props';
 import { playableRacesVar } from '../../_state/playable-races';
 import { GallerySelector } from '../components/gallery-selector';
 
@@ -34,12 +38,13 @@ export const RaceSelectionModal = ({
     <Modal
       isOpen={isOpen}
       onClose={() => onClose(locallySelectedRace)}
-      size="5xl"
+      size={['full', '6xl', '5xl']}
       isCentered
     >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader
+          {...headerResponsiveFontProps}
           bg={bg}
           borderTopRightRadius={6}
           borderTopLeftRadius={6}
@@ -48,7 +53,7 @@ export const RaceSelectionModal = ({
         >
           Select Race
         </ModalHeader>
-        <ModalBody bg={bgLight} padding={0}>
+        <ModalBody bg={bgLight} padding={0} display="flex">
           <GallerySelector
             name="race"
             items={playableRaces}
@@ -65,6 +70,7 @@ export const RaceSelectionModal = ({
           borderTopColor={border}
         >
           <Button
+            {...responsiveFontProps}
             disabled={!locallySelectedRace}
             onClick={() => onClose(locallySelectedRace)}
           >

@@ -11,6 +11,10 @@ import {
 import { Background } from '@idleverse/galaxy-gql';
 import { useState } from 'react';
 import { useUiBackground } from '../../hooks/use-ui-background';
+import {
+  headerResponsiveFontProps,
+  responsiveFontProps,
+} from '../../_responsive-utils/font-props';
 import { backgroundsVar } from '../../_state/backgrounds';
 import { GallerySelector } from '../components/gallery-selector';
 
@@ -34,12 +38,13 @@ export const BackgroundSelectionModal = ({
     <Modal
       isOpen={isOpen}
       onClose={() => onClose(locallySelectedBackground)}
-      size="5xl"
+      size={['full', '6xl', '5xl']}
       isCentered
     >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader
+          {...headerResponsiveFontProps}
           borderBottom="1px solid"
           bg={bg}
           borderTopRightRadius={6}
@@ -48,7 +53,7 @@ export const BackgroundSelectionModal = ({
         >
           Select Background
         </ModalHeader>
-        <ModalBody padding={0}>
+        <ModalBody bg={bgLight} padding={0} display="flex">
           <GallerySelector
             name="background"
             items={backgrounds}
@@ -67,6 +72,7 @@ export const BackgroundSelectionModal = ({
           borderTopColor={border}
         >
           <Button
+            {...responsiveFontProps}
             disabled={!locallySelectedBackground}
             onClick={() => onClose(locallySelectedBackground)}
           >

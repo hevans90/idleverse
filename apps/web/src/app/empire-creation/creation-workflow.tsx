@@ -27,9 +27,7 @@ const WorkflowButton = ({
   return (
     <Box
       as={Button}
-      height="125px"
-      minWidth={['unset']}
-      maxWidth={['40vw', '30vw', '20vw']}
+      height={['100px', '125px']}
       lineHeight="inherit"
       whiteSpace="normal"
       disabled={disabled || false}
@@ -115,8 +113,8 @@ export const CreationWorkflow = ({
 
   return (
     <SimpleGrid
-      width={['95%', '95%', '95%', '95%', '95%', '70%']}
-      minChildWidth="120px"
+      width={['95%', '95%', '95%', '95%', '80%', '1400px']}
+      minChildWidth={['180px', '120px']}
       spacing={3}
     >
       <WorkflowButton

@@ -13,6 +13,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useUiBackground } from '../../../hooks/use-ui-background';
+import { responsiveFontProps } from '../../../_responsive-utils/font-props';
 import {
   planetGenerationColorDrawerVar,
   planetGenerationTerrainDrawerVar,
@@ -34,11 +35,12 @@ export const PlanetGeneratorTerrainDrawer = () => {
       position="absolute"
       left="0"
       top="40%"
-      padding={3}
+      padding={[2, 2, 3]}
     >
       <HStack width="100%" justifyContent="space-between">
-        <Text>Terrain</Text>
+        <Text {...responsiveFontProps}>Terrain</Text>
         <IconButton
+          size={['xs', 'sm', 'sm', 'md']}
           aria-label="close color drawer"
           icon={drawerState.panelOpen ? <MinusIcon /> : <AddIcon />}
           onClick={() =>

@@ -11,6 +11,10 @@ import {
 import { Faction } from '@idleverse/galaxy-gql';
 import { useState } from 'react';
 import { useUiBackground } from '../../hooks/use-ui-background';
+import {
+  headerResponsiveFontProps,
+  responsiveFontProps,
+} from '../../_responsive-utils/font-props';
 import { factionsVar } from '../../_state/factions';
 import { GallerySelector } from '../components/gallery-selector';
 
@@ -34,12 +38,13 @@ export const FactionSelectionModal = ({
     <Modal
       isOpen={isOpen}
       onClose={() => onClose(locallySelectedFaction)}
-      size="5xl"
+      size={['full', '6xl', '5xl']}
       isCentered
     >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader
+          {...headerResponsiveFontProps}
           borderBottom="1px solid"
           bg={bg}
           borderTopRightRadius={6}
@@ -48,7 +53,7 @@ export const FactionSelectionModal = ({
         >
           Select Faction
         </ModalHeader>
-        <ModalBody padding={0}>
+        <ModalBody bg={bgLight} padding={0} display="flex">
           <GallerySelector
             name="faction"
             items={factions}
@@ -65,6 +70,7 @@ export const FactionSelectionModal = ({
           borderTopColor={border}
         >
           <Button
+            {...responsiveFontProps}
             disabled={!locallySelectedFaction}
             onClick={() => onClose(locallySelectedFaction)}
           >
