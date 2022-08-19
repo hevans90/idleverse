@@ -8,6 +8,7 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react';
 import { PlanetGenerator } from '../../canvases/planet-generator/planet-generator';
+import { useResize } from '../../canvases/_utils/use-resize.hook';
 import { useUiBackground } from '../../hooks/use-ui-background';
 
 export const HomeworldGenerationModal = ({
@@ -18,6 +19,8 @@ export const HomeworldGenerationModal = ({
   onClose: () => void;
 }) => {
   const { bg, border, bgLight } = useUiBackground();
+
+  const { width, height } = useResize('planet-gen', { sidenavOverride: true });
 
   return (
     <Modal isOpen={isOpen} onClose={() => onClose()} size="full" isCentered>
@@ -33,7 +36,7 @@ export const HomeworldGenerationModal = ({
           Create your homeworld
         </ModalHeader>
         <ModalBody bg={bgLight} padding={0} position="relative">
-          <PlanetGenerator />
+          <PlanetGenerator customSize={{ width, height }} />
         </ModalBody>
 
         <ModalFooter
