@@ -18,7 +18,7 @@ export const HomeworldGenerationModal = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
-  const { bg, border, bgLight } = useUiBackground();
+  const { bg, border, bgDark } = useUiBackground();
 
   const { width, height } = useResize('planet-gen', { sidenavOverride: true });
 
@@ -35,7 +35,7 @@ export const HomeworldGenerationModal = ({
         >
           Create your homeworld
         </ModalHeader>
-        <ModalBody bg={bgLight} padding={0} position="relative">
+        <ModalBody bg={bgDark} padding={0} position="relative">
           <PlanetGenerator customSize={{ width, height }} />
         </ModalBody>
 
