@@ -32,22 +32,28 @@ const getScreenSize = (controls: controls = 'none', sideNav: boolean) => ({
   height: window.innerHeight - topBarHeight - controlValue(controls),
 });
 
-export const useResize = (controls: controls = 'none') => {
+export const useResize = (
+  controls: controls = 'none',
+  options?: { sidenavOverride: boolean }
+) => {
   const { sideNav } = useReactiveVar(layoutVar);
 
-  const [screenSize, setScreenSize] = useState(
-    getScreenSize(controls, sideNav)
-  );
+  const screenSizeGetter = () =>
+    options?.sidenavOverride
+      ? getScreenSize(controls, false)
+      : getScreenSize(controls, sideNav);
+
+  const [screenSize, setScreenSize] = useState(screenSizeGetter());
 
   useEffect(() => {
-    const onResize = () => setScreenSize(getScreenSize(controls, sideNav));
+    const onResize = () => setScreenSize(screenSizeGetter());
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [controls]);
 
   useEffect(() => {
-    setScreenSize(getScreenSize(controls, sideNav));
+    setScreenSize(screenSizeGetter());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sideNav]);
 
