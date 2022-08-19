@@ -10,6 +10,10 @@ import {
 import { PlanetGenerator } from '../../canvases/planet-generator/planet-generator';
 import { useResize } from '../../canvases/_utils/use-resize.hook';
 import { useUiBackground } from '../../hooks/use-ui-background';
+import {
+  headerResponsiveFontProps,
+  responsiveFontProps,
+} from '../../_responsive-utils/font-props';
 
 export const HomeworldGenerationModal = ({
   isOpen,
@@ -32,6 +36,7 @@ export const HomeworldGenerationModal = ({
           borderTopRightRadius={6}
           borderTopLeftRadius={6}
           borderBottomColor={border}
+          {...headerResponsiveFontProps}
         >
           Create your homeworld
         </ModalHeader>
@@ -46,7 +51,9 @@ export const HomeworldGenerationModal = ({
           borderBottomRightRadius={6}
           borderBottomLeftRadius={6}
         >
-          <Button onClick={onClose}>Confirm</Button>
+          <Button {...responsiveFontProps} onClick={onClose}>
+            Confirm
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
