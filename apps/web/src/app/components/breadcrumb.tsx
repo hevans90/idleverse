@@ -36,7 +36,7 @@ export const Breadcrumb = () => {
   return (
     <Box
       padding="1rem"
-      display="flex"
+      display={['none', 'none', 'flex']}
       flexDirection="row"
       position="absolute"
       alignItems="start"
