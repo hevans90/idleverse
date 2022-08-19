@@ -34,7 +34,7 @@ export const PlanetGeneratorBooleans = () => {
           }
         ></Checkbox>
       </HStack>
-      <HStack width="100%">
+      <HStack width="100%" display={['none', 'none', 'none', 'flex']}>
         <Text minWidth="175px" fontSize="small">
           Atmosphere
         </Text>
@@ -48,7 +48,7 @@ export const PlanetGeneratorBooleans = () => {
           }
         ></Checkbox>
       </HStack>
-      <HStack width="100%">
+      <HStack width="100%" display={['none', 'none', 'none', 'flex']}>
         <Text minWidth="175px" fontSize="small">
           Rotate
         </Text>

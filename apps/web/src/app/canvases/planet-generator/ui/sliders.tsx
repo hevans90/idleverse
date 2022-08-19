@@ -97,8 +97,8 @@ export const PlanetGeneratorSliders = () => {
       justifyContent="space-between"
     >
       <Box
+        display={['none', 'none', 'none', 'flex']}
         maxWidth="600px"
-        display="flex"
         flexDirection="column"
         flexGrow={1}
         marginRight="2rem"
@@ -178,7 +178,7 @@ export const PlanetGeneratorSliders = () => {
         display="flex"
         flexDirection="column"
         flexGrow={2}
-        maxWidth={['unset', '80%', '70%', '60%', '50%', '40%']}
+        maxWidth={['unset', 'unset', 'unset', '60%', '50%', '40%']}
       >
         {planetGeneratorSlidersConfig.map((slider, index) => (
           <HStack
@@ -192,6 +192,7 @@ export const PlanetGeneratorSliders = () => {
               {slider.displayName}
             </Text>
             <Slider
+              display={['none', 'none', 'none', 'block']}
               mr={10}
               key={`${index}-slider`}
               maxWidth={[200, 300, 400]}

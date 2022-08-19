@@ -25,6 +25,7 @@ import { Pixelate } from './pixelate';
 import { runTextureGenOnWorker } from './texture-generation/run-texture-gen-on-worker';
 import { PlanetGeneratorBooleans } from './ui/booleans';
 import { PlanetGeneratorColorDrawer } from './ui/color-drawer';
+import { NameSeedMobile } from './ui/name-seed-mobile';
 import { PlanetGeneratorRingDrawer } from './ui/ring-drawer';
 import {
   planetGenerationControlsHeight,
@@ -170,6 +171,7 @@ export const PlanetGenerator = ({
       {ui && (
         <>
           <PlanetGeneratorColorDrawer paletteData={colorPalettes} />
+          <NameSeedMobile />
 
           <PlanetGeneratorTerrainDrawer />
           <PlanetGeneratorRingDrawer />
