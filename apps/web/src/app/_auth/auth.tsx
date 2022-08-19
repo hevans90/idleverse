@@ -16,7 +16,9 @@ export const Auth = () => {
       <Box display="flex" alignItems="center">
         <Avatar size="sm" src={user.picture} mr={2} name={user.name} />
 
-        <Text marginRight="1rem">{user.name}</Text>
+        <Text marginRight="1rem" display={['none', 'none', 'block']}>
+          {user.name}
+        </Text>
 
         <LogoutButton></LogoutButton>
       </Box>
