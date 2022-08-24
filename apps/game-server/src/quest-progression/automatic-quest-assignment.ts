@@ -20,7 +20,7 @@ export const automaticMainQuestAssignment = async (
 
   if (!quest) throw new Error('No initial main quest found!');
 
-  client
+  return client
     .subscribe<EmpiresWithoutQuestsSubscription>({
       query: EmpiresWithoutQuestsDocument,
     })
