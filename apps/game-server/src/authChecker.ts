@@ -1,8 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { AuthChecker } from 'type-graphql';
+import { Context } from './datasources/context';
 
-export const authChecker: AuthChecker<any> = async ({ context }, roles) => {
+export const authChecker: AuthChecker<any> = async (
+  { context }: { context: Context },
+  roles
+) => {
   if (roles.length === 0) return true;
   if (!context?.roles) {
     console.warn('No roles present in JWT.');
