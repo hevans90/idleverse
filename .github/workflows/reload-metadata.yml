@@ -38,4 +38,4 @@ jobs:
 
       - name: Reload Metadata
         run: |
-          hasura metadata reload --project apps/hasura/db --endpoint $HASURA_URL  --admin-secret $HASURA_ADMIN_SECRET --skip-update-check
+          npx hasura metadata reload --project apps/hasura/db --endpoint $HASURA_URL  --admin-secret $HASURA_ADMIN_SECRET --skip-update-check
