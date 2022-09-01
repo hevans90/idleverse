@@ -1,8 +1,12 @@
-name: Morning Metadata Reload
+name: Metadata Reload
 on:
   schedule:
     # Runs at 09:05 every day (see https://crontab.guru)
     - cron: '5 9 * * *'
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
