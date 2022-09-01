@@ -6,6 +6,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      HASURA_URL: https://idleverse-hasura.herokuapp.com
+      HASURA_ADMIN_SECRET: ${{ secrets.HASURA_ADMIN_SECRET }}
+
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v2.3.1
@@ -30,4 +34,4 @@ jobs:
 
       - name: Reload Metadata
         run: |
-          yarn metadata-reload
+          hasura metadata reload --project apps/hasura/db --endpoint $HASURA_URL  --admin-secret $HASURA_ADMIN_SECRET --skip-update-check
