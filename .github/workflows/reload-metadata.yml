@@ -1,8 +1,8 @@
 name: Metadata Reload
 on:
   schedule:
-    # Runs at 09:05 every day (see https://crontab.guru)
-    - cron: '5 9 * * *'
+    # Runs at 5 minutes past every hour (see https://crontab.guru)
+    - cron: '5 * * * *'
   pull_request:
     types: [opened, synchronize, reopened]
     branches:
