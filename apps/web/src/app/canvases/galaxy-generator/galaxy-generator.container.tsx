@@ -15,6 +15,7 @@ import {
 import { useEffect, useRef } from 'react';
 import { galaxyConfigVar, roleVar } from '../../_state/reactive-variables';
 
+import { useNavigate } from 'react-router-dom';
 import { PixiWrapper } from '../_utils/pixi-wrapper';
 import { GalaxyGenerator } from './galaxy-generator';
 import { GameUIBottomBar } from './ui/bottom-bar';
@@ -36,6 +37,8 @@ export const GalaxyGenContainer = () => {
   const galaxyConfig = useReactiveVar(galaxyConfigVar);
 
   const saveGalaxyFn = useRef<() => unknown>(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     saveGalaxyFn.current = async () => {
@@ -61,6 +64,7 @@ export const GalaxyGenContainer = () => {
           title: `${created.data.insert_galaxy_one.name} created successfully.`,
           status: 'success',
         });
+        navigate(`/galaxies/${galaxyConfig.seed}`);
       } catch (e) {
         console.error(e);
         toast({ title: e.message, status: 'error' });
