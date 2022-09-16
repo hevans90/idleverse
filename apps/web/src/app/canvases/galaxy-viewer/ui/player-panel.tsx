@@ -1,17 +1,34 @@
 import { ApolloError } from '@apollo/client';
-import { Avatar, Box, Text } from '@chakra-ui/react';
+import { Avatar, Box, Button, Link, Text } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { Link as ReactRouterLink } from 'react-router-dom';
 import { Loading } from '../../../components/loading';
 import { useUiBackground } from '../../../hooks/use-ui-background';
+import { responsiveFontProps } from '../../../_responsive-utils/font-props';
 import { CelestialOwner } from '../celestial-owner';
 
 type PlayerPanelProps = {
   owners: CelestialOwner[];
   loading: boolean;
   error?: ApolloError;
+  galaxyId: string;
+  userId: string;
 };
 
-export const PlayerPanel = ({ owners, loading, error }: PlayerPanelProps) => {
+export const PlayerPanel = ({
+  owners,
+  loading,
+  error,
+  galaxyId,
+  userId,
+}: PlayerPanelProps) => {
   const { bg, border } = useUiBackground();
+
+  const [userHasEmpire, setUserHasEmpire] = useState<boolean>();
+
+  useEffect(() => {
+    setUserHasEmpire(!!owners.find(({ id }) => id === userId));
+  }, [owners, userId]);
 
   if (loading) {
     return <Loading text="Loading players"></Loading>;
@@ -53,6 +70,19 @@ export const PlayerPanel = ({ owners, loading, error }: PlayerPanelProps) => {
         </Box>
       ))}
       {!owners.length && <Text>No celestials owned</Text>}
+
+      {(!owners.length || !userHasEmpire) && (
+        <Link
+          as={ReactRouterLink}
+          to={`/galaxies/${galaxyId}/join`}
+          width="100%"
+          mt={3}
+        >
+          <Button {...responsiveFontProps} width="100%">
+            Join
+          </Button>
+        </Link>
+      )}
     </Box>
   );
 };
