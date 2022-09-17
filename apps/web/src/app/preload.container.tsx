@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import {
   CharacterDataDocument,
   CharacterDataQuery,
@@ -20,6 +20,8 @@ import { selfVar } from './_state/reactive-variables';
  */
 export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
   const [userAvatarsLoading, setUserAvatarsLoading] = useState(true);
+
+  const self = useReactiveVar(selfVar);
 
   const { loading: profileLoading } = useQuery<SelfQuery>(SelfDocument, {
     onCompleted: (data) => {
@@ -54,6 +56,7 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
   if (usersLoading) return <Loading text="Loading Users"></Loading>;
 
   if (profileLoading) return <Loading text="Loading Profile"></Loading>;
+  if (!self) return <Loading text="Setting Profile"></Loading>;
 
   if (characterDataLoading)
     return <Loading text="Loading Races, Backgrounds &amp; Factions"></Loading>;

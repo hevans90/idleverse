@@ -68,6 +68,8 @@ export const GalaxyViewerContainer = () => {
         ui={
           <>
             <PlayerPanel
+              userId={userId}
+              galaxyId={data.galaxy_by_pk.id}
               owners={celestialOwnerMapper(celestialData)}
               loading={celestialLoading}
               error={celestialError}
