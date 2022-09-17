@@ -41,11 +41,13 @@ export const questStepProgressionValidator = ({
         }
         const resourceValidation = validateResourceModification({
           resources: galactic_empire.resources,
-          resource_amount: step.resource_cost_amount,
+          resource_amount: -step.resource_cost_amount,
           resource_id: step.resource_cost_id,
         });
 
-        if (resourceValidation.error) throw new Error(resourceValidation.error);
+        if (resourceValidation.error) {
+          return { error: resourceValidation.error };
+        }
 
         if (resourceValidation.modifierKey) {
           resourceModification = resourceModificationFactory(

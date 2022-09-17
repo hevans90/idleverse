@@ -194,7 +194,7 @@ describe('QuestManagementResolver', () => {
                   id: 'step-id',
                   type: Quest_Step_Type_Enum.ResourceCost,
                   resource_cost_id: 'correct-resource-id',
-                  resource_cost_amount: -10,
+                  resource_cost_amount: 10,
                 },
               ],
               quest_type: {
