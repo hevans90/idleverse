@@ -1,0 +1,44 @@
+fragment GalacticEmpireQuestFields on galactic_empire_quest {
+  id
+  completed
+  quest {
+    id
+    type
+    description
+    name
+    rewards {
+      npc_unlock_id
+      resource_accrual_amount
+      resource_accrual_type_id
+      resource_unlock_id
+      type
+    }
+    next_quest {
+      name
+    }
+    steps {
+      description
+      id
+      resource_cost_amount
+      npc_contact_id
+      type
+    }
+  }
+  quest_step_id
+}
+
+subscription CompletedGalacticEmpireQuests($empireId: uuid!) {
+  galactic_empire_quest(
+    where: { galactic_empire_id: { _eq: $empireId }, completed: { _eq: true } }
+  ) {
+    ...GalacticEmpireQuestFields
+  }
+}
+
+subscription ActiveGalacticEmpireQuests($empireId: uuid!) {
+  galactic_empire_quest(
+    where: { galactic_empire_id: { _eq: $empireId }, completed: { _eq: false } }
+  ) {
+    ...GalacticEmpireQuestFields
+  }
+}

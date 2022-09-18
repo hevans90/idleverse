@@ -15,6 +15,7 @@ import { colors } from '@idleverse/theme';
 import { GameUI } from '../../game-ui/game-ui';
 import { useEmpire } from '../../hooks/use-my-empire';
 import { colorsVar } from '../../_state/colors';
+import { myEmpireVar } from '../../_state/galactic-empire';
 import { runTextureGenOnWorker } from '../planet-generator/texture-generation/run-texture-gen-on-worker';
 import { World } from '../planet-generator/world';
 import { useResize } from '../_utils/use-resize.hook';
@@ -29,6 +30,8 @@ export const PlanetViewer = () => {
   const { width, height } = useResize();
 
   const { primary } = useReactiveVar(colorsVar);
+
+  const myEmpire = useReactiveVar(myEmpireVar);
 
   const [worldDataTexture, setWorldDataTexture] =
     useState<DataTexture>(undefined);
@@ -171,7 +174,9 @@ export const PlanetViewer = () => {
               pixelSize={2}
             />
           </Canvas>
-          <GameUI />
+          {data?.planet_by_pk?.celestial?.galactic_empire?.id && myEmpire && (
+            <GameUI empireId={data.planet_by_pk.celestial.galactic_empire.id} />
+          )}
         </Suspense>
       </Box>
     );
