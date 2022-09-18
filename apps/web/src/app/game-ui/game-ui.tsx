@@ -3,7 +3,7 @@ import { useReactiveVar } from '@apollo/client';
 import { useDisclosure } from '@chakra-ui/react';
 import { useKeypress } from '../hooks/use-keypress';
 import { dialogVar } from '../_state/dialog';
-import { galacticEmpireVar } from '../_state/galactic-empire';
+import { galacticEmpireVar, myEmpireVar } from '../_state/galactic-empire';
 import { globalUiVar } from '../_state/global-ui';
 import { Dialog } from './dialog';
 import { InGameMenu } from './in-game-menu';
@@ -16,6 +16,8 @@ export const GameUI = () => {
   const { questJournalOpen, npcContactOpen } = useReactiveVar(globalUiVar);
 
   const galacticEmpire = useReactiveVar(galacticEmpireVar);
+
+  const myEmpire = useReactiveVar(myEmpireVar);
 
   useKeypress('KeyJ', () => {
     if (!questJournalOpen) {
@@ -42,7 +44,7 @@ export const GameUI = () => {
 
   return (
     <>
-      {galacticEmpire && (
+      {galacticEmpire && myEmpire && (
         <>
           <InGameMenu position="absolute" bottom="40vh" left={0} />
           <QuestJournal

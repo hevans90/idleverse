@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { loadPlanets } from '../../asset-loading/load-planets';
 import { Loading } from '../../components/loading';
-import { useMyEmpire } from '../../hooks/use-my-empire';
+import { useEmpire } from '../../hooks/use-my-empire';
 import { celestialViewerSelectedPlanet } from '../../_state/celestial-viewer';
 import { celestialVar, selfVar } from '../../_state/reactive-variables';
 import { runPixelDataGenOnWorker } from '../planet-generator/texture-generation/run-texture-gen-on-worker';
@@ -98,7 +98,7 @@ export const CelestialViewerContainer = () => {
     }
   }, [id, data]);
 
-  useMyEmpire(data?.celestial_by_pk?.galactic_empire);
+  useEmpire(data?.celestial_by_pk?.galactic_empire);
 
   if (loading) {
     return (

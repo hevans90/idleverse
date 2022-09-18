@@ -13,7 +13,7 @@ import { Pixelate } from '../planet-generator/pixelate';
 
 import { colors } from '@idleverse/theme';
 import { GameUI } from '../../game-ui/game-ui';
-import { useMyEmpire } from '../../hooks/use-my-empire';
+import { useEmpire } from '../../hooks/use-my-empire';
 import { colorsVar } from '../../_state/colors';
 import { runTextureGenOnWorker } from '../planet-generator/texture-generation/run-texture-gen-on-worker';
 import { World } from '../planet-generator/world';
@@ -48,7 +48,7 @@ export const PlanetViewer = () => {
     }
   }, [loading, data]);
 
-  useMyEmpire(data?.planet_by_pk?.celestial?.galactic_empire);
+  useEmpire(data?.planet_by_pk?.celestial?.galactic_empire);
 
   useEffect(() => {
     if (data) {

@@ -5,3 +5,5 @@ export const galacticEmpireVar = makeVarPersisted<GalacticEmpireFieldsFragment>(
   null,
   'galacticEmpire'
 );
+
+export const myEmpireVar = makeVarPersisted<boolean>(false, 'myEmpire');
