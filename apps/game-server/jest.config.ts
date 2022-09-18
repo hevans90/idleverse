@@ -1,3 +1,4 @@
+/* eslint-disable */
 module.exports = {
   displayName: 'idleverse-game-server',
   preset: '../../jest.preset.js',

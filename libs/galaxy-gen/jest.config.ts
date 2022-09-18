@@ -1,5 +1,6 @@
+/* eslint-disable */
 module.exports = {
-  displayName: 'graphql-utils',
+  displayName: 'galaxy-gen',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -11,5 +12,5 @@ module.exports = {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../coverage/libs/graphql-utils',
+  coverageDirectory: '../../coverage/libs/galaxy-gen',
 };

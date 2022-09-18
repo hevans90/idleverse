@@ -17,7 +17,7 @@
           "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/libs/galaxy-gen"],
           "options": {
-            "jestConfig": "libs/galaxy-gen/jest.config.js",
+            "jestConfig": "libs/galaxy-gen/jest.config.ts",
             "passWithNoTests": true
           }
         }
@@ -40,7 +40,7 @@
           "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/libs/galaxy-gql"],
           "options": {
-            "jestConfig": "libs/galaxy-gql/jest.config.js",
+            "jestConfig": "libs/galaxy-gql/jest.config.ts",
             "passWithNoTests": true
           }
         }
@@ -63,7 +63,7 @@
           "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/libs/graphql-utils"],
           "options": {
-            "jestConfig": "libs/graphql-utils/jest.config.js",
+            "jestConfig": "libs/graphql-utils/jest.config.ts",
             "passWithNoTests": true
           }
         }
@@ -137,7 +137,7 @@
           "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/apps/game-server"],
           "options": {
-            "jestConfig": "apps/game-server/jest.config.js",
+            "jestConfig": "apps/game-server/jest.config.ts",
             "passWithNoTests": true
           }
         },
@@ -371,7 +371,7 @@
           "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/libs/theme"],
           "options": {
-            "jestConfig": "libs/theme/jest.config.js",
+            "jestConfig": "libs/theme/jest.config.ts",
             "passWithNoTests": true
           }
         }
