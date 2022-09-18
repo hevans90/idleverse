@@ -32,7 +32,7 @@ export const NpcContact = ({
   isOpen: boolean;
   onClose: () => unknown;
 }) => {
-  const { bg, border, bgDark, bgLight } = useUiBackground();
+  const { bg, border, bgDark } = useUiBackground();
 
   const { secondary } = useReactiveVar(colorsVar);
 
@@ -51,13 +51,7 @@ export const NpcContact = ({
   });
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      size="5xl"
-      isCentered
-      closeOnOverlayClick={false}
-    >
+    <Modal isOpen={isOpen} onClose={onClose} size="5xl" isCentered>
       <ModalContent>
         <ModalHeader
           bg={bgDark}
