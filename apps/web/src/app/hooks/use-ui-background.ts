@@ -9,7 +9,7 @@ export const useUiBackground = () => {
 
   const bgLightSecondary = useColorModeValue(
     `${secondary}.200`,
-    `${secondary}.600`
+    `${secondary}.400`
   );
   const bgLight = useColorModeValue(`${primary}.200`, `${primary}.600`);
   const bg = useColorModeValue(`${primary}.300`, `${primary}.700`);
