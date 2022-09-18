@@ -20,13 +20,8 @@ export type Scalars = {
   uuid: string;
 };
 
-export type Boolean_Cast_Exp = {
-  String?: InputMaybe<String_Comparison_Exp>;
-};
-
 /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
 export type Boolean_Comparison_Exp = {
-  _cast?: InputMaybe<Boolean_Cast_Exp>;
   _eq?: InputMaybe<Scalars['Boolean']>;
   _gt?: InputMaybe<Scalars['Boolean']>;
   _gte?: InputMaybe<Scalars['Boolean']>;
@@ -49,13 +44,8 @@ export type GalaxyManagement = {
   insertedCelestialName: Scalars['String'];
 };
 
-export type Int_Cast_Exp = {
-  String?: InputMaybe<String_Comparison_Exp>;
-};
-
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 export type Int_Comparison_Exp = {
-  _cast?: InputMaybe<Int_Cast_Exp>;
   _eq?: InputMaybe<Scalars['Int']>;
   _gt?: InputMaybe<Scalars['Int']>;
   _gte?: InputMaybe<Scalars['Int']>;
@@ -101,6 +91,12 @@ export type QuestReward = {
   resource_accrual_type_id: Scalars['String'];
   resource_unlock_id: Scalars['String'];
   type: Scalars['String'];
+};
+
+export type QuestStepProgression = {
+  __typename?: 'QuestStepProgression';
+  next_step_in_quest_added?: Maybe<Scalars['String']>;
+  quest_id: Scalars['String'];
 };
 
 export type Register = {
@@ -313,6 +309,22 @@ export type Background_Set_Input = {
   name?: InputMaybe<Scalars['String']>;
 };
 
+/** Streaming cursor of the table "background" */
+export type Background_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Background_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Background_Stream_Cursor_Value_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  image_url?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
 /** update columns of table "background" */
 export enum Background_Update_Column {
   /** column name */
@@ -324,6 +336,12 @@ export enum Background_Update_Column {
   /** column name */
   Name = 'name'
 }
+
+export type Background_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Background_Set_Input>;
+  where: Background_Bool_Exp;
+};
 
 /** columns and relationships of "celestial" */
 export type Celestial = {
@@ -538,6 +556,23 @@ export type Celestial_Set_Input = {
   owner_id?: InputMaybe<Scalars['String']>;
 };
 
+/** Streaming cursor of the table "celestial" */
+export type Celestial_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Celestial_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Celestial_Stream_Cursor_Value_Input = {
+  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
+  galaxy_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  owner_id?: InputMaybe<Scalars['String']>;
+};
+
 /** update columns of table "celestial" */
 export enum Celestial_Update_Column {
   /** column name */
@@ -551,6 +586,12 @@ export enum Celestial_Update_Column {
   /** column name */
   OwnerId = 'owner_id'
 }
+
+export type Celestial_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Celestial_Set_Input>;
+  where: Celestial_Bool_Exp;
+};
 
 /** columns and relationships of "chat_message" */
 export type Chat_Message = {
@@ -710,6 +751,22 @@ export type Chat_Message_Set_Input = {
   timestamp?: InputMaybe<Scalars['timestamp']>;
 };
 
+/** Streaming cursor of the table "chat_message" */
+export type Chat_Message_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Chat_Message_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Chat_Message_Stream_Cursor_Value_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  message?: InputMaybe<Scalars['String']>;
+  poster_id?: InputMaybe<Scalars['String']>;
+  timestamp?: InputMaybe<Scalars['timestamp']>;
+};
+
 /** update columns of table "chat_message" */
 export enum Chat_Message_Update_Column {
   /** column name */
@@ -720,6 +777,20 @@ export enum Chat_Message_Update_Column {
   PosterId = 'poster_id',
   /** column name */
   Timestamp = 'timestamp'
+}
+
+export type Chat_Message_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Chat_Message_Set_Input>;
+  where: Chat_Message_Bool_Exp;
+};
+
+/** ordering argument of a cursor */
+export enum Cursor_Ordering {
+  /** ascending ordering of the cursor */
+  Asc = 'ASC',
+  /** descending ordering of the cursor */
+  Desc = 'DESC'
 }
 
 /** NPC factions */
@@ -854,6 +925,22 @@ export type Faction_Set_Input = {
   name?: InputMaybe<Scalars['String']>;
 };
 
+/** Streaming cursor of the table "faction" */
+export type Faction_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Faction_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Faction_Stream_Cursor_Value_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  image_url?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
 /** update columns of table "faction" */
 export enum Faction_Update_Column {
   /** column name */
@@ -865,6 +952,12 @@ export enum Faction_Update_Column {
   /** column name */
   Name = 'name'
 }
+
+export type Faction_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Faction_Set_Input>;
+  where: Faction_Bool_Exp;
+};
 
 /** columns and relationships of "galactic_empire" */
 export type Galactic_Empire = {
@@ -1079,7 +1172,7 @@ export type Galactic_Empire_Bool_Exp = {
 export enum Galactic_Empire_Constraint {
   /** unique or primary key constraint on columns "id" */
   GalacticEmpirePkey = 'galactic_empire_pkey',
-  /** unique or primary key constraint on columns "galaxy_id", "user_id" */
+  /** unique or primary key constraint on columns "user_id", "galaxy_id" */
   GalacticEmpireUserIdGalaxyIdKey = 'galactic_empire_user_id_galaxy_id_key'
 }
 
@@ -1231,6 +1324,8 @@ export type Galactic_Empire_Npc_Bool_Exp = {
 
 /** unique or primary key constraints on table "galactic_empire_npc" */
 export enum Galactic_Empire_Npc_Constraint {
+  /** unique or primary key constraint on columns "npc_id", "galactic_empire_id" */
+  GalacticEmpireNpcNpcIdGalacticEmpireIdKey = 'galactic_empire_npc_npc_id_galactic_empire_id_key',
   /** unique or primary key constraint on columns "id" */
   GalacticEmpireNpcPkey = 'galactic_empire_npc_pkey'
 }
@@ -1321,6 +1416,21 @@ export type Galactic_Empire_Npc_Set_Input = {
   npc_id?: InputMaybe<Scalars['uuid']>;
 };
 
+/** Streaming cursor of the table "galactic_empire_npc" */
+export type Galactic_Empire_Npc_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Galactic_Empire_Npc_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Galactic_Empire_Npc_Stream_Cursor_Value_Input = {
+  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  npc_id?: InputMaybe<Scalars['uuid']>;
+};
+
 /** update columns of table "galactic_empire_npc" */
 export enum Galactic_Empire_Npc_Update_Column {
   /** column name */
@@ -1330,6 +1440,12 @@ export enum Galactic_Empire_Npc_Update_Column {
   /** column name */
   NpcId = 'npc_id'
 }
+
+export type Galactic_Empire_Npc_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Galactic_Empire_Npc_Set_Input>;
+  where: Galactic_Empire_Npc_Bool_Exp;
+};
 
 /** input type for inserting object relation for remote table "galactic_empire" */
 export type Galactic_Empire_Obj_Rel_Insert_Input = {
@@ -1542,6 +1658,23 @@ export type Galactic_Empire_Quest_Set_Input = {
   quest_step_id?: InputMaybe<Scalars['uuid']>;
 };
 
+/** Streaming cursor of the table "galactic_empire_quest" */
+export type Galactic_Empire_Quest_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Galactic_Empire_Quest_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Galactic_Empire_Quest_Stream_Cursor_Value_Input = {
+  completed?: InputMaybe<Scalars['Boolean']>;
+  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  quest_id?: InputMaybe<Scalars['uuid']>;
+  quest_step_id?: InputMaybe<Scalars['uuid']>;
+};
+
 /** update columns of table "galactic_empire_quest" */
 export enum Galactic_Empire_Quest_Update_Column {
   /** column name */
@@ -1555,6 +1688,12 @@ export enum Galactic_Empire_Quest_Update_Column {
   /** column name */
   QuestStepId = 'quest_step_id'
 }
+
+export type Galactic_Empire_Quest_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Galactic_Empire_Quest_Set_Input>;
+  where: Galactic_Empire_Quest_Bool_Exp;
+};
 
 /** columns and relationships of "galactic_empire_resources" */
 export type Galactic_Empire_Resources = {
@@ -1650,7 +1789,9 @@ export type Galactic_Empire_Resources_Bool_Exp = {
 /** unique or primary key constraints on table "galactic_empire_resources" */
 export enum Galactic_Empire_Resources_Constraint {
   /** unique or primary key constraint on columns "id" */
-  GalacticEmpireResourcesPkey = 'galactic_empire_resources_pkey'
+  GalacticEmpireResourcesPkey = 'galactic_empire_resources_pkey',
+  /** unique or primary key constraint on columns "galactic_empire_id", "resource_type_id" */
+  GalacticEmpireResourcesResourceTypeIdGalacticEmpireIdK = 'galactic_empire_resources_resource_type_id_galactic_empire_id_k'
 }
 
 /** input type for incrementing numeric columns in table "galactic_empire_resources" */
@@ -1795,6 +1936,23 @@ export type Galactic_Empire_Resources_Stddev_Samp_Order_By = {
   value?: InputMaybe<Order_By>;
 };
 
+/** Streaming cursor of the table "galactic_empire_resources" */
+export type Galactic_Empire_Resources_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Galactic_Empire_Resources_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Galactic_Empire_Resources_Stream_Cursor_Value_Input = {
+  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  resource_type_id?: InputMaybe<Scalars['uuid']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+  value?: InputMaybe<Scalars['Int']>;
+};
+
 /** aggregate sum on columns */
 export type Galactic_Empire_Resources_Sum_Fields = {
   __typename?: 'galactic_empire_resources_sum_fields';
@@ -1819,6 +1977,14 @@ export enum Galactic_Empire_Resources_Update_Column {
   /** column name */
   Value = 'value'
 }
+
+export type Galactic_Empire_Resources_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Galactic_Empire_Resources_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Galactic_Empire_Resources_Set_Input>;
+  where: Galactic_Empire_Resources_Bool_Exp;
+};
 
 /** aggregate var_pop on columns */
 export type Galactic_Empire_Resources_Var_Pop_Fields = {
@@ -1918,6 +2084,26 @@ export type Galactic_Empire_Stddev_Samp_Order_By = {
   celestial_claims?: InputMaybe<Order_By>;
 };
 
+/** Streaming cursor of the table "galactic_empire" */
+export type Galactic_Empire_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Galactic_Empire_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Galactic_Empire_Stream_Cursor_Value_Input = {
+  background_id?: InputMaybe<Scalars['uuid']>;
+  celestial_claims?: InputMaybe<Scalars['Int']>;
+  faction_id?: InputMaybe<Scalars['uuid']>;
+  galaxy_id?: InputMaybe<Scalars['uuid']>;
+  homeworld_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  playable_race_id?: InputMaybe<Scalars['uuid']>;
+  user_id?: InputMaybe<Scalars['String']>;
+};
+
 /** aggregate sum on columns */
 export type Galactic_Empire_Sum_Fields = {
   __typename?: 'galactic_empire_sum_fields';
@@ -1948,6 +2134,14 @@ export enum Galactic_Empire_Update_Column {
   /** column name */
   UserId = 'user_id'
 }
+
+export type Galactic_Empire_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Galactic_Empire_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Galactic_Empire_Set_Input>;
+  where: Galactic_Empire_Bool_Exp;
+};
 
 /** aggregate var_pop on columns */
 export type Galactic_Empire_Var_Pop_Fields = {
@@ -2278,6 +2472,27 @@ export type Galaxy_Stddev_Samp_Fields = {
   stars?: Maybe<Scalars['Float']>;
 };
 
+/** Streaming cursor of the table "galaxy" */
+export type Galaxy_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Galaxy_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Galaxy_Stream_Cursor_Value_Input = {
+  arm_width?: InputMaybe<Scalars['numeric']>;
+  arms?: InputMaybe<Scalars['numeric']>;
+  core_concentration_factor?: InputMaybe<Scalars['numeric']>;
+  core_radius_factor?: InputMaybe<Scalars['numeric']>;
+  curvature?: InputMaybe<Scalars['numeric']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  radius?: InputMaybe<Scalars['Int']>;
+  stars?: InputMaybe<Scalars['Int']>;
+};
+
 /** aggregate sum on columns */
 export type Galaxy_Sum_Fields = {
   __typename?: 'galaxy_sum_fields';
@@ -2311,6 +2526,14 @@ export enum Galaxy_Update_Column {
   /** column name */
   Stars = 'stars'
 }
+
+export type Galaxy_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Galaxy_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Galaxy_Set_Input>;
+  where: Galaxy_Bool_Exp;
+};
 
 /** aggregate var_pop on columns */
 export type Galaxy_Var_Pop_Fields = {
@@ -2558,107 +2781,160 @@ export type Mutation_Root = {
   insert_user_private?: Maybe<User_Private_Mutation_Response>;
   /** insert a single row into the table: "user_private" */
   insert_user_private_one?: Maybe<User_Private>;
+  progressQuestStep?: Maybe<QuestStepProgression>;
   setDisplayName?: Maybe<Register>;
   /** update data of the table: "background" */
   update_background?: Maybe<Background_Mutation_Response>;
   /** update single row of the table: "background" */
   update_background_by_pk?: Maybe<Background>;
+  /** update multiples rows of table: "background" */
+  update_background_many?: Maybe<Array<Maybe<Background_Mutation_Response>>>;
   /** update data of the table: "celestial" */
   update_celestial?: Maybe<Celestial_Mutation_Response>;
   /** update single row of the table: "celestial" */
   update_celestial_by_pk?: Maybe<Celestial>;
+  /** update multiples rows of table: "celestial" */
+  update_celestial_many?: Maybe<Array<Maybe<Celestial_Mutation_Response>>>;
   /** update data of the table: "chat_message" */
   update_chat_message?: Maybe<Chat_Message_Mutation_Response>;
   /** update single row of the table: "chat_message" */
   update_chat_message_by_pk?: Maybe<Chat_Message>;
+  /** update multiples rows of table: "chat_message" */
+  update_chat_message_many?: Maybe<Array<Maybe<Chat_Message_Mutation_Response>>>;
   /** update data of the table: "faction" */
   update_faction?: Maybe<Faction_Mutation_Response>;
   /** update single row of the table: "faction" */
   update_faction_by_pk?: Maybe<Faction>;
+  /** update multiples rows of table: "faction" */
+  update_faction_many?: Maybe<Array<Maybe<Faction_Mutation_Response>>>;
   /** update data of the table: "galactic_empire" */
   update_galactic_empire?: Maybe<Galactic_Empire_Mutation_Response>;
   /** update single row of the table: "galactic_empire" */
   update_galactic_empire_by_pk?: Maybe<Galactic_Empire>;
+  /** update multiples rows of table: "galactic_empire" */
+  update_galactic_empire_many?: Maybe<Array<Maybe<Galactic_Empire_Mutation_Response>>>;
   /** update data of the table: "galactic_empire_npc" */
   update_galactic_empire_npc?: Maybe<Galactic_Empire_Npc_Mutation_Response>;
   /** update single row of the table: "galactic_empire_npc" */
   update_galactic_empire_npc_by_pk?: Maybe<Galactic_Empire_Npc>;
+  /** update multiples rows of table: "galactic_empire_npc" */
+  update_galactic_empire_npc_many?: Maybe<Array<Maybe<Galactic_Empire_Npc_Mutation_Response>>>;
   /** update data of the table: "galactic_empire_quest" */
   update_galactic_empire_quest?: Maybe<Galactic_Empire_Quest_Mutation_Response>;
   /** update single row of the table: "galactic_empire_quest" */
   update_galactic_empire_quest_by_pk?: Maybe<Galactic_Empire_Quest>;
+  /** update multiples rows of table: "galactic_empire_quest" */
+  update_galactic_empire_quest_many?: Maybe<Array<Maybe<Galactic_Empire_Quest_Mutation_Response>>>;
   /** update data of the table: "galactic_empire_resources" */
   update_galactic_empire_resources?: Maybe<Galactic_Empire_Resources_Mutation_Response>;
   /** update single row of the table: "galactic_empire_resources" */
   update_galactic_empire_resources_by_pk?: Maybe<Galactic_Empire_Resources>;
+  /** update multiples rows of table: "galactic_empire_resources" */
+  update_galactic_empire_resources_many?: Maybe<Array<Maybe<Galactic_Empire_Resources_Mutation_Response>>>;
   /** update data of the table: "galaxy" */
   update_galaxy?: Maybe<Galaxy_Mutation_Response>;
   /** update single row of the table: "galaxy" */
   update_galaxy_by_pk?: Maybe<Galaxy>;
+  /** update multiples rows of table: "galaxy" */
+  update_galaxy_many?: Maybe<Array<Maybe<Galaxy_Mutation_Response>>>;
   /** update data of the table: "npc" */
   update_npc?: Maybe<Npc_Mutation_Response>;
   /** update single row of the table: "npc" */
   update_npc_by_pk?: Maybe<Npc>;
+  /** update multiples rows of table: "npc" */
+  update_npc_many?: Maybe<Array<Maybe<Npc_Mutation_Response>>>;
   /** update data of the table: "planet" */
   update_planet?: Maybe<Planet_Mutation_Response>;
   /** update single row of the table: "planet" */
   update_planet_by_pk?: Maybe<Planet>;
+  /** update multiples rows of table: "planet" */
+  update_planet_many?: Maybe<Array<Maybe<Planet_Mutation_Response>>>;
   /** update data of the table: "planetary_ring" */
   update_planetary_ring?: Maybe<Planetary_Ring_Mutation_Response>;
   /** update single row of the table: "planetary_ring" */
   update_planetary_ring_by_pk?: Maybe<Planetary_Ring>;
+  /** update multiples rows of table: "planetary_ring" */
+  update_planetary_ring_many?: Maybe<Array<Maybe<Planetary_Ring_Mutation_Response>>>;
   /** update data of the table: "playable_race" */
   update_playable_race?: Maybe<Playable_Race_Mutation_Response>;
   /** update single row of the table: "playable_race" */
   update_playable_race_by_pk?: Maybe<Playable_Race>;
+  /** update multiples rows of table: "playable_race" */
+  update_playable_race_many?: Maybe<Array<Maybe<Playable_Race_Mutation_Response>>>;
   /** update data of the table: "quest" */
   update_quest?: Maybe<Quest_Mutation_Response>;
   /** update single row of the table: "quest" */
   update_quest_by_pk?: Maybe<Quest>;
+  /** update multiples rows of table: "quest" */
+  update_quest_many?: Maybe<Array<Maybe<Quest_Mutation_Response>>>;
   /** update data of the table: "quest_reward" */
   update_quest_reward?: Maybe<Quest_Reward_Mutation_Response>;
   /** update single row of the table: "quest_reward" */
   update_quest_reward_by_pk?: Maybe<Quest_Reward>;
+  /** update multiples rows of table: "quest_reward" */
+  update_quest_reward_many?: Maybe<Array<Maybe<Quest_Reward_Mutation_Response>>>;
   /** update data of the table: "quest_reward_type" */
   update_quest_reward_type?: Maybe<Quest_Reward_Type_Mutation_Response>;
   /** update single row of the table: "quest_reward_type" */
   update_quest_reward_type_by_pk?: Maybe<Quest_Reward_Type>;
+  /** update multiples rows of table: "quest_reward_type" */
+  update_quest_reward_type_many?: Maybe<Array<Maybe<Quest_Reward_Type_Mutation_Response>>>;
   /** update data of the table: "quest_step" */
   update_quest_step?: Maybe<Quest_Step_Mutation_Response>;
   /** update single row of the table: "quest_step" */
   update_quest_step_by_pk?: Maybe<Quest_Step>;
+  /** update multiples rows of table: "quest_step" */
+  update_quest_step_many?: Maybe<Array<Maybe<Quest_Step_Mutation_Response>>>;
   /** update data of the table: "quest_step_type" */
   update_quest_step_type?: Maybe<Quest_Step_Type_Mutation_Response>;
   /** update single row of the table: "quest_step_type" */
   update_quest_step_type_by_pk?: Maybe<Quest_Step_Type>;
+  /** update multiples rows of table: "quest_step_type" */
+  update_quest_step_type_many?: Maybe<Array<Maybe<Quest_Step_Type_Mutation_Response>>>;
   /** update data of the table: "quest_type" */
   update_quest_type?: Maybe<Quest_Type_Mutation_Response>;
   /** update single row of the table: "quest_type" */
   update_quest_type_by_pk?: Maybe<Quest_Type>;
+  /** update multiples rows of table: "quest_type" */
+  update_quest_type_many?: Maybe<Array<Maybe<Quest_Type_Mutation_Response>>>;
   /** update data of the table: "resource_generator" */
   update_resource_generator?: Maybe<Resource_Generator_Mutation_Response>;
   /** update single row of the table: "resource_generator" */
   update_resource_generator_by_pk?: Maybe<Resource_Generator>;
+  /** update multiples rows of table: "resource_generator" */
+  update_resource_generator_many?: Maybe<Array<Maybe<Resource_Generator_Mutation_Response>>>;
   /** update data of the table: "resource_generator_type" */
   update_resource_generator_type?: Maybe<Resource_Generator_Type_Mutation_Response>;
   /** update single row of the table: "resource_generator_type" */
   update_resource_generator_type_by_pk?: Maybe<Resource_Generator_Type>;
+  /** update multiples rows of table: "resource_generator_type" */
+  update_resource_generator_type_many?: Maybe<Array<Maybe<Resource_Generator_Type_Mutation_Response>>>;
   /** update data of the table: "resource_type" */
   update_resource_type?: Maybe<Resource_Type_Mutation_Response>;
   /** update single row of the table: "resource_type" */
   update_resource_type_by_pk?: Maybe<Resource_Type>;
+  /** update multiples rows of table: "resource_type" */
+  update_resource_type_many?: Maybe<Array<Maybe<Resource_Type_Mutation_Response>>>;
   /** update data of the table: "terrain_hex_palette" */
   update_terrain_hex_palette?: Maybe<Terrain_Hex_Palette_Mutation_Response>;
   /** update single row of the table: "terrain_hex_palette" */
   update_terrain_hex_palette_by_pk?: Maybe<Terrain_Hex_Palette>;
+  /** update multiples rows of table: "terrain_hex_palette" */
+  update_terrain_hex_palette_many?: Maybe<Array<Maybe<Terrain_Hex_Palette_Mutation_Response>>>;
   /** update data of the table: "user_info" */
   update_user_info?: Maybe<User_Info_Mutation_Response>;
   /** update single row of the table: "user_info" */
   update_user_info_by_pk?: Maybe<User_Info>;
+  /** update multiples rows of table: "user_info" */
+  update_user_info_many?: Maybe<Array<Maybe<User_Info_Mutation_Response>>>;
   /** update data of the table: "user_me" */
   update_user_me?: Maybe<User_Me_Mutation_Response>;
+  /** update multiples rows of table: "user_me" */
+  update_user_me_many?: Maybe<Array<Maybe<User_Me_Mutation_Response>>>;
   /** update data of the table: "user_private" */
   update_user_private?: Maybe<User_Private_Mutation_Response>;
+  /** update multiples rows of table: "user_private" */
+  update_user_private_many?: Maybe<Array<Maybe<User_Private_Mutation_Response>>>;
 };
 
 
@@ -3342,6 +3618,12 @@ export type Mutation_RootInsert_User_Private_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootProgressQuestStepArgs = {
+  empire_quest_id: Scalars['String'];
+};
+
+
+/** mutation root */
 export type Mutation_RootSetDisplayNameArgs = {
   display_name: Scalars['String'];
 };
@@ -3362,6 +3644,12 @@ export type Mutation_RootUpdate_Background_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Background_ManyArgs = {
+  updates: Array<Background_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_CelestialArgs = {
   _set?: InputMaybe<Celestial_Set_Input>;
   where: Celestial_Bool_Exp;
@@ -3372,6 +3660,12 @@ export type Mutation_RootUpdate_CelestialArgs = {
 export type Mutation_RootUpdate_Celestial_By_PkArgs = {
   _set?: InputMaybe<Celestial_Set_Input>;
   pk_columns: Celestial_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Celestial_ManyArgs = {
+  updates: Array<Celestial_Updates>;
 };
 
 
@@ -3390,6 +3684,12 @@ export type Mutation_RootUpdate_Chat_Message_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Chat_Message_ManyArgs = {
+  updates: Array<Chat_Message_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_FactionArgs = {
   _set?: InputMaybe<Faction_Set_Input>;
   where: Faction_Bool_Exp;
@@ -3400,6 +3700,12 @@ export type Mutation_RootUpdate_FactionArgs = {
 export type Mutation_RootUpdate_Faction_By_PkArgs = {
   _set?: InputMaybe<Faction_Set_Input>;
   pk_columns: Faction_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Faction_ManyArgs = {
+  updates: Array<Faction_Updates>;
 };
 
 
@@ -3420,6 +3726,12 @@ export type Mutation_RootUpdate_Galactic_Empire_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Galactic_Empire_ManyArgs = {
+  updates: Array<Galactic_Empire_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Galactic_Empire_NpcArgs = {
   _set?: InputMaybe<Galactic_Empire_Npc_Set_Input>;
   where: Galactic_Empire_Npc_Bool_Exp;
@@ -3434,6 +3746,12 @@ export type Mutation_RootUpdate_Galactic_Empire_Npc_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Galactic_Empire_Npc_ManyArgs = {
+  updates: Array<Galactic_Empire_Npc_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Galactic_Empire_QuestArgs = {
   _set?: InputMaybe<Galactic_Empire_Quest_Set_Input>;
   where: Galactic_Empire_Quest_Bool_Exp;
@@ -3444,6 +3762,12 @@ export type Mutation_RootUpdate_Galactic_Empire_QuestArgs = {
 export type Mutation_RootUpdate_Galactic_Empire_Quest_By_PkArgs = {
   _set?: InputMaybe<Galactic_Empire_Quest_Set_Input>;
   pk_columns: Galactic_Empire_Quest_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Galactic_Empire_Quest_ManyArgs = {
+  updates: Array<Galactic_Empire_Quest_Updates>;
 };
 
 
@@ -3464,6 +3788,12 @@ export type Mutation_RootUpdate_Galactic_Empire_Resources_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Galactic_Empire_Resources_ManyArgs = {
+  updates: Array<Galactic_Empire_Resources_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_GalaxyArgs = {
   _inc?: InputMaybe<Galaxy_Inc_Input>;
   _set?: InputMaybe<Galaxy_Set_Input>;
@@ -3480,6 +3810,12 @@ export type Mutation_RootUpdate_Galaxy_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Galaxy_ManyArgs = {
+  updates: Array<Galaxy_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_NpcArgs = {
   _set?: InputMaybe<Npc_Set_Input>;
   where: Npc_Bool_Exp;
@@ -3490,6 +3826,12 @@ export type Mutation_RootUpdate_NpcArgs = {
 export type Mutation_RootUpdate_Npc_By_PkArgs = {
   _set?: InputMaybe<Npc_Set_Input>;
   pk_columns: Npc_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Npc_ManyArgs = {
+  updates: Array<Npc_Updates>;
 };
 
 
@@ -3510,6 +3852,12 @@ export type Mutation_RootUpdate_Planet_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Planet_ManyArgs = {
+  updates: Array<Planet_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Planetary_RingArgs = {
   _inc?: InputMaybe<Planetary_Ring_Inc_Input>;
   _set?: InputMaybe<Planetary_Ring_Set_Input>;
@@ -3522,6 +3870,12 @@ export type Mutation_RootUpdate_Planetary_Ring_By_PkArgs = {
   _inc?: InputMaybe<Planetary_Ring_Inc_Input>;
   _set?: InputMaybe<Planetary_Ring_Set_Input>;
   pk_columns: Planetary_Ring_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Planetary_Ring_ManyArgs = {
+  updates: Array<Planetary_Ring_Updates>;
 };
 
 
@@ -3540,6 +3894,12 @@ export type Mutation_RootUpdate_Playable_Race_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Playable_Race_ManyArgs = {
+  updates: Array<Playable_Race_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_QuestArgs = {
   _set?: InputMaybe<Quest_Set_Input>;
   where: Quest_Bool_Exp;
@@ -3550,6 +3910,12 @@ export type Mutation_RootUpdate_QuestArgs = {
 export type Mutation_RootUpdate_Quest_By_PkArgs = {
   _set?: InputMaybe<Quest_Set_Input>;
   pk_columns: Quest_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Quest_ManyArgs = {
+  updates: Array<Quest_Updates>;
 };
 
 
@@ -3570,6 +3936,12 @@ export type Mutation_RootUpdate_Quest_Reward_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Quest_Reward_ManyArgs = {
+  updates: Array<Quest_Reward_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Quest_Reward_TypeArgs = {
   _set?: InputMaybe<Quest_Reward_Type_Set_Input>;
   where: Quest_Reward_Type_Bool_Exp;
@@ -3580,6 +3952,12 @@ export type Mutation_RootUpdate_Quest_Reward_TypeArgs = {
 export type Mutation_RootUpdate_Quest_Reward_Type_By_PkArgs = {
   _set?: InputMaybe<Quest_Reward_Type_Set_Input>;
   pk_columns: Quest_Reward_Type_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Quest_Reward_Type_ManyArgs = {
+  updates: Array<Quest_Reward_Type_Updates>;
 };
 
 
@@ -3600,6 +3978,12 @@ export type Mutation_RootUpdate_Quest_Step_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Quest_Step_ManyArgs = {
+  updates: Array<Quest_Step_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Quest_Step_TypeArgs = {
   _set?: InputMaybe<Quest_Step_Type_Set_Input>;
   where: Quest_Step_Type_Bool_Exp;
@@ -3610,6 +3994,12 @@ export type Mutation_RootUpdate_Quest_Step_TypeArgs = {
 export type Mutation_RootUpdate_Quest_Step_Type_By_PkArgs = {
   _set?: InputMaybe<Quest_Step_Type_Set_Input>;
   pk_columns: Quest_Step_Type_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Quest_Step_Type_ManyArgs = {
+  updates: Array<Quest_Step_Type_Updates>;
 };
 
 
@@ -3628,6 +4018,12 @@ export type Mutation_RootUpdate_Quest_Type_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Quest_Type_ManyArgs = {
+  updates: Array<Quest_Type_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Resource_GeneratorArgs = {
   _set?: InputMaybe<Resource_Generator_Set_Input>;
   where: Resource_Generator_Bool_Exp;
@@ -3638,6 +4034,12 @@ export type Mutation_RootUpdate_Resource_GeneratorArgs = {
 export type Mutation_RootUpdate_Resource_Generator_By_PkArgs = {
   _set?: InputMaybe<Resource_Generator_Set_Input>;
   pk_columns: Resource_Generator_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Resource_Generator_ManyArgs = {
+  updates: Array<Resource_Generator_Updates>;
 };
 
 
@@ -3656,6 +4058,12 @@ export type Mutation_RootUpdate_Resource_Generator_Type_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Resource_Generator_Type_ManyArgs = {
+  updates: Array<Resource_Generator_Type_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Resource_TypeArgs = {
   _set?: InputMaybe<Resource_Type_Set_Input>;
   where: Resource_Type_Bool_Exp;
@@ -3670,6 +4078,12 @@ export type Mutation_RootUpdate_Resource_Type_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Resource_Type_ManyArgs = {
+  updates: Array<Resource_Type_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Terrain_Hex_PaletteArgs = {
   _set?: InputMaybe<Terrain_Hex_Palette_Set_Input>;
   where: Terrain_Hex_Palette_Bool_Exp;
@@ -3680,6 +4094,12 @@ export type Mutation_RootUpdate_Terrain_Hex_PaletteArgs = {
 export type Mutation_RootUpdate_Terrain_Hex_Palette_By_PkArgs = {
   _set?: InputMaybe<Terrain_Hex_Palette_Set_Input>;
   pk_columns: Terrain_Hex_Palette_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Terrain_Hex_Palette_ManyArgs = {
+  updates: Array<Terrain_Hex_Palette_Updates>;
 };
 
 
@@ -3700,6 +4120,12 @@ export type Mutation_RootUpdate_User_Info_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_User_Info_ManyArgs = {
+  updates: Array<User_Info_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_User_MeArgs = {
   _inc?: InputMaybe<User_Me_Inc_Input>;
   _set?: InputMaybe<User_Me_Set_Input>;
@@ -3708,9 +4134,21 @@ export type Mutation_RootUpdate_User_MeArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_User_Me_ManyArgs = {
+  updates: Array<User_Me_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_User_PrivateArgs = {
   _set?: InputMaybe<User_Private_Set_Input>;
   where: User_Private_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_User_Private_ManyArgs = {
+  updates: Array<User_Private_Updates>;
 };
 
 /** non-playable characters */
@@ -3862,6 +4300,23 @@ export type Npc_Set_Input = {
   race_id?: InputMaybe<Scalars['uuid']>;
 };
 
+/** Streaming cursor of the table "npc" */
+export type Npc_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Npc_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Npc_Stream_Cursor_Value_Input = {
+  faction_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  image_url?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  race_id?: InputMaybe<Scalars['uuid']>;
+};
+
 /** update columns of table "npc" */
 export enum Npc_Update_Column {
   /** column name */
@@ -3876,13 +4331,14 @@ export enum Npc_Update_Column {
   RaceId = 'race_id'
 }
 
-export type Numeric_Cast_Exp = {
-  String?: InputMaybe<String_Comparison_Exp>;
+export type Npc_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Npc_Set_Input>;
+  where: Npc_Bool_Exp;
 };
 
 /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
 export type Numeric_Comparison_Exp = {
-  _cast?: InputMaybe<Numeric_Cast_Exp>;
   _eq?: InputMaybe<Scalars['numeric']>;
   _gt?: InputMaybe<Scalars['numeric']>;
   _gte?: InputMaybe<Scalars['numeric']>;
@@ -4248,6 +4704,27 @@ export type Planet_Stddev_Samp_Order_By = {
   texture_resolution?: InputMaybe<Order_By>;
 };
 
+/** Streaming cursor of the table "planet" */
+export type Planet_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Planet_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Planet_Stream_Cursor_Value_Input = {
+  atmospheric_distance?: InputMaybe<Scalars['numeric']>;
+  celestial_id?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  owner_id?: InputMaybe<Scalars['String']>;
+  radius?: InputMaybe<Scalars['numeric']>;
+  terrain_bias?: InputMaybe<Scalars['_numeric']>;
+  terrain_hex_palette_id?: InputMaybe<Scalars['uuid']>;
+  texture_resolution?: InputMaybe<Scalars['Int']>;
+};
+
 /** aggregate sum on columns */
 export type Planet_Sum_Fields = {
   __typename?: 'planet_sum_fields';
@@ -4284,6 +4761,14 @@ export enum Planet_Update_Column {
   /** column name */
   TextureResolution = 'texture_resolution'
 }
+
+export type Planet_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Planet_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Planet_Set_Input>;
+  where: Planet_Bool_Exp;
+};
 
 /** aggregate var_pop on columns */
 export type Planet_Var_Pop_Fields = {
@@ -4598,6 +5083,26 @@ export type Planetary_Ring_Stddev_Samp_Order_By = {
   resolution?: InputMaybe<Order_By>;
 };
 
+/** Streaming cursor of the table "planetary_ring" */
+export type Planetary_Ring_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Planetary_Ring_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Planetary_Ring_Stream_Cursor_Value_Input = {
+  colors?: InputMaybe<Scalars['_text']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  inner_radius?: InputMaybe<Scalars['numeric']>;
+  outer_radius?: InputMaybe<Scalars['numeric']>;
+  resolution?: InputMaybe<Scalars['Int']>;
+  rotation?: InputMaybe<Scalars['_numeric']>;
+  terrain_bias?: InputMaybe<Scalars['_numeric']>;
+  type?: InputMaybe<Scalars['String']>;
+};
+
 /** aggregate sum on columns */
 export type Planetary_Ring_Sum_Fields = {
   __typename?: 'planetary_ring_sum_fields';
@@ -4632,6 +5137,14 @@ export enum Planetary_Ring_Update_Column {
   /** column name */
   Type = 'type'
 }
+
+export type Planetary_Ring_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Planetary_Ring_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Planetary_Ring_Set_Input>;
+  where: Planetary_Ring_Bool_Exp;
+};
 
 /** aggregate var_pop on columns */
 export type Planetary_Ring_Var_Pop_Fields = {
@@ -4808,6 +5321,22 @@ export type Playable_Race_Set_Input = {
   name?: InputMaybe<Scalars['String']>;
 };
 
+/** Streaming cursor of the table "playable_race" */
+export type Playable_Race_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Playable_Race_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Playable_Race_Stream_Cursor_Value_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  image_url?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
 /** update columns of table "playable_race" */
 export enum Playable_Race_Update_Column {
   /** column name */
@@ -4819,6 +5348,12 @@ export enum Playable_Race_Update_Column {
   /** column name */
   Name = 'name'
 }
+
+export type Playable_Race_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Playable_Race_Set_Input>;
+  where: Playable_Race_Bool_Exp;
+};
 
 export type Query_Root = {
   __typename?: 'query_root';
@@ -5996,6 +6531,25 @@ export type Quest_Reward_Stddev_Samp_Order_By = {
   resource_accrual_amount?: InputMaybe<Order_By>;
 };
 
+/** Streaming cursor of the table "quest_reward" */
+export type Quest_Reward_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Quest_Reward_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Quest_Reward_Stream_Cursor_Value_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  npc_unlock_id?: InputMaybe<Scalars['uuid']>;
+  quest_id?: InputMaybe<Scalars['uuid']>;
+  resource_accrual_amount?: InputMaybe<Scalars['Int']>;
+  resource_accrual_type_id?: InputMaybe<Scalars['uuid']>;
+  resource_unlock_id?: InputMaybe<Scalars['uuid']>;
+  type?: InputMaybe<Quest_Reward_Type_Enum>;
+};
+
 /** aggregate sum on columns */
 export type Quest_Reward_Sum_Fields = {
   __typename?: 'quest_reward_sum_fields';
@@ -6130,6 +6684,20 @@ export type Quest_Reward_Type_Set_Input = {
   value?: InputMaybe<Scalars['String']>;
 };
 
+/** Streaming cursor of the table "quest_reward_type" */
+export type Quest_Reward_Type_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Quest_Reward_Type_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Quest_Reward_Type_Stream_Cursor_Value_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
 /** update columns of table "quest_reward_type" */
 export enum Quest_Reward_Type_Update_Column {
   /** column name */
@@ -6137,6 +6705,12 @@ export enum Quest_Reward_Type_Update_Column {
   /** column name */
   Value = 'value'
 }
+
+export type Quest_Reward_Type_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Quest_Reward_Type_Set_Input>;
+  where: Quest_Reward_Type_Bool_Exp;
+};
 
 /** update columns of table "quest_reward" */
 export enum Quest_Reward_Update_Column {
@@ -6155,6 +6729,14 @@ export enum Quest_Reward_Update_Column {
   /** column name */
   Type = 'type'
 }
+
+export type Quest_Reward_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Quest_Reward_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Quest_Reward_Set_Input>;
+  where: Quest_Reward_Bool_Exp;
+};
 
 /** aggregate var_pop on columns */
 export type Quest_Reward_Var_Pop_Fields = {
@@ -6485,6 +7067,27 @@ export type Quest_Step_Stddev_Samp_Order_By = {
   resource_cost_amount?: InputMaybe<Order_By>;
 };
 
+/** Streaming cursor of the table "quest_step" */
+export type Quest_Step_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Quest_Step_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Quest_Step_Stream_Cursor_Value_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  initial?: InputMaybe<Scalars['Boolean']>;
+  next_step_in_quest?: InputMaybe<Scalars['uuid']>;
+  npc_contact_id?: InputMaybe<Scalars['uuid']>;
+  quest_id?: InputMaybe<Scalars['uuid']>;
+  resource_cost_amount?: InputMaybe<Scalars['Int']>;
+  resource_cost_id?: InputMaybe<Scalars['uuid']>;
+  type?: InputMaybe<Quest_Step_Type_Enum>;
+};
+
 /** aggregate sum on columns */
 export type Quest_Step_Sum_Fields = {
   __typename?: 'quest_step_sum_fields';
@@ -6619,6 +7222,20 @@ export type Quest_Step_Type_Set_Input = {
   value?: InputMaybe<Scalars['String']>;
 };
 
+/** Streaming cursor of the table "quest_step_type" */
+export type Quest_Step_Type_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Quest_Step_Type_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Quest_Step_Type_Stream_Cursor_Value_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
 /** update columns of table "quest_step_type" */
 export enum Quest_Step_Type_Update_Column {
   /** column name */
@@ -6626,6 +7243,12 @@ export enum Quest_Step_Type_Update_Column {
   /** column name */
   Value = 'value'
 }
+
+export type Quest_Step_Type_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Quest_Step_Type_Set_Input>;
+  where: Quest_Step_Type_Bool_Exp;
+};
 
 /** update columns of table "quest_step" */
 export enum Quest_Step_Update_Column {
@@ -6648,6 +7271,14 @@ export enum Quest_Step_Update_Column {
   /** column name */
   Type = 'type'
 }
+
+export type Quest_Step_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Quest_Step_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Quest_Step_Set_Input>;
+  where: Quest_Step_Bool_Exp;
+};
 
 /** aggregate var_pop on columns */
 export type Quest_Step_Var_Pop_Fields = {
@@ -6680,6 +7311,24 @@ export type Quest_Step_Variance_Fields = {
 /** order by variance() on columns of table "quest_step" */
 export type Quest_Step_Variance_Order_By = {
   resource_cost_amount?: InputMaybe<Order_By>;
+};
+
+/** Streaming cursor of the table "quest" */
+export type Quest_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Quest_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Quest_Stream_Cursor_Value_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  initial?: InputMaybe<Scalars['Boolean']>;
+  name?: InputMaybe<Scalars['String']>;
+  next_quest_in_chain?: InputMaybe<Scalars['uuid']>;
+  type?: InputMaybe<Quest_Type_Enum>;
 };
 
 /** columns and relationships of "quest_type" */
@@ -6800,11 +7449,30 @@ export type Quest_Type_Set_Input = {
   value?: InputMaybe<Scalars['String']>;
 };
 
+/** Streaming cursor of the table "quest_type" */
+export type Quest_Type_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Quest_Type_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Quest_Type_Stream_Cursor_Value_Input = {
+  value?: InputMaybe<Scalars['String']>;
+};
+
 /** update columns of table "quest_type" */
 export enum Quest_Type_Update_Column {
   /** column name */
   Value = 'value'
 }
+
+export type Quest_Type_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Quest_Type_Set_Input>;
+  where: Quest_Type_Bool_Exp;
+};
 
 /** update columns of table "quest" */
 export enum Quest_Update_Column {
@@ -6821,6 +7489,12 @@ export enum Quest_Update_Column {
   /** column name */
   Type = 'type'
 }
+
+export type Quest_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Quest_Set_Input>;
+  where: Quest_Bool_Exp;
+};
 
 /** columns and relationships of "resource_generator" */
 export type Resource_Generator = {
@@ -6957,6 +7631,23 @@ export enum Resource_Generator_Select_Column {
 
 /** input type for updating data in table "resource_generator" */
 export type Resource_Generator_Set_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
+  generator_type_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** Streaming cursor of the table "resource_generator" */
+export type Resource_Generator_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Resource_Generator_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Resource_Generator_Stream_Cursor_Value_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']>;
   galactic_empire_id?: InputMaybe<Scalars['uuid']>;
   generator_type_id?: InputMaybe<Scalars['uuid']>;
@@ -7129,6 +7820,25 @@ export type Resource_Generator_Type_Set_Input = {
   resource_type_2_id?: InputMaybe<Scalars['uuid']>;
 };
 
+/** Streaming cursor of the table "resource_generator_type" */
+export type Resource_Generator_Type_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Resource_Generator_Type_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Resource_Generator_Type_Stream_Cursor_Value_Input = {
+  description?: InputMaybe<Scalars['String']>;
+  generation_rate?: InputMaybe<Scalars['_numeric']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  image_url?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  resource_type_1_id?: InputMaybe<Scalars['uuid']>;
+  resource_type_2_id?: InputMaybe<Scalars['uuid']>;
+};
+
 /** update columns of table "resource_generator_type" */
 export enum Resource_Generator_Type_Update_Column {
   /** column name */
@@ -7147,6 +7857,12 @@ export enum Resource_Generator_Type_Update_Column {
   ResourceType_2Id = 'resource_type_2_id'
 }
 
+export type Resource_Generator_Type_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Resource_Generator_Type_Set_Input>;
+  where: Resource_Generator_Type_Bool_Exp;
+};
+
 /** update columns of table "resource_generator" */
 export enum Resource_Generator_Update_Column {
   /** column name */
@@ -7160,6 +7876,12 @@ export enum Resource_Generator_Update_Column {
   /** column name */
   UpdatedAt = 'updated_at'
 }
+
+export type Resource_Generator_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Resource_Generator_Set_Input>;
+  where: Resource_Generator_Bool_Exp;
+};
 
 /** columns and relationships of "resource_type" */
 export type Resource_Type = {
@@ -7275,6 +7997,20 @@ export type Resource_Type_Set_Input = {
   type?: InputMaybe<Scalars['String']>;
 };
 
+/** Streaming cursor of the table "resource_type" */
+export type Resource_Type_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Resource_Type_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Resource_Type_Stream_Cursor_Value_Input = {
+  id?: InputMaybe<Scalars['uuid']>;
+  type?: InputMaybe<Scalars['String']>;
+};
+
 /** update columns of table "resource_type" */
 export enum Resource_Type_Update_Column {
   /** column name */
@@ -7282,6 +8018,12 @@ export enum Resource_Type_Update_Column {
   /** column name */
   Type = 'type'
 }
+
+export type Resource_Type_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Resource_Type_Set_Input>;
+  where: Resource_Type_Bool_Exp;
+};
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
@@ -7291,24 +8033,32 @@ export type Subscription_Root = {
   background_aggregate: Background_Aggregate;
   /** fetch data from the table: "background" using primary key columns */
   background_by_pk?: Maybe<Background>;
+  /** fetch data from the table in a streaming manner : "background" */
+  background_stream: Array<Background>;
   /** fetch data from the table: "celestial" */
   celestial: Array<Celestial>;
   /** fetch aggregated fields from the table: "celestial" */
   celestial_aggregate: Celestial_Aggregate;
   /** fetch data from the table: "celestial" using primary key columns */
   celestial_by_pk?: Maybe<Celestial>;
+  /** fetch data from the table in a streaming manner : "celestial" */
+  celestial_stream: Array<Celestial>;
   /** fetch data from the table: "chat_message" */
   chat_message: Array<Chat_Message>;
   /** fetch aggregated fields from the table: "chat_message" */
   chat_message_aggregate: Chat_Message_Aggregate;
   /** fetch data from the table: "chat_message" using primary key columns */
   chat_message_by_pk?: Maybe<Chat_Message>;
+  /** fetch data from the table in a streaming manner : "chat_message" */
+  chat_message_stream: Array<Chat_Message>;
   /** fetch data from the table: "faction" */
   faction: Array<Faction>;
   /** fetch aggregated fields from the table: "faction" */
   faction_aggregate: Faction_Aggregate;
   /** fetch data from the table: "faction" using primary key columns */
   faction_by_pk?: Maybe<Faction>;
+  /** fetch data from the table in a streaming manner : "faction" */
+  faction_stream: Array<Faction>;
   /** fetch data from the table: "galactic_empire" */
   galactic_empire: Array<Galactic_Empire>;
   /** fetch aggregated fields from the table: "galactic_empire" */
@@ -7321,48 +8071,66 @@ export type Subscription_Root = {
   galactic_empire_npc_aggregate: Galactic_Empire_Npc_Aggregate;
   /** fetch data from the table: "galactic_empire_npc" using primary key columns */
   galactic_empire_npc_by_pk?: Maybe<Galactic_Empire_Npc>;
+  /** fetch data from the table in a streaming manner : "galactic_empire_npc" */
+  galactic_empire_npc_stream: Array<Galactic_Empire_Npc>;
   /** fetch data from the table: "galactic_empire_quest" */
   galactic_empire_quest: Array<Galactic_Empire_Quest>;
   /** fetch aggregated fields from the table: "galactic_empire_quest" */
   galactic_empire_quest_aggregate: Galactic_Empire_Quest_Aggregate;
   /** fetch data from the table: "galactic_empire_quest" using primary key columns */
   galactic_empire_quest_by_pk?: Maybe<Galactic_Empire_Quest>;
+  /** fetch data from the table in a streaming manner : "galactic_empire_quest" */
+  galactic_empire_quest_stream: Array<Galactic_Empire_Quest>;
   /** fetch data from the table: "galactic_empire_resources" */
   galactic_empire_resources: Array<Galactic_Empire_Resources>;
   /** fetch aggregated fields from the table: "galactic_empire_resources" */
   galactic_empire_resources_aggregate: Galactic_Empire_Resources_Aggregate;
   /** fetch data from the table: "galactic_empire_resources" using primary key columns */
   galactic_empire_resources_by_pk?: Maybe<Galactic_Empire_Resources>;
+  /** fetch data from the table in a streaming manner : "galactic_empire_resources" */
+  galactic_empire_resources_stream: Array<Galactic_Empire_Resources>;
+  /** fetch data from the table in a streaming manner : "galactic_empire" */
+  galactic_empire_stream: Array<Galactic_Empire>;
   /** fetch data from the table: "galaxy" */
   galaxy: Array<Galaxy>;
   /** fetch aggregated fields from the table: "galaxy" */
   galaxy_aggregate: Galaxy_Aggregate;
   /** fetch data from the table: "galaxy" using primary key columns */
   galaxy_by_pk?: Maybe<Galaxy>;
+  /** fetch data from the table in a streaming manner : "galaxy" */
+  galaxy_stream: Array<Galaxy>;
   /** fetch data from the table: "npc" */
   npc: Array<Npc>;
   /** fetch aggregated fields from the table: "npc" */
   npc_aggregate: Npc_Aggregate;
   /** fetch data from the table: "npc" using primary key columns */
   npc_by_pk?: Maybe<Npc>;
+  /** fetch data from the table in a streaming manner : "npc" */
+  npc_stream: Array<Npc>;
   /** fetch data from the table: "planet" */
   planet: Array<Planet>;
   /** fetch aggregated fields from the table: "planet" */
   planet_aggregate: Planet_Aggregate;
   /** fetch data from the table: "planet" using primary key columns */
   planet_by_pk?: Maybe<Planet>;
+  /** fetch data from the table in a streaming manner : "planet" */
+  planet_stream: Array<Planet>;
   /** fetch data from the table: "planetary_ring" */
   planetary_ring: Array<Planetary_Ring>;
   /** fetch aggregated fields from the table: "planetary_ring" */
   planetary_ring_aggregate: Planetary_Ring_Aggregate;
   /** fetch data from the table: "planetary_ring" using primary key columns */
   planetary_ring_by_pk?: Maybe<Planetary_Ring>;
+  /** fetch data from the table in a streaming manner : "planetary_ring" */
+  planetary_ring_stream: Array<Planetary_Ring>;
   /** fetch data from the table: "playable_race" */
   playable_race: Array<Playable_Race>;
   /** fetch aggregated fields from the table: "playable_race" */
   playable_race_aggregate: Playable_Race_Aggregate;
   /** fetch data from the table: "playable_race" using primary key columns */
   playable_race_by_pk?: Maybe<Playable_Race>;
+  /** fetch data from the table in a streaming manner : "playable_race" */
+  playable_race_stream: Array<Playable_Race>;
   /** fetch data from the table: "quest" */
   quest: Array<Quest>;
   /** fetch aggregated fields from the table: "quest" */
@@ -7375,68 +8143,94 @@ export type Subscription_Root = {
   quest_reward_aggregate: Quest_Reward_Aggregate;
   /** fetch data from the table: "quest_reward" using primary key columns */
   quest_reward_by_pk?: Maybe<Quest_Reward>;
+  /** fetch data from the table in a streaming manner : "quest_reward" */
+  quest_reward_stream: Array<Quest_Reward>;
   /** fetch data from the table: "quest_reward_type" */
   quest_reward_type: Array<Quest_Reward_Type>;
   /** fetch aggregated fields from the table: "quest_reward_type" */
   quest_reward_type_aggregate: Quest_Reward_Type_Aggregate;
   /** fetch data from the table: "quest_reward_type" using primary key columns */
   quest_reward_type_by_pk?: Maybe<Quest_Reward_Type>;
+  /** fetch data from the table in a streaming manner : "quest_reward_type" */
+  quest_reward_type_stream: Array<Quest_Reward_Type>;
   /** fetch data from the table: "quest_step" */
   quest_step: Array<Quest_Step>;
   /** fetch aggregated fields from the table: "quest_step" */
   quest_step_aggregate: Quest_Step_Aggregate;
   /** fetch data from the table: "quest_step" using primary key columns */
   quest_step_by_pk?: Maybe<Quest_Step>;
+  /** fetch data from the table in a streaming manner : "quest_step" */
+  quest_step_stream: Array<Quest_Step>;
   /** fetch data from the table: "quest_step_type" */
   quest_step_type: Array<Quest_Step_Type>;
   /** fetch aggregated fields from the table: "quest_step_type" */
   quest_step_type_aggregate: Quest_Step_Type_Aggregate;
   /** fetch data from the table: "quest_step_type" using primary key columns */
   quest_step_type_by_pk?: Maybe<Quest_Step_Type>;
+  /** fetch data from the table in a streaming manner : "quest_step_type" */
+  quest_step_type_stream: Array<Quest_Step_Type>;
+  /** fetch data from the table in a streaming manner : "quest" */
+  quest_stream: Array<Quest>;
   /** fetch data from the table: "quest_type" */
   quest_type: Array<Quest_Type>;
   /** fetch aggregated fields from the table: "quest_type" */
   quest_type_aggregate: Quest_Type_Aggregate;
   /** fetch data from the table: "quest_type" using primary key columns */
   quest_type_by_pk?: Maybe<Quest_Type>;
+  /** fetch data from the table in a streaming manner : "quest_type" */
+  quest_type_stream: Array<Quest_Type>;
   /** fetch data from the table: "resource_generator" */
   resource_generator: Array<Resource_Generator>;
   /** fetch aggregated fields from the table: "resource_generator" */
   resource_generator_aggregate: Resource_Generator_Aggregate;
   /** fetch data from the table: "resource_generator" using primary key columns */
   resource_generator_by_pk?: Maybe<Resource_Generator>;
+  /** fetch data from the table in a streaming manner : "resource_generator" */
+  resource_generator_stream: Array<Resource_Generator>;
   /** fetch data from the table: "resource_generator_type" */
   resource_generator_type: Array<Resource_Generator_Type>;
   /** fetch aggregated fields from the table: "resource_generator_type" */
   resource_generator_type_aggregate: Resource_Generator_Type_Aggregate;
   /** fetch data from the table: "resource_generator_type" using primary key columns */
   resource_generator_type_by_pk?: Maybe<Resource_Generator_Type>;
+  /** fetch data from the table in a streaming manner : "resource_generator_type" */
+  resource_generator_type_stream: Array<Resource_Generator_Type>;
   /** fetch data from the table: "resource_type" */
   resource_type: Array<Resource_Type>;
   /** fetch aggregated fields from the table: "resource_type" */
   resource_type_aggregate: Resource_Type_Aggregate;
   /** fetch data from the table: "resource_type" using primary key columns */
   resource_type_by_pk?: Maybe<Resource_Type>;
+  /** fetch data from the table in a streaming manner : "resource_type" */
+  resource_type_stream: Array<Resource_Type>;
   /** fetch data from the table: "terrain_hex_palette" */
   terrain_hex_palette: Array<Terrain_Hex_Palette>;
   /** fetch aggregated fields from the table: "terrain_hex_palette" */
   terrain_hex_palette_aggregate: Terrain_Hex_Palette_Aggregate;
   /** fetch data from the table: "terrain_hex_palette" using primary key columns */
   terrain_hex_palette_by_pk?: Maybe<Terrain_Hex_Palette>;
+  /** fetch data from the table in a streaming manner : "terrain_hex_palette" */
+  terrain_hex_palette_stream: Array<Terrain_Hex_Palette>;
   /** fetch data from the table: "user_info" */
   user_info: Array<User_Info>;
   /** fetch aggregated fields from the table: "user_info" */
   user_info_aggregate: User_Info_Aggregate;
   /** fetch data from the table: "user_info" using primary key columns */
   user_info_by_pk?: Maybe<User_Info>;
+  /** fetch data from the table in a streaming manner : "user_info" */
+  user_info_stream: Array<User_Info>;
   /** fetch data from the table: "user_me" */
   user_me: Array<User_Me>;
   /** fetch aggregated fields from the table: "user_me" */
   user_me_aggregate: User_Me_Aggregate;
+  /** fetch data from the table in a streaming manner : "user_me" */
+  user_me_stream: Array<User_Me>;
   /** fetch data from the table: "user_private" */
   user_private: Array<User_Private>;
   /** fetch aggregated fields from the table: "user_private" */
   user_private_aggregate: User_Private_Aggregate;
+  /** fetch data from the table in a streaming manner : "user_private" */
+  user_private_stream: Array<User_Private>;
 };
 
 
@@ -7463,6 +8257,13 @@ export type Subscription_RootBackground_By_PkArgs = {
 };
 
 
+export type Subscription_RootBackground_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Background_Stream_Cursor_Input>>;
+  where?: InputMaybe<Background_Bool_Exp>;
+};
+
+
 export type Subscription_RootCelestialArgs = {
   distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -7483,6 +8284,13 @@ export type Subscription_RootCelestial_AggregateArgs = {
 
 export type Subscription_RootCelestial_By_PkArgs = {
   id: Scalars['String'];
+};
+
+
+export type Subscription_RootCelestial_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Celestial_Stream_Cursor_Input>>;
+  where?: InputMaybe<Celestial_Bool_Exp>;
 };
 
 
@@ -7509,6 +8317,13 @@ export type Subscription_RootChat_Message_By_PkArgs = {
 };
 
 
+export type Subscription_RootChat_Message_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Chat_Message_Stream_Cursor_Input>>;
+  where?: InputMaybe<Chat_Message_Bool_Exp>;
+};
+
+
 export type Subscription_RootFactionArgs = {
   distinct_on?: InputMaybe<Array<Faction_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -7529,6 +8344,13 @@ export type Subscription_RootFaction_AggregateArgs = {
 
 export type Subscription_RootFaction_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootFaction_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Faction_Stream_Cursor_Input>>;
+  where?: InputMaybe<Faction_Bool_Exp>;
 };
 
 
@@ -7578,6 +8400,13 @@ export type Subscription_RootGalactic_Empire_Npc_By_PkArgs = {
 };
 
 
+export type Subscription_RootGalactic_Empire_Npc_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Galactic_Empire_Npc_Stream_Cursor_Input>>;
+  where?: InputMaybe<Galactic_Empire_Npc_Bool_Exp>;
+};
+
+
 export type Subscription_RootGalactic_Empire_QuestArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Quest_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -7598,6 +8427,13 @@ export type Subscription_RootGalactic_Empire_Quest_AggregateArgs = {
 
 export type Subscription_RootGalactic_Empire_Quest_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootGalactic_Empire_Quest_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Galactic_Empire_Quest_Stream_Cursor_Input>>;
+  where?: InputMaybe<Galactic_Empire_Quest_Bool_Exp>;
 };
 
 
@@ -7624,6 +8460,20 @@ export type Subscription_RootGalactic_Empire_Resources_By_PkArgs = {
 };
 
 
+export type Subscription_RootGalactic_Empire_Resources_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Galactic_Empire_Resources_Stream_Cursor_Input>>;
+  where?: InputMaybe<Galactic_Empire_Resources_Bool_Exp>;
+};
+
+
+export type Subscription_RootGalactic_Empire_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Galactic_Empire_Stream_Cursor_Input>>;
+  where?: InputMaybe<Galactic_Empire_Bool_Exp>;
+};
+
+
 export type Subscription_RootGalaxyArgs = {
   distinct_on?: InputMaybe<Array<Galaxy_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -7644,6 +8494,13 @@ export type Subscription_RootGalaxy_AggregateArgs = {
 
 export type Subscription_RootGalaxy_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootGalaxy_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Galaxy_Stream_Cursor_Input>>;
+  where?: InputMaybe<Galaxy_Bool_Exp>;
 };
 
 
@@ -7670,6 +8527,13 @@ export type Subscription_RootNpc_By_PkArgs = {
 };
 
 
+export type Subscription_RootNpc_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Npc_Stream_Cursor_Input>>;
+  where?: InputMaybe<Npc_Bool_Exp>;
+};
+
+
 export type Subscription_RootPlanetArgs = {
   distinct_on?: InputMaybe<Array<Planet_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -7690,6 +8554,13 @@ export type Subscription_RootPlanet_AggregateArgs = {
 
 export type Subscription_RootPlanet_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootPlanet_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Planet_Stream_Cursor_Input>>;
+  where?: InputMaybe<Planet_Bool_Exp>;
 };
 
 
@@ -7716,6 +8587,13 @@ export type Subscription_RootPlanetary_Ring_By_PkArgs = {
 };
 
 
+export type Subscription_RootPlanetary_Ring_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Planetary_Ring_Stream_Cursor_Input>>;
+  where?: InputMaybe<Planetary_Ring_Bool_Exp>;
+};
+
+
 export type Subscription_RootPlayable_RaceArgs = {
   distinct_on?: InputMaybe<Array<Playable_Race_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -7736,6 +8614,13 @@ export type Subscription_RootPlayable_Race_AggregateArgs = {
 
 export type Subscription_RootPlayable_Race_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootPlayable_Race_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Playable_Race_Stream_Cursor_Input>>;
+  where?: InputMaybe<Playable_Race_Bool_Exp>;
 };
 
 
@@ -7785,6 +8670,13 @@ export type Subscription_RootQuest_Reward_By_PkArgs = {
 };
 
 
+export type Subscription_RootQuest_Reward_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Quest_Reward_Stream_Cursor_Input>>;
+  where?: InputMaybe<Quest_Reward_Bool_Exp>;
+};
+
+
 export type Subscription_RootQuest_Reward_TypeArgs = {
   distinct_on?: InputMaybe<Array<Quest_Reward_Type_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -7805,6 +8697,13 @@ export type Subscription_RootQuest_Reward_Type_AggregateArgs = {
 
 export type Subscription_RootQuest_Reward_Type_By_PkArgs = {
   value: Scalars['String'];
+};
+
+
+export type Subscription_RootQuest_Reward_Type_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Quest_Reward_Type_Stream_Cursor_Input>>;
+  where?: InputMaybe<Quest_Reward_Type_Bool_Exp>;
 };
 
 
@@ -7831,6 +8730,13 @@ export type Subscription_RootQuest_Step_By_PkArgs = {
 };
 
 
+export type Subscription_RootQuest_Step_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Quest_Step_Stream_Cursor_Input>>;
+  where?: InputMaybe<Quest_Step_Bool_Exp>;
+};
+
+
 export type Subscription_RootQuest_Step_TypeArgs = {
   distinct_on?: InputMaybe<Array<Quest_Step_Type_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -7851,6 +8757,20 @@ export type Subscription_RootQuest_Step_Type_AggregateArgs = {
 
 export type Subscription_RootQuest_Step_Type_By_PkArgs = {
   value: Scalars['String'];
+};
+
+
+export type Subscription_RootQuest_Step_Type_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Quest_Step_Type_Stream_Cursor_Input>>;
+  where?: InputMaybe<Quest_Step_Type_Bool_Exp>;
+};
+
+
+export type Subscription_RootQuest_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Quest_Stream_Cursor_Input>>;
+  where?: InputMaybe<Quest_Bool_Exp>;
 };
 
 
@@ -7877,6 +8797,13 @@ export type Subscription_RootQuest_Type_By_PkArgs = {
 };
 
 
+export type Subscription_RootQuest_Type_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Quest_Type_Stream_Cursor_Input>>;
+  where?: InputMaybe<Quest_Type_Bool_Exp>;
+};
+
+
 export type Subscription_RootResource_GeneratorArgs = {
   distinct_on?: InputMaybe<Array<Resource_Generator_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -7897,6 +8824,13 @@ export type Subscription_RootResource_Generator_AggregateArgs = {
 
 export type Subscription_RootResource_Generator_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootResource_Generator_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Resource_Generator_Stream_Cursor_Input>>;
+  where?: InputMaybe<Resource_Generator_Bool_Exp>;
 };
 
 
@@ -7923,6 +8857,13 @@ export type Subscription_RootResource_Generator_Type_By_PkArgs = {
 };
 
 
+export type Subscription_RootResource_Generator_Type_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Resource_Generator_Type_Stream_Cursor_Input>>;
+  where?: InputMaybe<Resource_Generator_Type_Bool_Exp>;
+};
+
+
 export type Subscription_RootResource_TypeArgs = {
   distinct_on?: InputMaybe<Array<Resource_Type_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -7943,6 +8884,13 @@ export type Subscription_RootResource_Type_AggregateArgs = {
 
 export type Subscription_RootResource_Type_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootResource_Type_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Resource_Type_Stream_Cursor_Input>>;
+  where?: InputMaybe<Resource_Type_Bool_Exp>;
 };
 
 
@@ -7969,6 +8917,13 @@ export type Subscription_RootTerrain_Hex_Palette_By_PkArgs = {
 };
 
 
+export type Subscription_RootTerrain_Hex_Palette_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Terrain_Hex_Palette_Stream_Cursor_Input>>;
+  where?: InputMaybe<Terrain_Hex_Palette_Bool_Exp>;
+};
+
+
 export type Subscription_RootUser_InfoArgs = {
   distinct_on?: InputMaybe<Array<User_Info_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -7992,6 +8947,13 @@ export type Subscription_RootUser_Info_By_PkArgs = {
 };
 
 
+export type Subscription_RootUser_Info_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<User_Info_Stream_Cursor_Input>>;
+  where?: InputMaybe<User_Info_Bool_Exp>;
+};
+
+
 export type Subscription_RootUser_MeArgs = {
   distinct_on?: InputMaybe<Array<User_Me_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -8010,6 +8972,13 @@ export type Subscription_RootUser_Me_AggregateArgs = {
 };
 
 
+export type Subscription_RootUser_Me_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<User_Me_Stream_Cursor_Input>>;
+  where?: InputMaybe<User_Me_Bool_Exp>;
+};
+
+
 export type Subscription_RootUser_PrivateArgs = {
   distinct_on?: InputMaybe<Array<User_Private_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -8024,6 +8993,13 @@ export type Subscription_RootUser_Private_AggregateArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<User_Private_Order_By>>;
+  where?: InputMaybe<User_Private_Bool_Exp>;
+};
+
+
+export type Subscription_RootUser_Private_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<User_Private_Stream_Cursor_Input>>;
   where?: InputMaybe<User_Private_Bool_Exp>;
 };
 
@@ -8177,6 +9153,24 @@ export type Terrain_Hex_Palette_Set_Input = {
   water?: InputMaybe<Scalars['String']>;
 };
 
+/** Streaming cursor of the table "terrain_hex_palette" */
+export type Terrain_Hex_Palette_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Terrain_Hex_Palette_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Terrain_Hex_Palette_Stream_Cursor_Value_Input = {
+  forest?: InputMaybe<Scalars['String']>;
+  grass?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  sand?: InputMaybe<Scalars['String']>;
+  water?: InputMaybe<Scalars['String']>;
+};
+
 /** update columns of table "terrain_hex_palette" */
 export enum Terrain_Hex_Palette_Update_Column {
   /** column name */
@@ -8193,13 +9187,14 @@ export enum Terrain_Hex_Palette_Update_Column {
   Water = 'water'
 }
 
-export type Timestamp_Cast_Exp = {
-  String?: InputMaybe<String_Comparison_Exp>;
+export type Terrain_Hex_Palette_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Terrain_Hex_Palette_Set_Input>;
+  where: Terrain_Hex_Palette_Bool_Exp;
 };
 
 /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
 export type Timestamp_Comparison_Exp = {
-  _cast?: InputMaybe<Timestamp_Cast_Exp>;
   _eq?: InputMaybe<Scalars['timestamp']>;
   _gt?: InputMaybe<Scalars['timestamp']>;
   _gte?: InputMaybe<Scalars['timestamp']>;
@@ -8211,13 +9206,8 @@ export type Timestamp_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['timestamp']>>;
 };
 
-export type Timestamptz_Cast_Exp = {
-  String?: InputMaybe<String_Comparison_Exp>;
-};
-
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
 export type Timestamptz_Comparison_Exp = {
-  _cast?: InputMaybe<Timestamptz_Cast_Exp>;
   _eq?: InputMaybe<Scalars['timestamptz']>;
   _gt?: InputMaybe<Scalars['timestamptz']>;
   _gte?: InputMaybe<Scalars['timestamptz']>;
@@ -8506,6 +9496,25 @@ export type User_Info_Stddev_Samp_Fields = {
   free_claims?: Maybe<Scalars['Float']>;
 };
 
+/** Streaming cursor of the table "user_info" */
+export type User_Info_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: User_Info_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type User_Info_Stream_Cursor_Value_Input = {
+  avatar_url?: InputMaybe<Scalars['String']>;
+  display_name?: InputMaybe<Scalars['String']>;
+  free_claims?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  nickname?: InputMaybe<Scalars['String']>;
+  secret_setting_test?: InputMaybe<Scalars['String']>;
+};
+
 /** aggregate sum on columns */
 export type User_Info_Sum_Fields = {
   __typename?: 'user_info_sum_fields';
@@ -8529,6 +9538,14 @@ export enum User_Info_Update_Column {
   /** column name */
   SecretSettingTest = 'secret_setting_test'
 }
+
+export type User_Info_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<User_Info_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<User_Info_Set_Input>;
+  where: User_Info_Bool_Exp;
+};
 
 /** aggregate var_pop on columns */
 export type User_Info_Var_Pop_Fields = {
@@ -8708,10 +9725,36 @@ export type User_Me_Stddev_Samp_Fields = {
   free_claims?: Maybe<Scalars['Float']>;
 };
 
+/** Streaming cursor of the table "user_me" */
+export type User_Me_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: User_Me_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type User_Me_Stream_Cursor_Value_Input = {
+  display_name?: InputMaybe<Scalars['String']>;
+  free_claims?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  nickname?: InputMaybe<Scalars['String']>;
+  secret_setting_test?: InputMaybe<Scalars['String']>;
+};
+
 /** aggregate sum on columns */
 export type User_Me_Sum_Fields = {
   __typename?: 'user_me_sum_fields';
   free_claims?: Maybe<Scalars['Int']>;
+};
+
+export type User_Me_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<User_Me_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<User_Me_Set_Input>;
+  where: User_Me_Bool_Exp;
 };
 
 /** aggregate var_pop on columns */
@@ -8819,13 +9862,28 @@ export type User_Private_Set_Input = {
   user_id?: InputMaybe<Scalars['String']>;
 };
 
-export type Uuid_Cast_Exp = {
-  String?: InputMaybe<String_Comparison_Exp>;
+/** Streaming cursor of the table "user_private" */
+export type User_Private_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: User_Private_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type User_Private_Stream_Cursor_Value_Input = {
+  secret_setting_test?: InputMaybe<Scalars['String']>;
+  user_id?: InputMaybe<Scalars['String']>;
+};
+
+export type User_Private_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<User_Private_Set_Input>;
+  where: User_Private_Bool_Exp;
 };
 
 /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
 export type Uuid_Comparison_Exp = {
-  _cast?: InputMaybe<Uuid_Cast_Exp>;
   _eq?: InputMaybe<Scalars['uuid']>;
   _gt?: InputMaybe<Scalars['uuid']>;
   _gte?: InputMaybe<Scalars['uuid']>;
@@ -9085,7 +10143,7 @@ export type PlanetByIdQueryVariables = Exact<{
 }>;
 
 
-export type PlanetByIdQuery = { __typename?: 'query_root', planet_by_pk?: { __typename?: 'planet', atmospheric_distance: number, id: string, name: string, owner_id: string, radius: number, terrain_bias: number[], texture_resolution: number, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string, id: string }, rings: Array<{ __typename?: 'planetary_ring', colors: string[], id: string, inner_radius: number, outer_radius: number, resolution: number, rotation: number[], terrain_bias: number[], type: string }>, user_info?: { __typename?: 'user_info', avatar_url?: string | null, name?: string | null, nickname: string, id: string } | null, celestial: { __typename?: 'celestial', name?: string | null, planets_aggregate: { __typename?: 'planet_aggregate', aggregate?: { __typename?: 'planet_aggregate_fields', count: number } | null } } } | null };
+export type PlanetByIdQuery = { __typename?: 'query_root', planet_by_pk?: { __typename?: 'planet', atmospheric_distance: number, id: string, name: string, owner_id: string, radius: number, terrain_bias: number[], texture_resolution: number, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string, id: string }, rings: Array<{ __typename?: 'planetary_ring', colors: string[], id: string, inner_radius: number, outer_radius: number, resolution: number, rotation: number[], terrain_bias: number[], type: string }>, user_info?: { __typename?: 'user_info', avatar_url?: string | null, name?: string | null, nickname: string, id: string } | null, celestial: { __typename?: 'celestial', name?: string | null, planets_aggregate: { __typename?: 'planet_aggregate', aggregate?: { __typename?: 'planet_aggregate_fields', count: number } | null }, galactic_empire?: { __typename?: 'galactic_empire', id: string, user_id: string, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> } | null } } | null };
 
 export type PlanetsByCelestialIdQueryVariables = Exact<{
   id: Scalars['String'];
@@ -9790,10 +10848,13 @@ export const PlanetByIdDocument = gql`
           count
         }
       }
+      galactic_empire {
+        ...GalacticEmpireFields
+      }
     }
   }
 }
-    `;
+    ${GalacticEmpireFieldsFragmentDoc}`;
 export type PlanetByIdQueryResult = Apollo.QueryResult<PlanetByIdQuery, PlanetByIdQueryVariables>;
 export const PlanetsByCelestialIdDocument = gql`
     query PlanetsByCelestialId($id: String!) {

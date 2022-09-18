@@ -38,6 +38,9 @@ query PlanetById($id: uuid!) {
           count
         }
       }
+      galactic_empire {
+        ...GalacticEmpireFields
+      }
     }
   }
 }
