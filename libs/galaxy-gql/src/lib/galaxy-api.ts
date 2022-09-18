@@ -9968,13 +9968,6 @@ export type CreateGalacticEmpireMutationVariables = Exact<{
 
 export type CreateGalacticEmpireMutation = { __typename?: 'mutation_root', insert_galactic_empire_one?: { __typename?: 'galactic_empire', id: string } | null };
 
-export type GalacticEmpireByIdSubscriptionVariables = Exact<{
-  id: Scalars['uuid'];
-}>;
-
-
-export type GalacticEmpireByIdSubscription = { __typename?: 'subscription_root', galactic_empire: Array<{ __typename?: 'galactic_empire', galaxy: { __typename?: 'galaxy', name?: string | null }, homeworld?: { __typename?: 'planet', name: string, terrain_hex_palette_id: string, texture_resolution: number, id: string } | null, background: { __typename?: 'background', name: string, description: string, id: string }, celestials: Array<{ __typename?: 'celestial', name?: string | null, id: string, galaxy_id: string }>, faction: { __typename?: 'faction', description: string, id: string, name: string } }> };
-
 export type GalacticEmpiresByGalaxyIdQueryVariables = Exact<{
   galaxyId: Scalars['uuid'];
 }>;
@@ -10421,37 +10414,6 @@ export const CreateGalacticEmpireDocument = gql`
 export type CreateGalacticEmpireMutationFn = Apollo.MutationFunction<CreateGalacticEmpireMutation, CreateGalacticEmpireMutationVariables>;
 export type CreateGalacticEmpireMutationResult = Apollo.MutationResult<CreateGalacticEmpireMutation>;
 export type CreateGalacticEmpireMutationOptions = Apollo.BaseMutationOptions<CreateGalacticEmpireMutation, CreateGalacticEmpireMutationVariables>;
-export const GalacticEmpireByIdDocument = gql`
-    subscription GalacticEmpireById($id: uuid!) {
-  galactic_empire(where: {id: {_eq: $id}}) {
-    galaxy {
-      name
-    }
-    homeworld {
-      name
-      terrain_hex_palette_id
-      texture_resolution
-      id
-    }
-    background {
-      name
-      description
-      id
-    }
-    celestials {
-      name
-      id
-      galaxy_id
-    }
-    faction {
-      description
-      id
-      name
-    }
-  }
-}
-    `;
-export type GalacticEmpireByIdSubscriptionResult = Apollo.SubscriptionResult<GalacticEmpireByIdSubscription>;
 export const GalacticEmpiresByGalaxyIdDocument = gql`
     query GalacticEmpiresByGalaxyId($galaxyId: uuid!) {
   galactic_empire(where: {galaxy_id: {_eq: $galaxyId}}) {
