@@ -7887,6 +7887,8 @@ export type Resource_Generator_Updates = {
 export type Resource_Type = {
   __typename?: 'resource_type';
   id: Scalars['uuid'];
+  image_url?: Maybe<Scalars['String']>;
+  image_url_pixel?: Maybe<Scalars['String']>;
   type: Scalars['String'];
 };
 
@@ -7918,6 +7920,8 @@ export type Resource_Type_Bool_Exp = {
   _not?: InputMaybe<Resource_Type_Bool_Exp>;
   _or?: InputMaybe<Array<Resource_Type_Bool_Exp>>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  image_url?: InputMaybe<String_Comparison_Exp>;
+  image_url_pixel?: InputMaybe<String_Comparison_Exp>;
   type?: InputMaybe<String_Comparison_Exp>;
 };
 
@@ -7932,6 +7936,8 @@ export enum Resource_Type_Constraint {
 /** input type for inserting data into table "resource_type" */
 export type Resource_Type_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']>;
+  image_url?: InputMaybe<Scalars['String']>;
+  image_url_pixel?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<Scalars['String']>;
 };
 
@@ -7939,6 +7945,8 @@ export type Resource_Type_Insert_Input = {
 export type Resource_Type_Max_Fields = {
   __typename?: 'resource_type_max_fields';
   id?: Maybe<Scalars['uuid']>;
+  image_url?: Maybe<Scalars['String']>;
+  image_url_pixel?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
 };
 
@@ -7946,6 +7954,8 @@ export type Resource_Type_Max_Fields = {
 export type Resource_Type_Min_Fields = {
   __typename?: 'resource_type_min_fields';
   id?: Maybe<Scalars['uuid']>;
+  image_url?: Maybe<Scalars['String']>;
+  image_url_pixel?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
 };
 
@@ -7975,6 +7985,8 @@ export type Resource_Type_On_Conflict = {
 /** Ordering options when selecting data from "resource_type". */
 export type Resource_Type_Order_By = {
   id?: InputMaybe<Order_By>;
+  image_url?: InputMaybe<Order_By>;
+  image_url_pixel?: InputMaybe<Order_By>;
   type?: InputMaybe<Order_By>;
 };
 
@@ -7988,12 +8000,18 @@ export enum Resource_Type_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  ImageUrl = 'image_url',
+  /** column name */
+  ImageUrlPixel = 'image_url_pixel',
+  /** column name */
   Type = 'type'
 }
 
 /** input type for updating data in table "resource_type" */
 export type Resource_Type_Set_Input = {
   id?: InputMaybe<Scalars['uuid']>;
+  image_url?: InputMaybe<Scalars['String']>;
+  image_url_pixel?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<Scalars['String']>;
 };
 
@@ -8008,6 +8026,8 @@ export type Resource_Type_Stream_Cursor_Input = {
 /** Initial value of the column from where the streaming should start */
 export type Resource_Type_Stream_Cursor_Value_Input = {
   id?: InputMaybe<Scalars['uuid']>;
+  image_url?: InputMaybe<Scalars['String']>;
+  image_url_pixel?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<Scalars['String']>;
 };
 
@@ -8015,6 +8035,10 @@ export type Resource_Type_Stream_Cursor_Value_Input = {
 export enum Resource_Type_Update_Column {
   /** column name */
   Id = 'id',
+  /** column name */
+  ImageUrl = 'image_url',
+  /** column name */
+  ImageUrlPixel = 'image_url_pixel',
   /** column name */
   Type = 'type'
 }
@@ -10010,11 +10034,6 @@ export type GalacticEmpireNpcsSubscriptionVariables = Exact<{
 
 export type GalacticEmpireNpcsSubscription = { __typename?: 'subscription_root', galactic_empire_npc: Array<{ __typename?: 'galactic_empire_npc', npc: { __typename?: 'npc', id: string, name: string, image_url: string, playable_race?: { __typename?: 'playable_race', name: string, id: string } | null, faction?: { __typename?: 'faction', name: string, id: string } | null } }> };
 
-export type NpcsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type NpcsQuery = { __typename?: 'query_root', npc: Array<{ __typename?: 'npc', id: string, image_url: string, name: string }> };
-
 export type UnlockGalacticEmpireNpcMutationVariables = Exact<{
   empireId: Scalars['uuid'];
   npcId: Scalars['uuid'];
@@ -10152,6 +10171,11 @@ export type GetGalaxyByIdAndUnclaimedCelestialsQueryVariables = Exact<{
 
 export type GetGalaxyByIdAndUnclaimedCelestialsQuery = { __typename?: 'query_root', galaxy_by_pk?: { __typename?: 'galaxy', id: string, stars: number } | null, celestial: Array<{ __typename?: 'celestial', id: string }> };
 
+export type NpcsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type NpcsQuery = { __typename?: 'query_root', npc: Array<{ __typename?: 'npc', id: string, image_url: string, name: string }> };
+
 export type CreatePlanetMutationVariables = Exact<{
   input: PlanetCreationInput;
 }>;
@@ -10184,6 +10208,11 @@ export type TryInsertPlanetMutationVariables = Exact<{
 
 
 export type TryInsertPlanetMutation = { __typename?: 'mutation_root', insert_planet_one?: { __typename?: 'planet', id: string, name: string, owner_id: string } | null };
+
+export type ResourcesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ResourcesQuery = { __typename?: 'query_root', resource_type: Array<{ __typename?: 'resource_type', type: string, id: string, image_url?: string | null, image_url_pixel?: string | null }> };
 
 export type SelfQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -10558,16 +10587,6 @@ export const GalacticEmpireNpcsDocument = gql`
 }
     `;
 export type GalacticEmpireNpcsSubscriptionResult = Apollo.SubscriptionResult<GalacticEmpireNpcsSubscription>;
-export const NpcsDocument = gql`
-    query Npcs {
-  npc {
-    id
-    image_url
-    name
-  }
-}
-    `;
-export type NpcsQueryResult = Apollo.QueryResult<NpcsQuery, NpcsQueryVariables>;
 export const UnlockGalacticEmpireNpcDocument = gql`
     mutation UnlockGalacticEmpireNpc($empireId: uuid!, $npcId: uuid!) {
   insert_galactic_empire_npc_one(
@@ -10855,6 +10874,16 @@ export const GetGalaxyByIdAndUnclaimedCelestialsDocument = gql`
 }
     `;
 export type GetGalaxyByIdAndUnclaimedCelestialsQueryResult = Apollo.QueryResult<GetGalaxyByIdAndUnclaimedCelestialsQuery, GetGalaxyByIdAndUnclaimedCelestialsQueryVariables>;
+export const NpcsDocument = gql`
+    query Npcs {
+  npc {
+    id
+    image_url
+    name
+  }
+}
+    `;
+export type NpcsQueryResult = Apollo.QueryResult<NpcsQuery, NpcsQueryVariables>;
 export const CreatePlanetDocument = gql`
     mutation CreatePlanet($input: PlanetCreationInput!) {
   createPlanet(input: $input) {
@@ -10969,6 +10998,17 @@ export const TryInsertPlanetDocument = gql`
 export type TryInsertPlanetMutationFn = Apollo.MutationFunction<TryInsertPlanetMutation, TryInsertPlanetMutationVariables>;
 export type TryInsertPlanetMutationResult = Apollo.MutationResult<TryInsertPlanetMutation>;
 export type TryInsertPlanetMutationOptions = Apollo.BaseMutationOptions<TryInsertPlanetMutation, TryInsertPlanetMutationVariables>;
+export const ResourcesDocument = gql`
+    query Resources {
+  resource_type {
+    type
+    id
+    image_url
+    image_url_pixel
+  }
+}
+    `;
+export type ResourcesQueryResult = Apollo.QueryResult<ResourcesQuery, ResourcesQueryVariables>;
 export const SelfDocument = gql`
     query Self {
   user_me {
