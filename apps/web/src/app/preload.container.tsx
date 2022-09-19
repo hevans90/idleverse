@@ -2,6 +2,8 @@ import { useQuery, useReactiveVar } from '@apollo/client';
 import {
   CharacterDataDocument,
   CharacterDataQuery,
+  NpcsDocument,
+  NpcsQuery,
   SelfDocument,
   SelfQuery,
   UserInfoDocument,
@@ -12,6 +14,7 @@ import { loadUserInfo } from './asset-loading/load-users';
 import { Loading } from './components/loading';
 import { backgroundsVar } from './_state/backgrounds';
 import { factionsVar } from './_state/factions';
+import { npcsVar } from './_state/npcs';
 import { playableRacesVar } from './_state/playable-races';
 import { selfVar } from './_state/reactive-variables';
 
@@ -46,6 +49,10 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
     }
   );
 
+  const { loading: npcsLoading } = useQuery<NpcsQuery>(NpcsDocument, {
+    onCompleted: ({ npc }) => npcsVar(npc),
+  });
+
   useEffect(() => {
     if (!usersLoading && userInfo) {
       loadUserInfo(userInfo).then(() => setUserAvatarsLoading(false));
@@ -60,6 +67,8 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
 
   if (characterDataLoading)
     return <Loading text="Loading Races, Backgrounds &amp; Factions"></Loading>;
+
+  if (npcsLoading) return <Loading text="Loading Npcs"></Loading>;
 
   if (userAvatarsLoading) return <Loading text="Loading Avatars"></Loading>;
 

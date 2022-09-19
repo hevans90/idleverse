@@ -10010,6 +10010,11 @@ export type GalacticEmpireNpcsSubscriptionVariables = Exact<{
 
 export type GalacticEmpireNpcsSubscription = { __typename?: 'subscription_root', galactic_empire_npc: Array<{ __typename?: 'galactic_empire_npc', npc: { __typename?: 'npc', id: string, name: string, image_url: string, playable_race?: { __typename?: 'playable_race', name: string, id: string } | null, faction?: { __typename?: 'faction', name: string, id: string } | null } }> };
 
+export type NpcsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type NpcsQuery = { __typename?: 'query_root', npc: Array<{ __typename?: 'npc', id: string, image_url: string, name: string }> };
+
 export type UnlockGalacticEmpireNpcMutationVariables = Exact<{
   empireId: Scalars['uuid'];
   npcId: Scalars['uuid'];
@@ -10553,6 +10558,16 @@ export const GalacticEmpireNpcsDocument = gql`
 }
     `;
 export type GalacticEmpireNpcsSubscriptionResult = Apollo.SubscriptionResult<GalacticEmpireNpcsSubscription>;
+export const NpcsDocument = gql`
+    query Npcs {
+  npc {
+    id
+    image_url
+    name
+  }
+}
+    `;
+export type NpcsQueryResult = Apollo.QueryResult<NpcsQuery, NpcsQueryVariables>;
 export const UnlockGalacticEmpireNpcDocument = gql`
     mutation UnlockGalacticEmpireNpc($empireId: uuid!, $npcId: uuid!) {
   insert_galactic_empire_npc_one(

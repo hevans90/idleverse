@@ -16,6 +16,7 @@ import {
   activeQuestsVar,
   completedQuestsVar,
 } from '../../_state/galactic-empire';
+import { QuestRewardThumbnails } from './quest-reward-thumbnail';
 
 export const QuestList = ({ showCompleted }: { showCompleted: boolean }) => {
   const { border, bgLightSecondary } = useUiBackground();
@@ -64,7 +65,9 @@ export const QuestList = ({ showCompleted }: { showCompleted: boolean }) => {
             <Tr key={i} bg={completed ? bgLightSecondary : 'unset'}>
               <Td {...tdProps}>{name}</Td>
               <Td {...tdProps}>{description}</Td>
-              <Td {...tdProps}>{}</Td>
+              <Td {...tdProps}>
+                <QuestRewardThumbnails rewards={rewards} />
+              </Td>
             </Tr>
           ))}
       </Tbody>

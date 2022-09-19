@@ -17,7 +17,7 @@ import {
 import { useUiBackground } from '../../hooks/use-ui-background';
 import { colorsVar } from '../../_state/colors';
 import { dialogVar } from '../../_state/dialog';
-import { npcsVar } from '../../_state/galactic-empire';
+import { empireNpcsVar } from '../../_state/galactic-empire';
 
 export const NpcContact = ({
   isOpen,
@@ -34,7 +34,7 @@ export const NpcContact = ({
     `${secondary}.900`,
     `${secondary}.300`
   );
-  const npcs = useReactiveVar(npcsVar);
+  const npcs = useReactiveVar(empireNpcsVar);
   const { open } = useReactiveVar(dialogVar);
 
   return (

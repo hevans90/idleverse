@@ -17,8 +17,8 @@ import { useEffect } from 'react';
 import {
   activeQuestsVar,
   completedQuestsVar,
-  npcsVar,
-  resourcesVar,
+  empireNpcsVar,
+  empireResources,
 } from '../_state/galactic-empire';
 
 export const useRealtimeEmpireUpdates = (empireId: string) => {
@@ -68,13 +68,13 @@ export const useRealtimeEmpireUpdates = (empireId: string) => {
 
   useEffect(() => {
     if (resourcesData) {
-      resourcesVar(resourcesData.galactic_empire_resources);
+      empireResources(resourcesData.galactic_empire_resources);
     }
   }, [resourcesLoading, resourcesData]);
 
   useEffect(() => {
     if (npcsData) {
-      npcsVar(npcsData.galactic_empire_npc.map(({ npc }) => npc));
+      empireNpcsVar(npcsData.galactic_empire_npc.map(({ npc }) => npc));
     }
     //
   }, [npcsLoading, npcsData]);

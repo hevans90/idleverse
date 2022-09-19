@@ -40,7 +40,7 @@ export const QuestJournal = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="5xl" isCentered>
+    <Modal isOpen={isOpen} onClose={onClose} size={['full', '5xl']} isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader
@@ -52,7 +52,7 @@ export const QuestJournal = ({
         >
           <HStack justifyContent="space-between">
             <Text>Quest Journal</Text>
-            <HStack paddingRight={6}>
+            <HStack paddingRight={6} display={['none', 'block']}>
               <Text flexGrow={1} fontSize="sm">
                 Show completed
               </Text>
@@ -77,7 +77,7 @@ export const QuestJournal = ({
           borderRight="1px solid"
           borderRightColor={border}
         >
-          <Tabs orientation="vertical" minHeight="40vh">
+          <Tabs orientation="horizontal" minHeight="40vh">
             <TabList
               justifyContent="stretch"
               borderColor={border}

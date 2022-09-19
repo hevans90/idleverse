@@ -14,11 +14,11 @@ export const galacticEmpireVar = makeVarPersisted<GalacticEmpireFieldsFragment>(
 
 export const myEmpireVar = makeVarPersisted<boolean>(false, 'myEmpire');
 
-export const resourcesVar = makeVarPersisted<
+export const empireResources = makeVarPersisted<
   GalacticEmpireResourcesSubscription['galactic_empire_resources']
 >(undefined, 'empireResources');
 
-export const npcsVar = makeVarPersisted<
+export const empireNpcsVar = makeVarPersisted<
   GalacticEmpireNpcsSubscription['galactic_empire_npc'][0]['npc'][]
 >(undefined, 'empireNpcs');
 

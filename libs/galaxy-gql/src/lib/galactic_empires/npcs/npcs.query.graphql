@@ -1,0 +1,7 @@
+query Npcs {
+  npc {
+    id
+    image_url
+    name
+  }
+}
