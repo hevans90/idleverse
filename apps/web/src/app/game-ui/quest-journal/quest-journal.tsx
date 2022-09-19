@@ -40,7 +40,7 @@ export const QuestJournal = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size={['full', '5xl']} isCentered>
+    <Modal isOpen={isOpen} onClose={onClose} size={['full', '6xl']} isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader
@@ -78,12 +78,7 @@ export const QuestJournal = ({
           borderRightColor={border}
         >
           <Tabs orientation="horizontal" minHeight="40vh">
-            <TabList
-              justifyContent="stretch"
-              borderColor={border}
-              borderRight="2px solid"
-              borderRightColor={border}
-            >
+            <TabList justifyContent="stretch" borderColor={border}>
               <Tab {...tabProps}>Main</Tab>
               <Tab {...tabProps}>Race</Tab>
               <Tab {...tabProps} isDisabled>
