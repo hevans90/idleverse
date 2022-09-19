@@ -1,12 +1,20 @@
 import { useReactiveVar } from '@apollo/client';
-import { Avatar, AvatarGroup, HStack, Text } from '@chakra-ui/react';
+import {
+  Avatar,
+  AvatarGroup,
+  HStack,
+  Text,
+  Tooltip,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import {
   ActiveGalacticEmpireQuestsSubscription,
   Quest_Reward_Type_Enum,
 } from '@idleverse/galaxy-gql';
 import { Fragment } from 'react';
-import { empireResources } from '../../_state/galactic-empire';
+import { useUiBackground } from '../../hooks/use-ui-background';
 import { npcsVar } from '../../_state/npcs';
+import { resourcesVar } from '../../_state/resources';
 
 export const QuestRewardThumbnails = ({
   rewards,
@@ -64,20 +72,60 @@ export const QuestRewardThumbnails = ({
   );
 };
 
+const RewardThumbnail = ({
+  type,
+  tooltip,
+  image_url,
+  amount,
+}: {
+  type: 'stack' | 'solo';
+  tooltip: string;
+  image_url: string;
+  amount?: number;
+}) => {
+  const { bgLight } = useUiBackground();
+  const color = useColorModeValue('gray.800', 'white');
+
+  return (
+    <Tooltip fontSize="xs" bg={bgLight} color={color} label={tooltip}>
+      {type === 'solo' ? (
+        <Avatar src={image_url} name={tooltip} />
+      ) : (
+        <HStack>
+          <Text>{amount}</Text>
+          <Avatar src={image_url} name={tooltip} />
+        </HStack>
+      )}
+    </Tooltip>
+  );
+};
+
 const NpcUnlockThumbnail = ({ npcId }: { npcId: string }) => {
   const npcs = useReactiveVar(npcsVar);
 
   const npc = npcs?.find(({ id }) => id === npcId);
 
-  return <Avatar src={npc?.image_url} name={`Unlocks ${npc?.name}`} />;
+  return (
+    <RewardThumbnail
+      type="solo"
+      tooltip={`Unlocks NPC: ${npc?.name}`}
+      image_url={npc?.image_url}
+    />
+  );
 };
 
 const ResourceUnlockThumbnail = ({ resourceId }: { resourceId: string }) => {
-  const resources = useReactiveVar(empireResources);
+  const resources = useReactiveVar(resourcesVar);
 
   const resource = resources.find(({ id }) => id === resourceId);
 
-  return <Avatar size="sm" name={`Unlocks ${resource?.resource_type?.type}`} />;
+  return (
+    <RewardThumbnail
+      type="solo"
+      tooltip={`Unlocks ${resource?.type}`}
+      image_url={resource?.image_url_pixel}
+    />
+  );
 };
 
 const ResourceAccrualThumbnail = ({
@@ -87,17 +135,16 @@ const ResourceAccrualThumbnail = ({
   resourceId: string;
   amount: number;
 }) => {
-  const resources = useReactiveVar(empireResources);
+  const resources = useReactiveVar(resourcesVar);
 
   const resource = resources.find(({ id }) => id === resourceId);
 
   return (
-    <HStack>
-      <Text>{amount}</Text>
-      <Avatar
-        size="sm"
-        name={`Gain ${amount} ${resource?.resource_type?.type}`}
-      />
-    </HStack>
+    <RewardThumbnail
+      type="stack"
+      amount={amount}
+      tooltip={`Grants ${amount} ${resource?.type}`}
+      image_url={resource?.image_url_pixel}
+    />
   );
 };

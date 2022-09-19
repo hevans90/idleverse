@@ -52,7 +52,7 @@ export const QuestJournal = ({
         >
           <HStack justifyContent="space-between">
             <Text>Quest Journal</Text>
-            <HStack paddingRight={6} display={['none', 'block']}>
+            <HStack paddingRight={6} display={['none', 'flex']}>
               <Text flexGrow={1} fontSize="sm">
                 Show completed
               </Text>
