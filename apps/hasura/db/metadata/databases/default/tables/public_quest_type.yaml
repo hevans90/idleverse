@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: quest_type
+  schema: public
 is_enum: true
 select_permissions:
   - role: dev

@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: planetary_ring
+  schema: public
 select_permissions:
   - role: user
     permission:

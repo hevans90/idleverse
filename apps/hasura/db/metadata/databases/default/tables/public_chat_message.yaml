@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: chat_message
+  schema: public
 object_relationships:
   - name: user_info
     using:

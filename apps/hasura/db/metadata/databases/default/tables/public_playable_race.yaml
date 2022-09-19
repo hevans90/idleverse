@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: playable_race
+  schema: public
 select_permissions:
   - role: dev
     permission:

@@ -1,21 +1,21 @@
 table:
-  schema: public
   name: galaxy
+  schema: public
 array_relationships:
   - name: celestials
     using:
       foreign_key_constraint_on:
         column: galaxy_id
         table:
-          schema: public
           name: celestial
+          schema: public
   - name: galactic_empires
     using:
       foreign_key_constraint_on:
         column: galaxy_id
         table:
-          schema: public
           name: galactic_empire
+          schema: public
 insert_permissions:
   - role: dev
     permission:

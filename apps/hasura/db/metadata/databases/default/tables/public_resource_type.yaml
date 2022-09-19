@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: resource_type
+  schema: public
 insert_permissions:
   - role: dev
     permission:

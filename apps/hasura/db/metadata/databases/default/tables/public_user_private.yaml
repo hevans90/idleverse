@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: user_private
+  schema: public
 insert_permissions:
   - role: user
     permission:

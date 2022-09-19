@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: resource_generator_type
+  schema: public
 object_relationships:
   - name: resource_type
     using:

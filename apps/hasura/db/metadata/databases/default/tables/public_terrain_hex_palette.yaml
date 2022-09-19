@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: terrain_hex_palette
+  schema: public
 select_permissions:
   - role: user
     permission:

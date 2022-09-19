@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: quest_step
+  schema: public
 object_relationships:
   - name: npc
     using:
