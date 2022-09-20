@@ -87,7 +87,14 @@ const RewardThumbnail = ({
   const color = useColorModeValue('gray.800', 'white');
 
   return (
-    <Tooltip fontSize="xs" bg={bgLight} color={color} label={tooltip}>
+    <Tooltip
+      fontSize="xxs"
+      bg={bgLight}
+      color={color}
+      label={tooltip}
+      padding={2}
+      maxWidth="unset"
+    >
       {type === 'solo' ? (
         <Avatar src={image_url} name={tooltip} />
       ) : (
