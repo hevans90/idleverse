@@ -12,10 +12,12 @@ import {
 import { ActiveGalacticEmpireQuestsSubscription } from '@idleverse/galaxy-gql';
 import { useEffect, useState } from 'react';
 import { useUiBackground } from '../../hooks/use-ui-background';
+import { colorsVar } from '../../_state/colors';
 import {
   activeQuestsVar,
   completedQuestsVar,
 } from '../../_state/galactic-empire';
+import { questJournalVar } from '../../_state/global-ui';
 import { QuestRewardThumbnails } from './quest-reward-thumbnail';
 
 export const QuestList = ({ showCompleted }: { showCompleted: boolean }) => {
@@ -48,6 +50,8 @@ export const QuestList = ({ showCompleted }: { showCompleted: boolean }) => {
     }
   }, [completedQuests, activeQuests, showCompleted]);
 
+  const { secondary } = useReactiveVar(colorsVar);
+
   return (
     <Table variant="simple" fontSize="xs" size="sm">
       <Thead>
@@ -61,12 +65,35 @@ export const QuestList = ({ showCompleted }: { showCompleted: boolean }) => {
         {quests
           .filter(({ completed }) => (showCompleted ? true : !completed))
           .sort((a, b) => Number(b.completed) - Number(a.completed))
-          .map(({ completed, quest: { name, description, rewards } }, i) => (
-            <Tr key={i} bg={completed ? bgLightSecondary : 'unset'}>
-              <Td {...tdProps}>{name}</Td>
-              <Td {...tdProps}>{description}</Td>
+          .map(({ completed, quest, quest_step_id }, i) => (
+            <Tr
+              key={i}
+              background={completed ? bgLightSecondary : 'unset'}
+              minWidth={['30vw', 'unset']}
+              lineHeight="inherit"
+              whiteSpace="normal"
+              transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
+              px="8px"
+              _hover={{ bg: 'whiteAlpha.300' }}
+              _active={{
+                bg: `${secondary}.600`,
+                // transform: 'scale(0.98)',
+                borderColor: `${secondary}.700`,
+              }}
+              cursor="pointer"
+              onClick={() =>
+                questJournalVar({
+                  ...questJournalVar(),
+                  state: 'detail',
+                  quest,
+                  questStepId: quest_step_id,
+                })
+              }
+            >
+              <Td {...tdProps}>{quest.name}</Td>
+              <Td {...tdProps}>{quest.description}</Td>
               <Td {...tdProps}>
-                <QuestRewardThumbnails rewards={rewards} />
+                <QuestRewardThumbnails rewards={quest.rewards} detail={false} />
               </Td>
             </Tr>
           ))}

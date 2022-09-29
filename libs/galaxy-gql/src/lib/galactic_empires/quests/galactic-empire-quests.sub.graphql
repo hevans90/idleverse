@@ -17,11 +17,14 @@ fragment GalacticEmpireQuestFields on galactic_empire_quest {
       name
     }
     steps {
-      description
       id
+      type
+      description
+      initial
+      resource_cost_id
       resource_cost_amount
       npc_contact_id
-      type
+      next_step_in_quest
     }
   }
   quest_step_id

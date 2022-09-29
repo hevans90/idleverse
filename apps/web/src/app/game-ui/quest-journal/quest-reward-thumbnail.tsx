@@ -18,7 +18,9 @@ import { resourcesVar } from '../../_state/resources';
 
 export const QuestRewardThumbnails = ({
   rewards,
+  detail,
 }: {
+  detail: boolean;
   rewards: ActiveGalacticEmpireQuestsSubscription['galactic_empire_quest'][0]['quest']['rewards'];
 }) => {
   const thumbnails = (
@@ -29,12 +31,13 @@ export const QuestRewardThumbnails = ({
     resourceAccrualAmount: number
   ) => {
     const funcs: { [key in Quest_Reward_Type_Enum]: () => JSX.Element } = {
-      npc_unlock: () => <NpcUnlockThumbnail npcId={npcId} />,
+      npc_unlock: () => <NpcUnlockThumbnail detail={detail} npcId={npcId} />,
       resource_unlock: () => (
-        <ResourceUnlockThumbnail resourceId={resourceId} />
+        <ResourceUnlockThumbnail detail={detail} resourceId={resourceId} />
       ),
       resource_accrual: () => (
         <ResourceAccrualThumbnail
+          detail={detail}
           resourceId={resourceAccrualId}
           amount={resourceAccrualAmount}
         />
@@ -45,7 +48,7 @@ export const QuestRewardThumbnails = ({
   };
 
   return (
-    <AvatarGroup>
+    <AvatarGroup width="100%">
       {rewards?.map(
         (
           {
@@ -77,16 +80,23 @@ const RewardThumbnail = ({
   tooltip,
   image_url,
   amount,
+  detail,
 }: {
   type: 'stack' | 'solo';
   tooltip: string;
   image_url: string;
   amount?: number;
+  detail: boolean;
 }) => {
   const { bgLight } = useUiBackground();
   const color = useColorModeValue('gray.800', 'white');
 
-  return (
+  return detail ? (
+    <HStack width="100%" justifyContent="end" padding={2}>
+      <Text mr={5}>{tooltip}</Text>
+      <Avatar size={['md', 'lg']} src={image_url} name={tooltip} />
+    </HStack>
+  ) : (
     <Tooltip
       fontSize="xxs"
       bg={bgLight}
@@ -99,7 +109,7 @@ const RewardThumbnail = ({
         <Avatar src={image_url} name={tooltip} />
       ) : (
         <HStack>
-          <Text>{amount}</Text>
+          <Text fontSize="xs">{amount}</Text>
           <Avatar src={image_url} name={tooltip} />
         </HStack>
       )}
@@ -107,13 +117,20 @@ const RewardThumbnail = ({
   );
 };
 
-const NpcUnlockThumbnail = ({ npcId }: { npcId: string }) => {
+const NpcUnlockThumbnail = ({
+  npcId,
+  detail,
+}: {
+  detail: boolean;
+  npcId: string;
+}) => {
   const npcs = useReactiveVar(npcsVar);
 
   const npc = npcs?.find(({ id }) => id === npcId);
 
   return (
     <RewardThumbnail
+      detail={detail}
       type="solo"
       tooltip={`Unlocks NPC: ${npc?.name}`}
       image_url={npc?.image_url}
@@ -121,13 +138,20 @@ const NpcUnlockThumbnail = ({ npcId }: { npcId: string }) => {
   );
 };
 
-const ResourceUnlockThumbnail = ({ resourceId }: { resourceId: string }) => {
+const ResourceUnlockThumbnail = ({
+  resourceId,
+  detail,
+}: {
+  resourceId: string;
+  detail: boolean;
+}) => {
   const resources = useReactiveVar(resourcesVar);
 
   const resource = resources.find(({ id }) => id === resourceId);
 
   return (
     <RewardThumbnail
+      detail={detail}
       type="solo"
       tooltip={`Unlocks ${resource?.type}`}
       image_url={resource?.image_url_pixel}
@@ -138,9 +162,11 @@ const ResourceUnlockThumbnail = ({ resourceId }: { resourceId: string }) => {
 const ResourceAccrualThumbnail = ({
   resourceId,
   amount,
+  detail,
 }: {
   resourceId: string;
   amount: number;
+  detail: boolean;
 }) => {
   const resources = useReactiveVar(resourcesVar);
 
@@ -148,6 +174,7 @@ const ResourceAccrualThumbnail = ({
 
   return (
     <RewardThumbnail
+      detail={detail}
       type="stack"
       amount={amount}
       tooltip={`Grants ${amount} ${resource?.type}`}

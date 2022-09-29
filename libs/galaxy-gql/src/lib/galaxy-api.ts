@@ -10075,21 +10075,21 @@ export type GalacticEmpireQuestByIdQueryVariables = Exact<{
 
 export type GalacticEmpireQuestByIdQuery = { __typename?: 'query_root', galactic_empire_quest_by_pk?: { __typename?: 'galactic_empire_quest', completed: boolean, quest_step_id: string, quest: { __typename?: 'quest', steps: Array<{ __typename?: 'quest_step', next_step_in_quest?: string | null, id: string, npc_contact_id?: string | null, resource_cost_amount?: number | null, resource_cost_id?: string | null, type: Quest_Step_Type_Enum }>, rewards: Array<{ __typename?: 'quest_reward', npc_unlock_id?: string | null, resource_accrual_amount?: number | null, resource_accrual_type_id?: string | null, resource_unlock_id?: string | null, type: Quest_Reward_Type_Enum }>, quest_type: { __typename?: 'quest_type', value: string }, next_quest?: { __typename?: 'quest', id: string, steps: Array<{ __typename?: 'quest_step', id: string }> } | null }, galactic_empire: { __typename?: 'galactic_empire', id: string, resources: Array<{ __typename?: 'galactic_empire_resources', value: number, resource_type: { __typename?: 'resource_type', type: string, id: string } }> } } | null };
 
-export type GalacticEmpireQuestFieldsFragment = { __typename?: 'galactic_empire_quest', id: string, completed: boolean, quest_step_id: string, quest: { __typename?: 'quest', id: string, type: Quest_Type_Enum, description: string, name: string, rewards: Array<{ __typename?: 'quest_reward', npc_unlock_id?: string | null, resource_accrual_amount?: number | null, resource_accrual_type_id?: string | null, resource_unlock_id?: string | null, type: Quest_Reward_Type_Enum }>, next_quest?: { __typename?: 'quest', name: string } | null, steps: Array<{ __typename?: 'quest_step', description: string, id: string, resource_cost_amount?: number | null, npc_contact_id?: string | null, type: Quest_Step_Type_Enum }> } };
+export type GalacticEmpireQuestFieldsFragment = { __typename?: 'galactic_empire_quest', id: string, completed: boolean, quest_step_id: string, quest: { __typename?: 'quest', id: string, type: Quest_Type_Enum, description: string, name: string, rewards: Array<{ __typename?: 'quest_reward', npc_unlock_id?: string | null, resource_accrual_amount?: number | null, resource_accrual_type_id?: string | null, resource_unlock_id?: string | null, type: Quest_Reward_Type_Enum }>, next_quest?: { __typename?: 'quest', name: string } | null, steps: Array<{ __typename?: 'quest_step', id: string, type: Quest_Step_Type_Enum, description: string, initial: boolean, resource_cost_id?: string | null, resource_cost_amount?: number | null, npc_contact_id?: string | null, next_step_in_quest?: string | null }> } };
 
 export type CompletedGalacticEmpireQuestsSubscriptionVariables = Exact<{
   empireId: Scalars['uuid'];
 }>;
 
 
-export type CompletedGalacticEmpireQuestsSubscription = { __typename?: 'subscription_root', galactic_empire_quest: Array<{ __typename?: 'galactic_empire_quest', id: string, completed: boolean, quest_step_id: string, quest: { __typename?: 'quest', id: string, type: Quest_Type_Enum, description: string, name: string, rewards: Array<{ __typename?: 'quest_reward', npc_unlock_id?: string | null, resource_accrual_amount?: number | null, resource_accrual_type_id?: string | null, resource_unlock_id?: string | null, type: Quest_Reward_Type_Enum }>, next_quest?: { __typename?: 'quest', name: string } | null, steps: Array<{ __typename?: 'quest_step', description: string, id: string, resource_cost_amount?: number | null, npc_contact_id?: string | null, type: Quest_Step_Type_Enum }> } }> };
+export type CompletedGalacticEmpireQuestsSubscription = { __typename?: 'subscription_root', galactic_empire_quest: Array<{ __typename?: 'galactic_empire_quest', id: string, completed: boolean, quest_step_id: string, quest: { __typename?: 'quest', id: string, type: Quest_Type_Enum, description: string, name: string, rewards: Array<{ __typename?: 'quest_reward', npc_unlock_id?: string | null, resource_accrual_amount?: number | null, resource_accrual_type_id?: string | null, resource_unlock_id?: string | null, type: Quest_Reward_Type_Enum }>, next_quest?: { __typename?: 'quest', name: string } | null, steps: Array<{ __typename?: 'quest_step', id: string, type: Quest_Step_Type_Enum, description: string, initial: boolean, resource_cost_id?: string | null, resource_cost_amount?: number | null, npc_contact_id?: string | null, next_step_in_quest?: string | null }> } }> };
 
 export type ActiveGalacticEmpireQuestsSubscriptionVariables = Exact<{
   empireId: Scalars['uuid'];
 }>;
 
 
-export type ActiveGalacticEmpireQuestsSubscription = { __typename?: 'subscription_root', galactic_empire_quest: Array<{ __typename?: 'galactic_empire_quest', id: string, completed: boolean, quest_step_id: string, quest: { __typename?: 'quest', id: string, type: Quest_Type_Enum, description: string, name: string, rewards: Array<{ __typename?: 'quest_reward', npc_unlock_id?: string | null, resource_accrual_amount?: number | null, resource_accrual_type_id?: string | null, resource_unlock_id?: string | null, type: Quest_Reward_Type_Enum }>, next_quest?: { __typename?: 'quest', name: string } | null, steps: Array<{ __typename?: 'quest_step', description: string, id: string, resource_cost_amount?: number | null, npc_contact_id?: string | null, type: Quest_Step_Type_Enum }> } }> };
+export type ActiveGalacticEmpireQuestsSubscription = { __typename?: 'subscription_root', galactic_empire_quest: Array<{ __typename?: 'galactic_empire_quest', id: string, completed: boolean, quest_step_id: string, quest: { __typename?: 'quest', id: string, type: Quest_Type_Enum, description: string, name: string, rewards: Array<{ __typename?: 'quest_reward', npc_unlock_id?: string | null, resource_accrual_amount?: number | null, resource_accrual_type_id?: string | null, resource_unlock_id?: string | null, type: Quest_Reward_Type_Enum }>, next_quest?: { __typename?: 'quest', name: string } | null, steps: Array<{ __typename?: 'quest_step', id: string, type: Quest_Step_Type_Enum, description: string, initial: boolean, resource_cost_id?: string | null, resource_cost_amount?: number | null, npc_contact_id?: string | null, next_step_in_quest?: string | null }> } }> };
 
 export type InitialMainQuestIdQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -10325,11 +10325,14 @@ export const GalacticEmpireQuestFieldsFragmentDoc = gql`
       name
     }
     steps {
-      description
       id
+      type
+      description
+      initial
+      resource_cost_id
       resource_cost_amount
       npc_contact_id
-      type
+      next_step_in_quest
     }
   }
   quest_step_id
