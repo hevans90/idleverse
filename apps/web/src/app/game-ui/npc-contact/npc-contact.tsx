@@ -18,6 +18,7 @@ import { useUiBackground } from '../../hooks/use-ui-background';
 import { colorsVar } from '../../_state/colors';
 import { dialogVar } from '../../_state/dialog';
 import { empireNpcsVar } from '../../_state/galactic-empire';
+import { globalUiVar } from '../../_state/global-ui';
 
 export const NpcContact = ({
   isOpen,
@@ -78,7 +79,13 @@ export const NpcContact = ({
                       {playable_race?.name || faction?.name}
                     </Text>
                     <Button
-                      onClick={() => dialogVar({ ...dialogVar(), open: true })}
+                      onClick={() => {
+                        globalUiVar({
+                          ...globalUiVar(),
+                          npcContactOpen: false,
+                        });
+                        dialogVar({ ...dialogVar(), open: true });
+                      }}
                     >
                       Talk
                     </Button>
