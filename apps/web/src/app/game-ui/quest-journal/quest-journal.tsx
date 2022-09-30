@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react';
 import { useUiBackground } from '../../hooks/use-ui-background';
 import { colorsVar } from '../../_state/colors';
-import { questJournalVar } from '../../_state/global-ui';
+import { questDetailVar, questJournalVar } from '../../_state/global-ui';
 import { QuestDetail } from './quest-detail';
 import { QuestList } from './quest-list';
 
@@ -34,8 +34,8 @@ export const QuestJournal = ({
   const { bg, border, bgDark, bgLight } = useUiBackground();
 
   const { secondary } = useReactiveVar(colorsVar);
-  const { showCompleted, state, quest, questStepId } =
-    useReactiveVar(questJournalVar);
+  const { showCompleted, state } = useReactiveVar(questJournalVar);
+  const { quest } = useReactiveVar(questDetailVar);
 
   const tabProps: TabProps = {
     _selected: { bg: bgLight },
@@ -79,9 +79,14 @@ export const QuestJournal = ({
                   onClick={() => {
                     questJournalVar({
                       ...questJournalVar(),
+                      state: 'home',
+                    });
+
+                    questDetailVar({
                       quest: undefined,
                       questStepId: undefined,
-                      state: 'home',
+                      empireQuestId: undefined,
+                      completed: undefined,
                     });
                   }}
                   leftIcon={<ArrowBackIcon boxSize="6" />}
@@ -124,7 +129,7 @@ export const QuestJournal = ({
               </TabPanels>
             </Tabs>
           ) : (
-            <QuestDetail quest={quest} questStepId={questStepId} />
+            <QuestDetail />
           )}
         </ModalBody>
       </ModalContent>

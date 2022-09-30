@@ -14,7 +14,7 @@ export const galacticEmpireVar = makeVarPersisted<GalacticEmpireFieldsFragment>(
 
 export const myEmpireVar = makeVarPersisted<boolean>(false, 'myEmpire');
 
-export const empireResources = makeVarPersisted<
+export const empireResourcesVar = makeVarPersisted<
   GalacticEmpireResourcesSubscription['galactic_empire_resources']
 >(undefined, 'empireResources');
 

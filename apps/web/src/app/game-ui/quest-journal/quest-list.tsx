@@ -17,7 +17,7 @@ import {
   activeQuestsVar,
   completedQuestsVar,
 } from '../../_state/galactic-empire';
-import { questJournalVar } from '../../_state/global-ui';
+import { questDetailVar, questJournalVar } from '../../_state/global-ui';
 import { QuestRewardThumbnails } from './quest-reward-thumbnail';
 
 export const QuestList = ({ showCompleted }: { showCompleted: boolean }) => {
@@ -65,7 +65,7 @@ export const QuestList = ({ showCompleted }: { showCompleted: boolean }) => {
         {quests
           .filter(({ completed }) => (showCompleted ? true : !completed))
           .sort((a, b) => Number(b.completed) - Number(a.completed))
-          .map(({ completed, quest, quest_step_id }, i) => (
+          .map(({ id: empireQuestId, completed, quest, quest_step_id }, i) => (
             <Tr
               key={i}
               background={completed ? bgLightSecondary : 'unset'}
@@ -77,18 +77,21 @@ export const QuestList = ({ showCompleted }: { showCompleted: boolean }) => {
               _hover={{ bg: 'whiteAlpha.300' }}
               _active={{
                 bg: `${secondary}.600`,
-                // transform: 'scale(0.98)',
                 borderColor: `${secondary}.700`,
               }}
               cursor="pointer"
-              onClick={() =>
+              onClick={() => {
                 questJournalVar({
                   ...questJournalVar(),
                   state: 'detail',
+                });
+                questDetailVar({
                   quest,
+                  empireQuestId,
                   questStepId: quest_step_id,
-                })
-              }
+                  completed,
+                });
+              }}
             >
               <Td {...tdProps}>{quest.name}</Td>
               <Td {...tdProps}>{quest.description}</Td>

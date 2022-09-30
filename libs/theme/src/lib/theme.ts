@@ -1,6 +1,6 @@
 import { Theme } from '@chakra-ui/theme';
 import { StyleFunctionProps } from '@chakra-ui/theme-tools';
-import { StepsStyleConfig as Steps } from 'chakra-ui-steps';
+import { StepsStyleConfig } from 'chakra-ui-steps';
 
 import {
   Checkbox,
@@ -187,9 +187,22 @@ export const theme: ({
     colorScheme: secondary,
   };
 
+  const CustomSteps = {
+    ...StepsStyleConfig,
+    baseStyle: (props) => {
+      return {
+        ...StepsStyleConfig.baseStyle(props),
+        stepIconContainer: {
+          ...StepsStyleConfig.baseStyle(props).stepIconContainer,
+          overflow: 'hidden',
+        },
+      };
+    },
+  };
+
   return extendTheme({
     components: {
-      Steps,
+      Steps: CustomSteps,
     },
     styles: {
       global: (props: StyleFunctionProps) => ({

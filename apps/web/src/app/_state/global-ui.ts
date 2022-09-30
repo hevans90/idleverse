@@ -19,6 +19,11 @@ export const globalUiVar = makeVarPersisted<{
 export const questJournalVar = makeVarPersisted<{
   showCompleted: boolean;
   state: 'home' | 'detail';
-  questStepId?: string;
-  quest?: ActiveGalacticEmpireQuestsSubscription['galactic_empire_quest'][0]['quest'];
 }>({ showCompleted: true, state: 'home' }, 'questJournal');
+
+export const questDetailVar = makeVarPersisted<{
+  questStepId?: string;
+  empireQuestId?: string;
+  quest?: ActiveGalacticEmpireQuestsSubscription['galactic_empire_quest'][0]['quest'];
+  completed?: boolean;
+}>({}, 'questJournalDetail');

@@ -12,7 +12,7 @@ type Steps =
 
 export type QuestStep = Steps[0];
 
-type OrderedQuestStep = QuestStep & { index: number };
+type OrderedQuestStep = QuestStep & { index: number; final?: boolean };
 
 export type OrderedQuestStepWithIcon = OrderedQuestStep & { icon: IconType };
 
@@ -21,7 +21,7 @@ export const orderSteps = (steps: Steps) => {
 
   const crawl = (step: QuestStep, steps: QuestStep[], index = 0) => {
     if (!step.next_step_in_quest) {
-      orderedSteps.push({ ...step, index });
+      orderedSteps.push({ ...step, index, final: true });
       return;
     }
 

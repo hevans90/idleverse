@@ -10063,6 +10063,20 @@ export type CompleteGalacticEmpireQuestByIdMutationVariables = Exact<{
 
 export type CompleteGalacticEmpireQuestByIdMutation = { __typename?: 'mutation_root', update_galactic_empire_quest_by_pk?: { __typename?: 'galactic_empire_quest', completed: boolean, quest_id: string } | null };
 
+export type CompleteQuestStepMutationVariables = Exact<{
+  empireQuestId: Scalars['String'];
+}>;
+
+
+export type CompleteQuestStepMutation = { __typename?: 'mutation_root', progressQuestStep?: { __typename?: 'QuestStepProgression', next_step_in_quest_added?: string | null, quest_id: string } | null };
+
+export type CompleteQuestMutationVariables = Exact<{
+  empireQuestId: Scalars['String'];
+}>;
+
+
+export type CompleteQuestMutation = { __typename?: 'mutation_root', completeQuest?: { __typename?: 'QuestCompletion', next_quest_in_chain_added?: string | null, quest_id: string } | null };
+
 export type EmpiresWithoutQuestsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -10657,6 +10671,28 @@ export const CompleteGalacticEmpireQuestByIdDocument = gql`
 export type CompleteGalacticEmpireQuestByIdMutationFn = Apollo.MutationFunction<CompleteGalacticEmpireQuestByIdMutation, CompleteGalacticEmpireQuestByIdMutationVariables>;
 export type CompleteGalacticEmpireQuestByIdMutationResult = Apollo.MutationResult<CompleteGalacticEmpireQuestByIdMutation>;
 export type CompleteGalacticEmpireQuestByIdMutationOptions = Apollo.BaseMutationOptions<CompleteGalacticEmpireQuestByIdMutation, CompleteGalacticEmpireQuestByIdMutationVariables>;
+export const CompleteQuestStepDocument = gql`
+    mutation CompleteQuestStep($empireQuestId: String!) {
+  progressQuestStep(empire_quest_id: $empireQuestId) {
+    next_step_in_quest_added
+    quest_id
+  }
+}
+    `;
+export type CompleteQuestStepMutationFn = Apollo.MutationFunction<CompleteQuestStepMutation, CompleteQuestStepMutationVariables>;
+export type CompleteQuestStepMutationResult = Apollo.MutationResult<CompleteQuestStepMutation>;
+export type CompleteQuestStepMutationOptions = Apollo.BaseMutationOptions<CompleteQuestStepMutation, CompleteQuestStepMutationVariables>;
+export const CompleteQuestDocument = gql`
+    mutation CompleteQuest($empireQuestId: String!) {
+  completeQuest(empire_quest_id: $empireQuestId) {
+    next_quest_in_chain_added
+    quest_id
+  }
+}
+    `;
+export type CompleteQuestMutationFn = Apollo.MutationFunction<CompleteQuestMutation, CompleteQuestMutationVariables>;
+export type CompleteQuestMutationResult = Apollo.MutationResult<CompleteQuestMutation>;
+export type CompleteQuestMutationOptions = Apollo.BaseMutationOptions<CompleteQuestMutation, CompleteQuestMutationVariables>;
 export const EmpiresWithoutQuestsDocument = gql`
     subscription EmpiresWithoutQuests {
   galactic_empire_aggregate(where: {_not: {quests: {}}}) {

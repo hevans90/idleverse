@@ -18,7 +18,7 @@ import {
   activeQuestsVar,
   completedQuestsVar,
   empireNpcsVar,
-  empireResources,
+  empireResourcesVar,
 } from '../_state/galactic-empire';
 
 export const useRealtimeEmpireUpdates = (empireId: string) => {
@@ -68,7 +68,7 @@ export const useRealtimeEmpireUpdates = (empireId: string) => {
 
   useEffect(() => {
     if (resourcesData) {
-      empireResources(resourcesData.galactic_empire_resources);
+      empireResourcesVar(resourcesData.galactic_empire_resources);
     }
   }, [resourcesLoading, resourcesData]);
 
