@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: quest
+  schema: public
 object_relationships:
   - name: next_quest
     using:
@@ -14,15 +14,15 @@ array_relationships:
       foreign_key_constraint_on:
         column: quest_id
         table:
-          schema: public
           name: quest_reward
+          schema: public
   - name: steps
     using:
       foreign_key_constraint_on:
         column: quest_id
         table:
-          schema: public
           name: quest_step
+          schema: public
 insert_permissions:
   - role: dev
     permission:

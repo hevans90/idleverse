@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: quest_reward
+  schema: public
 insert_permissions:
   - role: dev
     permission:

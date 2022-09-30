@@ -1,0 +1,17 @@
+subscription GalacticEmpireNpcs($empireId: uuid!) {
+  galactic_empire_npc(where: { galactic_empire_id: { _eq: $empireId } }) {
+    npc {
+      id
+      name
+      image_url
+      playable_race {
+        name
+        id
+      }
+      faction {
+        name
+        id
+      }
+    }
+  }
+}

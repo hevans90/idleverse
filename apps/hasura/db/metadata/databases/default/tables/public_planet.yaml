@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: planet
+  schema: public
 object_relationships:
   - name: celestial
     using:
@@ -11,22 +11,22 @@ object_relationships:
   - name: user_info
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: user_info
-        insertion_order: null
         column_mapping:
           owner_id: id
+        insertion_order: null
+        remote_table:
+          name: user_info
+          schema: public
 array_relationships:
   - name: rings
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: planetary_ring
-        insertion_order: null
         column_mapping:
           id: id
+        insertion_order: null
+        remote_table:
+          name: planetary_ring
+          schema: public
 select_permissions:
   - role: dev
     permission:

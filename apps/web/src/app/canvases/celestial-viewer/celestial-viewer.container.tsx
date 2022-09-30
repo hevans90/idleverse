@@ -10,8 +10,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { loadPlanets } from '../../asset-loading/load-planets';
 import { Loading } from '../../components/loading';
+import { useEmpire } from '../../hooks/use-my-empire';
 import { celestialViewerSelectedPlanet } from '../../_state/celestial-viewer';
-import { galacticEmpireVar } from '../../_state/galactic-empire';
 import { celestialVar, selfVar } from '../../_state/reactive-variables';
 import { runPixelDataGenOnWorker } from '../planet-generator/texture-generation/run-texture-gen-on-worker';
 import { PixiWrapper } from '../_utils/pixi-wrapper';
@@ -53,14 +53,6 @@ export const CelestialViewerContainer = () => {
   useEffect(() => {
     if (data) {
       celestialVar(data.celestial_by_pk);
-
-      const myEmpire = data.celestial_by_pk?.galactic_empire.user_id === userId;
-
-      if (myEmpire) {
-        galacticEmpireVar(data.celestial_by_pk.galactic_empire);
-      } else {
-        galacticEmpireVar(null);
-      }
 
       // if a previously selected planet isn't a part of this system, wipe it to avoid bugs
       if (
@@ -105,6 +97,8 @@ export const CelestialViewerContainer = () => {
       });
     }
   }, [id, data]);
+
+  useEmpire(data?.celestial_by_pk?.galactic_empire);
 
   if (loading) {
     return (

@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: galactic_empire_npc
+  schema: public
 object_relationships:
   - name: galactic_empire
     using:

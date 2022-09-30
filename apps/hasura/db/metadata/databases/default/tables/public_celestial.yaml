@@ -1,16 +1,16 @@
 table:
-  schema: public
   name: celestial
+  schema: public
 object_relationships:
   - name: galactic_empire
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: galactic_empire
-        insertion_order: null
         column_mapping:
           galactic_empire_id: id
+        insertion_order: null
+        remote_table:
+          name: galactic_empire
+          schema: public
   - name: galaxy
     using:
       foreign_key_constraint_on: galaxy_id
@@ -23,8 +23,8 @@ array_relationships:
       foreign_key_constraint_on:
         column: celestial_id
         table:
-          schema: public
           name: planet
+          schema: public
 select_permissions:
   - role: dev
     permission:

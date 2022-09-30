@@ -11,7 +11,7 @@ import {
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Loading } from '../../components/loading';
-import { galacticEmpireVar } from '../../_state/galactic-empire';
+import { galacticEmpireVar, myEmpireVar } from '../../_state/galactic-empire';
 import { galaxyConfigVar, selfVar } from '../../_state/reactive-variables';
 import { GameUIBottomBar } from '../galaxy-generator/ui/bottom-bar';
 import { PixiWrapper } from '../_utils/pixi-wrapper';
@@ -52,8 +52,10 @@ export const GalaxyViewerContainer = () => {
 
       if (myEmpire) {
         galacticEmpireVar(myEmpire);
+        myEmpireVar(true);
       } else {
         galacticEmpireVar(null);
+        myEmpireVar(false);
       }
     }
 

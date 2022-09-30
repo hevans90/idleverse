@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: resource_type
+  schema: public
 insert_permissions:
   - role: dev
     permission:
@@ -11,12 +11,16 @@ select_permissions:
   - role: dev
     permission:
       columns:
+        - image_url
+        - image_url_pixel
         - type
         - id
       filter: {}
   - role: user
     permission:
       columns:
+        - image_url
+        - image_url_pixel
         - type
         - id
       filter: {}

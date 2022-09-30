@@ -1,0 +1,10 @@
+subscription GalacticEmpireResources($empireId: uuid!) {
+  galactic_empire_resources(where: { galactic_empire_id: { _eq: $empireId } }) {
+    value
+    resource_type {
+      id
+      type
+    }
+    id
+  }
+}

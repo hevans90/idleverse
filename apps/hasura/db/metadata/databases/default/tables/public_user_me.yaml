@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: user_me
+  schema: public
 select_permissions:
   - role: dev
     permission:

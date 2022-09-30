@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: galactic_empire
+  schema: public
 object_relationships:
   - name: background
     using:
@@ -24,35 +24,35 @@ array_relationships:
   - name: celestials
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: celestial
-        insertion_order: null
         column_mapping:
           id: galactic_empire_id
+        insertion_order: null
+        remote_table:
+          name: celestial
+          schema: public
   - name: npcs
     using:
       foreign_key_constraint_on:
         column: galactic_empire_id
         table:
-          schema: public
           name: galactic_empire_npc
+          schema: public
   - name: quests
     using:
       foreign_key_constraint_on:
         column: galactic_empire_id
         table:
-          schema: public
           name: galactic_empire_quest
+          schema: public
   - name: resources
     using:
       manual_configuration:
-        remote_table:
-          schema: public
-          name: galactic_empire_resources
-        insertion_order: null
         column_mapping:
           id: id
+        insertion_order: null
+        remote_table:
+          name: galactic_empire_resources
+          schema: public
 insert_permissions:
   - role: dev
     permission:

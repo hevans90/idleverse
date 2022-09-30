@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: npc
+  schema: public
 object_relationships:
   - name: faction
     using:

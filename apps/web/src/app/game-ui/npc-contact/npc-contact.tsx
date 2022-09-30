@@ -1,4 +1,4 @@
-import { useQuery, useReactiveVar } from '@apollo/client';
+import { useReactiveVar } from '@apollo/client';
 import {
   Button,
   HStack,
@@ -14,16 +14,11 @@ import {
   useColorModeValue,
   VStack,
 } from '@chakra-ui/react';
-import {
-  NpcsByEmpireIdDocument,
-  NpcsByEmpireIdQuery,
-  NpcsByEmpireIdQueryVariables,
-} from '@idleverse/galaxy-gql';
-import { Loading } from '../../components/loading';
 import { useUiBackground } from '../../hooks/use-ui-background';
 import { colorsVar } from '../../_state/colors';
 import { dialogVar } from '../../_state/dialog';
-import { galacticEmpireVar } from '../../_state/galactic-empire';
+import { empireNpcsVar } from '../../_state/galactic-empire';
+import { globalUiVar } from '../../_state/global-ui';
 
 export const NpcContact = ({
   isOpen,
@@ -32,7 +27,7 @@ export const NpcContact = ({
   isOpen: boolean;
   onClose: () => unknown;
 }) => {
-  const { bg, border, bgDark, bgLight } = useUiBackground();
+  const { bg, border, bgDark } = useUiBackground();
 
   const { secondary } = useReactiveVar(colorsVar);
 
@@ -40,24 +35,11 @@ export const NpcContact = ({
     `${secondary}.900`,
     `${secondary}.300`
   );
-  const { id: galacticEmpireId } = useReactiveVar(galacticEmpireVar);
+  const npcs = useReactiveVar(empireNpcsVar);
   const { open } = useReactiveVar(dialogVar);
 
-  const { data, loading } = useQuery<
-    NpcsByEmpireIdQuery,
-    NpcsByEmpireIdQueryVariables
-  >(NpcsByEmpireIdDocument, {
-    variables: { id: galacticEmpireId },
-  });
-
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      size="5xl"
-      isCentered
-      closeOnOverlayClick={false}
-    >
+    <Modal isOpen={isOpen} onClose={onClose} size="5xl" isCentered>
       <ModalContent>
         <ModalHeader
           bg={bgDark}
@@ -78,35 +60,40 @@ export const NpcContact = ({
           borderRightColor={border}
         >
           <>
-            {loading && <Loading text="NPCs loading"></Loading>}
-
-            {data?.galactic_empire_npc.length ? (
+            {npcs.length > 0 && (
               <SimpleGrid padding={5} minChildWidth="150px">
-                {data.galactic_empire_npc.map(({ npc }, i) => (
+                {npcs.map(({ name, image_url, playable_race, faction }, i) => (
                   <VStack key={i}>
                     <Image
                       float="left"
                       width={['112px', '112px', '168px']}
                       height={['150px', '150px', '225px']}
-                      src={npc.image_url}
+                      src={image_url}
                       fallbackSrc="/placeholders/150x150.png"
                       marginRight={4}
                       marginBottom={1}
                       marginLeft={1}
                     />
-                    <Text>{npc.name}</Text>
+                    <Text>{name}</Text>
                     <Text color={factionColor}>
-                      {npc?.playable_race.name || npc?.faction.name}
+                      {playable_race?.name || faction?.name}
                     </Text>
                     <Button
-                      onClick={() => dialogVar({ ...dialogVar(), open: true })}
+                      onClick={() => {
+                        globalUiVar({
+                          ...globalUiVar(),
+                          npcContactOpen: false,
+                        });
+                        dialogVar({ ...dialogVar(), open: true });
+                      }}
                     >
                       Talk
                     </Button>
                   </VStack>
                 ))}
               </SimpleGrid>
-            ) : (
+            )}
+            {npcs.length === 0 && (
               <HStack padding={5} justifyContent="center" alignItems="center">
                 <Text>
                   You are all alone... try doing some quests to find some

@@ -1,0 +1,6 @@
+mutation CompleteQuest($empireQuestId: String!) {
+  completeQuest(empire_quest_id: $empireQuestId) {
+    next_quest_in_chain_added
+    quest_id
+  }
+}

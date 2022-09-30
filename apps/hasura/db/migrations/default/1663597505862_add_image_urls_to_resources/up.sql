@@ -1,0 +1,24 @@
+-- galactic credits
+UPDATE resource_type
+SET image_url = '/resources/icons_highres/galactic_credits_highres.png', image_url_pixel = '/resources/icons_pixel/galactic_credits_pixel.png'
+WHERE id = 'd10375d2-ef6e-4afc-9ada-cd80b8282954';
+
+-- void matter
+UPDATE resource_type
+SET image_url = '/resources/icons_highres/void_matter_highres.png', image_url_pixel = '/resources/icons_pixel/void_matter_pixel.png'
+WHERE id = '4ae3f7f1-4b26-4e3e-9af5-1f510c2eb3f8';
+
+-- rare metals
+UPDATE resource_type
+SET image_url = '/resources/icons_highres/rare_metals_highres.png', image_url_pixel = '/resources/icons_pixel/rare_metals_pixel.png'
+WHERE id = 'c9793b4e-6bf0-4ccc-9e28-36a4553ba024';
+
+-- common metals
+UPDATE resource_type
+SET image_url = '/resources/icons_highres/common_metals_highres.png', image_url_pixel = '/resources/icons_pixel/common_metals_pixel.png'
+WHERE id = '21b6f220-4f66-4454-a08c-f98e8a25f72b';
+
+-- hydrocarbons
+UPDATE resource_type
+SET image_url = '/resources/icons_highres/hydrocarbons_highres.png', image_url_pixel = '/resources/icons_pixel/hydrocarbons_pixel.png'
+WHERE id = '69cff2d8-1001-466b-9f8a-e39ed077c399';

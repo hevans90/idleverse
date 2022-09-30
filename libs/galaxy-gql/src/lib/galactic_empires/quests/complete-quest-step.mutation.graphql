@@ -1,0 +1,6 @@
+mutation CompleteQuestStep($empireQuestId: String!) {
+  progressQuestStep(empire_quest_id: $empireQuestId) {
+    next_step_in_quest_added
+    quest_id
+  }
+}

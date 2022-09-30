@@ -1,28 +1,28 @@
 table:
-  schema: public
   name: user_info
+  schema: public
 array_relationships:
   - name: celestials
     using:
       foreign_key_constraint_on:
         column: owner_id
         table:
-          schema: public
           name: celestial
+          schema: public
   - name: chat_messages
     using:
       foreign_key_constraint_on:
         column: poster_id
         table:
-          schema: public
           name: chat_message
+          schema: public
   - name: galactic_empires
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
-          schema: public
           name: galactic_empire
+          schema: public
 select_permissions:
   - role: dev
     permission:

@@ -1,0 +1,8 @@
+query Resources {
+  resource_type {
+    type
+    id
+    image_url
+    image_url_pixel
+  }
+}
