@@ -60,7 +60,7 @@ export const NpcContact = ({
           borderRightColor={border}
         >
           <>
-            {npcs.length > 0 && (
+            {npcs?.length > 0 && (
               <SimpleGrid padding={5} minChildWidth="150px">
                 {npcs.map(({ name, image_url, playable_race, faction }, i) => (
                   <VStack key={i}>
@@ -93,7 +93,7 @@ export const NpcContact = ({
                 ))}
               </SimpleGrid>
             )}
-            {npcs.length === 0 && (
+            {npcs?.length === 0 && (
               <HStack padding={5} justifyContent="center" alignItems="center">
                 <Text>
                   You are all alone... try doing some quests to find some
