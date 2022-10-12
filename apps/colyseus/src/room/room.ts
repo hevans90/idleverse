@@ -9,17 +9,15 @@ import jwt_decode from 'jwt-decode';
 export class MyRoom extends Room<MyRoomState> {
   async onAuth(
     client: Client,
-    { accessToken }: { accessToken: string },
+    { accessToken, displayName }: { accessToken: string; displayName: string },
     request?: IncomingMessage
   ) {
     // first decode the token
     const {
       iss: issuerBaseURL,
       sub: userId,
-      name: userName,
-    }: { aud: string; iss: string; sub: string; name: string } = jwt_decode(
-      accessToken
-    );
+    }: { aud: string; iss: string; sub: string; name: string } =
+      jwt_decode(accessToken);
 
     // then decode the token header to get the kid
     const { kid }: { kid: string } = jwt_decode(accessToken, { header: true });
@@ -46,12 +44,12 @@ export class MyRoom extends Room<MyRoomState> {
 
     try {
       await verifyToken();
-      console.log(`User ${userName}: ${userId} successfully validated.`);
+      console.log(`User ${displayName}: ${userId} successfully validated.`);
     } catch (err) {
       throw new ServerError(400, 'invalid access token');
     }
 
-    return { userId, userName };
+    return { userId, displayName };
   }
 
   onCreate(options: any) {

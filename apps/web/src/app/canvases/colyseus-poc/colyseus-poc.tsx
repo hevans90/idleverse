@@ -3,15 +3,20 @@ import { Box, Button, Code, Text } from '@chakra-ui/react';
 
 import { Client, Room } from 'colyseus.js';
 import { useState } from 'react';
-import { accessTokenVar } from '../../_state/reactive-variables';
+import { accessTokenVar, selfVar } from '../../_state/reactive-variables';
 
 export const ColyseusPoc = () => {
   const accessToken = useReactiveVar(accessTokenVar);
 
+  const { display_name: displayName } = useReactiveVar(selfVar);
+
   const client = new Client('ws://localhost:1447');
 
   const joinRoom = async () => {
-    const room = await client.joinOrCreate('my-room', { accessToken });
+    const room = await client.joinOrCreate('my-room', {
+      accessToken,
+      displayName,
+    });
 
     setGameState(room);
   };
