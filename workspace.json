@@ -334,6 +334,30 @@
       "tags": [],
       "implicitDependencies": ["idleverse-web"]
     },
+    "strapi": {
+      "root": "apps/strapi",
+      "projectType": "application",
+      "sourceRoot": "apps/strapi/src",
+      "targets": {
+        "serve": {
+          "executor": "@nx-extend/strapi:serve",
+          "options": {}
+        },
+        "build": {
+          "executor": "@nx-extend/strapi:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/strapi"
+          },
+          "configurations": {
+            "production": {
+              "production": true
+            }
+          }
+        }
+      },
+      "tags": []
+    },
     "theme": {
       "root": "libs/theme",
       "sourceRoot": "libs/theme/src",

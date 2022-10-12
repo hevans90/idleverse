@@ -52,5 +52,37 @@ services:
     volumes:
       - $PWD/dist/apps/game-server:/dist
 
+  strapi:
+    container_name: idleverse-strapi
+    image: strapi/strapi
+    environment:
+      DATABASE_CLIENT: postgres
+      DATABASE_NAME: strapi
+      DATABASE_HOST: strapi-postgres
+      DATABASE_PORT: 1338
+      DATABASE_USERNAME: strapi
+      DATABASE_PASSWORD: strapi
+    volumes:
+      - ./strapi:/srv/strapi/dist/src
+    ports:
+      - '1337:1337'
+    depends_on:
+      - strapi-postgres
+
+  strapi-postgres:
+    container_name: idleverse-strapi-postgres
+    image: postgres
+    restart: always
+    ports:
+      - '1338:1338'
+    environment:
+      POSTGRES_DB: strapi
+      POSTGRES_USER: strapi
+      POSTGRES_PASSWORD: strapi
+    volumes:
+      - strapi-db-data:/var/lib/postgresql/data
+    command: -p 1338
+
 volumes:
   db-data:
+  strapi-db-data:
