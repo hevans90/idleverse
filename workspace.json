@@ -1,6 +1,63 @@
 {
   "version": 2,
   "projects": {
+    "colyseus": {
+      "root": "apps/colyseus",
+      "sourceRoot": "apps/colyseus/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:webpack",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/colyseus",
+            "main": "apps/colyseus/src/main.ts",
+            "tsConfig": "apps/colyseus/tsconfig.app.json",
+            "assets": ["apps/colyseus/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/colyseus/src/environments/environment.ts",
+                  "with": "apps/colyseus/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:node",
+          "options": {
+            "buildTarget": "colyseus:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "colyseus:build:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/colyseus/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/colyseus"],
+          "options": {
+            "jestConfig": "apps/colyseus/jest.config.ts",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
     "galaxy-gen": {
       "root": "libs/galaxy-gen",
       "sourceRoot": "libs/galaxy-gen/src",
