@@ -35,7 +35,9 @@ export const ColyseusPoc = () => {
       <Text fontSize="5xl" textAlign="center" marginBottom="2rem">
         Colyseus POC
       </Text>
-      <Button onClick={() => joinRoom()}>Join Room</Button>
+      <Button onClick={() => joinRoom()} mb={5}>
+        Join Room
+      </Button>
       <Code>{JSON.stringify(gameState, null, 2)}</Code>
     </Box>
   );
