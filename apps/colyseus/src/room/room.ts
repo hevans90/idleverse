@@ -6,10 +6,12 @@ import { verify } from 'jsonwebtoken';
 import jwksRsa from 'jwks-rsa';
 import jwt_decode from 'jwt-decode';
 
+type JoinOptions = { accessToken: string; displayName: string };
+
 export class MyRoom extends Room<MyRoomState> {
   async onAuth(
     client: Client,
-    { accessToken, displayName }: { accessToken: string; displayName: string },
+    { accessToken, displayName }: JoinOptions,
     request?: IncomingMessage
   ) {
     // first decode the token
@@ -62,8 +64,8 @@ export class MyRoom extends Room<MyRoomState> {
     });
   }
 
-  onJoin(client: Client, options: any) {
-    console.log(client.sessionId, 'joined!');
+  onJoin(client: Client, options: JoinOptions) {
+    console.log(`${options.displayName} (${client.sessionId})`, 'joined!');
   }
 
   onLeave(client: Client, consented: boolean) {
