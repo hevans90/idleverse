@@ -1,24 +1,41 @@
 import { useReactiveVar } from '@apollo/client';
 import { Box, Button, Code, Text } from '@chakra-ui/react';
 
-import { Client, Room, RoomAvailable } from 'colyseus.js';
+import { Client, RoomAvailable } from 'colyseus.js';
 import { useEffect, useState } from 'react';
 import { accessTokenVar, selfVar } from '../../_state/reactive-variables';
+
+import { JoinOptions, MyRoomState } from '@idleverse/colyseus-shared';
 
 export const ColyseusPoc = () => {
   const accessToken = useReactiveVar(accessTokenVar);
 
-  const { display_name: displayName } = useReactiveVar(selfVar);
+  const {
+    display_name: displayName,
+    avatar_url: avatarUrl,
+    id: userId,
+  } = useReactiveVar(selfVar);
 
   const client = new Client('ws://localhost:1447');
 
-  const joinRoom = async () => {
-    const room = await client.joinOrCreate('my-room', {
-      accessToken,
-      displayName,
-    });
+  const joinState: JoinOptions = {
+    accessToken,
+    avatarUrl,
+    displayName,
+  };
 
-    setRoom(room);
+  const joinRoom = async () => {
+    const room = await client.joinOrCreate('my-room', joinState);
+
+    // sync initial state of room
+    room.onStateChange.once((state: MyRoomState) => {
+      setRoomState(state);
+      console.log('initial state', state);
+    });
+    room.onStateChange((state: MyRoomState) => {
+      setRoomState(state);
+      console.log('updated state', state);
+    });
   };
 
   const listRooms = async () => {
@@ -27,7 +44,7 @@ export const ColyseusPoc = () => {
     return rooms;
   };
 
-  const [room, setRoom] = useState<Room>();
+  const [roomState, setRoomState] = useState<MyRoomState>();
   const [availableRooms, setAvailableRooms] = useState<RoomAvailable[]>();
 
   useEffect(() => {
@@ -50,7 +67,7 @@ export const ColyseusPoc = () => {
       <Button onClick={() => joinRoom()} mb={5}>
         Join Room
       </Button>
-      <Code>{JSON.stringify(room, null, 2)}</Code>
+      <Code>{JSON.stringify(roomState, null, 2)}</Code>
     </Box>
   );
 };

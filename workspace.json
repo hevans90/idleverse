@@ -58,6 +58,29 @@
       },
       "tags": []
     },
+    "colyseus-shared": {
+      "root": "libs/colyseus-shared",
+      "sourceRoot": "libs/colyseus-shared/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/colyseus-shared/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/colyseus-shared"],
+          "options": {
+            "jestConfig": "libs/colyseus-shared/jest.config.ts",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
     "galaxy-gen": {
       "root": "libs/galaxy-gen",
       "sourceRoot": "libs/galaxy-gen/src",

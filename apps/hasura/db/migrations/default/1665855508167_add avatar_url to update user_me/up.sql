@@ -1,0 +1,9 @@
+CREATE OR REPLACE VIEW "public"."user_me" AS 
+ SELECT user_info.id,
+    user_info.nickname,
+    user_info.secret_setting_test,
+    user_info.name,
+    user_info.display_name,
+    user_info.free_claims,
+    user_info.avatar_url
+   FROM user_info;

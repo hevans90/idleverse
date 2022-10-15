@@ -1,12 +1,11 @@
 import { Client, Room, ServerError } from 'colyseus';
 import { IncomingMessage } from 'http';
-import { MyRoomState } from './room-state';
 
 import { verify } from 'jsonwebtoken';
 import jwksRsa from 'jwks-rsa';
 import jwt_decode from 'jwt-decode';
 
-type JoinOptions = { accessToken: string; displayName: string };
+import { JoinOptions, MyRoomState } from '@idleverse/colyseus-shared';
 
 export class MyRoom extends Room<MyRoomState> {
   async onAuth(

@@ -9592,6 +9592,7 @@ export type User_Info_Variance_Fields = {
 /** columns and relationships of "user_me" */
 export type User_Me = {
   __typename?: 'user_me';
+  avatar_url?: Maybe<Scalars['String']>;
   display_name?: Maybe<Scalars['String']>;
   free_claims?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['String']>;
@@ -9641,6 +9642,7 @@ export type User_Me_Bool_Exp = {
   _and?: InputMaybe<Array<User_Me_Bool_Exp>>;
   _not?: InputMaybe<User_Me_Bool_Exp>;
   _or?: InputMaybe<Array<User_Me_Bool_Exp>>;
+  avatar_url?: InputMaybe<String_Comparison_Exp>;
   display_name?: InputMaybe<String_Comparison_Exp>;
   free_claims?: InputMaybe<Int_Comparison_Exp>;
   id?: InputMaybe<String_Comparison_Exp>;
@@ -9656,6 +9658,7 @@ export type User_Me_Inc_Input = {
 
 /** input type for inserting data into table "user_me" */
 export type User_Me_Insert_Input = {
+  avatar_url?: InputMaybe<Scalars['String']>;
   display_name?: InputMaybe<Scalars['String']>;
   free_claims?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['String']>;
@@ -9667,6 +9670,7 @@ export type User_Me_Insert_Input = {
 /** aggregate max on columns */
 export type User_Me_Max_Fields = {
   __typename?: 'user_me_max_fields';
+  avatar_url?: Maybe<Scalars['String']>;
   display_name?: Maybe<Scalars['String']>;
   free_claims?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['String']>;
@@ -9678,6 +9682,7 @@ export type User_Me_Max_Fields = {
 /** aggregate min on columns */
 export type User_Me_Min_Fields = {
   __typename?: 'user_me_min_fields';
+  avatar_url?: Maybe<Scalars['String']>;
   display_name?: Maybe<Scalars['String']>;
   free_claims?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['String']>;
@@ -9697,6 +9702,7 @@ export type User_Me_Mutation_Response = {
 
 /** Ordering options when selecting data from "user_me". */
 export type User_Me_Order_By = {
+  avatar_url?: InputMaybe<Order_By>;
   display_name?: InputMaybe<Order_By>;
   free_claims?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
@@ -9707,6 +9713,8 @@ export type User_Me_Order_By = {
 
 /** select columns of table "user_me" */
 export enum User_Me_Select_Column {
+  /** column name */
+  AvatarUrl = 'avatar_url',
   /** column name */
   DisplayName = 'display_name',
   /** column name */
@@ -9723,6 +9731,7 @@ export enum User_Me_Select_Column {
 
 /** input type for updating data in table "user_me" */
 export type User_Me_Set_Input = {
+  avatar_url?: InputMaybe<Scalars['String']>;
   display_name?: InputMaybe<Scalars['String']>;
   free_claims?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['String']>;
@@ -9759,6 +9768,7 @@ export type User_Me_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type User_Me_Stream_Cursor_Value_Input = {
+  avatar_url?: InputMaybe<Scalars['String']>;
   display_name?: InputMaybe<Scalars['String']>;
   free_claims?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['String']>;
@@ -10231,7 +10241,7 @@ export type ResourcesQuery = { __typename?: 'query_root', resource_type: Array<{
 export type SelfQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SelfQuery = { __typename?: 'query_root', user_me: Array<{ __typename?: 'user_me', display_name?: string | null, id?: string | null, name?: string | null, nickname?: string | null, secret_setting_test?: string | null }> };
+export type SelfQuery = { __typename?: 'query_root', user_me: Array<{ __typename?: 'user_me', display_name?: string | null, id?: string | null, name?: string | null, nickname?: string | null, secret_setting_test?: string | null, avatar_url?: string | null }> };
 
 export type SetDisplayNameByUserIdMutationVariables = Exact<{
   id: Scalars['String'];
@@ -11056,6 +11066,7 @@ export const SelfDocument = gql`
     name
     nickname
     secret_setting_test
+    avatar_url
   }
 }
     `;
