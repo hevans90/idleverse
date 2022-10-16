@@ -79,6 +79,7 @@ export const ColyseusPoc = () => {
 
   return (
     <PixiWrapper
+      showGameUI={false}
       ui={
         <>
           <Code>{roomState?.connectedUsers.length}</Code>
