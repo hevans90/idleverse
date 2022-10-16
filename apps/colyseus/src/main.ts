@@ -4,7 +4,7 @@ import { createServer } from 'http';
 
 import { monitor } from '@colyseus/monitor';
 import { Server } from 'colyseus';
-import { MyRoom } from './room/room';
+import { GameRoom } from './room/room';
 
 const port = Number(process.env.COLYSEUS_PORT || 1447);
 const app = express();
@@ -16,7 +16,7 @@ const server = createServer(app);
 const colyseusServer = new Server({ server });
 
 // register room handlers
-colyseusServer.define('my-room', MyRoom, { name: 'Test', mald: 'nice' });
+colyseusServer.define('my-room', GameRoom, { name: 'Test', mald: 'nice' });
 
 // register monitor after room handlers
 app.use('/colyseus', monitor());

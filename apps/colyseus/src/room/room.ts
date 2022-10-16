@@ -5,9 +5,13 @@ import { verify } from 'jsonwebtoken';
 import jwksRsa from 'jwks-rsa';
 import jwt_decode from 'jwt-decode';
 
-import { JoinOptions, MyRoomState } from '@idleverse/colyseus-shared';
+import {
+  ColyseusUser,
+  JoinOptions,
+  RoomState,
+} from '@idleverse/colyseus-shared';
 
-export class MyRoom extends Room<MyRoomState> {
+export class GameRoom extends Room<RoomState> {
   async onAuth(
     client: Client,
     { accessToken, displayName }: JoinOptions,
@@ -54,7 +58,7 @@ export class MyRoom extends Room<MyRoomState> {
   }
 
   onCreate(options: any) {
-    this.setState(new MyRoomState());
+    this.setState(new RoomState());
 
     this.onMessage('type', (client, message) => {
       //
@@ -64,11 +68,27 @@ export class MyRoom extends Room<MyRoomState> {
   }
 
   onJoin(client: Client, options: JoinOptions) {
-    console.log(`${options.displayName} (${client.sessionId})`, 'joined!');
+    this.state.connectedUsers.push(
+      new ColyseusUser({ ...options, colyseusUserId: client.id })
+    );
+
+    console.log(`${options.displayName} (${client.sessionId}) joined!`);
   }
 
   onLeave(client: Client, consented: boolean) {
-    console.log(client.sessionId, 'left!');
+    const user = this.state.connectedUsers.find(
+      ({ colyseusUserId }) => colyseusUserId === client.id
+    );
+
+    const index = this.state.connectedUsers.indexOf(user);
+
+    this.state.connectedUsers.splice(index, 1);
+
+    console.log(
+      `${user.displayName} (${client.sessionId}) ${
+        consented ? 'left voluntarily' : 'was disconnected'
+      }.`
+    );
   }
 
   onDispose() {

@@ -1,11 +1,14 @@
 import { useReactiveVar } from '@apollo/client';
-import { Box, Button, Code, Text } from '@chakra-ui/react';
 
-import { Client, RoomAvailable } from 'colyseus.js';
+import { Client, Room, RoomAvailable } from 'colyseus.js';
 import { useEffect, useState } from 'react';
 import { accessTokenVar, selfVar } from '../../_state/reactive-variables';
 
-import { JoinOptions, MyRoomState } from '@idleverse/colyseus-shared';
+import { Code } from '@chakra-ui/react';
+import { JoinOptions, RoomState } from '@idleverse/colyseus-shared';
+import { PixiWrapper } from '../_utils/pixi-wrapper';
+import { ColyseusGameInfo } from './ui/colyseus-game-info';
+import { ColyseusSocial } from './ui/social';
 
 export const ColyseusPoc = () => {
   const accessToken = useReactiveVar(accessTokenVar);
@@ -22,29 +25,52 @@ export const ColyseusPoc = () => {
     accessToken,
     avatarUrl,
     displayName,
+    userId,
   };
 
   const joinRoom = async () => {
+    setJoiningRoom(true);
     const room = await client.joinOrCreate('my-room', joinState);
+    setJoiningRoom(false);
+    setRoom(room);
 
     // sync initial state of room
-    room.onStateChange.once((state: MyRoomState) => {
-      setRoomState(state);
-      console.log('initial state', state);
+    room.onStateChange.once(({ connectedUsers }: RoomState) => {
+      setRoomState({ connectedUsers });
+      console.log(
+        'initial state',
+        connectedUsers.map((user) => ({ ...user }))
+      );
     });
-    room.onStateChange((state: MyRoomState) => {
-      setRoomState(state);
-      console.log('updated state', state);
+
+    // subsequent realtime state updates
+    room.onStateChange(({ connectedUsers }: RoomState) => {
+      setRoomState({ connectedUsers });
+      console.log(
+        'updated state',
+        connectedUsers.map((user) => ({ ...user }))
+      );
     });
+  };
+
+  const leaveRoom = async () => {
+    setLeavingRoom(true);
+    await room.leave(true);
+    setLeavingRoom(false);
+    setRoom(undefined);
+    setRoomState(undefined);
   };
 
   const listRooms = async () => {
     const rooms = await client.getAvailableRooms();
-
     return rooms;
   };
 
-  const [roomState, setRoomState] = useState<MyRoomState>();
+  const [room, setRoom] = useState<Room>();
+  const [leavingRoom, setLeavingRoom] = useState<boolean>();
+  const [joiningRoom, setJoiningRoom] = useState<boolean>();
+  const [roomState, setRoomState] =
+    useState<Pick<RoomState, 'connectedUsers'>>();
   const [availableRooms, setAvailableRooms] = useState<RoomAvailable[]>();
 
   useEffect(() => {
@@ -52,22 +78,23 @@ export const ColyseusPoc = () => {
   }, []);
 
   return (
-    <Box
-      height="100%"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      flexDirection="column"
-      margin="0 1rem 0 1rem"
-    >
-      <Text fontSize="5xl" textAlign="center" marginBottom="2rem">
-        Colyseus POC
-      </Text>
-      <Code mb={5}>{JSON.stringify(availableRooms, null, 2)}</Code>
-      <Button onClick={() => joinRoom()} mb={5}>
-        Join Room
-      </Button>
-      <Code>{JSON.stringify(roomState, null, 2)}</Code>
-    </Box>
+    <PixiWrapper
+      ui={
+        <>
+          <Code>{roomState?.connectedUsers.length}</Code>
+          <ColyseusGameInfo
+            joined={!!roomState}
+            joiningInProgress={joiningRoom}
+            leavingInProgress={leavingRoom}
+            joinCallback={joinRoom}
+            leaveCallback={leaveRoom}
+            roomState={roomState}
+          />
+          {roomState && (
+            <ColyseusSocial connectedUsers={roomState.connectedUsers} />
+          )}
+        </>
+      }
+    ></PixiWrapper>
   );
 };
