@@ -35,8 +35,8 @@ export const ColyseusPoc = () => {
     setRoom(room);
 
     // sync initial state of room
-    room.onStateChange.once(({ connectedUsers }: RoomState) => {
-      setRoomState({ connectedUsers });
+    room.onStateChange.once(({ connectedUsers, patchFrames }: RoomState) => {
+      setRoomState({ connectedUsers, patchFrames });
       console.log(
         'initial state',
         connectedUsers.map((user) => ({ ...user }))
@@ -44,8 +44,8 @@ export const ColyseusPoc = () => {
     });
 
     // subsequent realtime state updates
-    room.onStateChange(({ connectedUsers }: RoomState) => {
-      setRoomState({ connectedUsers });
+    room.onStateChange(({ connectedUsers, patchFrames }: RoomState) => {
+      setRoomState({ connectedUsers, patchFrames });
       console.log(
         'updated state',
         connectedUsers.map((user) => ({ ...user }))
@@ -70,7 +70,7 @@ export const ColyseusPoc = () => {
   const [leavingRoom, setLeavingRoom] = useState<boolean>();
   const [joiningRoom, setJoiningRoom] = useState<boolean>();
   const [roomState, setRoomState] =
-    useState<Pick<RoomState, 'connectedUsers'>>();
+    useState<Pick<RoomState, 'connectedUsers' | 'patchFrames'>>();
   const [availableRooms, setAvailableRooms] = useState<RoomAvailable[]>();
 
   useEffect(() => {

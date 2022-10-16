@@ -18,7 +18,7 @@ export const ColyseusGameInfo = ({
   leavingInProgress: boolean;
   joinCallback: () => void;
   leaveCallback: () => void;
-  roomState: Pick<RoomState, 'connectedUsers'>;
+  roomState: Pick<RoomState, 'connectedUsers' | 'patchFrames'>;
 }) => {
   const { bg, border } = useUiBackground();
 
@@ -44,7 +44,7 @@ export const ColyseusGameInfo = ({
       width="100%"
       height={colyseusGameInfoHeight}
     >
-      <VStack>
+      <VStack alignItems="start">
         {!roomState && (
           <Button
             onClick={joinCallback}
@@ -65,6 +65,7 @@ export const ColyseusGameInfo = ({
               Quit
             </Button>
             <Code>{roomState.connectedUsers.length} users connected</Code>
+            <Code>{roomState.patchFrames} server patch frames</Code>
           </>
         )}
       </VStack>

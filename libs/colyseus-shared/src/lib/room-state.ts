@@ -11,4 +11,6 @@ export class ColyseusUser extends Schema implements JoinOptions {
 
 export class RoomState extends Schema {
   @type([ColyseusUser]) connectedUsers = new ArraySchema<ColyseusUser>();
+
+  @type('number') patchFrames = 0;
 }

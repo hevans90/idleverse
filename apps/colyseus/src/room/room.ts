@@ -58,6 +58,8 @@ export class GameRoom extends Room<RoomState> {
   }
 
   onCreate(options: any) {
+    this.setSimulationInterval((deltaTime) => this.update(deltaTime));
+
     this.setState(new RoomState());
 
     this.onMessage('type', (client, message) => {
@@ -65,6 +67,12 @@ export class GameRoom extends Room<RoomState> {
       // handle "type" message
       //
     });
+  }
+
+  update(deltaTime: number) {
+    // implement your physics or world updates here!
+    // this is a good place to update the room state
+    this.state.patchFrames = this.state.patchFrames + 1;
   }
 
   onJoin(client: Client, options: JoinOptions) {
