@@ -1,9 +1,8 @@
 import { Box, Button, Code, VStack } from '@chakra-ui/react';
 import { RoomState } from '@idleverse/colyseus-shared';
-import { useEffect } from 'react';
 import { useUiBackground } from '../../../hooks/use-ui-background';
 
-export const colyseusGameInfoHeight = 160;
+export const colyseusGameInfoHeight = 200;
 
 export const ColyseusGameInfo = ({
   joined,
@@ -18,13 +17,9 @@ export const ColyseusGameInfo = ({
   leavingInProgress: boolean;
   joinCallback: () => void;
   leaveCallback: () => void;
-  roomState: Pick<RoomState, 'connectedUsers' | 'patchFrames'>;
+  roomState: Pick<RoomState, 'connectedUsers' | 'patchFrames' | 'impulses'>;
 }) => {
   const { bg, border } = useUiBackground();
-
-  useEffect(() => {
-    console.log('updated', roomState);
-  }, [roomState]);
 
   return (
     <Box
@@ -66,6 +61,7 @@ export const ColyseusGameInfo = ({
             </Button>
             <Code>{roomState.connectedUsers.length} users connected</Code>
             <Code>{roomState.patchFrames} server patch frames</Code>
+            <Code>{JSON.stringify(roomState.impulses)}</Code>
           </>
         )}
       </VStack>

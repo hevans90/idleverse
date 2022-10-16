@@ -6,8 +6,11 @@ import jwksRsa from 'jwks-rsa';
 import jwt_decode from 'jwt-decode';
 
 import {
+  ColyseusImpulse,
   ColyseusUser,
+  Impulse,
   JoinOptions,
+  PlayerMessage,
   RoomState,
 } from '@idleverse/colyseus-shared';
 
@@ -62,10 +65,26 @@ export class GameRoom extends Room<RoomState> {
 
     this.setState(new RoomState());
 
-    this.onMessage('type', (client, message) => {
-      //
-      // handle "type" message
-      //
+    this.clock.start();
+
+    this.onMessage(PlayerMessage.Impulse, (client, message: Impulse) => {
+      const { colyseusUserId, displayName } = this.state.connectedUsers.find(
+        ({ colyseusUserId }) => colyseusUserId === client.id
+      );
+
+      this.state.impulses.find(
+        ({ colyseusUserId }) => colyseusUserId === client.id
+      )[message.direction] = true;
+
+      console.log(displayName, message);
+    });
+
+    this.onMessage(PlayerMessage.ImpulseStopped, (client, message: Impulse) => {
+      this.state.impulses.find(
+        ({ colyseusUserId }) => colyseusUserId === client.id
+      )[message.direction] = false;
+
+      console.log(message);
     });
   }
 
@@ -79,6 +98,15 @@ export class GameRoom extends Room<RoomState> {
     this.state.connectedUsers.push(
       new ColyseusUser({ ...options, colyseusUserId: client.id })
     );
+    this.state.impulses.push(
+      new ColyseusImpulse({
+        left: false,
+        up: false,
+        right: false,
+        down: false,
+        colyseusUserId: client.id,
+      })
+    );
 
     console.log(`${options.displayName} (${client.sessionId}) joined!`);
   }
@@ -87,10 +115,15 @@ export class GameRoom extends Room<RoomState> {
     const user = this.state.connectedUsers.find(
       ({ colyseusUserId }) => colyseusUserId === client.id
     );
+    const impulse = this.state.impulses.find(
+      ({ colyseusUserId }) => colyseusUserId === client.id
+    );
 
-    const index = this.state.connectedUsers.indexOf(user);
+    const userIndex = this.state.connectedUsers.indexOf(user);
+    this.state.connectedUsers.splice(userIndex, 1);
 
-    this.state.connectedUsers.splice(index, 1);
+    const impulseIndex = this.state.impulses.indexOf(impulse);
+    this.state.impulses.splice(impulseIndex, 1);
 
     console.log(
       `${user.displayName} (${client.sessionId}) ${

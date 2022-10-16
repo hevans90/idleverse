@@ -4,9 +4,9 @@ import { Client, Room, RoomAvailable } from 'colyseus.js';
 import { useEffect, useState } from 'react';
 import { accessTokenVar, selfVar } from '../../_state/reactive-variables';
 
-import { Code } from '@chakra-ui/react';
 import { JoinOptions, RoomState } from '@idleverse/colyseus-shared';
 import { PixiWrapper } from '../_utils/pixi-wrapper';
+import { ColyseusGame } from './colyseus-game';
 import { ColyseusGameInfo } from './ui/colyseus-game-info';
 import { ColyseusSocial } from './ui/social';
 
@@ -35,22 +35,15 @@ export const ColyseusPoc = () => {
     setRoom(room);
 
     // sync initial state of room
-    room.onStateChange.once(({ connectedUsers, patchFrames }: RoomState) => {
-      setRoomState({ connectedUsers, patchFrames });
-      console.log(
-        'initial state',
-        connectedUsers.map((user) => ({ ...user }))
-      );
-    });
+    room.onStateChange.once(
+      ({ connectedUsers, patchFrames, impulses }: RoomState) =>
+        setRoomState({ connectedUsers, patchFrames, impulses })
+    );
 
     // subsequent realtime state updates
-    room.onStateChange(({ connectedUsers, patchFrames }: RoomState) => {
-      setRoomState({ connectedUsers, patchFrames });
-      console.log(
-        'updated state',
-        connectedUsers.map((user) => ({ ...user }))
-      );
-    });
+    room.onStateChange(({ connectedUsers, patchFrames, impulses }: RoomState) =>
+      setRoomState({ connectedUsers, patchFrames, impulses })
+    );
   };
 
   const leaveRoom = async () => {
@@ -70,7 +63,7 @@ export const ColyseusPoc = () => {
   const [leavingRoom, setLeavingRoom] = useState<boolean>();
   const [joiningRoom, setJoiningRoom] = useState<boolean>();
   const [roomState, setRoomState] =
-    useState<Pick<RoomState, 'connectedUsers' | 'patchFrames'>>();
+    useState<Pick<RoomState, 'connectedUsers' | 'patchFrames' | 'impulses'>>();
   const [availableRooms, setAvailableRooms] = useState<RoomAvailable[]>();
 
   useEffect(() => {
@@ -82,7 +75,6 @@ export const ColyseusPoc = () => {
       showGameUI={false}
       ui={
         <>
-          <Code>{roomState?.connectedUsers.length}</Code>
           <ColyseusGameInfo
             joined={!!roomState}
             joiningInProgress={joiningRoom}
@@ -92,10 +84,15 @@ export const ColyseusPoc = () => {
             roomState={roomState}
           />
           {roomState && (
-            <ColyseusSocial connectedUsers={roomState.connectedUsers} />
+            <ColyseusSocial
+              connectedUsers={roomState.connectedUsers}
+              impulses={roomState.impulses}
+            />
           )}
         </>
       }
-    ></PixiWrapper>
+    >
+      {roomState && <ColyseusGame room={room}></ColyseusGame>}
+    </PixiWrapper>
   );
 };

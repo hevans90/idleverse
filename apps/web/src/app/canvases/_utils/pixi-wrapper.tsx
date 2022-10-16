@@ -33,7 +33,7 @@ export const PixiWrapper = (props: {
   }, [props]);
 
   return (
-    <Box position="relative">
+    <Box position="relative" height="100%" overflow="hidden">
       <Box ref={disableZoomCallback}>
         <Stage
           {...size}
