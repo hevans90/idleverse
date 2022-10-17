@@ -10,6 +10,12 @@ export enum PlayerMessage {
   ImpulseStopped = 'impulse_stopped',
 }
 
+export enum ServerMessage {
+  PlayerJoined = 'player_joined',
+  PlayerLeft = 'player_left',
+  PlayerDisconnected = 'player_disconnected',
+}
+
 export type Impulse = {
   direction: 'left' | 'right' | 'down' | 'up';
 };

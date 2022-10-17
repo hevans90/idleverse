@@ -40,13 +40,13 @@ export const ColyseusSocial = ({
       position="absolute"
       alignItems="start"
       bgColor={bg}
-      bottom="30vh"
+      top="0"
       right="0"
       borderWidth="1px"
       borderStyle="solid"
       borderColor={border}
+      borderTop="unset"
       borderRight="unset"
-      height={300}
     >
       {connectedUsers.map(({ avatarUrl, displayName, colyseusUserId }, i) => (
         <HStack key={i}>

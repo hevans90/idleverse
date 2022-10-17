@@ -2,6 +2,7 @@ import {
   ColyseusImpulse,
   ColyseusUser,
   JoinOptions,
+  ServerMessage,
 } from '@idleverse/colyseus-shared';
 import { Client } from 'colyseus';
 import { GameRoom } from './room';
@@ -11,6 +12,8 @@ export const onJoin = (
   options: JoinOptions,
   room: GameRoom
 ) => {
+  room.broadcast(ServerMessage.PlayerJoined, `${options.displayName} joined!`);
+
   room.state.connectedUsers.push(
     new ColyseusUser({ ...options, colyseusUserId: client.id })
   );
@@ -23,6 +26,8 @@ export const onJoin = (
       colyseusUserId: client.id,
     })
   );
+
+  room.clients;
 
   console.log(`${options.displayName} (${client.sessionId}) joined!`);
 };

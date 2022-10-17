@@ -1,3 +1,4 @@
+import { ServerMessage } from '@idleverse/colyseus-shared';
 import { Client } from 'colyseus';
 import { GameRoom } from './room';
 
@@ -7,6 +8,11 @@ export const onLeave = (client: Client, consented: boolean, room: GameRoom) => {
   );
   const impulse = room.state.impulses.find(
     ({ colyseusUserId }) => colyseusUserId === client.id
+  );
+
+  room.broadcast(
+    consented ? ServerMessage.PlayerLeft : ServerMessage.PlayerDisconnected,
+    `${user.displayName} ${consented ? 'left' : 'disconnected'}`
   );
 
   const userIndex = room.state.connectedUsers.indexOf(user);

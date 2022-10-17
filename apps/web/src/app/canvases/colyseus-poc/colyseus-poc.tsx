@@ -8,6 +8,7 @@ import { JoinOptions, RoomState } from '@idleverse/colyseus-shared';
 import { PixiWrapper } from '../_utils/pixi-wrapper';
 import { ColyseusGame } from './colyseus-game';
 import { ColyseusGameInfo } from './ui/colyseus-game-info';
+import { ColyseusNotifications } from './ui/colyseus-notifications';
 import { ColyseusSocial } from './ui/social';
 
 export const ColyseusPoc = () => {
@@ -84,10 +85,13 @@ export const ColyseusPoc = () => {
             roomState={roomState}
           />
           {roomState && (
-            <ColyseusSocial
-              connectedUsers={roomState.connectedUsers}
-              impulses={roomState.impulses}
-            />
+            <>
+              <ColyseusSocial
+                connectedUsers={roomState.connectedUsers}
+                impulses={roomState.impulses}
+              />
+              <ColyseusNotifications room={room} />
+            </>
           )}
         </>
       }
