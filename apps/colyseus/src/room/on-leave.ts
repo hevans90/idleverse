@@ -10,6 +10,8 @@ export const onLeave = (client: Client, consented: boolean, room: GameRoom) => {
     ({ colyseusUserId }) => colyseusUserId === client.id
   );
 
+  client.send(ServerMessage.ClientDisconnected, 'You were disconnected.');
+
   room.broadcast(
     consented ? ServerMessage.PlayerLeft : ServerMessage.PlayerDisconnected,
     `${user.displayName} ${consented ? 'left' : 'disconnected'}`

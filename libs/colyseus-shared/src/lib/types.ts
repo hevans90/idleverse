@@ -14,6 +14,7 @@ export enum ServerMessage {
   PlayerJoined = 'player_joined',
   PlayerLeft = 'player_left',
   PlayerDisconnected = 'player_disconnected',
+  ClientDisconnected = 'client_disconnected',
 }
 
 export type Impulse = {

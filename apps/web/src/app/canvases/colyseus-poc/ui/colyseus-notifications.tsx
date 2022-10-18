@@ -25,6 +25,12 @@ export const ColyseusNotifications = ({ room }: { room: Room }) => {
         status: 'warning',
       })
     );
+    room.onMessage(ServerMessage.ClientDisconnected, (message: string) =>
+      toast({
+        title: message,
+        status: 'error',
+      })
+    );
   }, []);
 
   return <></>;

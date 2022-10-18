@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import { useReactiveVar } from '@apollo/client';
 
 import { Client, Room, RoomAvailable } from 'colyseus.js';
@@ -5,7 +7,11 @@ import { useEffect, useState } from 'react';
 import { accessTokenVar, selfVar } from '../../_state/reactive-variables';
 
 import { useToast } from '@chakra-ui/react';
-import { JoinOptions, RoomState } from '@idleverse/colyseus-shared';
+import {
+  JoinOptions,
+  RoomState,
+  ServerMessage,
+} from '@idleverse/colyseus-shared';
 import { loadPlanets } from '../../asset-loading/load-planets';
 import { Loading } from '../../components/loading';
 import { PixiWrapper } from '../_utils/pixi-wrapper';
@@ -65,6 +71,11 @@ export const ColyseusContainer = () => {
     room.onStateChange(({ connectedUsers, patchFrames, impulses }: RoomState) =>
       setRoomState({ connectedUsers, patchFrames, impulses })
     );
+
+    room.onMessage(ServerMessage.ClientDisconnected, (message: string) => {
+      setRoom(undefined);
+      setRoomState(undefined);
+    });
   };
 
   const leaveRoom = async () => {

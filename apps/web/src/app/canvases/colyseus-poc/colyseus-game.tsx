@@ -1,5 +1,3 @@
-import 'reflect-metadata';
-
 import { useApp } from '@inlet/react-pixi';
 import { Room } from 'colyseus.js';
 import { Container } from 'pixi.js';
