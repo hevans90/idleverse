@@ -28,7 +28,13 @@ export const onAuth = async (
     jwksUri: `${issuerBaseURL}.well-known/jwks.json`,
   });
 
-  const key = (await jwksClient.getSigningKey(kid)).getPublicKey();
+  let key: string;
+
+  try {
+    key = (await jwksClient.getSigningKey(kid)).getPublicKey();
+  } catch (e) {
+    throw new ServerError(500, e);
+  }
 
   const verifyToken = () =>
     new Promise((res, rej) => {

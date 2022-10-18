@@ -10,7 +10,7 @@ export const ColyseusNotifications = ({ room }: { room: Room }) => {
     room.onMessage(ServerMessage.PlayerJoined, (message: string) =>
       toast({
         title: message,
-        status: 'info',
+        status: 'success',
       })
     );
     room.onMessage(ServerMessage.PlayerLeft, (message: string) =>

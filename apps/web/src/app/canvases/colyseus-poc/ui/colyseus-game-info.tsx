@@ -43,7 +43,7 @@ export const ColyseusGameInfo = ({
         {!roomState && (
           <Button
             onClick={joinCallback}
-            disabled={joined}
+            disabled={joined || joiningInProgress}
             isLoading={joiningInProgress}
             loadingText="Joining..."
           >
@@ -54,6 +54,7 @@ export const ColyseusGameInfo = ({
           <>
             <Button
               onClick={leaveCallback}
+              disabled={leavingInProgress}
               isLoading={leavingInProgress}
               loadingText="Quitting..."
             >

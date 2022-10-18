@@ -4,6 +4,7 @@ import { Client, Room, RoomAvailable } from 'colyseus.js';
 import { useEffect, useState } from 'react';
 import { accessTokenVar, selfVar } from '../../_state/reactive-variables';
 
+import { useToast } from '@chakra-ui/react';
 import { JoinOptions, RoomState } from '@idleverse/colyseus-shared';
 import { PixiWrapper } from '../_utils/pixi-wrapper';
 import { ColyseusGame } from './colyseus-game';
@@ -11,8 +12,10 @@ import { ColyseusGameInfo } from './ui/colyseus-game-info';
 import { ColyseusNotifications } from './ui/colyseus-notifications';
 import { ColyseusSocial } from './ui/social';
 
-export const ColyseusPoc = () => {
+export const ColyseusContainer = () => {
   const accessToken = useReactiveVar(accessTokenVar);
+
+  const toast = useToast();
 
   const {
     display_name: displayName,
@@ -31,7 +34,23 @@ export const ColyseusPoc = () => {
 
   const joinRoom = async () => {
     setJoiningRoom(true);
-    const room = await client.joinOrCreate('my-room', joinState);
+
+    let room: Room;
+
+    try {
+      room = await client.joinOrCreate('my-room', joinState);
+    } catch (e) {
+      let title = 'Something went wrong, see console.';
+      console.error(e);
+
+      if ((e?.message as string).includes('auth0.com')) {
+        title = 'Failed to connect to auth server.';
+      }
+
+      toast({ title, status: 'error' });
+      setJoiningRoom(false);
+      return;
+    }
     setJoiningRoom(false);
     setRoom(room);
 
