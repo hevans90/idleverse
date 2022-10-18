@@ -6,6 +6,8 @@ import { accessTokenVar, selfVar } from '../../_state/reactive-variables';
 
 import { useToast } from '@chakra-ui/react';
 import { JoinOptions, RoomState } from '@idleverse/colyseus-shared';
+import { loadPlanets } from '../../asset-loading/load-planets';
+import { Loading } from '../../components/loading';
 import { PixiWrapper } from '../_utils/pixi-wrapper';
 import { ColyseusGame } from './colyseus-game';
 import { ColyseusGameInfo } from './ui/colyseus-game-info';
@@ -14,7 +16,6 @@ import { ColyseusSocial } from './ui/social';
 
 export const ColyseusContainer = () => {
   const accessToken = useReactiveVar(accessTokenVar);
-
   const toast = useToast();
 
   const {
@@ -79,6 +80,7 @@ export const ColyseusContainer = () => {
     return rooms;
   };
 
+  const [celestialSpritesLoading, setCelestialSpritesLoading] = useState(true);
   const [room, setRoom] = useState<Room>();
   const [leavingRoom, setLeavingRoom] = useState<boolean>();
   const [joiningRoom, setJoiningRoom] = useState<boolean>();
@@ -87,8 +89,15 @@ export const ColyseusContainer = () => {
   const [availableRooms, setAvailableRooms] = useState<RoomAvailable[]>();
 
   useEffect(() => {
+    loadPlanets().then(() => setCelestialSpritesLoading(false));
     listRooms().then((rooms) => setAvailableRooms(rooms));
   }, []);
+
+  if (celestialSpritesLoading) {
+    return (
+      <Loading width="100%" height="100%" text="Loading sprites"></Loading>
+    );
+  }
 
   return (
     <PixiWrapper
