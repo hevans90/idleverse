@@ -68,13 +68,38 @@ export const ColyseusContainer = () => {
 
     // sync initial state of room
     room.onStateChange.once(
-      ({ connectedUsers, patchFrames, impulses }: RoomState) =>
-        setRoomState({ connectedUsers, patchFrames, impulses })
+      ({
+        connectedUsers,
+        patchFrames,
+        impulses,
+        ships,
+        spawnLocations,
+      }: RoomState) =>
+        setRoomState({
+          connectedUsers,
+          patchFrames,
+          impulses,
+          ships,
+          spawnLocations,
+        })
     );
 
     // subsequent realtime state updates
-    room.onStateChange(({ connectedUsers, patchFrames, impulses }: RoomState) =>
-      setRoomState({ connectedUsers, patchFrames, impulses })
+    room.onStateChange(
+      ({
+        connectedUsers,
+        patchFrames,
+        impulses,
+        ships,
+        spawnLocations,
+      }: RoomState) =>
+        setRoomState({
+          connectedUsers,
+          patchFrames,
+          impulses,
+          ships,
+          spawnLocations,
+        })
     );
 
     room.onMessage(ServerMessage.ClientDisconnected, () => {
@@ -103,7 +128,16 @@ export const ColyseusContainer = () => {
   const [leavingRoom, setLeavingRoom] = useState<boolean>();
   const [joiningRoom, setJoiningRoom] = useState<boolean>();
   const [roomState, setRoomState] =
-    useState<Pick<RoomState, 'connectedUsers' | 'patchFrames' | 'impulses'>>();
+    useState<
+      Pick<
+        RoomState,
+        | 'connectedUsers'
+        | 'patchFrames'
+        | 'impulses'
+        | 'ships'
+        | 'spawnLocations'
+      >
+    >();
   const [availableRooms, setAvailableRooms] = useState<RoomAvailable[]>();
 
   const loadPixiAssets = async () => {
@@ -118,7 +152,9 @@ export const ColyseusContainer = () => {
     loadPixiAssets();
 
     // TODO: use this for matchmaking/lobby room picker
-    listRooms().then((rooms) => setAvailableRooms(rooms));
+    listRooms()
+      .then((rooms) => setAvailableRooms(rooms))
+      .catch((x) => console.error(x));
   }, []);
 
   if (celestialSpritesLoading) {

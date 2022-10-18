@@ -1,5 +1,8 @@
 import {
+  basicShip,
   ColyseusImpulse,
+  ColyseusShip,
+  ColyseusSpawnLocation,
   ColyseusUser,
   JoinOptions,
   ServerMessage,
@@ -32,6 +35,29 @@ export const onJoin = (
       right: false,
       down: false,
       colyseusUserId: client.id,
+    })
+  );
+
+  const unclaimedSpawnLocations: ColyseusSpawnLocation[] =
+    room.state.spawnLocations.filter(
+      (spawn) => !spawn?.colyseusUserId || spawn?.colyseusUserId === undefined
+    );
+
+  // claim a random unclaimed spawn
+  const claimedSpawn =
+    unclaimedSpawnLocations[
+      Math.floor(Math.random() * unclaimedSpawnLocations.length)
+    ];
+
+  claimedSpawn.colyseusUserId = client.id;
+
+  // create the player's ship at the newly-claimed spawn location
+  room.state.ships.push(
+    new ColyseusShip({
+      ...basicShip,
+      colyseusUserId: client.id,
+      positionX: claimedSpawn.x,
+      positionY: claimedSpawn.y,
     })
   );
 
