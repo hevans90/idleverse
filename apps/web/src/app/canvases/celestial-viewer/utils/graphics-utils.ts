@@ -9,14 +9,17 @@ import {
   Texture,
 } from 'pixi.js';
 
-export type SpriteSheetConfig = {
+export type SpriteConfig = {
   name: string;
+  spriteScale: number;
   url: string;
+};
+
+export type SpriteSheetConfig = SpriteConfig & {
   cols: number;
   rows: number;
   lastRowItemCount: number;
   animationSpeed: number;
-  spriteScale: number;
 };
 
 export const createAnimatedPlanetSprite = (conf: SpriteSheetConfig) => {

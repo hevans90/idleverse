@@ -50,7 +50,7 @@ export const moonSpriteConfig: SpriteSheetConfig = {
   spriteScale: 0.125,
 };
 
-export const spriteConfigs = [
+export const planetSpriteConfigs = [
   sunSpriteConfig,
   earthSpriteConfig,
   marsSpriteConfig,

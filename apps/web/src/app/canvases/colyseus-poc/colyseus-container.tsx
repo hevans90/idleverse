@@ -12,6 +12,7 @@ import {
   RoomState,
   ServerMessage,
 } from '@idleverse/colyseus-shared';
+import { loadColyseusAssets } from '../../asset-loading/load-colyseus-assets';
 import { loadPlanets } from '../../asset-loading/load-planets';
 import { Loading } from '../../components/loading';
 import { PixiWrapper } from '../_utils/pixi-wrapper';
@@ -95,7 +96,9 @@ export const ColyseusContainer = () => {
     return rooms;
   };
 
+  const [colyseusSpritesLoading, setColyseusSpritesLoading] = useState(true);
   const [celestialSpritesLoading, setCelestialSpritesLoading] = useState(true);
+
   const [room, setRoom] = useState<Room>();
   const [leavingRoom, setLeavingRoom] = useState<boolean>();
   const [joiningRoom, setJoiningRoom] = useState<boolean>();
@@ -104,13 +107,30 @@ export const ColyseusContainer = () => {
   const [availableRooms, setAvailableRooms] = useState<RoomAvailable[]>();
 
   useEffect(() => {
+    // pixi asset loaders
+    loadColyseusAssets().then(() => setColyseusSpritesLoading(false));
     loadPlanets().then(() => setCelestialSpritesLoading(false));
+
+    // TODO: use this for matchmaking/lobby room picker
     listRooms().then((rooms) => setAvailableRooms(rooms));
   }, []);
 
   if (celestialSpritesLoading) {
     return (
-      <Loading width="100%" height="100%" text="Loading sprites"></Loading>
+      <Loading
+        width="100%"
+        height="100%"
+        text="Loading celestial sprites"
+      ></Loading>
+    );
+  }
+  if (colyseusSpritesLoading) {
+    return (
+      <Loading
+        width="100%"
+        height="100%"
+        text="Loading core game sprites"
+      ></Loading>
     );
   }
 
