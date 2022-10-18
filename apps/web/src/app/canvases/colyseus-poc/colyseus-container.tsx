@@ -106,10 +106,16 @@ export const ColyseusContainer = () => {
     useState<Pick<RoomState, 'connectedUsers' | 'patchFrames' | 'impulses'>>();
   const [availableRooms, setAvailableRooms] = useState<RoomAvailable[]>();
 
+  const loadPixiAssets = async () => {
+    await loadColyseusAssets();
+    setColyseusSpritesLoading(false);
+
+    await loadPlanets();
+    setCelestialSpritesLoading(false);
+  };
+
   useEffect(() => {
-    // pixi asset loaders
-    loadColyseusAssets().then(() => setColyseusSpritesLoading(false));
-    loadPlanets().then(() => setCelestialSpritesLoading(false));
+    loadPixiAssets();
 
     // TODO: use this for matchmaking/lobby room picker
     listRooms().then((rooms) => setAvailableRooms(rooms));
