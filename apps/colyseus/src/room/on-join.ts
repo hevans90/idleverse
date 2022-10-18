@@ -4,7 +4,7 @@ import {
   JoinOptions,
   ServerMessage,
 } from '@idleverse/colyseus-shared';
-import { Client } from 'colyseus';
+import { Client, ServerError } from 'colyseus';
 import { GameRoom } from './room';
 
 export const onJoin = (
@@ -12,6 +12,14 @@ export const onJoin = (
   options: JoinOptions,
   room: GameRoom
 ) => {
+  if (
+    room.state.connectedUsers.find(({ userId }) => userId === options.userId)
+  ) {
+    throw new ServerError(
+      403,
+      'You are already connected on another device/browser tab!'
+    );
+  }
   room.broadcast(ServerMessage.PlayerJoined, `${options.displayName} joined!`);
 
   room.state.connectedUsers.push(
@@ -26,8 +34,6 @@ export const onJoin = (
       colyseusUserId: client.id,
     })
   );
-
-  room.clients;
 
   console.log(`${options.displayName} (${client.sessionId}) joined!`);
 };

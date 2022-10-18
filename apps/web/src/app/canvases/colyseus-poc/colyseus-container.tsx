@@ -54,6 +54,10 @@ export const ColyseusContainer = () => {
         title = 'Failed to connect to auth server.';
       }
 
+      if (e?.message) {
+        title = e.message;
+      }
+
       toast({ title, status: 'error' });
       setJoiningRoom(false);
       return;
@@ -72,7 +76,7 @@ export const ColyseusContainer = () => {
       setRoomState({ connectedUsers, patchFrames, impulses })
     );
 
-    room.onMessage(ServerMessage.ClientDisconnected, (message: string) => {
+    room.onMessage(ServerMessage.ClientDisconnected, () => {
       setRoom(undefined);
       setRoomState(undefined);
     });

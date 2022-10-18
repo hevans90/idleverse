@@ -31,6 +31,10 @@ export const ColyseusNotifications = ({ room }: { room: Room }) => {
         status: 'error',
       })
     );
+
+    room.onError((code, title) => {
+      toast({ title, status: 'error' });
+    });
   }, []);
 
   return <></>;
