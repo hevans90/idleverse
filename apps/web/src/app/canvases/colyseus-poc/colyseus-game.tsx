@@ -3,7 +3,10 @@ import { Room } from 'colyseus.js';
 import { Container } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { Planet, PlanetConfig } from '../celestial-viewer/models';
-import { createPlanet } from '../celestial-viewer/utils/drawing-utils';
+import {
+  centerPlanetDraw,
+  createPlanet,
+} from '../celestial-viewer/utils/drawing-utils';
 import { createAnimatedPlanetSprite } from '../celestial-viewer/utils/graphics-utils';
 import { sunSpriteConfig } from '../celestial-viewer/utils/static-sprite-configs';
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
@@ -23,12 +26,14 @@ export const ColyseusGame = ({ room }: { room: Room }) => {
   useControls(room);
 
   useEffect(() => {
+    solarSystemContainerRef.current.x = size.width / 2;
+    solarSystemContainerRef.current.y = size.height / 2;
     const systemOrigin = { x: 0, y: 0 };
 
     const sunSprite = createAnimatedPlanetSprite(sunSpriteConfig);
     const sunConfig: PlanetConfig = {
       id: 'dummy-celestial-id',
-      radius: 100,
+      radius: 0,
       origin: { x: systemOrigin.x, y: systemOrigin.y },
       orbit: { x: 0, y: 0, speed: 0 },
     };
@@ -37,6 +42,8 @@ export const ColyseusGame = ({ room }: { room: Room }) => {
       config: sunConfig,
       sprite: sunSprite,
     });
+
+    centerPlanetDraw(sun, true);
 
     solarSystemContainerRef.current.addChild(sun.sprite);
   }, []);

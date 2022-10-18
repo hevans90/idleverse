@@ -7,7 +7,6 @@ import {
   Sprite,
   Texture,
 } from 'pixi.js';
-import { Vector2D } from '../../../_state/models';
 
 import { Planet, PlanetConfig } from '../models';
 
@@ -84,21 +83,16 @@ export const createPlanet = ({
   },
 });
 
-export const drawPlanet = (
-  planet: Planet,
-  systemOrigin: Vector2D,
-  isOriginCelestial = false
-) => {
+export const centerPlanetDraw = (planet: Planet, isOriginCelestial = false) => {
   planet.sprite.height = planet.originalDimensions.height * planet.scale;
   planet.sprite.width = planet.originalDimensions.width * planet.scale;
 
-  const drawPosition = transformPosition(planet.position, systemOrigin);
   planet.sprite.x = isOriginCelestial
-    ? drawPosition.x - planet.sprite.height / 2
-    : drawPosition.x;
+    ? planet.position.x - planet.sprite.height / 2
+    : planet.position.x;
   planet.sprite.y = isOriginCelestial
-    ? drawPosition.y - planet.sprite.width / 2
-    : drawPosition.y;
+    ? planet.position.y - planet.sprite.width / 2
+    : planet.position.y;
 };
 
 export const updatePlanetPosition = (
@@ -113,16 +107,6 @@ export const updatePlanetPosition = (
   planet.position = {
     x: planet.config.origin.x + planetOffset.x + parentPosition.x,
     y: planet.config.origin.y + planetOffset.y + parentPosition.y,
-  };
-};
-
-export const transformPosition = (
-  position: { x: number; y: number },
-  systemOrigin: Vector2D
-) => {
-  return {
-    x: systemOrigin.x + (position.x - systemOrigin.x),
-    y: systemOrigin.y + (position.y - systemOrigin.y),
   };
 };
 
