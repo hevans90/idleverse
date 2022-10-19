@@ -6,9 +6,11 @@ export class ColyseusShip extends Schema {
     maxVelocity,
     acceleration,
     colyseusUserId,
+    userId,
     positionX,
     positionY,
   }: ShipConfig & {
+    userId: string;
     colyseusUserId: string;
     positionX: number;
     positionY: number;
@@ -21,6 +23,7 @@ export class ColyseusShip extends Schema {
     this.maxVelocity = maxVelocity;
     this.acceleration = acceleration;
     this.colyseusUserId = colyseusUserId;
+    this.userId = userId;
   }
 
   @type('number') positionX: number;
@@ -30,5 +33,6 @@ export class ColyseusShip extends Schema {
   @type('number') maxVelocity: number;
   @type('number') acceleration: number;
 
+  @type('string') userId: string;
   @type('string') colyseusUserId: string;
 }

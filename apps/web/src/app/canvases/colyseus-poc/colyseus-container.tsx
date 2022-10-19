@@ -201,7 +201,9 @@ export const ColyseusContainer = () => {
         </>
       }
     >
-      {roomState && <ColyseusGame room={room}></ColyseusGame>}
+      {roomState && (
+        <ColyseusGame room={room} ships={roomState.ships}></ColyseusGame>
+      )}
     </PixiWrapper>
   );
 };

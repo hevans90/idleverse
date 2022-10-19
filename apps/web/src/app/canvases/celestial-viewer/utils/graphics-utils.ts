@@ -1,11 +1,8 @@
 import {
   AnimatedSprite,
   BaseTexture,
-  Container,
   Graphics,
   Rectangle,
-  Renderer,
-  Sprite,
   Texture,
 } from 'pixi.js';
 
@@ -68,14 +65,4 @@ export const createRadialEllipse = (
   gr.endFill();
   gr.zIndex = 0;
   return gr;
-};
-
-const createBasicPlanetSprite = (
-  container: Container,
-  renderer: Renderer,
-  graphic: Graphics
-) => {
-  const sunTexture = renderer.generateTexture(graphic);
-  const sprite = new Sprite(sunTexture);
-  return sprite;
 };

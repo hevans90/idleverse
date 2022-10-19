@@ -49,12 +49,14 @@ export const onJoin = (
       Math.floor(Math.random() * unclaimedSpawnLocations.length)
     ];
 
+  claimedSpawn.userId = options.userId;
   claimedSpawn.colyseusUserId = client.id;
 
   // create the player's ship at the newly-claimed spawn location
   room.state.ships.push(
     new ColyseusShip({
       ...basicShip,
+      userId: options.userId,
       colyseusUserId: client.id,
       positionX: claimedSpawn.x,
       positionY: claimedSpawn.y,

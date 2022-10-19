@@ -9,5 +9,6 @@ export class ColyseusSpawnLocation extends Schema {
   @type('number') x: number;
   @type('number') y: number;
 
+  @type('string') userId?: string;
   @type('string') colyseusUserId?: string;
 }

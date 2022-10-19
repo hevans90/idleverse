@@ -1,7 +1,8 @@
+import { RoomState } from '@idleverse/colyseus-shared';
 import { useApp } from '@inlet/react-pixi';
 import { Room } from 'colyseus.js';
-import { Container } from 'pixi.js';
-import { useEffect, useRef } from 'react';
+import { Container, Renderer, Sprite } from 'pixi.js';
+import { useEffect, useRef, useState } from 'react';
 import { Planet, PlanetConfig } from '../celestial-viewer/models';
 import {
   centerPlanetDraw,
@@ -12,10 +13,22 @@ import { sunSpriteConfig } from '../celestial-viewer/utils/static-sprite-configs
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
 import { useResize } from '../_utils/use-resize.hook';
 import { useViewport } from '../_utils/use-viewport.hook';
+import { drawPlayerShip } from './rendering/draw-player-ship';
 import { useControls } from './use-controls';
-export const ColyseusGame = ({ room }: { room: Room }) => {
+
+import { colors } from '@idleverse/theme';
+import { colorsVar } from '../../_state/colors';
+
+export const ColyseusGame = ({
+  room,
+  ships,
+}: {
+  room: Room;
+  ships: RoomState['ships'];
+}) => {
   const app = useApp();
 
+  const [shipSprites, setShipSprites] = useState<Sprite[]>([]);
   const solarSystemContainerRef = useRef(new Container());
 
   const size = useResize('colyseus');
@@ -47,6 +60,29 @@ export const ColyseusGame = ({ room }: { room: Room }) => {
 
     solarSystemContainerRef.current.addChild(sun.sprite);
   }, []);
+
+  useEffect(() => {
+    shipSprites.forEach((sprite) =>
+      solarSystemContainerRef.current.removeChild(sprite)
+    );
+
+    const sprites: Sprite[] = [];
+
+    ships.forEach((ship) => {
+      const { shipSprite, avatarGraphic, avatarSprite } = drawPlayerShip(
+        app.renderer as Renderer,
+        ship.userId,
+        colors[colorsVar().secondary]['300']
+      );
+
+      shipSprite.position.x = ship.positionX;
+      shipSprite.position.y = ship.positionY;
+      solarSystemContainerRef.current.addChild(shipSprite);
+      sprites.push(shipSprite);
+    });
+
+    setShipSprites(sprites);
+  }, [JSON.stringify(ships)]);
 
   return <></>;
 };
