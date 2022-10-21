@@ -10,7 +10,7 @@ const generateSpawnLocations = ({
 }: {
   height: number;
   width: number;
-}): ColyseusSpawnLocation[] => {
+}): { locations: ColyseusSpawnLocation[]; columns: number; rows: number } => {
   const columns = 4;
   const rows = 4;
 
@@ -30,7 +30,7 @@ const generateSpawnLocations = ({
     }
   }
 
-  return locations;
+  return { locations, columns, rows };
 };
 
 export class RoomState extends Schema {
@@ -39,9 +39,14 @@ export class RoomState extends Schema {
     this.height = height;
     this.width = width;
 
-    this.spawnLocations = new ArraySchema<ColyseusSpawnLocation>(
-      ...generateSpawnLocations({ height, width })
-    );
+    const { locations, columns, rows } = generateSpawnLocations({
+      height,
+      width,
+    });
+
+    this.spawnLocations = new ArraySchema<ColyseusSpawnLocation>(...locations);
+    this.columns = columns;
+    this.rows = rows;
   }
   @type('number') height: number;
   @type('number') width: number;
@@ -51,6 +56,9 @@ export class RoomState extends Schema {
   @type([ColyseusShip]) ships = new ArraySchema<ColyseusShip>();
   @type([ColyseusSpawnLocation])
   spawnLocations: ArraySchema<ColyseusSpawnLocation>;
+
+  @type('number') columns: number;
+  @type('number') rows: number;
 
   @type('number') patchFrames = 0;
 }

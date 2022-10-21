@@ -13,18 +13,21 @@ import { sunSpriteConfig } from '../celestial-viewer/utils/static-sprite-configs
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
 import { useResize } from '../_utils/use-resize.hook';
 import { useViewport } from '../_utils/use-viewport.hook';
-import { drawPlayerShip } from './rendering/draw-player-ship';
+import { centerSprite, drawPlayerShip } from './rendering/draw-player-ship';
 import { useControls } from './use-controls';
 
 import { colors } from '@idleverse/theme';
 import { colorsVar } from '../../_state/colors';
+import { drawGrid } from './rendering/draw-grid';
 
 export const ColyseusGame = ({
   room,
   ships,
+  dimensions: { width, height, columns, rows },
 }: {
   room: Room;
   ships: RoomState['ships'];
+  dimensions: { width: number; height: number; columns: number; rows: number };
 }) => {
   const app = useApp();
 
@@ -59,6 +62,16 @@ export const ColyseusGame = ({
     centerPlanetDraw(sun, true);
 
     solarSystemContainerRef.current.addChild(sun.sprite);
+
+    const gridContainer = drawGrid({
+      width,
+      height,
+      columns,
+      rows,
+      gridColor: colors[colorsVar().secondary]['300'],
+    });
+
+    solarSystemContainerRef.current.addChild(gridContainer);
   }, []);
 
   useEffect(() => {
@@ -68,15 +81,18 @@ export const ColyseusGame = ({
 
     const sprites: Sprite[] = [];
 
-    ships.forEach((ship) => {
+    ships.forEach((serverShip) => {
       const { shipSprite, avatarGraphic, avatarSprite } = drawPlayerShip(
         app.renderer as Renderer,
-        ship.userId,
+        serverShip.userId,
         colors[colorsVar().secondary]['300']
       );
 
-      shipSprite.position.x = ship.positionX;
-      shipSprite.position.y = ship.positionY;
+      centerSprite(
+        { width, height },
+        { x: serverShip.positionX, y: serverShip.positionY },
+        shipSprite
+      );
       solarSystemContainerRef.current.addChild(shipSprite);
       sprites.push(shipSprite);
     });

@@ -2,6 +2,19 @@ import { colyseusAssetsVar } from '../../../_state/colyseus';
 import { userAvatarResourcesVar } from '../../../_state/reactive-variables';
 
 import * as PIXI from 'pixi.js';
+import { spaceshipSpriteConfig } from '../utils/sprite-configs';
+
+/**
+ * Mutates a sprite's position to center it based on a position from a server, and the arena size
+ */
+export const centerSprite = (
+  arena: { height: number; width: number },
+  serverPosition: { x: number; y: number },
+  sprite: PIXI.Sprite
+) => {
+  sprite.position.x = serverPosition.x - sprite.width / 2 - arena.width / 2;
+  sprite.position.y = serverPosition.y - sprite.width / 2 - arena.height / 2;
+};
 
 export const drawPlayerShip = (
   renderer: PIXI.Renderer,
@@ -10,9 +23,11 @@ export const drawPlayerShip = (
   avatarRadius = 24,
   avatarConnectingLineHeight = 28
 ) => {
-  const shipTexture = colyseusAssetsVar()['spaceship'].texture;
+  const shipTexture = colyseusAssetsVar()[spaceshipSpriteConfig.name].texture;
   const shipSprite = new PIXI.Sprite(shipTexture);
-  shipSprite.name = 'spaceship';
+  shipSprite.name = spaceshipSpriteConfig.name;
+  shipSprite.height = shipSprite.height * spaceshipSpriteConfig.spriteScale;
+  shipSprite.width = shipSprite.width * spaceshipSpriteConfig.spriteScale;
 
   const avatarTexture = userAvatarResourcesVar()?.[userId]?.texture;
 

@@ -1,6 +1,23 @@
-import { Box, Button, Code, VStack } from '@chakra-ui/react';
+import { useReactiveVar } from '@apollo/client';
+import {
+  Avatar,
+  Box,
+  Button,
+  HStack,
+  Table,
+  TableCaption,
+  TableContainer,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
+  VStack,
+} from '@chakra-ui/react';
 import { RoomState } from '@idleverse/colyseus-shared';
 import { useUiBackground } from '../../../hooks/use-ui-background';
+import { debugVar } from '../../../_state/global-settings';
 
 export const colyseusGameInfoHeight = 200;
 
@@ -19,10 +36,20 @@ export const ColyseusGameInfo = ({
   leaveCallback: () => void;
   roomState: Pick<
     RoomState,
-    'connectedUsers' | 'patchFrames' | 'impulses' | 'ships' | 'spawnLocations'
+    | 'connectedUsers'
+    | 'patchFrames'
+    | 'impulses'
+    | 'ships'
+    | 'spawnLocations'
+    | 'width'
+    | 'height'
+    | 'columns'
+    | 'rows'
   >;
 }) => {
-  const { bg, border } = useUiBackground();
+  const { bg, border, bgDark } = useUiBackground();
+
+  const debug = useReactiveVar(debugVar);
 
   return (
     <Box
@@ -66,10 +93,125 @@ export const ColyseusGameInfo = ({
             {/* <Code>{roomState.connectedUsers.length} users connected</Code> */}
             {/* <Code>{roomState.patchFrames} server patch frames</Code> */}
             {/* <Code>{JSON.stringify(roomState.spawnLocations, null, 2)}</Code> */}
-            <Code width="100%">{JSON.stringify(roomState.ships, null, 2)}</Code>
+            {/* <Code width="100%">{JSON.stringify(roomState.ships, null, 2)}</Code> */}
           </>
         )}
       </VStack>
+      {roomState && (
+        <VStack
+          bg={bg}
+          border={border}
+          borderWidth={1}
+          padding={4}
+          margin={2}
+          position="fixed"
+          left={0}
+          top="10vh"
+          width="30vw"
+          maxHeight="50vh"
+          overflow="scroll"
+          opacity={0.8}
+          alignItems="stretch"
+          spacing={5}
+        >
+          <TableContainer borderColor={border} borderWidth="1px">
+            <Table variant="simple" fontSize="xs" size="sm">
+              <TableCaption>room</TableCaption>
+              <Thead>
+                <Tr bg={bgDark}>
+                  <Th>width</Th>
+                  <Th>height</Th>
+                  <Th>cols</Th>
+                  <Th>rows</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                <Tr>
+                  <Td borderColor={border}>{roomState.width}</Td>
+                  <Td borderColor={border}>{roomState.height}</Td>
+                  <Td borderColor={border}>{roomState.columns}</Td>
+                  <Td borderColor={border}>{roomState.rows}</Td>
+                </Tr>
+              </Tbody>
+            </Table>
+          </TableContainer>
+
+          <TableContainer borderColor={border} borderWidth="1px">
+            <Table variant="simple" fontSize="xs" size="sm">
+              <TableCaption>ships</TableCaption>
+              <Thead>
+                <Tr bg={bgDark}>
+                  <Th>User</Th>
+                  <Th>&#123; x, y &#125;</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {roomState?.ships
+                  .map(({ userId, ...rest }) => {
+                    const { displayName, avatarUrl } =
+                      roomState.connectedUsers.find(
+                        (user) => user.userId === userId
+                      );
+
+                    return { ...rest, displayName, avatarUrl };
+                  })
+                  .map(({ positionX, positionY, displayName, avatarUrl }) => (
+                    <Tr>
+                      <Td borderColor={border}>
+                        <HStack>
+                          <Avatar src={avatarUrl} size="xs" />
+                          <Text>{displayName}</Text>
+                        </HStack>
+                      </Td>
+                      <Td borderColor={border}>
+                        &#123; {positionX}, {positionY} &#125;
+                      </Td>
+                    </Tr>
+                  ))}
+              </Tbody>
+            </Table>
+          </TableContainer>
+          <TableContainer borderColor={border} borderWidth="1px">
+            <Table variant="simple" fontSize="xs" size="sm">
+              <TableCaption>spawn locations</TableCaption>
+              <Thead>
+                <Tr bg={bgDark}>
+                  <Th>User</Th>
+                  <Th>&#123; x, y &#125;</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {roomState?.spawnLocations
+                  .filter((spawn) => spawn.userId)
+                  .sort((a, b) =>
+                    a.userId > b.userId ? 1 : b.userId > a.userId ? -1 : 0
+                  )
+                  .map(({ userId, ...rest }) => {
+                    const { displayName, avatarUrl } =
+                      roomState.connectedUsers.find(
+                        (user) => user.userId === userId
+                      );
+
+                    return { ...rest, displayName, avatarUrl };
+                  })
+                  .map(({ x, y, displayName, avatarUrl }) => (
+                    <Tr>
+                      <Td borderColor={border}>
+                        <HStack>
+                          <Avatar src={avatarUrl} size="xs" />
+                          <Text>{displayName}</Text>
+                        </HStack>
+                      </Td>
+                      <Td borderColor={border}>
+                        &#123; {x}, {y} &#125;
+                      </Td>
+                    </Tr>
+                  ))}
+              </Tbody>
+            </Table>
+          </TableContainer>
+        </VStack>
+      )}
     </Box>
   );
 };

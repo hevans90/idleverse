@@ -74,6 +74,10 @@ export const ColyseusContainer = () => {
         impulses,
         ships,
         spawnLocations,
+        columns,
+        rows,
+        height,
+        width,
       }: RoomState) =>
         setRoomState({
           connectedUsers,
@@ -81,6 +85,10 @@ export const ColyseusContainer = () => {
           impulses,
           ships,
           spawnLocations,
+          columns,
+          rows,
+          height,
+          width,
         })
     );
 
@@ -92,6 +100,10 @@ export const ColyseusContainer = () => {
         impulses,
         ships,
         spawnLocations,
+        columns,
+        rows,
+        height,
+        width,
       }: RoomState) =>
         setRoomState({
           connectedUsers,
@@ -99,6 +111,10 @@ export const ColyseusContainer = () => {
           impulses,
           ships,
           spawnLocations,
+          columns,
+          rows,
+          height,
+          width,
         })
     );
 
@@ -136,6 +152,10 @@ export const ColyseusContainer = () => {
         | 'impulses'
         | 'ships'
         | 'spawnLocations'
+        | 'columns'
+        | 'rows'
+        | 'height'
+        | 'width'
       >
     >();
   const [availableRooms, setAvailableRooms] = useState<RoomAvailable[]>();
@@ -202,7 +222,16 @@ export const ColyseusContainer = () => {
       }
     >
       {roomState && (
-        <ColyseusGame room={room} ships={roomState.ships}></ColyseusGame>
+        <ColyseusGame
+          room={room}
+          ships={roomState.ships}
+          dimensions={{
+            width: roomState.width,
+            height: roomState.height,
+            columns: roomState.columns,
+            rows: roomState.rows,
+          }}
+        ></ColyseusGame>
       )}
     </PixiWrapper>
   );
