@@ -4,14 +4,14 @@ import {
 } from '@idleverse/colyseus-shared';
 import { Client } from 'colyseus';
 import { GameRoom } from './room';
-import { findByColyseusUserId, logger } from './_utils';
+import { findByColyseusClient, logger } from './_utils';
 
 export const onLeave = (client: Client, consented: boolean, room: GameRoom) => {
-  const user = room.state.connectedUsers.find(findByColyseusUserId({ client }));
-  const impulse = room.state.impulses.find(findByColyseusUserId({ client }));
-  const ship = room.state.ships.find(findByColyseusUserId({ client }));
+  const user = room.state.connectedUsers.find(findByColyseusClient({ client }));
+  const impulse = room.state.impulses.find(findByColyseusClient({ client }));
+  const ship = room.state.ships.find(findByColyseusClient({ client }));
   const spawnLocation = room.state.spawnLocations.find(
-    findByColyseusUserId({ client })
+    findByColyseusClient({ client })
   );
 
   client.send(ServerMessage.ClientDisconnected, 'You were disconnected.');

@@ -1,10 +1,14 @@
 import chalk from 'chalk';
 import { Client } from 'colyseus';
 
-export const findByColyseusUserId =
+export const findByColyseusClient =
   ({ client }: { client: Client }) =>
   (obj: { colyseusUserId?: string }) =>
     obj?.colyseusUserId === client.id;
+
+export const findByClientId =
+  (colyseusUserId: string) => (obj: { colyseusUserId?: string }) =>
+    obj?.colyseusUserId === colyseusUserId;
 
 export const logger = {
   info: (msg: string) => console.log(msg),

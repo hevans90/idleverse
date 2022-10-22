@@ -136,7 +136,6 @@ export const ColyseusContainer = () => {
       Pick<
         RoomState,
         | 'connectedUsers'
-        | 'patchFrames'
         | 'impulses'
         | 'ships'
         | 'spawnLocations'

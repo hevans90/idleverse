@@ -59,6 +59,4 @@ export class RoomState extends Schema {
 
   @type('number') columns: number;
   @type('number') rows: number;
-
-  @type('number') patchFrames = 0;
 }

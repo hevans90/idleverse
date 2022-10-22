@@ -39,7 +39,6 @@ export const ColyseusGameInfo = ({
   roomState: Pick<
     RoomState,
     | 'connectedUsers'
-    | 'patchFrames'
     | 'impulses'
     | 'ships'
     | 'spawnLocations'
@@ -93,7 +92,6 @@ export const ColyseusGameInfo = ({
               Quit
             </Button>
             {/* <Code>{roomState.connectedUsers.length} users connected</Code> */}
-            {/* <Code>{roomState.patchFrames} server patch frames</Code> */}
             {/* <Code>{JSON.stringify(roomState.spawnLocations, null, 2)}</Code> */}
             {/* <Code width="100%">{JSON.stringify(roomState.ships, null, 2)}</Code> */}
           </>

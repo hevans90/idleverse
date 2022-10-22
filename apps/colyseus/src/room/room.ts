@@ -10,7 +10,8 @@ import { onAuth } from './on-auth';
 import { onCreate } from './on-create';
 import { onJoin } from './on-join';
 import { onLeave } from './on-leave';
-import { findByColyseusUserId, logger } from './_utils';
+import { updateShipPositions } from './update-loop/update-ship-positions';
+import { findByColyseusClient, logger } from './_utils';
 
 export class GameRoom extends Room<RoomState> {
   async onAuth(
@@ -29,7 +30,7 @@ export class GameRoom extends Room<RoomState> {
   update(deltaTime: number) {
     // implement your physics or world updates here!
     // this is a good place to update the room state
-    this.state.patchFrames = this.state.patchFrames + 1;
+    updateShipPositions(deltaTime, this);
   }
 
   onJoin(client: Client, options: JoinOptions) {
@@ -38,7 +39,7 @@ export class GameRoom extends Room<RoomState> {
 
   async onLeave(client: Client, consented: boolean) {
     const user = this.state.connectedUsers.find(
-      findByColyseusUserId({ client })
+      findByColyseusClient({ client })
     );
 
     const userString = `${user.displayName} (${client.sessionId})`;
