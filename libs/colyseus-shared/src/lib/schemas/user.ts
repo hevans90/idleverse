@@ -6,6 +6,7 @@ export class ColyseusUser extends Schema implements JoinOptions {
   @type('string') displayName: string;
   @type('string') avatarUrl: string;
   @type('string') userId: string;
+  @type('boolean') connected: boolean;
 
   @type('string') colyseusUserId?: string;
 }

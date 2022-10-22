@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { useReactiveVar } from '@apollo/client';
 
-import { Client, Room, RoomAvailable } from 'colyseus.js';
+import { Client, Room } from 'colyseus.js';
 import { useEffect, useState } from 'react';
 import { accessTokenVar, selfVar } from '../../_state/reactive-variables';
 
@@ -15,6 +15,7 @@ import {
 import { loadColyseusAssets } from '../../asset-loading/load-colyseus-assets';
 import { loadPlanets } from '../../asset-loading/load-planets';
 import { Loading } from '../../components/loading';
+import { colyseusSessionVar } from '../../_state/colyseus';
 import { PixiWrapper } from '../_utils/pixi-wrapper';
 import { ColyseusGame } from './colyseus-game';
 import { ColyseusGameInfo } from './ui/colyseus-game-info';
@@ -25,6 +26,7 @@ export const ColyseusContainer = () => {
   const accessToken = useReactiveVar(accessTokenVar);
   const toast = useToast();
 
+  const previousSession = useReactiveVar(colyseusSessionVar);
   const {
     display_name: displayName,
     avatar_url: avatarUrl,
@@ -40,19 +42,35 @@ export const ColyseusContainer = () => {
     userId,
   };
 
-  const joinRoom = async () => {
+  const joinRoom = async (
+    { previous }: { previous: boolean } = { previous: false }
+  ) => {
     setJoiningRoom(true);
 
     let room: Room;
 
     try {
-      room = await client.joinOrCreate('my-room', joinState);
+      if (previous) {
+        room = await rejoinRoom(
+          previousSession.roomId,
+          previousSession.clientId
+        );
+        toast({
+          title: 'Successfully reconnected to previous session.',
+          status: 'success',
+        });
+      } else {
+        room = await client.joinOrCreate('my-room', joinState);
+      }
     } catch (e) {
       let title = 'Something went wrong, see console.';
       console.error(e);
 
       if ((e?.message as string).includes('auth0.com')) {
         title = 'Failed to connect to auth server.';
+      }
+      if ((e?.message as string).includes('rejoin')) {
+        title = e.message;
       }
 
       if (e?.message) {
@@ -61,61 +79,22 @@ export const ColyseusContainer = () => {
 
       toast({ title, status: 'error' });
       setJoiningRoom(false);
+      setRoom(undefined);
+      setRoomState(undefined);
       return;
     }
     setJoiningRoom(false);
     setRoom(room);
+    colyseusSessionVar({ roomId: room.id, clientId: room.sessionId });
 
     // sync initial state of room
-    room.onStateChange.once(
-      ({
-        connectedUsers,
-        patchFrames,
-        impulses,
-        ships,
-        spawnLocations,
-        columns,
-        rows,
-        height,
-        width,
-      }: RoomState) =>
-        setRoomState({
-          connectedUsers,
-          patchFrames,
-          impulses,
-          ships,
-          spawnLocations,
-          columns,
-          rows,
-          height,
-          width,
-        })
+    room.onStateChange.once((roomState: RoomState) =>
+      setRoomState({ ...roomState })
     );
 
     // subsequent realtime state updates
-    room.onStateChange(
-      ({
-        connectedUsers,
-        patchFrames,
-        impulses,
-        ships,
-        spawnLocations,
-        columns,
-        rows,
-        height,
-        width,
-      }: RoomState) =>
-        setRoomState({
-          connectedUsers,
-          patchFrames,
-          impulses,
-          ships,
-          spawnLocations,
-          columns,
-          rows,
-          height,
-          width,
-        })
+    room.onStateChange((roomState: RoomState) =>
+      setRoomState({ ...roomState })
     );
 
     room.onMessage(ServerMessage.ClientDisconnected, () => {
@@ -124,17 +103,26 @@ export const ColyseusContainer = () => {
     });
   };
 
+  const rejoinRoom = async (roomId: string, sessionId: string) => {
+    let room: Room;
+    try {
+      room = await client.reconnect(roomId, sessionId);
+    } catch (e) {
+      console.error(e);
+      colyseusSessionVar(undefined);
+      throw new Error('Failed to rejoin previous session, see console.');
+    }
+
+    return room;
+  };
+
   const leaveRoom = async () => {
     setLeavingRoom(true);
     await room.leave(true);
     setLeavingRoom(false);
     setRoom(undefined);
     setRoomState(undefined);
-  };
-
-  const listRooms = async () => {
-    const rooms = await client.getAvailableRooms();
-    return rooms;
+    colyseusSessionVar(undefined);
   };
 
   const [colyseusSpritesLoading, setColyseusSpritesLoading] = useState(true);
@@ -158,7 +146,6 @@ export const ColyseusContainer = () => {
         | 'width'
       >
     >();
-  const [availableRooms, setAvailableRooms] = useState<RoomAvailable[]>();
 
   const loadPixiAssets = async () => {
     await loadColyseusAssets();
@@ -171,10 +158,9 @@ export const ColyseusContainer = () => {
   useEffect(() => {
     loadPixiAssets();
 
-    // TODO: use this for matchmaking/lobby room picker
-    listRooms()
-      .then((rooms) => setAvailableRooms(rooms))
-      .catch((x) => console.error(x));
+    if (previousSession) {
+      joinRoom({ previous: true });
+    }
   }, []);
 
   if (celestialSpritesLoading) {

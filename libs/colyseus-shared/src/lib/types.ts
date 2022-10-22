@@ -14,6 +14,7 @@ export enum ServerMessage {
   PlayerJoined = 'player_joined',
   PlayerLeft = 'player_left',
   PlayerDisconnected = 'player_disconnected',
+  PlayerReconnected = 'player_reconnected',
   ClientDisconnected = 'client_disconnected',
 }
 

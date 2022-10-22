@@ -1,11 +1,16 @@
 import { Client, Room } from 'colyseus';
 import { IncomingMessage } from 'http';
 
-import { JoinOptions, RoomState } from '@idleverse/colyseus-shared';
+import {
+  JoinOptions,
+  RoomState,
+  ServerMessage,
+} from '@idleverse/colyseus-shared';
 import { onAuth } from './on-auth';
 import { onCreate } from './on-create';
 import { onJoin } from './on-join';
 import { onLeave } from './on-leave';
+import { findByColyseusUserId, logger } from './_utils';
 
 export class GameRoom extends Room<RoomState> {
   async onAuth(
@@ -31,11 +36,46 @@ export class GameRoom extends Room<RoomState> {
     onJoin(client, options, this);
   }
 
-  onLeave(client: Client, consented: boolean) {
-    onLeave(client, consented, this);
+  async onLeave(client: Client, consented: boolean) {
+    const user = this.state.connectedUsers.find(
+      findByColyseusUserId({ client })
+    );
+
+    const userString = `${user.displayName} (${client.sessionId})`;
+
+    try {
+      if (consented) {
+        throw new Error('consented leave');
+      }
+
+      // allow disconnected client to reconnect into this room until 20 seconds
+      user.connected = false;
+
+      this.broadcast(
+        ServerMessage.PlayerDisconnected,
+        `${user.displayName} disconnected`
+      );
+
+      logger.warning(
+        `${userString} disconnected... they have 20 seconds to rejoin`
+      );
+      await this.allowReconnection(client, 20);
+      user.connected = true;
+      this.broadcast(
+        ServerMessage.PlayerReconnected,
+        `${user.displayName} reconnected`
+      );
+      logger.success(`${userString} successfully reconnected!`);
+    } catch (e) {
+      if (e.message !== 'consented leave') {
+        // 20 seconds expired
+        logger.warning(`${userString} timed out`);
+      }
+      onLeave(client, consented, this);
+    }
   }
 
   onDispose() {
-    console.log('room', this.roomId, 'disposing...');
+    logger.info(`Room (${this.roomId}) 'disposing...`);
   }
 }

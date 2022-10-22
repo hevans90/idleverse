@@ -1,4 +1,11 @@
-import { Avatar, HStack, Kbd, Text, VStack } from '@chakra-ui/react';
+import {
+  Avatar,
+  CircularProgress,
+  HStack,
+  Kbd,
+  Text,
+  VStack,
+} from '@chakra-ui/react';
 import { RoomState } from '@idleverse/colyseus-shared';
 import { useUiBackground } from '../../../hooks/use-ui-background';
 
@@ -7,13 +14,20 @@ type IndicatorProps = {
   up: boolean;
   down: boolean;
   right: boolean;
+  connected: boolean;
 };
 
-const ArrowKeyIndicators = ({ left, up, down, right }: IndicatorProps) => {
+const ArrowKeyIndicators = ({
+  left,
+  up,
+  down,
+  right,
+  connected,
+}: IndicatorProps) => {
   const { bgLightSecondary } = useUiBackground();
 
   return (
-    <HStack mr={2}>
+    <HStack mr={2} opacity={connected ? 1 : 0.5}>
       <Kbd bg={left ? bgLightSecondary : 'unset'}>&#11013;</Kbd>
       <VStack spacing={1}>
         <Kbd bg={up ? bgLightSecondary : 'unset'}>&#11014;</Kbd>
@@ -48,19 +62,25 @@ export const ColyseusSocial = ({
       borderTop="unset"
       borderRight="unset"
     >
-      {connectedUsers.map(({ avatarUrl, displayName, colyseusUserId }, i) => (
-        <HStack key={i}>
-          <ArrowKeyIndicators
-            {...impulses.find(
-              (impulse) => impulse.colyseusUserId === colyseusUserId
+      {connectedUsers.map(
+        ({ avatarUrl, displayName, colyseusUserId, connected }, i) => (
+          <HStack key={i}>
+            <ArrowKeyIndicators
+              connected={connected}
+              {...impulses.find(
+                (impulse) => impulse.colyseusUserId === colyseusUserId
+              )}
+            />
+            {connected && (
+              <Avatar size="md" src={avatarUrl} mr={2} name={displayName} />
             )}
-          />
-          <Avatar size="md" src={avatarUrl} mr={2} name={displayName} />
-          <Text mr="1rem" flexGrow={1}>
-            {displayName}
-          </Text>
-        </HStack>
-      ))}
+            {!connected && <CircularProgress isIndeterminate color={border} />}
+            <Text mr="1rem" flexGrow={1} opacity={connected ? 1 : 0.5}>
+              {displayName}
+            </Text>
+          </HStack>
+        )
+      )}
     </VStack>
   );
 };

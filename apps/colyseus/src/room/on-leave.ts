@@ -4,11 +4,7 @@ import {
 } from '@idleverse/colyseus-shared';
 import { Client } from 'colyseus';
 import { GameRoom } from './room';
-
-const findByColyseusUserId =
-  ({ client }: { client: Client }) =>
-  (obj: { colyseusUserId?: string }) =>
-    obj?.colyseusUserId === client.id;
+import { findByColyseusUserId, logger } from './_utils';
 
 export const onLeave = (client: Client, consented: boolean, room: GameRoom) => {
   const user = room.state.connectedUsers.find(findByColyseusUserId({ client }));
@@ -40,7 +36,7 @@ export const onLeave = (client: Client, consented: boolean, room: GameRoom) => {
     y: spawnLocation.y,
   });
 
-  console.log(
+  logger.info(
     `${user.displayName} (${client.sessionId}) ${
       consented ? 'left voluntarily' : 'was disconnected'
     }.`

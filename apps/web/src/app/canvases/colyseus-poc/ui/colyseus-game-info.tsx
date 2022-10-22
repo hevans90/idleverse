@@ -3,6 +3,7 @@ import {
   Avatar,
   Box,
   Button,
+  Checkbox,
   HStack,
   Table,
   TableCaption,
@@ -17,6 +18,7 @@ import {
 } from '@chakra-ui/react';
 import { RoomState } from '@idleverse/colyseus-shared';
 import { useUiBackground } from '../../../hooks/use-ui-background';
+import { colyseusGridVar } from '../../../_state/colyseus';
 import { debugVar } from '../../../_state/global-settings';
 
 export const colyseusGameInfoHeight = 200;
@@ -155,19 +157,21 @@ export const ColyseusGameInfo = ({
 
                     return { ...rest, displayName, avatarUrl };
                   })
-                  .map(({ positionX, positionY, displayName, avatarUrl }) => (
-                    <Tr>
-                      <Td borderColor={border}>
-                        <HStack>
-                          <Avatar src={avatarUrl} size="xs" />
-                          <Text>{displayName}</Text>
-                        </HStack>
-                      </Td>
-                      <Td borderColor={border}>
-                        &#123; {positionX}, {positionY} &#125;
-                      </Td>
-                    </Tr>
-                  ))}
+                  .map(
+                    ({ positionX, positionY, displayName, avatarUrl }, i) => (
+                      <Tr key={i}>
+                        <Td borderColor={border}>
+                          <HStack>
+                            <Avatar src={avatarUrl} size="xs" />
+                            <Text>{displayName}</Text>
+                          </HStack>
+                        </Td>
+                        <Td borderColor={border}>
+                          &#123; {positionX}, {positionY} &#125;
+                        </Td>
+                      </Tr>
+                    )
+                  )}
               </Tbody>
             </Table>
           </TableContainer>
@@ -194,8 +198,8 @@ export const ColyseusGameInfo = ({
 
                     return { ...rest, displayName, avatarUrl };
                   })
-                  .map(({ x, y, displayName, avatarUrl }) => (
-                    <Tr>
+                  .map(({ x, y, displayName, avatarUrl }, i) => (
+                    <Tr key={i}>
                       <Td borderColor={border}>
                         <HStack>
                           <Avatar src={avatarUrl} size="xs" />
@@ -210,6 +214,15 @@ export const ColyseusGameInfo = ({
               </Tbody>
             </Table>
           </TableContainer>
+
+          <HStack width="100%">
+            <Text minWidth="175px">Grid</Text>
+            <Checkbox
+              size="lg"
+              isChecked={colyseusGridVar()}
+              onChange={() => colyseusGridVar(!colyseusGridVar())}
+            ></Checkbox>
+          </HStack>
         </VStack>
       )}
     </Box>

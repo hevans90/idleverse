@@ -16,8 +16,10 @@ import { useViewport } from '../_utils/use-viewport.hook';
 import { centerSprite, drawPlayerShip } from './rendering/draw-player-ship';
 import { useControls } from './use-controls';
 
+import { useReactiveVar } from '@apollo/client';
 import { colors } from '@idleverse/theme';
 import { colorsVar } from '../../_state/colors';
+import { colyseusGridVar } from '../../_state/colyseus';
 import { drawGrid } from './rendering/draw-grid';
 
 export const ColyseusGame = ({
@@ -33,8 +35,19 @@ export const ColyseusGame = ({
 
   const [shipSprites, setShipSprites] = useState<Sprite[]>([]);
   const solarSystemContainerRef = useRef(new Container());
+  const gridRef = useRef(
+    drawGrid({
+      width,
+      height,
+      columns,
+      rows,
+      gridColor: colors[colorsVar().secondary]['300'],
+    })
+  );
 
   const size = useResize('colyseus');
+
+  const grid = useReactiveVar(colyseusGridVar);
 
   useFpsTracker(app, size);
   useViewport(app, size, solarSystemContainerRef);
@@ -62,17 +75,15 @@ export const ColyseusGame = ({
     centerPlanetDraw(sun, true);
 
     solarSystemContainerRef.current.addChild(sun.sprite);
-
-    const gridContainer = drawGrid({
-      width,
-      height,
-      columns,
-      rows,
-      gridColor: colors[colorsVar().secondary]['300'],
-    });
-
-    solarSystemContainerRef.current.addChild(gridContainer);
   }, []);
+
+  useEffect(() => {
+    if (grid) {
+      solarSystemContainerRef.current.addChild(gridRef.current);
+    } else {
+      solarSystemContainerRef.current.removeChild(gridRef.current);
+    }
+  }, [grid]);
 
   useEffect(() => {
     shipSprites.forEach((sprite) =>

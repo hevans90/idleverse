@@ -5,6 +5,7 @@ import { IncomingMessage } from 'http';
 import { verify } from 'jsonwebtoken';
 import jwksRsa from 'jwks-rsa';
 import jwt_decode from 'jwt-decode';
+import { logger } from './_utils';
 
 export const onAuth = async (
   client: Client,
@@ -49,7 +50,7 @@ export const onAuth = async (
 
   try {
     await verifyToken();
-    console.log(`User ${displayName}: ${userId} successfully validated.`);
+    logger.info(`User ${displayName}: ${userId} successfully validated.`);
   } catch (err) {
     throw new ServerError(400, 'invalid access token');
   }

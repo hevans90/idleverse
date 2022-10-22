@@ -19,6 +19,12 @@ export const ColyseusNotifications = ({ room }: { room: Room }) => {
         status: 'info',
       })
     );
+    room.onMessage(ServerMessage.PlayerReconnected, (message: string) =>
+      toast({
+        title: message,
+        status: 'info',
+      })
+    );
     room.onMessage(ServerMessage.PlayerDisconnected, (message: string) =>
       toast({
         title: message,
