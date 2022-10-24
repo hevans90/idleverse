@@ -28,10 +28,7 @@ export const detectPositionalChanges = <
 
   curr.forEach((currShip) => {
     const prevShip = prev.find(({ userId }) => userId === currShip.userId);
-    console.log(
-      `prev X: ${prevShip?.positionX}`,
-      `curr X: ${currShip.positionX}`
-    );
+
     if (
       prevShip &&
       (prevShip.positionX !== currShip.positionX ||

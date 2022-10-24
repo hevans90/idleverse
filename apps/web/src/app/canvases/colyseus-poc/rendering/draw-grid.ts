@@ -16,8 +16,8 @@ export const drawGrid = ({
 }) => {
   const container = new PIXI.Container();
 
-  container.position.x = -width / 2;
-  container.position.y = -height / 2;
+  // container.position.x = -width / 2;
+  // container.position.y = -height / 2;
 
   const chunkWidth = width / columns;
   const chunkHeight = height / rows;

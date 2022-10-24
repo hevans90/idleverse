@@ -29,17 +29,11 @@ export const useViewport = ({
 
   const debug = useReactiveVar(debugVar);
 
-  const viewportRef = useRef<Viewport>(null);
-
-  const sizeIndicator = useRef<Text>(
-    indicatorFactory('viewport:', 50, size.height - 200, 'sizeIndicator')
-  );
-
   const worldWidth = worldSize ? worldSize.width : size.width;
   const worldHeight = worldSize ? worldSize.height : size.height;
 
-  useEffect(() => {
-    viewportRef.current = new Viewport({
+  const viewportRef = useRef<Viewport>(
+    new Viewport({
       screenWidth: size.width,
       screenHeight: size.height,
       worldWidth,
@@ -48,8 +42,27 @@ export const useViewport = ({
       // the interaction module is important for wheel to work properly when renderer.view is placed or scaled
       interaction: app.renderer.plugins.interaction,
       disableOnContextMenu: true,
-    });
+      ticker: app.ticker,
+    })
+  );
 
+  const sizeIndicator = useRef<Text>(
+    indicatorFactory('viewport:', 50, size.height - 200, 'sizeIndicator')
+  );
+
+  useEffect(() => {
+    viewportRef.current.screenHeight = size.height;
+    viewportRef.current.screenWidth = size.width;
+    viewportRef.current.worldWidth = worldSize ? worldSize.width : size.width;
+    viewportRef.current.worldHeight = worldSize
+      ? worldSize.height
+      : size.height;
+    viewportRef.current.fitWorld();
+    viewportRef.current.moveCenter(worldWidth / 2, worldHeight / 2);
+  }, [size]);
+
+  useEffect(() => {
+    viewportRef.current.name = 'viewport';
     viewportRef.current.drag().decelerate().pinch().wheel();
 
     if (clampDrag) {
@@ -59,27 +72,27 @@ export const useViewport = ({
       clampZoom || { minWidth: 500, maxWidth: 5000 }
     );
 
-    app.stage.addChild(viewportRef.current);
     if (containerRef) {
       if (center) {
         containerRef.current.x = size.width / 2;
         containerRef.current.y = size.height / 2;
       }
 
+      containerRef.current.position.x = worldWidth / 2;
+      containerRef.current.position.y = worldHeight / 2;
       viewportRef.current.addChild(containerRef.current);
     }
 
     if (debug) {
       outline.current = new Graphics();
       outline.current
-        .lineStyle(5, 0xff0000)
+        .lineStyle(3, 0xff0000)
         .drawRect(
           0,
           0,
           viewportRef.current.worldWidth,
           viewportRef.current.worldHeight
         );
-
       viewportRef.current.addChild(outline.current);
 
       sizeIndicator.current.text = `width: ${size.width}\n\nheight: ${size.height}`;
@@ -90,11 +103,15 @@ export const useViewport = ({
     viewportRef.current.fitWorld();
     viewportRef.current.moveCenter(worldWidth / 2, worldHeight / 2);
 
+    if (!app.stage.getChildByName('viewport')) {
+      app.stage.addChild(viewportRef.current);
+    }
+
     return () => {
       try {
         // this will also remove any children (debug outline etc)
+        viewportRef.current.removeChild(outline.current);
         app.stage.removeChild(viewportRef.current);
-
         app.stage.removeChild(sizeIndicator.current);
       } catch (e) {
         // this can throw if react-pixi destroys the stage, from routing etc.

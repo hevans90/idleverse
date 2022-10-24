@@ -4,7 +4,7 @@ import { GameRoom } from './room';
 export const onCreate = (options: any, room: GameRoom) => {
   room.setSimulationInterval((deltaTime) => room.update(deltaTime));
 
-  room.setState(new RoomState({ height: 500, width: 1000 }));
+  room.setState(new RoomState({ height: 2000, width: 2000 }));
 
   room.clock.start();
 

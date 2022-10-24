@@ -19,9 +19,6 @@ import {
 import { RoomState } from '@idleverse/colyseus-shared';
 import { useUiBackground } from '../../../hooks/use-ui-background';
 import { colyseusGridVar } from '../../../_state/colyseus';
-import { debugVar } from '../../../_state/global-settings';
-
-export const colyseusGameInfoHeight = 200;
 
 export const ColyseusGameInfo = ({
   joined,
@@ -50,54 +47,49 @@ export const ColyseusGameInfo = ({
 }) => {
   const { bg, border, bgDark } = useUiBackground();
 
-  const debug = useReactiveVar(debugVar);
+  const gridChecked = useReactiveVar(colyseusGridVar);
 
   return (
     <>
       <Box
         padding="1rem"
         display="flex"
-        position="absolute"
         alignItems="start"
         bgColor={bg}
-        bottom={0}
-        left="0"
         borderWidth="1px"
         borderStyle="solid"
         borderColor={border}
         borderLeft="unset"
-        borderRight="unset"
-        borderBottom="unset"
-        width="100%"
-        height={colyseusGameInfoHeight}
+        position="fixed"
+        left={0}
+        top="10vh"
+        maxHeight="75px"
       >
-        <VStack alignItems="start">
-          {!roomState && (
+        {!roomState && (
+          <Button
+            onClick={joinCallback}
+            disabled={joined || joiningInProgress}
+            isLoading={joiningInProgress}
+            loadingText="Joining..."
+          >
+            Join
+          </Button>
+        )}
+        {roomState && (
+          <>
             <Button
-              onClick={joinCallback}
-              disabled={joined || joiningInProgress}
-              isLoading={joiningInProgress}
-              loadingText="Joining..."
+              onClick={leaveCallback}
+              disabled={leavingInProgress}
+              isLoading={leavingInProgress}
+              loadingText="Quitting..."
             >
-              Join
+              Quit
             </Button>
-          )}
-          {roomState && (
-            <>
-              <Button
-                onClick={leaveCallback}
-                disabled={leavingInProgress}
-                isLoading={leavingInProgress}
-                loadingText="Quitting..."
-              >
-                Quit
-              </Button>
-              {/* <Code>{roomState.connectedUsers.length} users connected</Code> */}
-              {/* <Code>{JSON.stringify(roomState.spawnLocations, null, 2)}</Code> */}
-              {/* <Code width="100%">{JSON.stringify(roomState.ships, null, 2)}</Code> */}
-            </>
-          )}
-        </VStack>
+            {/* <Code>{roomState.connectedUsers.length} users connected</Code> */}
+            {/* <Code>{JSON.stringify(roomState.spawnLocations, null, 2)}</Code> */}
+            {/* <Code width="100%">{JSON.stringify(roomState.ships, null, 2)}</Code> */}
+          </>
+        )}
       </Box>
       {roomState && (
         <VStack
@@ -108,7 +100,7 @@ export const ColyseusGameInfo = ({
           margin={2}
           position="fixed"
           left={0}
-          top="10vh"
+          top="20vh"
           width="30vw"
           minWidth="400px"
           maxHeight="50vh"
@@ -220,7 +212,7 @@ export const ColyseusGameInfo = ({
             <Text minWidth="175px">Grid</Text>
             <Checkbox
               size="lg"
-              isChecked={colyseusGridVar()}
+              isChecked={gridChecked}
               onChange={() => colyseusGridVar(!colyseusGridVar())}
             ></Checkbox>
           </HStack>
