@@ -65,7 +65,12 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
 
   useFpsTracker(app, size);
 
-  useViewport(app, size, solarSystemContainerRef);
+  useViewport({
+    app,
+    size,
+    containerRef: solarSystemContainerRef,
+    clampDrag: true,
+  });
 
   useEffect(() => {
     // solarSystemContainerRef.current.filters = [new PixelateFilter(1)];

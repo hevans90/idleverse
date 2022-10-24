@@ -34,7 +34,7 @@ export const SolarSystem = () => {
 
   useFpsTracker(app, size);
 
-  useViewport(app, size, solarSystemContainerRef);
+  useViewport({ app, size, containerRef: solarSystemContainerRef });
 
   useEffect(() => {
     solarSystemContainerRef.current.filters = [new PixelateFilter(1)];

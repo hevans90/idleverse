@@ -66,7 +66,7 @@ export const GalaxyViewer = ({
 
   const navigateToCelestial = (id: string) => navigate(`/celestials/${id}`);
 
-  useViewport(app, size, galaxyContainerRef);
+  useViewport({ app, size, containerRef: galaxyContainerRef, clampDrag: true });
 
   useFpsTracker(app, size);
 

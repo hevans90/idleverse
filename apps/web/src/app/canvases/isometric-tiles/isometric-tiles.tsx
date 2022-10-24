@@ -79,7 +79,13 @@ export const IsometricTiles = ({
 
   const app = useApp();
 
-  useViewport(app, size, gameContainer, false);
+  useViewport({
+    app,
+    size,
+    containerRef: gameContainer,
+    center: false,
+    clampDrag: true,
+  });
   useFpsTracker(app, size);
 
   const addOrRemoveIndicators = (val: 'add' | 'remove') => {
