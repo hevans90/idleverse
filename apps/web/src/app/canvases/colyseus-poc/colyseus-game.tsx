@@ -1,8 +1,7 @@
-import { RoomState } from '@idleverse/colyseus-shared';
+import { ColyseusShip } from '@idleverse/colyseus-shared';
 import { useApp } from '@inlet/react-pixi';
-import { Room } from 'colyseus.js';
-import { Container, Renderer, Sprite } from 'pixi.js';
-import { useEffect, useRef, useState } from 'react';
+import { Container, Renderer } from 'pixi.js';
+import { useEffect, useRef } from 'react';
 import { Planet, PlanetConfig } from '../celestial-viewer/models';
 import {
   centerPlanetDraw,
@@ -13,46 +12,82 @@ import { sunSpriteConfig } from '../celestial-viewer/utils/static-sprite-configs
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
 import { useResize } from '../_utils/use-resize.hook';
 import { useViewport } from '../_utils/use-viewport.hook';
-import { centerSprite, drawPlayerShip } from './rendering/draw-player-ship';
+import { drawPlayerShip } from './rendering/draw-player-ship';
 import { useControls } from './use-controls';
 
 import { useReactiveVar } from '@apollo/client';
 import { colors } from '@idleverse/theme';
+import * as PIXI from 'pixi.js';
 import { colorsVar } from '../../_state/colors';
-import { colyseusGridVar } from '../../_state/colyseus';
+import {
+  colyseusGridVar,
+  colyseusRoomDimensionsVar,
+  colyseusRoomVar,
+  colyseusShipsVar,
+} from '../../_state/colyseus';
+import { selfVar } from '../../_state/reactive-variables';
 import { drawGrid } from './rendering/draw-grid';
+import { detectPositionalChanges, diffByUserId } from './utils/diff-by-user-id';
 
-export const ColyseusGame = ({
-  room,
-  ships,
-  dimensions: { width, height, columns, rows },
-}: {
-  room: Room;
-  ships: RoomState['ships'];
-  dimensions: { width: number; height: number; columns: number; rows: number };
-}) => {
+// necessary because Colyseus serialises their state in to classes (wtf, wHY?!)
+const cloneClass = <T,>(obj: T): T =>
+  Object.assign(Object.create(Object.getPrototypeOf(obj)), obj);
+
+export const ColyseusGame = () => {
   const app = useApp();
+  const self = useReactiveVar(selfVar);
 
-  const [shipSprites, setShipSprites] = useState<Sprite[]>([]);
+  const room = useReactiveVar(colyseusRoomVar);
+  const dimensions = useReactiveVar(colyseusRoomDimensionsVar);
+  const ships = useReactiveVar(colyseusShipsVar);
+  const grid = useReactiveVar(colyseusGridVar);
+
+  const shipsRef = useRef<ColyseusShip[]>(
+    ships.map((ship) => cloneClass(ship))
+  );
+
   const solarSystemContainerRef = useRef(new Container());
-  const gridRef = useRef(
+  const gridRef = useRef<Container>(
     drawGrid({
-      width,
-      height,
-      columns,
-      rows,
+      width: dimensions.width,
+      height: dimensions.height,
+      columns: dimensions.columns,
+      rows: dimensions.rows,
       gridColor: colors[colorsVar().secondary]['300'],
     })
   );
 
   const size = useResize('colyseus');
 
-  const grid = useReactiveVar(colyseusGridVar);
+  const viewport = useViewport(
+    app,
+    size,
+    solarSystemContainerRef,
+    true,
+    {
+      width: 2000,
+      height: 1000,
+    },
+    { minWidth: 1000, maxWidth: 4000 }
+  );
 
   useFpsTracker(app, size);
-  useViewport(app, size, solarSystemContainerRef);
 
   useControls(room);
+
+  const addShipToContainer = (ship: Readonly<ColyseusShip>) => {
+    const { shipSprite, avatarGraphic, avatarSprite } = drawPlayerShip(
+      app.renderer as Renderer,
+      ship.userId,
+      colors[colorsVar().secondary]['300']
+    );
+
+    shipSprite.position.x = ship.positionX - dimensions.width / 2;
+    shipSprite.position.y = ship.positionY - dimensions.height / 2;
+    shipSprite.anchor.set(0.5, 0.5);
+    shipSprite.name = `ship_${ship.userId}`;
+    solarSystemContainerRef.current.addChild(shipSprite);
+  };
 
   useEffect(() => {
     solarSystemContainerRef.current.x = size.width / 2;
@@ -75,6 +110,11 @@ export const ColyseusGame = ({
     centerPlanetDraw(sun, true);
 
     solarSystemContainerRef.current.addChild(sun.sprite);
+    sun.sprite.position.x = 0;
+    sun.sprite.position.y = 0;
+    sun.sprite.anchor.set(0.5, 0.5);
+
+    shipsRef.current.forEach((ship) => addShipToContainer(ship));
   }, []);
 
   useEffect(() => {
@@ -86,30 +126,51 @@ export const ColyseusGame = ({
   }, [grid]);
 
   useEffect(() => {
-    shipSprites.forEach((sprite) =>
-      solarSystemContainerRef.current.removeChild(sprite)
+    const { additions, deletions } = diffByUserId(shipsRef.current, ships);
+    const { shipsWithUpdatedPositions } = detectPositionalChanges(
+      shipsRef.current,
+      ships
     );
 
-    const sprites: Sprite[] = [];
+    console.log(
+      `ref: ${shipsRef.current.map((x) => x.positionX)}`,
+      `new: ${ships.map((x) => x.positionX)}`
+    );
 
-    ships.forEach((serverShip) => {
-      const { shipSprite, avatarGraphic, avatarSprite } = drawPlayerShip(
-        app.renderer as Renderer,
-        serverShip.userId,
-        colors[colorsVar().secondary]['300']
-      );
+    if (additions || deletions || shipsWithUpdatedPositions) {
+      shipsRef.current = ships.map((ship) => cloneClass(ship));
+    }
 
-      centerSprite(
-        { width, height },
-        { x: serverShip.positionX, y: serverShip.positionY },
-        shipSprite
+    deletions?.forEach(({ userId }) => {
+      const shipToRemove = solarSystemContainerRef.current.getChildByName(
+        `ship_${userId}`,
+        true
       );
-      solarSystemContainerRef.current.addChild(shipSprite);
-      sprites.push(shipSprite);
+      solarSystemContainerRef.current.removeChild(shipToRemove);
     });
 
-    setShipSprites(sprites);
+    additions?.forEach((ship) => addShipToContainer(ship));
+
+    shipsWithUpdatedPositions?.forEach(({ userId, positionX, positionY }) => {
+      const shipToModify = solarSystemContainerRef.current.getChildByName(
+        `ship_${userId}`,
+        true
+      ) as PIXI.Sprite;
+      shipToModify.position.x = positionX - dimensions.width / 2;
+      shipToModify.position.y = positionY - dimensions.height / 2;
+    });
   }, [JSON.stringify(ships)]);
+
+  useEffect(() => {
+    const selfShipSprite = solarSystemContainerRef.current.getChildByName(
+      `ship_${self.id}`,
+      true
+    );
+
+    if (viewport && selfShipSprite) {
+      viewport?.follow(selfShipSprite);
+    }
+  }, [viewport]);
 
   return <></>;
 };

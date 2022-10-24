@@ -82,4 +82,6 @@ export const useViewport = (
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [app.stage, containerRef, size, debug]);
+
+  return viewportRef.current;
 };

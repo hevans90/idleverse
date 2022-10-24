@@ -2,7 +2,6 @@ import { useReactiveVar } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { sideNavWidth, topBarHeight } from '../../components/layout';
 import { layoutVar } from '../../_state/global-settings';
-import { colyseusGameInfoHeight } from '../colyseus-poc/ui/colyseus-game-info';
 
 import { generatorControlsHeight } from '../galaxy-generator/ui/generator-controls';
 import { galaxySimControlsHeight } from '../gravity-simulation/ui/gravity-simulation-controls';
@@ -14,7 +13,6 @@ export type controls =
   | 'solar-system'
   | 'gravity-sim'
   | 'planet-gen'
-  | 'colyseus'
   | 'none';
 
 const controlValue = (controls: controls) => {
@@ -23,7 +21,6 @@ const controlValue = (controls: controls) => {
     'solar-system': solarSystemControlsHeight,
     'gravity-sim': galaxySimControlsHeight,
     'planet-gen': planetGenerationControlsHeight,
-    colyseus: colyseusGameInfoHeight,
     none: 0,
   };
 

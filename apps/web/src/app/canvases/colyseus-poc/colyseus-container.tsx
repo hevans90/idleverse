@@ -15,7 +15,12 @@ import {
 import { loadColyseusAssets } from '../../asset-loading/load-colyseus-assets';
 import { loadPlanets } from '../../asset-loading/load-planets';
 import { Loading } from '../../components/loading';
-import { colyseusSessionVar } from '../../_state/colyseus';
+import {
+  colyseusRoomDimensionsVar,
+  colyseusRoomVar,
+  colyseusSessionVar,
+  colyseusShipsVar,
+} from '../../_state/colyseus';
 import { PixiWrapper } from '../_utils/pixi-wrapper';
 import { ColyseusGame } from './colyseus-game';
 import { ColyseusGameInfo } from './ui/colyseus-game-info';
@@ -24,6 +29,7 @@ import { ColyseusSocial } from './ui/social';
 
 export const ColyseusContainer = () => {
   const accessToken = useReactiveVar(accessTokenVar);
+  const dimensions = useReactiveVar(colyseusRoomDimensionsVar);
   const toast = useToast();
 
   const previousSession = useReactiveVar(colyseusSessionVar);
@@ -47,7 +53,7 @@ export const ColyseusContainer = () => {
   ) => {
     setJoiningRoom(true);
 
-    let room: Room;
+    let room: Room<RoomState>;
 
     try {
       if (previous) {
@@ -85,17 +91,22 @@ export const ColyseusContainer = () => {
     }
     setJoiningRoom(false);
     setRoom(room);
+
+    colyseusRoomVar(room);
     colyseusSessionVar({ roomId: room.id, clientId: room.sessionId });
 
     // sync initial state of room
-    room.onStateChange.once((roomState: RoomState) =>
-      setRoomState({ ...roomState })
-    );
+    room.onStateChange.once((roomState: RoomState) => {
+      const { width, height, columns, rows } = roomState;
+      colyseusRoomDimensionsVar({ width, height, columns, rows });
+      setRoomState({ ...roomState });
+    });
 
     // subsequent realtime state updates
-    room.onStateChange((roomState: RoomState) =>
-      setRoomState({ ...roomState })
-    );
+    room.onStateChange((roomState: RoomState) => {
+      setRoomState({ ...roomState });
+      colyseusShipsVar([...roomState.ships]);
+    });
 
     room.onMessage(ServerMessage.ClientDisconnected, () => {
       setRoom(undefined);
@@ -206,18 +217,7 @@ export const ColyseusContainer = () => {
         </>
       }
     >
-      {roomState && (
-        <ColyseusGame
-          room={room}
-          ships={roomState.ships}
-          dimensions={{
-            width: roomState.width,
-            height: roomState.height,
-            columns: roomState.columns,
-            rows: roomState.rows,
-          }}
-        ></ColyseusGame>
-      )}
+      {roomState && dimensions && <ColyseusGame></ColyseusGame>}
     </PixiWrapper>
   );
 };

@@ -53,50 +53,52 @@ export const ColyseusGameInfo = ({
   const debug = useReactiveVar(debugVar);
 
   return (
-    <Box
-      padding="1rem"
-      display="flex"
-      position="absolute"
-      alignItems="start"
-      bgColor={bg}
-      bottom={0}
-      left="0"
-      borderWidth="1px"
-      borderStyle="solid"
-      borderColor={border}
-      borderLeft="unset"
-      borderRight="unset"
-      borderBottom="unset"
-      width="100%"
-      height={colyseusGameInfoHeight}
-    >
-      <VStack alignItems="start">
-        {!roomState && (
-          <Button
-            onClick={joinCallback}
-            disabled={joined || joiningInProgress}
-            isLoading={joiningInProgress}
-            loadingText="Joining..."
-          >
-            Join
-          </Button>
-        )}
-        {roomState && (
-          <>
+    <>
+      <Box
+        padding="1rem"
+        display="flex"
+        position="absolute"
+        alignItems="start"
+        bgColor={bg}
+        bottom={0}
+        left="0"
+        borderWidth="1px"
+        borderStyle="solid"
+        borderColor={border}
+        borderLeft="unset"
+        borderRight="unset"
+        borderBottom="unset"
+        width="100%"
+        height={colyseusGameInfoHeight}
+      >
+        <VStack alignItems="start">
+          {!roomState && (
             <Button
-              onClick={leaveCallback}
-              disabled={leavingInProgress}
-              isLoading={leavingInProgress}
-              loadingText="Quitting..."
+              onClick={joinCallback}
+              disabled={joined || joiningInProgress}
+              isLoading={joiningInProgress}
+              loadingText="Joining..."
             >
-              Quit
+              Join
             </Button>
-            {/* <Code>{roomState.connectedUsers.length} users connected</Code> */}
-            {/* <Code>{JSON.stringify(roomState.spawnLocations, null, 2)}</Code> */}
-            {/* <Code width="100%">{JSON.stringify(roomState.ships, null, 2)}</Code> */}
-          </>
-        )}
-      </VStack>
+          )}
+          {roomState && (
+            <>
+              <Button
+                onClick={leaveCallback}
+                disabled={leavingInProgress}
+                isLoading={leavingInProgress}
+                loadingText="Quitting..."
+              >
+                Quit
+              </Button>
+              {/* <Code>{roomState.connectedUsers.length} users connected</Code> */}
+              {/* <Code>{JSON.stringify(roomState.spawnLocations, null, 2)}</Code> */}
+              {/* <Code width="100%">{JSON.stringify(roomState.ships, null, 2)}</Code> */}
+            </>
+          )}
+        </VStack>
+      </Box>
       {roomState && (
         <VStack
           bg={bg}
@@ -108,6 +110,7 @@ export const ColyseusGameInfo = ({
           left={0}
           top="10vh"
           width="30vw"
+          minWidth="400px"
           maxHeight="50vh"
           overflow="scroll"
           opacity={0.8}
@@ -223,6 +226,6 @@ export const ColyseusGameInfo = ({
           </HStack>
         </VStack>
       )}
-    </Box>
+    </>
   );
 };
