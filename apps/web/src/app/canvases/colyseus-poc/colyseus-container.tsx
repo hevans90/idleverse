@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { useReactiveVar } from '@apollo/client';
 
 import { Client, Room } from 'colyseus.js';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { accessTokenVar, selfVar } from '../../_state/reactive-variables';
 
 import { useToast } from '@chakra-ui/react';
@@ -85,12 +85,12 @@ export const ColyseusContainer = () => {
 
       toast({ title, status: 'error' });
       setJoiningRoom(false);
-      setRoom(undefined);
+      roomRef.current = undefined;
       setRoomState(undefined);
       return;
     }
     setJoiningRoom(false);
-    setRoom(room);
+    roomRef.current = room;
 
     colyseusRoomVar(room);
     colyseusSessionVar({ roomId: room.id, clientId: room.sessionId });
@@ -109,7 +109,7 @@ export const ColyseusContainer = () => {
     });
 
     room.onMessage(ServerMessage.ClientDisconnected, () => {
-      setRoom(undefined);
+      roomRef.current = undefined;
       setRoomState(undefined);
     });
   };
@@ -129,9 +129,9 @@ export const ColyseusContainer = () => {
 
   const leaveRoom = async () => {
     setLeavingRoom(true);
-    await room.leave(true);
+    await roomRef.current.leave(true);
     setLeavingRoom(false);
-    setRoom(undefined);
+    roomRef.current = undefined;
     setRoomState(undefined);
     colyseusSessionVar(undefined);
   };
@@ -139,7 +139,7 @@ export const ColyseusContainer = () => {
   const [colyseusSpritesLoading, setColyseusSpritesLoading] = useState(true);
   const [celestialSpritesLoading, setCelestialSpritesLoading] = useState(true);
 
-  const [room, setRoom] = useState<Room>();
+  const roomRef = useRef<Room>();
   const [leavingRoom, setLeavingRoom] = useState<boolean>();
   const [joiningRoom, setJoiningRoom] = useState<boolean>();
   const [roomState, setRoomState] =
@@ -171,6 +171,11 @@ export const ColyseusContainer = () => {
     if (previousSession) {
       joinRoom({ previous: true });
     }
+
+    return () => {
+      // trigger unconsented leave (disconnect, allowing reconnection) on unmount
+      roomRef.current?.leave(false);
+    };
   }, []);
 
   if (celestialSpritesLoading) {
@@ -211,7 +216,7 @@ export const ColyseusContainer = () => {
                 connectedUsers={roomState.connectedUsers}
                 impulses={roomState.impulses}
               />
-              <ColyseusNotifications room={room} />
+              <ColyseusNotifications room={roomRef.current} />
             </>
           )}
         </>

@@ -14,6 +14,7 @@ import { useControls } from './use-controls';
 
 import { useReactiveVar } from '@apollo/client';
 import { colors } from '@idleverse/theme';
+import { Viewport } from 'pixi-viewport';
 import * as PIXI from 'pixi.js';
 import { colorsVar } from '../../_state/colors';
 import {
@@ -24,6 +25,7 @@ import {
 } from '../../_state/colyseus';
 import { selfVar } from '../../_state/reactive-variables';
 import { drawGrid } from './rendering/draw-grid';
+import { StarField } from './rendering/starfield';
 import { detectPositionalChanges, diffByUserId } from './utils/diff-by-user-id';
 
 // necessary because Colyseus serialises their state in to classes (wtf, wHY?!)
@@ -67,6 +69,19 @@ export const ColyseusGame = () => {
     })
   );
 
+  const [following, setFollowing] = useState(false);
+
+  const followShip = (viewport: Viewport) => {
+    const selfShipSprite = viewport.getChildByName(`ship_${self.id}`, true);
+    if (selfShipSprite && !following) {
+      viewport.follow(selfShipSprite, {
+        speed: 0, // speed to follow in pixels/frame (0=teleport to location)
+        acceleration: null, // set acceleration to accelerate and decelerate at this rate; speed cannot be 0 to use acceleration
+        radius: null, // radius (in world coordinates) of center circle where movement is allowed without moving the viewport
+      });
+      setFollowing(true);
+    }
+  };
   useFpsTracker(app, size);
   useControls(room);
 
@@ -82,6 +97,8 @@ export const ColyseusGame = () => {
     shipSprite.anchor.set(0.5, 0.5);
     shipSprite.name = `ship_${ship.userId}`;
     viewport.addChild(shipSprite);
+    followShip(viewport);
+    viewport.setZoom(2);
   };
 
   useEffect(() => {
@@ -114,16 +131,8 @@ export const ColyseusGame = () => {
 
   useEffect(() => {
     if (viewport) {
-      // viewport.plugins.remove('follow');
-
-      const selfShipSprite = viewport.getChildByName(`ship_${self.id}`, true);
-      if (selfShipSprite) {
-        viewport.follow(selfShipSprite, {
-          speed: 0, // speed to follow in pixels/frame (0=teleport to location)
-          acceleration: null, // set acceleration to accelerate and decelerate at this rate; speed cannot be 0 to use acceleration
-          radius: null, // radius (in world coordinates) of center circle where movement is allowed without moving the viewport
-        });
-      }
+      followShip(viewport);
+      viewport.setZoom(2);
     }
   }, [size, viewport]);
 
@@ -167,5 +176,5 @@ export const ColyseusGame = () => {
     });
   }, [JSON.stringify(ships)]);
 
-  return <></>;
+  return <StarField viewport={viewport} dimensions={dimensions} />;
 };
