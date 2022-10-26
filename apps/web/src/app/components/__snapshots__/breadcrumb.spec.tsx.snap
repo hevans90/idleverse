@@ -46,8 +46,8 @@ exports[`breadcrumb should render 1`] = `
     </span>
   </div>
   <span
-    class="chakra-env"
     hidden=""
+    id="__chakra_env"
   />
 </div>
 `;
