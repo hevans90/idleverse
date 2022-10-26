@@ -5,6 +5,7 @@ select_permissions:
   - role: dev
     permission:
       columns:
+        - avatar_url
         - display_name
         - id
         - name
@@ -16,6 +17,7 @@ select_permissions:
   - role: unregistered
     permission:
       columns:
+        - avatar_url
         - display_name
         - id
         - name
@@ -27,6 +29,7 @@ select_permissions:
   - role: user
     permission:
       columns:
+        - avatar_url
         - display_name
         - id
         - name

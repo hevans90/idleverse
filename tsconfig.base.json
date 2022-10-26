@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@idleverse/colyseus-shared": ["libs/colyseus-shared/src/index.ts"],
       "@idleverse/galaxy-gen": ["libs/galaxy-gen/src/index.ts"],
       "@idleverse/galaxy-gql": ["libs/galaxy-gql/src/index.ts"],
       "@idleverse/graphql-utils": ["libs/graphql-utils/src/index.ts"],

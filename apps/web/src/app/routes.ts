@@ -1,4 +1,5 @@
 import { CelestialViewerContainer } from './canvases/celestial-viewer/celestial-viewer.container';
+import { ColyseusContainer } from './canvases/colyseus-poc/colyseus-container';
 import { GalaxyGenContainer } from './canvases/galaxy-generator/galaxy-generator.container';
 import { GalaxyViewerContainer } from './canvases/galaxy-viewer/galaxy-viewer.container';
 import { GravitySimulationContainer } from './canvases/gravity-simulation/gravity-simulation.container';
@@ -55,5 +56,10 @@ export const routes = [
     path: '/isometric-tiles',
     name: 'isometric tiles',
     component: IsometricContainer,
+  },
+  {
+    path: '/colyseus-poc',
+    name: 'colyseus poc',
+    component: ColyseusContainer,
   },
 ];

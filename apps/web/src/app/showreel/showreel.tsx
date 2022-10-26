@@ -31,6 +31,10 @@ export const Showreel = () => {
       route: 'isometric-tiles',
       display: 'Isometric Tiles',
     },
+    {
+      route: 'colyseus-poc',
+      display: 'Colyseus POC',
+    },
   ];
 
   return (

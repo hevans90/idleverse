@@ -12,8 +12,8 @@ exports[`loading should render 1`] = `
     </p>
   </div>
   <span
-    class="chakra-env"
     hidden=""
+    id="__chakra_env"
   />
 </div>
 `;
@@ -30,8 +30,8 @@ exports[`loading should render custom text 1`] = `
     </p>
   </div>
   <span
-    class="chakra-env"
     hidden=""
+    id="__chakra_env"
   />
 </div>
 `;
@@ -48,8 +48,8 @@ exports[`loading should render custom text and size 1`] = `
     </p>
   </div>
   <span
-    class="chakra-env"
     hidden=""
+    id="__chakra_env"
   />
 </div>
 `;

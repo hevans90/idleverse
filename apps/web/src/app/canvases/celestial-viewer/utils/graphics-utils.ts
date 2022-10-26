@@ -1,22 +1,22 @@
 import {
   AnimatedSprite,
   BaseTexture,
-  Container,
   Graphics,
   Rectangle,
-  Renderer,
-  Sprite,
   Texture,
 } from 'pixi.js';
 
-export type SpriteSheetConfig = {
+export type SpriteConfig = {
   name: string;
+  spriteScale: number;
   url: string;
+};
+
+export type SpriteSheetConfig = SpriteConfig & {
   cols: number;
   rows: number;
   lastRowItemCount: number;
   animationSpeed: number;
-  spriteScale: number;
 };
 
 export const createAnimatedPlanetSprite = (conf: SpriteSheetConfig) => {
@@ -65,14 +65,4 @@ export const createRadialEllipse = (
   gr.endFill();
   gr.zIndex = 0;
   return gr;
-};
-
-const createBasicPlanetSprite = (
-  container: Container,
-  renderer: Renderer,
-  graphic: Graphics
-) => {
-  const sunTexture = renderer.generateTexture(graphic);
-  const sprite = new Sprite(sunTexture);
-  return sprite;
 };

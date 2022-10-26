@@ -3,7 +3,6 @@ import { useReactiveVar } from '@apollo/client';
 import { CelestialByIdQuery } from '@idleverse/galaxy-gql';
 import { hexStringToNumber } from '@idleverse/theme';
 import { useApp } from '@inlet/react-pixi';
-import { PixelateFilter } from '@pixi/filter-pixelate';
 import { Container, TickerCallback } from 'pixi.js';
 import { useEffect, useRef, useState } from 'react';
 import { assetLoader } from '../../asset-loading/asset-loader';
@@ -26,8 +25,8 @@ import { Planet, PlanetConfig } from './models';
 import { useSelectedPlanet } from './use-selected-planet';
 import {
   buildPlanet,
+  centerPlanetDraw,
   createPlanet,
-  drawPlanet,
   updatePlanetPosition,
 } from './utils/drawing-utils';
 import { sunSpriteConfig } from './utils/static-sprite-configs';
@@ -66,10 +65,15 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
 
   useFpsTracker(app, size);
 
-  useViewport(app, size, solarSystemContainerRef);
+  useViewport({
+    app,
+    size,
+    containerRef: solarSystemContainerRef,
+    clampDrag: true,
+  });
 
   useEffect(() => {
-    solarSystemContainerRef.current.filters = [new PixelateFilter(1)];
+    // solarSystemContainerRef.current.filters = [new PixelateFilter(1)];
     solarSystemContainerRef.current.x = size.width / 2;
     solarSystemContainerRef.current.y = size.height / 2;
 
@@ -162,7 +166,7 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
           planet,
           solarSystemConfigVar().simulationSpeed
         );
-        drawPlanet(planet, systemOrigin, planet.name === celestial.name);
+        centerPlanetDraw(planet, planet.name === celestial.name);
       });
 
       setPlanets(tempPlanets);

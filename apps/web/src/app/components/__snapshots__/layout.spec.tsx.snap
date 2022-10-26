@@ -13,8 +13,8 @@ exports[`layout should render 1`] = `
       />
     </div>
     <span
-      class="chakra-env"
       hidden=""
+      id="__chakra_env"
     />
   </div>
   <div

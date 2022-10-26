@@ -16,8 +16,8 @@ import {
 import { colors, hexStringToNumber } from '@idleverse/theme';
 import { Planet, PlanetConfig } from '../celestial-viewer/models';
 import {
+  centerPlanetDraw,
   createPlanet,
-  drawPlanet,
   updatePlanetPosition,
 } from '../celestial-viewer/utils/drawing-utils';
 import {
@@ -34,7 +34,7 @@ export const SolarSystem = () => {
 
   useFpsTracker(app, size);
 
-  useViewport(app, size, solarSystemContainerRef);
+  useViewport({ app, size, containerRef: solarSystemContainerRef });
 
   useEffect(() => {
     solarSystemContainerRef.current.filters = [new PixelateFilter(1)];
@@ -125,7 +125,7 @@ export const SolarSystem = () => {
       planets.forEach((planet) =>
         updatePlanetPosition(timeVar(), planet, simulationSpeed)
       );
-      planets.forEach((planet) => drawPlanet(planet, systemOrigin));
+      planets.forEach((planet) => centerPlanetDraw(planet));
     });
   }, []);
 

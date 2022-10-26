@@ -2,6 +2,7 @@ import { useReactiveVar } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
 import { hexStringToNumber } from '@idleverse/theme';
 import { Stage } from '@inlet/react-pixi';
+import { useEffect, useState } from 'react';
 import { GameUI } from '../../game-ui/game-ui';
 import { useUiBackground } from '../../hooks/use-ui-background';
 import { galacticEmpireVar, myEmpireVar } from '../../_state/galactic-empire';
@@ -12,6 +13,7 @@ export const PixiWrapper = (props: {
   children?: JSX.Element;
   ui?: JSX.Element;
   resizeControls?: controls;
+  showGameUI?: boolean;
 }) => {
   const { disableZoomCallback } = useDisableWheelZoom();
 
@@ -22,8 +24,16 @@ export const PixiWrapper = (props: {
   const galacticEmpire = useReactiveVar(galacticEmpireVar);
   const myEmpire = useReactiveVar(myEmpireVar);
 
+  const [showGameUI, setShowGameUI] = useState<boolean>(props.showGameUI);
+
+  useEffect(() => {
+    if (props.showGameUI === undefined) {
+      setShowGameUI(true);
+    }
+  }, [props]);
+
   return (
-    <Box position="relative">
+    <Box position="relative" height="100%" overflow="hidden">
       <Box ref={disableZoomCallback}>
         <Stage
           {...size}
@@ -36,7 +46,7 @@ export const PixiWrapper = (props: {
         </Stage>
       </Box>
       {props?.ui}
-      {galacticEmpire?.id && myEmpire && (
+      {galacticEmpire?.id && myEmpire && showGameUI && (
         <GameUI empireId={galacticEmpire.id} />
       )}
     </Box>
