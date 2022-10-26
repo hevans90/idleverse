@@ -9,10 +9,10 @@ export const updateShipPositions = (deltaTime: number, room: GameRoom) => {
     const ship = room.state.ships.find(findByClientId(user.colyseusUserId));
 
     if (impulse?.up) {
-      ship.positionY -= deltaTime;
+      ship.positionY -= deltaTime / 4;
     }
     if (impulse?.down) {
-      ship.positionY += deltaTime;
+      ship.positionY += deltaTime / 4;
     }
     if (impulse?.left) {
       ship.positionX -= deltaTime;
