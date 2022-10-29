@@ -59,8 +59,6 @@ export const StarField = ({
       star.position.y =
         Math.random() * dimensions.height * 3 * (rand2 > 0.5 ? -1 : 1);
       particleContainerRef.current.addChild(star);
-
-      console.log(star);
     }
 
     viewport.addChild(particleContainerRef.current);

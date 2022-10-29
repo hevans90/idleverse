@@ -26,7 +26,11 @@ import {
 import { selfVar } from '../../_state/reactive-variables';
 import { drawGrid } from './rendering/draw-grid';
 import { StarField } from './rendering/starfield';
-import { detectPositionalChanges, diffByUserId } from './utils/diff-by-user-id';
+import {
+  detectPositionalChanges,
+  detectRotationalChanges,
+} from './utils/detect-positional-changes';
+import { diffByUserId } from './utils/diff-by-user-id';
 
 // necessary because Colyseus serialises their state in to classes (wtf, wHY?!)
 const cloneClass = <T,>(obj: T): T =>
@@ -71,10 +75,12 @@ export const ColyseusGame = () => {
 
   const [following, setFollowing] = useState(false);
 
+  const selfShip = () => viewport.getChildByName(`ship_${self.id}`, true);
+
   const followShip = (viewport: Viewport) => {
-    const selfShipSprite = viewport.getChildByName(`ship_${self.id}`, true);
-    if (selfShipSprite && !following) {
-      viewport.follow(selfShipSprite, {
+    const myShip = selfShip();
+    if (myShip && !following) {
+      viewport.follow(myShip, {
         speed: 0, // speed to follow in pixels/frame (0=teleport to location)
         acceleration: null, // set acceleration to accelerate and decelerate at this rate; speed cannot be 0 to use acceleration
         radius: null, // radius (in world coordinates) of center circle where movement is allowed without moving the viewport
@@ -91,6 +97,8 @@ export const ColyseusGame = () => {
       ship.userId,
       colors[colorsVar().secondary]['300']
     );
+
+    shipSprite.rotation = ship.rotation;
 
     shipSprite.position.x = ship.positionX;
     shipSprite.position.y = ship.positionY;
@@ -153,6 +161,11 @@ export const ColyseusGame = () => {
       ships
     );
 
+    const { shipsWithUpdatedRotations } = detectRotationalChanges(
+      shipsRef.current,
+      ships
+    );
+
     if (additions || deletions || shipsWithUpdatedPositions) {
       shipsRef.current = ships.map((ship) => cloneClass(ship));
     }
@@ -172,6 +185,15 @@ export const ColyseusGame = () => {
       if (shipToModify) {
         shipToModify.position.x = positionX;
         shipToModify.position.y = positionY;
+      }
+    });
+    shipsWithUpdatedRotations?.forEach(({ userId, rotation }) => {
+      const shipToModify = viewport?.getChildByName(
+        `ship_${userId}`,
+        true
+      ) as PIXI.Sprite;
+      if (shipToModify) {
+        shipToModify.rotation = rotation;
       }
     });
   }, [JSON.stringify(ships)]);

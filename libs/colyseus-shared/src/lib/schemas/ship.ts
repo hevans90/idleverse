@@ -18,6 +18,7 @@ export class ColyseusShip extends Schema {
     super();
     this.positionX = positionX;
     this.positionY = positionY;
+    this.rotation = 0;
     this.velocityX = 0;
     this.velocityY = 0;
     this.maxVelocity = maxVelocity;
@@ -25,6 +26,11 @@ export class ColyseusShip extends Schema {
     this.colyseusUserId = colyseusUserId;
     this.userId = userId;
   }
+
+  /**
+   * Radians
+   */
+  @type('number') rotation: number;
 
   @type('number') positionX: number;
   @type('number') positionY: number;

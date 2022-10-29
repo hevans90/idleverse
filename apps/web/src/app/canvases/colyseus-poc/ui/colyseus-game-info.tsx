@@ -100,9 +100,9 @@ export const ColyseusGameInfo = ({
           margin={2}
           position="fixed"
           left={0}
-          top="20vh"
-          width="30vw"
-          minWidth="400px"
+          top="60vh"
+          width="50vw"
+          minWidth="500px"
           maxHeight="50vh"
           overflow="scroll"
           opacity={0.8}
@@ -111,7 +111,6 @@ export const ColyseusGameInfo = ({
         >
           <TableContainer borderColor={border} borderWidth="1px">
             <Table variant="simple" fontSize="xs" size="sm">
-              <TableCaption>room</TableCaption>
               <Thead>
                 <Tr bg={bgDark}>
                   <Th>width</Th>
@@ -138,6 +137,8 @@ export const ColyseusGameInfo = ({
                 <Tr bg={bgDark}>
                   <Th>User</Th>
                   <Th>&#123; x, y &#125;</Th>
+                  <Th>rotation</Th>
+                  <Th>velocity</Th>
                 </Tr>
               </Thead>
               <Tbody>
@@ -151,7 +152,18 @@ export const ColyseusGameInfo = ({
                     return { ...rest, displayName, avatarUrl };
                   })
                   .map(
-                    ({ positionX, positionY, displayName, avatarUrl }, i) => (
+                    (
+                      {
+                        positionX,
+                        positionY,
+                        displayName,
+                        avatarUrl,
+                        rotation,
+                        velocityX,
+                        velocityY,
+                      },
+                      i
+                    ) => (
                       <Tr key={i}>
                         <Td borderColor={border}>
                           <HStack>
@@ -161,6 +173,10 @@ export const ColyseusGameInfo = ({
                         </Td>
                         <Td borderColor={border}>
                           &#123; {positionX}, {positionY} &#125;
+                        </Td>
+                        <Td borderColor={border}>{rotation}</Td>
+                        <Td borderColor={border}>
+                          &#123; {velocityX}, {velocityY} &#125;
                         </Td>
                       </Tr>
                     )
