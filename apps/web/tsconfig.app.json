@@ -6,8 +6,7 @@
   },
   "files": [
     "../../node_modules/@nrwl/react/typings/cssmodule.d.ts",
-    "../../node_modules/@nrwl/react/typings/image.d.ts",
-    "src/app/canvases/colyseus-poc/utils/detect-positional-changes.ts"
+    "../../node_modules/@nrwl/react/typings/image.d.ts"
   ],
   "exclude": [
     "**/*.spec.ts",
