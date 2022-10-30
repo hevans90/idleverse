@@ -193,7 +193,7 @@ export const theme: ({
       return {
         ...StepsStyleConfig.baseStyle(props),
         stepIconContainer: {
-          ...StepsStyleConfig.baseStyle(props).stepIconContainer,
+          ...StepsStyleConfig.baseStyle(props)['stepIconContainer'],
           overflow: 'hidden',
         },
       };

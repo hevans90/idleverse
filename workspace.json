@@ -466,7 +466,7 @@
             "sources": ["libs/theme/src/lib"],
             "commands": [
               "ts-node libs/theme/src/lib/palette-gen/theme-to-pal.ts",
-              "echo Successfully output to .asperite/theme.pal"
+              "echo Successfully output to asperite/theme.pal"
             ]
           }
         },

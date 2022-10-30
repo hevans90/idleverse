@@ -24,5 +24,10 @@
       "@idleverse/theme": ["libs/theme/src/index.ts"]
     }
   },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  },
   "exclude": ["node_modules", "tmp"]
 }
