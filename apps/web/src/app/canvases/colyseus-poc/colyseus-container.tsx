@@ -72,10 +72,10 @@ export const ColyseusContainer = () => {
       let title = 'Something went wrong, see console.';
       console.error(e);
 
-      if ((e?.message as string).includes('auth0.com')) {
+      if ((e?.message as string)?.includes('auth0.com')) {
         title = 'Failed to connect to auth server.';
       }
-      if ((e?.message as string).includes('rejoin')) {
+      if ((e?.message as string)?.includes('rejoin')) {
         title = e.message;
       }
 
@@ -100,6 +100,7 @@ export const ColyseusContainer = () => {
       const { width, height, columns, rows } = roomState;
       colyseusRoomDimensionsVar({ width, height, columns, rows });
       setRoomState({ ...roomState });
+      colyseusShipsVar([...roomState.ships]);
     });
 
     // subsequent realtime state updates
