@@ -1,6 +1,6 @@
+import { indicatorFactory } from '@idleverse/pixi-utils';
 import { Container, Text } from 'pixi.js';
 import { useEffect, useRef } from 'react';
-import { indicatorFactory } from '../galaxy-generator/utils/indicator-factory';
 
 /**
  * Adds selection UI to the currently selected planet.

@@ -1,4 +1,4 @@
-import { indicatorFactory } from '../../galaxy-generator/utils/indicator-factory';
+import { indicatorFactory } from '@idleverse/pixi-utils';
 
 export enum IndicatorColor {
   white = 0xffffff,

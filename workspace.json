@@ -414,6 +414,29 @@
       "tags": [],
       "implicitDependencies": ["idleverse-web"]
     },
+    "pixi-utils": {
+      "root": "libs/pixi-utils",
+      "sourceRoot": "libs/pixi-utils/src",
+      "projectType": "library",
+      "tags": [],
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/pixi-utils/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/pixi-utils"],
+          "options": {
+            "jestConfig": "libs/pixi-utils/jest.config.ts",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "theme": {
       "root": "libs/theme",
       "sourceRoot": "libs/theme/src",

@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useReactiveVar } from '@apollo/client';
+import { generateHypotenuse } from '@idleverse/pixi-utils';
 import { useApp } from '@inlet/react-pixi';
 import { Container, TickerCallback } from 'pixi.js';
 import { useEffect, useRef } from 'react';
@@ -8,11 +9,7 @@ import { simulationPaused, timeVar } from '../../_state/reactive-variables';
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
 import { useResize } from '../_utils/use-resize.hook';
 import { useViewport } from '../_utils/use-viewport.hook';
-import {
-  generateBalls,
-  generateGravitationalCenter,
-  generateHypotenuse,
-} from './drawing';
+import { generateBalls, generateGravitationalCenter } from './drawing';
 import { calculateGravity } from './gravity';
 import { BallConfig, NewtonianGraphics } from './models';
 

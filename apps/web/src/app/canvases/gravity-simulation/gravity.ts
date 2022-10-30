@@ -1,4 +1,4 @@
-import { generateHypotenuse } from './drawing';
+import { generateHypotenuse } from '@idleverse/pixi-utils';
 import { NewtonianGraphics } from './models';
 
 export const calculateGravity = (
