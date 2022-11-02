@@ -10,7 +10,8 @@ export const generateHypotenuse = (
   { x: x1, y: y1 }: Vector2D,
   { x: x2, y: y2 }: Vector2D,
   nameForContainer: string,
-  color = 0xff0000
+  color = 0xff0000,
+  drawEntireTriangle = true
 ) => {
   const a = x1 - x2;
   const b = y1 - y2;
@@ -47,8 +48,11 @@ export const generateHypotenuse = (
 
   container.addChild(hypotenuse);
   container.addChild(hypotenuseInd);
-  container.addChild(adjacent);
-  container.addChild(opposite);
+
+  if (drawEntireTriangle) {
+    container.addChild(adjacent);
+    container.addChild(opposite);
+  }
 
   return { container, hyp, theta };
 };

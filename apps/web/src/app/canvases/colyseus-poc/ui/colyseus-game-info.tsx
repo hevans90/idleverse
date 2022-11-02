@@ -18,7 +18,11 @@ import {
 } from '@chakra-ui/react';
 import { RoomState } from '@idleverse/colyseus-shared';
 import { useUiBackground } from '../../../hooks/use-ui-background';
-import { colyseusGridVar } from '../../../_state/colyseus';
+
+import {
+  colyseusGridVar,
+  colyseusTrackingEnabledVar,
+} from '../../../_state/colyseus';
 
 export const ColyseusGameInfo = ({
   joined,
@@ -47,6 +51,7 @@ export const ColyseusGameInfo = ({
 }) => {
   const { bg, border, bgDark } = useUiBackground();
 
+  const trackingTarget = useReactiveVar(colyseusTrackingEnabledVar);
   const gridChecked = useReactiveVar(colyseusGridVar);
 
   return (
@@ -100,7 +105,7 @@ export const ColyseusGameInfo = ({
           margin={2}
           position="fixed"
           left={0}
-          top="60vh"
+          bottom={0}
           width="50vw"
           minWidth="500px"
           maxHeight="50vh"
@@ -109,8 +114,8 @@ export const ColyseusGameInfo = ({
           alignItems="stretch"
           spacing={5}
         >
-          <TableContainer borderColor={border} borderWidth="1px">
-            <Table variant="simple" fontSize="xs" size="sm">
+          {/* <TableContainer borderColor={border} borderWidth="1px">
+            <Table variant="simple" size="sm">
               <Thead>
                 <Tr bg={bgDark}>
                   <Th>width</Th>
@@ -128,10 +133,10 @@ export const ColyseusGameInfo = ({
                 </Tr>
               </Tbody>
             </Table>
-          </TableContainer>
+          </TableContainer> */}
 
           <TableContainer borderColor={border} borderWidth="1px">
-            <Table variant="simple" fontSize="xs" size="sm">
+            <Table variant="simple" size="sm">
               <TableCaption>ships</TableCaption>
               <Thead>
                 <Tr bg={bgDark}>
@@ -172,11 +177,11 @@ export const ColyseusGameInfo = ({
                           </HStack>
                         </Td>
                         <Td borderColor={border}>
-                          &#123; {positionX}, {positionY} &#125;
+                          {positionX}, {positionY}
                         </Td>
                         <Td borderColor={border}>{rotation}</Td>
                         <Td borderColor={border}>
-                          &#123; {velocityX}, {velocityY} &#125;
+                          {velocityX}, {velocityY}
                         </Td>
                       </Tr>
                     )
@@ -185,7 +190,7 @@ export const ColyseusGameInfo = ({
             </Table>
           </TableContainer>
           <TableContainer borderColor={border} borderWidth="1px">
-            <Table variant="simple" fontSize="xs" size="sm">
+            <Table variant="simple" size="sm">
               <TableCaption>spawn locations</TableCaption>
               <Thead>
                 <Tr bg={bgDark}>
@@ -225,12 +230,24 @@ export const ColyseusGameInfo = ({
           </TableContainer>
 
           <HStack width="100%">
-            <Text minWidth="175px">Grid</Text>
-            <Checkbox
-              size="lg"
-              isChecked={gridChecked}
-              onChange={() => colyseusGridVar(!colyseusGridVar())}
-            ></Checkbox>
+            <HStack width="100%">
+              <Text minWidth="175px">Grid</Text>
+              <Checkbox
+                size="lg"
+                isChecked={gridChecked}
+                onChange={() => colyseusGridVar(!colyseusGridVar())}
+              ></Checkbox>
+            </HStack>
+            <HStack width="100%">
+              <Text minWidth="175px">Tracking</Text>
+              <Checkbox
+                size="lg"
+                isChecked={trackingTarget}
+                onChange={() =>
+                  colyseusTrackingEnabledVar(!colyseusTrackingEnabledVar())
+                }
+              ></Checkbox>
+            </HStack>
           </HStack>
         </VStack>
       )}

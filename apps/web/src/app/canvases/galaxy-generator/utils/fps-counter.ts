@@ -5,6 +5,9 @@ import { useEffect, useRef } from 'react';
 
 import { fpsVar } from '../../../_state/global-settings';
 
+const fpsText = indicatorFactory('FPS: ', 50, 100, 'fpsCounter');
+const frameTimeText = indicatorFactory('Frametime: ', 50, 150, 'frameTime');
+
 export const useFpsTracker = (
   app: Application,
   size: { width: number; height: number }
@@ -21,23 +24,16 @@ export const useFpsTracker = (
     ).text = `Frame time: ${Math.ceil(app.ticker.deltaMS)}`;
   });
 
-  const fpsText = useRef<Text>(
-    indicatorFactory('FPS: ', 50, 100, 'fpsCounter')
-  );
-  const frameTimeText = useRef<Text>(
-    indicatorFactory('Frametime: ', 50, 150, 'frameTime')
-  );
-
   useEffect(() => {
     if (fps) {
-      app.stage.addChild(fpsText.current, frameTimeText.current);
+      app.stage.addChild(fpsText, frameTimeText);
       app.ticker.add(fpsUpdateTickerRef.current);
     }
 
     return () => {
       try {
-        app.stage.removeChild(fpsText.current);
-        app.stage.removeChild(frameTimeText.current);
+        app.stage.removeChild(fpsText);
+        app.stage.removeChild(frameTimeText);
         app.ticker.remove(fpsUpdateTickerRef.current);
       } catch (e) {
         console.warn(e);

@@ -33,23 +33,27 @@ export const useViewport = ({
   const worldWidth = worldSize ? worldSize.width : size.width;
   const worldHeight = worldSize ? worldSize.height : size.height;
 
-  const viewportRef = useRef<Viewport>(
-    new Viewport({
-      screenWidth: size.width,
-      screenHeight: size.height,
-      worldWidth,
-      worldHeight,
-
-      // the interaction module is important for wheel to work properly when renderer.view is placed or scaled
-      interaction: app.renderer.plugins.interaction,
-      disableOnContextMenu: true,
-      ticker: app.ticker,
-    })
-  );
+  const viewportRef = useRef<Viewport>();
 
   const sizeIndicator = useRef<Text>(
     indicatorFactory('viewport:', 50, size.height - 200, 'sizeIndicator')
   );
+
+  useEffect(() => {
+    if (!viewportRef.current) {
+      viewportRef.current = new Viewport({
+        screenWidth: size.width,
+        screenHeight: size.height,
+        worldWidth,
+        worldHeight,
+
+        // the interaction module is important for wheel to work properly when renderer.view is placed or scaled
+        interaction: app.renderer.plugins.interaction,
+        disableOnContextMenu: true,
+        ticker: app.ticker,
+      });
+    }
+  }, []);
 
   useEffect(() => {
     viewportRef.current.screenHeight = size.height;
