@@ -35,9 +35,7 @@ export const useViewport = ({
 
   const viewportRef = useRef<Viewport>();
 
-  const sizeIndicator = useRef<Text>(
-    indicatorFactory('viewport:', 50, size.height - 200, 'sizeIndicator')
-  );
+  const sizeIndicator = useRef<Text>();
 
   useEffect(() => {
     if (!viewportRef.current) {
@@ -52,6 +50,15 @@ export const useViewport = ({
         disableOnContextMenu: true,
         ticker: app.ticker,
       });
+    }
+
+    if (!sizeIndicator.current) {
+      sizeIndicator.current = indicatorFactory(
+        'viewport:',
+        50,
+        size.height - 200,
+        'sizeIndicator'
+      );
     }
   }, []);
 
