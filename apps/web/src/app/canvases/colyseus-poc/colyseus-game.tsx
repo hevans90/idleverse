@@ -23,6 +23,7 @@ import {
   colyseusRoomDimensionsVar,
   colyseusRoomVar,
   colyseusShipsVar,
+  colyseusTrackingDistanceVar,
   colyseusTrackingEnabledVar,
   colyseusTrackingTargetVar,
 } from '../../_state/colyseus';
@@ -86,6 +87,27 @@ export const ColyseusGame = () => {
       setFollowing(true);
     }
   };
+
+  const trackTarget = ({ x, y }: { x: number; y: number }) => {
+    const tracker = trackerContainer();
+    if (tracker) {
+      viewport.removeChild(tracker);
+      tracker?.destroy(true);
+    }
+
+    const { container: trackingContainer, hyp } = generateHypotenuse(
+      { x: trackingTarget?.x, y: trackingTarget?.y },
+      { x, y },
+      `${trackingTarget?.name}_tracker`,
+      hexStringToNumber(colors[colorsVar().secondary]['700']),
+      false
+    );
+
+    colyseusTrackingDistanceVar(hyp);
+
+    viewport.addChild(trackingContainer);
+  };
+
   useFpsTracker(app, size);
   useControls(room);
 
@@ -205,21 +227,12 @@ export const ColyseusGame = () => {
           shipToModify.position.x = positionX;
           shipToModify.position.y = positionY;
 
-          const tracker = trackerContainer();
-
-          if (trackingTarget && shipToModify.name === selfShip()?.name) {
-            viewport.removeChild(tracker);
-
-            tracker?.destroy(true);
-
-            const { container: trackingContainer } = generateHypotenuse(
-              { x: trackingTarget?.x, y: trackingTarget?.y },
-              { x: positionX, y: positionY },
-              `${trackingTarget?.name}_tracker`,
-              hexStringToNumber(colors[colorsVar().secondary]['700']),
-              false
-            );
-            viewport.addChild(trackingContainer);
+          if (
+            trackingEnabled &&
+            trackingTarget &&
+            shipToModify.name === selfShip()?.name
+          ) {
+            trackTarget({ x: positionX, y: positionY });
           }
         }
       });
@@ -236,7 +249,16 @@ export const ColyseusGame = () => {
   }, [JSON.stringify(ships)]);
 
   useEffect(() => {
-    const tracker = trackerContainer();
+    if (viewport) {
+      if (trackingEnabled) {
+        const self = selfShip();
+        trackTarget({ x: self?.position.x, y: self?.position.y });
+      } else {
+        const tracker = trackerContainer();
+        viewport.removeChild(tracker);
+        tracker?.destroy(true);
+      }
+    }
   }, [trackingTarget, trackingEnabled]);
 
   return <></>;

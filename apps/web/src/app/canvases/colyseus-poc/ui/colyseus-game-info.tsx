@@ -19,10 +19,7 @@ import {
 import { RoomState } from '@idleverse/colyseus-shared';
 import { useUiBackground } from '../../../hooks/use-ui-background';
 
-import {
-  colyseusGridVar,
-  colyseusTrackingEnabledVar,
-} from '../../../_state/colyseus';
+import { colyseusGridVar } from '../../../_state/colyseus';
 
 export const ColyseusGameInfo = ({
   joined,
@@ -51,7 +48,6 @@ export const ColyseusGameInfo = ({
 }) => {
   const { bg, border, bgDark } = useUiBackground();
 
-  const trackingTarget = useReactiveVar(colyseusTrackingEnabledVar);
   const gridChecked = useReactiveVar(colyseusGridVar);
 
   return (
@@ -67,7 +63,7 @@ export const ColyseusGameInfo = ({
         borderLeft="unset"
         position="fixed"
         left={0}
-        top="10vh"
+        top="20vh"
         maxHeight="75px"
       >
         {!roomState && (
@@ -101,8 +97,9 @@ export const ColyseusGameInfo = ({
           bg={bg}
           border={border}
           borderWidth={1}
+          borderLeftWidth={0}
+          borderBottomWidth={0}
           padding={4}
-          margin={2}
           position="fixed"
           left={0}
           bottom={0}
@@ -236,16 +233,6 @@ export const ColyseusGameInfo = ({
                 size="lg"
                 isChecked={gridChecked}
                 onChange={() => colyseusGridVar(!colyseusGridVar())}
-              ></Checkbox>
-            </HStack>
-            <HStack width="100%">
-              <Text minWidth="175px">Tracking</Text>
-              <Checkbox
-                size="lg"
-                isChecked={trackingTarget}
-                onChange={() =>
-                  colyseusTrackingEnabledVar(!colyseusTrackingEnabledVar())
-                }
               ></Checkbox>
             </HStack>
           </HStack>

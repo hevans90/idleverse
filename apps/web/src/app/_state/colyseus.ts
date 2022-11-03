@@ -14,6 +14,7 @@ export const colyseusAssetsVar = makeVarPersisted<AssetCollection>(
   'colyseusAssets'
 );
 
+export const colyseusTrackingDistanceVar = makeVar<number>(undefined);
 export const colyseusTrackingTargetVar = makeVar<{
   x: number;
   y: number;

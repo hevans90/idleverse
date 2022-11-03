@@ -25,6 +25,7 @@ import { PixiWrapper } from '../_utils/pixi-wrapper';
 import { ColyseusGame } from './colyseus-game';
 import { ColyseusGameInfo } from './ui/colyseus-game-info';
 import { ColyseusNotifications } from './ui/colyseus-notifications';
+import { ColyseusTrackingInfo } from './ui/colyseus-tracking-info';
 import { ColyseusSocial } from './ui/social';
 
 export const ColyseusContainer = () => {
@@ -218,6 +219,7 @@ export const ColyseusContainer = () => {
                 impulses={roomState.impulses}
               />
               <ColyseusNotifications room={roomRef.current} />
+              <ColyseusTrackingInfo />
             </>
           )}
         </>
