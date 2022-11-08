@@ -1,3 +1,4 @@
+import { ServerError } from 'colyseus';
 import { GameRoom } from '../room';
 import { findByClientId } from '../_utils';
 
@@ -41,7 +42,24 @@ export const updateShipPositions = (deltaTime: number, room: GameRoom) => {
       ship.rotation = round(ship.rotation + rotationFactor, 2);
     }
 
-    ship.positionX = round(ship.positionX + ship.velocityX, 2);
-    ship.positionY = round(ship.positionY + ship.velocityY, 2);
+    const newX = round(ship.positionX + ship.velocityX, 2);
+    const newY = round(ship.positionY + ship.velocityY, 2);
+
+    ship.positionX = newX;
+    ship.positionY = newY;
+
+    // update collision detection
+    const gridClient = room.gridClients[`user_${user.colyseusUserId}`];
+
+    if (!gridClient) {
+      throw new ServerError(
+        500,
+        `could not find collision client for ${user.colyseusUserId}`
+      );
+    }
+
+    gridClient.position.x = newX;
+    gridClient.position.y = newY;
+    room.grid.updateClient(gridClient);
   });
 };

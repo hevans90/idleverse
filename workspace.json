@@ -54,6 +54,16 @@
             "jestConfig": "apps/colyseus/jest.config.ts",
             "passWithNoTests": true
           }
+        },
+        "benchmark-collision-detection": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "ts-node apps/colyseus/src/room/collision-detection/performance-test.ts"
+              }
+            ]
+          }
         }
       },
       "tags": []
