@@ -3,11 +3,11 @@ import { SpatialHashGrid } from './collision-detection/fast';
 import { Bounds, Dimensions } from './collision-detection/models';
 import { GameRoom } from './room';
 
-const dimensions: Dimensions = { height: 200, width: 200 };
+const dimensions: Dimensions = { height: 1000, width: 1000 };
 
 const bounds: Bounds = {
-  upper: { x: dimensions.width / 2, y: dimensions.height / 2 },
-  lower: { x: -dimensions.width / 2, y: -dimensions.height / 2 },
+  upper: { x: dimensions.width, y: dimensions.height },
+  lower: { x: -dimensions.width, y: -dimensions.height },
 };
 
 export const onCreate = (options: any, room: GameRoom) => {
