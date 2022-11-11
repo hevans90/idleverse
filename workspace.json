@@ -13,7 +13,8 @@
             "outputPath": "dist/apps/colyseus",
             "main": "apps/colyseus/src/main.ts",
             "tsConfig": "apps/colyseus/tsconfig.app.json",
-            "assets": ["apps/colyseus/src/assets"]
+            "assets": ["apps/colyseus/src/assets"],
+            "generatePackageJson": true
           },
           "configurations": {
             "production": {
