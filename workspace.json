@@ -13,7 +13,13 @@
             "outputPath": "dist/apps/colyseus",
             "main": "apps/colyseus/src/main.ts",
             "tsConfig": "apps/colyseus/tsconfig.app.json",
-            "assets": ["apps/colyseus/src/assets"],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "apps/colyseus/src/assets",
+                "output": "./"
+              }
+            ],
             "generatePackageJson": true
           },
           "configurations": {
