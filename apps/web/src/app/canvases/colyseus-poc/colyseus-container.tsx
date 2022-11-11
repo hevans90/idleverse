@@ -12,6 +12,7 @@ import {
   RoomState,
   ServerMessage,
 } from '@idleverse/colyseus-shared';
+import { environment } from '../../../environments/environment';
 import { loadColyseusAssets } from '../../asset-loading/load-colyseus-assets';
 import { loadPlanets } from '../../asset-loading/load-planets';
 import { Loading } from '../../components/loading';
@@ -39,8 +40,7 @@ export const ColyseusContainer = () => {
     avatar_url: avatarUrl,
     id: userId,
   } = useReactiveVar(selfVar);
-
-  const client = new Client('ws://localhost:1447');
+  const client = new Client(`ws://${environment.colyseusUri}`);
 
   const joinState: JoinOptions = {
     accessToken,

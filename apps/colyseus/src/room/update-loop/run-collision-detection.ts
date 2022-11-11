@@ -6,5 +6,7 @@ export const runCollisionDetection = (room: GameRoom) => {
     { width: 50, height: 50 }
   );
 
-  console.log(nearby);
+  if (nearby.length) {
+    console.log(nearby);
+  }
 };
