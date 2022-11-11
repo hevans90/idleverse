@@ -55,6 +55,16 @@
             "passWithNoTests": true
           }
         },
+        "deploy": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npx push-dir --dir=dist/apps/colyseus --branch=heroku-colyseus-deploy --force"
+              }
+            ]
+          }
+        },
         "benchmark-collision-detection": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
