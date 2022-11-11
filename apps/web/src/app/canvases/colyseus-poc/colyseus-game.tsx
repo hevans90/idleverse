@@ -1,6 +1,6 @@
 import { ColyseusShip } from '@idleverse/colyseus-shared';
 import { useApp } from '@inlet/react-pixi';
-import { Container, Renderer } from 'pixi.js';
+import { Renderer } from 'pixi.js';
 import { useEffect, useRef, useState } from 'react';
 import { Planet, PlanetConfig } from '../celestial-viewer/models';
 import { createPlanet } from '../celestial-viewer/utils/drawing-utils';
@@ -13,7 +13,8 @@ import { drawPlayerShip } from './rendering/draw-player-ship';
 import { useControls } from './use-controls';
 
 import { useReactiveVar } from '@apollo/client';
-import { colors } from '@idleverse/theme';
+import { generateHypotenuse } from '@idleverse/pixi-utils';
+import { colors, hexStringToNumber } from '@idleverse/theme';
 import { Viewport } from 'pixi-viewport';
 import * as PIXI from 'pixi.js';
 import { colorsVar } from '../../_state/colors';
@@ -22,11 +23,18 @@ import {
   colyseusRoomDimensionsVar,
   colyseusRoomVar,
   colyseusShipsVar,
+  colyseusTrackingDistanceVar,
+  colyseusTrackingEnabledVar,
+  colyseusTrackingTargetVar,
 } from '../../_state/colyseus';
 import { selfVar } from '../../_state/reactive-variables';
 import { drawGrid } from './rendering/draw-grid';
-import { StarField } from './rendering/starfield';
-import { detectPositionalChanges, diffByUserId } from './utils/diff-by-user-id';
+import { useStarField } from './rendering/use-starfield';
+import {
+  detectPositionalChanges,
+  detectRotationalChanges,
+} from './utils/detect-positional-changes';
+import { diffByUserId } from './utils/diff-by-user-id';
 
 // necessary because Colyseus serialises their state in to classes (wtf, wHY?!)
 const cloneClass = <T,>(obj: T): T =>
@@ -49,32 +57,29 @@ export const ColyseusGame = () => {
   });
 
   const self = useReactiveVar(selfVar);
-  const [rendered, setRendered] = useState(false);
 
+  const trackingEnabled = useReactiveVar(colyseusTrackingEnabledVar);
+  const trackingTarget = useReactiveVar(colyseusTrackingTargetVar);
   const room = useReactiveVar(colyseusRoomVar);
   const ships = useReactiveVar(colyseusShipsVar);
   const grid = useReactiveVar(colyseusGridVar);
+  const starfield = useStarField({ dimensions });
 
   const shipsRef = useRef<ColyseusShip[]>(
     ships.map((ship) => cloneClass(ship))
   );
 
-  const gridRef = useRef<Container>(
-    drawGrid({
-      width: dimensions.width,
-      height: dimensions.height,
-      columns: dimensions.columns,
-      rows: dimensions.rows,
-      gridColor: colors[colorsVar().secondary]['300'],
-    })
-  );
-
   const [following, setFollowing] = useState(false);
 
+  const selfShip = () => viewport.getChildByName(`ship_${self.id}`, true);
+
+  const trackerContainer = () =>
+    viewport?.getChildByName(`${trackingTarget?.name}_tracker`);
+
   const followShip = (viewport: Viewport) => {
-    const selfShipSprite = viewport.getChildByName(`ship_${self.id}`, true);
-    if (selfShipSprite && !following) {
-      viewport.follow(selfShipSprite, {
+    const myShip = selfShip();
+    if (myShip && !following) {
+      viewport.follow(myShip, {
         speed: 0, // speed to follow in pixels/frame (0=teleport to location)
         acceleration: null, // set acceleration to accelerate and decelerate at this rate; speed cannot be 0 to use acceleration
         radius: null, // radius (in world coordinates) of center circle where movement is allowed without moving the viewport
@@ -82,6 +87,27 @@ export const ColyseusGame = () => {
       setFollowing(true);
     }
   };
+
+  const trackTarget = ({ x, y }: { x: number; y: number }) => {
+    const tracker = trackerContainer();
+    if (tracker) {
+      viewport.removeChild(tracker);
+      tracker?.destroy(true);
+    }
+
+    const { container: trackingContainer, hyp } = generateHypotenuse(
+      { x: trackingTarget?.x, y: trackingTarget?.y },
+      { x, y },
+      `${trackingTarget?.name}_tracker`,
+      hexStringToNumber(colors[colorsVar().secondary]['700']),
+      false
+    );
+
+    colyseusTrackingDistanceVar(hyp);
+
+    viewport.addChild(trackingContainer);
+  };
+
   useFpsTracker(app, size);
   useControls(room);
 
@@ -91,6 +117,8 @@ export const ColyseusGame = () => {
       ship.userId,
       colors[colorsVar().secondary]['300']
     );
+
+    shipSprite.rotation = ship.rotation;
 
     shipSprite.position.x = ship.positionX;
     shipSprite.position.y = ship.positionY;
@@ -120,12 +148,21 @@ export const ColyseusGame = () => {
         sprite: sunSprite,
       });
 
+      const sunPosition = { x: dimensions.width / 2, y: dimensions.height / 2 };
+      const sunName = 'sun';
+
+      sun.sprite.name = sunName;
       sun.sprite.anchor.set(0.5);
-      sun.sprite.position.x = dimensions.width / 2;
-      sun.sprite.position.y = dimensions.height / 2;
+      sun.sprite.position.x = sunPosition.x;
+      sun.sprite.position.y = sunPosition.y;
       viewport.addChild(sun.sprite);
 
-      setRendered(true);
+      colyseusTrackingTargetVar({
+        ...sunPosition,
+        name: sunName,
+      });
+
+      viewport.addChild(starfield);
     }
   }, [viewport]);
 
@@ -139,42 +176,90 @@ export const ColyseusGame = () => {
   useEffect(() => {
     if (viewport) {
       if (grid) {
-        viewport.addChild(gridRef.current);
+        const grid = drawGrid({
+          width: dimensions.width,
+          height: dimensions.height,
+          columns: dimensions.columns,
+          rows: dimensions.rows,
+          gridColor: colors[colorsVar().secondary]['300'],
+        });
+        viewport.addChild(grid);
       } else {
-        viewport.removeChild(gridRef.current);
+        const gridObj = viewport.getChildByName('grid');
+        if (gridObj) {
+          viewport.removeChild(gridObj);
+          gridObj.destroy(true);
+        }
       }
     }
   }, [grid, viewport]);
 
   useEffect(() => {
-    const { additions, deletions } = diffByUserId(shipsRef.current, ships);
-    const { shipsWithUpdatedPositions } = detectPositionalChanges(
-      shipsRef.current,
-      ships
-    );
+    if (viewport) {
+      const { additions, deletions } = diffByUserId(shipsRef.current, ships);
+      const { shipsWithUpdatedPositions } = detectPositionalChanges(
+        shipsRef.current,
+        ships
+      );
 
-    if (additions || deletions || shipsWithUpdatedPositions) {
-      shipsRef.current = ships.map((ship) => cloneClass(ship));
-    }
+      const { shipsWithUpdatedRotations } = detectRotationalChanges(
+        shipsRef.current,
+        ships
+      );
 
-    deletions?.forEach(({ userId }) => {
-      const shipToRemove = viewport.getChildByName(`ship_${userId}`, true);
-      viewport.removeChild(shipToRemove);
-    });
-
-    additions?.forEach((ship) => addShipToContainer(ship));
-
-    shipsWithUpdatedPositions?.forEach(({ userId, positionX, positionY }) => {
-      const shipToModify = viewport?.getChildByName(
-        `ship_${userId}`,
-        true
-      ) as PIXI.Sprite;
-      if (shipToModify) {
-        shipToModify.position.x = positionX;
-        shipToModify.position.y = positionY;
+      if (additions || deletions || shipsWithUpdatedPositions) {
+        shipsRef.current = ships.map((ship) => cloneClass(ship));
       }
-    });
+
+      deletions?.forEach(({ userId }) => {
+        const shipToRemove = viewport.getChildByName(`ship_${userId}`, true);
+        viewport.removeChild(shipToRemove);
+      });
+
+      additions?.forEach((ship) => addShipToContainer(ship));
+
+      shipsWithUpdatedPositions?.forEach(({ userId, positionX, positionY }) => {
+        const shipToModify = viewport?.getChildByName(
+          `ship_${userId}`,
+          true
+        ) as PIXI.Sprite;
+        if (shipToModify) {
+          shipToModify.position.x = positionX;
+          shipToModify.position.y = positionY;
+
+          if (
+            trackingEnabled &&
+            trackingTarget &&
+            shipToModify.name === selfShip()?.name
+          ) {
+            trackTarget({ x: positionX, y: positionY });
+          }
+        }
+      });
+      shipsWithUpdatedRotations?.forEach(({ userId, rotation }) => {
+        const shipToModify = viewport?.getChildByName(
+          `ship_${userId}`,
+          true
+        ) as PIXI.Sprite;
+        if (shipToModify) {
+          shipToModify.rotation = rotation;
+        }
+      });
+    }
   }, [JSON.stringify(ships)]);
 
-  return <StarField viewport={viewport} dimensions={dimensions} />;
+  useEffect(() => {
+    if (viewport) {
+      if (trackingEnabled) {
+        const self = selfShip();
+        trackTarget({ x: self?.position.x, y: self?.position.y });
+      } else {
+        const tracker = trackerContainer();
+        viewport.removeChild(tracker);
+        tracker?.destroy(true);
+      }
+    }
+  }, [trackingTarget, trackingEnabled]);
+
+  return <></>;
 };

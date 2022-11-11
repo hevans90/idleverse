@@ -13,7 +13,14 @@
             "outputPath": "dist/apps/colyseus",
             "main": "apps/colyseus/src/main.ts",
             "tsConfig": "apps/colyseus/tsconfig.app.json",
-            "assets": ["apps/colyseus/src/assets"]
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "apps/colyseus/src/assets",
+                "output": "./"
+              }
+            ],
+            "generatePackageJson": true
           },
           "configurations": {
             "production": {
@@ -53,6 +60,26 @@
           "options": {
             "jestConfig": "apps/colyseus/jest.config.ts",
             "passWithNoTests": true
+          }
+        },
+        "deploy": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npx push-dir --dir=dist/apps/colyseus --branch=heroku-colyseus-deploy --force"
+              }
+            ]
+          }
+        },
+        "benchmark-collision-detection": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "ts-node apps/colyseus/src/room/collision-detection/performance-test.ts"
+              }
+            ]
           }
         }
       },
@@ -414,6 +441,29 @@
       "tags": [],
       "implicitDependencies": ["idleverse-web"]
     },
+    "pixi-utils": {
+      "root": "libs/pixi-utils",
+      "sourceRoot": "libs/pixi-utils/src",
+      "projectType": "library",
+      "tags": [],
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/pixi-utils/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/pixi-utils"],
+          "options": {
+            "jestConfig": "libs/pixi-utils/jest.config.ts",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "theme": {
       "root": "libs/theme",
       "sourceRoot": "libs/theme/src",
@@ -443,7 +493,7 @@
             "sources": ["libs/theme/src/lib"],
             "commands": [
               "ts-node libs/theme/src/lib/palette-gen/theme-to-pal.ts",
-              "echo Successfully output to .asperite/theme.pal"
+              "echo Successfully output to asperite/theme.pal"
             ]
           }
         },

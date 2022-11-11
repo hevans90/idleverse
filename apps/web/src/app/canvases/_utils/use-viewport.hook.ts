@@ -1,9 +1,10 @@
 import { useReactiveVar } from '@apollo/client';
+import { indicatorFactory } from '@idleverse/pixi-utils';
 import { IClampZoomOptions, Viewport } from 'pixi-viewport';
 import { Application, Container, Graphics, Text } from 'pixi.js';
 import { useEffect, useRef } from 'react';
+
 import { debugVar } from '../../_state/global-settings';
-import { indicatorFactory } from '../galaxy-generator/utils/indicator-factory';
 
 /**
  * when the screen is resized, this effect will reset the viewport's screen dimensions & then re-center
@@ -32,23 +33,34 @@ export const useViewport = ({
   const worldWidth = worldSize ? worldSize.width : size.width;
   const worldHeight = worldSize ? worldSize.height : size.height;
 
-  const viewportRef = useRef<Viewport>(
-    new Viewport({
-      screenWidth: size.width,
-      screenHeight: size.height,
-      worldWidth,
-      worldHeight,
+  const viewportRef = useRef<Viewport>();
 
-      // the interaction module is important for wheel to work properly when renderer.view is placed or scaled
-      interaction: app.renderer.plugins.interaction,
-      disableOnContextMenu: true,
-      ticker: app.ticker,
-    })
-  );
+  const sizeIndicator = useRef<Text>();
 
-  const sizeIndicator = useRef<Text>(
-    indicatorFactory('viewport:', 50, size.height - 200, 'sizeIndicator')
-  );
+  useEffect(() => {
+    if (!viewportRef.current) {
+      viewportRef.current = new Viewport({
+        screenWidth: size.width,
+        screenHeight: size.height,
+        worldWidth,
+        worldHeight,
+
+        // the interaction module is important for wheel to work properly when renderer.view is placed or scaled
+        interaction: app.renderer.plugins.interaction,
+        disableOnContextMenu: true,
+        ticker: app.ticker,
+      });
+    }
+
+    if (!sizeIndicator.current) {
+      sizeIndicator.current = indicatorFactory(
+        'viewport:',
+        50,
+        size.height - 200,
+        'sizeIndicator'
+      );
+    }
+  }, []);
 
   useEffect(() => {
     viewportRef.current.screenHeight = size.height;

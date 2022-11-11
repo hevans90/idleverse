@@ -18,6 +18,7 @@ import {
 } from '@chakra-ui/react';
 import { RoomState } from '@idleverse/colyseus-shared';
 import { useUiBackground } from '../../../hooks/use-ui-background';
+
 import { colyseusGridVar } from '../../../_state/colyseus';
 
 export const ColyseusGameInfo = ({
@@ -62,7 +63,7 @@ export const ColyseusGameInfo = ({
         borderLeft="unset"
         position="fixed"
         left={0}
-        top="10vh"
+        top="20vh"
         maxHeight="75px"
       >
         {!roomState && (
@@ -96,22 +97,22 @@ export const ColyseusGameInfo = ({
           bg={bg}
           border={border}
           borderWidth={1}
+          borderLeftWidth={0}
+          borderBottomWidth={0}
           padding={4}
-          margin={2}
           position="fixed"
           left={0}
-          top="20vh"
-          width="30vw"
-          minWidth="400px"
+          bottom={0}
+          width="50vw"
+          minWidth="500px"
           maxHeight="50vh"
           overflow="scroll"
           opacity={0.8}
           alignItems="stretch"
           spacing={5}
         >
-          <TableContainer borderColor={border} borderWidth="1px">
-            <Table variant="simple" fontSize="xs" size="sm">
-              <TableCaption>room</TableCaption>
+          {/* <TableContainer borderColor={border} borderWidth="1px">
+            <Table variant="simple" size="sm">
               <Thead>
                 <Tr bg={bgDark}>
                   <Th>width</Th>
@@ -129,15 +130,17 @@ export const ColyseusGameInfo = ({
                 </Tr>
               </Tbody>
             </Table>
-          </TableContainer>
+          </TableContainer> */}
 
           <TableContainer borderColor={border} borderWidth="1px">
-            <Table variant="simple" fontSize="xs" size="sm">
+            <Table variant="simple" size="sm">
               <TableCaption>ships</TableCaption>
               <Thead>
                 <Tr bg={bgDark}>
                   <Th>User</Th>
                   <Th>&#123; x, y &#125;</Th>
+                  <Th>rotation</Th>
+                  <Th>velocity</Th>
                 </Tr>
               </Thead>
               <Tbody>
@@ -151,7 +154,18 @@ export const ColyseusGameInfo = ({
                     return { ...rest, displayName, avatarUrl };
                   })
                   .map(
-                    ({ positionX, positionY, displayName, avatarUrl }, i) => (
+                    (
+                      {
+                        positionX,
+                        positionY,
+                        displayName,
+                        avatarUrl,
+                        rotation,
+                        velocityX,
+                        velocityY,
+                      },
+                      i
+                    ) => (
                       <Tr key={i}>
                         <Td borderColor={border}>
                           <HStack>
@@ -160,7 +174,11 @@ export const ColyseusGameInfo = ({
                           </HStack>
                         </Td>
                         <Td borderColor={border}>
-                          &#123; {positionX}, {positionY} &#125;
+                          {positionX}, {positionY}
+                        </Td>
+                        <Td borderColor={border}>{rotation}</Td>
+                        <Td borderColor={border}>
+                          {velocityX}, {velocityY}
                         </Td>
                       </Tr>
                     )
@@ -169,7 +187,7 @@ export const ColyseusGameInfo = ({
             </Table>
           </TableContainer>
           <TableContainer borderColor={border} borderWidth="1px">
-            <Table variant="simple" fontSize="xs" size="sm">
+            <Table variant="simple" size="sm">
               <TableCaption>spawn locations</TableCaption>
               <Thead>
                 <Tr bg={bgDark}>
@@ -209,12 +227,14 @@ export const ColyseusGameInfo = ({
           </TableContainer>
 
           <HStack width="100%">
-            <Text minWidth="175px">Grid</Text>
-            <Checkbox
-              size="lg"
-              isChecked={gridChecked}
-              onChange={() => colyseusGridVar(!colyseusGridVar())}
-            ></Checkbox>
+            <HStack width="100%">
+              <Text minWidth="175px">Grid</Text>
+              <Checkbox
+                size="lg"
+                isChecked={gridChecked}
+                onChange={() => colyseusGridVar(!colyseusGridVar())}
+              ></Checkbox>
+            </HStack>
           </HStack>
         </VStack>
       )}

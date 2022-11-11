@@ -21,6 +21,6 @@ export const themeToPal = (colors: CustomColors): string => {
   return output;
 };
 
-writeFileSync('.asperite/theme.pal', themeToPal(colors), {
+writeFileSync('asperite/theme.pal', themeToPal(colors), {
   flag: 'w+',
 });

@@ -13,7 +13,14 @@ import { onLeave } from './on-leave';
 import { updateShipPositions } from './update-loop/update-ship-positions';
 import { findByColyseusClient, logger } from './_utils';
 
+import { SpatialHashGrid } from './collision-detection/fast';
+import { Client as GridClient } from './collision-detection/models';
+import { runCollisionDetection } from './update-loop/run-collision-detection';
+
 export class GameRoom extends Room<RoomState> {
+  grid: SpatialHashGrid;
+  gridClients: { [key: string]: GridClient } = {};
+
   async onAuth(
     client: Client,
     options: JoinOptions,
@@ -31,6 +38,7 @@ export class GameRoom extends Room<RoomState> {
     // implement your physics or world updates here!
     // this is a good place to update the room state
     updateShipPositions(deltaTime, this);
+    runCollisionDetection(this);
   }
 
   onJoin(client: Client, options: JoinOptions) {

@@ -2,7 +2,7 @@ import {
   ColyseusSpawnLocation,
   ServerMessage,
 } from '@idleverse/colyseus-shared';
-import { Client } from 'colyseus';
+import { Client, ServerError } from 'colyseus';
 import { GameRoom } from './room';
 import { findByColyseusClient, logger } from './_utils';
 
@@ -41,4 +41,17 @@ export const onLeave = (client: Client, consented: boolean, room: GameRoom) => {
       consented ? 'left voluntarily' : 'was disconnected'
     }.`
   );
+
+  // update collision detection
+  const gridClient = room.gridClients[`user_${user.colyseusUserId}`];
+
+  if (!gridClient) {
+    throw new ServerError(
+      500,
+      `could not find collision client for ${user.colyseusUserId} for removal`
+    );
+  }
+
+  room.grid.removeClient(gridClient);
+  delete room.gridClients[`user_${user.colyseusUserId}`];
 };

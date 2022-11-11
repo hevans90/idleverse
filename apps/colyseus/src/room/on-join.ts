@@ -8,8 +8,11 @@ import {
   ServerMessage,
 } from '@idleverse/colyseus-shared';
 import { Client, ServerError } from 'colyseus';
+import { Dimensions } from './collision-detection/models';
 import { GameRoom } from './room';
 import { logger } from './_utils';
+
+const shipDimensions: Dimensions = { width: 25, height: 25 };
 
 export const onJoin = (
   client: Client,
@@ -63,6 +66,18 @@ export const onJoin = (
       positionY: claimedSpawn.y,
     })
   );
+
+  // collision detection
+  const gridClient = room.grid.newClient(
+    `user_${client.id}`,
+    {
+      x: claimedSpawn.x,
+      y: claimedSpawn.y,
+    },
+    shipDimensions
+  );
+
+  room.gridClients[`user_${client.id}`] = gridClient;
 
   logger.success(`${options.displayName} (${client.sessionId}) joined!`);
 };

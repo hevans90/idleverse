@@ -14,6 +14,18 @@ export const colyseusAssetsVar = makeVarPersisted<AssetCollection>(
   'colyseusAssets'
 );
 
+export const colyseusTrackingDistanceVar = makeVar<number>(undefined);
+export const colyseusTrackingTargetVar = makeVar<{
+  x: number;
+  y: number;
+  name: string;
+}>(undefined);
+
+export const colyseusTrackingEnabledVar = makeVarPersisted<boolean>(
+  true,
+  'colyseusTrackingTarget'
+);
+
 export const colyseusGridVar = makeVarPersisted<boolean>(false, 'colyseusGrid');
 
 export const colyseusRoomVar = makeVar<Room<RoomState>>(undefined);
