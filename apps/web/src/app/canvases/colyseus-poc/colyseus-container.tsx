@@ -40,7 +40,7 @@ export const ColyseusContainer = () => {
     avatar_url: avatarUrl,
     id: userId,
   } = useReactiveVar(selfVar);
-  const client = new Client(`ws://${environment.colyseusUri}`);
+  const client = new Client(environment.colyseusUrl);
 
   const joinState: JoinOptions = {
     accessToken,
