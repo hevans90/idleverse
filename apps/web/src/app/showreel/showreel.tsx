@@ -27,6 +27,10 @@ export const Showreel = () => {
       route: 'colyseus-poc',
       display: 'Colyseus POC',
     },
+    {
+      route: 'pixi-tree',
+      display: 'Tree',
+    },
   ];
 
   return (

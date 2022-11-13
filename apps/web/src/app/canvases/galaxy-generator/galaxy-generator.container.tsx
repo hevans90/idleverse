@@ -82,6 +82,7 @@ export const GalaxyGenContainer = () => {
   } else if (data) {
     return (
       <PixiWrapper
+        showGameUI={false}
         ui={
           <>
             <GameUIBottomBar />
