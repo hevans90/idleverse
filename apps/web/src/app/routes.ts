@@ -1,15 +1,15 @@
 import { CelestialViewerContainer } from './canvases/celestial-viewer/celestial-viewer.container';
-import { ColyseusContainer } from './canvases/colyseus-poc/colyseus-container';
 import { GalaxyGenContainer } from './canvases/galaxy-generator/galaxy-generator.container';
 import { GalaxyViewerContainer } from './canvases/galaxy-viewer/galaxy-viewer.container';
-import { GravitySimulationContainer } from './canvases/gravity-simulation/gravity-simulation.container';
-import { IsometricContainer } from './canvases/isometric-tiles/isometric.container';
+
 import { PlanetGenerator } from './canvases/planet-generator/planet-generator';
 import { PlanetViewer } from './canvases/planet-viewer/planet-viewer';
-import { SolarSystemContainer } from './canvases/solar-system/solar-system.container';
 import { JoinGalaxy } from './empire-creation/join-galaxy';
 import { GalaxyGalleryContainer } from './galaxy-gallery/galaxy-gallery.container';
 import { Home } from './home/home';
+import { ColyseusContainer } from './showreel/colyseus-poc/colyseus-container';
+import { GravitySimulationContainer } from './showreel/gravity-simulation/gravity-simulation.container';
+import { IsometricContainer } from './showreel/isometric-tiles/isometric.container';
 import { Showreel } from './showreel/showreel';
 
 export const routes = [
@@ -37,11 +37,6 @@ export const routes = [
     component: PlanetViewer,
   },
   { path: '/galaxy-gen', name: 'galaxy-gen', component: GalaxyGenContainer },
-  {
-    path: '/solar-system',
-    name: 'solar-system',
-    component: SolarSystemContainer,
-  },
   {
     path: '/gravity-sim',
     name: 'gravity-sim',

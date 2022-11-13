@@ -4,21 +4,15 @@ import { sideNavWidth, topBarHeight } from '../../components/layout';
 import { layoutVar } from '../../_state/global-settings';
 
 import { generatorControlsHeight } from '../galaxy-generator/ui/generator-controls';
-import { galaxySimControlsHeight } from '../gravity-simulation/ui/gravity-simulation-controls';
-import { planetGenerationControlsHeight } from '../planet-generator/ui/sliders';
-import { solarSystemControlsHeight } from '../solar-system/ui/controls';
 
-export type controls =
-  | 'galaxy-gen'
-  | 'solar-system'
-  | 'gravity-sim'
-  | 'planet-gen'
-  | 'none';
+import { galaxySimControlsHeight } from '../../showreel/gravity-simulation/ui/gravity-simulation-controls';
+import { planetGenerationControlsHeight } from '../planet-generator/ui/sliders';
+
+export type controls = 'galaxy-gen' | 'gravity-sim' | 'planet-gen' | 'none';
 
 const controlValue = (controls: controls) => {
   const map: { [key in controls]: number } = {
     'galaxy-gen': generatorControlsHeight,
-    'solar-system': solarSystemControlsHeight,
     'gravity-sim': galaxySimControlsHeight,
     'planet-gen': planetGenerationControlsHeight,
     none: 0,

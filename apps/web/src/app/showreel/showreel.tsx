@@ -8,16 +8,8 @@ export const Showreel = () => {
 
   const links: { route: string; display: string }[] = [
     {
-      route: 'galaxies',
-      display: 'Galaxy Gallery',
-    },
-    {
       route: 'galaxy-gen',
       display: 'Galaxy Generator',
-    },
-    {
-      route: 'solar-system',
-      display: 'Solar System Viewer',
     },
     {
       route: 'gravity-sim',
@@ -47,10 +39,10 @@ export const Showreel = () => {
       margin="0 1rem 0 1rem"
     >
       <Text fontSize="5xl" textAlign="center" marginBottom="2rem">
-        Old Showreel Projects
+        Showreel Projects
       </Text>
       <Text fontSize="l" textAlign="center" marginBottom="2rem">
-        Legacy experiments that are mostly outdated now.
+        Projects that have ongoing experimental development.
       </Text>
 
       <VStack>
