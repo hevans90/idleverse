@@ -1,6 +1,5 @@
-import { GameUIBottomBar } from '../galaxy-generator/ui/bottom-bar';
-import { PixiWrapper } from '../_utils/pixi-wrapper';
-
+import { GameUIBottomBar } from '../../canvases/galaxy-generator/ui/bottom-bar';
+import { PixiWrapper } from '../../canvases/_utils/pixi-wrapper';
 import { GravitySimulation } from './gravity-simulation';
 import {
   galaxySimControlsHeight,

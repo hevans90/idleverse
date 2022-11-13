@@ -15,6 +15,7 @@ import {
 import { environment } from '../../../environments/environment';
 import { loadColyseusAssets } from '../../asset-loading/load-colyseus-assets';
 import { loadPlanets } from '../../asset-loading/load-planets';
+import { PixiWrapper } from '../../canvases/_utils/pixi-wrapper';
 import { Loading } from '../../components/loading';
 import {
   colyseusRoomDimensionsVar,
@@ -22,7 +23,6 @@ import {
   colyseusSessionVar,
   colyseusShipsVar,
 } from '../../_state/colyseus';
-import { PixiWrapper } from '../_utils/pixi-wrapper';
 import { ColyseusGame } from './colyseus-game';
 import { ColyseusGameInfo } from './ui/colyseus-game-info';
 import { ColyseusNotifications } from './ui/colyseus-notifications';

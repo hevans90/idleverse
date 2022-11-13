@@ -90,7 +90,7 @@ export const Home = () => {
         >
           <VStack divider={<StackDivider />} spacing={5}>
             <Link as={ReactRouterLink} to="/showreel">
-              <Button {...responsiveFontProps}>Old showreel</Button>
+              <Button {...responsiveFontProps}>Beta showreel</Button>
             </Link>
             <Link as={ReactRouterLink} to="/galaxy-gen">
               <Button {...responsiveFontProps} disabled={role !== 'dev'}>

@@ -2,10 +2,10 @@ import { useApp } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
 import { useEffect, useRef, useState } from 'react';
 
+import { useFpsTracker } from '../../canvases/galaxy-generator/utils/fps-counter';
+import { useResize } from '../../canvases/_utils/use-resize.hook';
+import { useViewport } from '../../canvases/_utils/use-viewport.hook';
 import { AssetCollection, Vector2D } from '../../_state/models';
-import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
-import { useResize } from '../_utils/use-resize.hook';
-import { useViewport } from '../_utils/use-viewport.hook';
 import { gameConfigFactory } from './factories/game-config.factory';
 
 import { useReactiveVar } from '@apollo/client';

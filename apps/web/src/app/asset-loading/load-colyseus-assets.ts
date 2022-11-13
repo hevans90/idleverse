@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { spaceshipSpriteConfig } from '../canvases/colyseus-poc/utils/sprite-configs';
+import { spaceshipSpriteConfig } from '../showreel/colyseus-poc/utils/sprite-configs';
 import { colyseusAssetsVar } from '../_state/colyseus';
 
 import { assetLoader } from './asset-loader';
