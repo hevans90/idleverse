@@ -73,8 +73,6 @@ export const drawGrid = ({
     }
   }
 
-  // now draw left & bottom lines
-
   container.name = 'grid';
   return container;
 };

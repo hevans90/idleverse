@@ -25,6 +25,7 @@ module.exports = {
         scalars: {
           _numeric: 'number[]',
           _text: 'string[]',
+          _uuid: 'string[]',
           numeric: 'number',
           timestamp: 'string',
           timestamptz: 'string',
