@@ -31,12 +31,6 @@ export const ResearchTree = ({
 
     if (technologies.length) {
       treeRef.current = createTreeFromQuery(technologies);
-      console.log(
-        [...treeRef.current.preOrderTraversal()].map((x) => ({
-          name: x.value.name,
-          depth: x.value.depth,
-        }))
-      );
 
       const radius = 50;
 
@@ -47,7 +41,7 @@ export const ResearchTree = ({
         }))
         .forEach((node, i) => {
           let x = 0;
-          const y = node.depth * 3 * radius;
+          const y = -200 + node.depth * 3 * radius;
 
           let parent: { x: number; y: number };
 
@@ -91,6 +85,8 @@ export const ResearchTree = ({
             }
           }
 
+          const palette = colors[colorsVar().secondary];
+
           const container = drawNode({
             app,
             id: node.id,
@@ -99,9 +95,7 @@ export const ResearchTree = ({
               x,
               y,
             },
-            textColor: colors[colorsVar().secondary]['100'],
-            borderColor: colors[colorsVar().secondary]['300'],
-            bgColor: colors[colorsVar().secondary]['600'],
+            colorPalette: palette,
             radius,
           });
 

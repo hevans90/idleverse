@@ -1,7 +1,7 @@
-import { Theme } from '@chakra-ui/react';
+import { themePaletteKeys } from '@idleverse/theme';
 import { makeVarPersisted } from './utils';
 
 export const colorsVar = makeVarPersisted<{
-  primary: keyof Theme['colors'];
-  secondary: keyof Theme['colors'];
+  primary: typeof themePaletteKeys[0];
+  secondary: typeof themePaletteKeys[0];
 }>({ primary: 'orange', secondary: 'red' }, 'colors');

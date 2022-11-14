@@ -1,4 +1,4 @@
-import { hexStringToNumber } from '@idleverse/theme';
+import { colors, hexStringToNumber, themePaletteKeys } from '@idleverse/theme';
 import * as PIXI from 'pixi.js';
 import { Application } from 'pixi.js';
 
@@ -15,36 +15,46 @@ export const drawNode = ({
   id,
   name,
   position,
-  textColor = '0xffffff',
-  borderColor = '0xffffff',
-  bgColor = '0x000000',
-  radius = 50,
+  colorPalette,
+  radius,
 }: {
   app: Application;
   id: string;
   name: string;
   position: { x: number; y: number };
-  textColor?: string;
-  borderColor?: string;
-  bgColor?: string;
-  radius?: number;
+  colorPalette: typeof colors[typeof themePaletteKeys[0]];
+  radius: number;
 }) => {
   const container = new PIXI.Container();
+  container.zIndex = 2;
   const node = new PIXI.Graphics();
 
   node
-    .lineStyle(2, hexStringToNumber(borderColor))
-    .beginFill(hexStringToNumber(bgColor))
+    .lineStyle(1, hexStringToNumber(colorPalette['200']))
+    .beginFill(hexStringToNumber(colorPalette['400']))
     .drawCircle(0, 0, radius);
 
   const texture = app.renderer.generateTexture(node);
   const sprite = new PIXI.Sprite(texture);
   sprite.anchor.set(0.5);
+  sprite.interactive = true;
+  sprite.cursor = 'pointer';
+  sprite.alpha = 0.5;
+
+  sprite.on('mouseover', () => {
+    sprite.alpha = 1;
+    container.zIndex = 3;
+  });
+
+  sprite.on('mouseout', () => {
+    sprite.alpha = 0.5;
+    container.zIndex = 2;
+  });
 
   const text = new PIXI.Text(name, {
     ...textStyle,
     stroke: undefined,
-    fill: textColor,
+    fill: colorPalette['100'],
   });
   // const textPos = new PIXI.Text(position.x, textStyle);
   text.anchor.set(0.5);
@@ -53,7 +63,6 @@ export const drawNode = ({
   container.name = id;
   container.position = position;
   container.addChild(sprite, text);
-  container.zIndex = 2;
 
   return container;
 };
