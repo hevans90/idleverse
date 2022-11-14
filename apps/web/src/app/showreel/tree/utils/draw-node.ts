@@ -27,16 +27,32 @@ export const drawNode = ({
 }) => {
   const container = new PIXI.Container();
   container.zIndex = 2;
+  container.sortableChildren = true;
+
   const node = new PIXI.Graphics();
+  const nodeBg = new PIXI.Graphics();
+
+  nodeBg
+    .beginFill(hexStringToNumber(colorPalette['700']))
+    .drawCircle(0, 0, radius);
 
   node
     .lineStyle(1, hexStringToNumber(colorPalette['200']))
-    .beginFill(hexStringToNumber(colorPalette['400']))
+    .beginFill(hexStringToNumber(colorPalette['300']))
     .drawCircle(0, 0, radius);
 
   const texture = app.renderer.generateTexture(node);
   const sprite = new PIXI.Sprite(texture);
+
+  const textureBg = app.renderer.generateTexture(nodeBg);
+  const spriteBg = new PIXI.Sprite(textureBg);
+
+  spriteBg.anchor.set(0.5);
   sprite.anchor.set(0.5);
+
+  spriteBg.zIndex = 1;
+  sprite.zIndex = 2;
+
   sprite.interactive = true;
   sprite.cursor = 'pointer';
   sprite.alpha = 0.5;
@@ -56,13 +72,13 @@ export const drawNode = ({
     stroke: undefined,
     fill: colorPalette['100'],
   });
-  // const textPos = new PIXI.Text(position.x, textStyle);
+
   text.anchor.set(0.5);
-  // textPos.anchor.set(0.5, 0);
+  text.zIndex = 3;
 
   container.name = id;
   container.position = position;
-  container.addChild(sprite, text);
+  container.addChild(sprite, spriteBg, text);
 
   return container;
 };
