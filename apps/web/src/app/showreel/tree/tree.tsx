@@ -14,6 +14,8 @@ import {
 import { connectNodes, drawNode } from './utils/draw-node';
 import { Tree } from './utils/tree-structure';
 
+import { useHighlightSearchResults } from './hooks/use-highlight-search-results';
+
 export const ResearchTree = ({
   technologies,
 }: {
@@ -26,6 +28,8 @@ export const ResearchTree = ({
   const size = useResize();
 
   const viewport = useViewport({ app, containerRef, size });
+
+  useHighlightSearchResults(containerRef.current);
 
   useEffect(() => {
     containerRef.current.sortableChildren = true;

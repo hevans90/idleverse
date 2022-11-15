@@ -27,7 +27,7 @@ export const TreeSearch = () => {
     searchResultsVar(
       fuzzySearch(event.target.value, treeNodes, {
         keySelector: (obj) => obj.value.name,
-        threshold: 0.8,
+        threshold: 0.9,
         ignoreSymbols: false,
       })
     );
