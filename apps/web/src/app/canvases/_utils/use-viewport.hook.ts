@@ -50,6 +50,7 @@ export const useViewport = ({
         disableOnContextMenu: true,
         ticker: app.ticker,
       });
+      viewportRef.current.sortableChildren = true;
     }
 
     if (!sizeIndicator.current) {

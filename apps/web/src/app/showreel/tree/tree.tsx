@@ -1,11 +1,11 @@
 import { TechnologiesQuery } from '@idleverse/galaxy-gql';
 import { colors } from '@idleverse/theme';
 import { useApp } from '@inlet/react-pixi';
-import { Container } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { useResize } from '../../canvases/_utils/use-resize.hook';
 import { useViewport } from '../../canvases/_utils/use-viewport.hook';
 import { colorsVar } from '../../_state/colors';
+import { treeNodesVar } from './state/tree.state';
 import {
   createTreeFromQuery,
   TechnologyNode,
@@ -19,99 +19,105 @@ export const ResearchTree = ({
   technologies: TechnologiesQuery['technology'];
 }) => {
   const app = useApp();
-  const containerRef = useRef(new Container());
   const treeRef = useRef<Tree<TechnologyNode>>();
 
   const size = useResize();
 
-  useViewport({ app, containerRef, size });
+  const viewport = useViewport({ app, size });
 
   useEffect(() => {
-    containerRef.current.sortableChildren = true;
-
-    if (technologies.length) {
+    if (viewport && technologies.length) {
       treeRef.current = createTreeFromQuery(technologies);
 
       const radius = 50;
 
-      [...treeRef.current.preOrderTraversal()]
-        .map((node) => ({
+      const nodesWithDepth = [...treeRef.current.preOrderTraversal()].map(
+        (node) => ({
           ...node,
           depth: node.value.depth,
-        }))
-        .forEach((node, i) => {
-          let x = 0;
-          const y = -200 + node.depth * 3 * radius;
+        })
+      );
 
-          let parent: { x: number; y: number };
+      treeNodesVar(nodesWithDepth);
 
-          if (node.parent) {
-            const parentRenderedNode = containerRef.current.getChildByName(
-              node.parent.id
-            );
+      nodesWithDepth.forEach((node, i) => {
+        let x = size.width / 2;
+        const y = size.height / 3 + node.depth * 3 * radius;
 
-            parent = parentRenderedNode.position;
+        let parent: { x: number; y: number };
 
-            x = parent?.x;
+        if (node.parent) {
+          const parentRenderedNode = viewport.getChildByName(node.parent.id);
 
-            const siblings = node.parent.children
-              .filter(({ id }) => id !== node.id)
-              .map(({ id }) => containerRef.current.getChildByName(id));
+          parent = parentRenderedNode.position;
 
-            const renderedSiblings = siblings.filter(
-              (element) => element !== null
-            );
+          x = parent?.x;
 
-            const generationCount = siblings.length + 1;
+          const siblings = node.parent.children
+            .filter(({ id }) => id !== node.id)
+            .map(({ id }) => viewport.getChildByName(id));
 
-            const nodeWidth = (2 * radius * (3 / generationCount)) / node.depth;
+          const renderedSiblings = siblings.filter(
+            (element) => element !== null
+          );
 
-            const separation = (2 * nodeWidth) / generationCount;
+          const generationCount = siblings.length + 1;
 
-            const lowerbound =
-              nodeWidth * siblings.length + separation * siblings.length;
+          const nodeWidth = (2 * radius * (3 / generationCount)) / node.depth;
 
-            if (!renderedSiblings.length) {
-              x -= lowerbound / 2;
-            } else {
-              x =
-                renderedSiblings[renderedSiblings.length - 1].position.x +
-                nodeWidth +
-                separation;
-            }
+          const separation = (2 * nodeWidth) / generationCount;
 
-            if (generationCount === 1) {
-              x = parentRenderedNode?.position.x;
-            }
+          const lowerbound =
+            nodeWidth * siblings.length + separation * siblings.length;
+
+          if (!renderedSiblings.length) {
+            x -= lowerbound / 2;
+          } else {
+            x =
+              renderedSiblings[renderedSiblings.length - 1].position.x +
+              nodeWidth +
+              separation;
           }
 
-          const palette = colors[colorsVar().secondary];
-
-          const container = drawNode({
-            app,
-            id: node.id,
-            name: node.value.name,
-            position: {
-              x,
-              y,
-            },
-            colorPalette: palette,
-            radius,
-          });
-
-          if (parent) {
-            const line = connectNodes({
-              parent,
-              self: { x, y },
-              color: colors[colorsVar().secondary]['300'],
-            });
-            containerRef.current.addChild(line);
+          if (generationCount === 1) {
+            x = parentRenderedNode?.position.x;
           }
+        }
 
-          containerRef.current.addChild(container);
+        const palette = colors[colorsVar().secondary];
+
+        const container = drawNode({
+          app,
+          id: node.id,
+          name: node.value.name,
+          position: {
+            x,
+            y,
+          },
+          colorPalette: palette,
+          radius,
         });
+
+        if (parent) {
+          const line = connectNodes({
+            parent,
+            self: { x, y },
+            color: colors[colorsVar().secondary]['300'],
+          });
+          viewport.addChild(line);
+        }
+
+        viewport.addChild(container);
+      });
     }
-  }, [technologies]);
+  }, [technologies, viewport]);
+
+  useEffect(() => {
+    if (viewport) {
+      viewport.scaled = 4;
+      viewport.animate({ time: 1000, scale: 1 });
+    }
+  }, [viewport]);
 
   return <></>;
 };

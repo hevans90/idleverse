@@ -41,29 +41,20 @@ export const drawNode = ({
     .beginFill(hexStringToNumber(colorPalette['300']))
     .drawCircle(0, 0, radius);
 
-  const texture = app.renderer.generateTexture(node);
-  const sprite = new PIXI.Sprite(texture);
+  nodeBg.zIndex = 1;
+  node.zIndex = 2;
 
-  const textureBg = app.renderer.generateTexture(nodeBg);
-  const spriteBg = new PIXI.Sprite(textureBg);
+  node.interactive = true;
+  node.cursor = 'pointer';
+  node.alpha = 0.5;
 
-  spriteBg.anchor.set(0.5);
-  sprite.anchor.set(0.5);
-
-  spriteBg.zIndex = 1;
-  sprite.zIndex = 2;
-
-  sprite.interactive = true;
-  sprite.cursor = 'pointer';
-  sprite.alpha = 0.5;
-
-  sprite.on('mouseover', () => {
-    sprite.alpha = 1;
+  node.on('mouseover', () => {
+    node.alpha = 1;
     container.zIndex = 3;
   });
 
-  sprite.on('mouseout', () => {
-    sprite.alpha = 0.5;
+  node.on('mouseout', () => {
+    node.alpha = 0.5;
     container.zIndex = 2;
   });
 
@@ -78,7 +69,7 @@ export const drawNode = ({
 
   container.name = id;
   container.position = position;
-  container.addChild(sprite, spriteBg, text);
+  container.addChild(node, nodeBg, text);
 
   return container;
 };
