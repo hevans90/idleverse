@@ -1,6 +1,7 @@
 import { TechnologiesQuery } from '@idleverse/galaxy-gql';
 import { colors } from '@idleverse/theme';
 import { useApp } from '@inlet/react-pixi';
+import { Container } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { useResize } from '../../canvases/_utils/use-resize.hook';
 import { useViewport } from '../../canvases/_utils/use-viewport.hook';
@@ -20,12 +21,14 @@ export const ResearchTree = ({
 }) => {
   const app = useApp();
   const treeRef = useRef<Tree<TechnologyNode>>();
+  const containerRef = useRef<Container>(new Container());
 
   const size = useResize();
 
-  const viewport = useViewport({ app, size });
+  const viewport = useViewport({ app, containerRef, size });
 
   useEffect(() => {
+    containerRef.current.sortableChildren = true;
     if (viewport && technologies.length) {
       treeRef.current = createTreeFromQuery(technologies);
 
@@ -41,13 +44,15 @@ export const ResearchTree = ({
       treeNodesVar(nodesWithDepth);
 
       nodesWithDepth.forEach((node, i) => {
-        let x = size.width / 2;
-        const y = size.height / 3 + node.depth * 3 * radius;
+        let x = 0;
+        const y = -size.height / 4 + node.depth * 3 * radius;
 
         let parent: { x: number; y: number };
 
         if (node.parent) {
-          const parentRenderedNode = viewport.getChildByName(node.parent.id);
+          const parentRenderedNode = containerRef.current.getChildByName(
+            node.parent.id
+          );
 
           parent = parentRenderedNode.position;
 
@@ -55,7 +60,7 @@ export const ResearchTree = ({
 
           const siblings = node.parent.children
             .filter(({ id }) => id !== node.id)
-            .map(({ id }) => viewport.getChildByName(id));
+            .map(({ id }) => containerRef.current.getChildByName(id));
 
           const renderedSiblings = siblings.filter(
             (element) => element !== null
@@ -104,10 +109,10 @@ export const ResearchTree = ({
             self: { x, y },
             color: colors[colorsVar().secondary]['300'],
           });
-          viewport.addChild(line);
+          containerRef.current.addChild(line);
         }
 
-        viewport.addChild(container);
+        containerRef.current.addChild(container);
       });
     }
   }, [technologies, viewport]);

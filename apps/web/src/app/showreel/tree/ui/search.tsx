@@ -11,21 +11,20 @@ import {
 } from '@chakra-ui/react';
 import { ChangeEvent, useState } from 'react';
 import { useUiBackground } from '../../../hooks/use-ui-background';
-import { treeNodesVar } from '../state/tree.state';
+import { searchResultsVar, treeNodesVar } from '../state/tree.state';
 
 import { search as fuzzySearch } from 'fast-fuzzy';
 
 export const TreeSearch = () => {
   const { bg, border } = useUiBackground();
 
-  const [searchResults, setSearchResults] =
-    useState<ReturnType<typeof treeNodesVar>>();
   const [inputValue, setInputValue] = useState<string>('');
   const treeNodes = useReactiveVar(treeNodesVar);
+  const searchResults = useReactiveVar(searchResultsVar);
 
   const updateSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
-    setSearchResults(
+    searchResultsVar(
       fuzzySearch(event.target.value, treeNodes, {
         keySelector: (obj) => obj.value.name,
         threshold: 0.8,
