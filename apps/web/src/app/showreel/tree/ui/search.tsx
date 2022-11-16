@@ -14,6 +14,7 @@ import { useUiBackground } from '../../../hooks/use-ui-background';
 import { searchResultsVar, treeNodesVar } from '../state/tree.state';
 
 import { search as fuzzySearch } from 'fast-fuzzy';
+import { responsiveFontProps } from '../../../_responsive-utils/font-props';
 
 export const TreeSearch = () => {
   const { bg, border } = useUiBackground();
@@ -36,13 +37,14 @@ export const TreeSearch = () => {
   return (
     <VStack
       spacing={5}
-      padding="1rem"
+      padding={[0, 2, 3]}
       position="absolute"
       alignItems="start"
       bgColor={bg}
       top="0"
       right="0"
-      borderWidth="1px"
+      borderWidth={[0, '1px']}
+      borderRadius={['5px', 'unset']}
       borderStyle="solid"
       borderColor={border}
       borderTop="unset"
@@ -56,6 +58,7 @@ export const TreeSearch = () => {
             children={<SearchIcon color={border} />}
           />
           <Input
+            {...responsiveFontProps}
             bg={bg}
             borderColor={border}
             value={inputValue}
@@ -68,14 +71,14 @@ export const TreeSearch = () => {
         <VStack>
           {searchResults.map((x, i) => (
             <HStack width="100%" key={i}>
-              <Text>{x.value.name}</Text>
+              <Text {...responsiveFontProps}>{x.value.name}</Text>
             </HStack>
           ))}
         </VStack>
       )}
       {inputValue && !searchResults.length && (
         <HStack>
-          <Text>No results found.</Text>
+          <Text {...responsiveFontProps}>No results found.</Text>
         </HStack>
       )}
     </VStack>

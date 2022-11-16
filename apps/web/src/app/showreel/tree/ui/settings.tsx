@@ -1,6 +1,7 @@
 import { useReactiveVar } from '@apollo/client';
 import { AddIcon, MinusIcon, SettingsIcon } from '@chakra-ui/icons';
 import {
+  Checkbox,
   HStack,
   IconButton,
   NumberDecrementStepper,
@@ -88,7 +89,7 @@ export const TreeSettings = () => {
             <Slider
               defaultValue={treeSettings.separation}
               min={0}
-              max={3}
+              max={5}
               step={0.01}
               onChange={(val: number) =>
                 treeSettingsVar({
@@ -123,6 +124,19 @@ export const TreeSettings = () => {
               <SliderThumb boxSize={6} bgColor={border} />
             </Slider>
           </VStack>
+          <HStack width="100%">
+            <Text mr={3}>Snap back </Text>
+            <Checkbox
+              size="lg"
+              isChecked={treeSettings.snapBack}
+              onChange={() =>
+                treeSettingsVar({
+                  ...treeSettings,
+                  snapBack: !treeSettings.snapBack,
+                })
+              }
+            ></Checkbox>
+          </HStack>
         </VStack>
       )}
     </VStack>

@@ -19,12 +19,14 @@ export const treeSettingsVar = makeVarPersisted<{
   separation: number;
   depthMulti: number;
   nodeRadius: number;
+  snapBack: boolean;
 }>(
   {
     panelOpen: false,
     separation: 2.75,
     depthMulti: 250,
     nodeRadius: 50,
+    snapBack: true,
   },
   'treeSettings'
 );

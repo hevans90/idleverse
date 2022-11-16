@@ -23,7 +23,7 @@ export const useRenderNodes = (
   useEffect(() => {
     nodesWithDepth.forEach((node) => {
       let x = 0;
-      const y = -size.height / 4 + node.depth * depthMultiplier;
+      const y = -size.height / 3 + node.depth * depthMultiplier;
 
       let parent: { x: number; y: number };
 
