@@ -40,23 +40,10 @@ export const drawNode = ({
     .lineStyle(1, hexStringToNumber(colorPalette['200']))
     .beginFill(hexStringToNumber(colorPalette['300']))
     .drawCircle(0, 0, radius);
+  node.name = 'node';
 
   nodeBg.zIndex = 1;
   node.zIndex = 2;
-
-  node.interactive = true;
-  node.cursor = 'pointer';
-  node.alpha = 0.5;
-
-  node.on('mouseover', () => {
-    node.alpha = 1;
-    container.zIndex = 3;
-  });
-
-  node.on('mouseout', () => {
-    node.alpha = 0.5;
-    container.zIndex = 2;
-  });
 
   const text = new PIXI.Text(name, {
     ...textStyle,

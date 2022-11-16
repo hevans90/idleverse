@@ -13,6 +13,7 @@ import { Tree } from './utils/tree-structure';
 
 import { useReactiveVar } from '@apollo/client';
 import { useHighlightSearchResults } from './hooks/use-highlight-search-results';
+import { useHoverNodes } from './hooks/use-hover-nodes';
 import { useRenderNodes } from './hooks/use-render-nodes';
 
 export const ResearchTree = ({
@@ -49,6 +50,8 @@ export const ResearchTree = ({
   }, [technologies, viewport]);
 
   useRenderNodes(app, containerRef.current, size);
+
+  useHoverNodes(containerRef.current);
 
   useEffect(() => {
     if (viewport) {
