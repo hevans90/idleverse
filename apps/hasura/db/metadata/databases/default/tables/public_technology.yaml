@@ -8,25 +8,32 @@ insert_permissions:
       columns:
         - children
         - description
+        - image_url
         - name
+        - research_cost
+        - root
 select_permissions:
   - role: dev
     permission:
       columns:
         - children
-        - description
-        - id
-        - name
         - root
+        - research_cost
+        - description
+        - image_url
+        - name
+        - id
       filter: {}
   - role: user
     permission:
       columns:
         - children
-        - description
-        - id
-        - name
         - root
+        - research_cost
+        - description
+        - image_url
+        - name
+        - id
       filter: {}
 update_permissions:
   - role: dev
@@ -34,7 +41,10 @@ update_permissions:
       columns:
         - children
         - description
+        - image_url
         - name
+        - research_cost
+        - root
       filter: {}
       check: {}
 delete_permissions:
