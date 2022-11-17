@@ -18,7 +18,10 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useUiBackground } from '../../../hooks/use-ui-background';
-import { responsiveIconProps } from '../../../_responsive-utils/font-props';
+import {
+  responsiveFontProps,
+  responsiveIconProps,
+} from '../../../_responsive-utils/font-props';
 import { treeSettingsVar } from '../state/tree.state';
 
 export const TreeSettings = () => {
@@ -62,7 +65,7 @@ export const TreeSettings = () => {
           divider={<StackDivider borderColor={border} />}
         >
           <VStack w="100%">
-            <Text>Node Radius</Text>
+            <Text {...responsiveFontProps}>Node Radius</Text>
             <NumberInput
               maxW="250px"
               flexGrow={0}
@@ -85,7 +88,7 @@ export const TreeSettings = () => {
             </NumberInput>
           </VStack>
           <VStack w="100%">
-            <Text>Separation</Text>
+            <Text {...responsiveFontProps}>Separation</Text>
             <Slider
               defaultValue={treeSettings.separation}
               min={0}
@@ -105,7 +108,7 @@ export const TreeSettings = () => {
             </Slider>
           </VStack>
           <VStack w="100%">
-            <Text>Depth Multiplier</Text>
+            <Text {...responsiveFontProps}>Depth Multiplier</Text>
             <Slider
               defaultValue={treeSettings.depthMulti}
               min={0}
@@ -125,7 +128,9 @@ export const TreeSettings = () => {
             </Slider>
           </VStack>
           <HStack width="100%">
-            <Text mr={3}>Snap back </Text>
+            <Text mr={3} {...responsiveFontProps}>
+              Snap back
+            </Text>
             <Checkbox
               size="lg"
               isChecked={treeSettings.snapBack}
