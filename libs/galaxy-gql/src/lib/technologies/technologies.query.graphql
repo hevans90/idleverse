@@ -5,5 +5,7 @@ query Technologies {
     name
     description
     children
+    research_cost
+    image_url
   }
 }

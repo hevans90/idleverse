@@ -4139,6 +4139,7 @@ export type Mutation_RootUpdate_Resource_Type_ManyArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_TechnologyArgs = {
+  _inc?: InputMaybe<Technology_Inc_Input>;
   _set?: InputMaybe<Technology_Set_Input>;
   where: Technology_Bool_Exp;
 };
@@ -4146,6 +4147,7 @@ export type Mutation_RootUpdate_TechnologyArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Technology_By_PkArgs = {
+  _inc?: InputMaybe<Technology_Inc_Input>;
   _set?: InputMaybe<Technology_Set_Input>;
   pk_columns: Technology_Pk_Columns_Input;
 };
@@ -9174,7 +9176,9 @@ export type Technology = {
   children: Scalars['_uuid'];
   description?: Maybe<Scalars['String']>;
   id: Scalars['uuid'];
+  image_url?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+  research_cost: Scalars['Int'];
   root?: Maybe<Scalars['Boolean']>;
 };
 
@@ -9188,9 +9192,17 @@ export type Technology_Aggregate = {
 /** aggregate fields of "technology" */
 export type Technology_Aggregate_Fields = {
   __typename?: 'technology_aggregate_fields';
+  avg?: Maybe<Technology_Avg_Fields>;
   count: Scalars['Int'];
   max?: Maybe<Technology_Max_Fields>;
   min?: Maybe<Technology_Min_Fields>;
+  stddev?: Maybe<Technology_Stddev_Fields>;
+  stddev_pop?: Maybe<Technology_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Technology_Stddev_Samp_Fields>;
+  sum?: Maybe<Technology_Sum_Fields>;
+  var_pop?: Maybe<Technology_Var_Pop_Fields>;
+  var_samp?: Maybe<Technology_Var_Samp_Fields>;
+  variance?: Maybe<Technology_Variance_Fields>;
 };
 
 
@@ -9198,6 +9210,12 @@ export type Technology_Aggregate_Fields = {
 export type Technology_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Technology_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Technology_Avg_Fields = {
+  __typename?: 'technology_avg_fields';
+  research_cost?: Maybe<Scalars['Float']>;
 };
 
 /** Boolean expression to filter rows from the table "technology". All fields are combined with a logical 'AND'. */
@@ -9208,7 +9226,9 @@ export type Technology_Bool_Exp = {
   children?: InputMaybe<_Uuid_Comparison_Exp>;
   description?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  image_url?: InputMaybe<String_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
+  research_cost?: InputMaybe<Int_Comparison_Exp>;
   root?: InputMaybe<Boolean_Comparison_Exp>;
 };
 
@@ -9220,12 +9240,19 @@ export enum Technology_Constraint {
   TechnologyPkey = 'technology_pkey'
 }
 
+/** input type for incrementing numeric columns in table "technology" */
+export type Technology_Inc_Input = {
+  research_cost?: InputMaybe<Scalars['Int']>;
+};
+
 /** input type for inserting data into table "technology" */
 export type Technology_Insert_Input = {
   children?: InputMaybe<Scalars['_uuid']>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
+  image_url?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
+  research_cost?: InputMaybe<Scalars['Int']>;
   root?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -9234,7 +9261,9 @@ export type Technology_Max_Fields = {
   __typename?: 'technology_max_fields';
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
+  image_url?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  research_cost?: Maybe<Scalars['Int']>;
 };
 
 /** aggregate min on columns */
@@ -9242,7 +9271,9 @@ export type Technology_Min_Fields = {
   __typename?: 'technology_min_fields';
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
+  image_url?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  research_cost?: Maybe<Scalars['Int']>;
 };
 
 /** response of any mutation on the table "technology" */
@@ -9266,7 +9297,9 @@ export type Technology_Order_By = {
   children?: InputMaybe<Order_By>;
   description?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  image_url?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
+  research_cost?: InputMaybe<Order_By>;
   root?: InputMaybe<Order_By>;
 };
 
@@ -9284,7 +9317,11 @@ export enum Technology_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  ImageUrl = 'image_url',
+  /** column name */
   Name = 'name',
+  /** column name */
+  ResearchCost = 'research_cost',
   /** column name */
   Root = 'root'
 }
@@ -9294,8 +9331,28 @@ export type Technology_Set_Input = {
   children?: InputMaybe<Scalars['_uuid']>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
+  image_url?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
+  research_cost?: InputMaybe<Scalars['Int']>;
   root?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate stddev on columns */
+export type Technology_Stddev_Fields = {
+  __typename?: 'technology_stddev_fields';
+  research_cost?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Technology_Stddev_Pop_Fields = {
+  __typename?: 'technology_stddev_pop_fields';
+  research_cost?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Technology_Stddev_Samp_Fields = {
+  __typename?: 'technology_stddev_samp_fields';
+  research_cost?: Maybe<Scalars['Float']>;
 };
 
 /** Streaming cursor of the table "technology" */
@@ -9311,8 +9368,16 @@ export type Technology_Stream_Cursor_Value_Input = {
   children?: InputMaybe<Scalars['_uuid']>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
+  image_url?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
+  research_cost?: InputMaybe<Scalars['Int']>;
   root?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate sum on columns */
+export type Technology_Sum_Fields = {
+  __typename?: 'technology_sum_fields';
+  research_cost?: Maybe<Scalars['Int']>;
 };
 
 /** update columns of table "technology" */
@@ -9324,15 +9389,39 @@ export enum Technology_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  ImageUrl = 'image_url',
+  /** column name */
   Name = 'name',
+  /** column name */
+  ResearchCost = 'research_cost',
   /** column name */
   Root = 'root'
 }
 
 export type Technology_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Technology_Inc_Input>;
   /** sets the columns of the filtered rows to the given values */
   _set?: InputMaybe<Technology_Set_Input>;
   where: Technology_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Technology_Var_Pop_Fields = {
+  __typename?: 'technology_var_pop_fields';
+  research_cost?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Technology_Var_Samp_Fields = {
+  __typename?: 'technology_var_samp_fields';
+  research_cost?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Technology_Variance_Fields = {
+  __typename?: 'technology_variance_fields';
+  research_cost?: Maybe<Scalars['Float']>;
 };
 
 /** columns and relationships of "terrain_hex_palette" */
@@ -10566,10 +10655,25 @@ export type SetNameByUserIdMutationVariables = Exact<{
 
 export type SetNameByUserIdMutation = { __typename?: 'mutation_root', setDisplayName?: { __typename?: 'Register', updatedName: string } | null };
 
+export type CreateTechnologyMutationVariables = Exact<{
+  input: Technology_Insert_Input;
+}>;
+
+
+export type CreateTechnologyMutation = { __typename?: 'mutation_root', insert_technology_one?: { __typename?: 'technology', root?: boolean | null, id: string, image_url?: string | null, name: string, research_cost: number, description?: string | null, children: string[] } | null };
+
 export type TechnologiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TechnologiesQuery = { __typename?: 'query_root', technology: Array<{ __typename?: 'technology', id: string, root?: boolean | null, name: string, description?: string | null, children: string[] }> };
+export type TechnologiesQuery = { __typename?: 'query_root', technology: Array<{ __typename?: 'technology', id: string, root?: boolean | null, name: string, description?: string | null, children: string[], research_cost: number, image_url?: string | null }> };
+
+export type UpdateTechnologyByIdMutationVariables = Exact<{
+  id: Scalars['uuid'];
+  input: Technology_Set_Input;
+}>;
+
+
+export type UpdateTechnologyByIdMutation = { __typename?: 'mutation_root', update_technology_by_pk?: { __typename?: 'technology', root?: boolean | null, image_url?: string | null, name: string, research_cost: number, description?: string | null, children: string[] } | null };
 
 export type UserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -11407,6 +11511,22 @@ export const SetNameByUserIdDocument = gql`
 export type SetNameByUserIdMutationFn = Apollo.MutationFunction<SetNameByUserIdMutation, SetNameByUserIdMutationVariables>;
 export type SetNameByUserIdMutationResult = Apollo.MutationResult<SetNameByUserIdMutation>;
 export type SetNameByUserIdMutationOptions = Apollo.BaseMutationOptions<SetNameByUserIdMutation, SetNameByUserIdMutationVariables>;
+export const CreateTechnologyDocument = gql`
+    mutation CreateTechnology($input: technology_insert_input!) {
+  insert_technology_one(object: $input) {
+    root
+    id
+    image_url
+    name
+    research_cost
+    description
+    children
+  }
+}
+    `;
+export type CreateTechnologyMutationFn = Apollo.MutationFunction<CreateTechnologyMutation, CreateTechnologyMutationVariables>;
+export type CreateTechnologyMutationResult = Apollo.MutationResult<CreateTechnologyMutation>;
+export type CreateTechnologyMutationOptions = Apollo.BaseMutationOptions<CreateTechnologyMutation, CreateTechnologyMutationVariables>;
 export const TechnologiesDocument = gql`
     query Technologies {
   technology {
@@ -11415,10 +11535,27 @@ export const TechnologiesDocument = gql`
     name
     description
     children
+    research_cost
+    image_url
   }
 }
     `;
 export type TechnologiesQueryResult = Apollo.QueryResult<TechnologiesQuery, TechnologiesQueryVariables>;
+export const UpdateTechnologyByIdDocument = gql`
+    mutation UpdateTechnologyById($id: uuid!, $input: technology_set_input!) {
+  update_technology_by_pk(pk_columns: {id: $id}, _set: $input) {
+    root
+    image_url
+    name
+    research_cost
+    description
+    children
+  }
+}
+    `;
+export type UpdateTechnologyByIdMutationFn = Apollo.MutationFunction<UpdateTechnologyByIdMutation, UpdateTechnologyByIdMutationVariables>;
+export type UpdateTechnologyByIdMutationResult = Apollo.MutationResult<UpdateTechnologyByIdMutation>;
+export type UpdateTechnologyByIdMutationOptions = Apollo.BaseMutationOptions<UpdateTechnologyByIdMutation, UpdateTechnologyByIdMutationVariables>;
 export const UserInfoDocument = gql`
     query UserInfo {
   user_info {
