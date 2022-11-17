@@ -14,6 +14,7 @@ export type TreeNodeWithDepth = {
 export const treeNodesVar = makeVar<TreeNodeWithDepth[]>([]);
 export const searchResultsVar = makeVar<TreeNodeWithDepth[]>([]);
 
+export const hoveredNodeVar = makeVar<TreeNodeWithDepth>(undefined);
 export const selectedNodeVar = makeVar<TreeNodeWithDepth>(undefined);
 
 export const treeSettingsVar = makeVarPersisted<{
