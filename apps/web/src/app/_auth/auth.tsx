@@ -20,7 +20,7 @@ export const Auth = () => {
       <Box display="flex" alignItems="center">
         <Avatar size="sm" src={user.picture} mr={2} name={user.name} />
 
-        <Text marginRight="1rem" display={['none', 'none', 'block']}>
+        <Text mr={3} display={['none', 'none', 'block']}>
           {user.name}
         </Text>
         {role === 'dev' && <Badge mr={3}>dev</Badge>}
