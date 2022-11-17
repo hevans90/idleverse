@@ -155,7 +155,7 @@ export const useNodeInteractions = (container: PIXI.Container) => {
       );
     }
     prevHoveredNode.current = hoveredNode;
-  }, [hoveredNode]);
+  }, [hoveredNode, settings]);
 
   useEffect(() => {
     if (prevSelectedNode.current) {
@@ -175,5 +175,5 @@ export const useNodeInteractions = (container: PIXI.Container) => {
     }
 
     prevSelectedNode.current = selectedNode;
-  }, [selectedNode]);
+  }, [selectedNode, settings]);
 };

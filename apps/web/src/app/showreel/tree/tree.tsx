@@ -12,7 +12,6 @@ import {
 import { Tree } from './utils/tree-structure';
 
 import { useReactiveVar } from '@apollo/client';
-import { useHighlightSearchResults } from './hooks/use-highlight-search-results';
 import { useNodeInteractions } from './hooks/use-node-interactions';
 import { useRenderNodes } from './hooks/use-render-nodes';
 
@@ -30,8 +29,6 @@ export const ResearchTree = ({
   const viewport = useViewport({ app, containerRef, size });
 
   const settings = useReactiveVar(treeSettingsVar);
-
-  useHighlightSearchResults(containerRef.current);
 
   useEffect(() => {
     containerRef.current.sortableChildren = true;
