@@ -41,17 +41,20 @@ export const TreeSearch = () => {
       position="absolute"
       alignItems="start"
       bgColor={bg}
-      top="0"
-      right="0"
+      top={['unset', 0]}
+      bottom={[0, 'unset']}
+      right={['unset', 0]}
+      width={['100vw', 'unset']}
       borderWidth={[0, '1px']}
       borderRadius={['5px', 'unset']}
       borderStyle="solid"
       borderColor={border}
       borderTop="unset"
       borderRight="unset"
+      flexDirection={['column-reverse', 'column']}
       divider={<StackDivider borderColor={border} />}
     >
-      <HStack>
+      <HStack width="100%">
         <InputGroup>
           <InputLeftElement
             pointerEvents="none"
@@ -68,10 +71,12 @@ export const TreeSearch = () => {
         </InputGroup>
       </HStack>
       {inputValue && searchResults?.length && (
-        <VStack>
+        <VStack width="100%" spacing={1}>
           {searchResults.map((x, i) => (
-            <HStack width="100%" key={i}>
-              <Text {...responsiveFontProps}>{x.value.name}</Text>
+            <HStack width="100%" key={i} padding={1} alignItems="center">
+              <Text {...responsiveFontProps} width="100%">
+                {x.value.name}
+              </Text>
             </HStack>
           ))}
         </VStack>
