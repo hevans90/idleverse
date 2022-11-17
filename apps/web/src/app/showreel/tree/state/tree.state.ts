@@ -3,7 +3,7 @@ import { makeVarPersisted } from '../../../_state/utils';
 import { TechnologyNode } from '../utils/create-tree-from-query';
 import { TreeNode } from '../utils/tree-structure';
 
-type TreeNodeWithDepth = {
+export type TreeNodeWithDepth = {
   depth: number;
   id: string;
   value: TechnologyNode;
@@ -13,6 +13,8 @@ type TreeNodeWithDepth = {
 
 export const treeNodesVar = makeVar<TreeNodeWithDepth[]>([]);
 export const searchResultsVar = makeVar<TreeNodeWithDepth[]>([]);
+
+export const selectedNodeVar = makeVar<TreeNodeWithDepth>(undefined);
 
 export const treeSettingsVar = makeVarPersisted<{
   panelOpen: boolean;
