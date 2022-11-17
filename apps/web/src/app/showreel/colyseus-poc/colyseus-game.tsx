@@ -115,7 +115,7 @@ export const ColyseusGame = () => {
     const { shipSprite, avatarGraphic, avatarSprite } = drawPlayerShip(
       app.renderer as Renderer,
       ship.userId,
-      colors[colorsVar().secondary]['300']
+      hexStringToNumber(colors[colorsVar().secondary]['300'])
     );
 
     shipSprite.rotation = ship.rotation;

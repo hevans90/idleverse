@@ -1,0 +1,44 @@
+table:
+  name: technology
+  schema: public
+insert_permissions:
+  - role: dev
+    permission:
+      check: {}
+      columns:
+        - children
+        - description
+        - name
+select_permissions:
+  - role: dev
+    permission:
+      columns:
+        - children
+        - description
+        - id
+        - name
+        - root
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - children
+        - description
+        - id
+        - name
+        - root
+      filter: {}
+update_permissions:
+  - role: dev
+    permission:
+      columns:
+        - children
+        - description
+        - name
+      filter: {}
+      check: {}
+delete_permissions:
+  - role: dev
+    permission:
+      backend_only: false
+      filter: {}

@@ -8,6 +8,8 @@ import {
   ResourcesQuery,
   SelfDocument,
   SelfQuery,
+  TechnologiesDocument,
+  TechnologiesQuery,
   UserInfoDocument,
   UserInfoQuery,
 } from '@idleverse/galaxy-gql';
@@ -20,6 +22,7 @@ import { npcsVar } from './_state/npcs';
 import { playableRacesVar } from './_state/playable-races';
 import { selfVar } from './_state/reactive-variables';
 import { resourcesVar } from './_state/resources';
+import { technologiesVar } from './_state/technologies';
 
 /**
  * Performs all async loading and blocks any children rendering until complete.
@@ -63,6 +66,13 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
     }
   );
 
+  const { loading: technologiesLoading } = useQuery<TechnologiesQuery>(
+    TechnologiesDocument,
+    {
+      onCompleted: ({ technology }) => technologiesVar(technology),
+    }
+  );
+
   useEffect(() => {
     if (!usersLoading && userInfo) {
       loadUserInfo(userInfo).then(() => setUserAvatarsLoading(false));
@@ -81,6 +91,9 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
   if (npcsLoading) return <Loading text="Loading Npcs"></Loading>;
 
   if (resourcesLoading) return <Loading text="Loading Resources"></Loading>;
+  if (technologiesLoading) {
+    return <Loading text="Loading Technologies"></Loading>;
+  }
 
   if (userAvatarsLoading) return <Loading text="Loading Avatars"></Loading>;
 

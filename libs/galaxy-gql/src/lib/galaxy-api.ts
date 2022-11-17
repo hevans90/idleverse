@@ -14,6 +14,7 @@ export type Scalars = {
   Float: number;
   _numeric: number[];
   _text: string[];
+  _uuid: string[];
   numeric: number;
   timestamp: string;
   timestamptz: string;
@@ -175,6 +176,19 @@ export type _Text_Comparison_Exp = {
   _lte?: InputMaybe<Scalars['_text']>;
   _neq?: InputMaybe<Scalars['_text']>;
   _nin?: InputMaybe<Array<Scalars['_text']>>;
+};
+
+/** Boolean expression to compare columns of type "_uuid". All fields are combined with logical 'AND'. */
+export type _Uuid_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['_uuid']>;
+  _gt?: InputMaybe<Scalars['_uuid']>;
+  _gte?: InputMaybe<Scalars['_uuid']>;
+  _in?: InputMaybe<Array<Scalars['_uuid']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['_uuid']>;
+  _lte?: InputMaybe<Scalars['_uuid']>;
+  _neq?: InputMaybe<Scalars['_uuid']>;
+  _nin?: InputMaybe<Array<Scalars['_uuid']>>;
 };
 
 /** Playable backgrounds */
@@ -2665,6 +2679,10 @@ export type Mutation_Root = {
   delete_resource_type?: Maybe<Resource_Type_Mutation_Response>;
   /** delete single row from the table: "resource_type" */
   delete_resource_type_by_pk?: Maybe<Resource_Type>;
+  /** delete data from the table: "technology" */
+  delete_technology?: Maybe<Technology_Mutation_Response>;
+  /** delete single row from the table: "technology" */
+  delete_technology_by_pk?: Maybe<Technology>;
   /** delete data from the table: "terrain_hex_palette" */
   delete_terrain_hex_palette?: Maybe<Terrain_Hex_Palette_Mutation_Response>;
   /** delete single row from the table: "terrain_hex_palette" */
@@ -2765,6 +2783,10 @@ export type Mutation_Root = {
   insert_resource_type?: Maybe<Resource_Type_Mutation_Response>;
   /** insert a single row into the table: "resource_type" */
   insert_resource_type_one?: Maybe<Resource_Type>;
+  /** insert data into the table: "technology" */
+  insert_technology?: Maybe<Technology_Mutation_Response>;
+  /** insert a single row into the table: "technology" */
+  insert_technology_one?: Maybe<Technology>;
   /** insert data into the table: "terrain_hex_palette" */
   insert_terrain_hex_palette?: Maybe<Terrain_Hex_Palette_Mutation_Response>;
   /** insert a single row into the table: "terrain_hex_palette" */
@@ -2915,6 +2937,12 @@ export type Mutation_Root = {
   update_resource_type_by_pk?: Maybe<Resource_Type>;
   /** update multiples rows of table: "resource_type" */
   update_resource_type_many?: Maybe<Array<Maybe<Resource_Type_Mutation_Response>>>;
+  /** update data of the table: "technology" */
+  update_technology?: Maybe<Technology_Mutation_Response>;
+  /** update single row of the table: "technology" */
+  update_technology_by_pk?: Maybe<Technology>;
+  /** update multiples rows of table: "technology" */
+  update_technology_many?: Maybe<Array<Maybe<Technology_Mutation_Response>>>;
   /** update data of the table: "terrain_hex_palette" */
   update_terrain_hex_palette?: Maybe<Terrain_Hex_Palette_Mutation_Response>;
   /** update single row of the table: "terrain_hex_palette" */
@@ -3217,6 +3245,18 @@ export type Mutation_RootDelete_Resource_TypeArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Resource_Type_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_TechnologyArgs = {
+  where: Technology_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Technology_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -3562,6 +3602,20 @@ export type Mutation_RootInsert_Resource_TypeArgs = {
 export type Mutation_RootInsert_Resource_Type_OneArgs = {
   object: Resource_Type_Insert_Input;
   on_conflict?: InputMaybe<Resource_Type_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_TechnologyArgs = {
+  objects: Array<Technology_Insert_Input>;
+  on_conflict?: InputMaybe<Technology_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Technology_OneArgs = {
+  object: Technology_Insert_Input;
+  on_conflict?: InputMaybe<Technology_On_Conflict>;
 };
 
 
@@ -4080,6 +4134,26 @@ export type Mutation_RootUpdate_Resource_Type_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Resource_Type_ManyArgs = {
   updates: Array<Resource_Type_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_TechnologyArgs = {
+  _set?: InputMaybe<Technology_Set_Input>;
+  where: Technology_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Technology_By_PkArgs = {
+  _set?: InputMaybe<Technology_Set_Input>;
+  pk_columns: Technology_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Technology_ManyArgs = {
+  updates: Array<Technology_Updates>;
 };
 
 
@@ -5490,6 +5564,12 @@ export type Query_Root = {
   /** fetch data from the table: "resource_type" using primary key columns */
   resource_type_by_pk?: Maybe<Resource_Type>;
   returnNothing?: Maybe<GalaxyManagement>;
+  /** fetch data from the table: "technology" */
+  technology: Array<Technology>;
+  /** fetch aggregated fields from the table: "technology" */
+  technology_aggregate: Technology_Aggregate;
+  /** fetch data from the table: "technology" using primary key columns */
+  technology_by_pk?: Maybe<Technology>;
   /** fetch data from the table: "terrain_hex_palette" */
   terrain_hex_palette: Array<Terrain_Hex_Palette>;
   /** fetch aggregated fields from the table: "terrain_hex_palette" */
@@ -6015,6 +6095,29 @@ export type Query_RootResource_Type_AggregateArgs = {
 
 
 export type Query_RootResource_Type_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootTechnologyArgs = {
+  distinct_on?: InputMaybe<Array<Technology_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Technology_Order_By>>;
+  where?: InputMaybe<Technology_Bool_Exp>;
+};
+
+
+export type Query_RootTechnology_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Technology_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Technology_Order_By>>;
+  where?: InputMaybe<Technology_Bool_Exp>;
+};
+
+
+export type Query_RootTechnology_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -8227,6 +8330,14 @@ export type Subscription_Root = {
   resource_type_by_pk?: Maybe<Resource_Type>;
   /** fetch data from the table in a streaming manner : "resource_type" */
   resource_type_stream: Array<Resource_Type>;
+  /** fetch data from the table: "technology" */
+  technology: Array<Technology>;
+  /** fetch aggregated fields from the table: "technology" */
+  technology_aggregate: Technology_Aggregate;
+  /** fetch data from the table: "technology" using primary key columns */
+  technology_by_pk?: Maybe<Technology>;
+  /** fetch data from the table in a streaming manner : "technology" */
+  technology_stream: Array<Technology>;
   /** fetch data from the table: "terrain_hex_palette" */
   terrain_hex_palette: Array<Terrain_Hex_Palette>;
   /** fetch aggregated fields from the table: "terrain_hex_palette" */
@@ -8918,6 +9029,36 @@ export type Subscription_RootResource_Type_StreamArgs = {
 };
 
 
+export type Subscription_RootTechnologyArgs = {
+  distinct_on?: InputMaybe<Array<Technology_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Technology_Order_By>>;
+  where?: InputMaybe<Technology_Bool_Exp>;
+};
+
+
+export type Subscription_RootTechnology_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Technology_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Technology_Order_By>>;
+  where?: InputMaybe<Technology_Bool_Exp>;
+};
+
+
+export type Subscription_RootTechnology_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootTechnology_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Technology_Stream_Cursor_Input>>;
+  where?: InputMaybe<Technology_Bool_Exp>;
+};
+
+
 export type Subscription_RootTerrain_Hex_PaletteArgs = {
   distinct_on?: InputMaybe<Array<Terrain_Hex_Palette_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -9025,6 +9166,173 @@ export type Subscription_RootUser_Private_StreamArgs = {
   batch_size: Scalars['Int'];
   cursor: Array<InputMaybe<User_Private_Stream_Cursor_Input>>;
   where?: InputMaybe<User_Private_Bool_Exp>;
+};
+
+/** columns and relationships of "technology" */
+export type Technology = {
+  __typename?: 'technology';
+  children: Scalars['_uuid'];
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['uuid'];
+  name: Scalars['String'];
+  root?: Maybe<Scalars['Boolean']>;
+};
+
+/** aggregated selection of "technology" */
+export type Technology_Aggregate = {
+  __typename?: 'technology_aggregate';
+  aggregate?: Maybe<Technology_Aggregate_Fields>;
+  nodes: Array<Technology>;
+};
+
+/** aggregate fields of "technology" */
+export type Technology_Aggregate_Fields = {
+  __typename?: 'technology_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Technology_Max_Fields>;
+  min?: Maybe<Technology_Min_Fields>;
+};
+
+
+/** aggregate fields of "technology" */
+export type Technology_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Technology_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "technology". All fields are combined with a logical 'AND'. */
+export type Technology_Bool_Exp = {
+  _and?: InputMaybe<Array<Technology_Bool_Exp>>;
+  _not?: InputMaybe<Technology_Bool_Exp>;
+  _or?: InputMaybe<Array<Technology_Bool_Exp>>;
+  children?: InputMaybe<_Uuid_Comparison_Exp>;
+  description?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  root?: InputMaybe<Boolean_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "technology" */
+export enum Technology_Constraint {
+  /** unique or primary key constraint on columns "name" */
+  TechnologyNameKey = 'technology_name_key',
+  /** unique or primary key constraint on columns "id" */
+  TechnologyPkey = 'technology_pkey'
+}
+
+/** input type for inserting data into table "technology" */
+export type Technology_Insert_Input = {
+  children?: InputMaybe<Scalars['_uuid']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  root?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate max on columns */
+export type Technology_Max_Fields = {
+  __typename?: 'technology_max_fields';
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Technology_Min_Fields = {
+  __typename?: 'technology_min_fields';
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "technology" */
+export type Technology_Mutation_Response = {
+  __typename?: 'technology_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Technology>;
+};
+
+/** on_conflict condition type for table "technology" */
+export type Technology_On_Conflict = {
+  constraint: Technology_Constraint;
+  update_columns?: Array<Technology_Update_Column>;
+  where?: InputMaybe<Technology_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "technology". */
+export type Technology_Order_By = {
+  children?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  root?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: technology */
+export type Technology_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "technology" */
+export enum Technology_Select_Column {
+  /** column name */
+  Children = 'children',
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Root = 'root'
+}
+
+/** input type for updating data in table "technology" */
+export type Technology_Set_Input = {
+  children?: InputMaybe<Scalars['_uuid']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  root?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Streaming cursor of the table "technology" */
+export type Technology_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Technology_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Technology_Stream_Cursor_Value_Input = {
+  children?: InputMaybe<Scalars['_uuid']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  root?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** update columns of table "technology" */
+export enum Technology_Update_Column {
+  /** column name */
+  Children = 'children',
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Root = 'root'
+}
+
+export type Technology_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Technology_Set_Input>;
+  where: Technology_Bool_Exp;
 };
 
 /** columns and relationships of "terrain_hex_palette" */
@@ -10258,6 +10566,11 @@ export type SetNameByUserIdMutationVariables = Exact<{
 
 export type SetNameByUserIdMutation = { __typename?: 'mutation_root', setDisplayName?: { __typename?: 'Register', updatedName: string } | null };
 
+export type TechnologiesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type TechnologiesQuery = { __typename?: 'query_root', technology: Array<{ __typename?: 'technology', id: string, root?: boolean | null, name: string, description?: string | null, children: string[] }> };
+
 export type UserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -11094,6 +11407,18 @@ export const SetNameByUserIdDocument = gql`
 export type SetNameByUserIdMutationFn = Apollo.MutationFunction<SetNameByUserIdMutation, SetNameByUserIdMutationVariables>;
 export type SetNameByUserIdMutationResult = Apollo.MutationResult<SetNameByUserIdMutation>;
 export type SetNameByUserIdMutationOptions = Apollo.BaseMutationOptions<SetNameByUserIdMutation, SetNameByUserIdMutationVariables>;
+export const TechnologiesDocument = gql`
+    query Technologies {
+  technology {
+    id
+    root
+    name
+    description
+    children
+  }
+}
+    `;
+export type TechnologiesQueryResult = Apollo.QueryResult<TechnologiesQuery, TechnologiesQueryVariables>;
 export const UserInfoDocument = gql`
     query UserInfo {
   user_info {

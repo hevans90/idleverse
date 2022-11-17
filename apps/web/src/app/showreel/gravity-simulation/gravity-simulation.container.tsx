@@ -9,6 +9,7 @@ import {
 export const GravitySimulationContainer = () => {
   return (
     <PixiWrapper
+      showGameUI={false}
       ui={
         <>
           <GravitySimulationControls />

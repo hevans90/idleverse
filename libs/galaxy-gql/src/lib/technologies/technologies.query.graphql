@@ -1,0 +1,9 @@
+query Technologies {
+  technology {
+    id
+    root
+    name
+    description
+    children
+  }
+}
