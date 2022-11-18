@@ -6,9 +6,9 @@ import * as PIXI from 'pixi.js';
 
 export const loadTechTree = async (data: ResourcesQuery) => {
   const addOptions: PIXI.IAddOptions[] = data.resource_type.map(
-    ({ type: name, image_url: url }) => ({
+    ({ image_url: url }) => ({
       url,
-      name,
+      name: url,
     })
   );
 

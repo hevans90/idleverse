@@ -15,8 +15,8 @@ import {
 
 const glowFilter = new GlowFilter({
   distance: 15,
-  outerStrength: 4,
-  color: hexStringToNumber(colors[colorsVar().secondary]['100']),
+  outerStrength: 3,
+  color: hexStringToNumber(colors[colorsVar().secondary]['200']),
 });
 
 const weakGlowFilter = new GlowFilter({
@@ -34,7 +34,7 @@ const highlightNodeWithChildren = (
     'node'
   ) as PIXI.Graphics;
 
-  baseRenderedNode.alpha = 0.75;
+  baseRenderedNode.alpha = 0.35;
   nodeContainer.zIndex = 3;
 
   const selectedNode = selectedNodeVar();
@@ -60,7 +60,7 @@ const removeNodeHighlights = (
     'node'
   ) as PIXI.Graphics;
 
-  baseRenderedNode.alpha = 0.5;
+  baseRenderedNode.alpha = 0.25;
   nodeContainer.zIndex = 2;
 
   const selectedNode = selectedNodeVar();
@@ -94,7 +94,7 @@ const setupNodeMouseEvents = (
   if (baseRenderedNode) {
     baseRenderedNode.interactive = true;
     baseRenderedNode.cursor = 'pointer';
-    baseRenderedNode.alpha = 0.5;
+    baseRenderedNode.alpha = 0.25;
 
     baseRenderedNode.on('mouseover', () => hoveredNodeVar(node));
     baseRenderedNode.on('mouseout', () => hoveredNodeVar(undefined));

@@ -67,9 +67,9 @@ export const useRenderNodes = (
       const palette = colors[colorsVar().secondary];
 
       const nodeContainer = drawNode({
-        app,
         id: node.id,
         name: node.value.name,
+        imageUrl: node.value.image_url,
         position: {
           x,
           y,
