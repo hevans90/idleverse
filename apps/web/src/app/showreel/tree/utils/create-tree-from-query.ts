@@ -27,7 +27,8 @@ export const createTreeFromQuery = (
       const childTech = technologies.find(({ id }) => id === childId);
 
       if (!childTech) {
-        throw new Error(`Could not find child with id: ${childId}`);
+        console.warn(`Could not find child with id: ${childId}`);
+        return;
       }
 
       tree.insert(

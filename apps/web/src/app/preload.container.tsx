@@ -69,7 +69,10 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
   const { loading: technologiesLoading } = useQuery<TechnologiesQuery>(
     TechnologiesDocument,
     {
-      onCompleted: ({ technology }) => technologiesVar(technology),
+      onCompleted: ({ technology }) => {
+        console.log('WHY');
+        technologiesVar(technology);
+      },
     }
   );
 
