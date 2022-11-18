@@ -18,10 +18,7 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react';
-import { colorsVar } from 'apps/web/src/app/_state/colors';
-import { resourcesVar } from 'apps/web/src/app/_state/resources';
-import { technologiesVar } from 'apps/web/src/app/_state/technologies';
-import { useEffect, useState } from 'react';
+
 import {
   CreateTechnologyDocument,
   CreateTechnologyMutation,
@@ -29,13 +26,19 @@ import {
   UpdateTechnologyByIdDocument,
   UpdateTechnologyByIdMutation,
   UpdateTechnologyByIdMutationVariables,
-} from '../../../../../../../../libs/galaxy-gql/src/lib/galaxy-api';
+} from '@idleverse/galaxy-gql';
+import { useEffect, useState } from 'react';
 import { useUiBackground } from '../../../../hooks/use-ui-background';
+import { colorsVar } from '../../../../_state/colors';
+import { resourcesVar } from '../../../../_state/resources';
+import { technologiesVar } from '../../../../_state/technologies';
 import { selectedNodeVar, treeNodesVar } from '../../state/tree.state';
 import { ImagePicker } from './image-picker';
 
 export const TreeNodeEditor = () => {
   const { bg, border } = useUiBackground();
+
+  const [creatingTech, setCreatingTech] = useState(false);
 
   const selectedNode = useReactiveVar(selectedNodeVar);
   const treeNodes = useReactiveVar(treeNodesVar);
@@ -69,8 +72,25 @@ export const TreeNodeEditor = () => {
     >
       {treeNodes.length && (
         <>
-          {!selectedNode && <Text>Select a node to start editing</Text>}
-          {selectedNode && <TreeNodeForm />}
+          {!selectedNode && (
+            <>
+              {!creatingTech && (
+                <>
+                  <Text mb={5}>Select a node to start editing, or:</Text>
+                  <Button onClick={() => setCreatingTech(true)}>
+                    Create new Technology
+                  </Button>
+                </>
+              )}
+
+              {creatingTech && (
+                <TreeNodeForm onCancel={() => setCreatingTech(false)} />
+              )}
+            </>
+          )}
+          {selectedNode && (
+            <TreeNodeForm onCancel={() => setCreatingTech(false)} />
+          )}
         </>
       )}
       {!treeNodes.length && (
@@ -83,7 +103,7 @@ export const TreeNodeEditor = () => {
   );
 };
 
-const TreeNodeForm = () => {
+const TreeNodeForm = ({ onCancel }: { onCancel?: () => void }) => {
   const { border } = useUiBackground();
   const { primary, secondary } = useReactiveVar(colorsVar);
   const toast = useToast();
@@ -112,7 +132,11 @@ const TreeNodeForm = () => {
       );
 
       technologiesVar([...techsWithoutSelected, update_technology_by_pk]);
-      toast({ title: 'Technology updated successfully', status: 'success' });
+      toast({ title: 'Technology updated', status: 'success' });
+    },
+    onError: (error) => {
+      toast({ title: 'Something went wrong', status: 'error' });
+      console.error(error);
     },
   });
 
@@ -151,14 +175,8 @@ const TreeNodeForm = () => {
 
       return condition;
     }
+    return true;
   };
-
-  useEffect(() => {
-    setName(selectedNode?.value.name);
-    setDescription(selectedNode?.value.description || '');
-    setResearchCost(selectedNode?.value.research_cost);
-    setImageUrl(selectedNode?.value.image_url);
-  }, [selectedNode]);
 
   useEffect(() => {
     if (selectedNode) {
@@ -166,9 +184,20 @@ const TreeNodeForm = () => {
     }
   }, [treeNodes]);
 
+  useEffect(() => {
+    if (selectedNode) {
+      setName(selectedNode?.value.name);
+      setDescription(selectedNode?.value.description || '');
+      setResearchCost(selectedNode?.value.research_cost);
+      setImageUrl(selectedNode?.value.image_url);
+    }
+  }, [selectedNode]);
+
   const nameValid = !technologies
     .filter((tech) => tech.name !== selectedNode?.value.name)
     .find((tech) => tech.name === name);
+
+  const nameLength = name.length >= 3;
 
   return (
     <VStack spacing={4} divider={<StackDivider borderColor={border} />}>
@@ -198,15 +227,20 @@ const TreeNodeForm = () => {
           </Text>
         </HStack>
       )}
-      <FormControl isInvalid={!nameValid}>
+
+      <FormControl isInvalid={!nameValid || !nameLength}>
         <FormLabel>Name</FormLabel>
         <Input value={name} onChange={(e) => setName(e.target.value)} />
-        {nameValid ? (
-          <FormHelperText>Technology name, must be unique</FormHelperText>
-        ) : (
+
+        {nameValid && nameLength && (
+          <FormHelperText>Must be unique</FormHelperText>
+        )}
+        {!nameValid && (
           <FormErrorMessage>Technology name already exists</FormErrorMessage>
         )}
+        {!nameLength && <FormErrorMessage>Min length of 3</FormErrorMessage>}
       </FormControl>
+
       <FormControl>
         <FormLabel>Description</FormLabel>
         <Textarea
@@ -214,6 +248,7 @@ const TreeNodeForm = () => {
           onChange={(e) => setDescription(e.target.value)}
         />
       </FormControl>
+
       <FormControl>
         <FormLabel>Research cost</FormLabel>
         <NumberInput
@@ -228,6 +263,7 @@ const TreeNodeForm = () => {
           </NumberInputStepper>
         </NumberInput>
       </FormControl>
+
       <FormControl>
         <FormLabel>Image</FormLabel>
         <ImagePicker
@@ -245,7 +281,7 @@ const TreeNodeForm = () => {
           flexGrow={1}
           flexBasis={0}
           colorScheme={secondary}
-          disabled={!dirty()}
+          disabled={!dirty() || !nameValid || !nameLength}
           isLoading={loading}
           onClick={saveHandler}
         >
@@ -254,7 +290,10 @@ const TreeNodeForm = () => {
         <Button
           flexGrow={1}
           flexBasis={0}
-          onClick={() => selectedNodeVar(undefined)}
+          onClick={() => {
+            selectedNodeVar(undefined);
+            onCancel && onCancel();
+          }}
         >
           Cancel
         </Button>
