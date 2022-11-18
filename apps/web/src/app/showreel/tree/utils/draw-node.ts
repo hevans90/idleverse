@@ -29,8 +29,11 @@ export const drawNode = ({
   container.zIndex = 2;
   container.sortableChildren = true;
 
-  const node = new PIXI.Graphics();
+  const overlay = new PIXI.Graphics();
   const nodeBg = new PIXI.Graphics();
+  overlay.name = 'overlay';
+  overlay.alpha = 0.25;
+  nodeBg.name = 'nodeBg';
 
   const iconTexture = treeIconResourcesVar()?.[imageUrl]?.texture;
 
@@ -57,15 +60,13 @@ export const drawNode = ({
       .drawCircle(0, 0, radius);
   }
 
-  node
+  overlay
     .lineStyle(1, hexStringToNumber(colorPalette['200']))
     .beginFill(hexStringToNumber(colorPalette['300']))
     .drawCircle(0, 0, radius);
-  node.name = 'node';
-  nodeBg.name = 'nodeBg';
 
   nodeBg.zIndex = 1;
-  node.zIndex = 2;
+  overlay.zIndex = 2;
 
   const text = new PIXI.Text(name, {
     ...textStyle,
@@ -79,7 +80,7 @@ export const drawNode = ({
 
   container.name = id;
   container.position = position;
-  container.addChild(node, nodeBg, text);
+  container.addChild(overlay, nodeBg, text);
 
   return container;
 };
@@ -97,7 +98,7 @@ export const connectNodes = ({
   line.lineStyle(2, hexStringToNumber(color), 0.6);
   line.moveTo(self.x, self.y);
   line.lineTo(parent.x, parent.y);
-  line.alpha = 0.5;
+  line.alpha = 0.75;
   line.zIndex = 1;
 
   return line;

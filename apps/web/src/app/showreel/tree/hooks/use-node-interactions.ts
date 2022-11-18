@@ -14,8 +14,8 @@ import {
 } from '../state/tree.state';
 
 const glowFilter = new GlowFilter({
-  distance: 15,
-  outerStrength: 3,
+  distance: 20,
+  outerStrength: 4,
   color: hexStringToNumber(colors[colorsVar().secondary]['200']),
 });
 
@@ -31,21 +31,20 @@ const highlightNodeWithChildren = (
   connectors?: PIXI.Container[]
 ) => {
   const baseRenderedNode = nodeContainer.getChildByName(
-    'node'
+    'nodeBg'
   ) as PIXI.Graphics;
 
-  baseRenderedNode.alpha = 0.35;
   nodeContainer.zIndex = 3;
 
   const selectedNode = selectedNodeVar();
 
   if (selectedNode?.id !== nodeContainer.name) {
-    nodeContainer.filters = [weakGlowFilter];
+    baseRenderedNode.filters = [weakGlowFilter];
   }
 
   children.forEach((child) => {
     if (child.name !== selectedNode?.id) {
-      child.filters = [weakGlowFilter];
+      child.getChildByName('nodeBg').filters = [weakGlowFilter];
     }
   });
   connectors.forEach((line) => (line.filters = [weakGlowFilter]));
@@ -57,30 +56,22 @@ const removeNodeHighlights = (
   connectors?: PIXI.Container[]
 ) => {
   const baseRenderedNode = nodeContainer.getChildByName(
-    'node'
+    'nodeBg'
   ) as PIXI.Graphics;
 
-  baseRenderedNode.alpha = 0.25;
   nodeContainer.zIndex = 2;
 
   const selectedNode = selectedNodeVar();
 
   if (selectedNode?.id !== nodeContainer.name) {
-    nodeContainer.filters = [];
+    baseRenderedNode.filters = [];
   }
   children.forEach((child) => {
     if (child.name !== selectedNode?.id) {
-      child.filters = [];
+      child.getChildByName('nodeBg').filters = [];
     }
   });
   connectors.forEach((line) => (line.filters = []));
-};
-
-const highlightSelectedNode = (nodeContainer: PIXI.Container) => {
-  setTimeout(() => {
-    // force the filter update on to the event queue after the reactive var setter
-    nodeContainer.filters = [glowFilter];
-  });
 };
 
 const setupNodeMouseEvents = (
@@ -88,13 +79,12 @@ const setupNodeMouseEvents = (
   node: TreeNodeWithDepth
 ) => {
   const baseRenderedNode = nodeContainer.getChildByName(
-    'node'
+    'overlay'
   ) as PIXI.Graphics;
 
   if (baseRenderedNode) {
     baseRenderedNode.interactive = true;
     baseRenderedNode.cursor = 'pointer';
-    baseRenderedNode.alpha = 0.25;
 
     baseRenderedNode.on('mouseover', () => hoveredNodeVar(node));
     baseRenderedNode.on('mouseout', () => hoveredNodeVar(undefined));
@@ -164,14 +154,16 @@ export const useNodeInteractions = (container: PIXI.Container) => {
       const connectors = childConnectors(prevSelectedNode.current);
 
       // remove previous node filters
-      [rendered, ...childNodes, ...connectors].forEach(
-        (pixiObj) => (pixiObj.filters = [])
-      );
+      [
+        ...childNodes.map((child) => child.getChildByName('nodeBg')),
+        ...connectors,
+      ].forEach((pixiObj) => (pixiObj.filters = []));
+      rendered.getChildByName('nodeBg').filters = [];
     }
 
     const rendered = renderedNode(selectedNode);
     if (rendered) {
-      rendered.filters = [glowFilter];
+      rendered.getChildByName('nodeBg').filters = [glowFilter];
     }
 
     prevSelectedNode.current = selectedNode;
