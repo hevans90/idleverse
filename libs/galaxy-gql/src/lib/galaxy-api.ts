@@ -10673,7 +10673,7 @@ export type UpdateTechnologyByIdMutationVariables = Exact<{
 }>;
 
 
-export type UpdateTechnologyByIdMutation = { __typename?: 'mutation_root', update_technology_by_pk?: { __typename?: 'technology', root?: boolean | null, image_url?: string | null, name: string, research_cost: number, description?: string | null, children: string[] } | null };
+export type UpdateTechnologyByIdMutation = { __typename?: 'mutation_root', update_technology_by_pk?: { __typename?: 'technology', id: string, root?: boolean | null, name: string, description?: string | null, children: string[], research_cost: number, image_url?: string | null } | null };
 
 export type UserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -11544,12 +11544,13 @@ export type TechnologiesQueryResult = Apollo.QueryResult<TechnologiesQuery, Tech
 export const UpdateTechnologyByIdDocument = gql`
     mutation UpdateTechnologyById($id: uuid!, $input: technology_set_input!) {
   update_technology_by_pk(pk_columns: {id: $id}, _set: $input) {
+    id
     root
-    image_url
     name
-    research_cost
     description
     children
+    research_cost
+    image_url
   }
 }
     `;

@@ -79,22 +79,3 @@ export class Tree<T> {
     return undefined;
   }
 }
-
-// const tree = new Tree<{ name: string; description?: string }>(1, {
-//   name: 'root',
-// });
-
-// tree.insert({ parentNodeKey: 1, key: 11 }, { name: 'leaf1' });
-
-// tree.insert({ parentNodeKey: 1, key: 12 }, { name: 'leaf2' });
-// tree.insert({ parentNodeKey: 1, key: 13 }, { name: 'leaf3' });
-
-// tree.insert({ parentNodeKey: 11, key: 111 }, { name: '2leaf1' });
-
-// const x = [...tree.preOrderTraversal(tree.find(11))].map((x) => x.value.name);
-// const y = [...tree.postOrderTraversal(tree.find(11))].map((x) => x.value.name);
-
-// console.log(x);
-// console.log(y);
-
-// console.log(tree);
