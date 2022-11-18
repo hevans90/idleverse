@@ -1,5 +1,6 @@
 import { UserInfoQuery } from '@idleverse/galaxy-gql';
-import { userAvatarResourcesVar, usersVar } from '../_state/reactive-variables';
+import { userAvatarResourcesVar } from '../_state/pixi-resources';
+import { usersVar } from '../_state/reactive-variables';
 import { assetLoader } from './asset-loader';
 
 export const loadUserInfo = async (data: UserInfoQuery) => {

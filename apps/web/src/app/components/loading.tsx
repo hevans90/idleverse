@@ -19,9 +19,9 @@ export const Loading = ({
   height = '100vh',
   width = '100vw',
   text = 'Loading',
-  fontSize = '4xl',
+  fontSize = ['md', '2xl', '3xl', '4xl'],
 }: LoadingProps | undefined) => {
-  const { fontSizes, fonts } = useTheme<Theme>();
+  const { fonts } = useTheme<Theme>();
 
   const { bgDark } = useUiBackground();
 
@@ -39,10 +39,9 @@ export const Loading = ({
       animation: `${ellipsis} steps(4,end) 900ms infinite`,
       content: `"..."`,
       width: 0,
-      fontSize: `${fontSize}`,
-      fontFamily: `${fonts.body}`,
+      fontSize: fontSize,
       whiteSpace: 'nowrap',
-      letterSpacing: '-15px',
+      letterSpacing: ['8px', '-1px', '-8px', '-15px'],
     },
   };
 

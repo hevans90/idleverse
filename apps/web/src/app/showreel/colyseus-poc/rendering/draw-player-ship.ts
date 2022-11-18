@@ -1,5 +1,5 @@
 import { colyseusAssetsVar } from '../../../_state/colyseus';
-import { userAvatarResourcesVar } from '../../../_state/reactive-variables';
+import { userAvatarResourcesVar } from '../../../_state/pixi-resources';
 
 import * as PIXI from 'pixi.js';
 import { spaceshipSpriteConfig } from '../utils/sprite-configs';
