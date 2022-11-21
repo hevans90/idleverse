@@ -23,7 +23,8 @@
     "docker-down": "docker compose --project-directory apps/hasura --env-file .env down",
     "web:build:prod:stats": "nx build idleverse-web --prod --skip-nx-cache -- --memoryLimit=8192 --statsJson",
     "web:build:dev:stats": "nx build idleverse-web --skip-nx-cache -- --memoryLimit=8192 --statsJson",
-    "webpack-bundle-analyzer": "webpack-bundle-analyzer dist/apps/web/stats.json"
+    "webpack-bundle-analyzer": "webpack-bundle-analyzer dist/apps/web/stats.json",
+    "export-db:techs": "zsh export-techs.sh"
   },
   "private": true,
   "dependencies": {
