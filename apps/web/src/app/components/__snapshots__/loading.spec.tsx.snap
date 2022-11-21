@@ -6,7 +6,7 @@ exports[`loading should render 1`] = `
     class="css-sidcim"
   >
     <p
-      class="chakra-text css-12b1bq9"
+      class="chakra-text css-1i3wv1p"
     >
       Loading
     </p>
@@ -24,7 +24,7 @@ exports[`loading should render custom text 1`] = `
     class="css-sidcim"
   >
     <p
-      class="chakra-text css-12b1bq9"
+      class="chakra-text css-1i3wv1p"
     >
       Loading memes
     </p>
@@ -42,7 +42,7 @@ exports[`loading should render custom text and size 1`] = `
     class="css-n4refw"
   >
     <p
-      class="chakra-text css-12b1bq9"
+      class="chakra-text css-1i3wv1p"
     >
       Loading memes
     </p>
