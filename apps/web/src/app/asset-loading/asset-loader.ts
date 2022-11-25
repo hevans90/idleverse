@@ -23,16 +23,16 @@ export const assetLoader = async (
         return !alreadyLoaded;
       });
 
-    PIXI.Loader.shared
-      .add(paths)
-      .load((_, resourcesLoaded) => resolve(resourcesLoaded));
+    const loader = new PIXI.Loader();
 
-    PIXI.Loader.shared.onError.add((e) => {
+    loader.add(paths).load((_, resourcesLoaded) => resolve(resourcesLoaded));
+
+    loader.onError.add((e) => {
       console.error(e);
       reject('Failed to load resources.');
     });
     console.log('PIXI Asset Loader run started...');
-    PIXI.Loader.shared.onProgress.add((loader, resource) => {
+    loader.onProgress.add((loader, resource) => {
       console.log(loader.progress, resource.name);
     });
   });
