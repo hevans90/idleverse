@@ -1,4 +1,4 @@
-import { useApp } from '@inlet/react-pixi';
+import { useApp } from '@saitonakamura/react-pixi';
 import { Container } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { useResize } from '../../canvases/_utils/use-resize.hook';

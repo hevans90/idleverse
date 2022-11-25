@@ -66,10 +66,13 @@ export class GameRoom extends Room<RoomState> {
       );
 
       logger.warning(
-        `${userString} disconnected... they have 20 seconds to rejoin`
+        `${userString} disconnected... they have 45 seconds to rejoin`
       );
-      await this.allowReconnection(client, 20);
+
+      await this.allowReconnection(client, 45);
+
       user.connected = true;
+
       this.broadcast(
         ServerMessage.PlayerReconnected,
         `${user.displayName} reconnected`
@@ -77,7 +80,7 @@ export class GameRoom extends Room<RoomState> {
       logger.success(`${userString} successfully reconnected!`);
     } catch (e) {
       if (e.message !== 'consented leave') {
-        // 20 seconds expired
+        // 45 seconds expired
         logger.warning(`${userString} timed out`);
       }
       onLeave(client, consented, this);

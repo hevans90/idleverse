@@ -8,7 +8,7 @@ import {
   getCelestialPosition,
 } from '@idleverse/galaxy-gen';
 import { colors } from '@idleverse/theme';
-import { useApp } from '@inlet/react-pixi';
+import { useApp } from '@saitonakamura/react-pixi';
 import { Container, Graphics } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -68,7 +68,7 @@ export const GalaxyViewer = ({
 
   useViewport({ app, size, containerRef: galaxyContainerRef, clampDrag: true });
 
-  useFpsTracker(app, size);
+  useFpsTracker(app);
 
   useEffect(() => {
     galaxyContainerRef.current.name = 'galaxy';
@@ -78,7 +78,7 @@ export const GalaxyViewer = ({
 
     galaxyContainerRef.current.sortableChildren = true;
 
-    app.ticker.add(updateGalaxyRotation(galaxyContainerRef.current));
+    app.ticker?.add(updateGalaxyRotation(galaxyContainerRef.current));
 
     stars.current = generateCelestialsWithClaimed(
       galaxyConfig.stars,

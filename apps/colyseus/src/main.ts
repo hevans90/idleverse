@@ -1,19 +1,25 @@
 import cors from 'cors';
 import express from 'express';
-import { createServer } from 'http';
+import expressify from 'uwebsockets-express';
 
 import { monitor } from '@colyseus/monitor';
+import { uWebSocketsTransport } from '@colyseus/uwebsockets-transport';
+
 import { Server } from 'colyseus';
 import { GameRoom } from './room/room';
 
 const port = Number(process.env.PORT || 1447);
-const app = express();
+
+const transport = new uWebSocketsTransport();
+
+const app = expressify(transport.app);
 
 app.use(cors());
 app.use(express.json());
 
-const server = createServer(app);
-const colyseusServer = new Server({ server });
+const colyseusServer = new Server({
+  transport,
+});
 
 // register room handlers
 colyseusServer.define('my-room', GameRoom, { name: 'Test', mald: 'nice' });

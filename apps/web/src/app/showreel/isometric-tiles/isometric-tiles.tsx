@@ -1,4 +1,4 @@
-import { useApp } from '@inlet/react-pixi';
+import { useApp } from '@saitonakamura/react-pixi';
 import * as PIXI from 'pixi.js';
 import { useEffect, useRef, useState } from 'react';
 
@@ -86,7 +86,7 @@ export const IsometricTiles = ({
     center: false,
     clampDrag: true,
   });
-  useFpsTracker(app, size);
+  useFpsTracker(app);
 
   const addOrRemoveIndicators = (val: 'add' | 'remove') => {
     const items = [

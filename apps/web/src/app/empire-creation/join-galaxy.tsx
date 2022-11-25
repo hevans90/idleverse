@@ -193,7 +193,9 @@ export const JoinGalaxy = () => {
   if (alreadyJoinedGalaxy) {
     return (
       <VStack height="100%" justify="center" spacing={10}>
-        <Text>Your already have an empire in this galaxy.</Text>
+        <Text textAlign="center">
+          You already have an empire in this galaxy.
+        </Text>
         <Link
           as={ReactRouterLink}
           to={`/galaxies/${galaxyData.galaxy_by_pk.id}`}

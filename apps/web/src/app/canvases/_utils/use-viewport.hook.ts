@@ -38,7 +38,7 @@ export const useViewport = ({
   const sizeIndicator = useRef<Text>();
 
   useEffect(() => {
-    if (!viewportRef.current) {
+    if (!viewportRef.current && app?.renderer) {
       viewportRef.current = new Viewport({
         screenWidth: size.width,
         screenHeight: size.height,
@@ -61,63 +61,67 @@ export const useViewport = ({
         'sizeIndicator'
       );
     }
-  }, []);
+  }, [app]);
 
   useEffect(() => {
-    viewportRef.current.screenHeight = size.height;
-    viewportRef.current.screenWidth = size.width;
-    viewportRef.current.worldWidth = worldSize ? worldSize.width : size.width;
-    viewportRef.current.worldHeight = worldSize
-      ? worldSize.height
-      : size.height;
-    viewportRef.current.fitWorld();
-    viewportRef.current.moveCenter(worldWidth / 2, worldHeight / 2);
+    if (viewportRef.current) {
+      viewportRef.current.screenHeight = size.height;
+      viewportRef.current.screenWidth = size.width;
+      viewportRef.current.worldWidth = worldSize ? worldSize.width : size.width;
+      viewportRef.current.worldHeight = worldSize
+        ? worldSize.height
+        : size.height;
+      viewportRef.current.fitWorld();
+      viewportRef.current.moveCenter(worldWidth / 2, worldHeight / 2);
+    }
   }, [size]);
 
   useEffect(() => {
-    viewportRef.current.name = 'viewport';
-    viewportRef.current.drag().decelerate().pinch().wheel();
+    if (viewportRef?.current) {
+      viewportRef.current.name = 'viewport';
+      viewportRef.current.drag().decelerate().pinch().wheel();
 
-    if (clampDrag) {
-      viewportRef.current.clamp({ direction: 'all' });
-    }
-    viewportRef.current.clampZoom(
-      clampZoom || { minWidth: 500, maxWidth: 5000 }
-    );
+      if (clampDrag) {
+        viewportRef.current.clamp({ direction: 'all' });
+      }
+      viewportRef.current.clampZoom(
+        clampZoom || { minWidth: 500, maxWidth: 5000 }
+      );
 
-    if (containerRef) {
-      if (center) {
-        containerRef.current.x = size.width / 2;
-        containerRef.current.y = size.height / 2;
+      if (containerRef) {
+        if (center) {
+          containerRef.current.x = size.width / 2;
+          containerRef.current.y = size.height / 2;
+        }
+
+        containerRef.current.position.x = worldWidth / 2;
+        containerRef.current.position.y = worldHeight / 2;
+        viewportRef.current.addChild(containerRef.current);
       }
 
-      containerRef.current.position.x = worldWidth / 2;
-      containerRef.current.position.y = worldHeight / 2;
-      viewportRef.current.addChild(containerRef.current);
-    }
+      if (debug) {
+        outline.current = new Graphics();
+        outline.current
+          .lineStyle(3, 0xff0000)
+          .drawRect(
+            0,
+            0,
+            viewportRef.current.worldWidth,
+            viewportRef.current.worldHeight
+          );
+        viewportRef.current.addChild(outline.current);
 
-    if (debug) {
-      outline.current = new Graphics();
-      outline.current
-        .lineStyle(3, 0xff0000)
-        .drawRect(
-          0,
-          0,
-          viewportRef.current.worldWidth,
-          viewportRef.current.worldHeight
-        );
-      viewportRef.current.addChild(outline.current);
+        sizeIndicator.current.text = `width: ${size.width}\n\nheight: ${size.height}`;
 
-      sizeIndicator.current.text = `width: ${size.width}\n\nheight: ${size.height}`;
+        app.stage.addChild(sizeIndicator.current);
+      }
 
-      app.stage.addChild(sizeIndicator.current);
-    }
+      viewportRef.current.fitWorld();
+      viewportRef.current.moveCenter(worldWidth / 2, worldHeight / 2);
 
-    viewportRef.current.fitWorld();
-    viewportRef.current.moveCenter(worldWidth / 2, worldHeight / 2);
-
-    if (!app.stage.getChildByName('viewport')) {
-      app.stage.addChild(viewportRef.current);
+      if (!app.stage.getChildByName('viewport')) {
+        app.stage.addChild(viewportRef.current);
+      }
     }
 
     return () => {
@@ -127,6 +131,7 @@ export const useViewport = ({
         app.stage.removeChild(viewportRef.current);
         app.stage.removeChild(sizeIndicator.current);
       } catch (e) {
+        console.warn(e);
         // this can throw if react-pixi destroys the stage, from routing etc.
       }
     };

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useReactiveVar } from '@apollo/client';
 import { generateHypotenuse } from '@idleverse/pixi-utils';
-import { useApp } from '@inlet/react-pixi';
+import { useApp } from '@saitonakamura/react-pixi';
 import { Container, TickerCallback } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -16,9 +16,10 @@ import { BallConfig, NewtonianGraphics } from './models';
 
 export const GravitySimulation = () => {
   const app = useApp();
+  console.log('render');
   const size = useResize('gravity-sim');
   const gravitySimContainerRef = useRef(new Container());
-  useFpsTracker(app, size);
+  useFpsTracker(app);
   useViewport({
     app,
     size,

@@ -40,6 +40,7 @@ export const ColyseusContainer = () => {
     avatar_url: avatarUrl,
     id: userId,
   } = useReactiveVar(selfVar);
+
   const client = new Client(environment.colyseusUrl);
 
   const joinState: JoinOptions = {
@@ -95,6 +96,7 @@ export const ColyseusContainer = () => {
 
     colyseusRoomVar(room);
     colyseusSessionVar({ roomId: room.id, clientId: room.sessionId });
+    console.log(room.id, room.sessionId);
 
     // sync initial state of room
     room.onStateChange.once((roomState: RoomState) => {
@@ -176,7 +178,7 @@ export const ColyseusContainer = () => {
 
     return () => {
       // trigger unconsented leave (disconnect, allowing reconnection) on unmount
-      roomRef.current?.leave(false);
+      roomRef.current?.connection.close();
     };
   }, []);
 
@@ -212,7 +214,7 @@ export const ColyseusContainer = () => {
             leaveCallback={leaveRoom}
             roomState={roomState}
           />
-          {roomState && (
+          {roomState && roomRef.current && (
             <>
               <ColyseusSocial
                 connectedUsers={roomState.connectedUsers}
