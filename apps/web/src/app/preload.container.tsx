@@ -83,10 +83,10 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
   }, [usersLoading]);
 
   useEffect(() => {
-    if (!usersLoading && !resourcesLoading && resources) {
+    if (!resourcesLoading && resources) {
       loadTechTree(resources).then(() => setTechTreeLoading(false));
     }
-  }, [resourcesLoading, usersLoading]);
+  }, [resourcesLoading]);
 
   if (usersLoading) return <Loading text="Loading Users"></Loading>;
 
