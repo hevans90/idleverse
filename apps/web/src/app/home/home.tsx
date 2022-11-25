@@ -21,6 +21,7 @@ import { Loading } from '../components/loading';
 import { useUiBackground } from '../hooks/use-ui-background';
 import { responsiveFontProps } from '../_responsive-utils/font-props';
 import { colorsVar } from '../_state/colors';
+import { layoutVar } from '../_state/global-settings';
 import { roleVar, selfVar } from '../_state/reactive-variables';
 
 export const Home = () => {
@@ -31,6 +32,8 @@ export const Home = () => {
   const { secondary } = useReactiveVar(colorsVar);
 
   const role = useReactiveVar(roleVar);
+
+  const { sideNav } = useReactiveVar(layoutVar);
 
   const secondaryTextColor = useColorModeValue(
     `${secondary}.900`,
@@ -85,11 +88,13 @@ export const Home = () => {
         maxHeight={['80vh', '80vh', '80vh', '70vh']}
       >
         <HStack
-          width={['100%', '100%', '100%', '50%']}
+          flexGrow={1}
+          flexBasis={0}
+          width="100%"
           justify={['center', 'center', 'center', 'end']}
         >
           <VStack divider={<StackDivider />} spacing={5}>
-            <Link as={ReactRouterLink} to="/showreel">
+            <Link as={ReactRouterLink} to="/showreel" width="100%">
               <Button {...responsiveFontProps}>Beta showreel</Button>
             </Link>
             <Link as={ReactRouterLink} to="/galaxy-gen">
@@ -106,8 +111,11 @@ export const Home = () => {
         </HStack>
 
         <VStack
-          width={['100%', '100%', '100%', '50%']}
-          align={['center', 'center', 'center', 'start']}
+          alignItems={['center', 'center', 'center', 'start']}
+          flexGrow={sideNav ? 2 : 1}
+          flexBasis={0}
+          align="center"
+          width="100%"
           height={['75%', '75%', '75%', '100%']}
         >
           <>
@@ -118,6 +126,8 @@ export const Home = () => {
 
             {data.galactic_empire.length > 0 && (
               <SimpleGrid
+                width="100%"
+                maxWidth={['unset', 'unset', 'unset', '1000px']}
                 padding={2}
                 columns={2}
                 spacing={5}
@@ -161,7 +171,7 @@ export const Home = () => {
                         </VStack>
                         <SimpleGrid
                           width="100%"
-                          columns={2}
+                          columns={[1, 1, 2]}
                           spacing={2}
                           maxHeight="200px"
                           overflow="auto"
@@ -182,7 +192,7 @@ export const Home = () => {
                               </Text>
                               {planets.length >= 1 ? (
                                 <Text fontSize="xxs" color={secondaryTextColor}>
-                                  {planets.length}{' '}
+                                  {planets.length}
                                   {planets.length > 1 ? 'planets' : 'planet'}
                                 </Text>
                               ) : (

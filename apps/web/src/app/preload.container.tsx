@@ -70,7 +70,6 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
     TechnologiesDocument,
     {
       onCompleted: ({ technology }) => {
-        console.log('WHY');
         technologiesVar(technology);
       },
     }
@@ -84,10 +83,10 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
   }, [usersLoading]);
 
   useEffect(() => {
-    if (!resourcesLoading && resources) {
+    if (!usersLoading && !resourcesLoading && resources) {
       loadTechTree(resources).then(() => setTechTreeLoading(false));
     }
-  }, [resourcesLoading]);
+  }, [resourcesLoading, usersLoading]);
 
   if (usersLoading) return <Loading text="Loading Users"></Loading>;
 
