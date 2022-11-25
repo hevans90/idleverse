@@ -1,0 +1,11 @@
+mutation UpdateTechnologyById($id: uuid!, $input: technology_set_input!) {
+  update_technology_by_pk(pk_columns: { id: $id }, _set: $input) {
+    id
+    root
+    name
+    description
+    children
+    research_cost
+    image_url
+  }
+}

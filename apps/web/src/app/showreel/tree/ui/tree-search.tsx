@@ -11,19 +11,29 @@ import {
 } from '@chakra-ui/react';
 import { ChangeEvent, useState } from 'react';
 import { useUiBackground } from '../../../hooks/use-ui-background';
-import { searchResultsVar, treeNodesVar } from '../state/tree.state';
+import {
+  hoveredNodeVar,
+  searchResultsVar,
+  selectedNodeVar,
+  treeNodesVar,
+} from '../state/tree.state';
 
+import { Box, Button } from '@chakra-ui/react';
 import { search as fuzzySearch } from 'fast-fuzzy';
 import { responsiveFontProps } from '../../../_responsive-utils/font-props';
+import { colorsVar } from '../../../_state/colors';
 
 export const TreeSearch = () => {
   const { bg, border } = useUiBackground();
+  const { secondary } = useReactiveVar(colorsVar);
 
   const [inputValue, setInputValue] = useState<string>('');
   const treeNodes = useReactiveVar(treeNodesVar);
   const searchResults = useReactiveVar(searchResultsVar);
+  const selectedNode = useReactiveVar(selectedNodeVar);
 
   const updateSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
+    hoveredNodeVar(undefined);
     setInputValue(event.target.value);
     searchResultsVar(
       fuzzySearch(event.target.value, treeNodes, {
@@ -72,12 +82,32 @@ export const TreeSearch = () => {
       </HStack>
       {inputValue && searchResults?.length && (
         <VStack width="100%" spacing={1}>
-          {searchResults.map((x, i) => (
-            <HStack width="100%" key={i} padding={1} alignItems="center">
-              <Text {...responsiveFontProps} width="100%">
-                {x.value.name}
-              </Text>
-            </HStack>
+          {searchResults.map((node, i) => (
+            <Box
+              key={i}
+              as={Button}
+              width="100%"
+              whiteSpace="normal"
+              transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
+              px="8px"
+              disabled={selectedNode?.id === node.id}
+              borderRadius="3px"
+              fontWeight="semibold"
+              fontSize={['xxs', 'xs', 'xs', 'sm', 'md']}
+              color="white.900"
+              _hover={{ bg: `${secondary}.500` }}
+              _active={{
+                bg: 'whiteAlpha.300',
+                borderColor: `${secondary}.700`,
+              }}
+              paddingInlineStart={4}
+              paddingInlineEnd={4}
+              onClick={() => selectedNodeVar(node)}
+              onMouseEnter={() => hoveredNodeVar(node)}
+              onMouseLeave={() => hoveredNodeVar(undefined)}
+            >
+              <Text>{node.value.name}</Text>
+            </Box>
           ))}
         </VStack>
       )}

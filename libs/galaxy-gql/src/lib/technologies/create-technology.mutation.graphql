@@ -1,0 +1,11 @@
+mutation CreateTechnology($input: technology_insert_input!) {
+  insert_technology_one(object: $input) {
+    root
+    id
+    image_url
+    name
+    research_cost
+    description
+    children
+  }
+}

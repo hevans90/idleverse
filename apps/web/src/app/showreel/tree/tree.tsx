@@ -1,4 +1,3 @@
-import { TechnologiesQuery } from '@idleverse/galaxy-gql';
 import { useApp } from '@inlet/react-pixi';
 import { Container } from 'pixi.js';
 import { useEffect, useRef } from 'react';
@@ -12,30 +11,26 @@ import {
 import { Tree } from './utils/tree-structure';
 
 import { useReactiveVar } from '@apollo/client';
-import { useHighlightSearchResults } from './hooks/use-highlight-search-results';
-import { useHoverNodes } from './hooks/use-hover-nodes';
+import { technologiesVar } from '../../_state/technologies';
+import { useNodeInteractions } from './hooks/use-node-interactions';
 import { useRenderNodes } from './hooks/use-render-nodes';
 
-export const ResearchTree = ({
-  technologies,
-}: {
-  technologies: TechnologiesQuery['technology'];
-}) => {
+export const ResearchTree = () => {
   const app = useApp();
   const treeRef = useRef<Tree<TechnologyNode>>();
   const containerRef = useRef<Container>(new Container());
 
   const size = useResize();
 
-  const viewport = useViewport({ app, containerRef, size });
-
   const settings = useReactiveVar(treeSettingsVar);
+  const technologies = useReactiveVar(technologiesVar);
 
-  useHighlightSearchResults(containerRef.current);
+  const viewport = useViewport({ app, containerRef, size });
 
   useEffect(() => {
     containerRef.current.sortableChildren = true;
-    if (viewport && technologies.length) {
+    if (technologies.length) {
+      console.log(technologies);
       treeRef.current = createTreeFromQuery(technologies);
 
       const nodesWithDepth = [...treeRef.current.preOrderTraversal()].map(
@@ -47,11 +42,11 @@ export const ResearchTree = ({
 
       treeNodesVar(nodesWithDepth);
     }
-  }, [technologies, viewport]);
+  }, [technologies]);
 
   useRenderNodes(app, containerRef.current, size);
 
-  useHoverNodes(containerRef.current);
+  useNodeInteractions(containerRef.current);
 
   useEffect(() => {
     if (viewport) {

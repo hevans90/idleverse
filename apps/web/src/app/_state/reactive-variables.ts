@@ -2,7 +2,7 @@ import { makeVar } from '@apollo/client';
 import { GalaxyConfig } from '@idleverse/galaxy-gen';
 import { CelestialByIdQuery, UserInfoQuery } from '@idleverse/galaxy-gql';
 import { v4 as uuidv4 } from 'uuid';
-import { AssetCollection, BreadCrumb, Self, SolarSystemConfig } from './models';
+import { BreadCrumb, Self, SolarSystemConfig } from './models';
 
 export const breadCrumbsVar = makeVar<BreadCrumb[]>([]);
 
@@ -33,12 +33,9 @@ export const accessTokenVar = makeVar<string>(null);
 export const usersVar = makeVar<UserInfoQuery['user_info']>([]);
 export const userById = (desiredId: string) =>
   usersVar().find(({ id }) => id === desiredId);
-export const userAvatarResourcesVar = makeVar<AssetCollection>(null);
 
 export const solarSystemConfigVar = makeVar<SolarSystemConfig>({
   simulationSpeed: 1,
 });
-
-export const planetResourcesVar = makeVar<AssetCollection>(null);
 
 export const simulationPaused = makeVar(true);

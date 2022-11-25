@@ -14,6 +14,7 @@ import {
   UserInfoQuery,
 } from '@idleverse/galaxy-gql';
 import { useEffect, useState } from 'react';
+import { loadTechTree } from './asset-loading/load-tech-tree';
 import { loadUserInfo } from './asset-loading/load-users';
 import { Loading } from './components/loading';
 import { backgroundsVar } from './_state/backgrounds';
@@ -29,6 +30,7 @@ import { technologiesVar } from './_state/technologies';
  */
 export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
   const [userAvatarsLoading, setUserAvatarsLoading] = useState(true);
+  const [techTreeLoading, setTechTreeLoading] = useState(true);
 
   const self = useReactiveVar(selfVar);
 
@@ -59,17 +61,18 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
     onCompleted: ({ npc }) => npcsVar(npc),
   });
 
-  const { loading: resourcesLoading } = useQuery<ResourcesQuery>(
-    ResourcesDocument,
-    {
+  const { data: resources, loading: resourcesLoading } =
+    useQuery<ResourcesQuery>(ResourcesDocument, {
       onCompleted: ({ resource_type }) => resourcesVar(resource_type),
-    }
-  );
+    });
 
   const { loading: technologiesLoading } = useQuery<TechnologiesQuery>(
     TechnologiesDocument,
     {
-      onCompleted: ({ technology }) => technologiesVar(technology),
+      onCompleted: ({ technology }) => {
+        console.log('WHY');
+        technologiesVar(technology);
+      },
     }
   );
 
@@ -79,6 +82,12 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [usersLoading]);
+
+  useEffect(() => {
+    if (!resourcesLoading && resources) {
+      loadTechTree(resources).then(() => setTechTreeLoading(false));
+    }
+  }, [resourcesLoading]);
 
   if (usersLoading) return <Loading text="Loading Users"></Loading>;
 
@@ -95,7 +104,8 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
     return <Loading text="Loading Technologies"></Loading>;
   }
 
-  if (userAvatarsLoading) return <Loading text="Loading Avatars"></Loading>;
+  if (userAvatarsLoading) return <Loading text="Creating Avatars"></Loading>;
+  if (techTreeLoading) return <Loading text="Generating Tech Tree"></Loading>;
 
   return children;
 };

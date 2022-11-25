@@ -1,10 +1,9 @@
 import { TechnologiesQuery } from '@idleverse/galaxy-gql';
 import { Tree } from './tree-structure';
 
-export type TechnologyNode = Pick<
-  TechnologiesQuery['technology'][0],
-  'name' | 'description'
-> & { depth: number };
+export type TechnologyNode = Partial<TechnologiesQuery['technology'][0]> & {
+  depth: number;
+};
 
 export const createTreeFromQuery = (
   technologies: TechnologiesQuery['technology']
@@ -16,8 +15,7 @@ export const createTreeFromQuery = (
   }
 
   const tree = new Tree<TechnologyNode>(root.id, {
-    name: root.name,
-    description: root.description,
+    ...root,
     depth: 0,
   });
 
@@ -29,14 +27,14 @@ export const createTreeFromQuery = (
       const childTech = technologies.find(({ id }) => id === childId);
 
       if (!childTech) {
-        throw new Error(`Could not find child with id: ${childId}`);
+        console.warn(`Could not find child with id: ${childId}`);
+        return;
       }
 
       tree.insert(
         { parentId: node.id, id: childId },
         {
-          name: childTech.name,
-          description: childTech?.description,
+          ...childTech,
           depth: depth + 1,
         }
       );
