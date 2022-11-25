@@ -68,6 +68,7 @@ export const TreeNodeEditor = () => {
 
   const saveHandler = async (
     type: 'new' | 'update',
+    root: boolean,
     formState: {
       name: string;
       description: string;
@@ -104,6 +105,7 @@ export const TreeNodeEditor = () => {
       } = await createTechnology({
         variables: {
           input: {
+            root,
             name: formState.name,
             description: formState.description,
             research_cost: formState.researchCost,
@@ -114,31 +116,35 @@ export const TreeNodeEditor = () => {
 
       const parent = technologies.find(({ id }) => id === formState.parentId);
 
-      // Inserting arrays into postgres requires a string format
-      const newChildren = `{${[
-        ...parent.children,
-        newTech.id,
-      ]}}` as unknown as string[];
+      if (!root) {
+        // Inserting arrays into postgres requires a string format
+        const newChildren = `{${[
+          ...parent.children,
+          newTech.id,
+        ]}}` as unknown as string[];
 
-      // now update parent's children
-      const {
-        data: { update_technology_by_pk: updatedParent },
-      } = await updateTechnology({
-        variables: {
-          id: formState.parentId,
-          input: {
-            children: newChildren,
+        // now update parent's children
+        const {
+          data: { update_technology_by_pk: updatedParent },
+        } = await updateTechnology({
+          variables: {
+            id: formState.parentId,
+            input: {
+              children: newChildren,
+            },
           },
-        },
-      });
+        });
 
-      const techsWithoutParent = technologies.filter(
-        ({ id }) => id !== parent?.id
-      );
-
-      // finally update reactive var to avoid race conditions
-      technologiesVar([...techsWithoutParent, newTech, updatedParent]);
-      console.log('techs updated after creation');
+        const techsWithoutParent = technologies.filter(
+          ({ id }) => id !== parent?.id
+        );
+        // finally update reactive var to avoid race conditions
+        technologiesVar([...techsWithoutParent, newTech, updatedParent]);
+        console.log('techs updated after creation');
+      } else {
+        technologiesVar([newTech]);
+        console.log('techs updated after ROOT creation');
+      }
     }
     setCreatingTech(false);
   };
@@ -165,7 +171,9 @@ export const TreeNodeEditor = () => {
             <>
               {!creatingTech && (
                 <>
-                  <Text mb={5}>Select a node to start editing, or:</Text>
+                  <Text fontSize="lg" mb={5}>
+                    Select a node to start editing, or:
+                  </Text>
                   <Button onClick={() => setCreatingTech(true)}>
                     Create new Technology
                   </Button>
@@ -190,8 +198,8 @@ export const TreeNodeEditor = () => {
       )}
       {!treeNodes.length && (
         <VStack>
-          <Text>Start by creating a root node:</Text>
-          <TreeNodeForm onSave={saveHandler} />
+          <Text fontSize="lg">Start by creating a root node:</Text>
+          <TreeNodeForm root={true} onSave={saveHandler} />
         </VStack>
       )}
     </VStack>
@@ -199,11 +207,14 @@ export const TreeNodeEditor = () => {
 };
 
 const TreeNodeForm = ({
+  root = false,
   onCancel,
   onSave,
 }: {
+  root?: boolean;
   onSave: (
     type: 'new' | 'update',
+    root: boolean,
     formState: {
       name: string;
       description: string;
@@ -243,7 +254,7 @@ const TreeNodeForm = ({
   const saveHandler = async () => {
     setSaveProcessing(true);
 
-    await onSave(selectedNode ? 'update' : 'new', {
+    await onSave(selectedNode ? 'update' : 'new', root, {
       name,
       description,
       researchCost,
@@ -292,13 +303,19 @@ const TreeNodeForm = ({
   }, [selectedNode]);
 
   return (
-    <VStack spacing={4} divider={<StackDivider borderColor={border} />}>
-      <HStack width="100%">
-        <Text fontSize="lg">Currently Editing:</Text>
-        <Text color={`${secondary}.200`} minW={200} textAlign="end">
-          {selectedNode?.value.name || 'NEW TECH'}
-        </Text>
-      </HStack>
+    <VStack
+      width="100%"
+      spacing={4}
+      divider={<StackDivider borderColor={border} />}
+    >
+      {!root && (
+        <HStack width="100%">
+          <Text fontSize="lg">Currently Editing:</Text>
+          <Text color={`${secondary}.200`} minW={200} textAlign="end">
+            {selectedNode?.value.name || 'NEW TECH'}
+          </Text>
+        </HStack>
+      )}
       {selectedNode?.parent && (
         <HStack width="100%">
           <Text fontSize="sm" color={`${primary}.300`}>
@@ -368,7 +385,7 @@ const TreeNodeForm = ({
         />
       </FormControl>
 
-      {!selectedNode && (
+      {!root && !selectedNode && (
         <FormControl isInvalid={!parentId}>
           <FormLabel>Parent</FormLabel>
           <Select
@@ -394,7 +411,7 @@ const TreeNodeForm = ({
             !dirty() ||
             !nameValid ||
             !nameLength ||
-            (!selectedNode && !parentId)
+            (!root && !selectedNode && !parentId)
           }
           isLoading={saveProcessing}
           onClick={saveHandler}
