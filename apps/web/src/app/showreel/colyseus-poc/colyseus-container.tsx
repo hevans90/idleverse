@@ -143,6 +143,7 @@ export const ColyseusContainer = () => {
   const [colyseusSpritesLoading, setColyseusSpritesLoading] = useState(true);
   const [celestialSpritesLoading, setCelestialSpritesLoading] = useState(true);
 
+  const rejoiningRef = useRef<boolean>(false);
   const roomRef = useRef<Room>();
   const [leavingRoom, setLeavingRoom] = useState<boolean>();
   const [joiningRoom, setJoiningRoom] = useState<boolean>();
@@ -172,8 +173,9 @@ export const ColyseusContainer = () => {
   useEffect(() => {
     loadPixiAssets();
 
-    if (previousSession) {
-      joinRoom({ previous: true });
+    if (previousSession && rejoiningRef.current !== true) {
+      rejoiningRef.current = true;
+      joinRoom({ previous: true }).then(() => (rejoiningRef.current = false));
     }
 
     return () => {
