@@ -19,6 +19,7 @@ import {
 } from './utils/graphics-utils';
 
 import { useUiBackground } from '../../hooks/use-ui-background';
+import { useStarField } from '../../showreel/colyseus-poc/rendering/use-starfield';
 import { useResize } from '../_utils/use-resize.hook';
 import { useViewport } from '../_utils/use-viewport.hook';
 import { Planet, PlanetConfig } from './models';
@@ -39,6 +40,8 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
   const app = useApp();
 
   const size = useResize();
+
+  const starfield = useStarField({ dimensions: size });
 
   const { canvasBorder } = useUiBackground();
 
@@ -173,6 +176,8 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
         setPlanets(tempPlanets);
       });
     }
+
+    solarSystemContainerRef.current.addChild(starfield);
   }, [app?.renderer]);
 
   useEffect(() => {
