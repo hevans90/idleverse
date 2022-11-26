@@ -5,7 +5,7 @@ import {
 } from '@idleverse/galaxy-gql';
 import { colors, hexStringToNumber, hexToRGB } from '@idleverse/theme';
 import * as PIXI from 'pixi.js';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { assetLoader } from '../../asset-loading/asset-loader';
 import { runPixelDataGenOnWorker } from '../../canvases/planet-generator/texture-generation/run-texture-gen-on-worker';
@@ -19,6 +19,7 @@ import { IsometricTiles } from './isometric-tiles';
 export const IsometricContainer = () => {
   const { primary, secondary } = useReactiveVar(colorsVar);
 
+  const initialisingRef = useRef<boolean>(false);
   const [assetsLoading, setAssetsLoading] = useState<boolean>(true);
   const [mapGenerating, setMapGenerating] = useState<boolean>(true);
 
@@ -28,12 +29,16 @@ export const IsometricContainer = () => {
     useQuery<TerrainHexPalettesQuery>(TerrainHexPalettesDocument);
 
   useEffect(() => {
-    assetLoader([{ name: 'dirt', url: 'isometric-tiles/dirt_tile.png' }]).then(
-      (collection) => {
+    if (initialisingRef.current === false) {
+      initialisingRef.current = true;
+      assetLoader([
+        { name: 'dirt', url: 'isometric-tiles/dirt_tile.png' },
+      ]).then((collection) => {
         setAssetCollection(collection);
         setAssetsLoading(false);
-      }
-    );
+        initialisingRef.current = false;
+      });
+    }
   }, []);
 
   useEffect(() => {

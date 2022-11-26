@@ -26,6 +26,7 @@ import { initMapUnderlay, initTile } from './tiles/create-isometric-graphics';
 import { hoverTile, selectTile, unSelectTile } from './tiles/interactivity';
 import { setTile } from './tiles/styling';
 import { buildIndicators, GameIndicators } from './ui/indicators';
+import { isoToIndex } from './utils/iso-to-index';
 import { KeyboardItem } from './utils/keyboard';
 
 export const IsometricTiles = ({
@@ -39,6 +40,8 @@ export const IsometricTiles = ({
     selectedColor: string;
   };
 }) => {
+  const app = useApp();
+  const initialisingRef = useRef<boolean>(false);
   const { baseTexture } = useReactiveVar(planetSurfaceVar);
 
   const gameContainer = useRef(new Container());
@@ -47,15 +50,11 @@ export const IsometricTiles = ({
   const size = useResize();
 
   const config = useRef<GameConfig>(
-    gameConfigFactory(
-      size.width,
-      size.height,
-      () => {
-        tearDownScene();
-        initScene();
-      },
-      { mapRadius: 5, tileWidth: 64, tileGap: 0.02 }
-    )
+    gameConfigFactory(size.width, size.height, {
+      mapRadius: 5,
+      tileWidth: 64,
+      tileGap: 0.02,
+    })
   );
 
   let velocity: Vector2D = { x: 0, y: 0 };
@@ -77,13 +76,11 @@ export const IsometricTiles = ({
 
   const keyboardListeners = useRef<KeyboardItem[]>();
 
-  const app = useApp();
-
   useViewport({
     app,
     size,
+    worldSize: { width: size.width * 2, height: size.height * 2 },
     containerRef: gameContainer,
-    center: false,
     clampDrag: true,
   });
   useFpsTracker(app);
@@ -173,6 +170,19 @@ export const IsometricTiles = ({
         }
 
         isometricContainer.current = new PIXI.Container() as IsometricContainer;
+
+        console.log(
+          isoToIndex(size.width / 2, size.height / 2, config.current),
+          {
+            x: size.width / 2,
+            y: size.height / 2,
+          }
+        );
+
+        // gameContainer.current.position.x = -size.width / 4;
+        // gameContainer.current.position.y = -size.height / 4;
+        isometricContainer.current.position.x = -size.width / 4;
+        isometricContainer.current.position.y = -size.height / 4;
         isometricContainer.current.interactive = true;
         isometricContainer.current.sortableChildren = true;
 
@@ -217,8 +227,6 @@ export const IsometricTiles = ({
 
   const tickerFunction = () => {
     indicators.current.topRight.mapVelocityIndicator.text = `Velocity: { x: ${velocity.x}, y: ${velocity.y} }`;
-
-    const itemsToMove = [isometricContainer.current];
 
     if (dragging) {
       dragFrameCount += 1;
@@ -407,44 +415,50 @@ export const IsometricTiles = ({
   // #endregion
 
   useEffect(() => {
-    app.stage.sortableChildren = true;
-    gameContainer.current.sortableChildren = true;
+    if (initialisingRef.current === false && app.renderer) {
+      initialisingRef.current = true;
+      gameContainer.current.sortableChildren = true;
 
-    gameContainer.current.zIndex = 1;
-    indicatorContainer.current.zIndex = 2;
+      gameContainer.current.zIndex = 1;
+      indicatorContainer.current.zIndex = 2;
 
-    indicators.current = buildIndicators(size.height, size.width);
-    addOrRemoveIndicators('add');
+      indicators.current = buildIndicators(size.height, size.width);
+      addOrRemoveIndicators('add');
 
-    initScene();
-    app.ticker.add(tickerFunction);
-    app.stage.addChild(indicatorContainer.current);
+      initScene();
+      app.ticker.add(tickerFunction);
+      app.stage.addChild(indicatorContainer.current);
 
-    mapUnderlay.current = new PIXI.Sprite(new PIXI.Texture(baseTexture));
+      mapUnderlay.current = new PIXI.Sprite(new PIXI.Texture(baseTexture));
 
-    const underlayGraphic = initMapUnderlay(config.current);
-    underlayGraphic.zIndex = 1;
-    mapUnderlay.current.zIndex = 1;
+      const underlayGraphic = initMapUnderlay(config.current);
+      underlayGraphic.zIndex = 1;
 
-    mapUnderlay.current.scale = {
-      x: config.current.mapRadius + 1,
-      y: config.current.mapRadius + 1,
-    };
+      mapUnderlay.current.zIndex = 1;
 
-    underlayGraphic.y = -(config.current.tileWidth * config.current.mapRadius);
+      mapUnderlay.current.scale = {
+        x: config.current.mapRadius + 1,
+        y: config.current.mapRadius + 1,
+      };
 
-    isometricContainer.current.addChild(mapUnderlay.current);
-    isometricContainer.current.addChild(underlayGraphic);
+      underlayGraphic.y = -(
+        config.current.tileWidth * config.current.mapRadius
+      );
 
-    mapUnderlay.current.mask = underlayGraphic;
+      isometricContainer.current.addChild(mapUnderlay.current);
+      isometricContainer.current.addChild(underlayGraphic);
 
-    gameContainer.current.addChild(isometricContainer.current);
+      mapUnderlay.current.mask = underlayGraphic;
+      gameContainer.current.addChild(isometricContainer.current);
+    }
   }, []);
 
   useEffect(() => {
-    addOrRemoveIndicators('remove');
-    indicators.current = buildIndicators(size.height, size.width);
-    addOrRemoveIndicators('add');
+    if (initialisingRef.current === false && app.renderer) {
+      addOrRemoveIndicators('remove');
+      indicators.current = buildIndicators(size.height, size.width);
+      addOrRemoveIndicators('add');
+    }
   }, [size]);
 
   return <></>;

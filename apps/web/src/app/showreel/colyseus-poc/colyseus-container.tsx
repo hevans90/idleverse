@@ -173,7 +173,7 @@ export const ColyseusContainer = () => {
   useEffect(() => {
     loadPixiAssets();
 
-    if (previousSession && rejoiningRef.current !== true) {
+    if (previousSession && rejoiningRef.current === false) {
       rejoiningRef.current = true;
       joinRoom({ previous: true }).then(() => (rejoiningRef.current = false));
     }
