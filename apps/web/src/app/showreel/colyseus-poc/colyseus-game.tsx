@@ -1,5 +1,5 @@
 import { ColyseusShip } from '@idleverse/colyseus-shared';
-import { useApp } from '@inlet/react-pixi';
+import { useApp } from '@saitonakamura/react-pixi';
 import { Renderer } from 'pixi.js';
 import { useEffect, useRef, useState } from 'react';
 import { Planet, PlanetConfig } from '../../canvases/celestial-viewer/models';
@@ -108,7 +108,7 @@ export const ColyseusGame = () => {
     viewport.addChild(trackingContainer);
   };
 
-  useFpsTracker(app, size);
+  useFpsTracker(app);
   useControls(room);
 
   const addShipToContainer = (ship: Readonly<ColyseusShip>) => {

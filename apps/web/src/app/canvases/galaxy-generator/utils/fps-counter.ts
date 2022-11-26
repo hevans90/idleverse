@@ -8,10 +8,7 @@ import { fpsVar } from '../../../_state/global-settings';
 const fpsText = indicatorFactory('FPS: ', 50, 100, 'fpsCounter');
 const frameTimeText = indicatorFactory('Frametime: ', 50, 150, 'frameTime');
 
-export const useFpsTracker = (
-  app: Application,
-  size: { width: number; height: number }
-) => {
+export const useFpsTracker = (app: Application) => {
   const fps = useReactiveVar(fpsVar);
 
   const fpsUpdateTickerRef = useRef<TickerCallback<unknown>>(() => {
@@ -25,19 +22,19 @@ export const useFpsTracker = (
   });
 
   useEffect(() => {
-    if (fps) {
+    if (fps && app?.stage) {
       app.stage.addChild(fpsText, frameTimeText);
       app.ticker.add(fpsUpdateTickerRef.current);
     }
 
     return () => {
       try {
-        app.stage.removeChild(fpsText);
-        app.stage.removeChild(frameTimeText);
-        app.ticker.remove(fpsUpdateTickerRef.current);
+        app.stage?.removeChild(fpsText);
+        app.stage?.removeChild(frameTimeText);
+        app.ticker?.remove(fpsUpdateTickerRef.current);
       } catch (e) {
         console.warn(e);
       }
     };
-  }, [fps]);
+  }, [fps, app]);
 };

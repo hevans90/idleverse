@@ -5,7 +5,7 @@ import { IsometricGraphic } from '../models/isometric-graphic';
 import { initTile } from './create-isometric-graphics';
 
 describe('initTile', () => {
-  const config: GameConfig = gameConfigFactory(100, 100, () => undefined, {
+  const config: GameConfig = gameConfigFactory(100, 100, {
     mapRadius: 5,
     tileWidth: 1,
     tileGap: 0,

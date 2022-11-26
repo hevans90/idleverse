@@ -3,10 +3,6 @@ import { GameConfig } from '../models/game-config';
 export const gameConfigFactory = (
   canvasWidth: number,
   canvasHeight: number,
-  /**
-   * logic to be run when the scene is forcably re-rendered (zooming for example)
-   */
-  reRenderCallback: () => void,
 
   options: {
     mapRadius: number;

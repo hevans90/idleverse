@@ -1,5 +1,5 @@
 import { colors, hexStringToNumber } from '@idleverse/theme';
-import { useApp } from '@inlet/react-pixi';
+import { useApp } from '@saitonakamura/react-pixi';
 import * as PIXI from 'pixi.js';
 import { useRef, useState } from 'react';
 import { colorsVar } from '../../../_state/colors';

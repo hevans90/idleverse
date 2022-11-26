@@ -7,7 +7,7 @@ import {
   getCelestialPosition,
 } from '@idleverse/galaxy-gen';
 import { colors } from '@idleverse/theme';
-import { useApp } from '@inlet/react-pixi';
+import { useApp } from '@saitonakamura/react-pixi';
 import { Container, Graphics, TickerCallback } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { colorsVar } from '../../_state/colors';
@@ -117,7 +117,7 @@ export const GalaxyGenerator = () => {
   }, [galaxyConfig.stars, galaxyConfig.seed]);
 
   useViewport({ app, size, containerRef: galaxyContainer, clampDrag: true });
-  useFpsTracker(app, size);
+  useFpsTracker(app);
 
   // eslint-disable-next-line react/jsx-no-useless-fragment
   return <></>;

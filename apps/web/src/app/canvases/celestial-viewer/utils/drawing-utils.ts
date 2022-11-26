@@ -29,7 +29,7 @@ export const buildPlanet = (
     .drawCircle(0, 0, radius * radiusFactor)
     .endFill();
 
-  const texture = app.renderer.generateTexture(planetGraphic);
+  const texture = app.renderer?.generateTexture(planetGraphic);
   const sprite = new Sprite(texture);
 
   sprite.name = name;

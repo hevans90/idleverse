@@ -1,7 +1,7 @@
 import { useReactiveVar } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
 import { hexStringToNumber } from '@idleverse/theme';
-import { Stage } from '@inlet/react-pixi';
+import { Stage } from '@saitonakamura/react-pixi';
 import { useEffect, useState } from 'react';
 import { GameUI } from '../../game-ui/game-ui';
 import { useUiBackground } from '../../hooks/use-ui-background';
