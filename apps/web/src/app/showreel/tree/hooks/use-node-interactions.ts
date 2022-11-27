@@ -4,13 +4,13 @@ import { GlowFilter } from '@pixi/filter-glow';
 import * as PIXI from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { colorsVar } from '../../../_state/colors';
+import { treeSettingsVar } from '../state/shared-tree.state';
 
 import {
   hoveredNodeVar,
   selectedNodeVar,
   treeNodesVar,
   TreeNodeWithDepth,
-  treeSettingsVar,
 } from '../state/tech-tree.state';
 
 const glowFilter = new GlowFilter({

@@ -1,0 +1,5 @@
+mutation CreateQuest($input: quest_insert_input!) {
+  insert_quest_one(object: $input) {
+    ...QuestFields
+  }
+}

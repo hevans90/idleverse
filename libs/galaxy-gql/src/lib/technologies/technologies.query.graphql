@@ -1,11 +1,5 @@
 query Technologies {
   technology {
-    id
-    root
-    name
-    description
-    children
-    research_cost
-    image_url
+    ...TechFields
   }
 }

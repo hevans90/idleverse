@@ -16,7 +16,7 @@ import { useNodeInteractions } from './hooks/use-node-interactions';
 import { useRenderNodes } from './hooks/use-render-nodes';
 import { treeSettingsVar } from './state/shared-tree.state';
 
-export const TechTree = () => {
+export const QuestTree = () => {
   const app = useApp();
   const treeRef = useRef<Tree<TechnologyNode>>();
   const containerRef = useRef<Container>(new Container());

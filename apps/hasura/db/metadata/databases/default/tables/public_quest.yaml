@@ -44,3 +44,24 @@ select_permissions:
         - next_quest_in_chain
         - type
       filter: {}
+  - role: user
+    permission:
+      columns:
+        - initial
+        - description
+        - name
+        - type
+        - id
+        - next_quest_in_chain
+      filter: {}
+update_permissions:
+  - role: dev
+    permission:
+      columns:
+        - description
+        - initial
+        - name
+        - next_quest_in_chain
+        - type
+      filter: {}
+      check: null

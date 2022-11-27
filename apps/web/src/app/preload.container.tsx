@@ -4,6 +4,8 @@ import {
   CharacterDataQuery,
   NpcsDocument,
   NpcsQuery,
+  QuestsDocument,
+  QuestsQuery,
   ResourcesDocument,
   ResourcesQuery,
   SelfDocument,
@@ -21,6 +23,7 @@ import { backgroundsVar } from './_state/backgrounds';
 import { factionsVar } from './_state/factions';
 import { npcsVar } from './_state/npcs';
 import { playableRacesVar } from './_state/playable-races';
+import { questsVar } from './_state/quests';
 import { selfVar } from './_state/reactive-variables';
 import { resourcesVar } from './_state/resources';
 import { technologiesVar } from './_state/technologies';
@@ -75,6 +78,12 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
     }
   );
 
+  const { loading: questsLoading } = useQuery<QuestsQuery>(QuestsDocument, {
+    onCompleted: ({ quest }) => {
+      questsVar(quest);
+    },
+  });
+
   useEffect(() => {
     if (!usersLoading && userInfo) {
       loadUserInfo(userInfo).then(() => setUserAvatarsLoading(false));
@@ -101,6 +110,9 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
   if (resourcesLoading) return <Loading text="Loading Resources"></Loading>;
   if (technologiesLoading) {
     return <Loading text="Loading Technologies"></Loading>;
+  }
+  if (questsLoading) {
+    return <Loading text="Loading Quests"></Loading>;
   }
 
   if (userAvatarsLoading) return <Loading text="Creating Avatars"></Loading>;
