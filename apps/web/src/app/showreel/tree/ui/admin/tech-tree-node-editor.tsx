@@ -33,10 +33,10 @@ import { useUiBackground } from '../../../../hooks/use-ui-background';
 import { colorsVar } from '../../../../_state/colors';
 import { resourcesVar } from '../../../../_state/resources';
 import { technologiesVar } from '../../../../_state/technologies';
-import { selectedNodeVar, treeNodesVar } from '../../state/tree.state';
+import { selectedNodeVar, treeNodesVar } from '../../state/tech-tree.state';
 import { ImagePicker } from './image-picker';
 
-export const TreeNodeEditor = () => {
+export const TechTreeNodeEditor = () => {
   const { bg, border } = useUiBackground();
 
   const [creatingTech, setCreatingTech] = useState(false);

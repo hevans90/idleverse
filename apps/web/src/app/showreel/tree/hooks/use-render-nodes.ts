@@ -3,7 +3,7 @@ import { colors } from '@idleverse/theme';
 import * as PIXI from 'pixi.js';
 import { useEffect } from 'react';
 import { colorsVar } from '../../../_state/colors';
-import { treeNodesVar, treeSettingsVar } from '../state/tree.state';
+import { treeNodesVar, treeSettingsVar } from '../state/tech-tree.state';
 import { connectNodes, drawNode } from '../utils/draw-node';
 
 export const useRenderNodes = (

@@ -3,11 +3,11 @@ import { Container } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { useResize } from '../../canvases/_utils/use-resize.hook';
 import { useViewport } from '../../canvases/_utils/use-viewport.hook';
-import { treeNodesVar, treeSettingsVar } from './state/tree.state';
+import { treeNodesVar, treeSettingsVar } from './state/tech-tree.state';
 import {
-  createTreeFromQuery,
+  createTreeFromTechnologiesQuery,
   TechnologyNode,
-} from './utils/create-tree-from-query';
+} from './utils/create-tree-from-technologies-query';
 import { Tree } from './utils/tree-structure';
 
 import { useReactiveVar } from '@apollo/client';
@@ -15,7 +15,7 @@ import { technologiesVar } from '../../_state/technologies';
 import { useNodeInteractions } from './hooks/use-node-interactions';
 import { useRenderNodes } from './hooks/use-render-nodes';
 
-export const ResearchTree = () => {
+export const TechTree = () => {
   const app = useApp();
   const treeRef = useRef<Tree<TechnologyNode>>();
   const containerRef = useRef<Container>(new Container());
@@ -31,7 +31,7 @@ export const ResearchTree = () => {
     containerRef.current.sortableChildren = true;
     if (technologies.length) {
       console.log(technologies);
-      treeRef.current = createTreeFromQuery(technologies);
+      treeRef.current = createTreeFromTechnologiesQuery(technologies);
 
       const nodesWithDepth = [...treeRef.current.preOrderTraversal()].map(
         (node) => ({

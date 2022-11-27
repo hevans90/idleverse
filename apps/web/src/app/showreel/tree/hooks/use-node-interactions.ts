@@ -11,7 +11,7 @@ import {
   treeNodesVar,
   TreeNodeWithDepth,
   treeSettingsVar,
-} from '../state/tree.state';
+} from '../state/tech-tree.state';
 
 const glowFilter = new GlowFilter({
   distance: 20,

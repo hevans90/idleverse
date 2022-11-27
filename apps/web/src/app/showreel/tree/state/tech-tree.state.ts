@@ -1,6 +1,6 @@
 import { makeVar } from '@apollo/client';
 import { makeVarPersisted } from '../../../_state/utils';
-import { TechnologyNode } from '../utils/create-tree-from-query';
+import { TechnologyNode } from '../utils/create-tree-from-technologies-query';
 import { TreeNode } from '../utils/tree-structure';
 
 export type TreeNodeWithDepth = {
