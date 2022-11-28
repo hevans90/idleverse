@@ -5,6 +5,7 @@ fragment QuestFields on quest {
   description
   next_quest_in_chain
   type
+  image_url
   steps_aggregate {
     aggregate {
       count

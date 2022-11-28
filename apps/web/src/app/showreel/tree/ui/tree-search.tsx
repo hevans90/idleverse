@@ -16,7 +16,7 @@ import {
   searchResultsVar,
   selectedNodeVar,
   treeNodesVar,
-} from '../state/tech-tree.state';
+} from '../state/shared-tree.state';
 
 import { Box, Button } from '@chakra-ui/react';
 import { search as fuzzySearch } from 'fast-fuzzy';

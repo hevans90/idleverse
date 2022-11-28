@@ -180,8 +180,12 @@ export const Dialog = ({ entries, ...stackProps }: DialogProps) => {
           </Box>
           <HStack width="100%" justifyContent="end" padding={2}>
             <Button onClick={continueDialog}>
-              {continueButtonText} &nbsp;
-              {hotkeyHints && <Kbd>Space</Kbd>}
+              {continueButtonText}
+              {hotkeyHints && (
+                <>
+                  &nbsp;<Kbd>Space</Kbd>
+                </>
+              )}
             </Button>
           </HStack>
         </VStack>

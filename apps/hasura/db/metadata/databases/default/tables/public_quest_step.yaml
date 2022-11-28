@@ -31,6 +31,7 @@ select_permissions:
         - resource_cost_id
         - type
       filter: {}
+      allow_aggregations: true
   - role: user
     permission:
       columns:
@@ -44,3 +45,4 @@ select_permissions:
         - resource_cost_id
         - type
       filter: {}
+      allow_aggregations: true

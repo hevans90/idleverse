@@ -3,18 +3,18 @@ import { colors } from '@idleverse/theme';
 import * as PIXI from 'pixi.js';
 import { useEffect } from 'react';
 import { colorsVar } from '../../../_state/colors';
-import { treeSettingsVar } from '../state/shared-tree.state';
-import { treeNodesVar } from '../state/tech-tree.state';
+
+import { TreeNodeWithDepth, treeSettingsVar } from '../state/shared-tree.state';
+import { TechnologyNode } from '../utils/create-tree-from-technologies-query';
+import { QuestNode } from '../utils/create-trees-from-quests-query';
+
 import { connectNodes, drawNode } from '../utils/draw-node';
 
 export const useRenderNodes = (
-  app: PIXI.Application,
+  nodesWithDepth: TreeNodeWithDepth<QuestNode | TechnologyNode>[],
   container: PIXI.Container,
-
   size: { width: number; height: number }
 ) => {
-  const nodesWithDepth = useReactiveVar(treeNodesVar);
-
   const {
     separation: separationMultiplier,
     depthMulti: depthMultiplier,

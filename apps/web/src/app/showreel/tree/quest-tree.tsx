@@ -3,49 +3,51 @@ import { Container } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { useResize } from '../../canvases/_utils/use-resize.hook';
 import { useViewport } from '../../canvases/_utils/use-viewport.hook';
-import { treeNodesVar } from './state/tech-tree.state';
-import {
-  createTreeFromTechnologiesQuery,
-  TechnologyNode,
-} from './utils/create-tree-from-technologies-query';
 import { Tree } from './utils/tree-structure';
 
 import { useReactiveVar } from '@apollo/client';
-import { technologiesVar } from '../../_state/technologies';
+import { questsVar } from '../../_state/quests';
 import { useNodeInteractions } from './hooks/use-node-interactions';
 import { useRenderNodes } from './hooks/use-render-nodes';
-import { treeSettingsVar } from './state/shared-tree.state';
+
+import { treeNodesVar, treeSettingsVar } from './state/shared-tree.state';
+import {
+  createTreesFromQuestsQuery,
+  QuestNode,
+} from './utils/create-trees-from-quests-query';
 
 export const QuestTree = () => {
   const app = useApp();
-  const treeRef = useRef<Tree<TechnologyNode>>();
+  const treesRef = useRef<Tree<QuestNode>[]>();
   const containerRef = useRef<Container>(new Container());
 
   const size = useResize();
 
+  const nodesWithDepth = useReactiveVar(treeNodesVar);
+
   const settings = useReactiveVar(treeSettingsVar);
-  const technologies = useReactiveVar(technologiesVar);
+  const quests = useReactiveVar(questsVar);
 
   const viewport = useViewport({ app, containerRef, size });
 
   useEffect(() => {
     containerRef.current.sortableChildren = true;
-    if (technologies.length) {
-      console.log(technologies);
-      treeRef.current = createTreeFromTechnologiesQuery(technologies);
+    if (quests.length) {
+      treesRef.current = createTreesFromQuestsQuery(quests);
 
-      const nodesWithDepth = [...treeRef.current.preOrderTraversal()].map(
-        (node) => ({
+      const nodesWithDepth = treesRef.current
+        .map((tree) => [...tree.preOrderTraversal()])
+        .flat()
+        .map((node) => ({
           ...node,
           depth: node.value.depth,
-        })
-      );
+        }));
 
       treeNodesVar(nodesWithDepth);
     }
-  }, [technologies]);
+  }, [quests]);
 
-  useRenderNodes(app, containerRef.current, size);
+  useRenderNodes(nodesWithDepth, containerRef.current, size);
 
   useNodeInteractions(containerRef.current);
 

@@ -3,7 +3,7 @@ import { Container } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { useResize } from '../../canvases/_utils/use-resize.hook';
 import { useViewport } from '../../canvases/_utils/use-viewport.hook';
-import { treeNodesVar } from './state/tech-tree.state';
+
 import {
   createTreeFromTechnologiesQuery,
   TechnologyNode,
@@ -14,7 +14,7 @@ import { useReactiveVar } from '@apollo/client';
 import { technologiesVar } from '../../_state/technologies';
 import { useNodeInteractions } from './hooks/use-node-interactions';
 import { useRenderNodes } from './hooks/use-render-nodes';
-import { treeSettingsVar } from './state/shared-tree.state';
+import { treeNodesVar, treeSettingsVar } from './state/shared-tree.state';
 
 export const TechTree = () => {
   const app = useApp();
@@ -22,6 +22,8 @@ export const TechTree = () => {
   const containerRef = useRef<Container>(new Container());
 
   const size = useResize();
+
+  const nodesWithDepth = useReactiveVar(treeNodesVar);
 
   const settings = useReactiveVar(treeSettingsVar);
   const technologies = useReactiveVar(technologiesVar);
@@ -45,7 +47,7 @@ export const TechTree = () => {
     }
   }, [technologies]);
 
-  useRenderNodes(app, containerRef.current, size);
+  useRenderNodes(nodesWithDepth, containerRef.current, size);
 
   useNodeInteractions(containerRef.current);
 

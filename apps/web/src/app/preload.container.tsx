@@ -72,16 +72,12 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
   const { loading: technologiesLoading } = useQuery<TechnologiesQuery>(
     TechnologiesDocument,
     {
-      onCompleted: ({ technology }) => {
-        technologiesVar(technology);
-      },
+      onCompleted: ({ technology }) => technologiesVar(technology),
     }
   );
 
   const { loading: questsLoading } = useQuery<QuestsQuery>(QuestsDocument, {
-    onCompleted: ({ quest }) => {
-      questsVar(quest);
-    },
+    onCompleted: ({ quest }) => questsVar(quest),
   });
 
   useEffect(() => {

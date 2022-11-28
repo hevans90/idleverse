@@ -75,7 +75,7 @@ export const drawNode = ({
   });
 
   text.anchor.set(0.5);
-  text.position.y = -radius - 8;
+  text.position.y = -radius - 15;
   text.zIndex = 3;
 
   container.name = id;

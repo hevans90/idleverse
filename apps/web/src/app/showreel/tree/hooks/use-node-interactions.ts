@@ -4,14 +4,15 @@ import { GlowFilter } from '@pixi/filter-glow';
 import * as PIXI from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { colorsVar } from '../../../_state/colors';
-import { treeSettingsVar } from '../state/shared-tree.state';
+import { TreeNodeWithDepth, treeSettingsVar } from '../state/shared-tree.state';
 
 import {
   hoveredNodeVar,
   selectedNodeVar,
   treeNodesVar,
-  TreeNodeWithDepth,
-} from '../state/tech-tree.state';
+} from '../state/shared-tree.state';
+import { TechnologyNode } from '../utils/create-tree-from-technologies-query';
+import { QuestNode } from '../utils/create-trees-from-quests-query';
 
 const glowFilter = new GlowFilter({
   distance: 20,
@@ -76,7 +77,7 @@ const removeNodeHighlights = (
 
 const setupNodeMouseEvents = (
   nodeContainer: PIXI.Container,
-  node: TreeNodeWithDepth
+  node: TreeNodeWithDepth<TechnologyNode | QuestNode>
 ) => {
   const baseRenderedNode = nodeContainer.getChildByName(
     'overlay'
@@ -104,19 +105,23 @@ export const useNodeInteractions = (container: PIXI.Container) => {
   const settings = useReactiveVar(treeSettingsVar);
 
   const selectedNode = useReactiveVar(selectedNodeVar);
-  const prevSelectedNode = useRef<TreeNodeWithDepth>();
+  const prevSelectedNode =
+    useRef<TreeNodeWithDepth<TechnologyNode | QuestNode>>();
 
   const hoveredNode = useReactiveVar(hoveredNodeVar);
-  const prevHoveredNode = useRef<TreeNodeWithDepth>();
+  const prevHoveredNode =
+    useRef<TreeNodeWithDepth<TechnologyNode | QuestNode>>();
 
-  const renderedNode = (node: TreeNodeWithDepth) =>
+  const renderedNode = (node: TreeNodeWithDepth<TechnologyNode | QuestNode>) =>
     container.getChildByName(node?.id) as PIXI.Container;
 
-  const children = (node: TreeNodeWithDepth) =>
+  const children = (node: TreeNodeWithDepth<TechnologyNode | QuestNode>) =>
     node.children.map(
       (node) => container.getChildByName(node.id) as PIXI.Container
     );
-  const childConnectors = (node: TreeNodeWithDepth) =>
+  const childConnectors = (
+    node: TreeNodeWithDepth<TechnologyNode | QuestNode>
+  ) =>
     node.children.map(
       (node) => container.getChildByName(`line_${node.id}`) as PIXI.Container
     );
@@ -153,12 +158,14 @@ export const useNodeInteractions = (container: PIXI.Container) => {
       const childNodes = children(prevSelectedNode.current);
       const connectors = childConnectors(prevSelectedNode.current);
 
-      // remove previous node filters
-      [
-        ...childNodes.map((child) => child.getChildByName('nodeBg')),
-        ...connectors,
-      ].forEach((pixiObj) => (pixiObj.filters = []));
-      rendered.getChildByName('nodeBg').filters = [];
+      if (rendered) {
+        // remove previous node filters
+        [
+          ...childNodes.map((child) => child?.getChildByName('nodeBg')),
+          ...connectors,
+        ].forEach((pixiObj) => (pixiObj.filters = []));
+        rendered.getChildByName('nodeBg').filters = [];
+      }
     }
 
     const rendered = renderedNode(selectedNode);

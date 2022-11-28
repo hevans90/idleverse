@@ -39,6 +39,7 @@ select_permissions:
       columns:
         - description
         - id
+        - image_url
         - initial
         - name
         - next_quest_in_chain
@@ -47,12 +48,13 @@ select_permissions:
   - role: user
     permission:
       columns:
-        - initial
         - description
-        - name
-        - type
         - id
+        - image_url
+        - initial
+        - name
         - next_quest_in_chain
+        - type
       filter: {}
 update_permissions:
   - role: dev

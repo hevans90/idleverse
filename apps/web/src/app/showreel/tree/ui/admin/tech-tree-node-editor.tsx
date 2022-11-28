@@ -1,4 +1,4 @@
-import { useMutation, useReactiveVar } from '@apollo/client';
+import { ReactiveVar, useMutation, useReactiveVar } from '@apollo/client';
 import {
   Button,
   FormControl,
@@ -33,7 +33,12 @@ import { useUiBackground } from '../../../../hooks/use-ui-background';
 import { colorsVar } from '../../../../_state/colors';
 import { resourcesVar } from '../../../../_state/resources';
 import { technologiesVar } from '../../../../_state/technologies';
-import { selectedNodeVar, treeNodesVar } from '../../state/tech-tree.state';
+import {
+  selectedNodeVar,
+  treeNodesVar,
+  TreeNodeWithDepth,
+} from '../../state/shared-tree.state';
+import { TechnologyNode } from '../../utils/create-tree-from-technologies-query';
 import { ImagePicker } from './image-picker';
 
 export const TechTreeNodeEditor = () => {
@@ -229,8 +234,12 @@ const TreeNodeForm = ({
   const { primary, secondary } = useReactiveVar(colorsVar);
 
   const technologies = useReactiveVar(technologiesVar);
-  const treeNodes = useReactiveVar(treeNodesVar);
-  const selectedNode = useReactiveVar(selectedNodeVar);
+  const treeNodes = useReactiveVar(
+    treeNodesVar as ReactiveVar<TreeNodeWithDepth<TechnologyNode>[]>
+  );
+  const selectedNode = useReactiveVar(
+    selectedNodeVar as ReactiveVar<TreeNodeWithDepth<TechnologyNode>>
+  );
   const resources = useReactiveVar(resourcesVar);
   const [saveProcessing, setSaveProcessing] = useState(false);
 
