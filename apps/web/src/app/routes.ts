@@ -11,7 +11,8 @@ import { ColyseusContainer } from './showreel/colyseus-poc/colyseus-container';
 import { GravitySimulationContainer } from './showreel/gravity-simulation/gravity-simulation.container';
 import { IsometricContainer } from './showreel/isometric-tiles/isometric.container';
 import { Showreel } from './showreel/showreel';
-import { TreeContainer } from './showreel/tree/tree-container';
+import { QuestTreeContainer } from './showreel/tree/quest-tree-container';
+import { TechTreeContainer } from './showreel/tree/tech-tree-container';
 
 export const routes = [
   { path: '/', name: 'home', component: Home },
@@ -59,8 +60,13 @@ export const routes = [
     component: ColyseusContainer,
   },
   {
-    path: '/pixi-tree',
-    name: 'pixi tree',
-    component: TreeContainer,
+    path: '/tech-tree',
+    name: 'tech tree',
+    component: TechTreeContainer,
+  },
+  {
+    path: '/quest-tree',
+    name: 'quest tree',
+    component: QuestTreeContainer,
   },
 ];

@@ -28,8 +28,12 @@ export const Showreel = () => {
       display: 'Colyseus POC',
     },
     {
-      route: 'pixi-tree',
-      display: 'Tree',
+      route: 'tech-tree',
+      display: 'Tech Tree',
+    },
+    {
+      route: 'quest-tree',
+      display: 'Quest Tree',
     },
   ];
 

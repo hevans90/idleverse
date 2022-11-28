@@ -1,0 +1,21 @@
+fragment QuestFields on quest {
+  name
+  initial
+  id
+  description
+  next_quest_in_chain
+  type
+  image_url
+  steps_aggregate {
+    aggregate {
+      count
+    }
+  }
+  rewards {
+    resource_unlock_id
+    resource_accrual_type_id
+    resource_accrual_amount
+    npc_unlock_id
+    type
+  }
+}

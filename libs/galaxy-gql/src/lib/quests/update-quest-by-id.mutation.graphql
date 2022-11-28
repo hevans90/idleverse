@@ -1,0 +1,5 @@
+mutation UpdateQuestById($id: uuid!, $input: quest_set_input!) {
+  update_quest_by_pk(pk_columns: { id: $id }, _set: $input) {
+    ...QuestFields
+  }
+}

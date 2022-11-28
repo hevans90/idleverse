@@ -6210,6 +6210,7 @@ export type Quest = {
   __typename?: 'quest';
   description: Scalars['String'];
   id: Scalars['uuid'];
+  image_url?: Maybe<Scalars['String']>;
   initial?: Maybe<Scalars['Boolean']>;
   name: Scalars['String'];
   /** An object relationship */
@@ -6297,6 +6298,7 @@ export type Quest_Bool_Exp = {
   _or?: InputMaybe<Array<Quest_Bool_Exp>>;
   description?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  image_url?: InputMaybe<String_Comparison_Exp>;
   initial?: InputMaybe<Boolean_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   next_quest?: InputMaybe<Quest_Bool_Exp>;
@@ -6319,6 +6321,7 @@ export enum Quest_Constraint {
 export type Quest_Insert_Input = {
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
+  image_url?: InputMaybe<Scalars['String']>;
   initial?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
   next_quest?: InputMaybe<Quest_Obj_Rel_Insert_Input>;
@@ -6334,6 +6337,7 @@ export type Quest_Max_Fields = {
   __typename?: 'quest_max_fields';
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
+  image_url?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   next_quest_in_chain?: Maybe<Scalars['uuid']>;
 };
@@ -6343,6 +6347,7 @@ export type Quest_Min_Fields = {
   __typename?: 'quest_min_fields';
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
+  image_url?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   next_quest_in_chain?: Maybe<Scalars['uuid']>;
 };
@@ -6374,6 +6379,7 @@ export type Quest_On_Conflict = {
 export type Quest_Order_By = {
   description?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  image_url?: InputMaybe<Order_By>;
   initial?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   next_quest?: InputMaybe<Quest_Order_By>;
@@ -6883,6 +6889,8 @@ export enum Quest_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  ImageUrl = 'image_url',
+  /** column name */
   Initial = 'initial',
   /** column name */
   Name = 'name',
@@ -6896,6 +6904,7 @@ export enum Quest_Select_Column {
 export type Quest_Set_Input = {
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
+  image_url?: InputMaybe<Scalars['String']>;
   initial?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
   next_quest_in_chain?: InputMaybe<Scalars['uuid']>;
@@ -7430,6 +7439,7 @@ export type Quest_Stream_Cursor_Input = {
 export type Quest_Stream_Cursor_Value_Input = {
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
+  image_url?: InputMaybe<Scalars['String']>;
   initial?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
   next_quest_in_chain?: InputMaybe<Scalars['uuid']>;
@@ -7585,6 +7595,8 @@ export enum Quest_Update_Column {
   Description = 'description',
   /** column name */
   Id = 'id',
+  /** column name */
+  ImageUrl = 'image_url',
   /** column name */
   Initial = 'initial',
   /** column name */
@@ -10630,6 +10642,28 @@ export type TryInsertPlanetMutationVariables = Exact<{
 
 export type TryInsertPlanetMutation = { __typename?: 'mutation_root', insert_planet_one?: { __typename?: 'planet', id: string, name: string, owner_id: string } | null };
 
+export type CreateQuestMutationVariables = Exact<{
+  input: Quest_Insert_Input;
+}>;
+
+
+export type CreateQuestMutation = { __typename?: 'mutation_root', insert_quest_one?: { __typename?: 'quest', name: string, initial?: boolean | null, id: string, description: string, next_quest_in_chain?: string | null, type: Quest_Type_Enum, image_url?: string | null, steps_aggregate: { __typename?: 'quest_step_aggregate', aggregate?: { __typename?: 'quest_step_aggregate_fields', count: number } | null }, rewards: Array<{ __typename?: 'quest_reward', resource_unlock_id?: string | null, resource_accrual_type_id?: string | null, resource_accrual_amount?: number | null, npc_unlock_id?: string | null, type: Quest_Reward_Type_Enum }> } | null };
+
+export type QuestFieldsFragment = { __typename?: 'quest', name: string, initial?: boolean | null, id: string, description: string, next_quest_in_chain?: string | null, type: Quest_Type_Enum, image_url?: string | null, steps_aggregate: { __typename?: 'quest_step_aggregate', aggregate?: { __typename?: 'quest_step_aggregate_fields', count: number } | null }, rewards: Array<{ __typename?: 'quest_reward', resource_unlock_id?: string | null, resource_accrual_type_id?: string | null, resource_accrual_amount?: number | null, npc_unlock_id?: string | null, type: Quest_Reward_Type_Enum }> };
+
+export type QuestsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type QuestsQuery = { __typename?: 'query_root', quest: Array<{ __typename?: 'quest', name: string, initial?: boolean | null, id: string, description: string, next_quest_in_chain?: string | null, type: Quest_Type_Enum, image_url?: string | null, steps_aggregate: { __typename?: 'quest_step_aggregate', aggregate?: { __typename?: 'quest_step_aggregate_fields', count: number } | null }, rewards: Array<{ __typename?: 'quest_reward', resource_unlock_id?: string | null, resource_accrual_type_id?: string | null, resource_accrual_amount?: number | null, npc_unlock_id?: string | null, type: Quest_Reward_Type_Enum }> }> };
+
+export type UpdateQuestByIdMutationVariables = Exact<{
+  id: Scalars['uuid'];
+  input: Quest_Set_Input;
+}>;
+
+
+export type UpdateQuestByIdMutation = { __typename?: 'mutation_root', update_quest_by_pk?: { __typename?: 'quest', name: string, initial?: boolean | null, id: string, description: string, next_quest_in_chain?: string | null, type: Quest_Type_Enum, image_url?: string | null, steps_aggregate: { __typename?: 'quest_step_aggregate', aggregate?: { __typename?: 'quest_step_aggregate_fields', count: number } | null }, rewards: Array<{ __typename?: 'quest_reward', resource_unlock_id?: string | null, resource_accrual_type_id?: string | null, resource_accrual_amount?: number | null, npc_unlock_id?: string | null, type: Quest_Reward_Type_Enum }> } | null };
+
 export type ResourcesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -10660,12 +10694,14 @@ export type CreateTechnologyMutationVariables = Exact<{
 }>;
 
 
-export type CreateTechnologyMutation = { __typename?: 'mutation_root', insert_technology_one?: { __typename?: 'technology', root?: boolean | null, id: string, image_url?: string | null, name: string, research_cost: number, description?: string | null, children: string[] } | null };
+export type CreateTechnologyMutation = { __typename?: 'mutation_root', insert_technology_one?: { __typename?: 'technology', id: string, root?: boolean | null, name: string, description?: string | null, children: string[], research_cost: number, image_url?: string | null } | null };
 
 export type TechnologiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type TechnologiesQuery = { __typename?: 'query_root', technology: Array<{ __typename?: 'technology', id: string, root?: boolean | null, name: string, description?: string | null, children: string[], research_cost: number, image_url?: string | null }> };
+
+export type TechFieldsFragment = { __typename?: 'technology', id: string, root?: boolean | null, name: string, description?: string | null, children: string[], research_cost: number, image_url?: string | null };
 
 export type UpdateTechnologyByIdMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -10777,6 +10813,40 @@ export const GalacticEmpireQuestFieldsFragmentDoc = gql`
     }
   }
   quest_step_id
+}
+    `;
+export const QuestFieldsFragmentDoc = gql`
+    fragment QuestFields on quest {
+  name
+  initial
+  id
+  description
+  next_quest_in_chain
+  type
+  image_url
+  steps_aggregate {
+    aggregate {
+      count
+    }
+  }
+  rewards {
+    resource_unlock_id
+    resource_accrual_type_id
+    resource_accrual_amount
+    npc_unlock_id
+    type
+  }
+}
+    `;
+export const TechFieldsFragmentDoc = gql`
+    fragment TechFields on technology {
+  id
+  root
+  name
+  description
+  children
+  research_cost
+  image_url
 }
     `;
 export const CelestialByIdDocument = gql`
@@ -11464,6 +11534,34 @@ export const TryInsertPlanetDocument = gql`
 export type TryInsertPlanetMutationFn = Apollo.MutationFunction<TryInsertPlanetMutation, TryInsertPlanetMutationVariables>;
 export type TryInsertPlanetMutationResult = Apollo.MutationResult<TryInsertPlanetMutation>;
 export type TryInsertPlanetMutationOptions = Apollo.BaseMutationOptions<TryInsertPlanetMutation, TryInsertPlanetMutationVariables>;
+export const CreateQuestDocument = gql`
+    mutation CreateQuest($input: quest_insert_input!) {
+  insert_quest_one(object: $input) {
+    ...QuestFields
+  }
+}
+    ${QuestFieldsFragmentDoc}`;
+export type CreateQuestMutationFn = Apollo.MutationFunction<CreateQuestMutation, CreateQuestMutationVariables>;
+export type CreateQuestMutationResult = Apollo.MutationResult<CreateQuestMutation>;
+export type CreateQuestMutationOptions = Apollo.BaseMutationOptions<CreateQuestMutation, CreateQuestMutationVariables>;
+export const QuestsDocument = gql`
+    query Quests {
+  quest {
+    ...QuestFields
+  }
+}
+    ${QuestFieldsFragmentDoc}`;
+export type QuestsQueryResult = Apollo.QueryResult<QuestsQuery, QuestsQueryVariables>;
+export const UpdateQuestByIdDocument = gql`
+    mutation UpdateQuestById($id: uuid!, $input: quest_set_input!) {
+  update_quest_by_pk(pk_columns: {id: $id}, _set: $input) {
+    ...QuestFields
+  }
+}
+    ${QuestFieldsFragmentDoc}`;
+export type UpdateQuestByIdMutationFn = Apollo.MutationFunction<UpdateQuestByIdMutation, UpdateQuestByIdMutationVariables>;
+export type UpdateQuestByIdMutationResult = Apollo.MutationResult<UpdateQuestByIdMutation>;
+export type UpdateQuestByIdMutationOptions = Apollo.BaseMutationOptions<UpdateQuestByIdMutation, UpdateQuestByIdMutationVariables>;
 export const ResourcesDocument = gql`
     query Resources {
   resource_type {
@@ -11514,46 +11612,28 @@ export type SetNameByUserIdMutationOptions = Apollo.BaseMutationOptions<SetNameB
 export const CreateTechnologyDocument = gql`
     mutation CreateTechnology($input: technology_insert_input!) {
   insert_technology_one(object: $input) {
-    root
-    id
-    image_url
-    name
-    research_cost
-    description
-    children
+    ...TechFields
   }
 }
-    `;
+    ${TechFieldsFragmentDoc}`;
 export type CreateTechnologyMutationFn = Apollo.MutationFunction<CreateTechnologyMutation, CreateTechnologyMutationVariables>;
 export type CreateTechnologyMutationResult = Apollo.MutationResult<CreateTechnologyMutation>;
 export type CreateTechnologyMutationOptions = Apollo.BaseMutationOptions<CreateTechnologyMutation, CreateTechnologyMutationVariables>;
 export const TechnologiesDocument = gql`
     query Technologies {
   technology {
-    id
-    root
-    name
-    description
-    children
-    research_cost
-    image_url
+    ...TechFields
   }
 }
-    `;
+    ${TechFieldsFragmentDoc}`;
 export type TechnologiesQueryResult = Apollo.QueryResult<TechnologiesQuery, TechnologiesQueryVariables>;
 export const UpdateTechnologyByIdDocument = gql`
     mutation UpdateTechnologyById($id: uuid!, $input: technology_set_input!) {
   update_technology_by_pk(pk_columns: {id: $id}, _set: $input) {
-    id
-    root
-    name
-    description
-    children
-    research_cost
-    image_url
+    ...TechFields
   }
 }
-    `;
+    ${TechFieldsFragmentDoc}`;
 export type UpdateTechnologyByIdMutationFn = Apollo.MutationFunction<UpdateTechnologyByIdMutation, UpdateTechnologyByIdMutationVariables>;
 export type UpdateTechnologyByIdMutationResult = Apollo.MutationResult<UpdateTechnologyByIdMutation>;
 export type UpdateTechnologyByIdMutationOptions = Apollo.BaseMutationOptions<UpdateTechnologyByIdMutation, UpdateTechnologyByIdMutationVariables>;

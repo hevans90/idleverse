@@ -22,7 +22,7 @@ import {
   responsiveFontProps,
   responsiveIconProps,
 } from '../../../_responsive-utils/font-props';
-import { treeSettingsVar } from '../state/tree.state';
+import { treeSettingsVar } from '../state/shared-tree.state';
 
 export const TreeSettings = () => {
   const { bg, border } = useUiBackground();

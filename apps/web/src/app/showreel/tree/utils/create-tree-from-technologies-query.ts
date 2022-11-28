@@ -5,7 +5,7 @@ export type TechnologyNode = Partial<TechnologiesQuery['technology'][0]> & {
   depth: number;
 };
 
-export const createTreeFromQuery = (
+export const createTreeFromTechnologiesQuery = (
   technologies: TechnologiesQuery['technology']
 ): Tree<TechnologyNode> => {
   const root = technologies.find((tech) => tech?.root === true);
