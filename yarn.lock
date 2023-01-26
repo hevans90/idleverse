@@ -2035,15 +2035,6 @@
   resolved "https://registry.yarnpkg.com/@colyseus/schema/-/schema-1.0.42.tgz#dc0f6da163b989cce915ccd76df4c81a2afee461"
   integrity sha512-0FvpE0ysOls4Nq6UexmqqNzQuvUzdfrpm/EwC0olfDCiYqPPpDVG27FqbMRhs5lOs2lLFPipTbQxG3UqVnWliw==
 
-"@colyseus/uwebsockets-transport@^0.14.29":
-  version "0.14.29"
-  resolved "https://registry.yarnpkg.com/@colyseus/uwebsockets-transport/-/uwebsockets-transport-0.14.29.tgz#7ca175acb467d8e972d3b611ac53aa1a6b3b8ae4"
-  integrity sha512-muEKLxSxKA/0VkJxf7iZhJ/IabY3Kftd7eg3ELd7KhZq20biplvyMjhOAVrxApOtwr2TBVyVj9eeS/40Y8ou6Q==
-  dependencies:
-    "@colyseus/core" "^0.14.20"
-    "@colyseus/schema" "^1.0.15"
-    uWebSockets.js "github:uNetworking/uWebSockets.js#v19.2.0"
-
 "@colyseus/ws-transport@^0.14.21":
   version "0.14.21"
   resolved "https://registry.yarnpkg.com/@colyseus/ws-transport/-/ws-transport-0.14.21.tgz#b7f92a4e504659ab33a73668123b8839f276f2cb"
@@ -14275,10 +14266,6 @@ typescript@4.7.3:
   version "4.7.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.7.3.tgz#8364b502d5257b540f9de4c40be84c98e23a129d"
   integrity sha512-WOkT3XYvrpXx4vMMqlD+8R8R37fZkjyLGlxavMc4iB8lrl8L0DeTcHbYgw/v0N/z9wAFsgBhcsF0ruoySS22mA==
-
-"uWebSockets.js@github:uNetworking/uWebSockets.js#v19.2.0":
-  version "19.2.0"
-  resolved "https://codeload.github.com/uNetworking/uWebSockets.js/tar.gz/77b1761c5a23ac6a5c2adf2bd808be0ae6b5000a"
 
 ua-parser-js@^0.7.30:
   version "0.7.32"
