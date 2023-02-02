@@ -5,12 +5,12 @@ import {
   ColyseusSpawnLocation,
   ColyseusUser,
   JoinOptions,
-  ServerMessage,
+  ServerStatusMessage,
 } from '@idleverse/colyseus-shared';
 import { Client, ServerError } from 'colyseus';
+import { logger } from './_utils';
 import { Dimensions } from './collision-detection/models';
 import { GameRoom } from './room';
-import { logger } from './_utils';
 
 const shipDimensions: Dimensions = { width: 25, height: 25 };
 
@@ -27,7 +27,10 @@ export const onJoin = (
       'You are already connected on another device/browser tab!'
     );
   }
-  room.broadcast(ServerMessage.PlayerJoined, `${options.displayName} joined!`);
+  room.broadcast(
+    ServerStatusMessage.PlayerJoined,
+    `${options.displayName} joined!`
+  );
 
   room.state.connectedUsers.push(
     new ColyseusUser({ ...options, colyseusUserId: client.id, connected: true })

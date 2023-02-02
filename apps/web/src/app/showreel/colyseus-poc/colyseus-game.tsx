@@ -2,13 +2,13 @@ import { ColyseusShip } from '@idleverse/colyseus-shared';
 import { useApp } from '@saitonakamura/react-pixi';
 import { Renderer } from 'pixi.js';
 import { useEffect, useRef, useState } from 'react';
+import { useResize } from '../../canvases/_utils/use-resize.hook';
+import { useViewport } from '../../canvases/_utils/use-viewport.hook';
 import { Planet, PlanetConfig } from '../../canvases/celestial-viewer/models';
 import { createPlanet } from '../../canvases/celestial-viewer/utils/drawing-utils';
 import { createAnimatedPlanetSprite } from '../../canvases/celestial-viewer/utils/graphics-utils';
 import { sunSpriteConfig } from '../../canvases/celestial-viewer/utils/static-sprite-configs';
 import { useFpsTracker } from '../../canvases/galaxy-generator/utils/fps-counter';
-import { useResize } from '../../canvases/_utils/use-resize.hook';
-import { useViewport } from '../../canvases/_utils/use-viewport.hook';
 import { drawPlayerShip } from './rendering/draw-player-ship';
 import { useControls } from './use-controls';
 
@@ -19,6 +19,8 @@ import { Viewport } from 'pixi-viewport';
 import * as PIXI from 'pixi.js';
 import { colorsVar } from '../../_state/colors';
 import {
+  colyseusBoundingBoxesVar,
+  colyseusCelestialsVar,
   colyseusGridVar,
   colyseusRoomDimensionsVar,
   colyseusRoomVar,
@@ -28,6 +30,7 @@ import {
   colyseusTrackingTargetVar,
 } from '../../_state/colyseus';
 import { selfVar } from '../../_state/reactive-variables';
+import { drawBoundingBoxes } from './rendering/draw-bounding-boxes';
 import { drawGrid } from './rendering/draw-grid';
 import { useStarField } from './rendering/use-starfield';
 import {
@@ -62,7 +65,10 @@ export const ColyseusGame = () => {
   const trackingTarget = useReactiveVar(colyseusTrackingTargetVar);
   const room = useReactiveVar(colyseusRoomVar);
   const ships = useReactiveVar(colyseusShipsVar);
+  const celestials = useReactiveVar(colyseusCelestialsVar);
   const grid = useReactiveVar(colyseusGridVar);
+  const boundingBoxes = useReactiveVar(colyseusBoundingBoxesVar);
+
   const starfield = useStarField({ dimensions });
 
   const shipsRef = useRef<ColyseusShip[]>(
@@ -260,6 +266,24 @@ export const ColyseusGame = () => {
       }
     }
   }, [trackingTarget, trackingEnabled]);
+
+  useEffect(() => {
+    if (viewport) {
+      if (boundingBoxes) {
+        const boundingBoxContainer = drawBoundingBoxes({
+          celestials,
+          boxColor: colors[colorsVar().secondary]['300'],
+        });
+        viewport.addChild(boundingBoxContainer);
+      } else {
+        const boundingBoxObj = viewport.getChildByName('boundingBoxes');
+        if (boundingBoxObj) {
+          viewport.removeChild(boundingBoxObj);
+          boundingBoxObj.destroy(true);
+        }
+      }
+    }
+  }, [viewport, boundingBoxes]);
 
   return <></>;
 };

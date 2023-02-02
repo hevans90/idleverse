@@ -1,5 +1,5 @@
 import { useToast } from '@chakra-ui/react';
-import { ServerMessage } from '@idleverse/colyseus-shared';
+import { ServerStatusMessage } from '@idleverse/colyseus-shared';
 import { Room } from 'colyseus.js';
 import { useEffect } from 'react';
 
@@ -7,31 +7,31 @@ export const ColyseusNotifications = ({ room }: { room: Room }) => {
   const toast = useToast();
 
   useEffect(() => {
-    room.onMessage(ServerMessage.PlayerJoined, (message: string) =>
+    room.onMessage(ServerStatusMessage.PlayerJoined, (message: string) =>
       toast({
         title: message,
         status: 'success',
       })
     );
-    room.onMessage(ServerMessage.PlayerLeft, (message: string) =>
+    room.onMessage(ServerStatusMessage.PlayerLeft, (message: string) =>
       toast({
         title: message,
         status: 'info',
       })
     );
-    room.onMessage(ServerMessage.PlayerReconnected, (message: string) =>
+    room.onMessage(ServerStatusMessage.PlayerReconnected, (message: string) =>
       toast({
         title: message,
         status: 'info',
       })
     );
-    room.onMessage(ServerMessage.PlayerDisconnected, (message: string) =>
+    room.onMessage(ServerStatusMessage.PlayerDisconnected, (message: string) =>
       toast({
         title: message,
         status: 'warning',
       })
     );
-    room.onMessage(ServerMessage.ClientDisconnected, (message: string) =>
+    room.onMessage(ServerStatusMessage.ClientDisconnected, (message: string) =>
       toast({
         title: message,
         status: 'error',

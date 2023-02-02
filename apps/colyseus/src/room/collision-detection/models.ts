@@ -5,10 +5,10 @@ export type Dimensions = { width: number; height: number };
 export type LinkedListItem = {
   next: LinkedListItem;
   prev: LinkedListItem;
-  client: Client;
+  client: SpatialHashGridClient;
 };
 
-export type Client = {
+export type SpatialHashGridClient = {
   name: string;
   position: Position;
   dimensions: Dimensions;

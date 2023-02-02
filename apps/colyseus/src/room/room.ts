@@ -4,17 +4,17 @@ import { IncomingMessage } from 'http';
 import {
   JoinOptions,
   RoomState,
-  ServerMessage,
+  ServerStatusMessage,
 } from '@idleverse/colyseus-shared';
+import { findByColyseusClient, logger } from './_utils';
 import { onAuth } from './on-auth';
 import { onCreate } from './on-create';
 import { onJoin } from './on-join';
 import { onLeave } from './on-leave';
 import { updateShipPositions } from './update-loop/update-ship-positions';
-import { findByColyseusClient, logger } from './_utils';
 
 import { SpatialHashGrid } from './collision-detection/fast';
-import { Client as GridClient } from './collision-detection/models';
+import { SpatialHashGridClient as GridClient } from './collision-detection/models';
 import { runCollisionDetection } from './update-loop/run-collision-detection';
 
 export class GameRoom extends Room<RoomState> {
@@ -61,7 +61,7 @@ export class GameRoom extends Room<RoomState> {
       user.connected = false;
 
       this.broadcast(
-        ServerMessage.PlayerDisconnected,
+        ServerStatusMessage.PlayerDisconnected,
         `${user.displayName} disconnected`
       );
 
@@ -74,7 +74,7 @@ export class GameRoom extends Room<RoomState> {
       user.connected = true;
 
       this.broadcast(
-        ServerMessage.PlayerReconnected,
+        ServerStatusMessage.PlayerReconnected,
         `${user.displayName} reconnected`
       );
       logger.success(`${userString} successfully reconnected!`);

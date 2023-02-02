@@ -16,10 +16,13 @@ import {
   Tr,
   VStack,
 } from '@chakra-ui/react';
-import { RoomState } from '@idleverse/colyseus-shared';
+import { ColyseusCelestial, RoomState } from '@idleverse/colyseus-shared';
 import { useUiBackground } from '../../../hooks/use-ui-background';
 
-import { colyseusGridVar } from '../../../_state/colyseus';
+import {
+  colyseusBoundingBoxesVar,
+  colyseusGridVar,
+} from '../../../_state/colyseus';
 
 export const ColyseusGameInfo = ({
   joined,
@@ -36,6 +39,7 @@ export const ColyseusGameInfo = ({
   leaveCallback: () => void;
   roomState: Pick<
     RoomState,
+    | 'celestials'
     | 'connectedUsers'
     | 'impulses'
     | 'ships'
@@ -49,6 +53,7 @@ export const ColyseusGameInfo = ({
   const { bg, border, bgDark } = useUiBackground();
 
   const gridChecked = useReactiveVar(colyseusGridVar);
+  const boundingBoxesChecked = useReactiveVar(colyseusBoundingBoxesVar);
 
   return (
     <>
@@ -225,6 +230,37 @@ export const ColyseusGameInfo = ({
               </Tbody>
             </Table>
           </TableContainer>
+          <TableContainer borderColor={border} borderWidth="1px">
+            <Table variant="simple" size="sm">
+              <TableCaption>celestials</TableCaption>
+              <Thead>
+                <Tr bg={bgDark}>
+                  <Th>Name</Th>
+                  <Th>Radius</Th>
+                  <Th>&#123; x, y &#125;</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {roomState?.celestials
+                  .sort((a: ColyseusCelestial, b: ColyseusCelestial) =>
+                    a.id > b.id ? 1 : b.id > a.id ? -1 : 0
+                  )
+                  .map(({ positionX, positionY, radius, name }, i) => (
+                    <Tr key={i}>
+                      <Td borderColor={border}>
+                        <HStack>
+                          <Text>{name}</Text>
+                        </HStack>
+                      </Td>
+                      <Td borderColor={border}>{radius}</Td>
+                      <Td borderColor={border}>
+                        &#123; {positionX}, {positionY} &#125;
+                      </Td>
+                    </Tr>
+                  ))}
+              </Tbody>
+            </Table>
+          </TableContainer>
 
           <HStack width="100%">
             <HStack width="100%">
@@ -233,6 +269,16 @@ export const ColyseusGameInfo = ({
                 size="lg"
                 isChecked={gridChecked}
                 onChange={() => colyseusGridVar(!colyseusGridVar())}
+              ></Checkbox>
+            </HStack>
+            <HStack width="100%">
+              <Text minWidth="175px">Bounding Boxes</Text>
+              <Checkbox
+                size="lg"
+                isChecked={boundingBoxesChecked}
+                onChange={() =>
+                  colyseusBoundingBoxesVar(!colyseusBoundingBoxesVar())
+                }
               ></Checkbox>
             </HStack>
           </HStack>

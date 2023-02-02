@@ -10,19 +10,20 @@ import { useToast } from '@chakra-ui/react';
 import {
   JoinOptions,
   RoomState,
-  ServerMessage,
+  ServerStatusMessage,
 } from '@idleverse/colyseus-shared';
 import { environment } from '../../../environments/environment';
-import { loadColyseusAssets } from '../../asset-loading/load-colyseus-assets';
-import { loadPlanets } from '../../asset-loading/load-planets';
-import { PixiWrapper } from '../../canvases/_utils/pixi-wrapper';
-import { Loading } from '../../components/loading';
 import {
+  colyseusCelestialsVar,
   colyseusRoomDimensionsVar,
   colyseusRoomVar,
   colyseusSessionVar,
   colyseusShipsVar,
 } from '../../_state/colyseus';
+import { loadColyseusAssets } from '../../asset-loading/load-colyseus-assets';
+import { loadPlanets } from '../../asset-loading/load-planets';
+import { PixiWrapper } from '../../canvases/_utils/pixi-wrapper';
+import { Loading } from '../../components/loading';
 import { ColyseusGame } from './colyseus-game';
 import { ColyseusGameInfo } from './ui/colyseus-game-info';
 import { ColyseusNotifications } from './ui/colyseus-notifications';
@@ -104,6 +105,7 @@ export const ColyseusContainer = () => {
       colyseusRoomDimensionsVar({ width, height, columns, rows });
       setRoomState({ ...roomState });
       colyseusShipsVar([...roomState.ships]);
+      colyseusCelestialsVar([...roomState.celestials]);
     });
 
     // subsequent realtime state updates
@@ -112,7 +114,7 @@ export const ColyseusContainer = () => {
       colyseusShipsVar([...roomState.ships]);
     });
 
-    room.onMessage(ServerMessage.ClientDisconnected, () => {
+    room.onMessage(ServerStatusMessage.ClientDisconnected, () => {
       roomRef.current = undefined;
       setRoomState(undefined);
     });
@@ -151,6 +153,7 @@ export const ColyseusContainer = () => {
     useState<
       Pick<
         RoomState,
+        | 'celestials'
         | 'connectedUsers'
         | 'impulses'
         | 'ships'

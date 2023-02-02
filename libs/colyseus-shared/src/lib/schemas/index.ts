@@ -1,3 +1,4 @@
+export * from './celestial';
 export * from './impulse';
 export * from './room-state';
 export * from './ship';

@@ -1,5 +1,5 @@
 import { math } from './math';
-import { Bounds, Client, Dimensions, Position } from './models';
+import { Bounds, Dimensions, Position, SpatialHashGridClient } from './models';
 
 export class SpatialHashGrid {
   constructor(bounds: Bounds, dimensions: Dimensions) {
@@ -13,7 +13,7 @@ export class SpatialHashGrid {
   cells: Map<number, number>;
 
   newClient = (name: string, position: Position, dimensions: Dimensions) => {
-    const client: Client = {
+    const client: SpatialHashGridClient = {
       name,
       position,
       dimensions,
@@ -24,7 +24,7 @@ export class SpatialHashGrid {
     return client;
   };
 
-  private insert = (client: Client) => {
+  private insert = (client: SpatialHashGridClient) => {
     const { x, y } = client.position;
     const { width, height } = client.dimensions;
 
@@ -38,7 +38,7 @@ export class SpatialHashGrid {
         const key = this.key(x, y);
 
         if (!(key in this.cells)) {
-          this.cells[key] = new Set<Client>();
+          this.cells[key] = new Set<SpatialHashGridClient>();
         }
 
         this.cells[key].add(client);
@@ -71,7 +71,7 @@ export class SpatialHashGrid {
     const i1 = this.getCellIndex({ x: x - width / 2, y: y - height / 2 });
     const i2 = this.getCellIndex({ x: x + width / 2, y: y + height / 2 });
 
-    const clients = new Set<Client>();
+    const clients = new Set<SpatialHashGridClient>();
 
     for (let x = i1[0], xn = i2[0]; x <= xn; ++x) {
       for (let y = i1[1], yn = i2[1]; y <= yn; ++y) {
@@ -87,12 +87,12 @@ export class SpatialHashGrid {
     return clients;
   };
 
-  updateClient = (client: Client) => {
+  updateClient = (client: SpatialHashGridClient) => {
     this.removeClient(client);
     this.insert(client);
   };
 
-  removeClient = (client: Client) => {
+  removeClient = (client: SpatialHashGridClient) => {
     const [i1, i2] = client.indices;
 
     for (let x = i1[0], xn = i2[0]; x <= xn; ++x) {
