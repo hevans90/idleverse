@@ -23,7 +23,7 @@ export class ColyseusCelestial extends Schema {
     this.name = name;
     this.radius = radius;
     this.mass = mass;
-    this.gravityWellMaxRadius = this.mass * this.mass * 4 * radius;
+    this.gravityWellMaxRadius = this.mass * this.mass * 10 * radius;
   }
 
   @type('string') id: string;

@@ -16,7 +16,7 @@ export const drawBoundingBoxes = ({
   celestials.forEach((celestial) => {
     const graphic = new PIXI.Graphics();
     graphic.name = `${celestial.name}_graphic`;
-    graphic.alpha = 0.2;
+    graphic.alpha = 0.1;
 
     const { positionX, positionY, radius, gravityWellMaxRadius } = celestial;
 

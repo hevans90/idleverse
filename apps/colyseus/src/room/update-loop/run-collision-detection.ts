@@ -1,8 +1,6 @@
 import { Collision, ServerGameMessage } from '@idleverse/colyseus-shared';
 import { GameRoom } from '../room';
-
-const colyseusClientIdFromGridClientId = (colyseusId: string) =>
-  colyseusId.split('_')[1];
+import { colyseusClientIdFromGridClientId } from './utils';
 
 export const runCollisionDetection = (room: GameRoom) => {
   // for each celestial loaded, setup circular collision detection within our spatial hash grid

@@ -15,6 +15,7 @@ import { updateShipPositions } from './update-loop/update-ship-positions';
 
 import { SpatialHashGrid } from './collision-detection/fast';
 import { SpatialHashGridClient as GridClient } from './collision-detection/models';
+import { processGravity } from './update-loop/process-gravity';
 import { runCollisionDetection } from './update-loop/run-collision-detection';
 
 export class GameRoom extends Room<RoomState> {
@@ -39,6 +40,7 @@ export class GameRoom extends Room<RoomState> {
     // this is a good place to update the room state
     updateShipPositions(deltaTime, this);
     runCollisionDetection(this);
+    processGravity(this);
   }
 
   onJoin(client: Client, options: JoinOptions) {
