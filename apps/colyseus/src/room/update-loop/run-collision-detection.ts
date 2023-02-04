@@ -36,7 +36,10 @@ export const runCollisionDetection = (room: GameRoom) => {
           };
           colyseusClient.send(ServerGameMessage.Collision, collision);
         } else {
-          console.error('No colyseus client found for ID:', colyseusClientId);
+          console.error(
+            'Collision detection: No colyseus client found for ID:',
+            colyseusClientId
+          );
         }
       });
     }

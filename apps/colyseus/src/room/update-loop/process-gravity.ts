@@ -60,7 +60,10 @@ export const processGravity = (room: GameRoom) => {
             );
           }
         } else {
-          console.error('No colyseus client found for ID:', colyseusClientId);
+          console.error(
+            'Gravity: No colyseus client found for ID:',
+            colyseusClientId
+          );
         }
       });
     }
