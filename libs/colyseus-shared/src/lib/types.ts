@@ -29,6 +29,7 @@ export type ColyseusEntityBase = {
   name: string;
   position: { x: number; y: number };
   geometry: 'circle' | 'rectangle';
+  bounciness: number;
 };
 
 export type ColyseusRectangleEntity = ColyseusEntityBase & {
@@ -51,6 +52,7 @@ export const isCircleEntity = (
 ): entity is ColyseusCircleEntity => entity.geometry === 'circle';
 
 export type Collision = {
+  id: string;
   target: ColyseusEntity;
   client: ColyseusEntity;
 };

@@ -2,6 +2,7 @@ import { Client, Room } from 'colyseus';
 import { IncomingMessage } from 'http';
 
 import {
+  Collision,
   JoinOptions,
   RoomState,
   ServerStatusMessage,
@@ -14,13 +15,14 @@ import { onLeave } from './on-leave';
 import { updateShipPositions } from './update-loop/update-ship-positions';
 
 import { SpatialHashGrid } from './collision-detection/fast';
-import { SpatialHashGridClient as GridClient } from './collision-detection/models';
+import { SpatialHashGridClient } from './collision-detection/models';
 import { processGravity } from './update-loop/process-gravity';
 import { runCollisionDetection } from './update-loop/run-collision-detection';
 
 export class GameRoom extends Room<RoomState> {
   grid: SpatialHashGrid;
-  gridClients: { [key: string]: GridClient } = {};
+  gridClients: { [key: string]: SpatialHashGridClient } = {};
+  collisionsUnderResolution: { [key: string]: Collision } = {};
 
   async onAuth(
     client: Client,

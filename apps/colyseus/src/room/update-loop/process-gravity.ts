@@ -1,6 +1,6 @@
 import { ColyseusCelestial, ColyseusShip } from '@idleverse/colyseus-shared';
+import { colyseusClientIdFromGridClientId } from '../_utils';
 import { GameRoom } from '../room';
-import { colyseusClientIdFromGridClientId } from './utils';
 
 const calculateGravitationalForce = (
   target: ColyseusCelestial,
@@ -45,7 +45,7 @@ export const processGravity = (room: GameRoom) => {
 
         if (colyseusClient) {
           const ship = room.state.ships.find(
-            ({ colyseusUserId }) => colyseusUserId === colyseusClientId
+            ({ colyseusUserId }) => colyseusUserId === colyseusClient.id
           );
 
           if (ship) {
