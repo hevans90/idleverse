@@ -45,6 +45,10 @@ const cloneClass = <T,>(obj: T): T =>
 const AVATAR_RADIUS = 15;
 const AVATAR_LINE_LENGTH = 30;
 
+const shipNamer = (id: string) => `ship_${id}`;
+const shipAvatarNamer = (id: string) => `ship_avatar_${id}`;
+const shipBoundingBoxNamer = (id) => `ship_bounding-box_${id}`;
+
 export const ColyseusGame = () => {
   const app = useApp();
   const size = useResize();
@@ -78,10 +82,11 @@ export const ColyseusGame = () => {
   );
 
   const shipAvatarsRef = useRef<{ [key: string]: PIXI.Container }>({});
+  const shipBoundingBoxesRef = useRef<{ [key: string]: PIXI.Graphics }>({});
 
   const [following, setFollowing] = useState(false);
 
-  const selfShip = () => viewport.getChildByName(`ship_${self.id}`, true);
+  const selfShip = () => viewport.getChildByName(shipNamer(self.id), true);
 
   const trackerContainer = () =>
     viewport?.getChildByName(`${trackingTarget?.name}_tracker`);
@@ -122,20 +127,30 @@ export const ColyseusGame = () => {
   useControls(room);
 
   const addShipToContainer = (ship: Readonly<ColyseusShip>) => {
-    const { shipSprite, avatarConnectingLineSprite, avatarSprite } =
-      drawPlayerShip(
-        app.renderer as Renderer,
-        ship.userId,
-        hexStringToNumber(colors[colorsVar().secondary]['600']),
-        AVATAR_RADIUS,
-        AVATAR_LINE_LENGTH
-      );
+    const {
+      shipSprite,
+      avatarConnectingLineSprite,
+      avatarSprite,
+      boundingBoxGraphic,
+    } = drawPlayerShip({
+      renderer: app.renderer as Renderer,
+      shipDimensions: { width: ship.width, height: ship.height },
+      userId: ship.userId,
+      boundingBoxColor: hexStringToNumber(colors[colorsVar().secondary]['200']),
+      avatarBgColor: hexStringToNumber(colors[colorsVar().secondary]['600']),
+      avatarRadius: AVATAR_RADIUS,
+      avatarConnectingLineHeight: AVATAR_LINE_LENGTH,
+    });
+
+    const shipName = shipNamer(ship.userId);
+    const shipAvatarName = shipAvatarNamer(ship.userId);
+    const shipBoundingBoxName = shipBoundingBoxNamer(ship.userId);
 
     shipSprite.rotation = ship.rotation;
     shipSprite.position.x = ship.positionX;
     shipSprite.position.y = ship.positionY;
     shipSprite.anchor.set(0.5, 0.5);
-    shipSprite.name = `ship_${ship.userId}`;
+    shipSprite.name = shipName;
     shipSprite.zIndex = 2;
 
     const avatarContainer = new PIXI.Container();
@@ -143,16 +158,26 @@ export const ColyseusGame = () => {
     avatarContainer.position.x = ship.positionX - AVATAR_RADIUS;
     avatarContainer.position.y =
       ship.positionY - AVATAR_RADIUS * 2 - AVATAR_LINE_LENGTH / 2;
-    avatarContainer.name = `ship_avatar_${ship.userId}`;
+    avatarContainer.name = shipAvatarName;
     avatarContainer.zIndex = 1;
 
-    // add avatar to ref object
-    shipAvatarsRef.current[`ship_avatar_${ship.userId}`] = avatarContainer;
+    boundingBoxGraphic.name = shipBoundingBoxName;
+    boundingBoxGraphic.position.x = ship.positionX - ship.width / 2;
+    boundingBoxGraphic.position.y = ship.positionY - ship.height / 2;
+    boundingBoxGraphic.zIndex = 1;
+
+    // add avatar/bounding box to ref objects
+    shipAvatarsRef.current[shipAvatarName] = avatarContainer;
+    shipBoundingBoxesRef.current[shipBoundingBoxName] = boundingBoxGraphic;
 
     viewport.addChild(shipSprite);
 
     if (settings.avatars) {
       viewport.addChild(avatarContainer);
+    }
+
+    if (settings.boundingBoxes) {
+      viewport.addChild(boundingBoxGraphic);
     }
 
     followShip(viewport);
@@ -246,14 +271,21 @@ export const ColyseusGame = () => {
       }
 
       deletions?.forEach(({ userId }) => {
-        const shipToRemove = viewport.getChildByName(`ship_${userId}`, true);
+        const shipToRemove = viewport.getChildByName(shipNamer(userId), true);
 
         if (settings.avatars) {
           const avatarToRemove = viewport.getChildByName(
-            `ship_avatar_${userId}`,
+            shipAvatarNamer(userId),
             true
           );
           viewport.removeChild(avatarToRemove);
+        }
+        if (settings.boundingBoxes) {
+          const boundingBoxToRemove = viewport.getChildByName(
+            shipBoundingBoxNamer(userId),
+            true
+          );
+          viewport.removeChild(boundingBoxToRemove);
         }
 
         viewport.removeChild(shipToRemove);
@@ -261,40 +293,54 @@ export const ColyseusGame = () => {
 
       additions?.forEach((ship) => addShipToContainer(ship));
 
-      shipsWithUpdatedPositions?.forEach(({ userId, positionX, positionY }) => {
-        const shipToModify = viewport?.getChildByName(
-          `ship_${userId}`,
-          true
-        ) as PIXI.Sprite;
-        if (shipToModify) {
-          shipToModify.position.x = positionX;
-          shipToModify.position.y = positionY;
-
-          // check for an avatar container for the ship
-          const avatarContainerToModify = viewport?.getChildByName(
-            `ship_avatar_${userId}`,
+      shipsWithUpdatedPositions?.forEach(
+        ({ userId, positionX, positionY, width, height }) => {
+          const shipToModify = viewport?.getChildByName(
+            shipNamer(userId),
             true
-          ) as PIXI.Container;
+          ) as PIXI.Sprite;
+          if (shipToModify) {
+            shipToModify.position.x = positionX;
+            shipToModify.position.y = positionY;
 
-          if (avatarContainerToModify) {
-            // apply necessary positional updates to avatar
-            avatarContainerToModify.position.x = positionX - AVATAR_RADIUS;
-            avatarContainerToModify.position.y =
-              positionY - AVATAR_RADIUS * 2 - AVATAR_LINE_LENGTH / 2;
-          }
+            // check for an avatar container for the ship
+            const avatarContainerToModify = viewport?.getChildByName(
+              shipAvatarNamer(userId),
+              true
+            ) as PIXI.Container;
 
-          if (
-            trackingEnabled &&
-            trackingTarget &&
-            shipToModify.name === selfShip()?.name
-          ) {
-            trackTarget({ x: positionX, y: positionY });
+            if (avatarContainerToModify) {
+              // apply necessary positional updates to avatar
+              avatarContainerToModify.position.x = positionX - AVATAR_RADIUS;
+              avatarContainerToModify.position.y =
+                positionY - AVATAR_RADIUS * 2 - AVATAR_LINE_LENGTH / 2;
+            }
+
+            // check for a bounding box for the ship
+            const boundingBoxGraphicToModify = viewport?.getChildByName(
+              shipBoundingBoxNamer(userId),
+              true
+            ) as PIXI.Graphics;
+
+            if (boundingBoxGraphicToModify) {
+              // apply necessary positional updates to avatar
+              boundingBoxGraphicToModify.position.x = positionX - width / 2;
+              boundingBoxGraphicToModify.position.y = positionY - height / 2;
+            }
+
+            if (
+              trackingEnabled &&
+              trackingTarget &&
+              shipToModify.name === selfShip()?.name
+            ) {
+              trackTarget({ x: positionX, y: positionY });
+            }
           }
         }
-      });
+      );
       shipsWithUpdatedRotations?.forEach(({ userId, rotation }) => {
         const shipToModify = viewport?.getChildByName(
-          `ship_${userId}`,
+          shipNamer(userId),
           true
         ) as PIXI.Sprite;
         if (shipToModify) {
@@ -325,12 +371,34 @@ export const ColyseusGame = () => {
           boxColor: colors[colorsVar().secondary]['300'],
         });
         viewport.addChild(boundingBoxContainer);
+
+        // ship bounding boxes are stored in our ref
+        const shipBoundingBoxes = Object.values(shipBoundingBoxesRef.current);
+
+        shipBoundingBoxes.forEach((boxGraphic) => {
+          const alreadyAdded = viewport.getChildByName(boxGraphic.name);
+          if (!alreadyAdded) {
+            viewport.addChild(boxGraphic);
+          }
+        });
       } else {
         const boundingBoxObj = viewport.getChildByName('boundingBoxes');
         if (boundingBoxObj) {
           viewport.removeChild(boundingBoxObj);
           boundingBoxObj.destroy(true);
         }
+
+        // remove our ship bounding boxes one by one
+        Object.keys(shipBoundingBoxesRef.current).forEach(
+          (boundingBoxGraphicName) => {
+            const boundingBoxGraphic = viewport.getChildByName(
+              boundingBoxGraphicName
+            );
+            if (boundingBoxGraphic) {
+              viewport.removeChild(boundingBoxGraphic);
+            }
+          }
+        );
       }
     }
   }, [viewport, settings.boundingBoxes]);

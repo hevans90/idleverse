@@ -14,7 +14,8 @@ import {
   Tr,
   VStack,
 } from '@chakra-ui/react';
-import { ColyseusCelestial, RoomState } from '@idleverse/colyseus-shared';
+import { RoomState } from '@idleverse/colyseus-shared';
+import round from 'lodash/round';
 import { useUiBackground } from '../../../hooks/use-ui-background';
 
 export const ColyseusGameInfo = ({
@@ -173,7 +174,7 @@ export const ColyseusGameInfo = ({
                         </Td>
                         <Td borderColor={border}>{rotation}</Td>
                         <Td borderColor={border}>
-                          {velocityX}, {velocityY}
+                          {round(velocityX, 2)}, {round(velocityY, 2)}
                         </Td>
                       </Tr>
                     )
@@ -181,7 +182,7 @@ export const ColyseusGameInfo = ({
               </Tbody>
             </Table>
           </TableContainer>
-          <TableContainer borderColor={border} borderWidth="1px">
+          {/* <TableContainer borderColor={border} borderWidth="1px">
             <Table variant="simple" size="sm">
               <TableCaption>spawn locations</TableCaption>
               <Thead>
@@ -250,7 +251,7 @@ export const ColyseusGameInfo = ({
                   ))}
               </Tbody>
             </Table>
-          </TableContainer>
+          </TableContainer> */}
         </VStack>
       )}
     </>

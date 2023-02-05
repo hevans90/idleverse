@@ -36,7 +36,7 @@ const generateSpawnLocations = ({
 
 const generateCelestials = (): ColyseusCelestial[] => {
   const sun = new ColyseusCelestial({
-    id: 'sun_celestial',
+    id: 'test',
     name: 'sun',
     positionX: 500,
     positionY: 500,

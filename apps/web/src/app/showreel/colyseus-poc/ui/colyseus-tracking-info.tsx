@@ -1,13 +1,13 @@
 import { useReactiveVar } from '@apollo/client';
 import { VStack } from '@chakra-ui/layout';
 import { HStack, StackDivider, Switch, Text } from '@chakra-ui/react';
-import { useUiBackground } from '../../../hooks/use-ui-background';
 import { responsiveFontProps } from '../../../_responsive-utils/font-props';
 import {
   colyseusTrackingDistanceVar,
   colyseusTrackingEnabledVar,
   colyseusTrackingTargetVar,
 } from '../../../_state/colyseus';
+import { useUiBackground } from '../../../hooks/use-ui-background';
 
 export const ColyseusTrackingInfo = () => {
   const trackingEnabled = useReactiveVar(colyseusTrackingEnabledVar);
@@ -52,6 +52,7 @@ export const ColyseusTrackingInfo = () => {
       <HStack width="100%" justifyContent="end">
         <Text minWidth="175px">Tracking</Text>
         <Switch
+          size="lg"
           isChecked={trackingEnabled}
           onChange={() =>
             colyseusTrackingEnabledVar(!colyseusTrackingEnabledVar())

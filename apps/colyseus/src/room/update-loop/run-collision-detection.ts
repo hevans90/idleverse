@@ -12,7 +12,7 @@ import { resolveCollision } from './resolve-collisions';
 const throttledMessage = throttle(
   (client: Client, collision: Collision) =>
     client.send(ServerGameMessage.Collision, collision),
-  1000
+  2000
 );
 
 const CLIENT_BOUNCINESS = 0.8;
@@ -129,7 +129,7 @@ export const runCollisionDetection = (room: GameRoom) => {
         nearbyClients: nearbyGridClients,
         room,
         target: {
-          name: `celestial-${name}-${celestialId}`,
+          name: `celestial_${name}-${celestialId}`,
           position: { x, y },
           geometry: 'circle',
           radius,
