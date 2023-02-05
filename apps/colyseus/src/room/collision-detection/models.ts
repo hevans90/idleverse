@@ -1,17 +1,23 @@
 export type Position = { x: number; y: number };
 export type Bounds = { lower: Position; upper: Position };
-export type Dimensions = { width: number; height: number };
+export type Dimensions = {
+  width: number;
+  height: number;
+  /** for circle geometry only */
+  radius?: number;
+};
 
 export type LinkedListItem = {
   next: LinkedListItem;
   prev: LinkedListItem;
-  client: Client;
+  client: SpatialHashGridClient;
 };
 
-export type Client = {
+export type SpatialHashGridClient = {
   name: string;
   position: Position;
   dimensions: Dimensions;
+  geometry: 'circle' | 'rectangle';
   indices?: number[][];
   queryId?: number;
   cells?: {

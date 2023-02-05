@@ -1,10 +1,10 @@
 import {
   ColyseusSpawnLocation,
-  ServerMessage,
+  ServerStatusMessage,
 } from '@idleverse/colyseus-shared';
 import { Client, ServerError } from 'colyseus';
-import { GameRoom } from './room';
 import { findByColyseusClient, logger } from './_utils';
+import { GameRoom } from './room';
 
 export const onLeave = (client: Client, consented: boolean, room: GameRoom) => {
   const user = room.state.connectedUsers.find(findByColyseusClient({ client }));
@@ -14,10 +14,12 @@ export const onLeave = (client: Client, consented: boolean, room: GameRoom) => {
     findByColyseusClient({ client })
   );
 
-  client.send(ServerMessage.ClientDisconnected, 'You were disconnected.');
+  client.send(ServerStatusMessage.ClientDisconnected, 'You were disconnected.');
 
   room.broadcast(
-    consented ? ServerMessage.PlayerLeft : ServerMessage.PlayerDisconnected,
+    consented
+      ? ServerStatusMessage.PlayerLeft
+      : ServerStatusMessage.PlayerDisconnected,
     `${user.displayName} ${consented ? 'left' : 'disconnected'}`
   );
 
@@ -43,7 +45,7 @@ export const onLeave = (client: Client, consented: boolean, room: GameRoom) => {
   );
 
   // update collision detection
-  const gridClient = room.gridClients[`user_${user.colyseusUserId}`];
+  const gridClient = room.gridClients[user.colyseusUserId];
 
   if (!gridClient) {
     throw new ServerError(
@@ -53,5 +55,5 @@ export const onLeave = (client: Client, consented: boolean, room: GameRoom) => {
   }
 
   room.grid.removeClient(gridClient);
-  delete room.gridClients[`user_${user.colyseusUserId}`];
+  delete room.gridClients[user.colyseusUserId];
 };

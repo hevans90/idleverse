@@ -1,5 +1,5 @@
 import { math } from './math';
-import { Bounds, Client, Dimensions, Position } from './models';
+import { Bounds, Dimensions, Position, SpatialHashGridClient } from './models';
 
 import { SpatialHashGrid as FastGrid } from './fast';
 import { SpatialHashGrid as SlowGrid } from './slow';
@@ -45,17 +45,22 @@ for (let i = 0; i < _NUM_CLIENTS; ++i) {
 
 class GridTester {
   grid: FastGrid | SlowGrid;
-  clients: Client[];
+  clients: SpatialHashGridClient[];
 
   constructor(gridClass: typeof FastGrid | typeof SlowGrid) {
     this.grid = new gridClass(_CLIENT_BOUNDS, _CLIENT_DIMENSIONS);
 
     this.clients = [];
     for (let i = 0; i < _NUM_CLIENTS; ++i) {
-      const client = this.grid.newClient(`client_${i}`, _CLIENT_POSITIONS[i], {
-        width: 15,
-        height: 15,
-      });
+      const client = this.grid.newClient(
+        `client_${i}`,
+        _CLIENT_POSITIONS[i],
+        {
+          width: 15,
+          height: 15,
+        },
+        'rectangle'
+      );
       this.clients.push(client);
     }
   }

@@ -30,7 +30,7 @@ export const onCreate = (options: any, room: GameRoom) => {
   });
 
   room.grid = new SpatialHashGrid(bounds, {
-    height: dimensions.height / 10,
-    width: dimensions.width / 10,
+    height: dimensions.height,
+    width: dimensions.width,
   });
 };

@@ -5,14 +5,11 @@ import {
   ColyseusSpawnLocation,
   ColyseusUser,
   JoinOptions,
-  ServerMessage,
+  ServerStatusMessage,
 } from '@idleverse/colyseus-shared';
 import { Client, ServerError } from 'colyseus';
-import { Dimensions } from './collision-detection/models';
-import { GameRoom } from './room';
 import { logger } from './_utils';
-
-const shipDimensions: Dimensions = { width: 25, height: 25 };
+import { GameRoom } from './room';
 
 export const onJoin = (
   client: Client,
@@ -27,7 +24,10 @@ export const onJoin = (
       'You are already connected on another device/browser tab!'
     );
   }
-  room.broadcast(ServerMessage.PlayerJoined, `${options.displayName} joined!`);
+  room.broadcast(
+    ServerStatusMessage.PlayerJoined,
+    `${options.displayName} joined!`
+  );
 
   room.state.connectedUsers.push(
     new ColyseusUser({ ...options, colyseusUserId: client.id, connected: true })
@@ -57,27 +57,30 @@ export const onJoin = (
   claimedSpawn.colyseusUserId = client.id;
 
   // create the player's ship at the newly-claimed spawn location
-  room.state.ships.push(
-    new ColyseusShip({
-      ...basicShip,
-      userId: options.userId,
-      colyseusUserId: client.id,
-      positionX: claimedSpawn.x,
-      positionY: claimedSpawn.y,
-    })
-  );
+
+  const newShip = new ColyseusShip({
+    ...basicShip,
+    name: `${options.displayName}'s ship`,
+    userId: options.userId,
+    colyseusUserId: client.id,
+    positionX: claimedSpawn.x,
+    positionY: claimedSpawn.y,
+  });
+
+  room.state.ships.push(newShip);
 
   // collision detection
   const gridClient = room.grid.newClient(
-    `user_${client.id}`,
+    client.id,
     {
       x: claimedSpawn.x,
       y: claimedSpawn.y,
     },
-    shipDimensions
+    { width: newShip.width, height: newShip.height },
+    'rectangle'
   );
 
-  room.gridClients[`user_${client.id}`] = gridClient;
+  room.gridClients[client.id] = gridClient;
 
   logger.success(`${options.displayName} (${client.sessionId}) joined!`);
 };

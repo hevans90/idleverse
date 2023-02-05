@@ -1,5 +1,9 @@
 import { makeVar } from '@apollo/client';
-import { ColyseusShip, RoomState } from '@idleverse/colyseus-shared';
+import {
+  ColyseusCelestial,
+  ColyseusShip,
+  RoomState,
+} from '@idleverse/colyseus-shared';
 import { Room } from 'colyseus.js';
 import { AssetCollection } from './models';
 import { makeVarPersisted } from './utils';
@@ -26,8 +30,6 @@ export const colyseusTrackingEnabledVar = makeVarPersisted<boolean>(
   'colyseusTrackingTarget'
 );
 
-export const colyseusGridVar = makeVarPersisted<boolean>(false, 'colyseusGrid');
-
 export const colyseusRoomVar = makeVar<Room<RoomState>>(undefined);
 export const colyseusRoomDimensionsVar = makeVar<{
   width: number;
@@ -37,3 +39,14 @@ export const colyseusRoomDimensionsVar = makeVar<{
 }>(undefined);
 
 export const colyseusShipsVar = makeVar<ColyseusShip[]>([]);
+export const colyseusCelestialsVar = makeVar<ColyseusCelestial[]>([]);
+
+export const colyseusGameSettingsVar = makeVarPersisted<{
+  panelOpen: boolean;
+  grid: boolean;
+  boundingBoxes: boolean;
+  avatars: boolean;
+}>(
+  { panelOpen: false, grid: false, boundingBoxes: false, avatars: true },
+  'colyseusGameSettings'
+);

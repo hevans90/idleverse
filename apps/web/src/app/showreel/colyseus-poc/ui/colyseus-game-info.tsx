@@ -1,9 +1,7 @@
-import { useReactiveVar } from '@apollo/client';
 import {
   Avatar,
   Box,
   Button,
-  Checkbox,
   HStack,
   Table,
   TableCaption,
@@ -17,9 +15,8 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { RoomState } from '@idleverse/colyseus-shared';
+import round from 'lodash/round';
 import { useUiBackground } from '../../../hooks/use-ui-background';
-
-import { colyseusGridVar } from '../../../_state/colyseus';
 
 export const ColyseusGameInfo = ({
   joined,
@@ -36,6 +33,7 @@ export const ColyseusGameInfo = ({
   leaveCallback: () => void;
   roomState: Pick<
     RoomState,
+    | 'celestials'
     | 'connectedUsers'
     | 'impulses'
     | 'ships'
@@ -47,8 +45,6 @@ export const ColyseusGameInfo = ({
   >;
 }) => {
   const { bg, border, bgDark } = useUiBackground();
-
-  const gridChecked = useReactiveVar(colyseusGridVar);
 
   return (
     <>
@@ -178,7 +174,7 @@ export const ColyseusGameInfo = ({
                         </Td>
                         <Td borderColor={border}>{rotation}</Td>
                         <Td borderColor={border}>
-                          {velocityX}, {velocityY}
+                          {round(velocityX, 2)}, {round(velocityY, 2)}
                         </Td>
                       </Tr>
                     )
@@ -186,7 +182,7 @@ export const ColyseusGameInfo = ({
               </Tbody>
             </Table>
           </TableContainer>
-          <TableContainer borderColor={border} borderWidth="1px">
+          {/* <TableContainer borderColor={border} borderWidth="1px">
             <Table variant="simple" size="sm">
               <TableCaption>spawn locations</TableCaption>
               <Thead>
@@ -225,17 +221,37 @@ export const ColyseusGameInfo = ({
               </Tbody>
             </Table>
           </TableContainer>
-
-          <HStack width="100%">
-            <HStack width="100%">
-              <Text minWidth="175px">Grid</Text>
-              <Checkbox
-                size="lg"
-                isChecked={gridChecked}
-                onChange={() => colyseusGridVar(!colyseusGridVar())}
-              ></Checkbox>
-            </HStack>
-          </HStack>
+          <TableContainer borderColor={border} borderWidth="1px">
+            <Table variant="simple" size="sm">
+              <TableCaption>celestials</TableCaption>
+              <Thead>
+                <Tr bg={bgDark}>
+                  <Th>Name</Th>
+                  <Th>Radius</Th>
+                  <Th>&#123; x, y &#125;</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {roomState?.celestials
+                  .sort((a: ColyseusCelestial, b: ColyseusCelestial) =>
+                    a.id > b.id ? 1 : b.id > a.id ? -1 : 0
+                  )
+                  .map(({ positionX, positionY, radius, name }, i) => (
+                    <Tr key={i}>
+                      <Td borderColor={border}>
+                        <HStack>
+                          <Text>{name}</Text>
+                        </HStack>
+                      </Td>
+                      <Td borderColor={border}>{radius}</Td>
+                      <Td borderColor={border}>
+                        &#123; {positionX}, {positionY} &#125;
+                      </Td>
+                    </Tr>
+                  ))}
+              </Tbody>
+            </Table>
+          </TableContainer> */}
         </VStack>
       )}
     </>

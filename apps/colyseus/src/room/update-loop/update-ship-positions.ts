@@ -1,17 +1,6 @@
 import { ServerError } from 'colyseus';
+import { findByClientId, round } from '../_utils';
 import { GameRoom } from '../room';
-import { findByClientId } from '../_utils';
-
-/**
- * Round half away from zero ('commercial' rounding)
- * Uses correction to offset floating-point inaccuracies.
- * Works symmetrically for positive and negative numbers.
- */
-function round(num: number, decimalPlaces = 0) {
-  const p = Math.pow(10, decimalPlaces);
-  const n = num * p * (1 + Number.EPSILON);
-  return Math.round(n) / p;
-}
 
 export const updateShipPositions = (deltaTime: number, room: GameRoom) => {
   room.state.connectedUsers.forEach((user) => {
@@ -49,7 +38,7 @@ export const updateShipPositions = (deltaTime: number, room: GameRoom) => {
     ship.positionY = newY;
 
     // update collision detection
-    const gridClient = room.gridClients[`user_${user.colyseusUserId}`];
+    const gridClient = room.gridClients[user.colyseusUserId];
 
     if (!gridClient) {
       throw new ServerError(

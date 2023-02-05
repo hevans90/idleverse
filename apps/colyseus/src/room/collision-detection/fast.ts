@@ -1,9 +1,19 @@
+import { ColyseusEntityBase } from '@idleverse/colyseus-shared';
 import { math } from './math';
-import { Bounds, Client, Dimensions, LinkedListItem, Position } from './models';
+
+import {
+  Bounds,
+  Dimensions,
+  LinkedListItem,
+  Position,
+  SpatialHashGridClient,
+} from './models';
 
 export class SpatialHashGrid {
   queryIds: number;
   bounds: Bounds;
+
+  // height and width of each cell in the grid
   dimensions: Dimensions;
   cells: LinkedListItem[][];
 
@@ -16,10 +26,16 @@ export class SpatialHashGrid {
     this.queryIds = 0;
   }
 
-  newClient = (name: string, position: Position, dimensions: Dimensions) => {
-    const client: Client = {
+  newClient = (
+    name: string,
+    position: Position,
+    dimensions: Dimensions,
+    geometry: ColyseusEntityBase['geometry']
+  ) => {
+    const client: SpatialHashGridClient = {
       name,
       position,
+      geometry,
       dimensions,
       cells: {
         min: null,
@@ -33,7 +49,7 @@ export class SpatialHashGrid {
     return client;
   };
 
-  private insert = (client: Client) => {
+  private insert = (client: SpatialHashGridClient) => {
     const { x, y } = client.position;
     const { width, height } = client.dimensions;
 
@@ -88,11 +104,11 @@ export class SpatialHashGrid {
     const { x, y } = position;
     const { width, height } = dimensions;
 
+    const clients: SpatialHashGridClient[] = [];
+    const localQueryId = this.queryIds++;
+
     const i1 = this.getCellIndex({ x: x - width / 2, y: y - height / 2 });
     const i2 = this.getCellIndex({ x: x + width / 2, y: y + height / 2 });
-
-    const clients: Client[] = [];
-    const localQueryId = this.queryIds++;
 
     for (let x = i1[0], xn = i2[0]; x <= xn; ++x) {
       for (let y = i1[1], yn = i2[1]; y <= yn; ++y) {
@@ -108,10 +124,51 @@ export class SpatialHashGrid {
         }
       }
     }
+
     return clients;
   };
 
-  updateClient = (client: Client) => {
+  findNearbyCircle = (position: Position, radius: number) => {
+    const insideCircle = (tile: Position) => {
+      const dx = position.x - tile.x;
+      const dy = position.y - tile.y;
+
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      return distance <= radius;
+    };
+
+    const { x, y } = position;
+
+    const clients: SpatialHashGridClient[] = [];
+    const localQueryId = this.queryIds++;
+
+    // bounding box for our circle
+    const i1 = this.getCellIndex({ x: x - radius, y: y - radius });
+    const i2 = this.getCellIndex({ x: x + radius, y: y + radius });
+
+    for (let x = i1[0], xn = i2[0]; x <= xn; ++x) {
+      for (let y = i1[1], yn = i2[1]; y <= yn; ++y) {
+        let head = this.cells[x][y];
+
+        while (head) {
+          const v = head.client;
+          head = head.next;
+
+          if (
+            insideCircle({ x: v.position.x, y: v.position.y }) &&
+            v.queryId !== localQueryId
+          ) {
+            v.queryId = localQueryId;
+            clients.push(v);
+          }
+        }
+      }
+    }
+
+    return clients;
+  };
+
+  updateClient = (client: SpatialHashGridClient) => {
     // first check if a client warrants a removal/insert
 
     const { x, y } = client.position;
@@ -134,7 +191,7 @@ export class SpatialHashGrid {
     this.insert(client);
   };
 
-  removeClient = (client: Client) => {
+  removeClient = (client: SpatialHashGridClient) => {
     const i1 = client.cells.min;
     const i2 = client.cells.max;
 

@@ -4,13 +4,23 @@ import { userAvatarResourcesVar } from '../../../_state/pixi-resources';
 import * as PIXI from 'pixi.js';
 import { spaceshipSpriteConfig } from '../utils/sprite-configs';
 
-export const drawPlayerShip = (
-  renderer: PIXI.Renderer,
-  userId: string,
-  avatarBgColor: number,
-  avatarRadius = 24,
-  avatarConnectingLineHeight = 28
-) => {
+export const drawPlayerShip = ({
+  renderer,
+  shipDimensions,
+  userId,
+  boundingBoxColor,
+  avatarBgColor,
+  avatarRadius,
+  avatarConnectingLineHeight,
+}: {
+  renderer: PIXI.Renderer;
+  shipDimensions: { width: number; height: number };
+  userId: string;
+  boundingBoxColor: number;
+  avatarBgColor: number;
+  avatarRadius: number;
+  avatarConnectingLineHeight: number;
+}) => {
   const shipTexture = colyseusAssetsVar()[spaceshipSpriteConfig.name]?.texture;
   const shipSprite = new PIXI.Sprite(shipTexture);
   shipSprite.name = spaceshipSpriteConfig.name;
@@ -38,10 +48,27 @@ export const drawPlayerShip = (
         .drawCircle(0, 0, avatarRadius)
         .endFill();
 
-  avatarGraphic.y = -(avatarConnectingLineHeight + avatarRadius);
-  avatarGraphic.name = 'avatar';
+  const avatarConnectingLine = avatarGraphic
+    .lineStyle({ width: 1, color: avatarBgColor })
+    .moveTo(0, 0)
+    .lineTo(0, avatarConnectingLineHeight);
 
   const avatarSprite = new PIXI.Sprite(renderer.generateTexture(avatarGraphic));
+  const avatarConnectingLineSprite = new PIXI.Sprite(
+    renderer.generateTexture(avatarConnectingLine)
+  );
 
-  return { shipSprite, avatarGraphic, avatarSprite };
+  const boundingBoxGraphic = new PIXI.Graphics()
+    .lineStyle({
+      width: 1,
+      color: boundingBoxColor,
+    })
+    .drawRect(0, 0, shipDimensions.width, shipDimensions.height);
+
+  return {
+    shipSprite,
+    avatarConnectingLineSprite,
+    avatarSprite,
+    boundingBoxGraphic,
+  };
 };
