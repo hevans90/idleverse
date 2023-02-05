@@ -26,6 +26,7 @@ import { PixiWrapper } from '../../canvases/_utils/pixi-wrapper';
 import { Loading } from '../../components/loading';
 import { ColyseusGame } from './colyseus-game';
 import { ColyseusGameInfo } from './ui/colyseus-game-info';
+import { ColyseusGameSettingsDrawer } from './ui/colyseus-game-settings-drawer';
 import { ColyseusNotifications } from './ui/colyseus-notifications';
 import { ColyseusTrackingInfo } from './ui/colyseus-tracking-info';
 import { ColyseusSocial } from './ui/social';
@@ -227,6 +228,7 @@ export const ColyseusContainer = () => {
               />
               <ColyseusNotifications room={roomRef.current} />
               <ColyseusTrackingInfo />
+              <ColyseusGameSettingsDrawer />
             </>
           )}
         </>

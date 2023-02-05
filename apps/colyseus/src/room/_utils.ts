@@ -1,6 +1,17 @@
 import chalk from 'chalk';
 import { Client } from 'colyseus';
 
+/**
+ * Round half away from zero ('commercial' rounding)
+ * Uses correction to offset floating-point inaccuracies.
+ * Works symmetrically for positive and negative numbers.
+ */
+export const round = (num: number, decimalPlaces = 0) => {
+  const p = Math.pow(10, decimalPlaces);
+  const n = num * p * (1 + Number.EPSILON);
+  return Math.round(n) / p;
+};
+
 export const findByColyseusClient =
   ({ client }: { client: Client }) =>
   (obj: { colyseusUserId?: string }) =>

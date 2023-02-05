@@ -1,9 +1,7 @@
-import { useReactiveVar } from '@apollo/client';
 import {
   Avatar,
   Box,
   Button,
-  Checkbox,
   HStack,
   Table,
   TableCaption,
@@ -18,11 +16,6 @@ import {
 } from '@chakra-ui/react';
 import { ColyseusCelestial, RoomState } from '@idleverse/colyseus-shared';
 import { useUiBackground } from '../../../hooks/use-ui-background';
-
-import {
-  colyseusBoundingBoxesVar,
-  colyseusGridVar,
-} from '../../../_state/colyseus';
 
 export const ColyseusGameInfo = ({
   joined,
@@ -51,9 +44,6 @@ export const ColyseusGameInfo = ({
   >;
 }) => {
   const { bg, border, bgDark } = useUiBackground();
-
-  const gridChecked = useReactiveVar(colyseusGridVar);
-  const boundingBoxesChecked = useReactiveVar(colyseusBoundingBoxesVar);
 
   return (
     <>
@@ -261,27 +251,6 @@ export const ColyseusGameInfo = ({
               </Tbody>
             </Table>
           </TableContainer>
-
-          <HStack width="100%">
-            <HStack width="100%">
-              <Text minWidth="175px">Grid</Text>
-              <Checkbox
-                size="lg"
-                isChecked={gridChecked}
-                onChange={() => colyseusGridVar(!colyseusGridVar())}
-              ></Checkbox>
-            </HStack>
-            <HStack width="100%">
-              <Text minWidth="175px">Bounding Boxes</Text>
-              <Checkbox
-                size="lg"
-                isChecked={boundingBoxesChecked}
-                onChange={() =>
-                  colyseusBoundingBoxesVar(!colyseusBoundingBoxesVar())
-                }
-              ></Checkbox>
-            </HStack>
-          </HStack>
         </VStack>
       )}
     </>

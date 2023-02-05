@@ -38,10 +38,15 @@ export const drawPlayerShip = (
         .drawCircle(0, 0, avatarRadius)
         .endFill();
 
-  avatarGraphic.y = -(avatarConnectingLineHeight + avatarRadius);
-  avatarGraphic.name = 'avatar';
+  const avatarConnectingLine = avatarGraphic
+    .lineStyle({ width: 1, color: avatarBgColor })
+    .moveTo(0, 0)
+    .lineTo(0, avatarConnectingLineHeight);
 
   const avatarSprite = new PIXI.Sprite(renderer.generateTexture(avatarGraphic));
+  const avatarConnectingLineSprite = new PIXI.Sprite(
+    renderer.generateTexture(avatarConnectingLine)
+  );
 
-  return { shipSprite, avatarGraphic, avatarSprite };
+  return { shipSprite, avatarConnectingLineSprite, avatarSprite };
 };

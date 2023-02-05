@@ -30,12 +30,6 @@ export const colyseusTrackingEnabledVar = makeVarPersisted<boolean>(
   'colyseusTrackingTarget'
 );
 
-export const colyseusGridVar = makeVarPersisted<boolean>(false, 'colyseusGrid');
-export const colyseusBoundingBoxesVar = makeVarPersisted<boolean>(
-  false,
-  'colyseusBoundingBoxes'
-);
-
 export const colyseusRoomVar = makeVar<Room<RoomState>>(undefined);
 export const colyseusRoomDimensionsVar = makeVar<{
   width: number;
@@ -45,5 +39,14 @@ export const colyseusRoomDimensionsVar = makeVar<{
 }>(undefined);
 
 export const colyseusShipsVar = makeVar<ColyseusShip[]>([]);
-
 export const colyseusCelestialsVar = makeVar<ColyseusCelestial[]>([]);
+
+export const colyseusGameSettingsVar = makeVarPersisted<{
+  panelOpen: boolean;
+  grid: boolean;
+  boundingBoxes: boolean;
+  avatars: boolean;
+}>(
+  { panelOpen: false, grid: false, boundingBoxes: false, avatars: true },
+  'colyseusGameSettings'
+);

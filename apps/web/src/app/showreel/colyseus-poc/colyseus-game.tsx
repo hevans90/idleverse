@@ -19,9 +19,8 @@ import { Viewport } from 'pixi-viewport';
 import * as PIXI from 'pixi.js';
 import { colorsVar } from '../../_state/colors';
 import {
-  colyseusBoundingBoxesVar,
   colyseusCelestialsVar,
-  colyseusGridVar,
+  colyseusGameSettingsVar,
   colyseusRoomDimensionsVar,
   colyseusRoomVar,
   colyseusShipsVar,
@@ -42,6 +41,9 @@ import { diffByUserId } from './utils/diff-by-user-id';
 // necessary because Colyseus serialises their state in to classes (wtf, wHY?!)
 const cloneClass = <T,>(obj: T): T =>
   Object.assign(Object.create(Object.getPrototypeOf(obj)), obj);
+
+const AVATAR_RADIUS = 15;
+const AVATAR_LINE_LENGTH = 30;
 
 export const ColyseusGame = () => {
   const app = useApp();
@@ -66,14 +68,16 @@ export const ColyseusGame = () => {
   const room = useReactiveVar(colyseusRoomVar);
   const ships = useReactiveVar(colyseusShipsVar);
   const celestials = useReactiveVar(colyseusCelestialsVar);
-  const grid = useReactiveVar(colyseusGridVar);
-  const boundingBoxes = useReactiveVar(colyseusBoundingBoxesVar);
+
+  const settings = useReactiveVar(colyseusGameSettingsVar);
 
   const starfield = useStarField({ dimensions });
 
   const shipsRef = useRef<ColyseusShip[]>(
     ships.map((ship) => cloneClass(ship))
   );
+
+  const shipAvatarsRef = useRef<{ [key: string]: PIXI.Container }>({});
 
   const [following, setFollowing] = useState(false);
 
@@ -105,7 +109,7 @@ export const ColyseusGame = () => {
       { x: trackingTarget?.x, y: trackingTarget?.y },
       { x, y },
       `${trackingTarget?.name}_tracker`,
-      hexStringToNumber(colors[colorsVar().secondary]['700']),
+      hexStringToNumber(colors[colorsVar().secondary]['300']),
       false
     );
 
@@ -118,21 +122,45 @@ export const ColyseusGame = () => {
   useControls(room);
 
   const addShipToContainer = (ship: Readonly<ColyseusShip>) => {
-    const { shipSprite, avatarGraphic, avatarSprite } = drawPlayerShip(
-      app.renderer as Renderer,
-      ship.userId,
-      hexStringToNumber(colors[colorsVar().secondary]['300'])
-    );
+    const { shipSprite, avatarConnectingLineSprite, avatarSprite } =
+      drawPlayerShip(
+        app.renderer as Renderer,
+        ship.userId,
+        hexStringToNumber(colors[colorsVar().secondary]['600']),
+        AVATAR_RADIUS,
+        AVATAR_LINE_LENGTH
+      );
 
     shipSprite.rotation = ship.rotation;
-
     shipSprite.position.x = ship.positionX;
     shipSprite.position.y = ship.positionY;
     shipSprite.anchor.set(0.5, 0.5);
     shipSprite.name = `ship_${ship.userId}`;
+    shipSprite.zIndex = 2;
+
+    const avatarContainer = new PIXI.Container();
+    avatarContainer.addChild(avatarSprite, avatarConnectingLineSprite);
+    avatarContainer.position.x = ship.positionX - AVATAR_RADIUS;
+    avatarContainer.position.y =
+      ship.positionY - AVATAR_RADIUS * 2 - AVATAR_LINE_LENGTH / 2;
+    avatarContainer.name = `ship_avatar_${ship.userId}`;
+    avatarContainer.zIndex = 1;
+
+    // add avatar to ref object
+    shipAvatarsRef.current[`ship_avatar_${ship.userId}`] = avatarContainer;
+
     viewport.addChild(shipSprite);
+
+    if (settings.avatars) {
+      viewport.addChild(avatarContainer);
+    }
+
     followShip(viewport);
-    viewport.setZoom(2);
+
+    // only zoom for current user's ship
+    if (ship.userId === self.id) {
+      viewport.setZoom(2);
+    }
   };
 
   useEffect(() => {
@@ -181,7 +209,7 @@ export const ColyseusGame = () => {
 
   useEffect(() => {
     if (viewport) {
-      if (grid) {
+      if (settings.grid) {
         const grid = drawGrid({
           width: dimensions.width,
           height: dimensions.height,
@@ -198,7 +226,7 @@ export const ColyseusGame = () => {
         }
       }
     }
-  }, [grid, viewport]);
+  }, [settings.grid, viewport]);
 
   useEffect(() => {
     if (viewport) {
@@ -219,6 +247,15 @@ export const ColyseusGame = () => {
 
       deletions?.forEach(({ userId }) => {
         const shipToRemove = viewport.getChildByName(`ship_${userId}`, true);
+
+        if (settings.avatars) {
+          const avatarToRemove = viewport.getChildByName(
+            `ship_avatar_${userId}`,
+            true
+          );
+          viewport.removeChild(avatarToRemove);
+        }
+
         viewport.removeChild(shipToRemove);
       });
 
@@ -232,6 +269,19 @@ export const ColyseusGame = () => {
         if (shipToModify) {
           shipToModify.position.x = positionX;
           shipToModify.position.y = positionY;
+
+          // check for an avatar container for the ship
+          const avatarContainerToModify = viewport?.getChildByName(
+            `ship_avatar_${userId}`,
+            true
+          ) as PIXI.Container;
+
+          if (avatarContainerToModify) {
+            // apply necessary positional updates to avatar
+            avatarContainerToModify.position.x = positionX - AVATAR_RADIUS;
+            avatarContainerToModify.position.y =
+              positionY - AVATAR_RADIUS * 2 - AVATAR_LINE_LENGTH / 2;
+          }
 
           if (
             trackingEnabled &&
@@ -269,7 +319,7 @@ export const ColyseusGame = () => {
 
   useEffect(() => {
     if (viewport) {
-      if (boundingBoxes) {
+      if (settings.boundingBoxes) {
         const boundingBoxContainer = drawBoundingBoxes({
           celestials,
           boxColor: colors[colorsVar().secondary]['300'],
@@ -283,7 +333,30 @@ export const ColyseusGame = () => {
         }
       }
     }
-  }, [viewport, boundingBoxes]);
+  }, [viewport, settings.boundingBoxes]);
+
+  useEffect(() => {
+    if (viewport) {
+      if (settings.avatars) {
+        const avatars = Object.values(shipAvatarsRef.current);
+        if (avatars.length) {
+          avatars.forEach((avatar) => {
+            const alreadyAdded = viewport.getChildByName(avatar.name);
+            if (!alreadyAdded) {
+              viewport.addChild(avatar);
+            }
+          });
+        }
+      } else {
+        Object.keys(shipAvatarsRef.current).forEach((avatarContainerName) => {
+          const avatarContainer = viewport.getChildByName(avatarContainerName);
+          if (avatarContainer) {
+            viewport.removeChild(avatarContainer);
+          }
+        });
+      }
+    }
+  }, [viewport, settings.avatars]);
 
   return <></>;
 };
