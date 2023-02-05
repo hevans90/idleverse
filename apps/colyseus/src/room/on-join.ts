@@ -9,10 +9,7 @@ import {
 } from '@idleverse/colyseus-shared';
 import { Client, ServerError } from 'colyseus';
 import { logger } from './_utils';
-import { Dimensions } from './collision-detection/models';
 import { GameRoom } from './room';
-
-const shipDimensions: Dimensions = { width: 25, height: 25 };
 
 export const onJoin = (
   client: Client,
@@ -60,15 +57,17 @@ export const onJoin = (
   claimedSpawn.colyseusUserId = client.id;
 
   // create the player's ship at the newly-claimed spawn location
-  room.state.ships.push(
-    new ColyseusShip({
-      ...basicShip,
-      userId: options.userId,
-      colyseusUserId: client.id,
-      positionX: claimedSpawn.x,
-      positionY: claimedSpawn.y,
-    })
-  );
+
+  const newShip = new ColyseusShip({
+    ...basicShip,
+    name: `${options.displayName}'s ship`,
+    userId: options.userId,
+    colyseusUserId: client.id,
+    positionX: claimedSpawn.x,
+    positionY: claimedSpawn.y,
+  });
+
+  room.state.ships.push(newShip);
 
   // collision detection
   const gridClient = room.grid.newClient(
@@ -77,7 +76,8 @@ export const onJoin = (
       x: claimedSpawn.x,
       y: claimedSpawn.y,
     },
-    shipDimensions
+    { width: newShip.width, height: newShip.height },
+    'rectangle'
   );
 
   room.gridClients[`user_${client.id}`] = gridClient;

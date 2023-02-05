@@ -1,34 +1,20 @@
 import {
   Collision,
+  ColyseusShip,
   isCircleEntity,
   isRectangleEntity,
 } from '@idleverse/colyseus-shared';
 import { GameRoom } from '../room';
-import { resolveShipToShipCollision } from './resolve-ship-ship-collision';
 
-const STICKY_THRESHOLD = 0.0004;
+const STICKY_THRESHOLD = 0.00004;
 
-export const resolveCollision = (collision: Collision, room: GameRoom) => {
+export const resolveShipToShipCollision = (
+  collision: Collision,
+  room: GameRoom,
+  clientShip: ColyseusShip,
+  targetShip: ColyseusShip
+) => {
   const { client, target } = collision;
-
-  const clientShip = room.state.ships.find(
-    ({ colyseusUserId }) => colyseusUserId === client.id
-  );
-
-  const targetShip = room.state.ships.find(
-    ({ colyseusUserId }) => colyseusUserId === target.id
-  );
-
-  if (!clientShip) {
-    console.error(
-      'Collision resolution: No ship found for colyseus client ID:',
-      client.id
-    );
-  }
-
-  if (clientShip && targetShip) {
-    return resolveShipToShipCollision(collision, room, clientShip, targetShip);
-  }
 
   // Find the mid points of the entity and player
   const clientMidX = client.position.x;
@@ -93,11 +79,21 @@ export const resolveCollision = (collision: Collision, room: GameRoom) => {
       clientShip.positionX = targetRight + clientWidth;
       client.position.x = targetRight + clientWidth;
 
+      if (targetShip) {
+        targetShip.positionX = targetRight - clientWidth;
+        target.position.x = targetRight - clientWidth;
+      }
+
       // If the player is approaching from negative X
     } else {
       // Set the player x to the left side
       clientShip.positionX = targetLeft - clientWidth;
       client.position.x = targetLeft - clientWidth;
+
+      if (targetShip) {
+        targetShip.positionX = targetLeft + clientWidth;
+        target.position.x = targetLeft + clientWidth;
+      }
     }
 
     // If the player is approaching from positive Y
@@ -106,29 +102,20 @@ export const resolveCollision = (collision: Collision, room: GameRoom) => {
       clientShip.positionY = targetBottom + clientHeight;
       client.position.y = targetBottom + clientHeight;
 
+      if (targetShip) {
+        targetShip.positionY = targetBottom - clientWidth;
+        target.position.x = targetBottom - clientWidth;
+      }
+
       // If the player is approaching from negative Y
     } else {
       // Set the player y to the top
       clientShip.positionY = targetTop - clientHeight;
       client.position.y = targetTop - clientHeight;
-    }
 
-    // Randomly select a x/y direction to reflect velocity on
-    if (Math.random() < 0.5) {
-      // Reflect the velocity at a reduced rate
-
-      clientShip.velocityX = -clientShip.velocityX * target.bounciness;
-
-      // If the object's velocity is nearing 0, set it to 0
-      if (Math.abs(clientShip.velocityX) < STICKY_THRESHOLD) {
-        clientShip.velocityX = 0;
-      }
-    } else {
-      clientShip.velocityY = -clientShip.velocityY * target.bounciness;
-
-      // If the object's velocity is nearing 0, set it to 0
-      if (Math.abs(clientShip.velocityY) < STICKY_THRESHOLD) {
-        clientShip.velocityY = 0;
+      if (targetShip) {
+        targetShip.positionY = targetTop + clientHeight;
+        target.position.x = targetTop + clientHeight;
       }
     }
 
@@ -137,21 +124,22 @@ export const resolveCollision = (collision: Collision, room: GameRoom) => {
     // If the player is approaching from positive X
     if (dx < 0) {
       console.log('positive X side hit');
-      client.position.x = targetRight + clientWidth;
       clientShip.positionX = targetRight + clientWidth;
+      client.position.x = targetRight + clientWidth;
+
+      if (targetShip) {
+        targetShip.positionX = targetRight - clientWidth;
+        target.position.x = targetRight - clientWidth;
+      }
     } else {
       // If the player is approaching from negative X
-
       console.log('negative X side hit');
       client.position.x = targetLeft - clientWidth;
       clientShip.positionX = targetLeft - clientWidth;
-    }
-
-    // Velocity component
-    clientShip.velocityX = -clientShip.velocityX * target.bounciness;
-
-    if (Math.abs(clientShip.velocityX) < STICKY_THRESHOLD) {
-      clientShip.velocityX = 0;
+      if (targetShip) {
+        targetShip.positionX = targetLeft + clientWidth;
+        target.position.x = targetLeft + clientWidth;
+      }
     }
 
     // If this collision is coming from the top or bottom more
@@ -161,18 +149,39 @@ export const resolveCollision = (collision: Collision, room: GameRoom) => {
       console.log('positive Y side hit');
       clientShip.positionY = targetBottom + clientHeight;
       client.position.y = targetBottom + clientHeight;
+
+      if (targetShip) {
+        targetShip.positionY = targetBottom - clientHeight;
+        target.position.y = targetBottom - clientHeight;
+      }
     } else {
       // If the player is approaching from negative Y
       console.log('negative Y side hit');
       clientShip.positionY = targetTop - clientHeight;
       client.position.y = targetTop - clientHeight;
+      if (targetShip) {
+        targetShip.positionY = targetTop + clientHeight;
+        target.position.y = targetTop + clientHeight;
+      }
     }
+  }
 
-    // Velocity component
-    clientShip.velocityY = -clientShip.velocityY * target.bounciness;
-    if (Math.abs(clientShip.velocityY) < STICKY_THRESHOLD) {
-      clientShip.velocityY = 0;
-    }
+  clientShip.velocityX = -clientShip.velocityX * target.bounciness;
+  targetShip.velocityX = -targetShip.velocityX * client.bounciness;
+  clientShip.velocityY = -clientShip.velocityY * target.bounciness;
+  targetShip.velocityY = -targetShip.velocityY * client.bounciness;
+
+  if (Math.abs(clientShip.velocityX) < STICKY_THRESHOLD) {
+    clientShip.velocityY = 0;
+  }
+  if (Math.abs(clientShip.velocityY) < STICKY_THRESHOLD) {
+    clientShip.velocityY = 0;
+  }
+  if (Math.abs(targetShip.velocityX) < STICKY_THRESHOLD) {
+    targetShip.velocityY = 0;
+  }
+  if (Math.abs(targetShip.velocityY) < STICKY_THRESHOLD) {
+    targetShip.velocityY = 0;
   }
 
   delete room.collisionsUnderResolution[collision.id];

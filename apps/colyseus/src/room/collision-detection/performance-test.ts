@@ -52,10 +52,15 @@ class GridTester {
 
     this.clients = [];
     for (let i = 0; i < _NUM_CLIENTS; ++i) {
-      const client = this.grid.newClient(`client_${i}`, _CLIENT_POSITIONS[i], {
-        width: 15,
-        height: 15,
-      });
+      const client = this.grid.newClient(
+        `client_${i}`,
+        _CLIENT_POSITIONS[i],
+        {
+          width: 15,
+          height: 15,
+        },
+        'rectangle'
+      );
       this.clients.push(client);
     }
   }

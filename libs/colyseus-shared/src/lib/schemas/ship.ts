@@ -9,8 +9,12 @@ export class ColyseusShip extends Schema {
     userId,
     positionX,
     positionY,
+    width,
+    height,
+    name,
   }: ShipConfig & {
     userId: string;
+    name: string;
     colyseusUserId: string;
     positionX: number;
     positionY: number;
@@ -25,12 +29,18 @@ export class ColyseusShip extends Schema {
     this.acceleration = acceleration;
     this.colyseusUserId = colyseusUserId;
     this.userId = userId;
+    this.width = width;
+    this.height = height;
+    this.name = name;
   }
 
   /**
    * Radians
    */
   @type('number') rotation: number;
+
+  @type('number') width: number;
+  @type('number') height: number;
 
   @type('number') positionX: number;
   @type('number') positionY: number;
@@ -39,6 +49,7 @@ export class ColyseusShip extends Schema {
   @type('number') maxVelocity: number;
   @type('number') acceleration: number;
 
+  @type('string') name: string;
   @type('string') userId: string;
   @type('string') colyseusUserId: string;
 }

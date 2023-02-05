@@ -18,6 +18,7 @@ export class SpatialHashGrid {
       position,
       dimensions,
       indices: null,
+      geometry: 'rectangle',
     };
     this.insert(client);
 

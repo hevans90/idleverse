@@ -1,4 +1,6 @@
+import { ColyseusEntityBase } from '@idleverse/colyseus-shared';
 import { math } from './math';
+
 import {
   Bounds,
   Dimensions,
@@ -24,10 +26,16 @@ export class SpatialHashGrid {
     this.queryIds = 0;
   }
 
-  newClient = (name: string, position: Position, dimensions: Dimensions) => {
+  newClient = (
+    name: string,
+    position: Position,
+    dimensions: Dimensions,
+    geometry: ColyseusEntityBase['geometry']
+  ) => {
     const client: SpatialHashGridClient = {
       name,
       position,
+      geometry,
       dimensions,
       cells: {
         min: null,
