@@ -45,7 +45,7 @@ export const onLeave = (client: Client, consented: boolean, room: GameRoom) => {
   );
 
   // update collision detection
-  const gridClient = room.gridClients[`user_${user.colyseusUserId}`];
+  const gridClient = room.gridClients[user.colyseusUserId];
 
   if (!gridClient) {
     throw new ServerError(
@@ -55,5 +55,5 @@ export const onLeave = (client: Client, consented: boolean, room: GameRoom) => {
   }
 
   room.grid.removeClient(gridClient);
-  delete room.gridClients[`user_${user.colyseusUserId}`];
+  delete room.gridClients[user.colyseusUserId];
 };

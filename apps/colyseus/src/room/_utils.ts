@@ -27,6 +27,3 @@ export const logger = {
   warning: (msg: string) => console.log(chalk.yellow(msg)),
   error: (msg: string) => console.log(chalk.red(msg)),
 };
-
-export const colyseusClientIdFromGridClientId = (colyseusId: string) =>
-  colyseusId.substring(colyseusId.indexOf('_')).slice(1);

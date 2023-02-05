@@ -38,7 +38,7 @@ export const updateShipPositions = (deltaTime: number, room: GameRoom) => {
     ship.positionY = newY;
 
     // update collision detection
-    const gridClient = room.gridClients[`user_${user.colyseusUserId}`];
+    const gridClient = room.gridClients[user.colyseusUserId];
 
     if (!gridClient) {
       throw new ServerError(

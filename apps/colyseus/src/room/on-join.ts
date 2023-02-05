@@ -71,7 +71,7 @@ export const onJoin = (
 
   // collision detection
   const gridClient = room.grid.newClient(
-    `user_${client.id}`,
+    client.id,
     {
       x: claimedSpawn.x,
       y: claimedSpawn.y,
@@ -80,7 +80,7 @@ export const onJoin = (
     'rectangle'
   );
 
-  room.gridClients[`user_${client.id}`] = gridClient;
+  room.gridClients[client.id] = gridClient;
 
   logger.success(`${options.displayName} (${client.sessionId}) joined!`);
 };

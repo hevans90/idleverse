@@ -1,5 +1,9 @@
 import { useToast } from '@chakra-ui/react';
-import { ServerStatusMessage } from '@idleverse/colyseus-shared';
+import {
+  Collision,
+  ServerGameMessage,
+  ServerStatusMessage,
+} from '@idleverse/colyseus-shared';
 import { Room } from 'colyseus.js';
 import { useEffect } from 'react';
 
@@ -35,6 +39,13 @@ export const ColyseusNotifications = ({ room }: { room: Room }) => {
       toast({
         title: message,
         status: 'error',
+      })
+    );
+
+    room.onMessage(ServerGameMessage.Collision, (message: Collision) =>
+      toast({
+        title: `Collided with ${message.target.name}`,
+        status: 'warning',
       })
     );
 

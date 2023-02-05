@@ -3,10 +3,17 @@ import {
   ColyseusEntity,
   ServerGameMessage,
 } from '@idleverse/colyseus-shared';
-import { colyseusClientIdFromGridClientId } from '../_utils';
+import { Client } from 'colyseus';
+import throttle from 'lodash/throttle';
 import { SpatialHashGridClient } from '../collision-detection/models';
 import { GameRoom } from '../room';
 import { resolveCollision } from './resolve-collisions';
+
+const throttledMessage = throttle(
+  (client: Client, collision: Collision) =>
+    client.send(ServerGameMessage.Collision, collision),
+  1000
+);
 
 const CLIENT_BOUNCINESS = 0.8;
 
@@ -20,61 +27,53 @@ const processCollision = ({
   target: Collision['target'];
 }) => {
   nearbyClients.forEach((client) => {
-    const colyseusClientId = colyseusClientIdFromGridClientId(client.name);
+    const collisionId = `client-${client.name}__${target.name}`;
 
-    const colyseusClient = room.clients.find(
-      ({ id }) => id === colyseusClientId
-    );
-
-    if (colyseusClient) {
-      const collisionId = `client-${colyseusClient.id}__${target.name}-${target.id}`;
-
-      if (collisionId in room.collisionsUnderResolution) {
-        console.log(
-          'collision already being resolved for these entities',
-          collisionId
-        );
-        return;
-      }
-
-      let collisionClient: ColyseusEntity;
-
-      if (client.geometry === 'rectangle') {
-        collisionClient = {
-          position: client.position,
-          geometry: 'rectangle',
-          width: client.dimensions.width,
-          height: client.dimensions.height,
-          name: client.name,
-          id: colyseusClient.id,
-          bounciness: CLIENT_BOUNCINESS,
-        };
-      } else if (client.geometry === 'circle') {
-        collisionClient = {
-          position: client.position,
-          geometry: 'circle',
-          radius: client.dimensions.radius,
-          name: client.name,
-          id: colyseusClient.id,
-          bounciness: CLIENT_BOUNCINESS,
-        };
-      }
-
-      const collision: Collision = {
-        id: collisionId,
-        target,
-        client: collisionClient,
-      };
-      room.collisionsUnderResolution[collision.id] = collision;
-      colyseusClient.send(ServerGameMessage.Collision, collision);
-      // pass to our collision resolver
-      resolveCollision(collision, room);
-    } else {
-      console.error(
-        'Collision detection: No colyseus client found for ID:',
-        colyseusClient.id
+    if (collisionId in room.collisionsUnderResolution) {
+      console.log(
+        'collision already being resolved for these entities',
+        collisionId
       );
+      return;
     }
+
+    let collisionClient: ColyseusEntity;
+
+    if (client.geometry === 'rectangle') {
+      collisionClient = {
+        position: client.position,
+        geometry: 'rectangle',
+        width: client.dimensions.width,
+        height: client.dimensions.height,
+        name: client.name,
+        bounciness: CLIENT_BOUNCINESS,
+      };
+    } else if (client.geometry === 'circle') {
+      collisionClient = {
+        position: client.position,
+        geometry: 'circle',
+        radius: client.dimensions.radius,
+        name: client.name,
+        bounciness: CLIENT_BOUNCINESS,
+      };
+    }
+
+    const collision: Collision = {
+      id: collisionId,
+      target,
+      client: collisionClient,
+    };
+    room.collisionsUnderResolution[collision.id] = collision;
+
+    const colyseusClient = room.clients.find(({ id }) => id === client.name);
+
+    // client won't exist if the user is in a disconnected state
+    if (colyseusClient) {
+      throttledMessage(colyseusClient, collision);
+    }
+
+    // pass to our collision resolver
+    resolveCollision(collision, room);
   });
 };
 
@@ -93,8 +92,8 @@ export const runCollisionDetection = (room: GameRoom) => {
       .findNearby({ x, y }, { width, height })
       .filter(
         ({ name: gridClientName }) =>
-          //  DO NOT COLLIDE WITH SELF
-          colyseusClientIdFromGridClientId(gridClientName) !== colyseusUserId
+          //  DO NOT COLLIDE WITH SELF {
+          gridClientName !== colyseusUserId
       );
 
     if (nearbyGridClients.length) {
@@ -103,7 +102,6 @@ export const runCollisionDetection = (room: GameRoom) => {
         room,
         target: {
           name,
-          id: colyseusUserId,
           position: { x, y },
           geometry: 'rectangle',
           width,
@@ -131,8 +129,7 @@ export const runCollisionDetection = (room: GameRoom) => {
         nearbyClients: nearbyGridClients,
         room,
         target: {
-          name: `celestial-${name}`,
-          id: celestialId,
+          name: `celestial-${name}-${celestialId}`,
           position: { x, y },
           geometry: 'circle',
           radius,

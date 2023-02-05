@@ -1,5 +1,4 @@
 import { ColyseusCelestial, ColyseusShip } from '@idleverse/colyseus-shared';
-import { colyseusClientIdFromGridClientId } from '../_utils';
 import { GameRoom } from '../room';
 
 const calculateGravitationalForce = (
@@ -38,32 +37,17 @@ export const processGravity = (room: GameRoom) => {
 
     if (clientsInGravityWell.length) {
       clientsInGravityWell.forEach((client) => {
-        const colyseusClientId = colyseusClientIdFromGridClientId(client.name);
-        const colyseusClient = room.clients.find(
-          ({ id }) => id === colyseusClientId
+        const ship = room.state.ships.find(
+          ({ colyseusUserId }) => colyseusUserId === client.name
         );
 
-        if (colyseusClient) {
-          const ship = room.state.ships.find(
-            ({ colyseusUserId }) => colyseusUserId === colyseusClient.id
-          );
+        if (ship) {
+          const { fx, fy } = calculateGravitationalForce(celestial, ship);
 
-          if (ship) {
-            const { fx, fy } = calculateGravitationalForce(celestial, ship);
-
-            ship.velocityX += fx;
-            ship.velocityY += fy;
-          } else {
-            console.error(
-              'No ship found for colyseus user ID:',
-              colyseusClientId
-            );
-          }
+          ship.velocityX += fx;
+          ship.velocityY += fy;
         } else {
-          console.error(
-            'Gravity: No colyseus client found for ID:',
-            colyseusClientId
-          );
+          console.error('No ship found for colyseus user ID:', client.name);
         }
       });
     }

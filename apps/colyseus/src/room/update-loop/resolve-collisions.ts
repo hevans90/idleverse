@@ -12,17 +12,17 @@ export const resolveCollision = (collision: Collision, room: GameRoom) => {
   const { client, target } = collision;
 
   const clientShip = room.state.ships.find(
-    ({ colyseusUserId }) => colyseusUserId === client.id
+    ({ colyseusUserId }) => colyseusUserId === client.name
   );
 
   const targetShip = room.state.ships.find(
-    ({ colyseusUserId }) => colyseusUserId === target.id
+    ({ colyseusUserId }) => colyseusUserId === target.name
   );
 
   if (!clientShip) {
     console.error(
-      'Collision resolution: No ship found for colyseus client ID:',
-      client.id
+      'Collision resolution: No ship found for grid client :',
+      client.name
     );
   }
 
