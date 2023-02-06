@@ -1,5 +1,5 @@
 table:
-  name: resource_generator
+  name: galactic_empire_resource_generator
   schema: public
 object_relationships:
   - name: galactic_empire

@@ -15,7 +15,7 @@ import { generateResources, generationRate } from './generate-resources';
 
 const generatorsSubResults: FetchResult<ResourceGeneratorsSubscription> = {
   data: {
-    resource_generator: [
+    galactic_empire_resource_generator: [
       {
         created_at: new Date().toISOString(),
         galactic_empire_id: uuidv4(),
@@ -35,7 +35,7 @@ const generatorsSubResults: FetchResult<ResourceGeneratorsSubscription> = {
 };
 
 const { galactic_empire_id, resource_generator_type } =
-  generatorsSubResults.data.resource_generator[0];
+  generatorsSubResults.data.galactic_empire_resource_generator[0];
 
 const mockedSubResult: MockedSubscriptionResult = {
   result: generatorsSubResults,

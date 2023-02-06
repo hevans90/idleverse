@@ -30,7 +30,7 @@ import ws = require('ws');
       typePolicies: {
         Subscription: {
           fields: {
-            resource_generator: {
+            galactic_empire_resource_generator: {
               merge(existing, incoming) {
                 return { ...incoming };
               },

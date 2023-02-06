@@ -47,7 +47,9 @@ export const generateResources = (
       query: ResourceGeneratorsDocument,
     })
     .subscribe({
-      next: ({ data: { resource_generator: resourceGenerators } }) => {
+      next: ({
+        data: { galactic_empire_resource_generator: resourceGenerators },
+      }) => {
         const newGenerationRates: GalacticResourceGenerationRate[] = [];
 
         galacticEmpireIdsInPlay = [
