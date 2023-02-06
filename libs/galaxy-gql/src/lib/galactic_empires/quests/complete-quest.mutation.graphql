@@ -2,5 +2,12 @@ mutation CompleteQuest($empireQuestId: String!) {
   completeQuest(empire_quest_id: $empireQuestId) {
     next_quest_in_chain_added
     quest_id
+    rewards {
+      npc_unlock_id
+      resource_accrual_amount
+      resource_accrual_type_id
+      resource_unlock_id
+      type
+    }
   }
 }

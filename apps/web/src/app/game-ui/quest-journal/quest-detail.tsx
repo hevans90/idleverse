@@ -6,8 +6,8 @@ import {
   HStack,
   StackDivider,
   Text,
-  useToast,
   VStack,
+  useToast,
 } from '@chakra-ui/react';
 import {
   ActiveGalacticEmpireQuestsSubscription,
@@ -17,18 +17,19 @@ import {
   CompleteQuestStepDocument,
   CompleteQuestStepMutation,
   CompleteQuestStepMutationVariables,
+  Quest_Reward_Type_Enum,
 } from '@idleverse/galaxy-gql';
 import { Step, Steps, useSteps } from 'chakra-ui-steps';
 import { useEffect, useState } from 'react';
-import { useUiBackground } from '../../hooks/use-ui-background';
 import { colorsVar } from '../../_state/colors';
 import { questDetailVar, questJournalVar } from '../../_state/global-ui';
 import { npcsVar } from '../../_state/npcs';
 import { resourcesVar } from '../../_state/resources';
+import { useUiBackground } from '../../hooks/use-ui-background';
 import { QuestRewardThumbnails } from './quest-reward-thumbnail';
 import {
-  generateStepIcon,
   OrderedQuestStepWithIcon,
+  generateStepIcon,
   orderSteps,
 } from './utils/quest-step-utils';
 import { useValidateQuestStep } from './utils/use-validate-quest-step';
@@ -100,6 +101,42 @@ export const QuestDetail = () => {
       toast({
         title: 'Quest completed!',
         status: 'success',
+      });
+
+      data.completeQuest.rewards.forEach((reward) => {
+        const rewardType = reward.type as Quest_Reward_Type_Enum;
+
+        let toastTitle: string;
+
+        switch (rewardType) {
+          case Quest_Reward_Type_Enum.NpcUnlock: {
+            const npc = npcs.find(({ id }) => id === reward.npc_unlock_id);
+            toastTitle = `${npc?.name} is now available to contact! 
+            Open the NPC contact menu by pressing D or clicking the new button available in the in-game menu.`;
+            break;
+          }
+          case Quest_Reward_Type_Enum.ResourceAccrual: {
+            const resource = resources.find(
+              ({ id }) => id === reward.resource_accrual_type_id
+            );
+            toastTitle = `${reward?.resource_accrual_amount} ${resource?.type} gained!`;
+            break;
+          }
+          case Quest_Reward_Type_Enum.ResourceUnlock: {
+            const resource = resources.find(
+              ({ id }) => id === reward.resource_unlock_id
+            );
+            toastTitle = `${resource?.type} unlocked!`;
+            break;
+          }
+        }
+        toast({
+          title: toastTitle,
+          status: 'info',
+          variant: 'subtle',
+          duration: 60000,
+          isClosable: true,
+        });
       });
 
       questJournalVar({

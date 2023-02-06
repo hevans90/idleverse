@@ -12,9 +12,9 @@ import {
   Quest_Reward_Type_Enum,
 } from '@idleverse/galaxy-gql';
 import { Fragment } from 'react';
-import { useUiBackground } from '../../hooks/use-ui-background';
 import { npcsVar } from '../../_state/npcs';
 import { resourcesVar } from '../../_state/resources';
+import { useUiBackground } from '../../hooks/use-ui-background';
 
 export const QuestRewardThumbnails = ({
   rewards,
@@ -153,7 +153,7 @@ const ResourceUnlockThumbnail = ({
     <RewardThumbnail
       detail={detail}
       type="solo"
-      tooltip={`Unlocks ${resource?.type}`}
+      tooltip={`Unlocks Resource: ${resource?.type}`}
       image_url={resource?.image_url_pixel}
     />
   );

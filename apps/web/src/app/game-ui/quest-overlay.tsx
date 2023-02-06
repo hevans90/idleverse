@@ -36,8 +36,8 @@ export const QuestOverlay = ({ ...stackProps }: QuestOverlayProps) => {
         globalUiVar({ ...globalUiVar(), questJournalOpen: true });
       }}
     >
-      {activeQuests.map((questData) => (
-        <VStack width="100%" alignItems="start">
+      {activeQuests.map((questData, i) => (
+        <VStack key={i} width="100%" alignItems="start">
           <Heading size={['xxs', 'xs']}>
             <u>{questData.quest?.name}</u>
           </Heading>

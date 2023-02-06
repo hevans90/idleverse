@@ -50,5 +50,4 @@ update_permissions:
 delete_permissions:
   - role: dev
     permission:
-      backend_only: false
       filter: {}

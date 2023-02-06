@@ -31,13 +31,13 @@ export class QuestManagement {
 export class QuestReward {
   @Field()
   type: string;
-  @Field()
+  @Field({ nullable: true })
   npc_unlock_id?: string;
-  @Field()
+  @Field({ nullable: true })
   resource_accrual_amount?: number;
-  @Field()
+  @Field({ nullable: true })
   resource_accrual_type_id?: string;
-  @Field()
+  @Field({ nullable: true })
   resource_unlock_id?: string;
 }
 
