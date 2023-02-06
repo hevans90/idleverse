@@ -27,7 +27,13 @@ const processCollision = ({
   target: Collision['target'];
 }) => {
   nearbyClients.forEach((client) => {
-    const collisionId = `client-${client.name}__${target.name}`;
+    const collisionId = `client-${client.id}__${target.id}`;
+
+    console.log('id', collisionId);
+    console.log('collision between', {
+      client: client.name,
+      target: target.name,
+    });
 
     if (collisionId in room.collisionsUnderResolution) {
       console.log(
@@ -41,6 +47,7 @@ const processCollision = ({
 
     if (client.geometry === 'rectangle') {
       collisionClient = {
+        id: client.id,
         position: client.position,
         geometry: 'rectangle',
         width: client.dimensions.width,
@@ -50,6 +57,7 @@ const processCollision = ({
       };
     } else if (client.geometry === 'circle') {
       collisionClient = {
+        id: client.id,
         position: client.position,
         geometry: 'circle',
         radius: client.dimensions.radius,
@@ -65,7 +73,7 @@ const processCollision = ({
     };
     room.collisionsUnderResolution[collision.id] = collision;
 
-    const colyseusClient = room.clients.find(({ id }) => id === client.name);
+    const colyseusClient = room.clients.find(({ id }) => id === client.id);
 
     // client won't exist if the user is in a disconnected state
     if (colyseusClient) {
@@ -91,9 +99,9 @@ export const runCollisionDetection = (room: GameRoom) => {
     const nearbyGridClients = room.grid
       .findNearby({ x, y }, { width, height })
       .filter(
-        ({ name: gridClientName }) =>
-          //  DO NOT COLLIDE WITH SELF {
-          gridClientName !== colyseusUserId
+        ({ id: gridClientId }) =>
+          //DO NOT COLLIDE WITH SELF
+          gridClientId !== colyseusUserId
       );
 
     if (nearbyGridClients.length) {
@@ -101,7 +109,8 @@ export const runCollisionDetection = (room: GameRoom) => {
         nearbyClients: nearbyGridClients,
         room,
         target: {
-          name,
+          id: colyseusUserId,
+          name: name,
           position: { x, y },
           geometry: 'rectangle',
           width,
@@ -129,7 +138,8 @@ export const runCollisionDetection = (room: GameRoom) => {
         nearbyClients: nearbyGridClients,
         room,
         target: {
-          name: `celestial_${name}-${celestialId}`,
+          id: `celestial_${name}-${celestialId}`,
+          name,
           position: { x, y },
           geometry: 'circle',
           radius,

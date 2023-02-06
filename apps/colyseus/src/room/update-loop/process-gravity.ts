@@ -38,14 +38,14 @@ export const processGravity = (room: GameRoom) => {
     if (clientsInGravityWell.length) {
       clientsInGravityWell.forEach((client) => {
         const ship = room.state.ships.find(
-          ({ colyseusUserId }) => colyseusUserId === client.name
+          ({ colyseusUserId }) => colyseusUserId === client.id
         );
 
         if (ship) {
           const { fx, fy } = calculateGravitationalForce(celestial, ship);
 
-          ship.velocityX += fx;
-          ship.velocityY += fy;
+          // ship.velocityX += fx;
+          // ship.velocityY += fy;
         } else {
           console.error('No ship found for colyseus user ID:', client.name);
         }

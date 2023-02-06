@@ -12,21 +12,22 @@ export const resolveCollision = (collision: Collision, room: GameRoom) => {
   const { client, target } = collision;
 
   const clientShip = room.state.ships.find(
-    ({ colyseusUserId }) => colyseusUserId === client.name
+    ({ colyseusUserId }) => colyseusUserId === client.id
   );
 
   const targetShip = room.state.ships.find(
-    ({ colyseusUserId }) => colyseusUserId === target.name
+    ({ colyseusUserId }) => colyseusUserId === target.id
   );
 
   if (!clientShip) {
     console.error(
       'Collision resolution: No ship found for grid client :',
-      client.name
+      client.id
     );
   }
 
   if (clientShip && targetShip) {
+    console.log('ship-ship', client.id, target.id);
     return resolveShipToShipCollision(collision, room, clientShip, targetShip);
   }
 
@@ -35,13 +36,6 @@ export const resolveCollision = (collision: Collision, room: GameRoom) => {
   const clientMidY = client.position.y;
   const targetMidX = target.position.x;
   const targetMidY = target.position.y;
-
-  console.log({
-    clientMidX,
-    clientMidY,
-    targetMidX,
-    targetMidY,
-  });
 
   let targetHeight: number;
   let targetWidth: number;
@@ -136,13 +130,10 @@ export const resolveCollision = (collision: Collision, room: GameRoom) => {
   } else if (absDX > absDY) {
     // If the player is approaching from positive X
     if (dx < 0) {
-      console.log('positive X side hit');
       client.position.x = targetRight + clientWidth;
       clientShip.positionX = targetRight + clientWidth;
     } else {
       // If the player is approaching from negative X
-
-      console.log('negative X side hit');
       client.position.x = targetLeft - clientWidth;
       clientShip.positionX = targetLeft - clientWidth;
     }
@@ -158,12 +149,10 @@ export const resolveCollision = (collision: Collision, room: GameRoom) => {
   } else {
     // If the player is approaching from positive Y
     if (dy < 0) {
-      console.log('positive Y side hit');
       clientShip.positionY = targetBottom + clientHeight;
       client.position.y = targetBottom + clientHeight;
     } else {
       // If the player is approaching from negative Y
-      console.log('negative Y side hit');
       clientShip.positionY = targetTop - clientHeight;
       client.position.y = targetTop - clientHeight;
     }

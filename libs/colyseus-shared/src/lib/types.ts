@@ -25,6 +25,7 @@ export enum ServerGameMessage {
 export type ColyseusEntity = ColyseusRectangleEntity | ColyseusCircleEntity;
 
 export type ColyseusEntityBase = {
+  id: string;
   name: string;
   position: { x: number; y: number };
   geometry: 'circle' | 'rectangle';

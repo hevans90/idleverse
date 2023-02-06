@@ -54,6 +54,7 @@ class GridTester {
     for (let i = 0; i < _NUM_CLIENTS; ++i) {
       const client = this.grid.newClient(
         `client_${i}`,
+        `client_${i}`,
         _CLIENT_POSITIONS[i],
         {
           width: 15,
