@@ -1803,6 +1803,186 @@ export type Galactic_Empire_Quest_Updates = {
   where: Galactic_Empire_Quest_Bool_Exp;
 };
 
+/** columns and relationships of "galactic_empire_resource_generator" */
+export type Galactic_Empire_Resource_Generator = {
+  __typename?: 'galactic_empire_resource_generator';
+  created_at: Scalars['timestamptz'];
+  /** An object relationship */
+  galactic_empire: Galactic_Empire;
+  galactic_empire_id: Scalars['uuid'];
+  generator_type_id: Scalars['uuid'];
+  id: Scalars['uuid'];
+  /** An object relationship */
+  resource_generator_type: Resource_Generator_Type;
+  updated_at: Scalars['timestamptz'];
+};
+
+/** aggregated selection of "galactic_empire_resource_generator" */
+export type Galactic_Empire_Resource_Generator_Aggregate = {
+  __typename?: 'galactic_empire_resource_generator_aggregate';
+  aggregate?: Maybe<Galactic_Empire_Resource_Generator_Aggregate_Fields>;
+  nodes: Array<Galactic_Empire_Resource_Generator>;
+};
+
+/** aggregate fields of "galactic_empire_resource_generator" */
+export type Galactic_Empire_Resource_Generator_Aggregate_Fields = {
+  __typename?: 'galactic_empire_resource_generator_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Galactic_Empire_Resource_Generator_Max_Fields>;
+  min?: Maybe<Galactic_Empire_Resource_Generator_Min_Fields>;
+};
+
+
+/** aggregate fields of "galactic_empire_resource_generator" */
+export type Galactic_Empire_Resource_Generator_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Galactic_Empire_Resource_Generator_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "galactic_empire_resource_generator". All fields are combined with a logical 'AND'. */
+export type Galactic_Empire_Resource_Generator_Bool_Exp = {
+  _and?: InputMaybe<Array<Galactic_Empire_Resource_Generator_Bool_Exp>>;
+  _not?: InputMaybe<Galactic_Empire_Resource_Generator_Bool_Exp>;
+  _or?: InputMaybe<Array<Galactic_Empire_Resource_Generator_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  galactic_empire?: InputMaybe<Galactic_Empire_Bool_Exp>;
+  galactic_empire_id?: InputMaybe<Uuid_Comparison_Exp>;
+  generator_type_id?: InputMaybe<Uuid_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  resource_generator_type?: InputMaybe<Resource_Generator_Type_Bool_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "galactic_empire_resource_generator" */
+export enum Galactic_Empire_Resource_Generator_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  ResourceGeneratorPkey = 'resource_generator_pkey'
+}
+
+/** input type for inserting data into table "galactic_empire_resource_generator" */
+export type Galactic_Empire_Resource_Generator_Insert_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  galactic_empire?: InputMaybe<Galactic_Empire_Obj_Rel_Insert_Input>;
+  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
+  generator_type_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  resource_generator_type?: InputMaybe<Resource_Generator_Type_Obj_Rel_Insert_Input>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type Galactic_Empire_Resource_Generator_Max_Fields = {
+  __typename?: 'galactic_empire_resource_generator_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  galactic_empire_id?: Maybe<Scalars['uuid']>;
+  generator_type_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate min on columns */
+export type Galactic_Empire_Resource_Generator_Min_Fields = {
+  __typename?: 'galactic_empire_resource_generator_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  galactic_empire_id?: Maybe<Scalars['uuid']>;
+  generator_type_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** response of any mutation on the table "galactic_empire_resource_generator" */
+export type Galactic_Empire_Resource_Generator_Mutation_Response = {
+  __typename?: 'galactic_empire_resource_generator_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Galactic_Empire_Resource_Generator>;
+};
+
+/** on_conflict condition type for table "galactic_empire_resource_generator" */
+export type Galactic_Empire_Resource_Generator_On_Conflict = {
+  constraint: Galactic_Empire_Resource_Generator_Constraint;
+  update_columns?: Array<Galactic_Empire_Resource_Generator_Update_Column>;
+  where?: InputMaybe<Galactic_Empire_Resource_Generator_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "galactic_empire_resource_generator". */
+export type Galactic_Empire_Resource_Generator_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  galactic_empire?: InputMaybe<Galactic_Empire_Order_By>;
+  galactic_empire_id?: InputMaybe<Order_By>;
+  generator_type_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  resource_generator_type?: InputMaybe<Resource_Generator_Type_Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: galactic_empire_resource_generator */
+export type Galactic_Empire_Resource_Generator_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "galactic_empire_resource_generator" */
+export enum Galactic_Empire_Resource_Generator_Select_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  GalacticEmpireId = 'galactic_empire_id',
+  /** column name */
+  GeneratorTypeId = 'generator_type_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+/** input type for updating data in table "galactic_empire_resource_generator" */
+export type Galactic_Empire_Resource_Generator_Set_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
+  generator_type_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** Streaming cursor of the table "galactic_empire_resource_generator" */
+export type Galactic_Empire_Resource_Generator_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Galactic_Empire_Resource_Generator_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Galactic_Empire_Resource_Generator_Stream_Cursor_Value_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
+  generator_type_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** update columns of table "galactic_empire_resource_generator" */
+export enum Galactic_Empire_Resource_Generator_Update_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  GalacticEmpireId = 'galactic_empire_id',
+  /** column name */
+  GeneratorTypeId = 'generator_type_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+export type Galactic_Empire_Resource_Generator_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Galactic_Empire_Resource_Generator_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Galactic_Empire_Resource_Generator_Bool_Exp;
+};
+
 /** columns and relationships of "galactic_empire_resources" */
 export type Galactic_Empire_Resources = {
   __typename?: 'galactic_empire_resources';
@@ -2729,6 +2909,10 @@ export type Mutation_Root = {
   delete_galactic_empire_quest?: Maybe<Galactic_Empire_Quest_Mutation_Response>;
   /** delete single row from the table: "galactic_empire_quest" */
   delete_galactic_empire_quest_by_pk?: Maybe<Galactic_Empire_Quest>;
+  /** delete data from the table: "galactic_empire_resource_generator" */
+  delete_galactic_empire_resource_generator?: Maybe<Galactic_Empire_Resource_Generator_Mutation_Response>;
+  /** delete single row from the table: "galactic_empire_resource_generator" */
+  delete_galactic_empire_resource_generator_by_pk?: Maybe<Galactic_Empire_Resource_Generator>;
   /** delete data from the table: "galactic_empire_resources" */
   delete_galactic_empire_resources?: Maybe<Galactic_Empire_Resources_Mutation_Response>;
   /** delete single row from the table: "galactic_empire_resources" */
@@ -2777,10 +2961,6 @@ export type Mutation_Root = {
   delete_quest_type?: Maybe<Quest_Type_Mutation_Response>;
   /** delete single row from the table: "quest_type" */
   delete_quest_type_by_pk?: Maybe<Quest_Type>;
-  /** delete data from the table: "resource_generator" */
-  delete_resource_generator?: Maybe<Resource_Generator_Mutation_Response>;
-  /** delete single row from the table: "resource_generator" */
-  delete_resource_generator_by_pk?: Maybe<Resource_Generator>;
   /** delete data from the table: "resource_generator_type" */
   delete_resource_generator_type?: Maybe<Resource_Generator_Type_Mutation_Response>;
   /** delete single row from the table: "resource_generator_type" */
@@ -2833,6 +3013,10 @@ export type Mutation_Root = {
   insert_galactic_empire_quest?: Maybe<Galactic_Empire_Quest_Mutation_Response>;
   /** insert a single row into the table: "galactic_empire_quest" */
   insert_galactic_empire_quest_one?: Maybe<Galactic_Empire_Quest>;
+  /** insert data into the table: "galactic_empire_resource_generator" */
+  insert_galactic_empire_resource_generator?: Maybe<Galactic_Empire_Resource_Generator_Mutation_Response>;
+  /** insert a single row into the table: "galactic_empire_resource_generator" */
+  insert_galactic_empire_resource_generator_one?: Maybe<Galactic_Empire_Resource_Generator>;
   /** insert data into the table: "galactic_empire_resources" */
   insert_galactic_empire_resources?: Maybe<Galactic_Empire_Resources_Mutation_Response>;
   /** insert a single row into the table: "galactic_empire_resources" */
@@ -2881,10 +3065,6 @@ export type Mutation_Root = {
   insert_quest_type?: Maybe<Quest_Type_Mutation_Response>;
   /** insert a single row into the table: "quest_type" */
   insert_quest_type_one?: Maybe<Quest_Type>;
-  /** insert data into the table: "resource_generator" */
-  insert_resource_generator?: Maybe<Resource_Generator_Mutation_Response>;
-  /** insert a single row into the table: "resource_generator" */
-  insert_resource_generator_one?: Maybe<Resource_Generator>;
   /** insert data into the table: "resource_generator_type" */
   insert_resource_generator_type?: Maybe<Resource_Generator_Type_Mutation_Response>;
   /** insert a single row into the table: "resource_generator_type" */
@@ -2957,6 +3137,12 @@ export type Mutation_Root = {
   update_galactic_empire_quest_by_pk?: Maybe<Galactic_Empire_Quest>;
   /** update multiples rows of table: "galactic_empire_quest" */
   update_galactic_empire_quest_many?: Maybe<Array<Maybe<Galactic_Empire_Quest_Mutation_Response>>>;
+  /** update data of the table: "galactic_empire_resource_generator" */
+  update_galactic_empire_resource_generator?: Maybe<Galactic_Empire_Resource_Generator_Mutation_Response>;
+  /** update single row of the table: "galactic_empire_resource_generator" */
+  update_galactic_empire_resource_generator_by_pk?: Maybe<Galactic_Empire_Resource_Generator>;
+  /** update multiples rows of table: "galactic_empire_resource_generator" */
+  update_galactic_empire_resource_generator_many?: Maybe<Array<Maybe<Galactic_Empire_Resource_Generator_Mutation_Response>>>;
   /** update data of the table: "galactic_empire_resources" */
   update_galactic_empire_resources?: Maybe<Galactic_Empire_Resources_Mutation_Response>;
   /** update single row of the table: "galactic_empire_resources" */
@@ -3029,12 +3215,6 @@ export type Mutation_Root = {
   update_quest_type_by_pk?: Maybe<Quest_Type>;
   /** update multiples rows of table: "quest_type" */
   update_quest_type_many?: Maybe<Array<Maybe<Quest_Type_Mutation_Response>>>;
-  /** update data of the table: "resource_generator" */
-  update_resource_generator?: Maybe<Resource_Generator_Mutation_Response>;
-  /** update single row of the table: "resource_generator" */
-  update_resource_generator_by_pk?: Maybe<Resource_Generator>;
-  /** update multiples rows of table: "resource_generator" */
-  update_resource_generator_many?: Maybe<Array<Maybe<Resource_Generator_Mutation_Response>>>;
   /** update data of the table: "resource_generator_type" */
   update_resource_generator_type?: Maybe<Resource_Generator_Type_Mutation_Response>;
   /** update single row of the table: "resource_generator_type" */
@@ -3180,6 +3360,18 @@ export type Mutation_RootDelete_Galactic_Empire_Quest_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_Galactic_Empire_Resource_GeneratorArgs = {
+  where: Galactic_Empire_Resource_Generator_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Galactic_Empire_Resource_Generator_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_Galactic_Empire_ResourcesArgs = {
   where: Galactic_Empire_Resources_Bool_Exp;
 };
@@ -3320,18 +3512,6 @@ export type Mutation_RootDelete_Quest_TypeArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Quest_Type_By_PkArgs = {
   value: Scalars['String'];
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Resource_GeneratorArgs = {
-  where: Resource_Generator_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Resource_Generator_By_PkArgs = {
-  id: Scalars['uuid'];
 };
 
 
@@ -3506,6 +3686,20 @@ export type Mutation_RootInsert_Galactic_Empire_Quest_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_Galactic_Empire_Resource_GeneratorArgs = {
+  objects: Array<Galactic_Empire_Resource_Generator_Insert_Input>;
+  on_conflict?: InputMaybe<Galactic_Empire_Resource_Generator_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Galactic_Empire_Resource_Generator_OneArgs = {
+  object: Galactic_Empire_Resource_Generator_Insert_Input;
+  on_conflict?: InputMaybe<Galactic_Empire_Resource_Generator_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_Galactic_Empire_ResourcesArgs = {
   objects: Array<Galactic_Empire_Resources_Insert_Input>;
   on_conflict?: InputMaybe<Galactic_Empire_Resources_On_Conflict>;
@@ -3670,20 +3864,6 @@ export type Mutation_RootInsert_Quest_TypeArgs = {
 export type Mutation_RootInsert_Quest_Type_OneArgs = {
   object: Quest_Type_Insert_Input;
   on_conflict?: InputMaybe<Quest_Type_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Resource_GeneratorArgs = {
-  objects: Array<Resource_Generator_Insert_Input>;
-  on_conflict?: InputMaybe<Resource_Generator_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsert_Resource_Generator_OneArgs = {
-  object: Resource_Generator_Insert_Input;
-  on_conflict?: InputMaybe<Resource_Generator_On_Conflict>;
 };
 
 
@@ -3936,6 +4116,26 @@ export type Mutation_RootUpdate_Galactic_Empire_Quest_ManyArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Galactic_Empire_Resource_GeneratorArgs = {
+  _set?: InputMaybe<Galactic_Empire_Resource_Generator_Set_Input>;
+  where: Galactic_Empire_Resource_Generator_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Galactic_Empire_Resource_Generator_By_PkArgs = {
+  _set?: InputMaybe<Galactic_Empire_Resource_Generator_Set_Input>;
+  pk_columns: Galactic_Empire_Resource_Generator_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Galactic_Empire_Resource_Generator_ManyArgs = {
+  updates: Array<Galactic_Empire_Resource_Generator_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Galactic_Empire_ResourcesArgs = {
   _inc?: InputMaybe<Galactic_Empire_Resources_Inc_Input>;
   _set?: InputMaybe<Galactic_Empire_Resources_Set_Input>;
@@ -4184,26 +4384,6 @@ export type Mutation_RootUpdate_Quest_Type_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Quest_Type_ManyArgs = {
   updates: Array<Quest_Type_Updates>;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Resource_GeneratorArgs = {
-  _set?: InputMaybe<Resource_Generator_Set_Input>;
-  where: Resource_Generator_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Resource_Generator_By_PkArgs = {
-  _set?: InputMaybe<Resource_Generator_Set_Input>;
-  pk_columns: Resource_Generator_Pk_Columns_Input;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Resource_Generator_ManyArgs = {
-  updates: Array<Resource_Generator_Updates>;
 };
 
 
@@ -5612,6 +5792,12 @@ export type Query_Root = {
   galactic_empire_quest_aggregate: Galactic_Empire_Quest_Aggregate;
   /** fetch data from the table: "galactic_empire_quest" using primary key columns */
   galactic_empire_quest_by_pk?: Maybe<Galactic_Empire_Quest>;
+  /** fetch data from the table: "galactic_empire_resource_generator" */
+  galactic_empire_resource_generator: Array<Galactic_Empire_Resource_Generator>;
+  /** fetch aggregated fields from the table: "galactic_empire_resource_generator" */
+  galactic_empire_resource_generator_aggregate: Galactic_Empire_Resource_Generator_Aggregate;
+  /** fetch data from the table: "galactic_empire_resource_generator" using primary key columns */
+  galactic_empire_resource_generator_by_pk?: Maybe<Galactic_Empire_Resource_Generator>;
   /** fetch data from the table: "galactic_empire_resources" */
   galactic_empire_resources: Array<Galactic_Empire_Resources>;
   /** fetch aggregated fields from the table: "galactic_empire_resources" */
@@ -5684,12 +5870,6 @@ export type Query_Root = {
   quest_type_aggregate: Quest_Type_Aggregate;
   /** fetch data from the table: "quest_type" using primary key columns */
   quest_type_by_pk?: Maybe<Quest_Type>;
-  /** fetch data from the table: "resource_generator" */
-  resource_generator: Array<Resource_Generator>;
-  /** fetch aggregated fields from the table: "resource_generator" */
-  resource_generator_aggregate: Resource_Generator_Aggregate;
-  /** fetch data from the table: "resource_generator" using primary key columns */
-  resource_generator_by_pk?: Maybe<Resource_Generator>;
   /** fetch data from the table: "resource_generator_type" */
   resource_generator_type: Array<Resource_Generator_Type>;
   /** fetch aggregated fields from the table: "resource_generator_type" */
@@ -5889,6 +6069,29 @@ export type Query_RootGalactic_Empire_Quest_AggregateArgs = {
 
 
 export type Query_RootGalactic_Empire_Quest_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootGalactic_Empire_Resource_GeneratorArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Resource_Generator_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Resource_Generator_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Resource_Generator_Bool_Exp>;
+};
+
+
+export type Query_RootGalactic_Empire_Resource_Generator_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Resource_Generator_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Resource_Generator_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Resource_Generator_Bool_Exp>;
+};
+
+
+export type Query_RootGalactic_Empire_Resource_Generator_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -6166,29 +6369,6 @@ export type Query_RootQuest_Type_AggregateArgs = {
 
 export type Query_RootQuest_Type_By_PkArgs = {
   value: Scalars['String'];
-};
-
-
-export type Query_RootResource_GeneratorArgs = {
-  distinct_on?: InputMaybe<Array<Resource_Generator_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Resource_Generator_Order_By>>;
-  where?: InputMaybe<Resource_Generator_Bool_Exp>;
-};
-
-
-export type Query_RootResource_Generator_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Resource_Generator_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Resource_Generator_Order_By>>;
-  where?: InputMaybe<Resource_Generator_Bool_Exp>;
-};
-
-
-export type Query_RootResource_Generator_By_PkArgs = {
-  id: Scalars['uuid'];
 };
 
 
@@ -7808,165 +7988,6 @@ export type Quest_Updates = {
   where: Quest_Bool_Exp;
 };
 
-/** columns and relationships of "resource_generator" */
-export type Resource_Generator = {
-  __typename?: 'resource_generator';
-  created_at: Scalars['timestamptz'];
-  /** An object relationship */
-  galactic_empire: Galactic_Empire;
-  galactic_empire_id: Scalars['uuid'];
-  generator_type_id: Scalars['uuid'];
-  id: Scalars['uuid'];
-  /** An object relationship */
-  resource_generator_type: Resource_Generator_Type;
-  updated_at: Scalars['timestamptz'];
-};
-
-/** aggregated selection of "resource_generator" */
-export type Resource_Generator_Aggregate = {
-  __typename?: 'resource_generator_aggregate';
-  aggregate?: Maybe<Resource_Generator_Aggregate_Fields>;
-  nodes: Array<Resource_Generator>;
-};
-
-/** aggregate fields of "resource_generator" */
-export type Resource_Generator_Aggregate_Fields = {
-  __typename?: 'resource_generator_aggregate_fields';
-  count: Scalars['Int'];
-  max?: Maybe<Resource_Generator_Max_Fields>;
-  min?: Maybe<Resource_Generator_Min_Fields>;
-};
-
-
-/** aggregate fields of "resource_generator" */
-export type Resource_Generator_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Resource_Generator_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** Boolean expression to filter rows from the table "resource_generator". All fields are combined with a logical 'AND'. */
-export type Resource_Generator_Bool_Exp = {
-  _and?: InputMaybe<Array<Resource_Generator_Bool_Exp>>;
-  _not?: InputMaybe<Resource_Generator_Bool_Exp>;
-  _or?: InputMaybe<Array<Resource_Generator_Bool_Exp>>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  galactic_empire?: InputMaybe<Galactic_Empire_Bool_Exp>;
-  galactic_empire_id?: InputMaybe<Uuid_Comparison_Exp>;
-  generator_type_id?: InputMaybe<Uuid_Comparison_Exp>;
-  id?: InputMaybe<Uuid_Comparison_Exp>;
-  resource_generator_type?: InputMaybe<Resource_Generator_Type_Bool_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "resource_generator" */
-export enum Resource_Generator_Constraint {
-  /** unique or primary key constraint on columns "id" */
-  ResourceGeneratorPkey = 'resource_generator_pkey'
-}
-
-/** input type for inserting data into table "resource_generator" */
-export type Resource_Generator_Insert_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']>;
-  galactic_empire?: InputMaybe<Galactic_Empire_Obj_Rel_Insert_Input>;
-  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
-  generator_type_id?: InputMaybe<Scalars['uuid']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  resource_generator_type?: InputMaybe<Resource_Generator_Type_Obj_Rel_Insert_Input>;
-  updated_at?: InputMaybe<Scalars['timestamptz']>;
-};
-
-/** aggregate max on columns */
-export type Resource_Generator_Max_Fields = {
-  __typename?: 'resource_generator_max_fields';
-  created_at?: Maybe<Scalars['timestamptz']>;
-  galactic_empire_id?: Maybe<Scalars['uuid']>;
-  generator_type_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
-};
-
-/** aggregate min on columns */
-export type Resource_Generator_Min_Fields = {
-  __typename?: 'resource_generator_min_fields';
-  created_at?: Maybe<Scalars['timestamptz']>;
-  galactic_empire_id?: Maybe<Scalars['uuid']>;
-  generator_type_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
-};
-
-/** response of any mutation on the table "resource_generator" */
-export type Resource_Generator_Mutation_Response = {
-  __typename?: 'resource_generator_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data from the rows affected by the mutation */
-  returning: Array<Resource_Generator>;
-};
-
-/** on_conflict condition type for table "resource_generator" */
-export type Resource_Generator_On_Conflict = {
-  constraint: Resource_Generator_Constraint;
-  update_columns?: Array<Resource_Generator_Update_Column>;
-  where?: InputMaybe<Resource_Generator_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "resource_generator". */
-export type Resource_Generator_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  galactic_empire?: InputMaybe<Galactic_Empire_Order_By>;
-  galactic_empire_id?: InputMaybe<Order_By>;
-  generator_type_id?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  resource_generator_type?: InputMaybe<Resource_Generator_Type_Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: resource_generator */
-export type Resource_Generator_Pk_Columns_Input = {
-  id: Scalars['uuid'];
-};
-
-/** select columns of table "resource_generator" */
-export enum Resource_Generator_Select_Column {
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  GalacticEmpireId = 'galactic_empire_id',
-  /** column name */
-  GeneratorTypeId = 'generator_type_id',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  UpdatedAt = 'updated_at'
-}
-
-/** input type for updating data in table "resource_generator" */
-export type Resource_Generator_Set_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']>;
-  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
-  generator_type_id?: InputMaybe<Scalars['uuid']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']>;
-};
-
-/** Streaming cursor of the table "resource_generator" */
-export type Resource_Generator_Stream_Cursor_Input = {
-  /** Stream column input with initial value */
-  initial_value: Resource_Generator_Stream_Cursor_Value_Input;
-  /** cursor ordering */
-  ordering?: InputMaybe<Cursor_Ordering>;
-};
-
-/** Initial value of the column from where the streaming should start */
-export type Resource_Generator_Stream_Cursor_Value_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']>;
-  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
-  generator_type_id?: InputMaybe<Scalars['uuid']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']>;
-};
-
 /** columns and relationships of "resource_generator_type" */
 export type Resource_Generator_Type = {
   __typename?: 'resource_generator_type';
@@ -8174,27 +8195,6 @@ export type Resource_Generator_Type_Updates = {
   _set?: InputMaybe<Resource_Generator_Type_Set_Input>;
   /** filter the rows which have to be updated */
   where: Resource_Generator_Type_Bool_Exp;
-};
-
-/** update columns of table "resource_generator" */
-export enum Resource_Generator_Update_Column {
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  GalacticEmpireId = 'galactic_empire_id',
-  /** column name */
-  GeneratorTypeId = 'generator_type_id',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  UpdatedAt = 'updated_at'
-}
-
-export type Resource_Generator_Updates = {
-  /** sets the columns of the filtered rows to the given values */
-  _set?: InputMaybe<Resource_Generator_Set_Input>;
-  /** filter the rows which have to be updated */
-  where: Resource_Generator_Bool_Exp;
 };
 
 /** columns and relationships of "resource_type" */
@@ -8420,6 +8420,14 @@ export type Subscription_Root = {
   galactic_empire_quest_by_pk?: Maybe<Galactic_Empire_Quest>;
   /** fetch data from the table in a streaming manner: "galactic_empire_quest" */
   galactic_empire_quest_stream: Array<Galactic_Empire_Quest>;
+  /** fetch data from the table: "galactic_empire_resource_generator" */
+  galactic_empire_resource_generator: Array<Galactic_Empire_Resource_Generator>;
+  /** fetch aggregated fields from the table: "galactic_empire_resource_generator" */
+  galactic_empire_resource_generator_aggregate: Galactic_Empire_Resource_Generator_Aggregate;
+  /** fetch data from the table: "galactic_empire_resource_generator" using primary key columns */
+  galactic_empire_resource_generator_by_pk?: Maybe<Galactic_Empire_Resource_Generator>;
+  /** fetch data from the table in a streaming manner: "galactic_empire_resource_generator" */
+  galactic_empire_resource_generator_stream: Array<Galactic_Empire_Resource_Generator>;
   /** fetch data from the table: "galactic_empire_resources" */
   galactic_empire_resources: Array<Galactic_Empire_Resources>;
   /** fetch aggregated fields from the table: "galactic_empire_resources" */
@@ -8518,14 +8526,6 @@ export type Subscription_Root = {
   quest_type_by_pk?: Maybe<Quest_Type>;
   /** fetch data from the table in a streaming manner: "quest_type" */
   quest_type_stream: Array<Quest_Type>;
-  /** fetch data from the table: "resource_generator" */
-  resource_generator: Array<Resource_Generator>;
-  /** fetch aggregated fields from the table: "resource_generator" */
-  resource_generator_aggregate: Resource_Generator_Aggregate;
-  /** fetch data from the table: "resource_generator" using primary key columns */
-  resource_generator_by_pk?: Maybe<Resource_Generator>;
-  /** fetch data from the table in a streaming manner: "resource_generator" */
-  resource_generator_stream: Array<Resource_Generator>;
   /** fetch data from the table: "resource_generator_type" */
   resource_generator_type: Array<Resource_Generator_Type>;
   /** fetch aggregated fields from the table: "resource_generator_type" */
@@ -8781,6 +8781,36 @@ export type Subscription_RootGalactic_Empire_Quest_StreamArgs = {
   batch_size: Scalars['Int'];
   cursor: Array<InputMaybe<Galactic_Empire_Quest_Stream_Cursor_Input>>;
   where?: InputMaybe<Galactic_Empire_Quest_Bool_Exp>;
+};
+
+
+export type Subscription_RootGalactic_Empire_Resource_GeneratorArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Resource_Generator_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Resource_Generator_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Resource_Generator_Bool_Exp>;
+};
+
+
+export type Subscription_RootGalactic_Empire_Resource_Generator_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Galactic_Empire_Resource_Generator_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Galactic_Empire_Resource_Generator_Order_By>>;
+  where?: InputMaybe<Galactic_Empire_Resource_Generator_Bool_Exp>;
+};
+
+
+export type Subscription_RootGalactic_Empire_Resource_Generator_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootGalactic_Empire_Resource_Generator_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Galactic_Empire_Resource_Generator_Stream_Cursor_Input>>;
+  where?: InputMaybe<Galactic_Empire_Resource_Generator_Bool_Exp>;
 };
 
 
@@ -9148,36 +9178,6 @@ export type Subscription_RootQuest_Type_StreamArgs = {
   batch_size: Scalars['Int'];
   cursor: Array<InputMaybe<Quest_Type_Stream_Cursor_Input>>;
   where?: InputMaybe<Quest_Type_Bool_Exp>;
-};
-
-
-export type Subscription_RootResource_GeneratorArgs = {
-  distinct_on?: InputMaybe<Array<Resource_Generator_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Resource_Generator_Order_By>>;
-  where?: InputMaybe<Resource_Generator_Bool_Exp>;
-};
-
-
-export type Subscription_RootResource_Generator_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Resource_Generator_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Resource_Generator_Order_By>>;
-  where?: InputMaybe<Resource_Generator_Bool_Exp>;
-};
-
-
-export type Subscription_RootResource_Generator_By_PkArgs = {
-  id: Scalars['uuid'];
-};
-
-
-export type Subscription_RootResource_Generator_StreamArgs = {
-  batch_size: Scalars['Int'];
-  cursor: Array<InputMaybe<Resource_Generator_Stream_Cursor_Input>>;
-  where?: InputMaybe<Resource_Generator_Bool_Exp>;
 };
 
 
@@ -10753,7 +10753,7 @@ export type SubmitEmpireQuestCompletionRequestMutation = { __typename?: 'mutatio
 export type ResourceGeneratorsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ResourceGeneratorsSubscription = { __typename?: 'subscription_root', resource_generator: Array<{ __typename?: 'resource_generator', created_at: string, galactic_empire_id: string, resource_generator_type: { __typename?: 'resource_generator_type', generation_rate: number[], name: string, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null } }> };
+export type ResourceGeneratorsSubscription = { __typename?: 'subscription_root', galactic_empire_resource_generator: Array<{ __typename?: 'galactic_empire_resource_generator', created_at: string, galactic_empire_id: string, resource_generator_type: { __typename?: 'resource_generator_type', generation_rate: number[], name: string, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null } }> };
 
 export type GalacticEmpireResourcesSubscriptionVariables = Exact<{
   empireId: Scalars['uuid'];
@@ -11516,7 +11516,7 @@ export type SubmitEmpireQuestCompletionRequestMutationResult = Apollo.MutationRe
 export type SubmitEmpireQuestCompletionRequestMutationOptions = Apollo.BaseMutationOptions<SubmitEmpireQuestCompletionRequestMutation, SubmitEmpireQuestCompletionRequestMutationVariables>;
 export const ResourceGeneratorsDocument = gql`
     subscription ResourceGenerators {
-  resource_generator {
+  galactic_empire_resource_generator {
     created_at
     resource_generator_type {
       generation_rate
