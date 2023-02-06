@@ -16,13 +16,14 @@ import {
 } from '@chakra-ui/react';
 import { GiTalk } from 'react-icons/gi';
 import { MdMenuBook } from 'react-icons/md';
-import { useUiBackground } from '../hooks/use-ui-background';
 import {
   responsiveFontProps,
   responsiveIconProps,
 } from '../_responsive-utils/font-props';
+import { empireNpcsVar } from '../_state/galactic-empire';
 import { hotkeyHintsVar } from '../_state/global-settings';
 import { globalUiVar } from '../_state/global-ui';
+import { useUiBackground } from '../hooks/use-ui-background';
 
 type InGameMenuProps = StackProps;
 
@@ -59,6 +60,8 @@ export const InGameMenu = ({ ...stackProps }: InGameMenuProps) => {
   const { bg, border } = useUiBackground();
 
   const hotkeyHints = useReactiveVar(hotkeyHintsVar);
+
+  const npcs = useReactiveVar(empireNpcsVar);
 
   const buttonProps: ButtonProps = {
     height: '60px',
@@ -100,17 +103,19 @@ export const InGameMenu = ({ ...stackProps }: InGameMenuProps) => {
           {hotkeyHints && <Kbd {...responsiveFontProps}>J</Kbd>}
         </Button>
       </MenuToolTip>
-      <MenuToolTip name="NPC Contact" kbd="D">
-        <Button
-          {...buttonProps}
-          onClick={() => {
-            globalUiVar({ ...globalUiVar(), npcContactOpen: true });
-          }}
-        >
-          <Icon as={GiTalk} {...iconProps} />
-          {hotkeyHints && <Kbd {...responsiveFontProps}>D</Kbd>}
-        </Button>
-      </MenuToolTip>
+      {npcs.length && (
+        <MenuToolTip name="NPC Contact" kbd="D">
+          <Button
+            {...buttonProps}
+            onClick={() => {
+              globalUiVar({ ...globalUiVar(), npcContactOpen: true });
+            }}
+          >
+            <Icon as={GiTalk} {...iconProps} />
+            {hotkeyHints && <Kbd {...responsiveFontProps}>D</Kbd>}
+          </Button>
+        </MenuToolTip>
+      )}
       <MenuToolTip name="Settings" kbd="Esc">
         <Button
           {...buttonProps}

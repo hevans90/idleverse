@@ -10,15 +10,13 @@ import {
 } from '@idleverse/galaxy-gql';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Loading } from '../../components/loading';
 import { galacticEmpireVar, myEmpireVar } from '../../_state/galactic-empire';
 import { galaxyConfigVar, selfVar } from '../../_state/reactive-variables';
-import { GameUIBottomBar } from '../galaxy-generator/ui/bottom-bar';
+import { Loading } from '../../components/loading';
 import { PixiWrapper } from '../_utils/pixi-wrapper';
+import { GameUIBottomBar } from '../galaxy-generator/ui/bottom-bar';
 
-import { celestialOwnerMapper } from './celestial-owner';
 import { GalaxyViewer } from './galaxy-viewer';
-import { PlayerPanel } from './ui/player-panel';
 
 export const GalaxyViewerContainer = () => {
   const { id } = useParams<{ id: string }>();
@@ -69,13 +67,13 @@ export const GalaxyViewerContainer = () => {
       <PixiWrapper
         ui={
           <>
-            <PlayerPanel
+            {/* <PlayerPanel
               userId={userId}
               galaxyId={data.galaxy_by_pk.id}
               owners={celestialOwnerMapper(celestialData)}
               loading={celestialLoading}
               error={celestialError}
-            ></PlayerPanel>
+            ></PlayerPanel> */}
             <GameUIBottomBar bottom={0} />
           </>
         }

@@ -87,10 +87,10 @@ export type QuestCompletion = {
 
 export type QuestReward = {
   __typename?: 'QuestReward';
-  npc_unlock_id: Scalars['String'];
-  resource_accrual_amount: Scalars['Float'];
-  resource_accrual_type_id: Scalars['String'];
-  resource_unlock_id: Scalars['String'];
+  npc_unlock_id?: Maybe<Scalars['String']>;
+  resource_accrual_amount?: Maybe<Scalars['Float']>;
+  resource_accrual_type_id?: Maybe<Scalars['String']>;
+  resource_unlock_id?: Maybe<Scalars['String']>;
   type: Scalars['String'];
 };
 
@@ -10700,7 +10700,7 @@ export type CompleteQuestMutationVariables = Exact<{
 }>;
 
 
-export type CompleteQuestMutation = { __typename?: 'mutation_root', completeQuest?: { __typename?: 'QuestCompletion', next_quest_in_chain_added?: string | null, quest_id: string } | null };
+export type CompleteQuestMutation = { __typename?: 'mutation_root', completeQuest?: { __typename?: 'QuestCompletion', next_quest_in_chain_added?: string | null, quest_id: string, rewards: Array<{ __typename?: 'QuestReward', npc_unlock_id?: string | null, resource_accrual_amount?: number | null, resource_accrual_type_id?: string | null, resource_unlock_id?: string | null, type: string }> } | null };
 
 export type EmpiresWithoutQuestsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -11390,6 +11390,13 @@ export const CompleteQuestDocument = gql`
   completeQuest(empire_quest_id: $empireQuestId) {
     next_quest_in_chain_added
     quest_id
+    rewards {
+      npc_unlock_id
+      resource_accrual_amount
+      resource_accrual_type_id
+      resource_unlock_id
+      type
+    }
   }
 }
     `;

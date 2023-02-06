@@ -1,14 +1,15 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import { useReactiveVar } from '@apollo/client';
 import { useDisclosure } from '@chakra-ui/react';
-import { useKeypress } from '../hooks/use-keypress';
-import { useRealtimeEmpireUpdates } from '../hooks/use-realtime-empire-updates';
 import { dialogVar } from '../_state/dialog';
 import { globalUiVar } from '../_state/global-ui';
+import { useKeypress } from '../hooks/use-keypress';
+import { useRealtimeEmpireUpdates } from '../hooks/use-realtime-empire-updates';
 import { Dialog } from './dialog';
 import { InGameMenu } from './in-game-menu';
 import { NpcContact } from './npc-contact/npc-contact';
 import { QuestJournal } from './quest-journal/quest-journal';
+import { QuestOverlay } from './quest-overlay';
 
 export const GameUI = ({ empireId }: { empireId: string }) => {
   const { entries } = useReactiveVar(dialogVar);
@@ -59,12 +60,16 @@ export const GameUI = ({ empireId }: { empireId: string }) => {
               onNpcContactClose();
             }}
           />
-          <Dialog
-            entries={entries}
+          <Dialog entries={entries} position="absolute" bottom={0} left={0} />
+
+          <QuestOverlay
             position="absolute"
-            bottom={0}
-            left={0}
-          ></Dialog>
+            top={0}
+            right={0}
+            borderWidth="1px"
+            borderTopWidth={0}
+            borderRightWidth={0}
+          />
         </>
       )}
     </>

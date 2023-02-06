@@ -11,8 +11,8 @@ import {
   StackDivider,
   StackProps,
   Text,
-  useColorModeValue,
   VStack,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { CelestialByIdQuery } from '@idleverse/galaxy-gql';
 import {
@@ -21,8 +21,8 @@ import {
 } from '../../../_state/celestial-viewer';
 
 import { Link as ReactRouterLink } from 'react-router-dom';
-import { useUiBackground } from '../../../hooks/use-ui-background';
 import { colorsVar } from '../../../_state/colors';
+import { useUiBackground } from '../../../hooks/use-ui-background';
 
 type Props = Pick<
   CelestialByIdQuery['celestial_by_pk'],
@@ -59,12 +59,11 @@ export const InfoBox = ({
       position="absolute"
       alignItems="start"
       bgColor={bg}
-      top="0"
+      top="40%"
       right="0"
       borderWidth="1px"
       borderStyle="solid"
       borderColor={border}
-      borderTop="unset"
       borderRight="unset"
       fontSize="sm"
     >
