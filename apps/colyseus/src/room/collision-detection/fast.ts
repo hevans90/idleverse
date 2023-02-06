@@ -27,12 +27,14 @@ export class SpatialHashGrid {
   }
 
   newClient = (
+    id: string,
     name: string,
     position: Position,
     dimensions: Dimensions,
     geometry: ColyseusEntityBase['geometry']
   ) => {
     const client: SpatialHashGridClient = {
+      id,
       name,
       position,
       geometry,

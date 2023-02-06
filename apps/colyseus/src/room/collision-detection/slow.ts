@@ -12,8 +12,14 @@ export class SpatialHashGrid {
   dimensions: Dimensions;
   cells: Map<number, number>;
 
-  newClient = (name: string, position: Position, dimensions: Dimensions) => {
+  newClient = (
+    id: string,
+    name: string,
+    position: Position,
+    dimensions: Dimensions
+  ) => {
     const client: SpatialHashGridClient = {
+      id,
       name,
       position,
       dimensions,

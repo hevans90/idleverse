@@ -58,9 +58,11 @@ export const onJoin = (
 
   // create the player's ship at the newly-claimed spawn location
 
+  const shipName = `${options.displayName}'s ship`;
+
   const newShip = new ColyseusShip({
     ...basicShip,
-    name: `${options.displayName}'s ship`,
+    name: shipName,
     userId: options.userId,
     colyseusUserId: client.id,
     positionX: claimedSpawn.x,
@@ -72,6 +74,7 @@ export const onJoin = (
   // collision detection
   const gridClient = room.grid.newClient(
     client.id,
+    shipName,
     {
       x: claimedSpawn.x,
       y: claimedSpawn.y,

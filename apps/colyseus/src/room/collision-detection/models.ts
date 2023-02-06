@@ -14,6 +14,7 @@ export type LinkedListItem = {
 };
 
 export type SpatialHashGridClient = {
+  id: string;
   name: string;
   position: Position;
   dimensions: Dimensions;
