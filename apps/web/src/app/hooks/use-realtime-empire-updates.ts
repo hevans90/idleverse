@@ -1,4 +1,4 @@
-import { useSubscription } from '@apollo/client';
+import { useReactiveVar, useSubscription } from '@apollo/client';
 import {
   ActiveGalacticEmpireQuestsDocument,
   ActiveGalacticEmpireQuestsSubscription,
@@ -20,8 +20,11 @@ import {
   empireNpcsVar,
   empireResourcesVar,
 } from '../_state/galactic-empire';
+import { resourcesVar } from '../_state/resources';
 
 export const useRealtimeEmpireUpdates = (empireId: string) => {
+  const resources = useReactiveVar(resourcesVar);
+
   const {
     data: resourcesData,
     loading: resourcesLoading,
@@ -68,9 +71,20 @@ export const useRealtimeEmpireUpdates = (empireId: string) => {
 
   useEffect(() => {
     if (resourcesData) {
-      empireResourcesVar(resourcesData.galactic_empire_resources);
+      empireResourcesVar(
+        resourcesData.galactic_empire_resources.map(
+          ({ id, value, resource_type }) => ({
+            id,
+            imageUrl: resources.find(
+              ({ id: resourceId }) => resourceId === resource_type.id
+            )?.image_url,
+            name: resource_type.type,
+            value,
+          })
+        )
+      );
     }
-  }, [resourcesLoading, resourcesData]);
+  }, [resourcesLoading, resourcesData, resources]);
 
   useEffect(() => {
     if (npcsData) {

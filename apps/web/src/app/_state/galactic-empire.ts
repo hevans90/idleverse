@@ -3,7 +3,6 @@ import {
   CompletedGalacticEmpireQuestsSubscription,
   GalacticEmpireFieldsFragment,
   GalacticEmpireNpcsSubscription,
-  GalacticEmpireResourcesSubscription,
 } from '@idleverse/galaxy-gql';
 import { makeVarPersisted } from './utils';
 
@@ -15,7 +14,7 @@ export const galacticEmpireVar = makeVarPersisted<GalacticEmpireFieldsFragment>(
 export const myEmpireVar = makeVarPersisted<boolean>(false, 'myEmpire');
 
 export const empireResourcesVar = makeVarPersisted<
-  GalacticEmpireResourcesSubscription['galactic_empire_resources']
+  { id: string; imageUrl: string; name: string; value: number }[]
 >([], 'empireResources');
 
 export const empireNpcsVar = makeVarPersisted<

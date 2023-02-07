@@ -3,9 +3,9 @@ import { Box } from '@chakra-ui/react';
 import { hexStringToNumber } from '@idleverse/theme';
 import { Stage } from '@saitonakamura/react-pixi';
 import { useEffect, useState } from 'react';
+import { galacticEmpireVar, myEmpireVar } from '../../_state/galactic-empire';
 import { GameUI } from '../../game-ui/game-ui';
 import { useUiBackground } from '../../hooks/use-ui-background';
-import { galacticEmpireVar, myEmpireVar } from '../../_state/galactic-empire';
 import { useDisableWheelZoom } from './use-disable-wheel-zoom.hook';
 import { controls, useResize } from './use-resize.hook';
 

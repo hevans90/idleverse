@@ -17,14 +17,14 @@ import {
   galaxyConfigVar,
   galaxyRotationVar,
 } from '../../_state/reactive-variables';
+import { useResize } from '../_utils/use-resize.hook';
+import { useViewport } from '../_utils/use-viewport.hook';
 import {
-  claimStar,
   Star,
+  claimStar,
   unclaimStar,
 } from '../galaxy-generator/graphics/star';
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
-import { useResize } from '../_utils/use-resize.hook';
-import { useViewport } from '../_utils/use-viewport.hook';
 import {
   claimedCelestials,
   diffOwnedCelestials,
@@ -108,7 +108,7 @@ export const GalaxyViewer = ({
         id,
         isClaimed: star.isClaimed,
         ownerId,
-        claimedCol: colors[colorsVar().secondary]['300'],
+        claimedCol: colors[colorsVar().secondary]['400'],
         unclaimedCol: colors[colorsVar().secondary]['200'],
       });
 

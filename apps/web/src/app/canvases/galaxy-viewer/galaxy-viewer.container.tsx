@@ -1,12 +1,12 @@
-import { useQuery, useReactiveVar, useSubscription } from '@apollo/client';
+import { useReactiveVar, useSubscription } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
 import { dbGalaxyToGalaxyConfig } from '@idleverse/galaxy-gen';
 import {
   CelestialsByGalaxyIdDocument,
   CelestialsByGalaxyIdSubscription,
   CelestialsByGalaxyIdSubscriptionVariables,
-  GalaxyByIdDocument,
-  GalaxyByIdQuery,
+  GalaxyByIdSubDocument,
+  GalaxyByIdSubSubscription,
 } from '@idleverse/galaxy-gql';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -23,9 +23,12 @@ export const GalaxyViewerContainer = () => {
 
   const { id: userId } = useReactiveVar(selfVar);
 
-  const { data, loading } = useQuery<GalaxyByIdQuery>(GalaxyByIdDocument, {
-    variables: { id },
-  });
+  const { data, loading } = useSubscription<GalaxyByIdSubSubscription>(
+    GalaxyByIdSubDocument,
+    {
+      variables: { id },
+    }
+  );
 
   const navigate = useNavigate();
 

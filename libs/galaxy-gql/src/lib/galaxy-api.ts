@@ -10803,6 +10803,13 @@ export type GalaxyByIdQueryVariables = Exact<{
 
 export type GalaxyByIdQuery = { __typename?: 'query_root', galaxy_by_pk?: { __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> } | null };
 
+export type GalaxyByIdSubSubscriptionVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type GalaxyByIdSubSubscription = { __typename?: 'subscription_root', galaxy_by_pk?: { __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> } | null };
+
 export type GetGalaxyByIdAndUnclaimedCelestialsQueryVariables = Exact<{
   galaxyId: Scalars['uuid'];
 }>;
@@ -11609,6 +11616,14 @@ export const GalaxyByIdDocument = gql`
 }
     ${GalaxyFieldsFragmentDoc}`;
 export type GalaxyByIdQueryResult = Apollo.QueryResult<GalaxyByIdQuery, GalaxyByIdQueryVariables>;
+export const GalaxyByIdSubDocument = gql`
+    subscription GalaxyByIdSub($id: uuid!) {
+  galaxy_by_pk(id: $id) {
+    ...GalaxyFields
+  }
+}
+    ${GalaxyFieldsFragmentDoc}`;
+export type GalaxyByIdSubSubscriptionResult = Apollo.SubscriptionResult<GalaxyByIdSubSubscription>;
 export const GetGalaxyByIdAndUnclaimedCelestialsDocument = gql`
     query GetGalaxyByIdAndUnclaimedCelestials($galaxyId: uuid!) {
   galaxy_by_pk(id: $galaxyId) {

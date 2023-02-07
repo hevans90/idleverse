@@ -21,10 +21,11 @@ export const QuestOverlay = ({ ...stackProps }: QuestOverlayProps) => {
   return (
     <VStack
       {...stackProps}
+      display={['none', 'block']}
       bgColor={bg}
       borderColor={border}
       borderStyle="dashed"
-      maxWidth={['50%', '45%', '40%', '35%', '30%']}
+      maxWidth={['unset', '65%', '40%', '35%', '30%']}
       padding={[1, 3, 5]}
       paddingTop={[3, 5, 7]}
       divider={<StackDivider borderColor={border} />}
@@ -38,7 +39,7 @@ export const QuestOverlay = ({ ...stackProps }: QuestOverlayProps) => {
     >
       {activeQuests.map((questData, i) => (
         <VStack key={i} width="100%" alignItems="start">
-          <Heading size={['xxs', 'xs']}>
+          <Heading size="xs">
             <u>{questData.quest?.name}</u>
           </Heading>
           <Text {...responsiveFontProps}>
@@ -50,6 +51,9 @@ export const QuestOverlay = ({ ...stackProps }: QuestOverlayProps) => {
           </Text>
         </VStack>
       ))}
+      {activeQuests.length === 0 && (
+        <Heading size="xs">No active quests</Heading>
+      )}
     </VStack>
   );
 };
