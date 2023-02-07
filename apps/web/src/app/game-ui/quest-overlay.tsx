@@ -50,6 +50,9 @@ export const QuestOverlay = ({ ...stackProps }: QuestOverlayProps) => {
           </Text>
         </VStack>
       ))}
+      {activeQuests.length === 0 && (
+        <Heading size={['xxs', 'xs']}>No active quests</Heading>
+      )}
     </VStack>
   );
 };

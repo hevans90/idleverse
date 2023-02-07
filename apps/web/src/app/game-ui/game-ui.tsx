@@ -3,6 +3,7 @@ import { useReactiveVar } from '@apollo/client';
 import { useDisclosure } from '@chakra-ui/react';
 import { dialogVar } from '../_state/dialog';
 import { globalUiVar } from '../_state/global-ui';
+import { BREADCRUMB_HEIGHT } from '../components/breadcrumb';
 import { useKeypress } from '../hooks/use-keypress';
 import { useRealtimeEmpireUpdates } from '../hooks/use-realtime-empire-updates';
 import { Dialog } from './dialog';
@@ -10,11 +11,14 @@ import { InGameMenu } from './in-game-menu';
 import { NpcContact } from './npc-contact/npc-contact';
 import { QuestJournal } from './quest-journal/quest-journal';
 import { QuestOverlay } from './quest-overlay';
+import { ResourceBar } from './resource-bar';
+import { ResourceOverview } from './resource-overview/resource-overview';
 
 export const GameUI = ({ empireId }: { empireId: string }) => {
   const { entries } = useReactiveVar(dialogVar);
 
-  const { questJournalOpen, npcContactOpen } = useReactiveVar(globalUiVar);
+  const { questJournalOpen, npcContactOpen, resourceOverviewOpen } =
+    useReactiveVar(globalUiVar);
 
   useRealtimeEmpireUpdates(empireId);
 
@@ -34,11 +38,22 @@ export const GameUI = ({ empireId }: { empireId: string }) => {
       globalUiVar({ ...globalUiVar(), npcContactOpen: false });
     }
   });
+  useKeypress('KeyR', () => {
+    if (!resourceOverviewOpen) {
+      onResourceOverviewOpen();
+      globalUiVar({ ...globalUiVar(), resourceOverviewOpen: true });
+    } else {
+      globalUiVar({ ...globalUiVar(), resourceOverviewOpen: false });
+    }
+  });
 
   const { onOpen: onQuestJournalOpen, onClose: onQuestJournalClose } =
     useDisclosure();
 
   const { onOpen: onNpcContactOpen, onClose: onNpcContactClose } =
+    useDisclosure();
+
+  const { onOpen: onResourceOverviewOpen, onClose: onResourceOverviewClose } =
     useDisclosure();
 
   return (
@@ -60,7 +75,20 @@ export const GameUI = ({ empireId }: { empireId: string }) => {
               onNpcContactClose();
             }}
           />
+          <ResourceOverview
+            isOpen={resourceOverviewOpen}
+            onClose={() => {
+              globalUiVar({ ...globalUiVar(), resourceOverviewOpen: false });
+              onResourceOverviewClose();
+            }}
+          />
           <Dialog entries={entries} position="absolute" bottom={0} left={0} />
+
+          <ResourceBar
+            position="absolute"
+            top={[0, 0, BREADCRUMB_HEIGHT]}
+            left={0}
+          />
 
           <QuestOverlay
             position="absolute"

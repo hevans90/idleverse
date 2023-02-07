@@ -2,16 +2,18 @@ import { ActiveGalacticEmpireQuestsSubscription } from '@idleverse/galaxy-gql';
 import { makeVarPersisted } from './utils';
 
 export const globalUiVar = makeVarPersisted<{
-  questJournalOpen: boolean;
   escapeMenuOpen: boolean;
-  questJournalShowCompleted: boolean;
   npcContactOpen: boolean;
+  questJournalOpen: boolean;
+  questJournalShowCompleted: boolean;
+  resourceOverviewOpen: boolean;
 }>(
   {
-    questJournalOpen: false,
     escapeMenuOpen: false,
-    questJournalShowCompleted: true,
     npcContactOpen: false,
+    questJournalOpen: false,
+    questJournalShowCompleted: true,
+    resourceOverviewOpen: false,
   },
   'globalUi'
 );

@@ -14,13 +14,13 @@ import {
   useColorModeValue,
   VStack,
 } from '@chakra-ui/react';
-import { GiTalk } from 'react-icons/gi';
+import { GiMining, GiTalk } from 'react-icons/gi';
 import { MdMenuBook } from 'react-icons/md';
 import {
   responsiveFontProps,
   responsiveIconProps,
 } from '../_responsive-utils/font-props';
-import { empireNpcsVar } from '../_state/galactic-empire';
+import { empireNpcsVar, empireResourcesVar } from '../_state/galactic-empire';
 import { hotkeyHintsVar } from '../_state/global-settings';
 import { globalUiVar } from '../_state/global-ui';
 import { useUiBackground } from '../hooks/use-ui-background';
@@ -62,6 +62,7 @@ export const InGameMenu = ({ ...stackProps }: InGameMenuProps) => {
   const hotkeyHints = useReactiveVar(hotkeyHintsVar);
 
   const npcs = useReactiveVar(empireNpcsVar);
+  const resources = useReactiveVar(empireResourcesVar);
 
   const buttonProps: ButtonProps = {
     height: '60px',
@@ -113,6 +114,19 @@ export const InGameMenu = ({ ...stackProps }: InGameMenuProps) => {
           >
             <Icon as={GiTalk} {...iconProps} />
             {hotkeyHints && <Kbd {...responsiveFontProps}>D</Kbd>}
+          </Button>
+        </MenuToolTip>
+      )}
+      {resources.length && (
+        <MenuToolTip name="Resource Overview" kbd="R">
+          <Button
+            {...buttonProps}
+            onClick={() => {
+              globalUiVar({ ...globalUiVar(), resourceOverviewOpen: true });
+            }}
+          >
+            <Icon as={GiMining} {...iconProps} />
+            {hotkeyHints && <Kbd {...responsiveFontProps}>R</Kbd>}
           </Button>
         </MenuToolTip>
       )}
