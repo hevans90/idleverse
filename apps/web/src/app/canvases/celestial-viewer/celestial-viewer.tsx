@@ -5,12 +5,12 @@ import { hexStringToNumber } from '@idleverse/theme';
 import { useApp } from '@saitonakamura/react-pixi';
 import { Container, TickerCallback } from 'pixi.js';
 import { useEffect, useRef, useState } from 'react';
-import { assetLoader } from '../../asset-loading/asset-loader';
 import {
   celestialViewerPlanetDataUris,
   celestialViewerSelectedPlanet,
 } from '../../_state/celestial-viewer';
 import { solarSystemConfigVar, timeVar } from '../../_state/reactive-variables';
+import { assetLoader } from '../../asset-loading/asset-loader';
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
 
 import {
@@ -129,6 +129,14 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
             )
           )
         );
+
+        // select first planet
+        if (celestial.planets.length) {
+          celestialViewerSelectedPlanet({
+            name: celestial.planets[0].name,
+            id: celestial.planets[0].id,
+          });
+        }
 
         tempPlanets.forEach(({ sprite }) =>
           solarSystemContainerRef.current.addChild(sprite)

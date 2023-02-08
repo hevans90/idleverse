@@ -20,6 +20,10 @@ export const ResourceBar = ({ ...stackProps }: ResourceBarProps) => {
 
   const color = useColorModeValue('gray.800', 'white');
 
+  if (!resources.length) {
+    return undefined;
+  }
+
   return (
     <HStack
       {...stackProps}

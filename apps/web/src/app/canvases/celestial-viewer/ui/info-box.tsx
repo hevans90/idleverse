@@ -8,10 +8,10 @@ import {
   IconButton,
   Image,
   Link,
-  StackDivider,
   StackProps,
   Text,
   VStack,
+  useBreakpointValue,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { CelestialByIdQuery } from '@idleverse/galaxy-gql';
@@ -21,25 +21,27 @@ import {
 } from '../../../_state/celestial-viewer';
 
 import { Link as ReactRouterLink } from 'react-router-dom';
+import { responsiveFontProps } from '../../../_responsive-utils/font-props';
 import { colorsVar } from '../../../_state/colors';
 import { useUiBackground } from '../../../hooks/use-ui-background';
 
-type Props = Pick<
+type InfoBoxProps = Pick<
   CelestialByIdQuery['celestial_by_pk'],
   'name' | 'user_info' | 'planets'
->;
+> &
+  StackProps;
 
 const rowProps: StackProps = {
   width: '100%',
   justify: 'space-between',
-  spacing: 5,
 };
 
 export const InfoBox = ({
   name,
   planets,
   user_info: { display_name, avatar_url },
-}: Props) => {
+  ...stackProps
+}: InfoBoxProps) => {
   const planetDataUris = useReactiveVar(celestialViewerPlanetDataUris);
 
   const { bg, border } = useUiBackground();
@@ -53,86 +55,102 @@ export const InfoBox = ({
     `${secondary}.300`
   );
 
+  const bp: 'small' | 'medium' | 'large' = useBreakpointValue({
+    base: 'small',
+    md: 'medium',
+    lg: 'large',
+  });
+
   return (
-    <VStack
-      padding="1rem"
-      position="absolute"
-      alignItems="start"
+    <HStack
+      {...stackProps}
+      padding={[2, 4]}
       bgColor={bg}
-      top="40%"
-      right="0"
       borderWidth="1px"
       borderStyle="solid"
       borderColor={border}
-      borderRight="unset"
-      fontSize="sm"
+      alignItems="start"
+      justifyContent="space-between"
+      height={['200px', '200px', '200px', 'unset']}
+      width={['100%', '100%', '100%', 'unset']}
     >
-      <HStack {...rowProps}>
-        <Text>Name:</Text>
-        <Text>{name}</Text>
-      </HStack>
-      <HStack {...rowProps}>
-        <Text>Owner:</Text>
-        <HStack>
-          <Avatar size="sm" src={avatar_url} mr={1} name={display_name} />
-          <Text>{display_name}</Text>
+      {bp === 'large' && (
+        <Image
+          bgColor={bg}
+          borderWidth="1px"
+          borderStyle="solid"
+          display={['none', 'none', 'block']}
+          boxSize="150px"
+          fallbackSrc="/placeholders/150x150.png"
+          src="/sprites/sun.png"
+        />
+      )}
+      <VStack height="100%">
+        <HStack {...rowProps}>
+          <Text {...responsiveFontProps}>Name:</Text>
+          <Text {...responsiveFontProps}>{name}</Text>
         </HStack>
-      </HStack>
-      <HStack {...rowProps} align="start">
-        {planets.length && (
-          <>
-            <Text>Planets:</Text>
-            <VStack
-              align="end"
-              borderWidth="1px"
-              borderStyle="solid"
-              borderColor={border}
-              spacing={0}
-              flexGrow={1}
-            >
-              {planets.map((planet, i) => (
-                <Box
-                  key={i}
-                  textAlign="end"
-                  width="100%"
-                  position="relative"
-                  padding={2}
-                  paddingLeft={4}
-                  _hover={{
-                    fontWeight: 'bold',
-                    cursor: 'pointer',
-                    background: `${primary}.600`,
-                    color: `${secondary}.500`,
-                  }}
-                  onClick={() =>
-                    celestialViewerSelectedPlanet({
-                      name: planet.name,
-                      id: planet.id,
-                    })
-                  }
-                  color={
-                    selectedPlanetId === planet.id
-                      ? selectedPlanetColor
-                      : 'white'
-                  }
-                >
-                  {selectedPlanetId === planet.id && (
-                    <ChevronRightIcon
-                      position="absolute"
-                      left="0"
-                      top="10px"
-                      boxSize={5}
-                    ></ChevronRightIcon>
-                  )}
-                  {planet.name}
-                </Box>
-              ))}
-            </VStack>
-          </>
-        )}
-      </HStack>
+        <HStack {...rowProps}>
+          <Text {...responsiveFontProps}>Owner:</Text>
+          <HStack>
+            <Avatar size="sm" src={avatar_url} mr={1} name={display_name} />
+            <Text {...responsiveFontProps}>{display_name}</Text>
+          </HStack>
+        </HStack>
+        <HStack {...rowProps} align="start">
+          {planets.length && (
+            <>
+              <Text {...responsiveFontProps}>Planets:</Text>
+              <VStack
+                align="end"
+                borderWidth="1px"
+                borderStyle="solid"
+                borderColor={border}
+                spacing={0}
+                flexGrow={1}
+              >
+                {planets.map((planet, i) => (
+                  <Box
+                    key={i}
+                    textAlign="end"
+                    width="100%"
+                    position="relative"
+                    padding={2}
+                    paddingLeft={4}
+                    _hover={{
+                      fontWeight: 'bold',
+                      cursor: 'pointer',
+                      background: `${primary}.600`,
+                    }}
+                    onClick={() =>
+                      celestialViewerSelectedPlanet({
+                        name: planet.name,
+                        id: planet.id,
+                      })
+                    }
+                    color={
+                      selectedPlanetId === planet.id
+                        ? selectedPlanetColor
+                        : 'white'
+                    }
+                  >
+                    {selectedPlanetId === planet.id && (
+                      <ChevronRightIcon
+                        position="absolute"
+                        left="0"
+                        boxSize={5}
+                      ></ChevronRightIcon>
+                    )}
+                    <Text {...responsiveFontProps}>{planet.name}</Text>
+                  </Box>
+                ))}
+              </VStack>
+            </>
+          )}
+        </HStack>
+      </VStack>
 
-      {!selectedPlanetId && (
+      {/* {!selectedPlanetId && (
         <Box paddingTop={5}>
           <Text>
             {planets.length ? (
@@ -142,7 +160,7 @@ export const InfoBox = ({
             )}
           </Text>
         </Box>
-      )}
+      )} */}
       {selectedPlanetId && (
         <PlanetInfo
           planetImageUrl={
@@ -153,7 +171,7 @@ export const InfoBox = ({
           onClose={() => celestialViewerSelectedPlanet(null)}
         ></PlanetInfo>
       )}
-    </VStack>
+    </HStack>
   );
 };
 
@@ -171,49 +189,71 @@ const PlanetInfo = ({
 }) => {
   const { border } = useUiBackground();
 
+  const bp: 'small' | 'medium' | 'large' = useBreakpointValue({
+    base: 'small',
+    md: 'medium',
+    lg: 'large',
+  });
+
   return (
-    <VStack
+    <HStack
       position="relative"
-      padding={5}
-      width="100%"
+      padding={[2, 2, 3, 5]}
       borderWidth="1px"
       borderStyle="solid"
       borderColor={border}
-      fontSize="xs"
       spacing={3}
     >
-      <IconButton
-        position="absolute"
-        top="5px"
-        right="5px"
-        aria-label="Deselect planet"
-        icon={<CloseIcon />}
-        size="xs"
-        onClick={() => onClose()}
-      />
+      {bp === 'large' && (
+        <IconButton
+          position="absolute"
+          top="5px"
+          right="5px"
+          aria-label="Deselect planet"
+          icon={<CloseIcon />}
+          size="xs"
+          onClick={() => onClose()}
+        />
+      )}
 
-      <Image boxSize="150px" src={planetImageUrl} borderRadius="full" />
+      {bp === 'large' && (
+        <Image
+          boxSize="100px"
+          src={planetImageUrl}
+          fallbackSrc="/placeholders/150x150.png"
+          borderRadius="full"
+          style={{ margin: 'unset' }}
+        />
+      )}
 
-      <StackDivider />
+      <VStack spacing={3} paddingTop={[0, 0, 0, 3]}>
+        <HStack {...rowProps}>
+          <Text {...responsiveFontProps}>Name:</Text>
+          <Text {...responsiveFontProps}>{planetInfo.name}</Text>
+        </HStack>
 
-      <HStack {...rowProps}>
-        <Text>Name:</Text>
-        <Text>{planetInfo.name}</Text>
-      </HStack>
+        <HStack {...rowProps}>
+          <Text {...responsiveFontProps}>Radius:</Text>
+          <Text {...responsiveFontProps}>{planetInfo.radius}km</Text>
+        </HStack>
 
-      <HStack {...rowProps}>
-        <Text>Radius:</Text>
-        <Text>{planetInfo.radius}km</Text>
-      </HStack>
+        <HStack {...rowProps}>
+          <Text {...responsiveFontProps}>Atmospheric Height:</Text>
+          <Text {...responsiveFontProps}>
+            {planetInfo.atmospheric_distance * 100}m
+          </Text>
+        </HStack>
 
-      <HStack {...rowProps}>
-        <Text>Atmospheric Height:</Text>
-        <Text>{planetInfo.atmospheric_distance * 100}m</Text>
-      </HStack>
-
-      <Link as={ReactRouterLink} to={`/planets/${planetInfo.id}`} width="100%">
-        <Button width="100%">Visit</Button>
-      </Link>
-    </VStack>
+        <Link
+          as={ReactRouterLink}
+          to={`/planets/${planetInfo.id}`}
+          width="100%"
+        >
+          <Button width="100%" {...responsiveFontProps}>
+            Visit
+          </Button>
+        </Link>
+      </VStack>
+    </HStack>
   );
 };
