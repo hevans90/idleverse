@@ -1,0 +1,87 @@
+{
+  "name": "colyseus",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/colyseus/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/colyseus",
+        "main": "apps/colyseus/src/main.ts",
+        "tsConfig": "apps/colyseus/tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/colyseus/src/assets",
+            "output": "./"
+          }
+        ],
+        "generatePackageJson": true,
+        "target": "node",
+        "compiler": "tsc"
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/colyseus/src/environments/environment.ts",
+              "with": "apps/colyseus/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:node",
+      "options": {
+        "buildTarget": "colyseus:build"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "colyseus:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/colyseus/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/apps/colyseus"],
+      "options": {
+        "jestConfig": "apps/colyseus/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "npx push-dir --dir=dist/apps/colyseus --branch=heroku-colyseus-deploy --force"
+          }
+        ]
+      }
+    },
+    "benchmark-collision-detection": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "ts-node apps/colyseus/src/room/collision-detection/performance-test.ts"
+          }
+        ]
+      }
+    }
+  },
+  "tags": []
+}

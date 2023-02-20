@@ -6,6 +6,7 @@
 - [docker compose](https://docs.docker.com/compose/install/)
 - [nvm](https://github.com/nvm-sh/nvm#installing-and-updating) (and run `nvm use` at the root)
 - [yarn](https://classic.yarnpkg.com/lang/en/docs/install/)
+- nx: `yarn global add nx` (after which running `nx --version` should return >15.7.x)
 
 Once done with prereqs, run a `yarn` at the root to bootstrap your environment.
 

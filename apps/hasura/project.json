@@ -1,0 +1,35 @@
+{
+  "name": "idleverse-hasura",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/hasura/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "echo Ready to run migrations."
+          }
+        ]
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "hasura metadata apply --project apps/hasura/db --endpoint $HASURA_URL  --admin-secret $HASURA_ADMIN_SECRET --skip-update-check"
+          },
+          {
+            "command": "hasura migrate apply --project apps/hasura/db --endpoint $HASURA_URL  --admin-secret $HASURA_ADMIN_SECRET --database-name default --skip-update-check"
+          },
+          {
+            "command": "hasura metadata reload --project apps/hasura/db --endpoint $HASURA_URL  --admin-secret $HASURA_ADMIN_SECRET --skip-update-check"
+          }
+        ]
+      }
+    }
+  },
+  "tags": []
+}
