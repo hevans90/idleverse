@@ -7,7 +7,7 @@ export const dialogVar = makeVar<{ open: boolean; entries: DialogEntry[] }>({
     {
       id: '1',
       speakerName: 'Harkas Sanima',
-      imageUrl: '/races/arrakkens_pixel.png',
+      imageUrl: '/npcs/harkas_sanima.png',
       steps: [
         `You called?`,
         'Wait... something is wrong with comms... commander??? <fades out>',
