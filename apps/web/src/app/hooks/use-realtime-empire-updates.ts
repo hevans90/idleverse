@@ -12,9 +12,13 @@ import {
   GalacticEmpireResourcesDocument,
   GalacticEmpireResourcesSubscription,
   GalacticEmpireResourcesSubscriptionVariables,
+  ResourceGeneratorsByEmpireIdDocument,
+  ResourceGeneratorsByEmpireIdSubscription,
+  ResourceGeneratorsByEmpireIdSubscriptionVariables,
 } from '@idleverse/galaxy-gql';
 import { useEffect } from 'react';
 import {
+  ResourceGenerator,
   activeQuestsVar,
   completedQuestsVar,
   empireNpcsVar,
@@ -33,6 +37,17 @@ export const useRealtimeEmpireUpdates = (empireId: string) => {
     GalacticEmpireResourcesSubscription,
     GalacticEmpireResourcesSubscriptionVariables
   >(GalacticEmpireResourcesDocument, {
+    variables: { empireId },
+  });
+
+  const {
+    data: resourceGeneratorsData,
+    loading: resourceGeneratorsLoading,
+    error: resourceGeneratorsError,
+  } = useSubscription<
+    ResourceGeneratorsByEmpireIdSubscription,
+    ResourceGeneratorsByEmpireIdSubscriptionVariables
+  >(ResourceGeneratorsByEmpireIdDocument, {
     variables: { empireId },
   });
 
@@ -71,20 +86,75 @@ export const useRealtimeEmpireUpdates = (empireId: string) => {
 
   useEffect(() => {
     if (resourcesData) {
-      empireResourcesVar(
-        resourcesData.galactic_empire_resources.map(
-          ({ id, value, resource_type }) => ({
-            id,
-            imageUrl: resources.find(
-              ({ id: resourceId }) => resourceId === resource_type.id
-            )?.image_url,
-            name: resource_type.type,
-            value,
-          })
-        )
+      let data = resourcesData.galactic_empire_resources.map(
+        ({ value, resource_type }) => ({
+          id: resource_type.id,
+          imageUrl: resources.find(
+            ({ id: resourceId }) => resourceId === resource_type.id
+          )?.image_url,
+          name: resource_type.type,
+          value,
+          generationRate: 0,
+          generators: [],
+        })
       );
+
+      if (resourceGeneratorsData) {
+        const generation: {
+          resourceId: string;
+          rate: number;
+          generators: ResourceGenerator[];
+        }[] = resources.map(({ id }) => ({
+          resourceId: id,
+          rate: 0,
+          generators: [],
+        }));
+
+        resourceGeneratorsData.galactic_empire_resource_generator.forEach(
+          ({ resource_generator_type }) => {
+            const [rate1] = resource_generator_type.generation_rate;
+            const index1 = generation.findIndex(
+              ({ resourceId: id }) =>
+                id === resource_generator_type.resource_type.id
+            );
+
+            generation[index1].rate += rate1;
+            generation[index1].generators.push({
+              name: resource_generator_type.name,
+              rate: rate1,
+            });
+
+            if (resource_generator_type?.resource_type_2) {
+              const [_, rate2] = resource_generator_type.generation_rate;
+
+              const index2 = generation.findIndex(
+                ({ resourceId: id }) =>
+                  id === resource_generator_type.resource_type_2.id
+              );
+              generation[index2].rate += rate2;
+              generation[index2].generators.push({
+                name: resource_generator_type.name,
+                rate: rate2,
+              });
+            }
+          }
+        );
+
+        data = data.map((resource) => {
+          const res = generation.find(
+            ({ resourceId: id }) => id === resource.id
+          );
+
+          return {
+            ...resource,
+            generationRate: res?.rate,
+            generators: res?.generators,
+          };
+        });
+      }
+      empireResourcesVar(data);
     }
-  }, [resourcesLoading, resourcesData, resources]);
+  }, [resourcesData, resources, resourceGeneratorsData]);
 
   useEffect(() => {
     if (npcsData) {

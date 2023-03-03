@@ -41,7 +41,7 @@ export const ResourceBar = ({ ...stackProps }: ResourceBarProps) => {
         globalUiVar({ ...globalUiVar(), resourceOverviewOpen: true });
       }}
     >
-      {resources.map(({ name, value, imageUrl }, i) => (
+      {resources.map(({ name, value, imageUrl, generationRate }, i) => (
         <Tooltip
           key={i}
           placement="bottom"
@@ -62,6 +62,7 @@ export const ResourceBar = ({ ...stackProps }: ResourceBarProps) => {
               fallbackSrc="/placeholders/75x75-circle.png"
             />
             <Text>{value}</Text>
+            <Text>(+{generationRate})</Text>
           </HStack>
         </Tooltip>
       ))}
