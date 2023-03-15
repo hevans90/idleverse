@@ -17,3 +17,25 @@ subscription ResourceGenerators {
     galactic_empire_id
   }
 }
+
+subscription ResourceGeneratorsByEmpireId($empireId: uuid!) {
+  galactic_empire_resource_generator(
+    where: { galactic_empire_id: { _eq: $empireId } }
+  ) {
+    created_at
+    resource_generator_type {
+      generation_rate
+      resource_type {
+        id
+        type
+      }
+      name
+      id
+      resource_type_2 {
+        id
+        type
+      }
+    }
+    galactic_empire_id
+  }
+}

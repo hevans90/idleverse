@@ -1,5 +1,6 @@
 import { useReactiveVar } from '@apollo/client';
 import {
+  Code,
   HStack,
   Image,
   Modal,
@@ -13,7 +14,6 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { empireResourcesVar } from '../../_state/galactic-empire';
-import { resourcesVar } from '../../_state/resources';
 import { useUiBackground } from '../../hooks/use-ui-background';
 
 export const ResourceOverview = ({
@@ -25,7 +25,6 @@ export const ResourceOverview = ({
 }) => {
   const { bg, border, bgDark } = useUiBackground();
 
-  const resources = useReactiveVar(resourcesVar);
   const empireResources = useReactiveVar(empireResourcesVar);
 
   return (
@@ -52,19 +51,26 @@ export const ResourceOverview = ({
           <>
             {empireResources?.length > 0 && (
               <SimpleGrid padding={5} minChildWidth="150px">
-                {empireResources.map(({ name, value, imageUrl }, i) => (
-                  <VStack key={i}>
-                    <Image
-                      float="left"
-                      width={['75px', '100px']}
-                      height={['75px', '100px']}
-                      src={imageUrl}
-                      fallbackSrc="/placeholders/150x150.png"
-                    />
-                    <Text>{name}</Text>
-                    <Text>{value}</Text>
-                  </VStack>
-                ))}
+                {empireResources.map(
+                  (
+                    { name, value, imageUrl, generationRate, generators },
+                    i
+                  ) => (
+                    <VStack key={i}>
+                      <Image
+                        float="left"
+                        width={['75px', '100px']}
+                        height={['75px', '100px']}
+                        src={imageUrl}
+                        fallbackSrc="/placeholders/150x150.png"
+                      />
+                      <Text>{name}</Text>
+                      <Text>{value}</Text>
+                      <Text>(+{generationRate})</Text>
+                      <Code>{JSON.stringify(generators)}</Code>
+                    </VStack>
+                  )
+                )}
               </SimpleGrid>
             )}
             {empireResources?.length === 0 && (

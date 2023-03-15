@@ -10755,6 +10755,13 @@ export type ResourceGeneratorsSubscriptionVariables = Exact<{ [key: string]: nev
 
 export type ResourceGeneratorsSubscription = { __typename?: 'subscription_root', galactic_empire_resource_generator: Array<{ __typename?: 'galactic_empire_resource_generator', created_at: string, galactic_empire_id: string, resource_generator_type: { __typename?: 'resource_generator_type', generation_rate: number[], name: string, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null } }> };
 
+export type ResourceGeneratorsByEmpireIdSubscriptionVariables = Exact<{
+  empireId: Scalars['uuid'];
+}>;
+
+
+export type ResourceGeneratorsByEmpireIdSubscription = { __typename?: 'subscription_root', galactic_empire_resource_generator: Array<{ __typename?: 'galactic_empire_resource_generator', created_at: string, galactic_empire_id: string, resource_generator_type: { __typename?: 'resource_generator_type', generation_rate: number[], name: string, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null } }> };
+
 export type GalacticEmpireResourcesSubscriptionVariables = Exact<{
   empireId: Scalars['uuid'];
 }>;
@@ -11543,6 +11550,30 @@ export const ResourceGeneratorsDocument = gql`
 }
     `;
 export type ResourceGeneratorsSubscriptionResult = Apollo.SubscriptionResult<ResourceGeneratorsSubscription>;
+export const ResourceGeneratorsByEmpireIdDocument = gql`
+    subscription ResourceGeneratorsByEmpireId($empireId: uuid!) {
+  galactic_empire_resource_generator(
+    where: {galactic_empire_id: {_eq: $empireId}}
+  ) {
+    created_at
+    resource_generator_type {
+      generation_rate
+      resource_type {
+        id
+        type
+      }
+      name
+      id
+      resource_type_2 {
+        id
+        type
+      }
+    }
+    galactic_empire_id
+  }
+}
+    `;
+export type ResourceGeneratorsByEmpireIdSubscriptionResult = Apollo.SubscriptionResult<ResourceGeneratorsByEmpireIdSubscription>;
 export const GalacticEmpireResourcesDocument = gql`
     subscription GalacticEmpireResources($empireId: uuid!) {
   galactic_empire_resources(where: {galactic_empire_id: {_eq: $empireId}}) {
