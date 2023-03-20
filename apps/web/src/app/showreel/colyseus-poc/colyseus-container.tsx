@@ -31,7 +31,7 @@ import { ColyseusNotifications } from './ui/colyseus-notifications';
 import { ColyseusTrackingInfo } from './ui/colyseus-tracking-info';
 import { ColyseusSocial } from './ui/social';
 
-export const ColyseusContainer = () => {
+const ColyseusContainer = () => {
   const accessToken = useReactiveVar(accessTokenVar);
   const dimensions = useReactiveVar(colyseusRoomDimensionsVar);
   const toast = useToast();
@@ -238,3 +238,5 @@ export const ColyseusContainer = () => {
     </PixiWrapper>
   );
 };
+
+export default ColyseusContainer;

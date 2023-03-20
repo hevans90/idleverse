@@ -2,20 +2,20 @@ import { ApolloProvider, useReactiveVar } from '@apollo/client';
 import { useAuth0 } from '@auth0/auth0-react';
 import { apolloBootstrapper } from '@idleverse/graphql-utils';
 import jwt_decode from 'jwt-decode';
-import { useEffect } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Suspense, useEffect } from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { environment } from '../environments/environment';
-import { Layout } from './components/layout';
-import { Loading } from './components/loading';
-import { PreloadContainer } from './preload.container';
-import { Registration } from './registration/registration';
-import { routes } from './routes';
 import {
   accessTokenVar,
   galaxyConfigVar,
   galaxyRotationVar,
   roleVar,
 } from './_state/reactive-variables';
+import { Layout } from './components/layout';
+import { Loading } from './components/loading';
+import { PreloadContainer } from './preload.container';
+import { Registration } from './registration/registration';
+import { routes } from './routes';
 
 export const App = () => {
   const {
@@ -95,9 +95,27 @@ export const App = () => {
         <BrowserRouter>
           <Layout>
             <Routes>
-              {routes.map(({ path, component: Component }, key) => (
-                <Route path={path} key={key} element={<Component />}></Route>
-              ))}
+              {routes.map((route, key) => {
+                let element: JSX.Element = <route.component />;
+                if (route.adminOnly) {
+                  if (role !== 'dev') {
+                    element = <Navigate replace to="/" />;
+                  }
+                }
+                return (
+                  <Route
+                    path={route.path}
+                    key={key}
+                    element={
+                      <Suspense
+                        fallback={<Loading text={`Loading ${route.name}`} />}
+                      >
+                        {element}
+                      </Suspense>
+                    }
+                  ></Route>
+                );
+              })}
             </Routes>
           </Layout>
         </BrowserRouter>

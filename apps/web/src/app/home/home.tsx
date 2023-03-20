@@ -8,8 +8,8 @@ import {
   Stack,
   StackDivider,
   Text,
-  useColorModeValue,
   VStack,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import {
   GalacticEmpiresByUserIdDocument,
@@ -17,14 +17,14 @@ import {
   GalacticEmpiresByUserIdSubscriptionVariables,
 } from '@idleverse/galaxy-gql';
 import { Link as ReactRouterLink } from 'react-router-dom';
-import { Loading } from '../components/loading';
-import { useUiBackground } from '../hooks/use-ui-background';
 import { responsiveFontProps } from '../_responsive-utils/font-props';
 import { colorsVar } from '../_state/colors';
 import { layoutVar } from '../_state/global-settings';
 import { roleVar, selfVar } from '../_state/reactive-variables';
+import { Loading } from '../components/loading';
+import { useUiBackground } from '../hooks/use-ui-background';
 
-export const Home = () => {
+const Home = () => {
   const { id: userId } = useReactiveVar(selfVar);
 
   const { bgDarker, border } = useUiBackground();
@@ -94,13 +94,13 @@ export const Home = () => {
           justify={['center', 'center', 'center', 'end']}
         >
           <VStack divider={<StackDivider />} spacing={5}>
+            {role === 'dev' && (
+              <Link as={ReactRouterLink} to="/admin">
+                <Button {...responsiveFontProps}>Admin</Button>
+              </Link>
+            )}
             <Link as={ReactRouterLink} to="/showreel" width="100%">
               <Button {...responsiveFontProps}>Beta showreel</Button>
-            </Link>
-            <Link as={ReactRouterLink} to="/galaxy-gen">
-              <Button {...responsiveFontProps} disabled={role !== 'dev'}>
-                Make a galaxy
-              </Button>
             </Link>
             <Link as={ReactRouterLink} to="/galaxies">
               <Button {...responsiveFontProps} colorScheme={secondary}>
@@ -227,3 +227,5 @@ export const Home = () => {
     </Box>
   );
 };
+
+export default Home;

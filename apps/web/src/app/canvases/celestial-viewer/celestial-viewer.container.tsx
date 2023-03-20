@@ -19,7 +19,7 @@ import { CelestialViewer } from './celestial-viewer';
 import { DataUriGenerator } from './data-uri-generator';
 import { InfoBox } from './ui/info-box';
 
-export const CelestialViewerContainer = () => {
+const CelestialViewerContainer = () => {
   const { id } = useParams<{ id: string }>();
 
   const { id: userId } = useReactiveVar(selfVar);
@@ -167,3 +167,5 @@ export const CelestialViewerContainer = () => {
     );
   }
 };
+
+export default CelestialViewerContainer;

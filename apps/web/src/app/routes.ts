@@ -1,52 +1,83 @@
-import { CelestialViewerContainer } from './canvases/celestial-viewer/celestial-viewer.container';
-import { GalaxyGenContainer } from './canvases/galaxy-generator/galaxy-generator.container';
-import { GalaxyViewerContainer } from './canvases/galaxy-viewer/galaxy-viewer.container';
+import { lazy } from 'react';
 
-import { PlanetGenerator } from './canvases/planet-generator/planet-generator';
-import { PlanetViewer } from './canvases/planet-viewer/planet-viewer';
-import { JoinGalaxy } from './empire-creation/join-galaxy';
-import { GalaxyGalleryContainer } from './galaxy-gallery/galaxy-gallery.container';
-import { Home } from './home/home';
-import { ColyseusContainer } from './showreel/colyseus-poc/colyseus-container';
-import { GravitySimulationContainer } from './showreel/gravity-simulation/gravity-simulation.container';
-import { IsometricContainer } from './showreel/isometric-tiles/isometric.container';
-import { Showreel } from './showreel/showreel';
-import { QuestTreeContainer } from './showreel/tree/quest-tree-container';
-import { TechTreeContainer } from './showreel/tree/tech-tree-container';
+const Admin = lazy(() => import('./admin/admin'));
+const CelestialViewerContainer = lazy(
+  () => import('./canvases/celestial-viewer/celestial-viewer.container')
+);
+const GalaxyGenContainer = lazy(
+  () => import('./canvases/galaxy-generator/galaxy-generator.container')
+);
+const GalaxyViewerContainer = lazy(
+  () => import('./canvases/galaxy-viewer/galaxy-viewer.container')
+);
+const PlanetGenerator = lazy(
+  () => import('./canvases/planet-generator/planet-generator')
+);
+const PlanetViewer = lazy(
+  () => import('./canvases/planet-viewer/planet-viewer')
+);
+const JoinGalaxy = lazy(() => import('./empire-creation/join-galaxy'));
+const GalaxyGalleryContainer = lazy(
+  () => import('./galaxy-gallery/galaxy-gallery.container')
+);
+const ColyseusContainer = lazy(
+  () => import('./showreel/colyseus-poc/colyseus-container')
+);
+const GravitySimulationContainer = lazy(
+  () => import('./showreel/gravity-simulation/gravity-simulation.container')
+);
+const IsometricContainer = lazy(
+  () => import('./showreel/isometric-tiles/isometric.container')
+);
+const Showreel = lazy(() => import('./showreel/showreel'));
+const QuestTreeContainer = lazy(
+  () => import('./showreel/tree/quest-tree-container')
+);
+const TechTreeContainer = lazy(
+  () => import('./showreel/tree/tech-tree-container')
+);
 
-export const routes = [
+const Home = lazy(() => import('./home/home'));
+
+export const routes: {
+  path: string;
+  name: string;
+  component: (args: unknown) => JSX.Element;
+  adminOnly?: boolean;
+}[] = [
   { path: '/', name: 'home', component: Home },
+  { path: '/admin', name: 'admin', component: Admin, adminOnly: true },
   { path: '/showreel', name: 'showreel', component: Showreel },
   { path: '/galaxies', name: 'galaxies', component: GalaxyGalleryContainer },
   {
     path: '/galaxies/:id',
-    name: 'view-galaxy',
+    name: 'view galaxy',
     component: GalaxyViewerContainer,
   },
   {
     path: '/galaxies/:id/join',
-    name: 'view-galaxy',
+    name: 'view galaxy',
     component: JoinGalaxy,
   },
   {
     path: '/celestials/:id',
-    name: 'view-celestial',
+    name: 'view celestial',
     component: CelestialViewerContainer,
   },
   {
     path: '/planets/:id',
-    name: 'view-planet',
+    name: 'view planet',
     component: PlanetViewer,
   },
   { path: '/galaxy-gen', name: 'galaxy-gen', component: GalaxyGenContainer },
   {
     path: '/gravity-sim',
-    name: 'gravity-sim',
+    name: 'gravity sim',
     component: GravitySimulationContainer,
   },
   {
     path: '/planet-gen',
-    name: 'planet-gen',
+    name: 'planet gen',
     component: PlanetGenerator,
   },
   {

@@ -4,8 +4,8 @@ import {
   Button,
   Link,
   Text,
-  useDisclosure,
   VStack,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { dbGalaxyToGalaxyConfig } from '@idleverse/galaxy-gen';
 import {
@@ -23,13 +23,13 @@ import {
 } from '@idleverse/galaxy-gql';
 import { useEffect, useState } from 'react';
 import { Link as ReactRouterLink, useParams } from 'react-router-dom';
-import { GalaxyThumbnail } from '../canvases/galaxy-thumbnail/galaxy-thumbnail';
-import { generatePlanetInsertionVars } from '../canvases/planet-generator/generate-planet-input-vars';
-import { randomisePlanetSeedAndName } from '../canvases/planet-generator/_utils/randomise-planet-seed-and-name';
-import { Loading } from '../components/loading';
 import { characterCreationVar } from '../_state/character-creation';
 import { colorsVar } from '../_state/colors';
 import { galaxyConfigVar, selfVar } from '../_state/reactive-variables';
+import { GalaxyThumbnail } from '../canvases/galaxy-thumbnail/galaxy-thumbnail';
+import { randomisePlanetSeedAndName } from '../canvases/planet-generator/_utils/randomise-planet-seed-and-name';
+import { generatePlanetInsertionVars } from '../canvases/planet-generator/generate-planet-input-vars';
+import { Loading } from '../components/loading';
 import { creationStep } from './creation-types';
 import { CreationWorkflow } from './creation-workflow';
 import { BackgroundSelectionModal } from './workflow-step-modals/background-selection-modal';
@@ -37,7 +37,7 @@ import { FactionSelectionModal } from './workflow-step-modals/faction-selection-
 import { HomeworldGenerationModal } from './workflow-step-modals/homeworld-generation-modal';
 import { RaceSelectionModal } from './workflow-step-modals/race-selection-modal';
 
-export const JoinGalaxy = () => {
+const JoinGalaxy = () => {
   const characterCreationState = useReactiveVar(characterCreationVar);
 
   const { secondary } = useReactiveVar(colorsVar);
@@ -305,3 +305,5 @@ export const JoinGalaxy = () => {
     </>
   );
 };
+
+export default JoinGalaxy;
