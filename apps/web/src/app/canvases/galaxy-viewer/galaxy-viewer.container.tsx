@@ -18,7 +18,7 @@ import { GameUIBottomBar } from '../galaxy-generator/ui/bottom-bar';
 
 import { GalaxyViewer } from './galaxy-viewer';
 
-export const GalaxyViewerContainer = () => {
+const GalaxyViewerContainer = () => {
   const { id } = useParams<{ id: string }>();
 
   const { id: userId } = useReactiveVar(selfVar);
@@ -96,3 +96,5 @@ export const GalaxyViewerContainer = () => {
     );
   }
 };
+
+export default GalaxyViewerContainer;

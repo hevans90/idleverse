@@ -3,7 +3,7 @@ import { Box, Button, Link, Text, VStack } from '@chakra-ui/react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { colorsVar } from '../_state/colors';
 
-export const Showreel = () => {
+const Showreel = () => {
   const { secondary } = useReactiveVar(colorsVar);
 
   const links: { route: string; display: string }[] = [
@@ -65,3 +65,5 @@ export const Showreel = () => {
     </Box>
   );
 };
+
+export default Showreel;

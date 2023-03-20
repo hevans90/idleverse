@@ -22,7 +22,7 @@ import { GameUIBottomBar } from './ui/bottom-bar';
 import { GeneratorControls } from './ui/generator-controls';
 import { GameUIRightBar } from './ui/right-bar';
 
-export const GalaxyGenContainer = () => {
+const GalaxyGenContainer = () => {
   const { data, loading } =
     useSubscription<GalaxiesSubscription>(GalaxiesDocument);
 
@@ -105,3 +105,4 @@ export const GalaxyGenContainer = () => {
     );
   }
 };
+export default GalaxyGenContainer;

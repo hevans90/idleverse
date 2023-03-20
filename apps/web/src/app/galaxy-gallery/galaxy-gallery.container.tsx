@@ -9,13 +9,13 @@ import {
 } from '@idleverse/galaxy-gql';
 import { useEffect, useState } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
-import { Loading } from '../components/loading';
 import { colorsVar } from '../_state/colors';
 import { selfVar } from '../_state/reactive-variables';
+import { Loading } from '../components/loading';
 
 import { GalaxyTile } from './galaxy-tile';
 
-export const GalaxyGalleryContainer = () => {
+const GalaxyGalleryContainer = () => {
   const { id: userId } = useReactiveVar(selfVar);
 
   const { secondary } = useReactiveVar(colorsVar);
@@ -114,3 +114,5 @@ export const GalaxyGalleryContainer = () => {
     </Box>
   );
 };
+
+export default GalaxyGalleryContainer;

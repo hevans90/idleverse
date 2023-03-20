@@ -9,7 +9,6 @@ import { Stats } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { DataTexture } from 'three';
-import { Loading } from '../../components/loading';
 import { colorsVar } from '../../_state/colors';
 import { RingConfig } from '../../_state/models';
 import {
@@ -18,8 +17,10 @@ import {
   planetGenerationTerrainDrawerVar,
   planetGeneratorConfigVar,
 } from '../../_state/planet-generation';
+import { Loading } from '../../components/loading';
 
 import { useResize } from '../_utils/use-resize.hook';
+import { deepCompareRings } from './_utils/deep-compare-rings';
 import { CameraController } from './camera-controller';
 import { Pixelate } from './pixelate';
 import { runTextureGenOnWorker } from './texture-generation/run-texture-gen-on-worker';
@@ -33,9 +34,8 @@ import {
 } from './ui/sliders';
 import { PlanetGeneratorTerrainDrawer } from './ui/terrain-drawer';
 import { World } from './world';
-import { deepCompareRings } from './_utils/deep-compare-rings';
 
-export const PlanetGenerator = ({
+const PlanetGenerator = ({
   customSize,
 }: {
   customSize?: { width: number; height: number };
@@ -181,3 +181,5 @@ export const PlanetGenerator = ({
     </>
   );
 };
+
+export default PlanetGenerator;

@@ -5,10 +5,10 @@ import { useApp } from '@saitonakamura/react-pixi';
 import { Container, TickerCallback } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useFpsTracker } from '../../canvases/galaxy-generator/utils/fps-counter';
+import { simulationPaused, timeVar } from '../../_state/reactive-variables';
 import { useResize } from '../../canvases/_utils/use-resize.hook';
 import { useViewport } from '../../canvases/_utils/use-viewport.hook';
-import { simulationPaused, timeVar } from '../../_state/reactive-variables';
+import { useFpsTracker } from '../../canvases/galaxy-generator/utils/fps-counter';
 
 import { generateBalls, generateGravitationalCenter } from './drawing';
 import { calculateGravity } from './gravity';
@@ -19,6 +19,7 @@ export const GravitySimulation = () => {
   console.log('render');
   const size = useResize('gravity-sim');
   const gravitySimContainerRef = useRef(new Container());
+
   useFpsTracker(app);
   useViewport({
     app,
@@ -26,6 +27,7 @@ export const GravitySimulation = () => {
     containerRef: gravitySimContainerRef,
     clampDrag: true,
   });
+
   const time = useReactiveVar(timeVar);
   const paused = useReactiveVar(simulationPaused);
 
@@ -117,7 +119,7 @@ export const GravitySimulation = () => {
   }, []);
 
   useEffect(() => {
-    if (time === 0) {
+    if (app?.ticker && time === 0) {
       app.ticker.stop();
       app.ticker.remove(gravityCalculationTickerRef.current);
       removeBalls();
@@ -129,15 +131,17 @@ export const GravitySimulation = () => {
         app.ticker.start();
       }
     }
-  }, [time]);
+  }, [app, time]);
 
   useEffect(() => {
-    if (paused) {
-      app.ticker.stop();
-    } else {
-      app.ticker.start();
+    if (app.ticker) {
+      if (paused) {
+        app.ticker.stop();
+      } else {
+        app.ticker.start();
+      }
     }
-  }, [paused]);
+  }, [app, paused]);
 
   // eslint-disable-next-line react/jsx-no-useless-fragment
   return <></>;

@@ -7,16 +7,16 @@ import { colors, hexStringToNumber, hexToRGB } from '@idleverse/theme';
 import * as PIXI from 'pixi.js';
 import { useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { assetLoader } from '../../asset-loading/asset-loader';
-import { runPixelDataGenOnWorker } from '../../canvases/planet-generator/texture-generation/run-texture-gen-on-worker';
-import { PixiWrapper } from '../../canvases/_utils/pixi-wrapper';
-import { Loading } from '../../components/loading';
 import { colorsVar } from '../../_state/colors';
 import { AssetCollection } from '../../_state/models';
 import { planetSurfaceVar } from '../../_state/planet-surface';
+import { assetLoader } from '../../asset-loading/asset-loader';
+import { PixiWrapper } from '../../canvases/_utils/pixi-wrapper';
+import { runPixelDataGenOnWorker } from '../../canvases/planet-generator/texture-generation/run-texture-gen-on-worker';
+import { Loading } from '../../components/loading';
 import { IsometricTiles } from './isometric-tiles';
 
-export const IsometricContainer = () => {
+const IsometricContainer = () => {
   const { primary, secondary } = useReactiveVar(colorsVar);
 
   const initialisingRef = useRef<boolean>(false);
@@ -109,3 +109,5 @@ export const IsometricContainer = () => {
     );
   }
 };
+
+export default IsometricContainer;
