@@ -10,6 +10,8 @@ import {
 } from 'three';
 import { RingConfig } from '../../_state/models';
 
+import clouds from '../../../assets/clouds.png';
+
 export const World = ({
   atmosphere,
   rotate,
@@ -27,7 +29,11 @@ export const World = ({
   rings: RingConfig[];
   planetRadius: number;
 }) => {
-  const cloudsColorMap = useLoader(TextureLoader, 'clouds.png');
+  const cloudsColorMap = useLoader(
+    TextureLoader,
+    clouds
+    // new URL('./clouds.png', import.meta.url).href
+  );
 
   const worldRef = useRef<Mesh>();
   const cloudsRef = useRef<Mesh>();
