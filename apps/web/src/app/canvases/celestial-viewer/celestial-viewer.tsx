@@ -2,7 +2,7 @@
 import { useReactiveVar } from '@apollo/client';
 import { CelestialByIdQuery } from '@idleverse/galaxy-gql';
 import { hexStringToNumber } from '@idleverse/theme';
-import { useApp } from '@saitonakamura/react-pixi';
+import { useApp } from '@pixi/react';
 import { Container, TickerCallback } from 'pixi.js';
 import { useEffect, useRef, useState } from 'react';
 import {

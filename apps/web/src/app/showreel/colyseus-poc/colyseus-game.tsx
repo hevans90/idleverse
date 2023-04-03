@@ -1,5 +1,5 @@
 import { ColyseusShip } from '@idleverse/colyseus-shared';
-import { useApp } from '@saitonakamura/react-pixi';
+import { useApp } from '@pixi/react';
 import { Renderer } from 'pixi.js';
 import { useEffect, useRef, useState } from 'react';
 import { useResize } from '../../canvases/_utils/use-resize.hook';

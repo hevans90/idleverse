@@ -1,11 +1,11 @@
-import { useApp } from '@saitonakamura/react-pixi';
+import { useApp } from '@pixi/react';
 import * as PIXI from 'pixi.js';
 import { useEffect, useRef, useState } from 'react';
 
-import { useFpsTracker } from '../../canvases/galaxy-generator/utils/fps-counter';
+import { AssetCollection, Vector2D } from '../../_state/models';
 import { useResize } from '../../canvases/_utils/use-resize.hook';
 import { useViewport } from '../../canvases/_utils/use-viewport.hook';
-import { AssetCollection, Vector2D } from '../../_state/models';
+import { useFpsTracker } from '../../canvases/galaxy-generator/utils/fps-counter';
 import { gameConfigFactory } from './factories/game-config.factory';
 
 import { useReactiveVar } from '@apollo/client';
@@ -25,7 +25,7 @@ import { mouseUpInteraction } from './mouse/mouse-up';
 import { initMapUnderlay, initTile } from './tiles/create-isometric-graphics';
 import { hoverTile, selectTile, unSelectTile } from './tiles/interactivity';
 import { setTile } from './tiles/styling';
-import { buildIndicators, GameIndicators } from './ui/indicators';
+import { GameIndicators, buildIndicators } from './ui/indicators';
 import { isoToIndex } from './utils/iso-to-index';
 import { KeyboardItem } from './utils/keyboard';
 

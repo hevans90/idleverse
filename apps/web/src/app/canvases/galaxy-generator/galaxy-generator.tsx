@@ -7,7 +7,7 @@ import {
   getCelestialPosition,
 } from '@idleverse/galaxy-gen';
 import { colors } from '@idleverse/theme';
-import { useApp } from '@saitonakamura/react-pixi';
+import { useApp } from '@pixi/react';
 import { Container, Graphics, TickerCallback } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { colorsVar } from '../../_state/colors';

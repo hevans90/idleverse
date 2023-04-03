@@ -8,7 +8,7 @@ import {
   getCelestialPosition,
 } from '@idleverse/galaxy-gen';
 import { colors } from '@idleverse/theme';
-import { useApp } from '@saitonakamura/react-pixi';
+import { useApp } from '@pixi/react';
 import { Container, Graphics } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
