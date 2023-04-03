@@ -1,5 +1,4 @@
 import { useReactiveVar } from '@apollo/client';
-import { Auth0Provider } from '@auth0/auth0-react';
 import { ChakraProvider, Theme } from '@chakra-ui/react';
 import { theme } from '@idleverse/theme';
 import { StrictMode, useState } from 'react';
@@ -8,6 +7,8 @@ import { App } from './app/App';
 import { colorsVar } from './app/_state/colors';
 
 import { useEffect } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import Auth0ProviderWithHistory from './auth0-provider-with-history';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
@@ -28,9 +29,13 @@ const AppWithDynamicTheme = () => {
   }, [primary, secondary]);
 
   return (
-    <ChakraProvider theme={currentTheme}>
-      <App />
-    </ChakraProvider>
+    <BrowserRouter>
+      <Auth0ProviderWithHistory domain={auth.domain} clientId={auth.clientId}>
+        <ChakraProvider theme={currentTheme}>
+          <App />
+        </ChakraProvider>
+      </Auth0ProviderWithHistory>
+    </BrowserRouter>
   );
 };
 
@@ -38,13 +43,7 @@ const container = document.getElementById('root');
 const root = createRoot(container); // createRoot(container!) if you use TypeScript
 root.render(
   <StrictMode>
-    <Auth0Provider
-      domain={auth.domain}
-      clientId={auth.clientId}
-      redirectUri={window.location.origin}
-    >
-      <AppWithDynamicTheme />
-    </Auth0Provider>
+    <AppWithDynamicTheme />
   </StrictMode>
 );
 
