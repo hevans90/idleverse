@@ -8,7 +8,7 @@ import { colorsVar } from './app/_state/colors';
 
 import { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import Auth0ProviderWithHistory from './auth0-provider-with-history';
+import Auth0ProviderWithHistory from './auth0-provider-with-navigate';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
@@ -29,13 +29,13 @@ const AppWithDynamicTheme = () => {
   }, [primary, secondary]);
 
   return (
-    <BrowserRouter>
-      <Auth0ProviderWithHistory domain={auth.domain} clientId={auth.clientId}>
-        <ChakraProvider theme={currentTheme}>
+    <ChakraProvider theme={currentTheme}>
+      <BrowserRouter>
+        <Auth0ProviderWithHistory domain={auth.domain} clientId={auth.clientId}>
           <App />
-        </ChakraProvider>
-      </Auth0ProviderWithHistory>
-    </BrowserRouter>
+        </Auth0ProviderWithHistory>
+      </BrowserRouter>
+    </ChakraProvider>
   );
 };
 

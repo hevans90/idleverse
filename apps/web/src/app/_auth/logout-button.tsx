@@ -6,12 +6,16 @@ import { responsiveFontProps } from '../_responsive-utils/font-props';
 export const LogoutButton = () => {
   const { logout } = useAuth0();
 
+  const handleLogout = () => {
+    logout({
+      logoutParams: {
+        returnTo: window.location.origin,
+      },
+    });
+  };
+
   return (
-    <Button
-      colorScheme="gray"
-      onClick={() => logout({ returnTo: window.location.origin })}
-      {...responsiveFontProps}
-    >
+    <Button colorScheme="gray" onClick={handleLogout} {...responsiveFontProps}>
       Log Out
     </Button>
   );
