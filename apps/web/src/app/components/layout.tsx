@@ -1,11 +1,12 @@
 import { useReactiveVar } from '@apollo/client';
 import { Box } from '@chakra-ui/layout';
+import { useBreakpointValue } from '@chakra-ui/react';
 import styled from 'styled-components';
+import { layoutVar } from '../_state/global-settings';
+import { LayoutConfig } from '../_state/models';
 import { SideNav } from '../global-ui/sidenav/sidenav';
 import { ToolBar } from '../global-ui/toolbar/toolbar';
 import { useUiBackground } from '../hooks/use-ui-background';
-import { layoutVar } from '../_state/global-settings';
-import { LayoutConfig } from '../_state/models';
 import { Breadcrumb } from './breadcrumb';
 
 export const sideNavWidth = 450;
@@ -16,18 +17,28 @@ export const ResponsiveGrid = styled.div`
 
   display: grid;
 
-  grid-template-columns: ${({ sideNav }: LayoutConfig) =>
-    sideNav ? `${sideNavWidth}px auto` : `auto`};
-
   grid-template-rows: ${topBarHeight}px auto;
 
   grid-template-areas: ${({ sideNav }: LayoutConfig) =>
     sideNav
-      ? `'side-nav   toolbar'
-         'side-nav   main   '
+      ? `'toolbar'
+         'side-nav'
          `
       : `'toolbar'
         ' main   '`};
+
+  @media (min-width: 768px) {
+    grid-template-areas: ${({ sideNav }: LayoutConfig) =>
+      sideNav
+        ? `'side-nav   toolbar'
+           'side-nav   main   '
+         `
+        : `'toolbar'
+        ' main   '`};
+
+    grid-template-columns: ${({ sideNav }: LayoutConfig) =>
+      sideNav ? `${sideNavWidth}px auto` : `auto`};
+  }
 
   div.sidenav {
     grid-area: side-nav;
@@ -51,16 +62,24 @@ export const Layout = (props: { children?: JSX.Element }) => {
 
   const { bgDark } = useUiBackground();
 
+  const bp: 'small' | 'medium' | 'large' = useBreakpointValue({
+    base: 'small',
+    md: 'medium',
+    lg: 'large',
+  });
+
   return (
     <ResponsiveGrid {...layoutConfig}>
       {layoutConfig.sideNav ? <SideNav></SideNav> : null}
       <ToolBar></ToolBar>
-      <main>
-        <Breadcrumb />
-        <Box className="container" overflow="auto" bg={bgDark}>
-          {props?.children}
-        </Box>
-      </main>
+      {((bp === 'small' && !layoutConfig.sideNav) || bp !== 'small') && (
+        <main>
+          <Breadcrumb />
+          <Box className="container" overflow="auto" bg={bgDark}>
+            {props?.children}
+          </Box>
+        </main>
+      )}
     </ResponsiveGrid>
   );
 };
