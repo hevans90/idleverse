@@ -8,15 +8,15 @@ Add some [community plugins](https://nx.dev/community) if you like.
 
 ## Generate an application
 
-Run `nx g @nrwl/react:app my-app` to generate a react application.
+Run `nx g @nx/react:app my-app` to generate a react application.
 
-Run `nx generate @nrwl/node:application node-app` to generate a node application.
+Run `nx generate @nx/node:application node-app` to generate a node application.
 
 ## Generate a library
 
-Run `nx g @nrwl/react:lib my-lib` to generate a React library.
+Run `nx g @nx/react:lib my-lib` to generate a React library.
 
-Run `nx g @nrwl/node:library` to generate a node library.
+Run `nx g @nx/node:library` to generate a node library.
 
 Libraries are shareable across libraries and applications. They can be imported from `@idleverse/mylib`.
 

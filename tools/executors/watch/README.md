@@ -66,7 +66,7 @@ Can also be combined with other nx tasks, like serving `my-app` while watching f
             //   watch task ...
         },
         "serve": {
-          "builder": "@nrwl/workspace:run-commands",
+          "builder": "@nx/workspace:run-commands",
           "options": {
             "commands": [
               {

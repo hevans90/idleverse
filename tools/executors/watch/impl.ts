@@ -1,5 +1,5 @@
 import { ExecutorContext } from '@nrwl/devkit';
-import { output } from '@nrwl/workspace/src/utils/output';
+import { output } from '@nx/workspace/src/utils/output';
 import { execSync } from 'child_process';
 const watch = require('node-watch');
 const treekill = require('tree-kill');
