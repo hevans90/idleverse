@@ -148,7 +148,7 @@ var __generator =
     }
   };
 exports.__esModule = true;
-var output_1 = require('@nrwl/workspace/src/utils/output');
+var output_1 = require('@nx/workspace/src/utils/output');
 var child_process_1 = require('child_process');
 var watch = require('node-watch');
 var treekill = require('tree-kill');
