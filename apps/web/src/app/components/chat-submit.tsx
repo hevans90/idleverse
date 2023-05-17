@@ -1,12 +1,12 @@
 import { useMutation, useReactiveVar } from '@apollo/client';
-import { Box, Button, Input } from '@chakra-ui/react';
+import { Box, Button, Input, useBreakpointValue } from '@chakra-ui/react';
 import {
   SendNewMessageDocument,
   SendNewMessageMutation,
 } from '@idleverse/galaxy-gql';
 import React from 'react';
-import { useUiBackground } from '../hooks/use-ui-background';
 import { colorsVar } from '../_state/colors';
+import { useUiBackground } from '../hooks/use-ui-background';
 import { sideNavWidth } from './layout';
 
 export const ChatSubmit = () => {
@@ -24,6 +24,12 @@ export const ChatSubmit = () => {
     setMessage('');
   };
 
+  const bp: 'small' | 'medium' | 'large' = useBreakpointValue({
+    base: 'small',
+    md: 'medium',
+    lg: 'large',
+  });
+
   const { bg, border } = useUiBackground();
   const { secondary } = useReactiveVar(colorsVar);
 
@@ -34,7 +40,7 @@ export const ChatSubmit = () => {
       position="absolute"
       bottom="0"
       padding="1"
-      width={sideNavWidth}
+      width={bp === 'small' ? '100%' : sideNavWidth}
       borderColor={border}
       borderStyle="solid"
       borderTopWidth="1px"
