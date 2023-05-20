@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useLazyQuery } from '@apollo/client';
 import {
   Celestial,
   ClaimedCelestialAttributes,
@@ -7,8 +8,9 @@ import {
   getCelestialIdHash,
   getCelestialPosition,
 } from '@idleverse/galaxy-gen';
+import { UserInfoByIdDocument, UserInfoByIdQuery } from '@idleverse/galaxy-gql';
 import { colors } from '@idleverse/theme';
-import { useApp } from '@saitonakamura/react-pixi';
+import { useApp } from '@pixi/react';
 import { Container, Graphics } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -17,6 +19,7 @@ import {
   galaxyConfigVar,
   galaxyRotationVar,
 } from '../../_state/reactive-variables';
+import { loadAvatarByUserId } from '../../asset-loading/load-user-by-id';
 import { useResize } from '../_utils/use-resize.hook';
 import { useViewport } from '../_utils/use-viewport.hook';
 import {
@@ -42,6 +45,8 @@ export const GalaxyViewer = ({
   navigate,
 }: GalaxyViewerProps) => {
   const app = useApp();
+
+  const [userByIdQuery] = useLazyQuery<UserInfoByIdQuery>(UserInfoByIdDocument);
 
   const claimedCelestialsRef = useRef<claimedCelestials>(claimedCelestials);
 
@@ -134,15 +139,18 @@ export const GalaxyViewer = ({
 
     claimedCelestialsRef.current = claimedCelestials;
 
-    additions?.forEach(({ id, owner_id }) =>
-      claimStar(
-        id,
-        owner_id,
-        galaxyContainerRef.current,
-        colors[colorsVar().secondary]['300'],
-        navigateToCelestial
-      )
-    );
+    additions?.forEach(({ id, owner_id }) => {
+      loadAvatarByUserId(owner_id, userByIdQuery).then((avatarTexture) =>
+        claimStar(
+          id,
+          owner_id,
+          galaxyContainerRef.current,
+          colors[colorsVar().secondary]['300'],
+          navigateToCelestial,
+          avatarTexture
+        )
+      );
+    });
     deletions?.forEach(({ id }) =>
       unclaimStar(
         id,

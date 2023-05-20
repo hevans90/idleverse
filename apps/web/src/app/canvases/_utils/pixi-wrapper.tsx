@@ -1,7 +1,7 @@
 import { useReactiveVar } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
 import { hexStringToNumber } from '@idleverse/theme';
-import { Stage } from '@saitonakamura/react-pixi';
+import { Stage } from '@pixi/react';
 import { useEffect, useState } from 'react';
 import { galacticEmpireVar, myEmpireVar } from '../../_state/galactic-empire';
 import { GameUI } from '../../game-ui/game-ui';

@@ -1,4 +1,4 @@
-import { useApp } from '@saitonakamura/react-pixi';
+import { useApp } from '@pixi/react';
 import { Container } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { useResize } from '../../canvases/_utils/use-resize.hook';
@@ -12,8 +12,8 @@ import { useRenderNodes } from './hooks/use-render-nodes';
 
 import { treeNodesVar, treeSettingsVar } from './state/shared-tree.state';
 import {
-  createTreesFromQuestsQuery,
   QuestNode,
+  createTreesFromQuestsQuery,
 } from './utils/create-trees-from-quests-query';
 
 export const QuestTree = () => {

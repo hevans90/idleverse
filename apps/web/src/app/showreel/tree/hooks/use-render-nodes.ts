@@ -67,7 +67,7 @@ export const useRenderNodes = (
 
       const palette = colors[colorsVar().secondary];
 
-      const nodeContainer = drawNode({
+      drawNode({
         id: node.id,
         name: node.value.name,
         imageUrl: node.value.image_url,
@@ -77,19 +77,19 @@ export const useRenderNodes = (
         },
         colorPalette: palette,
         radius: nodeRadius,
+      }).then((nodeContainer) => {
+        if (parent) {
+          const line = connectNodes({
+            parent,
+            self: { x, y },
+            color: colors[colorsVar().secondary]['300'],
+          });
+          line.name = `line_${node.id}`;
+          container.addChild(line);
+        }
+
+        container.addChild(nodeContainer);
       });
-
-      if (parent) {
-        const line = connectNodes({
-          parent,
-          self: { x, y },
-          color: colors[colorsVar().secondary]['300'],
-        });
-        line.name = `line_${node.id}`;
-        container.addChild(line);
-      }
-
-      container.addChild(nodeContainer);
     });
 
     return () => {

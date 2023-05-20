@@ -5,18 +5,13 @@ import {
   RoomState,
 } from '@idleverse/colyseus-shared';
 import { Room } from 'colyseus.js';
-import { AssetCollection } from './models';
+
 import { makeVarPersisted } from './utils';
 
 export const colyseusSessionVar = makeVarPersisted<{
   roomId: string;
   clientId: string;
 }>(undefined, 'colyseusSession');
-
-export const colyseusAssetsVar = makeVarPersisted<AssetCollection>(
-  {},
-  'colyseusAssets'
-);
 
 export const colyseusTrackingDistanceVar = makeVar<number>(undefined);
 export const colyseusTrackingTargetVar = makeVar<{

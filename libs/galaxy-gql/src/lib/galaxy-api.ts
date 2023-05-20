@@ -10931,6 +10931,13 @@ export type UpdateTechnologyByIdMutationVariables = Exact<{
 
 export type UpdateTechnologyByIdMutation = { __typename?: 'mutation_root', update_technology_by_pk?: { __typename?: 'technology', id: string, root?: boolean | null, name: string, description?: string | null, children: string[], research_cost: number, image_url?: string | null } | null };
 
+export type UserInfoByIdQueryVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+
+export type UserInfoByIdQuery = { __typename?: 'query_root', user_info_by_pk?: { __typename?: 'user_info', avatar_url?: string | null, name?: string | null } | null };
+
 export type UserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -11896,6 +11903,15 @@ export const UpdateTechnologyByIdDocument = gql`
 export type UpdateTechnologyByIdMutationFn = Apollo.MutationFunction<UpdateTechnologyByIdMutation, UpdateTechnologyByIdMutationVariables>;
 export type UpdateTechnologyByIdMutationResult = Apollo.MutationResult<UpdateTechnologyByIdMutation>;
 export type UpdateTechnologyByIdMutationOptions = Apollo.BaseMutationOptions<UpdateTechnologyByIdMutation, UpdateTechnologyByIdMutationVariables>;
+export const UserInfoByIdDocument = gql`
+    query UserInfoById($userId: String!) {
+  user_info_by_pk(id: $userId) {
+    avatar_url
+    name
+  }
+}
+    `;
+export type UserInfoByIdQueryResult = Apollo.QueryResult<UserInfoByIdQuery, UserInfoByIdQueryVariables>;
 export const UserInfoDocument = gql`
     query UserInfo {
   user_info {

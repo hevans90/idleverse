@@ -1,6 +1,6 @@
 import { colors, hexStringToNumber, themePaletteKeys } from '@idleverse/theme';
 import * as PIXI from 'pixi.js';
-import { treeIconResourcesVar } from '../../../_state/pixi-resources';
+import { Assets } from 'pixi.js';
 
 const textStyle: Partial<PIXI.ITextStyle> = {
   fontFamily: 'zx spectrum',
@@ -10,7 +10,7 @@ const textStyle: Partial<PIXI.ITextStyle> = {
   strokeThickness: 4,
 };
 
-export const drawNode = ({
+export const drawNode = async ({
   id,
   imageUrl,
   name,
@@ -35,7 +35,9 @@ export const drawNode = ({
   overlay.alpha = 0.25;
   nodeBg.name = 'nodeBg';
 
-  const iconTexture = treeIconResourcesVar()?.[imageUrl]?.texture;
+  const colyseusAssets = await Assets.loadBundle('tech-tree');
+
+  const iconTexture: PIXI.Texture = colyseusAssets[imageUrl];
 
   if (iconTexture) {
     const { height, width } = iconTexture || { height: null, width: null };

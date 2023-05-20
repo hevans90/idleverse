@@ -1,7 +1,6 @@
 import { hexStringToNumber } from '@idleverse/theme';
-import * as PIXI from 'pixi.js';
-import { Container } from 'pixi.js';
-import { userAvatarResourcesVar } from '../../../_state/pixi-resources';
+
+import { Container, Graphics, Matrix, Texture } from 'pixi.js';
 
 export type StarProps = {
   id: string;
@@ -11,6 +10,7 @@ export type StarProps = {
   unclaimedCol: string;
   isClaimed?: boolean;
   ownerId?: string;
+  avatarTexture?: Texture;
 };
 
 const claimedRadius = 4;
@@ -18,8 +18,12 @@ const unclaimedRadius = 2;
 const userIndicatorRadius = 24;
 const userIndicatorLineHeight = 20;
 
-const styleOwnedStar = (ownerId: string, claimedCol: number) => {
-  const starGraphic = new PIXI.Graphics()
+const styleOwnedStar = (
+  avatarTexture: Texture,
+  ownerId: string,
+  claimedCol: number
+) => {
+  const starGraphic = new Graphics()
     .clear()
     .beginFill(claimedCol)
     .drawCircle(0, 0, claimedRadius)
@@ -30,8 +34,6 @@ const styleOwnedStar = (ownerId: string, claimedCol: number) => {
     .moveTo(0, 0)
     .lineTo(0, -userIndicatorLineHeight);
 
-  const avatarTexture = userAvatarResourcesVar()?.[ownerId]?.texture;
-
   if (!avatarTexture) {
     console.warn(`no texture found for ${ownerId}`);
   }
@@ -39,14 +41,14 @@ const styleOwnedStar = (ownerId: string, claimedCol: number) => {
   const { height, width } = avatarTexture || { height: null, width: null };
 
   const avatarGraphic = avatarTexture
-    ? new PIXI.Graphics()
+    ? new Graphics()
         .beginTextureFill({
           texture: avatarTexture,
-          matrix: new PIXI.Matrix(0.5, 0, 0, 0.5, width / 4, height / 4),
+          matrix: new Matrix(0.5, 0, 0, 0.5, width / 4, height / 4),
         })
         .drawCircle(0, 0, userIndicatorRadius)
         .endFill()
-    : new PIXI.Graphics()
+    : new Graphics()
         .beginFill(claimedCol)
         .drawCircle(0, 0, userIndicatorRadius)
         .endFill();
@@ -72,12 +74,13 @@ export const Star = ({
   ownerId,
   claimedCol,
   unclaimedCol,
+  avatarTexture,
 }: Partial<StarProps>) => {
-  const container = new PIXI.Container();
+  const container = new Container();
 
   const r = isClaimed ? claimedRadius : unclaimedRadius;
 
-  let starGraphic = new PIXI.Graphics()
+  let starGraphic = new Graphics()
     .clear()
     .beginFill(
       isClaimed
@@ -89,6 +92,7 @@ export const Star = ({
 
   if (isClaimed) {
     const { starGraphic: ownedStarGraphic, avatarGraphic } = styleOwnedStar(
+      avatarTexture,
       ownerId,
       hexStringToNumber(claimedCol)
     );
@@ -116,12 +120,14 @@ export const claimStar = (
   ownerId: string,
   parentContainer: Container,
   claimedCol: string,
-  navigationFunction: (id: string) => void
+  navigationFunction: (id: string) => void,
+  avatarTexture: Texture
 ) => {
   const starContainer = parentContainer.getChildByName(id, true) as Container;
   starContainer.removeChildren();
 
   const { starGraphic, avatarGraphic } = styleOwnedStar(
+    avatarTexture,
     ownerId,
     hexStringToNumber(claimedCol)
   );
@@ -142,7 +148,7 @@ export const unclaimStar = (
   const starContainer = parentContainer.getChildByName(id, true) as Container;
   starContainer.removeChildren();
 
-  const starGraphic = new PIXI.Graphics()
+  const starGraphic = new Graphics()
     .clear()
     .beginFill(hexStringToNumber(unclaimedCol))
     .drawCircle(0, 0, unclaimedRadius)
