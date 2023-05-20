@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useLazyQuery } from '@apollo/client';
+import { LazyQueryExecFunction, OperationVariables } from '@apollo/client';
 import {
   Celestial,
   ClaimedCelestialAttributes,
@@ -8,7 +8,7 @@ import {
   getCelestialIdHash,
   getCelestialPosition,
 } from '@idleverse/galaxy-gen';
-import { UserInfoByIdDocument, UserInfoByIdQuery } from '@idleverse/galaxy-gql';
+import { UserInfoByIdQuery } from '@idleverse/galaxy-gql';
 import { colors } from '@idleverse/theme';
 import { useApp } from '@pixi/react';
 import { Container, Graphics } from 'pixi.js';
@@ -37,16 +37,16 @@ type GalaxyViewerProps = {
   galaxyConfig: GalaxyConfig;
   claimedCelestials: claimedCelestials;
   navigate: ReturnType<typeof useNavigate>;
+  newUserQuery: LazyQueryExecFunction<UserInfoByIdQuery, OperationVariables>;
 };
 
 export const GalaxyViewer = ({
   galaxyConfig,
   claimedCelestials,
   navigate,
+  newUserQuery,
 }: GalaxyViewerProps) => {
   const app = useApp();
-
-  const [userByIdQuery] = useLazyQuery<UserInfoByIdQuery>(UserInfoByIdDocument);
 
   const claimedCelestialsRef = useRef<claimedCelestials>(claimedCelestials);
 
@@ -140,7 +140,7 @@ export const GalaxyViewer = ({
     claimedCelestialsRef.current = claimedCelestials;
 
     additions?.forEach(({ id, owner_id }) => {
-      loadAvatarByUserId(owner_id, userByIdQuery).then((avatarTexture) =>
+      loadAvatarByUserId(owner_id, newUserQuery).then((avatarTexture) =>
         claimStar(
           id,
           owner_id,
