@@ -47,6 +47,6 @@ Now you can decide what you want to work on:
 
 | App         | Command                              | Result                                                                                |
 | ----------- | ------------------------------------ | ------------------------------------------------------------------------------------- |
-| Client      | `nx serve idleverse-web -c docker`   | Serves at <http://localhost:4200>                                                     |
+| Client      | `nx serve idleverse-web -c docker`   | Serves at <http://localhost:3000>                                                     |
 | Game Server | `nx run idleverse-game-server:watch` | Watches `idleverse-game-server` container for code changes in `apps/game-server/src`. |
 | Hasura      | `yarn console`                       | Runs the Hasura console at <http://localhost:9695/>                                   |
