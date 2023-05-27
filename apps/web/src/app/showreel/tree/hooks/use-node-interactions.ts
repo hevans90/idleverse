@@ -84,7 +84,7 @@ const setupNodeMouseEvents = (
   ) as PIXI.Graphics;
 
   if (baseRenderedNode) {
-    baseRenderedNode.interactive = true;
+    baseRenderedNode.eventMode = 'static';
     baseRenderedNode.cursor = 'pointer';
 
     baseRenderedNode.on('mouseover', () => hoveredNodeVar(node));

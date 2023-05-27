@@ -24,6 +24,7 @@ import { questsVar } from './_state/quests';
 import { selfVar, usersVar } from './_state/reactive-variables';
 import { resourcesVar } from './_state/resources';
 import { technologiesVar } from './_state/technologies';
+import { loadPlaceholders } from './asset-loading/load-placeholders';
 import { loadTechTree } from './asset-loading/load-tech-tree';
 import { loadUserInfo } from './asset-loading/load-users';
 import { Loading } from './components/loading';
@@ -33,6 +34,7 @@ import { Loading } from './components/loading';
  */
 export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
   const [userAvatarsLoading, setUserAvatarsLoading] = useState(true);
+  const [placeholdersLoading, setPlaceholdersLoading] = useState(true);
   const [techTreeLoading, setTechTreeLoading] = useState(true);
 
   const self = useReactiveVar(selfVar);
@@ -89,6 +91,13 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
   }, [usersLoading]);
 
   useEffect(() => {
+    if (!userAvatarsLoading) {
+      loadPlaceholders().then(() => setPlaceholdersLoading(false));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userAvatarsLoading]);
+
+  useEffect(() => {
     if (!resourcesLoading && resources) {
       loadTechTree(resources).then(() => setTechTreeLoading(false));
     }
@@ -113,6 +122,9 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
   }
 
   if (userAvatarsLoading) return <Loading text="Creating Avatars"></Loading>;
+  if (placeholdersLoading) {
+    return <Loading text="Loading Placeholders"></Loading>;
+  }
   if (techTreeLoading) return <Loading text="Generating Tech Tree"></Loading>;
 
   return children;

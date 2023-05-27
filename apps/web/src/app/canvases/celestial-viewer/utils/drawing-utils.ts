@@ -33,7 +33,7 @@ export const buildPlanet = (
   const sprite = new Sprite(texture);
 
   sprite.name = name;
-  sprite.interactive = true;
+  sprite.eventMode = 'static';
   sprite.cursor = 'pointer';
   sprite.zIndex = 1;
   sprite.scale = { x: 0.3, y: 0.3 };

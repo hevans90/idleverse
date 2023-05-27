@@ -71,10 +71,6 @@ export const GalaxyViewer = ({
 
   const navigateToCelestial = (id: string) => navigate(`/celestials/${id}`);
 
-  useViewport({ app, size, containerRef: galaxyContainerRef, clampDrag: true });
-
-  useFpsTracker(app);
-
   useEffect(() => {
     galaxyContainerRef.current.name = 'galaxy';
 
@@ -159,6 +155,9 @@ export const GalaxyViewer = ({
       )
     );
   }, [claimedCelestials]);
+
+  useViewport({ app, size, containerRef: galaxyContainerRef, clampDrag: true });
+  useFpsTracker(app);
 
   // eslint-disable-next-line react/jsx-no-useless-fragment
   return <></>;

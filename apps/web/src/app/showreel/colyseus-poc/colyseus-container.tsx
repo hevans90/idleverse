@@ -98,7 +98,6 @@ export const ColyseusContainer = () => {
 
     colyseusRoomVar(room);
     colyseusSessionVar({ roomId: room.id, clientId: room.sessionId });
-    console.log(room.id, room.sessionId);
 
     // sync initial state of room
     room.onStateChange.once((roomState: RoomState) => {

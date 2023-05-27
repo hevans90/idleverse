@@ -28,7 +28,14 @@ export const drawPlayerShip = async ({
   shipSprite.width = shipSprite.width * spaceshipSpriteConfig.spriteScale;
 
   const userAvatars = await Assets.loadBundle('user-avatars');
-  const avatarTexture: Texture = userAvatars[userId];
+  let avatarTexture: Texture;
+
+  if (userAvatars) {
+    avatarTexture = userAvatars[userId];
+  } else {
+    const placeholders = await Assets.loadBundle('placeholders');
+    avatarTexture = placeholders['75x75-circle'];
+  }
 
   if (!avatarTexture) {
     console.warn(`no texture found for ${userId}`);

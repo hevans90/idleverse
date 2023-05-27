@@ -126,8 +126,8 @@ export const useViewport = ({
       try {
         // this will also remove any children (debug outline etc)
         viewportRef.current.removeChild(outline.current);
-        app.stage.removeChild(viewportRef.current);
-        app.stage.removeChild(sizeIndicator.current);
+        app.stage?.removeChild(viewportRef.current);
+        app.stage?.removeChild(sizeIndicator.current);
       } catch (e) {
         console.warn(e);
         // this can throw if react-pixi destroys the stage, from routing etc.

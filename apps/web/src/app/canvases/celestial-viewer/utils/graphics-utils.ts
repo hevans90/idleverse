@@ -20,7 +20,7 @@ export type SpriteSheetConfig = SpriteConfig & {
 };
 
 export const createAnimatedPlanetSprite = (conf: SpriteSheetConfig) => {
-  const sheet = BaseTexture.from(conf.name);
+  const sheet = BaseTexture.from(conf.url);
 
   const frames = [];
   const rowSpacing = sheet.width / conf.cols;

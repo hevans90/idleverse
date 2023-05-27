@@ -181,7 +181,7 @@ export const IsometricTiles = ({
         // gameContainer.current.position.y = -size.height / 4;
         isometricContainer.current.position.x = -size.width / 4;
         isometricContainer.current.position.y = -size.height / 4;
-        isometricContainer.current.interactive = true;
+        isometricContainer.current.eventMode = 'static';
         isometricContainer.current.sortableChildren = true;
 
         // create a single background sprite with the texture

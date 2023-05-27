@@ -53,7 +53,7 @@ const styleOwnedStar = (
         .drawCircle(0, 0, userIndicatorRadius)
         .endFill();
 
-  avatarGraphic.interactive = true;
+  avatarGraphic.eventMode = 'static';
   avatarGraphic.cursor = 'pointer';
 
   avatarGraphic.y = -(userIndicatorLineHeight + userIndicatorRadius);
