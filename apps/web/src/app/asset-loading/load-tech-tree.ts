@@ -1,19 +1,19 @@
 import { ResourcesQuery } from '@idleverse/galaxy-gql';
-import { treeIconResourcesVar } from '../_state/pixi-resources';
+
 import { assetLoader } from './asset-loader';
 
-import * as PIXI from 'pixi.js';
+import { ResolverAssetsArray } from 'pixi.js';
 
 export const loadTechTree = async (data: ResourcesQuery) => {
-  const addOptions: PIXI.IAddOptions[] = data.resource_type.map(
-    ({ image_url: url }) => ({
-      url,
-      name: url,
+  const bundle: ResolverAssetsArray = data.resource_type.map(
+    ({ image_url: srcs }) => ({
+      srcs,
+      name: srcs,
     })
   );
 
   try {
-    treeIconResourcesVar(await assetLoader(addOptions));
+    await assetLoader({ bundleName: 'tech-tree', bundle });
   } catch (e) {
     console.error(e);
   }

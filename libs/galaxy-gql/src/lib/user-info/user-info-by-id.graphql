@@ -1,0 +1,6 @@
+query UserInfoById($userId: String!) {
+  user_info_by_pk(id: $userId) {
+    avatar_url
+    name
+  }
+}

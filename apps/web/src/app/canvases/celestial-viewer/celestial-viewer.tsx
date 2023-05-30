@@ -2,15 +2,14 @@
 import { useReactiveVar } from '@apollo/client';
 import { CelestialByIdQuery } from '@idleverse/galaxy-gql';
 import { hexStringToNumber } from '@idleverse/theme';
-import { useApp } from '@saitonakamura/react-pixi';
-import { Container, TickerCallback } from 'pixi.js';
+import { useApp } from '@pixi/react';
+import { Assets, Container, TickerCallback } from 'pixi.js';
 import { useEffect, useRef, useState } from 'react';
 import {
   celestialViewerPlanetDataUris,
   celestialViewerSelectedPlanet,
 } from '../../_state/celestial-viewer';
 import { solarSystemConfigVar, timeVar } from '../../_state/reactive-variables';
-import { assetLoader } from '../../asset-loading/asset-loader';
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
 
 import {
@@ -105,28 +104,26 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
       const tempPlanets: Planet[] = [sun];
 
       // load planet data uris in to pixi textures
-      assetLoader(
+
+      const bundleKey = `celestial_${celestial.id}`;
+
+      Assets.addBundle(
+        bundleKey,
         celestial.planets.map(({ id, name }) => ({
-          name: `${name}_${id}`,
-          url: planetDataUris.uris.find(({ seed }) => seed === id).uri,
+          name,
+          srcs: planetDataUris.uris.find(({ seed }) => seed === id).uri,
         }))
-      ).then((assetCollection) => {
+      );
+
+      Assets.loadBundle(bundleKey).then((bundle) => {
         celestial.planets.forEach(({ id, name, radius }) =>
           tempPlanets.push(
-            buildPlanet(
-              assetCollection?.[`${name}_${id}`]?.texture,
-              radius,
-              app,
-              name,
-              id,
-              sun,
-              () => {
-                celestialViewerSelectedPlanet({
-                  name,
-                  id,
-                });
-              }
-            )
+            buildPlanet(bundle?.[name], radius, app, name, id, sun, () => {
+              celestialViewerSelectedPlanet({
+                name,
+                id,
+              });
+            })
           )
         );
 

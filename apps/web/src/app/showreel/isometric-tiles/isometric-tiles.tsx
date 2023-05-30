@@ -1,11 +1,11 @@
-import { useApp } from '@saitonakamura/react-pixi';
+import { useApp } from '@pixi/react';
 import * as PIXI from 'pixi.js';
 import { useEffect, useRef, useState } from 'react';
 
-import { useFpsTracker } from '../../canvases/galaxy-generator/utils/fps-counter';
+import { Vector2D } from '../../_state/models';
 import { useResize } from '../../canvases/_utils/use-resize.hook';
 import { useViewport } from '../../canvases/_utils/use-viewport.hook';
-import { AssetCollection, Vector2D } from '../../_state/models';
+import { useFpsTracker } from '../../canvases/galaxy-generator/utils/fps-counter';
 import { gameConfigFactory } from './factories/game-config.factory';
 
 import { useReactiveVar } from '@apollo/client';
@@ -25,15 +25,13 @@ import { mouseUpInteraction } from './mouse/mouse-up';
 import { initMapUnderlay, initTile } from './tiles/create-isometric-graphics';
 import { hoverTile, selectTile, unSelectTile } from './tiles/interactivity';
 import { setTile } from './tiles/styling';
-import { buildIndicators, GameIndicators } from './ui/indicators';
+import { GameIndicators, buildIndicators } from './ui/indicators';
 import { isoToIndex } from './utils/iso-to-index';
 import { KeyboardItem } from './utils/keyboard';
 
 export const IsometricTiles = ({
-  assetCollection,
   colors,
 }: {
-  assetCollection: AssetCollection;
   colors: {
     tileColor: string;
     hoverColor: string;
@@ -183,7 +181,7 @@ export const IsometricTiles = ({
         // gameContainer.current.position.y = -size.height / 4;
         isometricContainer.current.position.x = -size.width / 4;
         isometricContainer.current.position.y = -size.height / 4;
-        isometricContainer.current.interactive = true;
+        isometricContainer.current.eventMode = 'static';
         isometricContainer.current.sortableChildren = true;
 
         // create a single background sprite with the texture
@@ -271,7 +269,7 @@ export const IsometricTiles = ({
 
   // #region Mouse/Keyboard event binding
   const bindMouseEvents = () => {
-    const mouseDownHandler = (event: PIXI.InteractionEvent) => {
+    const mouseDownHandler = (event: PIXI.FederatedPointerEvent) => {
       const handledEvent = mouseDownInteraction(
         event,
         isometricContainer.current,
@@ -346,7 +344,7 @@ export const IsometricTiles = ({
       }
     };
 
-    const mouseMoveHandler = (event: PIXI.InteractionEvent) => {
+    const mouseMoveHandler = (event: PIXI.FederatedPointerEvent) => {
       const handledEvent = mouseMoveInteraction(
         event,
         isometricContainer.current,

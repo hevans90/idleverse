@@ -7,12 +7,12 @@ import { colors, hexStringToNumber, hexToRGB } from '@idleverse/theme';
 import * as PIXI from 'pixi.js';
 import { useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { assetLoader } from '../../asset-loading/asset-loader';
-import { runPixelDataGenOnWorker } from '../../canvases/planet-generator/texture-generation/run-texture-gen-on-worker';
-import { PixiWrapper } from '../../canvases/_utils/pixi-wrapper';
-import { Loading } from '../../components/loading';
+
 import { colorsVar } from '../../_state/colors';
-import { AssetCollection } from '../../_state/models';
+import { PixiWrapper } from '../../canvases/_utils/pixi-wrapper';
+import { runPixelDataGenOnWorker } from '../../canvases/planet-generator/texture-generation/run-texture-gen-on-worker';
+import { Loading } from '../../components/loading';
+
 import { planetSurfaceVar } from '../../_state/planet-surface';
 import { IsometricTiles } from './isometric-tiles';
 
@@ -23,18 +23,13 @@ export const IsometricContainer = () => {
   const [assetsLoading, setAssetsLoading] = useState<boolean>(true);
   const [mapGenerating, setMapGenerating] = useState<boolean>(true);
 
-  const [assetCollection, setAssetCollection] = useState<AssetCollection>();
-
   const { data: colorPalettes, loading: colorPalettesLoading } =
     useQuery<TerrainHexPalettesQuery>(TerrainHexPalettesDocument);
 
   useEffect(() => {
     if (initialisingRef.current === false) {
       initialisingRef.current = true;
-      assetLoader([
-        { name: 'dirt', url: 'isometric-tiles/dirt_tile.png' },
-      ]).then((collection) => {
-        setAssetCollection(collection);
+      PIXI.Assets.load('isometric-tiles/dirt_tile.png').then((collection) => {
         setAssetsLoading(false);
         initialisingRef.current = false;
       });
@@ -89,16 +84,10 @@ export const IsometricContainer = () => {
     return <Loading text="Generating map"></Loading>;
   }
 
-  if (
-    !assetsLoading &&
-    !colorPalettesLoading &&
-    !mapGenerating &&
-    assetCollection
-  ) {
+  if (!assetsLoading && !colorPalettesLoading && !mapGenerating) {
     return (
       <PixiWrapper>
         <IsometricTiles
-          assetCollection={assetCollection}
           colors={{
             tileColor: `${hexStringToNumber(colors[primary]['300'])}`,
             hoverColor: `${hexStringToNumber(colors[secondary]['600'])}`,

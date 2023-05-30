@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useReactiveVar } from '@apollo/client';
 import { generateHypotenuse } from '@idleverse/pixi-utils';
-import { useApp } from '@saitonakamura/react-pixi';
+import { useApp } from '@pixi/react';
 import { Container, TickerCallback } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useFpsTracker } from '../../canvases/galaxy-generator/utils/fps-counter';
+import { simulationPaused, timeVar } from '../../_state/reactive-variables';
 import { useResize } from '../../canvases/_utils/use-resize.hook';
 import { useViewport } from '../../canvases/_utils/use-viewport.hook';
-import { simulationPaused, timeVar } from '../../_state/reactive-variables';
+import { useFpsTracker } from '../../canvases/galaxy-generator/utils/fps-counter';
 
 import { generateBalls, generateGravitationalCenter } from './drawing';
 import { calculateGravity } from './gravity';
@@ -16,7 +16,6 @@ import { BallConfig, NewtonianGraphics } from './models';
 
 export const GravitySimulation = () => {
   const app = useApp();
-  console.log('render');
   const size = useResize('gravity-sim');
   const gravitySimContainerRef = useRef(new Container());
   useFpsTracker(app);

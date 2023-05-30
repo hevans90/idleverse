@@ -21,8 +21,7 @@ export const GalaxyThumbnail = ({ galaxyConfig }: GalaxyThumbnailProps) => {
 
   useEffect(() => {
     const gameElement = document.getElementById(divId);
-    const app = new Application({
-      transparent: true,
+    const app = new Application<HTMLCanvasElement>({
       resizeTo: gameElement,
     });
 

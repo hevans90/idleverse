@@ -28,46 +28,9 @@ export const useRenderNodes = (
 
       let parent: { x: number; y: number };
 
-      if (node.parent) {
-        const parentRenderedNode = container.getChildByName(node.parent.id);
-
-        parent = parentRenderedNode.position;
-
-        x = parent?.x;
-
-        const siblings = node.parent.children
-          .filter(({ id }) => id !== node.id)
-          .map(({ id }) => container.getChildByName(id));
-
-        const renderedSiblings = siblings.filter((element) => element !== null);
-
-        const generationCount = siblings.length + 1;
-
-        const nodeWidth =
-          (2 * (depthMultiplier / 10) * (3 / generationCount)) / node.depth;
-
-        const separation = 2 * nodeWidth * separationMultiplier;
-
-        const lowerbound =
-          nodeWidth * siblings.length + separation * siblings.length;
-
-        if (!renderedSiblings.length) {
-          x -= lowerbound / 2;
-        } else {
-          x =
-            renderedSiblings[renderedSiblings.length - 1].position.x +
-            nodeWidth +
-            separation;
-        }
-
-        if (generationCount === 1) {
-          x = parentRenderedNode?.position.x;
-        }
-      }
-
       const palette = colors[colorsVar().secondary];
 
-      const nodeContainer = drawNode({
+      drawNode({
         id: node.id,
         name: node.value.name,
         imageUrl: node.value.image_url,
@@ -77,19 +40,58 @@ export const useRenderNodes = (
         },
         colorPalette: palette,
         radius: nodeRadius,
+      }).then((nodeContainer) => {
+        if (node.parent) {
+          const parentRenderedNode = container.getChildByName(node.parent.id);
+
+          parent = parentRenderedNode.position;
+
+          x = parent?.x;
+
+          const siblings = node.parent.children
+            .filter(({ id }) => id !== node.id)
+            .map(({ id }) => container.getChildByName(id));
+
+          const renderedSiblings = siblings.filter(
+            (element) => element !== null
+          );
+
+          const generationCount = siblings.length + 1;
+
+          const nodeWidth =
+            (2 * (depthMultiplier / 10) * (3 / generationCount)) / node.depth;
+
+          const separation = 2 * nodeWidth * separationMultiplier;
+
+          const lowerbound =
+            nodeWidth * siblings.length + separation * siblings.length;
+
+          if (!renderedSiblings.length) {
+            x -= lowerbound / 2;
+          } else {
+            x =
+              renderedSiblings[renderedSiblings.length - 1].position.x +
+              nodeWidth +
+              separation;
+          }
+
+          if (generationCount === 1) {
+            x = parentRenderedNode?.position.x;
+          }
+        }
+
+        if (parent) {
+          const line = connectNodes({
+            parent,
+            self: { x, y },
+            color: colors[colorsVar().secondary]['300'],
+          });
+          line.name = `line_${node.id}`;
+          container.addChild(line);
+        }
+
+        container.addChild(nodeContainer);
       });
-
-      if (parent) {
-        const line = connectNodes({
-          parent,
-          self: { x, y },
-          color: colors[colorsVar().secondary]['300'],
-        });
-        line.name = `line_${node.id}`;
-        container.addChild(line);
-      }
-
-      container.addChild(nodeContainer);
     });
 
     return () => {

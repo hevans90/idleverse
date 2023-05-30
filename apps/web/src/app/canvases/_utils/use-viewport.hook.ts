@@ -44,11 +44,9 @@ export const useViewport = ({
         screenHeight: size.height,
         worldWidth,
         worldHeight,
-
-        // the interaction module is important for wheel to work properly when renderer.view is placed or scaled
-        interaction: app.renderer.plugins.interaction,
         disableOnContextMenu: true,
         ticker: app.ticker,
+        events: app.renderer.events,
       });
       viewportRef.current.sortableChildren = true;
     }
@@ -128,8 +126,8 @@ export const useViewport = ({
       try {
         // this will also remove any children (debug outline etc)
         viewportRef.current.removeChild(outline.current);
-        app.stage.removeChild(viewportRef.current);
-        app.stage.removeChild(sizeIndicator.current);
+        app.stage?.removeChild(viewportRef.current);
+        app.stage?.removeChild(sizeIndicator.current);
       } catch (e) {
         console.warn(e);
         // this can throw if react-pixi destroys the stage, from routing etc.

@@ -16,23 +16,25 @@ import {
   UserInfoQuery,
 } from '@idleverse/galaxy-gql';
 import { useEffect, useState } from 'react';
-import { loadTechTree } from './asset-loading/load-tech-tree';
-import { loadUserInfo } from './asset-loading/load-users';
-import { Loading } from './components/loading';
 import { backgroundsVar } from './_state/backgrounds';
 import { factionsVar } from './_state/factions';
 import { npcsVar } from './_state/npcs';
 import { playableRacesVar } from './_state/playable-races';
 import { questsVar } from './_state/quests';
-import { selfVar } from './_state/reactive-variables';
+import { selfVar, usersVar } from './_state/reactive-variables';
 import { resourcesVar } from './_state/resources';
 import { technologiesVar } from './_state/technologies';
+import { loadPlaceholders } from './asset-loading/load-placeholders';
+import { loadTechTree } from './asset-loading/load-tech-tree';
+import { loadUserInfo } from './asset-loading/load-users';
+import { Loading } from './components/loading';
 
 /**
  * Performs all async loading and blocks any children rendering until complete.
  */
 export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
   const [userAvatarsLoading, setUserAvatarsLoading] = useState(true);
+  const [placeholdersLoading, setPlaceholdersLoading] = useState(true);
   const [techTreeLoading, setTechTreeLoading] = useState(true);
 
   const self = useReactiveVar(selfVar);
@@ -82,10 +84,18 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
 
   useEffect(() => {
     if (!usersLoading && userInfo) {
+      usersVar(userInfo.user_info);
       loadUserInfo(userInfo).then(() => setUserAvatarsLoading(false));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [usersLoading]);
+
+  useEffect(() => {
+    if (!userAvatarsLoading) {
+      loadPlaceholders().then(() => setPlaceholdersLoading(false));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userAvatarsLoading]);
 
   useEffect(() => {
     if (!resourcesLoading && resources) {
@@ -112,6 +122,9 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
   }
 
   if (userAvatarsLoading) return <Loading text="Creating Avatars"></Loading>;
+  if (placeholdersLoading) {
+    return <Loading text="Loading Placeholders"></Loading>;
+  }
   if (techTreeLoading) return <Loading text="Generating Tech Tree"></Loading>;
 
   return children;

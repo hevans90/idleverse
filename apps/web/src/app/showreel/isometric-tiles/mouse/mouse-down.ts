@@ -4,11 +4,12 @@ import { IsometricContainer } from '../models/isometric-stack';
 import { isoToIndex } from '../utils/iso-to-index';
 
 export const mouseDownInteraction = (
-  { data }: PIXI.InteractionEvent,
+  event: PIXI.FederatedPointerEvent,
   myContainer: IsometricContainer,
   config: GameConfig
 ) => {
-  const { x, y } = data.getLocalPosition(myContainer);
+  const { x, y } = myContainer.toLocal(event.global);
+
   const [i, j] = isoToIndex(x, y, config);
 
   return {

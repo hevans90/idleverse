@@ -1,38 +1,18 @@
-import * as PIXI from 'pixi.js';
-import { LoaderResource } from 'pixi.js';
-import { AssetCollection } from '../_state/models';
+import { Assets, ResolverAssetsArray } from 'pixi.js';
 
-export const assetLoader = async (
-  addOptions: PIXI.IAddOptions[],
-  loadType: LoaderResource.LOAD_TYPE = LoaderResource.LOAD_TYPE.IMAGE
-): Promise<AssetCollection> =>
-  new Promise<AssetCollection>((resolve, reject) => {
-    const paths = addOptions
-      .map((props) => ({
-        ...props,
-        crossOrigin: 'anonymous',
-        loadType,
-      }))
-      .filter(({ name }) => {
-        const alreadyLoaded = PIXI.Loader.shared.resources[name];
-
-        if (alreadyLoaded) {
-          console.log(name, 'ALREADY LOADED, skipping');
-        }
-
-        return !alreadyLoaded;
-      });
-
-    const loader = new PIXI.Loader();
-
-    loader.add(paths).load((_, resourcesLoaded) => resolve(resourcesLoaded));
-
-    loader.onError.add((e) => {
-      console.error(e);
-      reject('Failed to load resources.');
-    });
-    console.log('PIXI Asset Loader run started...');
-    loader.onProgress.add((loader, resource) => {
-      console.log(loader.progress, resource.name);
-    });
-  });
+export const assetLoader = async ({
+  bundleName,
+  bundle,
+  background = true,
+}: {
+  bundleName: string;
+  bundle: ResolverAssetsArray;
+  background?: boolean;
+}) => {
+  Assets.addBundle(bundleName, bundle);
+  if (background) {
+    await Assets.backgroundLoadBundle(bundleName);
+  } else {
+    await Assets.loadBundle(bundleName);
+  }
+};

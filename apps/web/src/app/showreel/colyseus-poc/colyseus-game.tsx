@@ -1,5 +1,5 @@
 import { ColyseusShip } from '@idleverse/colyseus-shared';
-import { useApp } from '@saitonakamura/react-pixi';
+import { useApp } from '@pixi/react';
 import { Renderer } from 'pixi.js';
 import { useEffect, useRef, useState } from 'react';
 import { useResize } from '../../canvases/_utils/use-resize.hook';
@@ -126,13 +126,13 @@ export const ColyseusGame = () => {
   useFpsTracker(app);
   useControls(room);
 
-  const addShipToContainer = (ship: Readonly<ColyseusShip>) => {
+  const addShipToContainer = async (ship: Readonly<ColyseusShip>) => {
     const {
       shipSprite,
       avatarConnectingLineSprite,
       avatarSprite,
       boundingBoxGraphic,
-    } = drawPlayerShip({
+    } = await drawPlayerShip({
       renderer: app.renderer as Renderer,
       shipDimensions: { width: ship.width, height: ship.height },
       userId: ship.userId,

@@ -1,5 +1,4 @@
 import * as PIXI from 'pixi.js';
-import { AbstractRenderer, Renderer } from 'pixi.js';
 import { GameConfig } from '../models/game-config';
 import { IsometricGraphic } from '../models/isometric-graphic';
 import { IsometricLayer } from '../models/isometric-layer';
@@ -28,7 +27,7 @@ const setTileSelection = ({
   layerContainer: PIXI.Container;
   config: GameConfig;
   layers: IsometricLayer[];
-  renderer: Renderer | AbstractRenderer;
+  renderer: PIXI.IRenderer;
   selectionCallback?: (tile: Tile) => unknown;
   selectedColor?: string;
   defaultColor?: string;
@@ -77,7 +76,7 @@ export const selectTile = ({
   layerContainer: PIXI.Container;
   config: GameConfig;
   layers: IsometricLayer[];
-  renderer: Renderer | AbstractRenderer;
+  renderer: PIXI.IRenderer;
   selectionCallback: (tile: Tile) => unknown;
   selectedColor?: string;
   defaultColor?: string;
@@ -105,7 +104,7 @@ export const unSelectTile = ({
   layerContainer: PIXI.Container;
   config: GameConfig;
   layers: IsometricLayer[];
-  renderer: Renderer | AbstractRenderer;
+  renderer: PIXI.IRenderer;
   defaultColor?: string;
 }) =>
   setTileSelection({
@@ -133,7 +132,7 @@ export const hoverTile = ({
   config: GameConfig;
   stack: IsometricContainer;
   layers: IsometricLayer[];
-  renderer: Renderer | AbstractRenderer;
+  renderer: PIXI.IRenderer;
   hoverCallback: (tile: Tile) => unknown;
   outlineColor?: string;
 }) => {

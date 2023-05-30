@@ -84,7 +84,7 @@ const setupNodeMouseEvents = (
   ) as PIXI.Graphics;
 
   if (baseRenderedNode) {
-    baseRenderedNode.interactive = true;
+    baseRenderedNode.eventMode = 'static';
     baseRenderedNode.cursor = 'pointer';
 
     baseRenderedNode.on('mouseover', () => hoveredNodeVar(node));
@@ -128,7 +128,7 @@ export const useNodeInteractions = (container: PIXI.Container) => {
 
   useEffect(() => {
     treeNodes.forEach((node) => {
-      if (renderedNode) {
+      if (renderedNode(node)) {
         setupNodeMouseEvents(renderedNode(node), node);
       }
     });

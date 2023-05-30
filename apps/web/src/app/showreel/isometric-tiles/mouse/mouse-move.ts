@@ -35,7 +35,7 @@ export const isPositionalUpdate = (
   (update as PositionalUpdate).dely !== undefined;
 
 export const mouseMoveInteraction = (
-  { data }: PIXI.InteractionEvent,
+  event: PIXI.FederatedPointerEvent,
   stack: IsometricContainer,
   config: GameConfig,
   dragging: boolean,
@@ -43,9 +43,9 @@ export const mouseMoveInteraction = (
   draggedy: number,
   tileClicked?: Tile
 ): CoordsUpdate | PositionalUpdate => {
-  const { x, y } = data.getLocalPosition(stack);
+  const { x, y } = stack.toLocal(event.global);
   const [i, j] = isoToIndex(x, y, config);
-  const parentPosition = data.getLocalPosition(stack.parent);
+  const parentPosition = stack.parent.toLocal(event.global);
 
   if (!dragging) {
     return {
@@ -64,6 +64,7 @@ export const mouseMoveInteraction = (
       x: 0,
       y: 0,
     };
+    const localPosition = stack.parent.toLocal(event.global);
 
     return {
       delx: stack.position.x,
@@ -81,11 +82,9 @@ export const mouseMoveInteraction = (
         2
       )}, y: ${(y - tileDragged.y).toFixed(2)}}`,
 
-      containerParentIndicatorText: `stack.parent = { x: ${data
-        .getLocalPosition(stack.parent)
-        .x.toFixed(2)}, y: ${data
-        .getLocalPosition(stack.parent)
-        .y.toFixed(2)} }`,
+      containerParentIndicatorText: `stack.parent = { x: ${localPosition.x.toFixed(
+        2
+      )}, y: ${localPosition.y.toFixed(2)} }`,
     };
   }
 };

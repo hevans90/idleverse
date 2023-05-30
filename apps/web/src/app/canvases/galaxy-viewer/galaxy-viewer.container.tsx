@@ -1,4 +1,4 @@
-import { useReactiveVar, useSubscription } from '@apollo/client';
+import { useLazyQuery, useReactiveVar, useSubscription } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
 import { dbGalaxyToGalaxyConfig } from '@idleverse/galaxy-gen';
 import {
@@ -7,6 +7,8 @@ import {
   CelestialsByGalaxyIdSubscriptionVariables,
   GalaxyByIdSubDocument,
   GalaxyByIdSubSubscription,
+  UserInfoByIdDocument,
+  UserInfoByIdQuery,
 } from '@idleverse/galaxy-gql';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -22,6 +24,8 @@ export const GalaxyViewerContainer = () => {
   const { id } = useParams<{ id: string }>();
 
   const { id: userId } = useReactiveVar(selfVar);
+
+  const [userByIdQuery] = useLazyQuery<UserInfoByIdQuery>(UserInfoByIdDocument);
 
   const { data, loading } = useSubscription<GalaxyByIdSubSubscription>(
     GalaxyByIdSubDocument,
@@ -82,6 +86,7 @@ export const GalaxyViewerContainer = () => {
         }
       >
         <GalaxyViewer
+          newUserQuery={userByIdQuery}
           claimedCelestials={celestialData.galaxy_by_pk.celestials}
           galaxyConfig={dbGalaxyToGalaxyConfig(data.galaxy_by_pk)}
           navigate={navigate}
