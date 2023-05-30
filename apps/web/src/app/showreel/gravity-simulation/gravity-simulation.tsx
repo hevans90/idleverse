@@ -16,7 +16,6 @@ import { BallConfig, NewtonianGraphics } from './models';
 
 export const GravitySimulation = () => {
   const app = useApp();
-  console.log('render');
   const size = useResize('gravity-sim');
   const gravitySimContainerRef = useRef(new Container());
   useFpsTracker(app);
