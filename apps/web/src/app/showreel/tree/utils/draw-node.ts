@@ -72,7 +72,6 @@ export const drawNode = async ({
 
   const text = new PIXI.Text(name, {
     ...textStyle,
-    stroke: undefined,
     fill: colorPalette['100'],
   });
 

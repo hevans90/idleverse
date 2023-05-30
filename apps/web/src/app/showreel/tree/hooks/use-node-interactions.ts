@@ -128,7 +128,7 @@ export const useNodeInteractions = (container: PIXI.Container) => {
 
   useEffect(() => {
     treeNodes.forEach((node) => {
-      if (renderedNode) {
+      if (renderedNode(node)) {
         setupNodeMouseEvents(renderedNode(node), node);
       }
     });

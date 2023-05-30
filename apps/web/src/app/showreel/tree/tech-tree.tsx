@@ -33,7 +33,6 @@ export const TechTree = () => {
   useEffect(() => {
     containerRef.current.sortableChildren = true;
     if (technologies.length) {
-      console.log(technologies);
       treeRef.current = createTreeFromTechnologiesQuery(technologies);
 
       const nodesWithDepth = [...treeRef.current.preOrderTraversal()].map(
@@ -48,7 +47,6 @@ export const TechTree = () => {
   }, [technologies]);
 
   useRenderNodes(nodesWithDepth, containerRef.current, size);
-
   useNodeInteractions(containerRef.current);
 
   useEffect(() => {
