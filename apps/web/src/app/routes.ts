@@ -7,6 +7,7 @@ import { PlanetViewer } from './canvases/planet-viewer/planet-viewer';
 import { JoinGalaxy } from './empire-creation/join-galaxy';
 import { GalaxyGalleryContainer } from './galaxy-gallery/galaxy-gallery.container';
 import { Home } from './home/home';
+import { BevyTest } from './showreel/bevy-test/bevy-test';
 import { ColyseusContainer } from './showreel/colyseus-poc/colyseus-container';
 import { GravitySimulationContainer } from './showreel/gravity-simulation/gravity-simulation.container';
 import { IsometricContainer } from './showreel/isometric-tiles/isometric.container';
@@ -68,5 +69,10 @@ export const routes = [
     path: '/quest-tree',
     name: 'quest tree',
     component: QuestTreeContainer,
+  },
+  {
+    path: '/wasm-bevy',
+    name: 'wasm',
+    component: BevyTest,
   },
 ];
