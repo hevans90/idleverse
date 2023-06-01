@@ -35,6 +35,10 @@ export const Showreel = () => {
       route: 'quest-tree',
       display: 'Quest Tree',
     },
+    {
+      route: 'wasm-bevy',
+      display: 'Bevy WASM POC',
+    },
   ];
 
   return (
