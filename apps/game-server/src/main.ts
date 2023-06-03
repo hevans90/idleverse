@@ -143,7 +143,7 @@ import ws = require('ws');
   server.applyMiddleware({ app, path });
 
   // Launch the express server
-  app.listen({ port: process.env.PORT || 4000 }, () =>
+  app.listen({ port: process.env.PORT || 4000, host: '' }, () =>
     console.log(
       `🚀 Idleverse Game Server ready at http://localhost:${
         process.env.PORT || 4000

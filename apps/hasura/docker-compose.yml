@@ -36,7 +36,7 @@ services:
   game-server:
     container_name: idleverse-game-server
     build:
-      dockerfile: $PWD/apps/game-server/Dockerfile
+      dockerfile: $PWD/apps/game-server/Dockerfile.local
     ports:
       - '4000:4000'
     restart: always

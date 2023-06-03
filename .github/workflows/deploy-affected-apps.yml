@@ -11,7 +11,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     env:
-      HASURA_URL: https://idleverse-hasura.herokuapp.com
+      HASURA_URL: https://idleverse-hasura.fly.dev
       HASURA_ADMIN_SECRET: ${{ secrets.HASURA_ADMIN_SECRET }}
 
     steps:

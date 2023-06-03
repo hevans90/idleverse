@@ -1,0 +1,26 @@
+[
+  {
+    "instance": "3d8d5d0fe267d8",
+    "app": "idleverse-hasura",
+    "ip": "fdaa:2:4c68:a7b:8e:3951:3460:2",
+    "region": "lhr"
+  },
+  {
+    "instance": "32873e3c040448",
+    "app": "idleverse-hasura",
+    "ip": "fdaa:2:4c68:a7b:bbfa:efce:ec24:2",
+    "region": "lhr"
+  },
+  {
+    "instance": "e784e90ea34d98",
+    "app": "idleverse-hasura-db",
+    "ip": "fdaa:2:4c68:a7b:13e:8535:c46f:2",
+    "region": "lhr"
+  },
+  {
+    "instance": "e784e90ea34d98",
+    "app": "idleverse-hasura-db",
+    "ip": "172.19.133.226",
+    "region": "lhr"
+  }
+]

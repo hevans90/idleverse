@@ -4,6 +4,6 @@
 export const environment = {
   production: false,
   secure: true,
-  hasuraUri: 'idleverse-hasura.herokuapp.com/v1/graphql',
+  hasuraUri: 'idleverse-hasura.fly.dev/v1/graphql',
   colyseusUrl: 'wss://idleverse-colyseus.herokuapp.com',
 };
