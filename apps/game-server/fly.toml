@@ -1,0 +1,23 @@
+# fly.toml app configuration file generated for idleverse-game-server on 2023-06-02T20:53:39+01:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "idleverse-game-server"
+primary_region = "lhr"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 0
+
+[env]
+  SECURE_HASURA = "secure"
+  HASURA_NAMESPACE = "https://hasura.io/jwt/claims"
+  HASURA_URI = "idleverse-hasura.fly.dev/v1/graphql"
+  AUTH0_DOMAIN="dev-uyer-vun.us.auth0.com"
+  AUTH0_CLIENT_ID="UMMpI9y0OurEwa9M6lEf5wwG6kFqfj91"
+  AUTH0_MANAGEMENT_API_CLIENT_ID="NUK1GHwrYV9zEikzeyYCOsW3kdoeXP0b"
+  

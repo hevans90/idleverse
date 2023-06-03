@@ -5,7 +5,7 @@ module.exports = {
       documents: 'libs/galaxy-gql/src/lib/**/*.graphql',
       schema: [
         {
-          'https://idleverse-hasura.herokuapp.com/v1/graphql': {
+          'https://idleverse-hasura.fly.dev/v1/graphql': {
             headers: {
               'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET,
             },

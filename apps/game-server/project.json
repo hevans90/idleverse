@@ -73,14 +73,12 @@
       }
     },
     "deploy": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          {
-            "command": "npx push-dir --dir=dist/apps/game-server --branch=heroku-deploy --force"
-          }
-        ]
-      }
+      "dependsOn": ["build"],
+      "command": "fly deploy -a idleverse-game-server --config apps/game-server/fly.toml --dockerfile apps/game-server/Dockerfile"
+    },
+    "docker-build": {
+      "dependsOn": ["build"],
+      "command": "docker build -f apps/game-server/Dockerfile . -t idleverse-game-server"
     }
   },
   "tags": []
