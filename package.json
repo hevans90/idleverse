@@ -69,7 +69,7 @@
     "framer-motion": "^6.3.0",
     "graphql": "^15.6.0",
     "graphql-type-json": "^0.3.2",
-    "hasura-cli": "^2.17.0",
+    "hasura-cli": "^2.25.0",
     "jsonwebtoken": "^8.5.1",
     "jwks-client": "^1.4.0",
     "jwks-rsa": "^2.0.4",

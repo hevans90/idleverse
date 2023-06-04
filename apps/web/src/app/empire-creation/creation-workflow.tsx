@@ -1,11 +1,11 @@
 import { useReactiveVar } from '@apollo/client';
-import { Box, Button, Image, SimpleGrid, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, Image, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { DataUriGenerator } from '../canvases/celestial-viewer/data-uri-generator';
-import { runPixelDataGenOnWorker } from '../canvases/planet-generator/texture-generation/run-texture-gen-on-worker';
 import { characterCreationVar } from '../_state/character-creation';
 import { colorsVar } from '../_state/colors';
 import { planetGenerationColorDrawerVar } from '../_state/planet-generation';
+import { DataUriGenerator } from '../canvases/celestial-viewer/data-uri-generator';
+import { runPixelDataGenOnWorker } from '../canvases/planet-generator/texture-generation/run-texture-gen-on-worker';
 import { creationStep } from './creation-types';
 
 const WorkflowButton = ({
@@ -27,14 +27,14 @@ const WorkflowButton = ({
   return (
     <Box
       as={Button}
-      height={['100px', '125px']}
+      padding={5}
+      height={[16, 24, 32]}
       lineHeight="inherit"
       whiteSpace="normal"
       disabled={disabled || false}
       transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
       px="8px"
       borderRadius="3px"
-      fontWeight="semibold"
       fontSize={['xxs', 'xs', 'xs', 'sm', 'md']}
       bg={value ? `${secondary}.600` : 'whiteAlpha.200'}
       color="white.900"
@@ -48,12 +48,12 @@ const WorkflowButton = ({
       paddingInlineEnd={4}
       onClick={() => onClick(stepName)}
     >
-      <VStack>
+      <Stack direction={['row', 'column']} alignItems="center">
         {imageUrl && (
           <Image boxSize="50px" src={imageUrl} borderRadius="full" />
         )}
         <Text>{value || displayName || stepName}</Text>
-      </VStack>
+      </Stack>
     </Box>
   );
 };
@@ -115,7 +115,7 @@ export const CreationWorkflow = ({
     <SimpleGrid
       width={['95%', '95%', '95%', '95%', '80%', '1400px']}
       minChildWidth={['180px', '120px']}
-      spacing={3}
+      spacing={2}
     >
       <WorkflowButton
         onClick={() => onStepClicked('race')}
