@@ -11,11 +11,13 @@ import {
 } from '@chakra-ui/react';
 import { dbGalaxyToGalaxyConfig } from '@idleverse/galaxy-gen';
 import { GalaxiesSubscription } from '@idleverse/galaxy-gql';
+import { Stage } from '@pixi/react';
+import { useEffect, useRef, useState } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
-import { GalaxyThumbnail } from '../canvases/galaxy-thumbnail/galaxy-thumbnail';
-import { useUiBackground } from '../hooks/use-ui-background';
 import { colorsVar } from '../_state/colors';
 import { galaxyConfigVar } from '../_state/reactive-variables';
+import { GalaxyThumbnail } from '../canvases/galaxy-thumbnail/galaxy-thumbnail';
+import { useUiBackground } from '../hooks/use-ui-background';
 
 export const GalaxyTile = ({
   alreadyJoined,
@@ -30,16 +32,13 @@ export const GalaxyTile = ({
   displayOwnershipTotals: boolean;
   totalUserOwns: number;
 }) => {
+  const { primary, secondary } = useReactiveVar(colorsVar);
   const { bgDarker } = useUiBackground();
-  const { secondary } = useReactiveVar(colorsVar);
 
   const col = useColorModeValue(`${secondary}.500`, `${secondary}.300`);
 
   const hoverCol = useColorModeValue(`${secondary}.300`, `${secondary}.200`);
-  const hoverBg = useColorModeValue(
-    alreadyJoined ? `${secondary}.800` : `${secondary}.900`,
-    alreadyJoined ? `${secondary}.800` : `${secondary}.900`
-  );
+  const hoverBg = useColorModeValue(`${primary}.800`, `${primary}.700`);
 
   const {
     isOpen: isHovered,
@@ -72,20 +71,39 @@ export const GalaxyTile = ({
     margin: 'unset !important',
   };
 
+  const [tileWidth, setTileWidth] = useState(0);
+  const [tileHeight, setTileHeight] = useState(0);
+
+  const tileContainerRef = useRef<HTMLDivElement>();
+
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver((event) => {
+      setTileWidth(event[0].contentBoxSize[0].inlineSize);
+      setTileHeight(event[0].contentBoxSize[0].blockSize);
+    });
+
+    if (tileContainerRef) {
+      resizeObserver.observe(tileContainerRef.current);
+    }
+  }, [tileContainerRef]);
+
   return (
     <Box
+      ref={tileContainerRef}
+      bgColor={bgDarker}
+      id="tile-container"
       height="20vw"
       width="20vw"
-      minWidth="250px"
-      minHeight="250px"
-      maxHeight="400px"
-      maxWidth="400px"
+      minWidth="xs"
+      minHeight="xs"
+      maxHeight="md"
+      maxWidth="md"
       key={galaxyConfig.id}
-      bgColor={bgDarker}
       color={col}
       {...customHover}
       marginRight={2}
       marginBottom={2}
+      onTouchStart={onHover}
       onMouseEnter={onHover}
       onMouseLeave={onHoverEnd}
       as={alreadyJoined ? alreadyJoinedProps.as : null}
@@ -98,7 +116,18 @@ export const GalaxyTile = ({
         height="100%"
         marginRight={5}
       >
-        <GalaxyThumbnail galaxyConfig={dbGalaxyToGalaxyConfig(galaxyConfig)} />
+        <Stage
+          height={tileHeight}
+          width={tileWidth}
+          options={{
+            antialias: true,
+            backgroundAlpha: 0,
+          }}
+        >
+          <GalaxyThumbnail
+            galaxyConfig={dbGalaxyToGalaxyConfig(galaxyConfig)}
+          />
+        </Stage>
 
         <Text top="0.5rem" left="0.5rem" {...textProps}>
           {galaxyConfig.name}

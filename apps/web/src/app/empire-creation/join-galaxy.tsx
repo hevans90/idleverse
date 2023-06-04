@@ -4,8 +4,8 @@ import {
   Button,
   Link,
   Text,
-  useDisclosure,
   VStack,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { dbGalaxyToGalaxyConfig } from '@idleverse/galaxy-gen';
 import {
@@ -21,15 +21,16 @@ import {
   GalaxyByIdDocument,
   GalaxyByIdQuery,
 } from '@idleverse/galaxy-gql';
-import { useEffect, useState } from 'react';
+import { Stage } from '@pixi/react';
+import { useEffect, useRef, useState } from 'react';
 import { Link as ReactRouterLink, useParams } from 'react-router-dom';
-import { GalaxyThumbnail } from '../canvases/galaxy-thumbnail/galaxy-thumbnail';
-import { generatePlanetInsertionVars } from '../canvases/planet-generator/generate-planet-input-vars';
-import { randomisePlanetSeedAndName } from '../canvases/planet-generator/_utils/randomise-planet-seed-and-name';
-import { Loading } from '../components/loading';
 import { characterCreationVar } from '../_state/character-creation';
 import { colorsVar } from '../_state/colors';
 import { galaxyConfigVar, selfVar } from '../_state/reactive-variables';
+import { GalaxyThumbnail } from '../canvases/galaxy-thumbnail/galaxy-thumbnail';
+import { randomisePlanetSeedAndName } from '../canvases/planet-generator/_utils/randomise-planet-seed-and-name';
+import { generatePlanetInsertionVars } from '../canvases/planet-generator/generate-planet-input-vars';
+import { Loading } from '../components/loading';
 import { creationStep } from './creation-types';
 import { CreationWorkflow } from './creation-workflow';
 import { BackgroundSelectionModal } from './workflow-step-modals/background-selection-modal';
@@ -103,6 +104,11 @@ export const JoinGalaxy = () => {
     onOpen: onHomeworldGenerationOpen,
     onClose: onHomeworldGenerationClose,
   } = useDisclosure();
+
+  const tileContainerRef = useRef<HTMLDivElement>();
+
+  const [tileWidth, setTileWidth] = useState<number>(0);
+  const [tileHeight, setTileHeight] = useState<number>(0);
 
   const runCreationMutations = async () => {
     setEmpireCreationStatus('empire');
@@ -183,6 +189,19 @@ export const JoinGalaxy = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [readyToCreateEmpire]);
+
+  useEffect(() => {
+    if (!loading) {
+      const resizeObserver = new ResizeObserver((event) => {
+        setTileWidth(event[0].contentBoxSize[0].inlineSize);
+        setTileHeight(event[0].contentBoxSize[0].blockSize);
+      });
+
+      if (tileContainerRef && tileContainerRef.current) {
+        resizeObserver.observe(tileContainerRef.current);
+      }
+    }
+  }, [loading, tileContainerRef]);
 
   if (loading) {
     return (
@@ -279,10 +298,27 @@ export const JoinGalaxy = () => {
           </Text>
         </VStack>
 
-        <Box>
-          <GalaxyThumbnail
-            galaxyConfig={dbGalaxyToGalaxyConfig(galaxyData.galaxy_by_pk)}
-          />
+        <Box
+          ref={tileContainerRef}
+          height="30vw"
+          width="30vw"
+          minWidth="xs"
+          minHeight="xs"
+          maxHeight="md"
+          maxWidth="md"
+        >
+          <Stage
+            height={tileHeight}
+            width={tileWidth}
+            options={{
+              backgroundAlpha: 0,
+              antialias: true,
+            }}
+          >
+            <GalaxyThumbnail
+              galaxyConfig={dbGalaxyToGalaxyConfig(galaxyData.galaxy_by_pk)}
+            />
+          </Stage>
         </Box>
 
         <CreationWorkflow

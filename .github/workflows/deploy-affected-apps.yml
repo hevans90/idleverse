@@ -13,12 +13,16 @@ jobs:
     env:
       HASURA_URL: https://idleverse-hasura.fly.dev
       HASURA_ADMIN_SECRET: ${{ secrets.HASURA_ADMIN_SECRET }}
+      FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v2.3.1
         with:
           fetch-depth: 0
+
+      - name: Install fly CLI
+        uses: superfly/flyctl-actions/setup-flyctl@master
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
