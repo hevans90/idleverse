@@ -21,7 +21,23 @@ export const useRenderNodes = (
     nodeRadius,
   } = useReactiveVar(treeSettingsVar);
 
+  const cleanupRenderedNodes = () =>
+    nodesWithDepth.forEach((node) => {
+      const renderedNode = container.getChildByName(node.id);
+      const renderedLine = container.getChildByName(`line_${node.id}`);
+
+      if (renderedNode) {
+        container.removeChild(renderedNode);
+        renderedNode.destroy(true);
+      }
+      if (renderedLine) {
+        container.removeChild(renderedLine);
+        renderedLine.destroy(true);
+      }
+    });
+
   useEffect(() => {
+    cleanupRenderedNodes();
     const asyncAdd = async () => {
       for (const node of nodesWithDepth) {
         let x = 0;
@@ -35,7 +51,6 @@ export const useRenderNodes = (
           const parentRenderedNode = container.getChildByName(node.parent.id);
 
           parent = parentRenderedNode.position;
-
           x = parent?.x;
 
           const siblings = node.parent.children
@@ -95,23 +110,9 @@ export const useRenderNodes = (
       }
     };
 
-    // this is hacky but forces  a re-run of the `useNodeInteractions` hook after each change... it works but not gud.
+    // this is hacky but forces a re-run of the `useNodeInteractions` hook after each change... it works but not gud.
     asyncAdd().then(() => treeSettingsVar({ ...treeSettingsVar() }));
 
-    return () => {
-      nodesWithDepth.forEach((node) => {
-        const renderedNode = container.getChildByName(node.id);
-        const renderedLine = container.getChildByName(`line_${node.id}`);
-
-        if (renderedNode) {
-          container.removeChild(renderedNode);
-          renderedNode.destroy(true);
-        }
-        if (renderedLine) {
-          container.removeChild(renderedLine);
-          renderedLine.destroy(true);
-        }
-      });
-    };
+    return () => cleanupRenderedNodes();
   }, [nodesWithDepth, separationMultiplier, depthMultiplier, nodeRadius]);
 };
