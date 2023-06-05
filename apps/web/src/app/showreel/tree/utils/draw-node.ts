@@ -73,6 +73,7 @@ export const drawNode = async ({
   const text = new PIXI.Text(name, {
     ...textStyle,
     fill: colorPalette['100'],
+    strokeThickness: 0,
   });
 
   text.anchor.set(0.5);

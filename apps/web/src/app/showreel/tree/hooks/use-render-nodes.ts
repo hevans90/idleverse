@@ -21,31 +21,36 @@ export const useRenderNodes = (
     nodeRadius,
   } = useReactiveVar(treeSettingsVar);
 
-  useEffect(() => {
+  const cleanupRenderedNodes = () =>
     nodesWithDepth.forEach((node) => {
-      let x = 0;
-      const y = -size.height / 3 + node.depth * depthMultiplier;
+      const renderedNode = container.getChildByName(node.id);
+      const renderedLine = container.getChildByName(`line_${node.id}`);
 
-      let parent: { x: number; y: number };
+      if (renderedNode) {
+        container.removeChild(renderedNode);
+        renderedNode.destroy(true);
+      }
+      if (renderedLine) {
+        container.removeChild(renderedLine);
+        renderedLine.destroy(true);
+      }
+    });
 
-      const palette = colors[colorsVar().secondary];
+  useEffect(() => {
+    cleanupRenderedNodes();
+    const asyncAdd = async () => {
+      for (const node of nodesWithDepth) {
+        let x = 0;
+        const y = -size.height / 3 + node.depth * depthMultiplier;
 
-      drawNode({
-        id: node.id,
-        name: node.value.name,
-        imageUrl: node.value.image_url,
-        position: {
-          x,
-          y,
-        },
-        colorPalette: palette,
-        radius: nodeRadius,
-      }).then((nodeContainer) => {
+        let parent: { x: number; y: number };
+
+        const palette = colors[colorsVar().secondary];
+
         if (node.parent) {
           const parentRenderedNode = container.getChildByName(node.parent.id);
 
           parent = parentRenderedNode.position;
-
           x = parent?.x;
 
           const siblings = node.parent.children
@@ -80,6 +85,18 @@ export const useRenderNodes = (
           }
         }
 
+        const nodeContainer = await drawNode({
+          id: node.id,
+          name: node.value.name,
+          imageUrl: node.value.image_url,
+          position: {
+            x,
+            y,
+          },
+          colorPalette: palette,
+          radius: nodeRadius,
+        });
+
         if (parent) {
           const line = connectNodes({
             parent,
@@ -89,25 +106,13 @@ export const useRenderNodes = (
           line.name = `line_${node.id}`;
           container.addChild(line);
         }
-
         container.addChild(nodeContainer);
-      });
-    });
-
-    return () => {
-      nodesWithDepth.forEach((node) => {
-        const renderedNode = container.getChildByName(node.id);
-        const renderedLine = container.getChildByName(`line_${node.id}`);
-
-        if (renderedNode) {
-          container.removeChild(renderedNode);
-          renderedNode.destroy(true);
-        }
-        if (renderedLine) {
-          container.removeChild(renderedLine);
-          renderedLine.destroy(true);
-        }
-      });
+      }
     };
+
+    // this is hacky but forces a re-run of the `useNodeInteractions` hook after each change... it works but not gud.
+    asyncAdd().then(() => treeSettingsVar({ ...treeSettingsVar() }));
+
+    return () => cleanupRenderedNodes();
   }, [nodesWithDepth, separationMultiplier, depthMultiplier, nodeRadius]);
 };
