@@ -132,7 +132,7 @@ export const useNodeInteractions = (container: PIXI.Container) => {
         setupNodeMouseEvents(renderedNode(node), node);
       }
     });
-  }, [treeNodes, container, settings]);
+  }, [treeNodes, settings]);
 
   useEffect(() => {
     if (prevHoveredNode.current) {
