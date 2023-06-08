@@ -4,6 +4,11 @@ import {
   Checkbox,
   HStack,
   IconButton,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuList,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
@@ -17,11 +22,13 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { useUiBackground } from '../../../hooks/use-ui-background';
+import { Fragment } from 'react';
 import {
   responsiveFontProps,
   responsiveIconProps,
 } from '../../../_responsive-utils/font-props';
+import { useUiBackground } from '../../../hooks/use-ui-background';
+import { orientations } from '../orientation';
 import { treeSettingsVar } from '../state/shared-tree.state';
 
 export const TreeSettings = () => {
@@ -127,6 +134,47 @@ export const TreeSettings = () => {
               <SliderThumb boxSize={6} bgColor={border} />
             </Slider>
           </VStack>
+          <HStack width="100%">
+            <Text mr={3} {...responsiveFontProps}>
+              Orientation
+            </Text>
+            <Menu>
+              <MenuButton
+                px={4}
+                py={2}
+                minW="120px"
+                transition="all 0.2s"
+                borderRadius="md"
+                borderWidth="1px"
+                fontSize="xxs"
+              >
+                {treeSettings.orientation}
+              </MenuButton>
+              <MenuList
+                bgColor={bg}
+                borderWidth="1px"
+                borderStyle="solid"
+                borderColor={border}
+              >
+                {orientations.map((orientation, i) => (
+                  <Fragment key={i}>
+                    <MenuItem
+                      bgColor={bg}
+                      onClick={() => {
+                        treeSettingsVar({
+                          ...treeSettings,
+                          orientation,
+                        });
+                      }}
+                    >
+                      {orientation}
+                    </MenuItem>
+                    {i !== orientations.length - 1 && <MenuDivider />}
+                  </Fragment>
+                ))}
+              </MenuList>
+            </Menu>
+          </HStack>
           <HStack width="100%">
             <Text mr={3} {...responsiveFontProps}>
               Snap back
