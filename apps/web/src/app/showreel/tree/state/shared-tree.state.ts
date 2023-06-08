@@ -1,5 +1,6 @@
 import { makeVar } from '@apollo/client';
 import { makeVarPersisted } from '../../../_state/utils';
+import { Orientation } from '../orientation';
 import { TechnologyNode } from '../utils/create-tree-from-technologies-query';
 import { QuestNode } from '../utils/create-trees-from-quests-query';
 import { TreeNode } from '../utils/tree-structure';
@@ -18,6 +19,7 @@ export const treeSettingsVar = makeVarPersisted<{
   depthMulti: number;
   nodeRadius: number;
   snapBack: boolean;
+  orientation: Orientation;
 }>(
   {
     panelOpen: false,
@@ -25,6 +27,7 @@ export const treeSettingsVar = makeVarPersisted<{
     depthMulti: 250,
     nodeRadius: 50,
     snapBack: true,
+    orientation: 'top-to-bottom',
   },
   'treeSettings'
 );

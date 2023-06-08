@@ -4,13 +4,14 @@ import { GlowFilter } from '@pixi/filter-glow';
 import * as PIXI from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { colorsVar } from '../../../_state/colors';
-import { TreeNodeWithDepth, treeSettingsVar } from '../state/shared-tree.state';
-
 import {
+  TreeNodeWithDepth,
   hoveredNodeVar,
   selectedNodeVar,
   treeNodesVar,
+  treeSettingsVar,
 } from '../state/shared-tree.state';
+
 import { TechnologyNode } from '../utils/create-tree-from-technologies-query';
 import { QuestNode } from '../utils/create-trees-from-quests-query';
 
@@ -31,9 +32,7 @@ const highlightNodeWithChildren = (
   children?: PIXI.Container[],
   connectors?: PIXI.Container[]
 ) => {
-  const baseRenderedNode = nodeContainer.getChildByName(
-    'nodeBg'
-  ) as PIXI.Graphics;
+  const baseRenderedNode = nodeContainer.getChildByName('nodeBg');
 
   nodeContainer.zIndex = 3;
 
@@ -56,9 +55,7 @@ const removeNodeHighlights = (
   children?: PIXI.Container[],
   connectors?: PIXI.Container[]
 ) => {
-  const baseRenderedNode = nodeContainer.getChildByName(
-    'nodeBg'
-  ) as PIXI.Graphics;
+  const baseRenderedNode = nodeContainer.getChildByName('nodeBg');
 
   nodeContainer.zIndex = 2;
 
@@ -112,8 +109,9 @@ export const useNodeInteractions = (container: PIXI.Container) => {
   const prevHoveredNode =
     useRef<TreeNodeWithDepth<TechnologyNode | QuestNode>>();
 
-  const renderedNode = (node: TreeNodeWithDepth<TechnologyNode | QuestNode>) =>
-    container.getChildByName(node?.id) as PIXI.Container;
+  const renderedNode = (
+    node: TreeNodeWithDepth<TechnologyNode | QuestNode>
+  ): PIXI.Container => container.getChildByName(node?.id);
 
   const children = (node: TreeNodeWithDepth<TechnologyNode | QuestNode>) =>
     node.children.map(
