@@ -8,6 +8,7 @@ import { TreeNodeWithDepth, treeSettingsVar } from '../state/shared-tree.state';
 import { TechnologyNode } from '../utils/create-tree-from-technologies-query';
 import { QuestNode } from '../utils/create-trees-from-quests-query';
 
+import { orientationConfig } from '../orientation';
 import { connectNodes, drawNode } from '../utils/draw-node';
 
 export const useRenderNodes = (
@@ -19,6 +20,7 @@ export const useRenderNodes = (
     separation: separationMultiplier,
     depthMulti: depthMultiplier,
     nodeRadius,
+    orientation,
   } = useReactiveVar(treeSettingsVar);
 
   const cleanupRenderedNodes = () =>
@@ -39,9 +41,15 @@ export const useRenderNodes = (
   useEffect(() => {
     cleanupRenderedNodes();
     const asyncAdd = async () => {
+      const treeOrientation = orientationConfig(orientation);
+
       for (const node of nodesWithDepth) {
-        let x = 0;
-        const y = -size.height / 3 + node.depth * depthMultiplier;
+        const position = { x: 0, y: 0 };
+
+        position[treeOrientation.depth.axis] =
+          (treeOrientation.depth.axis === 'y' ? size.height : size.width) /
+            (treeOrientation.depth.start === 1 ? -5 : 5) +
+          node.depth * depthMultiplier * treeOrientation.depth.start;
 
         let parent: { x: number; y: number };
 
@@ -51,7 +59,9 @@ export const useRenderNodes = (
           const parentRenderedNode = container.getChildByName(node.parent.id);
 
           parent = parentRenderedNode.position;
-          x = parent?.x;
+
+          position[treeOrientation.separationAxis] =
+            parent?.[treeOrientation.separationAxis];
 
           const siblings = node.parent.children
             .filter(({ id }) => id !== node.id)
@@ -72,16 +82,19 @@ export const useRenderNodes = (
             nodeWidth * siblings.length + separation * siblings.length;
 
           if (!renderedSiblings.length) {
-            x -= lowerbound / 2;
+            position[treeOrientation.separationAxis] -= lowerbound / 2;
           } else {
-            x =
-              renderedSiblings[renderedSiblings.length - 1].position.x +
+            position[treeOrientation.separationAxis] =
+              renderedSiblings[renderedSiblings.length - 1].position[
+                treeOrientation.separationAxis
+              ] +
               nodeWidth +
               separation;
           }
 
           if (generationCount === 1) {
-            x = parentRenderedNode?.position.x;
+            position[treeOrientation.separationAxis] =
+              parentRenderedNode?.position[treeOrientation.separationAxis];
           }
         }
 
@@ -89,10 +102,7 @@ export const useRenderNodes = (
           id: node.id,
           name: node.value.name,
           imageUrl: node.value.image_url,
-          position: {
-            x,
-            y,
-          },
+          position,
           colorPalette: palette,
           radius: nodeRadius,
         });
@@ -100,7 +110,7 @@ export const useRenderNodes = (
         if (parent) {
           const line = connectNodes({
             parent,
-            self: { x, y },
+            self: position,
             color: colors[colorsVar().secondary]['300'],
           });
           line.name = `line_${node.id}`;
@@ -114,5 +124,11 @@ export const useRenderNodes = (
     asyncAdd().then(() => treeSettingsVar({ ...treeSettingsVar() }));
 
     return () => cleanupRenderedNodes();
-  }, [nodesWithDepth, separationMultiplier, depthMultiplier, nodeRadius]);
+  }, [
+    nodesWithDepth,
+    separationMultiplier,
+    depthMultiplier,
+    nodeRadius,
+    orientation,
+  ]);
 };
