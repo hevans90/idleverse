@@ -8,11 +8,8 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
-import { AddIcon, MinusIcon, SettingsIcon } from '@chakra-ui/icons';
-import {
-  responsiveFontProps,
-  responsiveIconProps,
-} from '../../../../_responsive-utils/font-props';
+import { AddIcon, MinusIcon } from '@chakra-ui/icons';
+import { responsiveFontProps } from '../../../../_responsive-utils/font-props';
 import { colorsVar } from '../../../../_state/colors';
 import { useUiBackground } from '../../../../hooks/use-ui-background';
 import {
@@ -56,7 +53,7 @@ export const DebugControls = () => {
             })
           }
         />
-        <SettingsIcon {...responsiveIconProps} />
+        <Text>DEBUG</Text>
       </HStack>
 
       {treeDebugSettings.panelOpen && (
