@@ -1,3 +1,4 @@
+import { DashLine } from '@idleverse/pixi-utils';
 import { colors, hexStringToNumber, themePaletteKeys } from '@idleverse/theme';
 import * as PIXI from 'pixi.js';
 import { Assets } from 'pixi.js';
@@ -88,20 +89,37 @@ export const drawNode = async ({
 };
 
 export const connectNodes = ({
+  graphic,
   parent,
   self,
   color = '0xffffff',
+  dashedLine,
 }: {
+  graphic: PIXI.Graphics;
   parent: { x: number; y: number };
   self: { x: number; y: number };
+  dashedLine: boolean;
   color?: string;
 }) => {
-  const line = new PIXI.Graphics();
-  line.lineStyle(2, hexStringToNumber(color), 0.6);
+  graphic.alpha = 0.75;
+  graphic.zIndex = 1;
+
+  let line: PIXI.Graphics | DashLine;
+
+  const lineWidth = 2;
+
+  if (dashedLine) {
+    line = new DashLine(graphic, {
+      dash: [20, 20],
+      color: hexStringToNumber(color),
+      width: lineWidth,
+    });
+  } else {
+    line = graphic;
+    line.lineStyle(lineWidth, hexStringToNumber(color), 0.6);
+  }
   line.moveTo(self.x, self.y);
   line.lineTo(parent.x, parent.y);
-  line.alpha = 0.75;
-  line.zIndex = 1;
 
   return line;
 };

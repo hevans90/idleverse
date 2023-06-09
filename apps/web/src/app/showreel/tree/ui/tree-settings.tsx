@@ -45,7 +45,7 @@ export const TreeSettings = () => {
       borderLeftWidth={0}
       position="absolute"
       left="0"
-      top="40%"
+      top="20%"
       padding={[2, 2, 3]}
     >
       <HStack width="100%" justifyContent="space-between">

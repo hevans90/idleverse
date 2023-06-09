@@ -4,7 +4,11 @@ import * as PIXI from 'pixi.js';
 import { useEffect } from 'react';
 import { colorsVar } from '../../../_state/colors';
 
-import { TreeNodeWithDepth, treeSettingsVar } from '../state/shared-tree.state';
+import {
+  TreeNodeWithDepth,
+  treeDebugVar,
+  treeSettingsVar,
+} from '../state/shared-tree.state';
 import { TechnologyNode } from '../utils/create-tree-from-technologies-query';
 import { QuestNode } from '../utils/create-trees-from-quests-query';
 
@@ -25,6 +29,10 @@ export const useRenderNodes = (
     nodeRadius,
     orientation,
   } = useReactiveVar(treeSettingsVar);
+
+  const { unlockedTechs } = useReactiveVar(treeDebugVar);
+
+  const isUnlocked = (nodeId: string) => unlockedTechs.includes(nodeId);
 
   const cleanupRenderedNodes = () =>
     nodesWithDepth.forEach((node) => {
@@ -114,13 +122,16 @@ export const useRenderNodes = (
         });
 
         if (parent) {
-          const line = connectNodes({
+          const graphic = container.addChild(new PIXI.Graphics());
+          graphic.name = `line_${node.id}`;
+
+          connectNodes({
+            graphic,
             parent,
             self: position,
             color: colors[colorsVar().secondary]['300'],
+            dashedLine: !isUnlocked(node.id),
           });
-          line.name = `line_${node.id}`;
-          container.addChild(line);
         }
         container.addChild(nodeContainer);
       }
@@ -132,6 +143,7 @@ export const useRenderNodes = (
     return () => cleanupRenderedNodes();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
+    unlockedTechs,
     nodesWithDepth,
     separationMultiplier,
     depthMultiplier,
