@@ -11,6 +11,9 @@ import { QuestNode } from '../utils/create-trees-from-quests-query';
 import { orientationConfig } from '../orientation';
 import { connectNodes, drawNode } from '../utils/draw-node';
 
+/**
+ * Renders a tree!
+ */
 export const useRenderNodes = (
   nodesWithDepth: TreeNodeWithDepth<QuestNode | TechnologyNode>[],
   container: PIXI.Container,
@@ -39,6 +42,7 @@ export const useRenderNodes = (
     });
 
   useEffect(() => {
+    // run cleanup at the start for remounts - the return cleanup doesn't always handle the horrendous async reality of canvases
     cleanupRenderedNodes();
     const asyncAdd = async () => {
       const treeOrientation = orientationConfig(orientation);
@@ -46,9 +50,11 @@ export const useRenderNodes = (
       for (const node of nodesWithDepth) {
         const position = { x: 0, y: 0 };
 
+        const depthCoefficient =
+          treeOrientation.depth.axis === 'y' ? size.height : size.width;
+
         position[treeOrientation.depth.axis] =
-          (treeOrientation.depth.axis === 'y' ? size.height : size.width) /
-            (treeOrientation.depth.start === 1 ? -5 : 5) +
+          depthCoefficient / (treeOrientation.depth.start === 1 ? -5 : 5) +
           node.depth * depthMultiplier * treeOrientation.depth.start;
 
         let parent: { x: number; y: number };
@@ -124,11 +130,13 @@ export const useRenderNodes = (
     asyncAdd().then(() => treeSettingsVar({ ...treeSettingsVar() }));
 
     return () => cleanupRenderedNodes();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     nodesWithDepth,
     separationMultiplier,
     depthMultiplier,
     nodeRadius,
     orientation,
+    size,
   ]);
 };
