@@ -32,6 +32,19 @@ export const treeSettingsVar = makeVarPersisted<{
   'treeSettings'
 );
 
+export const treeDebugVar = makeVarPersisted<{
+  panelOpen: boolean;
+  allUnlocked: boolean;
+  unlockedTechs: string[];
+}>(
+  {
+    allUnlocked: false,
+    panelOpen: false,
+    unlockedTechs: [],
+  },
+  'treeDebug'
+);
+
 export const treeNodesVar = makeVar<
   TreeNodeWithDepth<TechnologyNode | QuestNode>[]
 >([]);
