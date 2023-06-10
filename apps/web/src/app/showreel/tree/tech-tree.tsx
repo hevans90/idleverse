@@ -14,7 +14,11 @@ import { useReactiveVar } from '@apollo/client';
 import { technologiesVar } from '../../_state/technologies';
 import { useNodeInteractions } from './hooks/use-node-interactions';
 import { useRenderNodes } from './hooks/use-render-nodes';
-import { treeNodesVar, treeSettingsVar } from './state/shared-tree.state';
+import {
+  treeDebugVar,
+  treeNodesVar,
+  treeSettingsVar,
+} from './state/shared-tree.state';
 
 export const TechTree = () => {
   const app = useApp();
@@ -24,6 +28,8 @@ export const TechTree = () => {
   const size = useResize();
 
   const nodesWithDepth = useReactiveVar(treeNodesVar);
+
+  const { unlockedTechs, allUnlocked } = useReactiveVar(treeDebugVar);
 
   const settings = useReactiveVar(treeSettingsVar);
   const technologies = useReactiveVar(technologiesVar);
@@ -46,8 +52,19 @@ export const TechTree = () => {
     }
   }, [technologies]);
 
-  useRenderNodes(nodesWithDepth, containerRef.current, size);
-  useNodeInteractions(containerRef.current);
+  useRenderNodes({
+    nodesWithDepth,
+    unlockedNodeIds: unlockedTechs,
+    allUnlocked,
+
+    container: containerRef.current,
+    size,
+  });
+  useNodeInteractions({
+    container: containerRef.current,
+    unlockedNodeIds: unlockedTechs,
+    allUnlocked,
+  });
 
   useEffect(() => {
     if (viewport) {

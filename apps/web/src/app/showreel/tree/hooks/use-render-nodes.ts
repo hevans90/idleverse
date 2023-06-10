@@ -4,11 +4,7 @@ import * as PIXI from 'pixi.js';
 import { useEffect } from 'react';
 import { colorsVar } from '../../../_state/colors';
 
-import {
-  TreeNodeWithDepth,
-  treeDebugVar,
-  treeSettingsVar,
-} from '../state/shared-tree.state';
+import { TreeNodeWithDepth, treeSettingsVar } from '../state/shared-tree.state';
 import { TechnologyNode } from '../utils/create-tree-from-technologies-query';
 import { QuestNode } from '../utils/create-trees-from-quests-query';
 
@@ -18,11 +14,19 @@ import { connectNodes, drawNode } from '../utils/draw-node';
 /**
  * Renders a tree!
  */
-export const useRenderNodes = (
-  nodesWithDepth: TreeNodeWithDepth<QuestNode | TechnologyNode>[],
-  container: PIXI.Container,
-  size: { width: number; height: number }
-) => {
+export const useRenderNodes = ({
+  nodesWithDepth,
+  unlockedNodeIds,
+  container,
+  size,
+  allUnlocked,
+}: {
+  nodesWithDepth: TreeNodeWithDepth<QuestNode | TechnologyNode>[];
+  unlockedNodeIds: string[];
+  container: PIXI.Container;
+  size: { width: number; height: number };
+  allUnlocked: boolean;
+}) => {
   const {
     separation: separationMultiplier,
     depthMulti: depthMultiplier,
@@ -30,9 +34,8 @@ export const useRenderNodes = (
     orientation,
   } = useReactiveVar(treeSettingsVar);
 
-  const { unlockedTechs } = useReactiveVar(treeDebugVar);
-
-  const isUnlocked = (nodeId: string) => unlockedTechs.includes(nodeId);
+  const isUnlocked = (nodeId: string) =>
+    allUnlocked || unlockedNodeIds.includes(nodeId);
 
   const cleanupRenderedNodes = () =>
     nodesWithDepth.forEach((node) => {
@@ -112,6 +115,10 @@ export const useRenderNodes = (
           }
         }
 
+        const unrevealed = !(
+          isUnlocked(node.id) || isUnlocked(node?.parent?.id)
+        );
+
         const nodeContainer = await drawNode({
           id: node.id,
           name: node.value.name,
@@ -119,6 +126,8 @@ export const useRenderNodes = (
           position,
           colorPalette: palette,
           radius: nodeRadius,
+          unlocked: isUnlocked(node.id),
+          unrevealed,
         });
 
         if (parent) {
@@ -131,6 +140,9 @@ export const useRenderNodes = (
             self: position,
             color: colors[colorsVar().secondary]['300'],
             dashedLine: !isUnlocked(node.id),
+            unrevealed,
+            unlocked: isUnlocked(node.id),
+            nodeRadius,
           });
         }
         container.addChild(nodeContainer);
@@ -143,7 +155,8 @@ export const useRenderNodes = (
     return () => cleanupRenderedNodes();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    unlockedTechs,
+    allUnlocked,
+    unlockedNodeIds,
     nodesWithDepth,
     separationMultiplier,
     depthMultiplier,

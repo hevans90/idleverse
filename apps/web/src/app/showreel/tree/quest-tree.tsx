@@ -47,9 +47,19 @@ export const QuestTree = () => {
     }
   }, [quests]);
 
-  useRenderNodes(nodesWithDepth, containerRef.current, size);
+  useRenderNodes({
+    allUnlocked: true,
+    nodesWithDepth,
+    unlockedNodeIds: [],
+    container: containerRef.current,
+    size,
+  });
 
-  useNodeInteractions(containerRef.current);
+  useNodeInteractions({
+    container: containerRef.current,
+    unlockedNodeIds: [],
+    allUnlocked: true,
+  });
 
   useEffect(() => {
     if (viewport) {

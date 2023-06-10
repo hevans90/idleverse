@@ -18,6 +18,8 @@ export const drawNode = async ({
   position,
   colorPalette,
   radius,
+  unlocked,
+  unrevealed,
 }: {
   id: string;
   imageUrl: string;
@@ -25,20 +27,40 @@ export const drawNode = async ({
   position: { x: number; y: number };
   colorPalette: typeof colors[typeof themePaletteKeys[0]];
   radius: number;
+  unlocked: boolean;
+  unrevealed: boolean;
 }) => {
   const container = new PIXI.Container();
   container.zIndex = 2;
   container.sortableChildren = true;
 
   const overlay = new PIXI.Graphics();
+  const hoverOverlay = new PIXI.Graphics();
   const nodeBg = new PIXI.Graphics();
+
+  hoverOverlay.name = 'hoverOverlay';
+  hoverOverlay.alpha = 0.1;
+
   overlay.name = 'overlay';
-  overlay.alpha = 0.25;
+  overlay.alpha = 0.15;
   nodeBg.name = 'nodeBg';
 
-  const colyseusAssets = await Assets.loadBundle('tech-tree');
+  const iconAssets = await Assets.loadBundle('tech-tree');
+  const placeholders = await Assets.loadBundle('placeholders');
 
-  const iconTexture: PIXI.Texture = colyseusAssets[imageUrl];
+  if (!unlocked) {
+    overlay.alpha = 0;
+    nodeBg.alpha = 0.4;
+  }
+
+  if (unrevealed) {
+    overlay.alpha = 0;
+    nodeBg.alpha = 0.25;
+  }
+
+  const iconTexture: PIXI.Texture = unrevealed
+    ? placeholders['75x75-circle']
+    : iconAssets[imageUrl];
 
   if (iconTexture) {
     const { height, width } = iconTexture || { height: null, width: null };
@@ -55,11 +77,13 @@ export const drawNode = async ({
           radius
         ),
       })
+      .lineStyle(unlocked ? 3 : 0, hexStringToNumber(colorPalette['200']))
       .drawCircle(0, 0, radius)
       .endFill();
   } else {
     nodeBg
-      .beginFill(hexStringToNumber(colorPalette['700']))
+      .beginFill(hexStringToNumber(colorPalette['800']))
+      .lineStyle(unlocked ? 3 : 0, hexStringToNumber(colorPalette['200']))
       .drawCircle(0, 0, radius);
   }
 
@@ -68,10 +92,16 @@ export const drawNode = async ({
     .beginFill(hexStringToNumber(colorPalette['300']))
     .drawCircle(0, 0, radius);
 
+  hoverOverlay
+    .lineStyle(1, hexStringToNumber(colorPalette['200']))
+    .beginFill(hexStringToNumber(colorPalette['300']))
+    .drawCircle(0, 0, radius);
+
   nodeBg.zIndex = 1;
   overlay.zIndex = 2;
+  hoverOverlay.zIndex = 3;
 
-  const text = new PIXI.Text(name, {
+  const text = new PIXI.Text(unrevealed ? '' : name, {
     ...textStyle,
     fill: colorPalette['100'],
     strokeThickness: 0,
@@ -80,10 +110,13 @@ export const drawNode = async ({
   text.anchor.set(0.5);
   text.position.y = -radius - 15;
   text.zIndex = 3;
+  if (!unlocked) {
+    text.alpha = 0.35;
+  }
 
   container.name = id;
   container.position = position;
-  container.addChild(overlay, nodeBg, text);
+  container.addChild(hoverOverlay, overlay, nodeBg, text);
 
   return container;
 };
@@ -92,16 +125,27 @@ export const connectNodes = ({
   graphic,
   parent,
   self,
-  color = '0xffffff',
   dashedLine,
+  unrevealed,
+  unlocked,
+  nodeRadius,
+  color = '0xffffff',
 }: {
   graphic: PIXI.Graphics;
   parent: { x: number; y: number };
   self: { x: number; y: number };
   dashedLine: boolean;
+  unrevealed: boolean;
+  unlocked: boolean;
+  nodeRadius: number;
   color?: string;
 }) => {
-  graphic.alpha = 0.75;
+  if (!unlocked) {
+    graphic.alpha = 0.5;
+  }
+  if (unrevealed) {
+    graphic.alpha = 0.25;
+  }
   graphic.zIndex = 1;
 
   let line: PIXI.Graphics | DashLine;
@@ -118,8 +162,41 @@ export const connectNodes = ({
     line = graphic;
     line.lineStyle(lineWidth, hexStringToNumber(color), 0.6);
   }
-  line.moveTo(self.x, self.y);
-  line.lineTo(parent.x, parent.y);
+
+  const { selfEdge, parentEdge } = circleConnectingCoords({
+    parent,
+    self,
+    radius: nodeRadius,
+  });
+
+  line.moveTo(selfEdge.x, selfEdge.y);
+  line.lineTo(parentEdge.x, parentEdge.y);
 
   return line;
+};
+
+const circleConnectingCoords = ({
+  parent,
+  self,
+  radius,
+}: {
+  parent: { x: number; y: number };
+  self: { x: number; y: number };
+  radius: number;
+}) => {
+  const deltaY = self.y - parent.y;
+  const deltaX = self.x - parent.x;
+  // same for both circles since we have consistent radii
+  const length = radius / Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+  return {
+    selfEdge: {
+      x: self.x - deltaX * length,
+      y: self.y - deltaY * length,
+    },
+    parentEdge: {
+      x: parent.x + deltaX * length,
+      y: parent.y + deltaY * length,
+    },
+  };
 };

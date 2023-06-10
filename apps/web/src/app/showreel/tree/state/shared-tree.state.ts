@@ -34,9 +34,11 @@ export const treeSettingsVar = makeVarPersisted<{
 
 export const treeDebugVar = makeVarPersisted<{
   panelOpen: boolean;
+  allUnlocked: boolean;
   unlockedTechs: string[];
 }>(
   {
+    allUnlocked: false,
     panelOpen: false,
     unlockedTechs: [],
   },

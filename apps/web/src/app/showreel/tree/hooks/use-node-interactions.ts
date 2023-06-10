@@ -23,31 +23,31 @@ const glowFilter = new GlowFilter({
 
 const weakGlowFilter = new GlowFilter({
   distance: 15,
-  outerStrength: 2,
-  color: hexStringToNumber(colors[colorsVar().secondary]['300']),
+  outerStrength: 3,
+  color: hexStringToNumber(colors[colorsVar().primary]['300']),
 });
+
+const AAFilter = new PIXI.FXAAFilter();
 
 const highlightNodeWithChildren = (
   nodeContainer: PIXI.Container,
   children?: PIXI.Container[],
   connectors?: PIXI.Container[]
 ) => {
-  const baseRenderedNode = nodeContainer.getChildByName('nodeBg');
-
-  nodeContainer.zIndex = 3;
+  const baseRenderedNode = nodeContainer.getChildByName('hoverOverlay');
 
   const selectedNode = selectedNodeVar();
 
   if (selectedNode?.id !== nodeContainer.name) {
-    baseRenderedNode.filters = [weakGlowFilter];
+    baseRenderedNode.filters = [weakGlowFilter, AAFilter];
   }
 
   children.forEach((child) => {
     if (child.name !== selectedNode?.id) {
-      child.getChildByName('nodeBg').filters = [weakGlowFilter];
+      child.getChildByName('hoverOverlay').filters = [weakGlowFilter, AAFilter];
     }
   });
-  connectors.forEach((line) => (line.filters = [weakGlowFilter]));
+  connectors.forEach((line) => (line.filters = [weakGlowFilter, AAFilter]));
 };
 
 const removeNodeHighlights = (
@@ -55,7 +55,7 @@ const removeNodeHighlights = (
   children?: PIXI.Container[],
   connectors?: PIXI.Container[]
 ) => {
-  const baseRenderedNode = nodeContainer.getChildByName('nodeBg');
+  const baseRenderedNode = nodeContainer.getChildByName('hoverOverlay');
 
   nodeContainer.zIndex = 2;
 
@@ -66,7 +66,7 @@ const removeNodeHighlights = (
   }
   children.forEach((child) => {
     if (child.name !== selectedNode?.id) {
-      child.getChildByName('nodeBg').filters = [];
+      child.getChildByName('hoverOverlay').filters = [];
     }
   });
   connectors.forEach((line) => (line.filters = []));
@@ -77,7 +77,7 @@ const setupNodeMouseEvents = (
   node: TreeNodeWithDepth<TechnologyNode | QuestNode>
 ) => {
   const baseRenderedNode = nodeContainer.getChildByName(
-    'overlay'
+    'hoverOverlay'
   ) as PIXI.Graphics;
 
   if (baseRenderedNode) {
@@ -89,6 +89,7 @@ const setupNodeMouseEvents = (
 
     baseRenderedNode.on('pointerdown', () => {
       const selectedNode = selectedNodeVar();
+      hoveredNodeVar(undefined);
 
       if (selectedNode?.id !== node.id) {
         selectedNodeVar(node);
@@ -97,7 +98,18 @@ const setupNodeMouseEvents = (
   }
 };
 
-export const useNodeInteractions = (container: PIXI.Container) => {
+export const useNodeInteractions = ({
+  container,
+  unlockedNodeIds,
+  allUnlocked,
+}: {
+  container: PIXI.Container;
+  unlockedNodeIds: string[];
+  allUnlocked: boolean;
+}) => {
+  const isUnlocked = (nodeId: string) =>
+    allUnlocked || unlockedNodeIds.includes(nodeId);
+
   const treeNodes = useReactiveVar(treeNodesVar);
   const settings = useReactiveVar(treeSettingsVar);
 
@@ -126,7 +138,10 @@ export const useNodeInteractions = (container: PIXI.Container) => {
 
   useEffect(() => {
     treeNodes.forEach((node) => {
-      if (renderedNode(node)) {
+      if (
+        (isUnlocked(node.id) || isUnlocked(node?.parent?.id)) &&
+        renderedNode(node)
+      ) {
         setupNodeMouseEvents(renderedNode(node), node);
       }
     });
@@ -159,16 +174,16 @@ export const useNodeInteractions = (container: PIXI.Container) => {
       if (rendered) {
         // remove previous node filters
         [
-          ...childNodes.map((child) => child?.getChildByName('nodeBg')),
+          ...childNodes.map((child) => child?.getChildByName('hoverOverlay')),
           ...connectors,
         ].forEach((pixiObj) => (pixiObj.filters = []));
-        rendered.getChildByName('nodeBg').filters = [];
+        rendered.getChildByName('hoverOverlay').filters = [];
       }
     }
 
     const rendered = renderedNode(selectedNode);
     if (rendered) {
-      rendered.getChildByName('nodeBg').filters = [glowFilter];
+      rendered.getChildByName('hoverOverlay').filters = [glowFilter, AAFilter];
     }
 
     prevSelectedNode.current = selectedNode;

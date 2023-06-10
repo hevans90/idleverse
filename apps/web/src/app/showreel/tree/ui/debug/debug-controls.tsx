@@ -40,6 +40,7 @@ export const DebugControls = () => {
       right="0"
       top="20%"
       padding={[2, 2, 3]}
+      divider={<StackDivider borderColor={border} />}
     >
       <HStack width="100%" justifyContent="space-between">
         <IconButton
@@ -95,6 +96,22 @@ export const DebugControls = () => {
           ))}
         </VStack>
       )}
+
+      <HStack width="100%" justifyContent="space-between" mt={5}>
+        <Text {...responsiveFontProps} minWidth="175px" fontWeight="bold">
+          UNLOCK ALL
+        </Text>
+        <Checkbox
+          size="lg"
+          isChecked={treeDebugSettings.allUnlocked}
+          onChange={() =>
+            treeDebugVar({
+              ...treeDebugSettings,
+              allUnlocked: !treeDebugSettings.allUnlocked,
+            })
+          }
+        ></Checkbox>
+      </HStack>
     </VStack>
   );
 };
