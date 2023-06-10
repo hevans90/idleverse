@@ -154,7 +154,7 @@ export const connectNodes = ({
 
   if (dashedLine) {
     line = new DashLine(graphic, {
-      dash: [20, 20],
+      dash: [10, 10],
       color: hexStringToNumber(color),
       width: lineWidth,
     });

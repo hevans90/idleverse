@@ -138,7 +138,7 @@ export const useRenderNodes = ({
             graphic,
             parent,
             self: position,
-            color: colors[colorsVar().secondary]['300'],
+            color: colors[colorsVar().secondary]['200'],
             dashedLine: !isUnlocked(node.id),
             unrevealed,
             unlocked: isUnlocked(node.id),
