@@ -3925,10 +3925,10 @@
   resolved "https://registry.yarnpkg.com/@pixi/filter-outline/-/filter-outline-5.2.0.tgz#8572ed2c847c31c5a142db04e86f081baed0365a"
   integrity sha512-xKfAouhZNKl6A0RvxT5i+2/ean7r16dE/QswwIkbWvr2hhHlp4p9U6XsqdgUERCDxK+IZibMAumbWs4DGxOUeQ==
 
-"@pixi/filter-pixelate@^4.1.3":
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/@pixi/filter-pixelate/-/filter-pixelate-4.2.0.tgz#b3edcde01b368a0bcad12d96a421fe37e2f8c86c"
-  integrity sha512-QNcPf5+64lMOCb7jQnlcLzMbVelS/fRZNQRusQ3uxy8bcG9WwixW2Ykes4mv9yDN/HhGlC1XQqzsUXsYFQWqZQ==
+"@pixi/filter-pixelate@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@pixi/filter-pixelate/-/filter-pixelate-5.1.1.tgz#8e424b558ac427eeae252c9fd556cab0558b0f10"
+  integrity sha512-qTs0Sv10aIbMFW//BPlhcFh1ByyKiVmvXfytYTTXNLrlK5DU3H3x8Pgy5Vy4lacS9VtOO69/CQ1QObBFCHnEBQ==
 
 "@pixi/graphics@7.2.4":
   version "7.2.4"

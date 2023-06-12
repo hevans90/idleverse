@@ -1,0 +1,17 @@
+import { ResolverAssetsArray } from 'pixi.js';
+import { assetLoader } from './asset-loader';
+
+export const loadNoise = async () => {
+  const bundle: ResolverAssetsArray = [
+    {
+      name: 'perlin',
+      srcs: '/noise/noise.png',
+    },
+  ];
+
+  try {
+    await assetLoader({ bundleName: 'noise', bundle });
+  } catch (e) {
+    console.error(e);
+  }
+};
