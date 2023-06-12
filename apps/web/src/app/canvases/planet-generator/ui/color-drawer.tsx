@@ -1,9 +1,7 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import { useReactiveVar } from '@apollo/client';
-import { AddIcon, MinusIcon } from '@chakra-ui/icons';
 import {
   HStack,
-  IconButton,
   Menu,
   MenuButton,
   MenuDivider,
@@ -15,11 +13,12 @@ import {
 import { TerrainHexPalettesQuery } from '@idleverse/galaxy-gql';
 import { hexToRGB } from '@idleverse/theme';
 import { Fragment, useEffect, useState } from 'react';
-import { useUiBackground } from '../../../hooks/use-ui-background';
 import { responsiveFontProps } from '../../../_responsive-utils/font-props';
 import { colorsVar } from '../../../_state/colors';
 import { planetGenerationColorDrawerVar } from '../../../_state/planet-generation';
+import { useUiBackground } from '../../../hooks/use-ui-background';
 
+import { ExpandingUI } from '../../../components/expanding-ui';
 import { ColorQuad } from './color-quad';
 
 export const PlanetGeneratorColorDrawer = ({
@@ -74,88 +73,81 @@ export const PlanetGeneratorColorDrawer = ({
   }, [localPalette]);
 
   return (
-    <VStack
-      bgColor={bg}
-      borderWidth="1px"
-      borderStyle="solid"
-      borderColor={border}
-      borderLeftWidth={0}
-      position="absolute"
-      left="0"
-      top="10%"
-      padding={[2, 2, 3]}
+    <ExpandingUI
+      icon={
+        localPalette &&
+        !drawerState.panelOpen && <ColorQuad {...localPalette} />
+      }
+      stackProps={{
+        left: 0,
+        borderLeftWidth: 0,
+        top: '10%',
+      }}
+      headerChildren={
+        <>
+          {drawerState.panelOpen && (
+            <Text {...responsiveFontProps}>Colors</Text>
+          )}
+        </>
+      }
+      panelOpen={drawerState.panelOpen}
+      onPanelOpenChange={() =>
+        planetGenerationColorDrawerVar({
+          ...drawerState,
+          panelOpen: !drawerState.panelOpen,
+        })
+      }
     >
-      <HStack width="100%" justifyContent="space-between">
-        <IconButton
-          size={['xs', 'sm', 'sm', 'md']}
-          aria-label="close color drawer"
-          icon={drawerState.panelOpen ? <MinusIcon /> : <AddIcon />}
-          onClick={() =>
-            planetGenerationColorDrawerVar({
-              ...drawerState,
-              panelOpen: !drawerState.panelOpen,
-            })
-          }
-        />
-
-        {drawerState.panelOpen && <Text {...responsiveFontProps}>Colors</Text>}
-
-        {localPalette && !drawerState.panelOpen && (
-          <ColorQuad {...localPalette} />
-        )}
-      </HStack>
-      {drawerState.panelOpen && (
-        <VStack>
-          <Menu>
-            <MenuButton
-              px={4}
-              py={2}
-              transition="all 0.2s"
-              borderRadius="md"
-              borderWidth="1px"
-              borderColor={border}
-              _hover={{ bg: `${primary}.500` }}
-              _expanded={{ bg: `${primary}.700` }}
-              _focus={{ boxShadow: 'outline' }}
-            >
-              <HStack minWidth="200px" justifyContent="space-between">
-                <Text>{localPalette.name}</Text> <ColorQuad {...localPalette} />
-              </HStack>
-            </MenuButton>
-            <MenuList bg={bg} borderColor={border}>
-              {palettePresets.map(
-                ({ name, water, sand, grass, forest, id }, i) => (
-                  <Fragment key={id}>
-                    <MenuItem
-                      bg={bg}
-                      onClick={() =>
-                        setLocalPalette({
-                          name,
-                          water,
-                          sand,
-                          grass,
-                          forest,
-                          id,
-                        })
-                      }
+      <VStack>
+        <Menu>
+          <MenuButton
+            px={4}
+            py={2}
+            transition="all 0.2s"
+            borderRadius="md"
+            borderWidth="1px"
+            borderColor={border}
+            _hover={{ bg: `${primary}.500` }}
+            _expanded={{ bg: `${primary}.700` }}
+            _focus={{ boxShadow: 'outline' }}
+          >
+            <HStack minWidth="200px" justifyContent="space-between">
+              <Text>{localPalette.name}</Text> <ColorQuad {...localPalette} />
+            </HStack>
+          </MenuButton>
+          <MenuList bg={bg} borderColor={border}>
+            {palettePresets.map(
+              ({ name, water, sand, grass, forest, id }, i) => (
+                <Fragment key={id}>
+                  <MenuItem
+                    bg={bg}
+                    onClick={() =>
+                      setLocalPalette({
+                        name,
+                        water,
+                        sand,
+                        grass,
+                        forest,
+                        id,
+                      })
+                    }
+                  >
+                    <HStack
+                      width="100%"
+                      minWidth="205px"
+                      justifyContent="space-between"
                     >
-                      <HStack
-                        width="100%"
-                        minWidth="205px"
-                        justifyContent="space-between"
-                      >
-                        <Text>{name}</Text>
-                        <ColorQuad {...{ water, sand, grass, forest }} />
-                      </HStack>
-                    </MenuItem>
-                    {i !== palettePresets.length - 1 && <MenuDivider />}
-                  </Fragment>
-                )
-              )}
-            </MenuList>
-          </Menu>
-        </VStack>
-      )}
-    </VStack>
+                      <Text>{name}</Text>
+                      <ColorQuad {...{ water, sand, grass, forest }} />
+                    </HStack>
+                  </MenuItem>
+                  {i !== palettePresets.length - 1 && <MenuDivider />}
+                </Fragment>
+              )
+            )}
+          </MenuList>
+        </Menu>
+      </VStack>
+    </ExpandingUI>
   );
 };
