@@ -10818,6 +10818,11 @@ loader-utils@^2.0.0, loader-utils@^2.0.3, loader-utils@^2.0.4:
     emojis-list "^3.0.0"
     json5 "^2.1.2"
 
+loader-utils@^3.2.0:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-3.2.1.tgz#4fb104b599daafd82ef3e1a41fb9265f87e1f576"
+  integrity sha512-ZvFw1KWS3GVyYBYb7qkmRM/WwL2TQQBxgCK62rlvm4WpVQ23Nb4tYjApUlfjrEGvOs7KHEsmyUn75OHZrJMWPw==
+
 locate-path@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/locate-path/-/locate-path-5.0.0.tgz#1afba396afd676a6d42504d0a67a3a7eb9f62aa0"
@@ -14239,6 +14244,13 @@ ts-node@10.9.1, ts-node@^10.9.1:
     make-error "^1.1.1"
     v8-compile-cache-lib "^3.0.1"
     yn "3.1.1"
+
+ts-shader-loader@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/ts-shader-loader/-/ts-shader-loader-2.0.2.tgz#8d8d96491a9dcb026f2855da21fbd7a7d0dde744"
+  integrity sha512-PMdxdDQoS9D3O+UZ4y8Ul4AwXjTdvBiZHOLRnjkUbgNJyA1p0c4U2YXggqIGw7apCyoBP80QJz2Y+YcZMFHoVg==
+  dependencies:
+    loader-utils "^3.2.0"
 
 tsconfig-paths-webpack-plugin@4.0.0:
   version "4.0.0"

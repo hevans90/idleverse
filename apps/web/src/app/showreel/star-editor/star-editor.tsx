@@ -1,3 +1,4 @@
+import { useReactiveVar } from '@apollo/client';
 import { PixelateFilter } from '@pixi/filter-pixelate';
 import { useApp } from '@pixi/react';
 import * as PIXI from 'pixi.js';
@@ -5,105 +6,9 @@ import { useEffect, useRef } from 'react';
 import { useResize } from '../../canvases/_utils/use-resize.hook';
 import { useViewport } from '../../canvases/_utils/use-viewport.hook';
 import { useStarField } from '../colyseus-poc/rendering/use-starfield';
+import { celestialSettingsVar } from './state/celestial.state';
 
-const fragment = `
-// Author:
-// Title:
-
-#ifdef GL_ES
-precision mediump float;
-#endif
-
-uniform vec2 u_resolution;
-uniform vec2 u_offset;
-
-uniform float u_time;
-uniform sampler2D noiseSample;
-
-float snoise(vec3 uv, float res)	// by trisomie21
-{
-	const vec3 s = vec3(1e0, 1e2, 1e4);
-	
-	uv *= res;
-	
-	vec3 uv0 = floor(mod(uv, res))*s;
-	vec3 uv1 = floor(mod(uv+vec3(1.), res))*s;
-	
-	vec3 f = fract(uv); f = f*f*(3.0-2.0*f);
-	
-	vec4 v = vec4(uv0.x+uv0.y+uv0.z, uv1.x+uv0.y+uv0.z,
-		      	  uv0.x+uv1.y+uv0.z, uv1.x+uv1.y+uv0.z);
-	
-	vec4 r = fract(sin(v*1e-3)*1e5);
-	float r0 = mix(mix(r.x, r.y, f.x), mix(r.z, r.w, f.x), f.y);
-	
-	r = fract(sin((v + uv1.z - uv0.z)*1e-3)*1e5);
-	float r1 = mix(mix(r.x, r.y, f.x), mix(r.z, r.w, f.x), f.y);
-	
-	return mix(r0, r1, f.z)*2.-1.;
-}
-
-void main()
-{
-
-	float brightness	= 0.1;
-	float radius		= .24 + brightness * 0.2;
-	float invRadius 	= 1.0/radius;
-	
-	vec3 orange			= vec3( 0.8, 0.65, 0.3 );
-	vec3 orangeRed	= vec3( 0.8, 0.35, 0.1 );
-	float time		  = u_time * 0.1;
-	float aspect	  = u_resolution.x/u_resolution.y;
-  vec2 uv			    = vec2(gl_FragCoord.x - 2.* u_offset.x, gl_FragCoord.y - 2.* u_offset.y) / u_resolution.xy;
-	vec2 p 			    = uv;
-	p.x *= aspect;
-
-	float fade		= pow( length( 2.0 * p ), 0.5 );
-	float fVal1		= 1.0 - fade;
-	float fVal2		= 1.0 - fade;
-	
-	float angle		= atan( p.x, p.y )/6.2832;
-	float dist		= length(p);
-	vec3 coord		= vec3( angle, dist, time * 0.1 );
-	
-	float newTime1	= abs( snoise( coord + vec3( 0.0, -time * ( 0.35 + brightness * 0.001 ), time * 0.015 ), 15.0 ) );
-	float newTime2	= abs( snoise( coord + vec3( 0.0, -time * ( 0.15 + brightness * 0.001 ), time * 0.015 ), 45.0 ) );	
-	for( int i=1; i<=7; i++ ){
-		float power = pow( 2.0, float(i + 1) );
-		fVal1 += ( 0.5 / power ) * snoise( coord + vec3( 0.0, -time, time * 0.2 ), ( power * ( 10.0 ) * ( newTime1 + 1.0 ) ) );
-		fVal2 += ( 0.5 / power ) * snoise( coord + vec3( 0.0, -time, time * 0.2 ), ( power * ( 25.0 ) * ( newTime2 + 1.0 ) ) );
-	}
-	
-	float corona		= pow( fVal1 * max( 1.1 - fade, 0.0 ), 2.0 ) * 50.0;
-	corona				+= pow( fVal2 * max( 1.1 - fade, 0.0 ), 2.0 ) * 50.0;
-	corona				*= 1.2 - newTime1;
-	vec3 sphereNormal 	= vec3( 0.0, 0.0, 1.0 );
-	vec3 dir 			= vec3( 0.0 );
-	vec3 center			= vec3( 0.5, 0.5, 1.0 );
-	vec3 starSphere		= vec3( 0.0 );
-
-  vec2 sp =  2. * uv;
-	sp.x *= aspect;
-	sp *= ( 2.0 - brightness );
-  	float r = dot(sp,sp);
-	float f = (1.0-sqrt(abs(1.0-r)))/(r) + brightness * 0.5;
-	if( dist < radius ){
-		corona			*= pow( dist * invRadius, 24.0 );
-  		vec2 newUv;
- 		newUv.x = sp.x*f;
-  		newUv.y = sp.y*f;
-		newUv += vec2( time, 0.0 );
-	        
-		vec3 texSample 	= texture2D( noiseSample, newUv ).rgb;        
-		float uOff		= ( texSample.g * brightness * 4.5 + time );
-		vec2 starUV		= newUv + vec2( uOff, 0.0 );
-		starSphere		= texture2D( noiseSample, starUV ).rgb;
-	}
-	
-	float starGlow	= min( max( 1.0 - dist * ( 1.0 - brightness ), 0.0 ), 1.0 );
-	vec3 color = vec3( f * ( 0.75 + brightness * 0.3 ) * orange ) + starSphere + corona * orange + starGlow * orangeRed;
-	gl_FragColor = vec4(color, 0);
-}`;
+import fragment from './star.fs';
 
 export const StarEditor = () => {
   const app = useApp();
@@ -122,7 +27,7 @@ export const StarEditor = () => {
     size,
     containerRef: solarSystemContainerRef,
     clampDrag: true,
-    clampZoom: { minScale: 0.05, maxScale: 1 },
+    clampZoom: { minScale: 0.1, maxScale: 10 },
   });
 
   const tickerRef = useRef<(delta: number) => void>();
@@ -132,26 +37,54 @@ export const StarEditor = () => {
 
   const starfield = useStarField({ dimensions: size });
 
+  const { brightness, radius, color } = useReactiveVar(celestialSettingsVar);
+
   const afterLoad = async () => {
     const bundle = await PIXI.Assets.loadBundle('noise');
     const perlin = bundle['perlin'];
     perlin.baseTexture.wrapMode = PIXI.WRAP_MODES.REPEAT;
 
-    const uniforms = {
-      noiseSample: perlin,
-      u_time: 0,
-      u_resolution: {
-        x: viewport.width,
-        y: viewport.height,
-      },
-      u_offset: {
-        // gl_FragCoord begins from the top right rectangle of the first pixel, meaning we need some hacky offset
-        x: viewport.width / 4 - 2,
-        y: viewport.height / 4 - 2,
-      },
+    const aspectRatio = size.width / size.height;
+
+    const u_resolution = {
+      x: viewport.width / 2,
+      y: viewport.height / 2,
     };
 
-    filterRef.current = new PIXI.Filter(null, fragment, uniforms);
+    const u_offset = {
+      // gl_FragCoord begins from the top right rectangle of the first pixel, meaning we need some hacky offset
+      x: size.width / 4 - aspectRatio,
+      y: size.height / 4 - aspectRatio,
+    };
+
+    const u_color = [
+      (color.r / 255).toFixed(1),
+      (color.g / 255).toFixed(1),
+      (color.b / 255).toFixed(1),
+    ];
+
+    const uniforms = {
+      noiseSample: perlin,
+      u_brightness: brightness * 0.5,
+      u_radius: radius,
+      u_time: 0,
+      u_resolution,
+      u_offset,
+      u_color,
+    };
+
+    if (filterRef.current) {
+      // this is MUCH more performant than creating a new filter on every run of this function
+      filterRef.current.uniforms.u_radius = uniforms.u_radius;
+      filterRef.current.uniforms.u_brightness = uniforms.u_brightness;
+      filterRef.current.uniforms.u_resolution = u_resolution;
+      filterRef.current.uniforms.u_offset = u_offset;
+      filterRef.current.uniforms.u_color = u_color;
+      console.log(filterRef.current.uniforms.u_color);
+    } else {
+      filterRef.current = new PIXI.Filter(null, fragment, uniforms);
+      console.log(filterRef.current.uniforms.u_color);
+    }
 
     tickerRef.current = (delta) => {
       filterRef.current.uniforms.u_time = totalTime.current;
@@ -159,23 +92,29 @@ export const StarEditor = () => {
     };
   };
 
-  viewport?.on('wheel', () => {
-    console.log('size', size);
-    console.log('viewport', {
-      width: viewport.width,
-      height: viewport.height,
-      scale: { x: viewport.scale.x, y: viewport.scale.y },
-    });
-
-    filterRef.current.uniforms.u_resolution = {
-      x: viewport.width,
-      y: viewport.height,
-    };
-  });
+  useEffect(() => {
+    if (viewport) {
+      viewport?.on(
+        'wheel',
+        () =>
+          (filterRef.current.uniforms.u_resolution = {
+            x: viewport.width / 2,
+            y: viewport.height / 2,
+          })
+      );
+    }
+  }, [viewport]);
 
   useEffect(() => {
     if (viewport) {
       app.ticker?.remove(tickerRef.current);
+
+      const outline = new PIXI.Graphics();
+      outline
+        .lineStyle(3, new PIXI.Color({ r: 0, g: 0, b: 0, a: 0.00001 }))
+        .drawRect(0, 0, viewport.worldWidth, viewport.worldHeight);
+      viewport.addChild(outline);
+
       afterLoad().then(() => {
         app.ticker?.remove(tickerRef.current);
         if (app.stage) {
@@ -194,7 +133,7 @@ export const StarEditor = () => {
     return () => {
       app.ticker?.remove(tickerRef.current);
     };
-  }, [size, viewport?.worldWidth]);
+  }, [size, viewport, brightness, radius, color]);
 
   return <></>;
 };
