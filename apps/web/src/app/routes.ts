@@ -12,6 +12,7 @@ import { ColyseusContainer } from './showreel/colyseus-poc/colyseus-container';
 import { GravitySimulationContainer } from './showreel/gravity-simulation/gravity-simulation.container';
 import { IsometricContainer } from './showreel/isometric-tiles/isometric.container';
 import { Showreel } from './showreel/showreel';
+import { StarEditorContainer } from './showreel/star-editor/star-editor-container';
 import { QuestTreeContainer } from './showreel/tree/quest-tree-container';
 import { TechTreeContainer } from './showreel/tree/tech-tree-container';
 
@@ -74,5 +75,10 @@ export const routes = [
     path: '/wasm-bevy',
     name: 'wasm',
     component: BevyTest,
+  },
+  {
+    path: '/star-editor',
+    name: 'star editor',
+    component: StarEditorContainer,
   },
 ];

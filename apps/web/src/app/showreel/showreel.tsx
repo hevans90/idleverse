@@ -39,6 +39,10 @@ export const Showreel = () => {
       route: 'wasm-bevy',
       display: 'Bevy WASM POC',
     },
+    {
+      route: 'star-editor',
+      display: 'Star Editor',
+    },
   ];
 
   return (

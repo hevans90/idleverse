@@ -1,97 +1,78 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import { useReactiveVar } from '@apollo/client';
-import { AddIcon, MinusIcon } from '@chakra-ui/icons';
 import {
   Box,
-  HStack,
-  IconButton,
   RangeSlider,
   RangeSliderFilledTrack,
   RangeSliderThumb,
   RangeSliderTrack,
-  Text,
-  VStack,
 } from '@chakra-ui/react';
-import { useUiBackground } from '../../../hooks/use-ui-background';
-import { responsiveFontProps } from '../../../_responsive-utils/font-props';
 import {
   planetGenerationColorDrawerVar,
   planetGenerationTerrainDrawerVar,
 } from '../../../_state/planet-generation';
+import { ExpandingUI } from '../../../components/expanding-ui';
 
 export const PlanetGeneratorTerrainDrawer = () => {
-  const { bg, border } = useUiBackground();
-
   const { currentHexPalette } = useReactiveVar(planetGenerationColorDrawerVar);
   const drawerState = useReactiveVar(planetGenerationTerrainDrawerVar);
 
   return (
-    <VStack
-      bgColor={bg}
-      borderWidth="1px"
-      borderStyle="solid"
-      borderColor={border}
-      borderLeftWidth={0}
-      position="absolute"
-      left="0"
-      top="40%"
-      padding={[2, 2, 3]}
+    <ExpandingUI
+      icon={null}
+      title="Terrain"
+      titlePosition="before"
+      stackProps={{
+        left: 0,
+        top: '40%',
+        borderLeftWidth: 0,
+      }}
+      panelOpen={drawerState.panelOpen}
+      onPanelOpenChange={() =>
+        planetGenerationTerrainDrawerVar({
+          ...drawerState,
+          panelOpen: !drawerState.panelOpen,
+        })
+      }
     >
-      <HStack width="100%" justifyContent="space-between">
-        <Text {...responsiveFontProps}>Terrain</Text>
-        <IconButton
-          size={['xs', 'sm', 'sm', 'md']}
-          aria-label="close color drawer"
-          icon={drawerState.panelOpen ? <MinusIcon /> : <AddIcon />}
-          onClick={() =>
+      <Box padding={3} w="100%" minWidth="275px">
+        <RangeSlider
+          defaultValue={drawerState.terrainBias}
+          min={0}
+          max={1}
+          step={0.01}
+          onChangeEnd={(val: [number, number, number, number]) =>
             planetGenerationTerrainDrawerVar({
               ...drawerState,
-              panelOpen: !drawerState.panelOpen,
+              terrainBias: val,
             })
           }
-        />
-      </HStack>
-
-      {drawerState.panelOpen && (
-        <Box padding={3} w="100%" minWidth="275px">
-          <RangeSlider
-            defaultValue={drawerState.terrainBias}
-            min={0}
-            max={1}
-            step={0.01}
-            onChangeEnd={(val: [number, number, number, number]) =>
-              planetGenerationTerrainDrawerVar({
-                ...drawerState,
-                terrainBias: val,
-              })
-            }
-          >
-            <RangeSliderTrack>
-              <RangeSliderFilledTrack />
-            </RangeSliderTrack>
-            <RangeSliderThumb
-              boxSize={6}
-              index={0}
-              bgColor={currentHexPalette?.water}
-            />
-            <RangeSliderThumb
-              boxSize={6}
-              index={1}
-              bgColor={currentHexPalette?.sand}
-            />
-            <RangeSliderThumb
-              boxSize={6}
-              index={2}
-              bgColor={currentHexPalette?.grass}
-            />
-            <RangeSliderThumb
-              boxSize={6}
-              index={3}
-              bgColor={currentHexPalette?.forest}
-            />
-          </RangeSlider>
-        </Box>
-      )}
-    </VStack>
+        >
+          <RangeSliderTrack>
+            <RangeSliderFilledTrack />
+          </RangeSliderTrack>
+          <RangeSliderThumb
+            boxSize={6}
+            index={0}
+            bgColor={currentHexPalette?.water}
+          />
+          <RangeSliderThumb
+            boxSize={6}
+            index={1}
+            bgColor={currentHexPalette?.sand}
+          />
+          <RangeSliderThumb
+            boxSize={6}
+            index={2}
+            bgColor={currentHexPalette?.grass}
+          />
+          <RangeSliderThumb
+            boxSize={6}
+            index={3}
+            bgColor={currentHexPalette?.forest}
+          />
+        </RangeSlider>
+      </Box>
+    </ExpandingUI>
   );
 };

@@ -24,6 +24,7 @@ import { questsVar } from './_state/quests';
 import { selfVar, usersVar } from './_state/reactive-variables';
 import { resourcesVar } from './_state/resources';
 import { technologiesVar } from './_state/technologies';
+import { loadNoise } from './asset-loading/load-noise';
 import { loadPlaceholders } from './asset-loading/load-placeholders';
 import { loadTechTree } from './asset-loading/load-tech-tree';
 import { loadUserInfo } from './asset-loading/load-users';
@@ -92,7 +93,9 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
 
   useEffect(() => {
     if (!userAvatarsLoading) {
-      loadPlaceholders().then(() => setPlaceholdersLoading(false));
+      Promise.all([loadNoise(), loadPlaceholders()]).then(() =>
+        setPlaceholdersLoading(false)
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userAvatarsLoading]);

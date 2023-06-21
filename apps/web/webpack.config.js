@@ -4,5 +4,12 @@ const { withReact } = require('@nx/react');
 // Nx plugins for webpack.
 module.exports = composePlugins(withNx(), withReact(), (config) => {
   config.output.scriptType = 'text/javascript';
+  config.module.rules = [
+    ...config.module.rules,
+    {
+      test: /\.(frag|glsl|vs|fs)$/,
+      loader: 'ts-shader-loader',
+    },
+  ];
   return config;
 });
