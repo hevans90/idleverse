@@ -55,9 +55,9 @@ export const CelestialSettings = () => {
               flexGrow={0}
               value={settings.radius}
               precision={3}
-              min={0.01}
-              max={0.9}
-              step={0.01}
+              min={0.1}
+              max={2.5}
+              step={0.1}
               onChange={(event) => {
                 celestialSettingsVar({
                   ...settings,
@@ -74,9 +74,9 @@ export const CelestialSettings = () => {
           </HStack>
           <Slider
             value={settings.radius}
-            min={0.01}
-            max={0.9}
-            step={0.01}
+            min={0.1}
+            max={2.5}
+            step={0.1}
             onChange={(val: number) =>
               celestialSettingsVar({
                 ...settings,

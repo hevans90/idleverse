@@ -9,7 +9,7 @@ export const celestialSettingsVar = makeVarPersisted<{
   {
     panelOpen: false,
     brightness: 0.1,
-    radius: 0.1,
+    radius: 2.5,
     color: { r: 255, g: 255, b: 255 },
   },
   'celestialSettings'

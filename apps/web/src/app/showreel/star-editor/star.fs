@@ -40,7 +40,7 @@ float snoise(vec3 uv,float res)// by trisomie21
 void main()
 {
     
-    float radius=u_radius+u_brightness*.02;
+    float radius=(u_radius/10.)+u_brightness*.02;
     float invRadius=1./radius;
     
     // vec3 orange=vec3(.8,.65,.3);

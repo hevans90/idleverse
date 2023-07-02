@@ -123,7 +123,7 @@ export const StarEditor = () => {
           viewport.addChild(starfield);
           solarSystemContainerRef.current.filters = [
             filterRef.current,
-            new PixelateFilter(5),
+            new PixelateFilter(3),
           ];
           app.ticker.add(tickerRef.current);
         }
