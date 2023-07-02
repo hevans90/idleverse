@@ -26,6 +26,51 @@ export const CelestialSettings = () => {
 
   const settings = useReactiveVar(celestialSettingsVar);
 
+  const numericalSettings: {
+    name: string;
+    setting: keyof Pick<
+      typeof settings,
+      'radius' | 'brightness' | 'coronalStrength' | 'density'
+    >;
+    precision: number;
+    min: number;
+    max: number;
+    step: number;
+  }[] = [
+    {
+      name: 'Radius',
+      setting: 'radius',
+      min: 0.1,
+      max: 2.5,
+      step: 0.1,
+      precision: 3,
+    },
+    {
+      name: 'Brightness',
+      setting: 'brightness',
+      min: 0.01,
+      max: 1,
+      step: 0.01,
+      precision: 3,
+    },
+    {
+      name: 'Corona',
+      setting: 'coronalStrength',
+      min: 0.01,
+      max: 1,
+      step: 0.01,
+      precision: 3,
+    },
+    {
+      name: 'Density',
+      setting: 'density',
+      min: 0.01,
+      max: 1,
+      step: 0.01,
+      precision: 3,
+    },
+  ];
+
   return (
     <ExpandingUI
       stackProps={{
@@ -47,92 +92,48 @@ export const CelestialSettings = () => {
         spacing={5}
         divider={<StackDivider borderColor={border} />}
       >
-        <VStack width="100%">
-          <HStack gap={10} width="100%" justifyContent="space-between">
-            <Text {...responsiveFontProps}>Radius</Text>
-            <NumberInput
-              maxW="150"
-              flexGrow={0}
-              value={settings.radius}
-              precision={3}
-              min={0.01}
-              max={0.9}
-              step={0.01}
-              onChange={(event) => {
+        {numericalSettings.map(({ name, setting, precision, ...rest }) => (
+          <VStack width="100%" key={name}>
+            <HStack gap={10} width="100%" justifyContent="space-between">
+              <Text {...responsiveFontProps}>{name}</Text>
+              <NumberInput
+                maxW="150"
+                flexGrow={0}
+                value={settings[setting]}
+                precision={precision}
+                onChange={(event) => {
+                  celestialSettingsVar({
+                    ...settings,
+                    [setting]: parseFloat(event),
+                  });
+                }}
+                {...rest}
+              >
+                <NumberInputField autoFocus />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            </HStack>
+            <Slider
+              value={settings[setting]}
+              onChange={(val: number) =>
                 celestialSettingsVar({
                   ...settings,
-                  radius: parseFloat(event),
-                });
-              }}
+                  [setting]: val,
+                })
+              }
+              {...rest}
             >
-              <NumberInputField autoFocus />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput>
-          </HStack>
-          <Slider
-            value={settings.radius}
-            min={0.01}
-            max={0.9}
-            step={0.01}
-            onChange={(val: number) =>
-              celestialSettingsVar({
-                ...settings,
-                radius: val,
-              })
-            }
-          >
-            <SliderTrack>
-              <SliderFilledTrack />
-            </SliderTrack>
-            <SliderThumb boxSize={6} bgColor={border} />
-          </Slider>
-        </VStack>
-        <VStack>
-          <HStack gap={10}>
-            <Text {...responsiveFontProps}>Brightness</Text>
-            <NumberInput
-              maxW="150"
-              flexGrow={0}
-              value={settings.brightness}
-              precision={3}
-              min={0.001}
-              max={1}
-              step={0.001}
-              onChange={(event) => {
-                celestialSettingsVar({
-                  ...settings,
-                  brightness: parseFloat(event),
-                });
-              }}
-            >
-              <NumberInputField autoFocus />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput>
-          </HStack>
-          <Slider
-            value={settings.brightness}
-            min={0}
-            max={1}
-            step={0.001}
-            onChange={(val: number) =>
-              celestialSettingsVar({
-                ...settings,
-                brightness: val,
-              })
-            }
-          >
-            <SliderTrack>
-              <SliderFilledTrack />
-            </SliderTrack>
-            <SliderThumb boxSize={6} bgColor={border} />
-          </Slider>
-        </VStack>
+              <SliderTrack>
+                <SliderFilledTrack />
+              </SliderTrack>
+              <SliderThumb boxSize={6} bgColor={border} />
+            </Slider>
+          </VStack>
+        ))}
+
         <VStack width="100%">
           <HStack gap={10} width="100%" justifyContent="space-between">
             <Text {...responsiveFontProps}>Color</Text>

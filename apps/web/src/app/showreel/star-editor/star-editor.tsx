@@ -37,11 +37,12 @@ export const StarEditor = () => {
 
   const starfield = useStarField({ dimensions: size });
 
-  const { brightness, radius, color } = useReactiveVar(celestialSettingsVar);
+  const { brightness, radius, color, coronalStrength, density } =
+    useReactiveVar(celestialSettingsVar);
 
   const afterLoad = async () => {
     const bundle = await PIXI.Assets.loadBundle('noise');
-    const perlin = bundle['perlin'];
+    const perlin = bundle['perlin-bw'];
     perlin.baseTexture.wrapMode = PIXI.WRAP_MODES.REPEAT;
 
     const aspectRatio = size.width / size.height;
@@ -63,27 +64,29 @@ export const StarEditor = () => {
       (color.b / 255).toFixed(1),
     ];
 
-    const uniforms = {
-      noiseSample: perlin,
-      u_brightness: brightness * 0.5,
-      u_radius: radius,
-      u_time: 0,
-      u_resolution,
-      u_offset,
-      u_color,
-    };
-
     if (filterRef.current) {
       // this is MUCH more performant than creating a new filter on every run of this function
-      filterRef.current.uniforms.u_radius = uniforms.u_radius;
-      filterRef.current.uniforms.u_brightness = uniforms.u_brightness;
+      filterRef.current.uniforms.u_radius = radius;
+      filterRef.current.uniforms.u_brightness = brightness * 0.5;
+
+      filterRef.current.uniforms.u_density = density;
       filterRef.current.uniforms.u_resolution = u_resolution;
+      filterRef.current.uniforms.u_coronal_strength = coronalStrength;
       filterRef.current.uniforms.u_offset = u_offset;
       filterRef.current.uniforms.u_color = u_color;
-      console.log(filterRef.current.uniforms.u_color);
     } else {
-      filterRef.current = new PIXI.Filter(null, fragment, uniforms);
-      console.log(filterRef.current.uniforms.u_color);
+      filterRef.current = new PIXI.Filter(null, fragment, {
+        noiseSample: perlin,
+        u_brightness: brightness * 0.5,
+
+        u_density: density,
+        u_coronal_strength: coronalStrength,
+        u_radius: radius,
+        u_time: 0,
+        u_resolution,
+        u_offset,
+        u_color,
+      });
     }
 
     tickerRef.current = (delta) => {
@@ -123,7 +126,7 @@ export const StarEditor = () => {
           viewport.addChild(starfield);
           solarSystemContainerRef.current.filters = [
             filterRef.current,
-            new PixelateFilter(5),
+            new PixelateFilter(3),
           ];
           app.ticker.add(tickerRef.current);
         }
@@ -133,7 +136,7 @@ export const StarEditor = () => {
     return () => {
       app.ticker?.remove(tickerRef.current);
     };
-  }, [size, viewport, brightness, radius, color]);
+  }, [size, viewport, brightness, radius, color, coronalStrength, density]);
 
   return <></>;
 };

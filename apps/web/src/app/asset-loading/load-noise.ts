@@ -7,6 +7,10 @@ export const loadNoise = async () => {
       name: 'perlin',
       srcs: '/noise/noise.png',
     },
+    {
+      name: 'perlin-bw',
+      srcs: '/noise/noise-bw.png',
+    },
   ];
 
   try {
