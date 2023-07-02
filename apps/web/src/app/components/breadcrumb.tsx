@@ -29,7 +29,7 @@ export const Breadcrumb = () => {
       path: '/planets/:id',
       breadcrumb: () => <span>{planet?.name}</span>,
     },
-  ]);
+  ] as any);
 
   // Don't render a single breadcrumb.
   if (crumbs.length <= 1) {
