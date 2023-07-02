@@ -10,7 +10,9 @@ uniform vec2 u_offset;
 uniform float u_color[3];
 
 uniform float u_radius;
+uniform float u_density;
 uniform float u_brightness;
+uniform float u_coronal_strength;
 uniform float u_time;
 uniform sampler2D noiseSample;
 
@@ -70,9 +72,9 @@ void main()
         fVal2+=(.5/power)*snoise(coord+vec3(0.,-time,time*.2),(power*(25.)*(newTime2+1.)));
     }
     
-    float corona=pow(fVal1*max(1.1-fade,0.),2.)*50.;
-    corona+=pow(fVal2*max(1.1-fade,0.),2.)*50.;
-    corona*=1.2-newTime1;
+    float corona=pow(fVal1*max(1.1-fade,0.),2.)*(100.*u_coronal_strength);
+    corona+=pow(fVal2*max(1.1-fade,0.),2.)*(100.*u_coronal_strength);
+    corona*=((u_coronal_strength+.4)-newTime1);
     
     vec3 starSphere=vec3(0.);
     
@@ -89,12 +91,12 @@ void main()
         newUv+=vec2(time,0.);
         
         vec3 texSample=texture2D(noiseSample,newUv).rgb;
-        float uOff=(texSample.g*u_brightness*4.5+time);
+        float uOff=(texSample.g*u_brightness*(5.*u_density)+time);
         vec2 starUV=newUv+vec2(uOff,0.);
         starSphere=texture2D(noiseSample,starUV).rgb;
     }
     
-    float starGlow=min(max(1.-dist*(1.-u_brightness),0.),1.);
+    float starGlow=min(max(1.-dist*(1.-u_brightness),0.),1.)*u_brightness;
     vec3 color=vec3(f*(.75+u_brightness*.3)*orange)+starSphere+corona*orange+starGlow*orangeRed;
     gl_FragColor=vec4(color,0);
 }
