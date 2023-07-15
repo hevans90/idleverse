@@ -108,7 +108,7 @@ export const PlanetViewer = () => {
         }
       );
     }
-  }, [data]);
+  }, [data, id]);
 
   if (loading) {
     return (
