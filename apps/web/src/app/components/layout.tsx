@@ -1,7 +1,7 @@
 import { useReactiveVar } from '@apollo/client';
 import { Box } from '@chakra-ui/layout';
 import { useBreakpointValue } from '@chakra-ui/react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { layoutVar } from '../_state/global-settings';
 import { LayoutConfig } from '../_state/models';
 import { SideNav } from '../global-ui/sidenav/sidenav';
