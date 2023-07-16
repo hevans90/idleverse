@@ -92,7 +92,7 @@ interface StarsProps {
 }
 
 export const Stars = ({
-  radius = 4,
+  radius = 400,
   twinkleSpeed = 0.0005,
   colorVariation = 0.1,
   twinkleVariation = 0.4,

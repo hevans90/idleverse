@@ -5,7 +5,7 @@ export const CameraController = () => {
   const { camera } = useThree();
 
   useEffect(() => {
-    camera.position.set(1.5, 1, 5);
+    camera.position.set(5, 3, 5);
     camera.lookAt(0, 0, 0);
   }, [camera, camera.position]);
 

@@ -216,7 +216,7 @@ export const PlanetViewer = () => {
                 <CameraController />
                 <Pixelate
                   bgColor={hexStringToNumber(colors[primary]['800'])}
-                  pixelSize={2}
+                  pixelSize={4}
                 />
               </Canvas>
               {data?.planet_by_pk?.celestial?.galactic_empire?.id &&
