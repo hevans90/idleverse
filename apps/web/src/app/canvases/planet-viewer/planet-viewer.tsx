@@ -143,8 +143,7 @@ export const PlanetViewer = () => {
             <Loading width="100%" height="100%" text="Rendering planet" />
           }
         >
-          <Flex h="full">
-            <PlanetActions active={planetActionsActive} />
+          <Flex h="full" flexDir="column">
             <Box flex="2" minW="0">
               <Canvas
                 style={{
@@ -222,6 +221,7 @@ export const PlanetViewer = () => {
               {data?.planet_by_pk?.celestial?.galactic_empire?.id &&
                 myEmpire && <PlanetUI />}
             </Box>
+            <PlanetActions active={planetActionsActive} />
           </Flex>
         </Suspense>
       </Box>
