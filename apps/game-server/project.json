@@ -74,7 +74,7 @@
     },
     "deploy": {
       "dependsOn": ["build"],
-      "command": "fly deploy -a idleverse-game-server --config apps/game-server/fly.toml --dockerfile apps/game-server/Dockerfile"
+      "command": "flyctl deploy -a idleverse-game-server --config apps/game-server/fly.toml --dockerfile apps/game-server/Dockerfile"
     },
     "docker-build": {
       "dependsOn": ["build"],
