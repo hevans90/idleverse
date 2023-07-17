@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",
+    "@arwes/react": "^1.0.0-alpha.21",
     "@auth0/auth0-react": "^1.9.0",
     "@chakra-ui/icons": "^2.0.0",
     "@chakra-ui/react": "^2.0.0",
@@ -75,6 +76,7 @@
     "jwks-rsa": "^2.0.4",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
+    "motion": "^10.16.2",
     "node-fetch": "^3.0.0",
     "node-watch": "^0.7.2",
     "object-hash": "^2.2.0",

@@ -6,19 +6,20 @@ import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { DataTexture } from 'three';
-import { Loading } from '../../components/loading';
 import { planetVar } from '../../_state/planet-viewer';
+import { Loading } from '../../components/loading';
 import { CameraController } from '../planet-generator/camera-controller';
 import { Pixelate } from '../planet-generator/pixelate';
 
 import { colors } from '@idleverse/theme';
-import { GameUI } from '../../game-ui/game-ui';
-import { useEmpire } from '../../hooks/use-my-empire';
 import { colorsVar } from '../../_state/colors';
 import { myEmpireVar } from '../../_state/galactic-empire';
+import { GameUI } from '../../game-ui/game-ui';
+import { useEmpire } from '../../hooks/use-my-empire';
+import { useResize } from '../_utils/use-resize.hook';
 import { runTextureGenOnWorker } from '../planet-generator/texture-generation/run-texture-gen-on-worker';
 import { World } from '../planet-generator/world';
-import { useResize } from '../_utils/use-resize.hook';
+import { PlanetUI } from './ui/planet-ui';
 
 export const PlanetViewer = () => {
   const { id } = useParams<{ id: string }>();
@@ -175,7 +176,12 @@ export const PlanetViewer = () => {
             />
           </Canvas>
           {data?.planet_by_pk?.celestial?.galactic_empire?.id && myEmpire && (
-            <GameUI empireId={data.planet_by_pk.celestial.galactic_empire.id} />
+            <>
+              <GameUI
+                empireId={data.planet_by_pk.celestial.galactic_empire.id}
+              />
+              <PlanetUI />
+            </>
           )}
         </Suspense>
       </Box>
