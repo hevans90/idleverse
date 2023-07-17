@@ -22,7 +22,6 @@
       "@idleverse/graphql-utils": ["libs/graphql-utils/src/index.ts"],
       "@idleverse/pixi-utils": ["libs/pixi-utils/src/index.ts"],
       "@idleverse/state": ["libs/state/src/index.ts"],
-      "@idleverse/test-lib": ["libs/test-lib/src/index.ts"],
       "@idleverse/theme": ["libs/theme/src/index.ts"],
       "@idleverse/ui": ["libs/ui/src/index.ts"]
     }
