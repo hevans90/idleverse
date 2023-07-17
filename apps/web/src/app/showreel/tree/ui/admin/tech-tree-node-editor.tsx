@@ -16,8 +16,8 @@ import {
   StackDivider,
   Text,
   Textarea,
-  useToast,
   VStack,
+  useToast,
 } from '@chakra-ui/react';
 
 import {
@@ -29,14 +29,13 @@ import {
   UpdateTechnologyByIdMutationVariables,
 } from '@idleverse/galaxy-gql';
 import { useEffect, useState } from 'react';
-import { useUiBackground } from '../../../../hooks/use-ui-background';
-import { colorsVar } from '../../../../_state/colors';
-import { resourcesVar } from '../../../../_state/resources';
-import { technologiesVar } from '../../../../_state/technologies';
+
+import { colorsVar, resourcesVar, technologiesVar } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import {
+  TreeNodeWithDepth,
   selectedNodeVar,
   treeNodesVar,
-  TreeNodeWithDepth,
 } from '../../state/shared-tree.state';
 import { TechnologyNode } from '../../utils/create-tree-from-technologies-query';
 import { ImagePicker } from './image-picker';

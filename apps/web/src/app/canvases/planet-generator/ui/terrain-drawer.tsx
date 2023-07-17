@@ -7,10 +7,11 @@ import {
   RangeSliderThumb,
   RangeSliderTrack,
 } from '@chakra-ui/react';
+
 import {
   planetGenerationColorDrawerVar,
   planetGenerationTerrainDrawerVar,
-} from '../../../_state/planet-generation';
+} from '@idleverse/state';
 import { ExpandingUI } from '../../../components/expanding-ui';
 
 export const PlanetGeneratorTerrainDrawer = () => {

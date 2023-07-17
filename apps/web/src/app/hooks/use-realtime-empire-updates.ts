@@ -16,15 +16,15 @@ import {
   ResourceGeneratorsByEmpireIdSubscription,
   ResourceGeneratorsByEmpireIdSubscriptionVariables,
 } from '@idleverse/galaxy-gql';
-import { useEffect } from 'react';
 import {
   ResourceGenerator,
   activeQuestsVar,
   completedQuestsVar,
   empireNpcsVar,
   empireResourcesVar,
-} from '../_state/galactic-empire';
-import { resourcesVar } from '../_state/resources';
+  resourcesVar,
+} from '@idleverse/state';
+import { useEffect } from 'react';
 
 export const useRealtimeEmpireUpdates = (empireId: string) => {
   const resources = useReactiveVar(resourcesVar);
@@ -160,20 +160,17 @@ export const useRealtimeEmpireUpdates = (empireId: string) => {
     if (npcsData) {
       empireNpcsVar(npcsData.galactic_empire_npc.map(({ npc }) => npc));
     }
-    //
   }, [npcsLoading, npcsData]);
 
   useEffect(() => {
     if (activeQuestsData) {
       activeQuestsVar(activeQuestsData.galactic_empire_quest);
     }
-    //
   }, [activeQuestsLoading, activeQuestsData]);
 
   useEffect(() => {
     if (completedQuestsData) {
       completedQuestsVar(completedQuestsData.galactic_empire_quest);
     }
-    //
   }, [completedQuestsLoading, completedQuestsData]);
 };

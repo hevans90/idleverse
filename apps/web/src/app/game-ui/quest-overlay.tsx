@@ -6,10 +6,10 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
+
+import { activeQuestsVar, globalUiVar } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import { responsiveFontProps } from '../_responsive-utils/font-props';
-import { activeQuestsVar } from '../_state/galactic-empire';
-import { globalUiVar } from '../_state/global-ui';
-import { useUiBackground } from '../hooks/use-ui-background';
 
 type QuestOverlayProps = StackProps;
 

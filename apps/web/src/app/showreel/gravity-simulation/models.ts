@@ -1,5 +1,5 @@
+import { Vector2D } from '@idleverse/state';
 import * as PIXI from 'pixi.js';
-import { Vector2D } from '../../_state/models';
 
 export type NewtonianGraphics = PIXI.Graphics & {
   id?: string;

@@ -10,12 +10,14 @@ import {
 } from '@chakra-ui/react';
 import { Faction } from '@idleverse/galaxy-gql';
 import { useState } from 'react';
-import { useUiBackground } from '../../hooks/use-ui-background';
+
 import {
   headerResponsiveFontProps,
   responsiveFontProps,
 } from '../../_responsive-utils/font-props';
-import { factionsVar } from '../../_state/factions';
+
+import { factionsVar } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import { GallerySelector } from '../components/gallery-selector';
 
 export const FactionSelectionModal = ({

@@ -16,14 +16,18 @@ import {
   UserInfoQuery,
 } from '@idleverse/galaxy-gql';
 import { useEffect, useState } from 'react';
-import { backgroundsVar } from './_state/backgrounds';
-import { factionsVar } from './_state/factions';
-import { npcsVar } from './_state/npcs';
-import { playableRacesVar } from './_state/playable-races';
-import { questsVar } from './_state/quests';
-import { selfVar, usersVar } from './_state/reactive-variables';
-import { resourcesVar } from './_state/resources';
-import { technologiesVar } from './_state/technologies';
+
+import {
+  backgroundsVar,
+  factionsVar,
+  npcsVar,
+  playableRacesVar,
+  questsVar,
+  resourcesVar,
+  selfVar,
+  technologiesVar,
+  usersVar,
+} from '@idleverse/state';
 import { loadNoise } from './asset-loading/load-noise';
 import { loadPlaceholders } from './asset-loading/load-placeholders';
 import { loadTechTree } from './asset-loading/load-tech-tree';

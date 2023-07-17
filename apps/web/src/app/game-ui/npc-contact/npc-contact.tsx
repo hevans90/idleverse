@@ -14,11 +14,13 @@ import {
   useColorModeValue,
   VStack,
 } from '@chakra-ui/react';
-import { useUiBackground } from '../../hooks/use-ui-background';
-import { colorsVar } from '../../_state/colors';
-import { dialogVar } from '../../_state/dialog';
-import { empireNpcsVar } from '../../_state/galactic-empire';
-import { globalUiVar } from '../../_state/global-ui';
+import {
+  colorsVar,
+  dialogVar,
+  empireNpcsVar,
+  globalUiVar,
+} from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 
 export const NpcContact = ({
   isOpen,

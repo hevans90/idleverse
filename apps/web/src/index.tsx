@@ -4,8 +4,8 @@ import { theme } from '@idleverse/theme';
 import { StrictMode, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './app/App';
-import { colorsVar } from './app/_state/colors';
 
+import { colorsVar } from '@idleverse/state';
 import { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import Auth0ProviderWithHistory from './auth0-provider-with-history';

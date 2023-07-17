@@ -12,9 +12,9 @@ import {
   GetChatMessagesSubscription,
 } from '@idleverse/galaxy-gql';
 import { useEffect, useRef, useState } from 'react';
+import { useUiBackground } from '../../../../../../libs/theme/src/lib/use-ui-background';
 import { ChatSubmit } from '../../components/chat-submit';
 import { Loading } from '../../components/loading';
-import { useUiBackground } from '../../hooks/use-ui-background';
 
 export const SideNav = () => {
   const { bgDark, border } = useUiBackground();

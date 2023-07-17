@@ -11,7 +11,7 @@ import { Animator } from '@arwes/react-animator';
 import { Dots } from '@arwes/react-bgs';
 import { FrameSVGCorners, FrameSVGNefrex } from '@arwes/react-frames';
 import { type ReactElement } from 'react';
-import { useUiBackground } from '../../../hooks/use-ui-background';
+import { useUiBackground } from '../../../../../../../libs/theme/src/lib/use-ui-background';
 
 type PlanetActionsProps = {
   active: boolean;

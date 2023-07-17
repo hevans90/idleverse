@@ -4,7 +4,6 @@ import { useReactiveVar } from '@apollo/client';
 
 import { Client, Room } from 'colyseus.js';
 import { useEffect, useRef, useState } from 'react';
-import { accessTokenVar, selfVar } from '../../_state/reactive-variables';
 
 import { useToast } from '@chakra-ui/react';
 import {
@@ -13,13 +12,16 @@ import {
   ServerStatusMessage,
 } from '@idleverse/colyseus-shared';
 import { environment } from '../../../environments/environment';
+
 import {
+  accessTokenVar,
   colyseusCelestialsVar,
   colyseusRoomDimensionsVar,
   colyseusRoomVar,
   colyseusSessionVar,
   colyseusShipsVar,
-} from '../../_state/colyseus';
+  selfVar,
+} from '@idleverse/state';
 import { loadColyseusAssets } from '../../asset-loading/load-colyseus-assets';
 import { loadPlanets } from '../../asset-loading/load-planets';
 import { PixiWrapper } from '../../canvases/_utils/pixi-wrapper';

@@ -1,11 +1,11 @@
 import { useReactiveVar } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
-import { hexStringToNumber } from '@idleverse/theme';
+import { hexStringToNumber, useUiBackground } from '@idleverse/theme';
 import { Stage } from '@pixi/react';
 import { useEffect, useState } from 'react';
-import { galacticEmpireVar, myEmpireVar } from '../../_state/galactic-empire';
+
+import { galacticEmpireVar, myEmpireVar } from '@idleverse/state';
 import { GameUI } from '../../game-ui/game-ui';
-import { useUiBackground } from '../../hooks/use-ui-background';
 import { useDisableWheelZoom } from './use-disable-wheel-zoom.hook';
 import { controls, useResize } from './use-resize.hook';
 

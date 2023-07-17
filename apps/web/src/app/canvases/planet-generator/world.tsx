@@ -1,3 +1,4 @@
+import { RingConfig } from '@idleverse/state';
 import { useFrame, useLoader } from '@react-three/fiber';
 import { useRef } from 'react';
 import {
@@ -8,7 +9,6 @@ import {
   TextureLoader,
   Vector3,
 } from 'three';
-import { RingConfig } from '../../_state/models';
 
 export const World = ({
   atmosphere,

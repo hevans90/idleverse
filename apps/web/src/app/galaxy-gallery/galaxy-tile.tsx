@@ -14,10 +14,10 @@ import { GalaxiesSubscription } from '@idleverse/galaxy-gql';
 import { Stage } from '@pixi/react';
 import { useEffect, useRef, useState } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
-import { colorsVar } from '../_state/colors';
-import { galaxyConfigVar } from '../_state/reactive-variables';
+
+import { colorsVar, galaxyConfigVar } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import { GalaxyThumbnail } from '../canvases/galaxy-thumbnail/galaxy-thumbnail';
-import { useUiBackground } from '../hooks/use-ui-background';
 
 export const GalaxyTile = ({
   alreadyJoined,

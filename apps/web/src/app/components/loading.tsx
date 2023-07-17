@@ -6,7 +6,7 @@ import {
   TypographyProps,
   useTheme,
 } from '@chakra-ui/react';
-import { useUiBackground } from '../hooks/use-ui-background';
+import { useUiBackground } from '../../../../../libs/theme/src/lib/use-ui-background';
 
 type LoadingProps = {
   height?: string;

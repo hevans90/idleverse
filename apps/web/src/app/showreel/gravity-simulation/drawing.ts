@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
-import { Vector2D } from '../../_state/models';
+
+import { Vector2D } from '@idleverse/state';
 import { BallConfig, NewtonianGraphics } from './models';
 
 const getOffsetPosition = ({ x, y }: Vector2D, centerRadius: number) => ({

@@ -7,13 +7,13 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
-import { PlanetGenerator } from '../../canvases/planet-generator/planet-generator';
-import { useResize } from '../../canvases/_utils/use-resize.hook';
-import { useUiBackground } from '../../hooks/use-ui-background';
+import { useUiBackground } from '../../../../../../libs/theme/src/lib/use-ui-background';
 import {
   headerResponsiveFontProps,
   responsiveFontProps,
 } from '../../_responsive-utils/font-props';
+import { useResize } from '../../canvases/_utils/use-resize.hook';
+import { PlanetGenerator } from '../../canvases/planet-generator/planet-generator';
 
 export const HomeworldGenerationModal = ({
   isOpen,

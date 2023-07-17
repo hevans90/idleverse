@@ -30,14 +30,22 @@ import {
 } from '@chakra-ui/react';
 import { Fragment, useRef } from 'react';
 import { v4 } from 'uuid';
-import { RING_TYPES, RingConfig, RingKey } from '../../../_state/models';
-import { planetGenerationRingDrawerVar } from '../../../_state/planet-generation';
 
-import { hexToRGB, rgbToHex, colors as themeColors } from '@idleverse/theme';
+import {
+  RING_TYPES,
+  RingConfig,
+  RingKey,
+  colorsVar,
+  planetGenerationRingDrawerVar,
+} from '@idleverse/state';
+import {
+  hexToRGB,
+  rgbToHex,
+  colors as themeColors,
+  useUiBackground,
+} from '@idleverse/theme';
 import { responsiveFontProps } from '../../../_responsive-utils/font-props';
-import { colorsVar } from '../../../_state/colors';
 import { ExpandingUI } from '../../../components/expanding-ui';
-import { useUiBackground } from '../../../hooks/use-ui-background';
 import {
   degreesToRadians,
   radiansToDegrees,

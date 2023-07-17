@@ -2,10 +2,10 @@ import { useReactiveVar } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
+
+import { celestialVar, galaxyConfigVar, planetVar } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import { responsiveFontProps } from '../_responsive-utils/font-props';
-import { planetVar } from '../_state/planet-viewer';
-import { celestialVar, galaxyConfigVar } from '../_state/reactive-variables';
-import { useUiBackground } from '../hooks/use-ui-background';
 
 export const BREADCRUMB_HEIGHT = 55;
 

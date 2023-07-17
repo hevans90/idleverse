@@ -18,9 +18,9 @@ import {
   Tabs,
   Text,
 } from '@chakra-ui/react';
-import { useUiBackground } from '../../hooks/use-ui-background';
-import { colorsVar } from '../../_state/colors';
-import { questDetailVar, questJournalVar } from '../../_state/global-ui';
+
+import { colorsVar, questDetailVar, questJournalVar } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import { QuestDetail } from './quest-detail';
 import { QuestList } from './quest-list';
 

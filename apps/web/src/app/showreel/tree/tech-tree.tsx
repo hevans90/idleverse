@@ -11,7 +11,8 @@ import {
 import { Tree } from './utils/tree-structure';
 
 import { useReactiveVar } from '@apollo/client';
-import { technologiesVar } from '../../_state/technologies';
+
+import { technologiesVar } from '@idleverse/state';
 import { useNodeInteractions } from './hooks/use-node-interactions';
 import { useRenderNodes } from './hooks/use-render-nodes';
 import {

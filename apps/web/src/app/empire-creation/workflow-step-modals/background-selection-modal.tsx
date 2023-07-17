@@ -10,12 +10,12 @@ import {
 } from '@chakra-ui/react';
 import { Background } from '@idleverse/galaxy-gql';
 import { useState } from 'react';
-import { useUiBackground } from '../../hooks/use-ui-background';
+import { backgroundsVar } from '../../../../../../libs/state/src/lib/backgrounds';
+import { useUiBackground } from '../../../../../../libs/theme/src/lib/use-ui-background';
 import {
   headerResponsiveFontProps,
   responsiveFontProps,
 } from '../../_responsive-utils/font-props';
-import { backgroundsVar } from '../../_state/backgrounds';
 import { GallerySelector } from '../components/gallery-selector';
 
 export const BackgroundSelectionModal = ({

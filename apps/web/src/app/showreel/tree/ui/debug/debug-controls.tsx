@@ -1,9 +1,9 @@
 import { useReactiveVar } from '@apollo/client';
 import { Checkbox, HStack, StackDivider, Text, VStack } from '@chakra-ui/react';
 
+import { useUiBackground } from '../../../../../../../../libs/theme/src/lib/use-ui-background';
 import { responsiveFontProps } from '../../../../_responsive-utils/font-props';
 import { ExpandingUI } from '../../../../components/expanding-ui';
-import { useUiBackground } from '../../../../hooks/use-ui-background';
 import {
   selectedNodeVar,
   treeDebugVar,

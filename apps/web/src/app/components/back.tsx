@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import { useUiBackground } from '../hooks/use-ui-background';
+import { useUiBackground } from '../../../../../libs/theme/src/lib/use-ui-background';
 
 export const Back = () => {
   const { bg, border } = useUiBackground();

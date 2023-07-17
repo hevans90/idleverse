@@ -8,8 +8,8 @@ import { hexToRGB } from '@idleverse/theme';
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { celestialViewerSelectedPlanet } from '../../_state/celestial-viewer';
-import { celestialVar } from '../../_state/reactive-variables';
+
+import { celestialVar, celestialViewerSelectedPlanet } from '@idleverse/state';
 import { loadPlanets } from '../../asset-loading/load-planets';
 import { Loading } from '../../components/loading';
 import { useEmpire } from '../../hooks/use-my-empire';

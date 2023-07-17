@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react';
 import { RoomState } from '@idleverse/colyseus-shared';
 import round from 'lodash/round';
-import { useUiBackground } from '../../../hooks/use-ui-background';
+import { useUiBackground } from '../../../../../../../libs/theme/src/lib/use-ui-background';
 
 export const ColyseusGameInfo = ({
   joined,

@@ -14,11 +14,12 @@ import { useApp } from '@pixi/react';
 import { Container, Graphics } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { colorsVar } from '../../_state/colors';
+
 import {
+  colorsVar,
   galaxyConfigVar,
   galaxyRotationVar,
-} from '../../_state/reactive-variables';
+} from '@idleverse/state';
 import { loadAvatarByUserId } from '../../asset-loading/load-user-by-id';
 import { useResize } from '../_utils/use-resize.hook';
 import { useViewport } from '../_utils/use-viewport.hook';

@@ -17,7 +17,7 @@ import {
   useBoolean,
 } from '@chakra-ui/react';
 import { memo, useRef } from 'react';
-import { useUiBackground } from '../hooks/use-ui-background';
+import { useUiBackground } from '../../../../../libs/theme/src/lib/use-ui-background';
 
 const defaultColors = [
   'gray.100',

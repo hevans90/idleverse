@@ -1,8 +1,7 @@
 import { useReactiveVar } from '@apollo/client';
 import { GalacticEmpireFieldsFragment } from '@idleverse/galaxy-gql';
+import { galacticEmpireVar, myEmpireVar, selfVar } from '@idleverse/state';
 import { useEffect } from 'react';
-import { galacticEmpireVar, myEmpireVar } from '../_state/galactic-empire';
-import { selfVar } from '../_state/reactive-variables';
 
 export const useEmpire = (empire: GalacticEmpireFieldsFragment) => {
   const { id: userId } = useReactiveVar(selfVar);

@@ -12,12 +12,17 @@ import {
 } from '@idleverse/galaxy-gql';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { galacticEmpireVar, myEmpireVar } from '../../_state/galactic-empire';
-import { galaxyConfigVar, selfVar } from '../../_state/reactive-variables';
+
 import { Loading } from '../../components/loading';
 import { PixiWrapper } from '../_utils/pixi-wrapper';
 import { GameUIBottomBar } from '../galaxy-generator/ui/bottom-bar';
 
+import {
+  galacticEmpireVar,
+  galaxyConfigVar,
+  myEmpireVar,
+  selfVar,
+} from '@idleverse/state';
 import { GalaxyViewer } from './galaxy-viewer';
 
 export const GalaxyViewerContainer = () => {

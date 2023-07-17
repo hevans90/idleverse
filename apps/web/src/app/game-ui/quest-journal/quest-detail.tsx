@@ -21,11 +21,15 @@ import {
 } from '@idleverse/galaxy-gql';
 import { Step, Steps, useSteps } from 'chakra-ui-steps';
 import { useEffect, useState } from 'react';
-import { colorsVar } from '../../_state/colors';
-import { questDetailVar, questJournalVar } from '../../_state/global-ui';
-import { npcsVar } from '../../_state/npcs';
-import { resourcesVar } from '../../_state/resources';
-import { useUiBackground } from '../../hooks/use-ui-background';
+
+import {
+  colorsVar,
+  npcsVar,
+  questDetailVar,
+  questJournalVar,
+  resourcesVar,
+} from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import { QuestRewardThumbnails } from './quest-reward-thumbnail';
 import {
   OrderedQuestStepWithIcon,

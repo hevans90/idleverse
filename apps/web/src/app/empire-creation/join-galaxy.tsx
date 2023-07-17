@@ -24,9 +24,13 @@ import {
 import { Stage } from '@pixi/react';
 import { useEffect, useRef, useState } from 'react';
 import { Link as ReactRouterLink, useParams } from 'react-router-dom';
-import { characterCreationVar } from '../_state/character-creation';
-import { colorsVar } from '../_state/colors';
-import { galaxyConfigVar, selfVar } from '../_state/reactive-variables';
+
+import {
+  characterCreationVar,
+  colorsVar,
+  galaxyConfigVar,
+  selfVar,
+} from '@idleverse/state';
 import { GalaxyThumbnail } from '../canvases/galaxy-thumbnail/galaxy-thumbnail';
 import { randomisePlanetSeedAndName } from '../canvases/planet-generator/_utils/randomise-planet-seed-and-name';
 import { generatePlanetInsertionVars } from '../canvases/planet-generator/generate-planet-input-vars';

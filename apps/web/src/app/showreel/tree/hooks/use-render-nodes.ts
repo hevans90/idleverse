@@ -2,12 +2,12 @@ import { useReactiveVar } from '@apollo/client';
 import { colors } from '@idleverse/theme';
 import * as PIXI from 'pixi.js';
 import { useEffect } from 'react';
-import { colorsVar } from '../../../_state/colors';
 
 import { TreeNodeWithDepth, treeSettingsVar } from '../state/shared-tree.state';
 import { TechnologyNode } from '../utils/create-tree-from-technologies-query';
 import { QuestNode } from '../utils/create-trees-from-quests-query';
 
+import { colorsVar } from '@idleverse/state';
 import { orientationConfig } from '../orientation';
 import { connectNodes, drawNode } from '../utils/draw-node';
 

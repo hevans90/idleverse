@@ -11,13 +11,12 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { TerrainHexPalettesQuery } from '@idleverse/galaxy-gql';
-import { hexToRGB } from '@idleverse/theme';
+import { hexToRGB, useUiBackground } from '@idleverse/theme';
 import { Fragment, useEffect, useState } from 'react';
-import { responsiveFontProps } from '../../../_responsive-utils/font-props';
-import { colorsVar } from '../../../_state/colors';
-import { planetGenerationColorDrawerVar } from '../../../_state/planet-generation';
-import { useUiBackground } from '../../../hooks/use-ui-background';
 
+import { responsiveFontProps } from '../../../_responsive-utils/font-props';
+
+import { colorsVar, planetGenerationColorDrawerVar } from '@idleverse/state';
 import { ExpandingUI } from '../../../components/expanding-ui';
 import { ColorQuad } from './color-quad';
 
@@ -28,7 +27,7 @@ export const PlanetGeneratorColorDrawer = ({
 }) => {
   const drawerState = useReactiveVar(planetGenerationColorDrawerVar);
   const { bg, border } = useUiBackground();
-  const { primary, secondary } = useReactiveVar(colorsVar);
+  const { primary } = useReactiveVar(colorsVar);
 
   const palettePresets = paletteData.terrain_hex_palette;
 

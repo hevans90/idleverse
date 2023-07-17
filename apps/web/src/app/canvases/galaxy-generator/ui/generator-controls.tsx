@@ -18,9 +18,9 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useUiBackground } from '../../../hooks/use-ui-background';
-import { colorsVar } from '../../../_state/colors';
-import { galaxyConfigVar } from '../../../_state/reactive-variables';
+
+import { colorsVar, galaxyConfigVar } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import { galaxySlidersConfig } from './sliders';
 
 export const generatorControlsHeight = 350;

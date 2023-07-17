@@ -13,15 +13,15 @@ import {
   Text,
   useColorMode,
 } from '@chakra-ui/react';
-import { useUiBackground } from '../../hooks/use-ui-background';
-import { colorsVar } from '../../_state/colors';
+
 import {
+  colorsVar,
   debugVar,
   fpsVar,
   hotkeyHintsVar,
   layoutVar,
-} from '../../_state/global-settings';
-
+} from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import { ThemePalettePicker } from './theme-palette-picker';
 
 export const EscMenuContainer = ({ isOpen, onClose }) => {

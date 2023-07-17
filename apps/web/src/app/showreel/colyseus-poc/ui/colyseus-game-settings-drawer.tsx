@@ -1,6 +1,7 @@
 import { useReactiveVar } from '@apollo/client';
 import { Checkbox, HStack, Text, VStack } from '@chakra-ui/react';
-import { colyseusGameSettingsVar } from '../../../_state/colyseus';
+
+import { colyseusGameSettingsVar } from '@idleverse/state';
 import { ExpandingUI } from '../../../components/expanding-ui';
 
 export const ColyseusGameSettingsDrawer = () => {

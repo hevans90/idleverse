@@ -1,9 +1,8 @@
 import { useReactiveVar } from '@apollo/client';
 import { indicatorFactory } from '@idleverse/pixi-utils';
+import { fpsVar } from '@idleverse/state';
 import { Application, Text, TickerCallback } from 'pixi.js';
 import { useEffect, useRef } from 'react';
-
-import { fpsVar } from '../../../_state/global-settings';
 
 const fpsText = indicatorFactory('FPS: ', 50, 100, 'fpsCounter');
 const frameTimeText = indicatorFactory('Frametime: ', 50, 150, 'frameTime');

@@ -5,12 +5,13 @@ import jwt_decode from 'jwt-decode';
 import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { environment } from '../environments/environment';
+
 import {
   accessTokenVar,
   galaxyConfigVar,
   galaxyRotationVar,
   roleVar,
-} from './_state/reactive-variables';
+} from '@idleverse/state';
 import { Layout } from './components/layout';
 import { Loading } from './components/loading';
 import { PreloadContainer } from './preload.container';

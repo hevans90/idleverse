@@ -19,11 +19,14 @@ import {
 import { generateCelestialName } from '@idleverse/galaxy-gen';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useUiBackground } from '../../../hooks/use-ui-background';
+
+import {
+  PlanetGenerationConfig,
+  colorsVar,
+  planetGeneratorConfigVar,
+} from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import { responsiveFontProps } from '../../../_responsive-utils/font-props';
-import { colorsVar } from '../../../_state/colors';
-import { PlanetGenerationConfig } from '../../../_state/models';
-import { planetGeneratorConfigVar } from '../../../_state/planet-generation';
 
 export type PlanetGeneratorSliderType = {
   name: keyof PlanetGenerationConfig;

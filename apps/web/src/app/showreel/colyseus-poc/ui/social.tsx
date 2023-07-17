@@ -7,7 +7,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { RoomState } from '@idleverse/colyseus-shared';
-import { useUiBackground } from '../../../hooks/use-ui-background';
+import { useUiBackground } from '../../../../../../../libs/theme/src/lib/use-ui-background';
 
 type IndicatorProps = {
   left: boolean;

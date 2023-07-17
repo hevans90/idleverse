@@ -1,4 +1,4 @@
-import { RingConfig } from '../../../_state/models';
+import { RingConfig } from '@idleverse/state';
 import { deepCompareRings } from './deep-compare-rings';
 
 const config1: RingConfig = {

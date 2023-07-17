@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import { useReactiveVar } from '@apollo/client';
 import { useDisclosure } from '@chakra-ui/react';
-import { dialogVar } from '../_state/dialog';
-import { globalUiVar } from '../_state/global-ui';
+
+import { dialogVar, globalUiVar } from '@idleverse/state';
 import { BREADCRUMB_HEIGHT } from '../components/breadcrumb';
 import { useKeypress } from '../hooks/use-keypress';
 import { useRealtimeEmpireUpdates } from '../hooks/use-realtime-empire-updates';
