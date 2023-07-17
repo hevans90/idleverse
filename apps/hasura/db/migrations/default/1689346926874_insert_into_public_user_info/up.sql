@@ -1,1 +1,1 @@
-INSERT INTO "public"."user_info"("display_name", "id", "name", "nickname", "free_claims", "avatar_url", "secret_setting_test") VALUES (E'lewisflude', E'github|114507239', E'Lewis Flude', E'ReadingFear16', 1, E'https://avatars.githubusercontent.com/u/114507239?v=4', null);
+INSERT INTO "public"."user_info"("display_name", "id", "name", "nickname", "free_claims", "avatar_url", "secret_setting_test") VALUES (E'lewisflude', E'github|1160882', E'Lewis Flude', E'ReadingFear16', 1, E'https://avatars.githubusercontent.com/u/114507239?v=4', null);
