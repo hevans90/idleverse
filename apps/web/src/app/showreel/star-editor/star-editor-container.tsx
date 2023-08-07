@@ -4,14 +4,7 @@ import { CelestialSettings } from './ui/celestial-settings';
 
 export const StarEditorContainer = () => {
   return (
-    <PixiWrapper
-      showGameUI={false}
-      ui={
-        <>
-          <CelestialSettings />
-        </>
-      }
-    >
+    <PixiWrapper showGameUI={false} ui={<CelestialSettings />}>
       <StarEditor />
     </PixiWrapper>
   );
