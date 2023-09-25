@@ -10901,7 +10901,7 @@ export type UpdateQuestByIdMutation = { __typename?: 'mutation_root', update_que
 export type ResourceGeneratorsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ResourceGeneratorsQuery = { __typename?: 'query_root', resource_generator: Array<{ __typename?: 'resource_generator', id: string, image_url?: string | null, description: string, generation_rate: number[], unlocked_by_technology_id?: string | null, resource_type: { __typename?: 'resource_type', id: string, type: string, image_url?: string | null }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string, image_url?: string | null } | null }> };
+export type ResourceGeneratorsQuery = { __typename?: 'query_root', resource_generator: Array<{ __typename?: 'resource_generator', id: string, name: string, image_url?: string | null, description: string, generation_rate: number[], resource_type_1_id: string, resource_type_2_id?: string | null, unlocked_by_technology_id?: string | null, resource_type: { __typename?: 'resource_type', id: string, type: string, image_url?: string | null }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string, image_url?: string | null } | null }> };
 
 export type ResourcesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -11851,6 +11851,7 @@ export const ResourceGeneratorsDocument = gql`
     query ResourceGenerators {
   resource_generator {
     id
+    name
     image_url
     description
     generation_rate
@@ -11859,11 +11860,13 @@ export const ResourceGeneratorsDocument = gql`
       type
       image_url
     }
+    resource_type_1_id
     resource_type_2 {
       id
       type
       image_url
     }
+    resource_type_2_id
     unlocked_by_technology_id
   }
 }

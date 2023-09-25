@@ -11,10 +11,16 @@ import { Loading } from '../../components/loading';
 import { CameraController } from '../planet-generator/camera-controller';
 import { Pixelate } from '../planet-generator/pixelate';
 
-import { colorsVar, myEmpireVar, planetVar } from '@idleverse/state';
+import {
+  colorsVar,
+  galacticEmpireVar,
+  myEmpireVar,
+  planetVar,
+} from '@idleverse/state';
 import { colors } from '@idleverse/theme';
 
 import { rgb } from '@idleverse/models';
+import { GameUI } from '../../game-ui/game-ui';
 import { useEmpire } from '../../hooks/use-my-empire';
 import { useResize } from '../_utils/use-resize.hook';
 import { Stars } from '../planet-generator/stars';
@@ -41,6 +47,7 @@ export const PlanetViewer = () => {
   const { primary } = useReactiveVar(colorsVar);
 
   const myEmpire = useReactiveVar(myEmpireVar);
+  const galacticEmpire = useReactiveVar(galacticEmpireVar);
 
   const [worldDataTexture, setWorldDataTexture] =
     useState<DataTexture>(undefined);
@@ -145,7 +152,7 @@ export const PlanetViewer = () => {
           }
         >
           <Flex h="full" flexDir="column">
-            <Box flex="2" minW="0">
+            <Box flexGrow="2" minW="0">
               <Canvas
                 style={{
                   flex: 1,
@@ -219,9 +226,15 @@ export const PlanetViewer = () => {
                   pixelSize={4}
                 />
               </Canvas>
-              {data?.planet_by_pk?.celestial?.galactic_empire?.id &&
-                myEmpire && <PlanetUI />}
+
+              {myEmpire && (
+                <>
+                  <PlanetUI />
+                  <GameUI empireId={galacticEmpire?.id} />
+                </>
+              )}
             </Box>
+
             <PlanetActions active={planetActionsActive} />
           </Flex>
         </Suspense>

@@ -131,7 +131,7 @@ export const Dialog = ({ entries, ...stackProps }: DialogProps) => {
         divider={
           <StackDivider borderColor={border} margin="unset !important" />
         }
-        maxHeight="300px"
+        maxHeight="md"
       >
         <VStack padding={3} maxWidth="175px" minWidth="175px">
           <Image

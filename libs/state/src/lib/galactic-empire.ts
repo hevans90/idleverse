@@ -8,10 +8,8 @@ import { makeVarPersisted } from './utils';
 
 export type ResourceGenerator = { name: string; rate: number };
 
-export const galacticEmpireVar = makeVarPersisted<GalacticEmpireFieldsFragment>(
-  null,
-  'galacticEmpire'
-);
+export const galacticEmpireVar =
+  makeVarPersisted<GalacticEmpireFieldsFragment | null>(null, 'galacticEmpire');
 
 export const myEmpireVar = makeVarPersisted<boolean>(false, 'myEmpire');
 
