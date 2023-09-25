@@ -20,6 +20,7 @@
       "@idleverse/galaxy-gen": ["libs/galaxy-gen/src/index.ts"],
       "@idleverse/galaxy-gql": ["libs/galaxy-gql/src/index.ts"],
       "@idleverse/graphql-utils": ["libs/graphql-utils/src/index.ts"],
+      "@idleverse/models": ["libs/models/src/index.ts"],
       "@idleverse/pixi-utils": ["libs/pixi-utils/src/index.ts"],
       "@idleverse/state": ["libs/state/src/index.ts"],
       "@idleverse/theme": ["libs/theme/src/index.ts"],

@@ -1,4 +1,4 @@
-import { RingConfig } from '@idleverse/state';
+import { RingConfig } from '@idleverse/models';
 
 type RingChange = {
   props: (keyof RingConfig)[];

@@ -10,7 +10,8 @@ import { gameConfigFactory } from './factories/game-config.factory';
 import { useReactiveVar } from '@apollo/client';
 import { Container } from 'pixi.js';
 
-import { Vector2D, planetSurfaceVar } from '@idleverse/state';
+import { Vector2D } from '@idleverse/models';
+import { planetSurfaceVar } from '@idleverse/state';
 import { GameConfig } from './models/game-config';
 import { IsometricLayer } from './models/isometric-layer';
 import { IsometricContainer } from './models/isometric-stack';

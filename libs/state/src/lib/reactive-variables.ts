@@ -1,8 +1,8 @@
 import { makeVar } from '@apollo/client';
 import { GalaxyConfig } from '@idleverse/galaxy-gen';
 import { CelestialByIdQuery, UserInfoQuery } from '@idleverse/galaxy-gql';
+import { BreadCrumb, Self, SolarSystemConfig } from '@idleverse/models';
 import { v4 as uuidv4 } from 'uuid';
-import { BreadCrumb, Self, SolarSystemConfig } from './models';
 
 export const breadCrumbsVar = makeVar<BreadCrumb[]>([]);
 
@@ -26,9 +26,9 @@ export const timeVar = makeVar(0);
 export const rotateVar = makeVar(false);
 export const animateVar = makeVar(false);
 
-export const selfVar = makeVar<Self>(null);
-export const roleVar = makeVar<string>(null);
-export const accessTokenVar = makeVar<string>(null);
+export const selfVar = makeVar<Self | null>(null);
+export const roleVar = makeVar<string | null>(null);
+export const accessTokenVar = makeVar<string | null>(null);
 
 export const usersVar = makeVar<UserInfoQuery['user_info']>([]);
 export const userById = (desiredId: string) =>

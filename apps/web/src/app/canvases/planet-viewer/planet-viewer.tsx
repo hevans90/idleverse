@@ -1,7 +1,7 @@
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { Box, Flex } from '@chakra-ui/react';
 import { PlanetByIdDocument, PlanetByIdQuery } from '@idleverse/galaxy-gql';
-import { hexStringToNumber, hexToRGB, rgb } from '@idleverse/theme';
+import { hexStringToNumber, hexToRGB } from '@idleverse/theme';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -14,6 +14,7 @@ import { Pixelate } from '../planet-generator/pixelate';
 import { colorsVar, myEmpireVar, planetVar } from '@idleverse/state';
 import { colors } from '@idleverse/theme';
 
+import { rgb } from '@idleverse/models';
 import { useEmpire } from '../../hooks/use-my-empire';
 import { useResize } from '../_utils/use-resize.hook';
 import { Stars } from '../planet-generator/stars';

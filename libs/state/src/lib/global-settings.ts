@@ -1,4 +1,4 @@
-import { LayoutConfig } from './models';
+import { LayoutConfig } from '@idleverse/models';
 import { makeVarPersisted } from './utils';
 
 export const hotkeyHintsVar = makeVarPersisted<boolean>(true, 'hotkeyHints');

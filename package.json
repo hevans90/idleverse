@@ -135,6 +135,7 @@
     "@types/seedrandom": "^3.0.1",
     "@types/testing-library__jest-dom": "^5.14.1",
     "@types/three": "^0.138.0",
+    "@types/uuid": "^9.0.4",
     "@types/websocket": "^1.0.4",
     "@typescript-eslint/eslint-plugin": "5.59.5",
     "@typescript-eslint/parser": "5.59.5",

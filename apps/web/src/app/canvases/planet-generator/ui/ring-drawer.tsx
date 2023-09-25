@@ -31,13 +31,8 @@ import {
 import { Fragment, useRef } from 'react';
 import { v4 } from 'uuid';
 
-import {
-  RING_TYPES,
-  RingConfig,
-  RingKey,
-  colorsVar,
-  planetGenerationRingDrawerVar,
-} from '@idleverse/state';
+import { RING_TYPES, RingConfig, RingKey } from '@idleverse/models';
+import { colorsVar, planetGenerationRingDrawerVar } from '@idleverse/state';
 import {
   hexToRGB,
   rgbToHex,

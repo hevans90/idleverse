@@ -1,4 +1,4 @@
-import { Vector2D } from '@idleverse/state';
+import { Vector2D } from '@idleverse/models';
 import * as PIXI from 'pixi.js';
 
 export type NewtonianGraphics = PIXI.Graphics & {

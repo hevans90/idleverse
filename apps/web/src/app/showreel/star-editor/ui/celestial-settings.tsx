@@ -15,8 +15,8 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { hexToRGB, rgbToHex } from '@idleverse/theme';
-import { useUiBackground } from '../../../../../../../libs/theme/src/lib/use-ui-background';
+import { hexToRGB, rgbToHex, useUiBackground } from '@idleverse/theme';
+
 import { responsiveFontProps } from '../../../_responsive-utils/font-props';
 import { ExpandingUI } from '../../../components/expanding-ui';
 import { celestialSettingsVar } from '../state/celestial.state';

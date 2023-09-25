@@ -3,7 +3,8 @@ import { Box } from '@chakra-ui/layout';
 import { useBreakpointValue } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
-import { LayoutConfig, layoutVar } from '@idleverse/state';
+import { LayoutConfig } from '@idleverse/models';
+import { layoutVar } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
 import { SideNav } from '../global-ui/sidenav/sidenav';
 import { ToolBar } from '../global-ui/toolbar/toolbar';

@@ -1,4 +1,4 @@
-import { rgb } from '@idleverse/theme';
+import { rgb } from '@idleverse/models';
 import { wrap } from 'comlink';
 import { DataTexture } from 'three';
 

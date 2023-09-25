@@ -1,6 +1,6 @@
 import { PlanetCreationInput, RingInsertInput } from '@idleverse/galaxy-gql';
+import { RingConfig } from '@idleverse/models';
 import {
-  RingConfig,
   planetGenerationColorDrawerVar,
   planetGenerationRingDrawerVar,
   planetGenerationTerrainDrawerVar,

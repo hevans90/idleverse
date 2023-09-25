@@ -1,4 +1,4 @@
-import { RingConfig } from '@idleverse/state';
+import { RingConfig } from '@idleverse/models';
 import { useFrame, useLoader } from '@react-three/fiber';
 import { useRef } from 'react';
 import {

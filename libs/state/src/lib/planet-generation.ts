@@ -1,13 +1,14 @@
 import { v4 as uuidv4 } from 'uuid';
+
+import { makeVarPersisted } from './utils';
+
+import { generateCelestialName } from '@idleverse/galaxy-gen';
 import {
   PlanetGenerationConfig,
   RingConfig,
   TerrainHexPalette,
   TerrainRGBPalette,
-} from './models';
-import { makeVarPersisted } from './utils';
-
-import { generateCelestialName } from '@idleverse/galaxy-gen';
+} from '@idleverse/models';
 
 export const planetGeneratorConfigVar =
   makeVarPersisted<PlanetGenerationConfig>(
@@ -29,8 +30,8 @@ export const planetGenerationColorDrawerVar = makeVarPersisted<{
   panelOpen: boolean;
   palettePresetName: string;
   currentPalette: TerrainRGBPalette;
-  currentHexPalette: TerrainHexPalette;
-  currentPaletteId: string;
+  currentHexPalette?: TerrainHexPalette;
+  currentPaletteId?: string;
 }>(
   {
     panelOpen: false,
@@ -41,8 +42,6 @@ export const planetGenerationColorDrawerVar = makeVarPersisted<{
       grass: { r: 0, g: 0, b: 0 },
       forest: { r: 0, g: 0, b: 0 },
     },
-    currentHexPalette: undefined,
-    currentPaletteId: undefined,
   },
   'planetGenerationColorControls'
 );
