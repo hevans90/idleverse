@@ -10,8 +10,9 @@ import {
 } from '@chakra-ui/react';
 import { Background } from '@idleverse/galaxy-gql';
 import { useState } from 'react';
-import { backgroundsVar } from '../../../../../../libs/state/src/lib/backgrounds';
-import { useUiBackground } from '../../../../../../libs/theme/src/lib/use-ui-background';
+
+import { backgroundsVar } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import {
   headerResponsiveFontProps,
   responsiveFontProps,
@@ -73,7 +74,7 @@ export const BackgroundSelectionModal = ({
         >
           <Button
             {...responsiveFontProps}
-            disabled={!locallySelectedBackground}
+            isDisabled={!locallySelectedBackground}
             onClick={() => onClose(locallySelectedBackground)}
           >
             Confirm

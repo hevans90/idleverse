@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Grid,
   GridItem,
   Heading,
@@ -28,7 +29,15 @@ const BuildItems = ({ items }: { items: Resource_Generator[] }) => {
   const { borderSecondary, bgDark, bg } = useUiBackground();
   const { secondary } = useReactiveVar(colorsVar);
   return (
-    <Grid width="full" gap="6" gridTemplate={'repeat(1, 1fr) / repeat(4, 1fr)'}>
+    <Grid
+      width="full"
+      gap="6"
+      gridTemplate={[
+        'repeat(1, 1fr) / repeat(4, 1fr)',
+        'repeat(1, 1fr) / repeat(5, 1fr)',
+        'repeat(1, 1fr) / repeat(6, 1fr)',
+      ]}
+    >
       {items.map((item, index) => {
         return (
           <GridItem
@@ -41,40 +50,51 @@ const BuildItems = ({ items }: { items: Resource_Generator[] }) => {
             position="relative"
             gap={2}
           >
-            <Box
-              textDecoration="underline"
-              textDecorationColor={`${secondary}.600`}
+            <FrameSVGWrapperBox
+              pointerEvents="all"
+              padding={3}
+              display="flex"
+              flexDir="column"
+              gap={2}
+              sx={{
+                '[data-name="bg"]': {
+                  color: bgDark,
+                  pointerEvents: 'all',
+                },
+                '.wrapper:hover & [data-name="bg"]': {
+                  color: bg,
+                },
+                '[data-name="line"]': {
+                  color: borderSecondary,
+                },
+              }}
             >
-              {item.name}
-            </Box>
-            <Box {...copyResponsiveFontProps}>{item.description}</Box>
-            <Box className="wrapper">
-              <FrameSVGWrapperBox
+              <FrameSVGNefrex smallLineLength={100} largeLineLength={200} />
+              <Box
                 position="relative"
-                _hover={{
-                  color: `${secondary}.300`,
-                  cursor: 'pointer',
-                }}
-                pointerEvents="all"
-                sx={{
-                  '[data-name="bg"]': {
-                    color: bgDark,
-                    pointerEvents: 'all',
-                  },
-                  '.wrapper:hover & [data-name="bg"]': {
-                    color: bg,
-                  },
-                  '[data-name="line"]': {
-                    color: borderSecondary,
-                  },
+                textDecoration="underline"
+                textDecorationColor={`${secondary}.600`}
+                {...responsiveFontProps}
+              >
+                {item.name}
+              </Box>
+              <Box
+                position="relative"
+                opacity={0.75}
+                {...copyResponsiveFontProps}
+              >
+                {item.description}
+              </Box>
+              <Button
+                padding={3}
+                isDisabled={true}
+                onClick={() => {
+                  //
                 }}
               >
-                <FrameSVGNefrex smallLineLength={100} largeLineLength={100} />
-                <Box position="relative" padding={3}>
-                  Build
-                </Box>
-              </FrameSVGWrapperBox>
-            </Box>
+                +
+              </Button>
+            </FrameSVGWrapperBox>
           </GridItem>
         );
       })}

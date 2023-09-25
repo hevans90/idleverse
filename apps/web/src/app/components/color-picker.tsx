@@ -16,8 +16,8 @@ import {
   SimpleGrid,
   useBoolean,
 } from '@chakra-ui/react';
+import { useUiBackground } from '@idleverse/theme';
 import { memo, useRef } from 'react';
-import { useUiBackground } from '../../../../../libs/theme/src/lib/use-ui-background';
 
 const defaultColors = [
   'gray.100',

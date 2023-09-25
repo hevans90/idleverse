@@ -1,7 +1,8 @@
 import { AddIcon, MinusIcon, SettingsIcon } from '@chakra-ui/icons';
 import { HStack, IconButton, StackProps, Text, VStack } from '@chakra-ui/react';
 import { ReactNode } from 'react';
-import { useUiBackground } from '../../../../../libs/theme/src/lib/use-ui-background';
+
+import { useUiBackground } from '@idleverse/theme';
 import {
   responsiveFontProps,
   responsiveIconProps,

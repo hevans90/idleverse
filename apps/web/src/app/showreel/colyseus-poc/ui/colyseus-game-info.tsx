@@ -15,8 +15,8 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { RoomState } from '@idleverse/colyseus-shared';
+import { useUiBackground } from '@idleverse/theme';
 import round from 'lodash/round';
-import { useUiBackground } from '../../../../../../../libs/theme/src/lib/use-ui-background';
 
 export const ColyseusGameInfo = ({
   joined,
@@ -65,7 +65,7 @@ export const ColyseusGameInfo = ({
         {!roomState && (
           <Button
             onClick={joinCallback}
-            disabled={joined || joiningInProgress}
+            isDisabled={joined || joiningInProgress}
             isLoading={joiningInProgress}
             loadingText="Joining..."
           >
@@ -76,7 +76,7 @@ export const ColyseusGameInfo = ({
           <>
             <Button
               onClick={leaveCallback}
-              disabled={leavingInProgress}
+              isDisabled={leavingInProgress}
               isLoading={leavingInProgress}
               loadingText="Quitting..."
             >

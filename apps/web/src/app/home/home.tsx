@@ -98,7 +98,7 @@ export const Home = () => {
               <Button {...responsiveFontProps}>Beta showreel</Button>
             </Link>
             <Link as={ReactRouterLink} to="/galaxy-gen">
-              <Button {...responsiveFontProps} disabled={role !== 'dev'}>
+              <Button {...responsiveFontProps} isDisabled={role !== 'dev'}>
                 Make a galaxy
               </Button>
             </Link>

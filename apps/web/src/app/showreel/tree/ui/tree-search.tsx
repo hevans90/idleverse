@@ -91,7 +91,7 @@ export const TreeSearch = () => {
               whiteSpace="normal"
               transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
               px="8px"
-              disabled={selectedNode?.id === node.id}
+              isDisabled={selectedNode?.id === node.id}
               borderRadius="3px"
               fontWeight="semibold"
               fontSize={['xxs', 'xs', 'xs', 'sm', 'md']}

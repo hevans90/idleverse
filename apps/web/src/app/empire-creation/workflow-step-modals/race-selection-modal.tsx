@@ -73,7 +73,7 @@ export const RaceSelectionModal = ({
         >
           <Button
             {...responsiveFontProps}
-            disabled={!locallySelectedRace}
+            isDisabled={!locallySelectedRace}
             onClick={() => onClose(locallySelectedRace)}
           >
             Confirm

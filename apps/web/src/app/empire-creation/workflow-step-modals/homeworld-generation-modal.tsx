@@ -7,7 +7,8 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
-import { useUiBackground } from '../../../../../../libs/theme/src/lib/use-ui-background';
+
+import { useUiBackground } from '@idleverse/theme';
 import {
   headerResponsiveFontProps,
   responsiveFontProps,

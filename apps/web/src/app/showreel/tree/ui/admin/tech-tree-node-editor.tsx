@@ -415,7 +415,7 @@ const TreeNodeForm = ({
           flexGrow={1}
           flexBasis={0}
           colorScheme={secondary}
-          disabled={
+          isDisabled={
             !dirty() ||
             !nameValid ||
             !nameLength ||

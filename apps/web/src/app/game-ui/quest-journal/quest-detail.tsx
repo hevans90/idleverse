@@ -221,7 +221,7 @@ export const QuestDetail = () => {
             <StepCompletionRequirements {...questStep} />
             <Button
               colorScheme={secondary}
-              disabled={!stepCompletable || completed}
+              isDisabled={!stepCompletable || completed}
               onClick={() =>
                 questStep?.final
                   ? completeQuest({ variables: { empireQuestId } })

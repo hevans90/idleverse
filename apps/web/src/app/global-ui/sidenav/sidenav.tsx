@@ -12,7 +12,8 @@ import {
   GetChatMessagesSubscription,
 } from '@idleverse/galaxy-gql';
 import { useEffect, useRef, useState } from 'react';
-import { useUiBackground } from '../../../../../../libs/theme/src/lib/use-ui-background';
+
+import { useUiBackground } from '@idleverse/theme';
 import { ChatSubmit } from '../../components/chat-submit';
 import { Loading } from '../../components/loading';
 

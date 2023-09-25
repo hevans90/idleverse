@@ -73,7 +73,7 @@ export const FactionSelectionModal = ({
         >
           <Button
             {...responsiveFontProps}
-            disabled={!locallySelectedFaction}
+            isDisabled={!locallySelectedFaction}
             onClick={() => onClose(locallySelectedFaction)}
           >
             Confirm
