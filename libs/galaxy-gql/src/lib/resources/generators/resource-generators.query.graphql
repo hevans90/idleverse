@@ -1,0 +1,19 @@
+query ResourceGenerators {
+  resource_generator {
+    id
+    image_url
+    description
+    generation_rate
+    resource_type {
+      id
+      type
+      image_url
+    }
+    resource_type_2 {
+      id
+      type
+      image_url
+    }
+    unlocked_by_technology_id
+  }
+}

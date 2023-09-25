@@ -1,5 +1,5 @@
 table:
-  name: resource_generator_type
+  name: resource_generator
   schema: public
 object_relationships:
   - name: resource_type

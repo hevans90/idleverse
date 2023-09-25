@@ -1,7 +1,7 @@
-subscription ResourceGenerators {
+subscription EmpireResourceGenerators {
   galactic_empire_resource_generator {
     created_at
-    resource_generator_type {
+    resource_generator {
       generation_rate
       resource_type {
         id
@@ -18,12 +18,12 @@ subscription ResourceGenerators {
   }
 }
 
-subscription ResourceGeneratorsByEmpireId($empireId: uuid!) {
+subscription EmpireResourceGeneratorsByEmpireId($empireId: uuid!) {
   galactic_empire_resource_generator(
     where: { galactic_empire_id: { _eq: $empireId } }
   ) {
     created_at
-    resource_generator_type {
+    resource_generator {
       generation_rate
       resource_type {
         id
