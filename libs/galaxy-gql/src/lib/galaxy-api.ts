@@ -1808,12 +1808,14 @@ export type Galactic_Empire_Quest_Updates = {
 /** columns and relationships of "galactic_empire_resource_generator" */
 export type Galactic_Empire_Resource_Generator = {
   __typename?: 'galactic_empire_resource_generator';
+  count: Scalars['numeric']['output'];
   created_at: Scalars['timestamptz']['output'];
   /** An object relationship */
   galactic_empire: Galactic_Empire;
   galactic_empire_id: Scalars['uuid']['output'];
   generator_type_id: Scalars['uuid']['output'];
   id: Scalars['uuid']['output'];
+  planet_id?: Maybe<Scalars['uuid']['output']>;
   /** An object relationship */
   resource_generator: Resource_Generator;
   updated_at: Scalars['timestamptz']['output'];
@@ -1829,9 +1831,17 @@ export type Galactic_Empire_Resource_Generator_Aggregate = {
 /** aggregate fields of "galactic_empire_resource_generator" */
 export type Galactic_Empire_Resource_Generator_Aggregate_Fields = {
   __typename?: 'galactic_empire_resource_generator_aggregate_fields';
+  avg?: Maybe<Galactic_Empire_Resource_Generator_Avg_Fields>;
   count: Scalars['Int']['output'];
   max?: Maybe<Galactic_Empire_Resource_Generator_Max_Fields>;
   min?: Maybe<Galactic_Empire_Resource_Generator_Min_Fields>;
+  stddev?: Maybe<Galactic_Empire_Resource_Generator_Stddev_Fields>;
+  stddev_pop?: Maybe<Galactic_Empire_Resource_Generator_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Galactic_Empire_Resource_Generator_Stddev_Samp_Fields>;
+  sum?: Maybe<Galactic_Empire_Resource_Generator_Sum_Fields>;
+  var_pop?: Maybe<Galactic_Empire_Resource_Generator_Var_Pop_Fields>;
+  var_samp?: Maybe<Galactic_Empire_Resource_Generator_Var_Samp_Fields>;
+  variance?: Maybe<Galactic_Empire_Resource_Generator_Variance_Fields>;
 };
 
 
@@ -1841,16 +1851,24 @@ export type Galactic_Empire_Resource_Generator_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+/** aggregate avg on columns */
+export type Galactic_Empire_Resource_Generator_Avg_Fields = {
+  __typename?: 'galactic_empire_resource_generator_avg_fields';
+  count?: Maybe<Scalars['Float']['output']>;
+};
+
 /** Boolean expression to filter rows from the table "galactic_empire_resource_generator". All fields are combined with a logical 'AND'. */
 export type Galactic_Empire_Resource_Generator_Bool_Exp = {
   _and?: InputMaybe<Array<Galactic_Empire_Resource_Generator_Bool_Exp>>;
   _not?: InputMaybe<Galactic_Empire_Resource_Generator_Bool_Exp>;
   _or?: InputMaybe<Array<Galactic_Empire_Resource_Generator_Bool_Exp>>;
+  count?: InputMaybe<Numeric_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   galactic_empire?: InputMaybe<Galactic_Empire_Bool_Exp>;
   galactic_empire_id?: InputMaybe<Uuid_Comparison_Exp>;
   generator_type_id?: InputMaybe<Uuid_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  planet_id?: InputMaybe<Uuid_Comparison_Exp>;
   resource_generator?: InputMaybe<Resource_Generator_Bool_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
@@ -1861,13 +1879,20 @@ export enum Galactic_Empire_Resource_Generator_Constraint {
   ResourceGeneratorPkey = 'resource_generator_pkey'
 }
 
+/** input type for incrementing numeric columns in table "galactic_empire_resource_generator" */
+export type Galactic_Empire_Resource_Generator_Inc_Input = {
+  count?: InputMaybe<Scalars['numeric']['input']>;
+};
+
 /** input type for inserting data into table "galactic_empire_resource_generator" */
 export type Galactic_Empire_Resource_Generator_Insert_Input = {
+  count?: InputMaybe<Scalars['numeric']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   galactic_empire?: InputMaybe<Galactic_Empire_Obj_Rel_Insert_Input>;
   galactic_empire_id?: InputMaybe<Scalars['uuid']['input']>;
   generator_type_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  planet_id?: InputMaybe<Scalars['uuid']['input']>;
   resource_generator?: InputMaybe<Resource_Generator_Obj_Rel_Insert_Input>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
@@ -1875,20 +1900,24 @@ export type Galactic_Empire_Resource_Generator_Insert_Input = {
 /** aggregate max on columns */
 export type Galactic_Empire_Resource_Generator_Max_Fields = {
   __typename?: 'galactic_empire_resource_generator_max_fields';
+  count?: Maybe<Scalars['numeric']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
   galactic_empire_id?: Maybe<Scalars['uuid']['output']>;
   generator_type_id?: Maybe<Scalars['uuid']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
+  planet_id?: Maybe<Scalars['uuid']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** aggregate min on columns */
 export type Galactic_Empire_Resource_Generator_Min_Fields = {
   __typename?: 'galactic_empire_resource_generator_min_fields';
+  count?: Maybe<Scalars['numeric']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
   galactic_empire_id?: Maybe<Scalars['uuid']['output']>;
   generator_type_id?: Maybe<Scalars['uuid']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
+  planet_id?: Maybe<Scalars['uuid']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
@@ -1910,11 +1939,13 @@ export type Galactic_Empire_Resource_Generator_On_Conflict = {
 
 /** Ordering options when selecting data from "galactic_empire_resource_generator". */
 export type Galactic_Empire_Resource_Generator_Order_By = {
+  count?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   galactic_empire?: InputMaybe<Galactic_Empire_Order_By>;
   galactic_empire_id?: InputMaybe<Order_By>;
   generator_type_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  planet_id?: InputMaybe<Order_By>;
   resource_generator?: InputMaybe<Resource_Generator_Order_By>;
   updated_at?: InputMaybe<Order_By>;
 };
@@ -1927,6 +1958,8 @@ export type Galactic_Empire_Resource_Generator_Pk_Columns_Input = {
 /** select columns of table "galactic_empire_resource_generator" */
 export enum Galactic_Empire_Resource_Generator_Select_Column {
   /** column name */
+  Count = 'count',
+  /** column name */
   CreatedAt = 'created_at',
   /** column name */
   GalacticEmpireId = 'galactic_empire_id',
@@ -1935,16 +1968,38 @@ export enum Galactic_Empire_Resource_Generator_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  PlanetId = 'planet_id',
+  /** column name */
   UpdatedAt = 'updated_at'
 }
 
 /** input type for updating data in table "galactic_empire_resource_generator" */
 export type Galactic_Empire_Resource_Generator_Set_Input = {
+  count?: InputMaybe<Scalars['numeric']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   galactic_empire_id?: InputMaybe<Scalars['uuid']['input']>;
   generator_type_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  planet_id?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type Galactic_Empire_Resource_Generator_Stddev_Fields = {
+  __typename?: 'galactic_empire_resource_generator_stddev_fields';
+  count?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Galactic_Empire_Resource_Generator_Stddev_Pop_Fields = {
+  __typename?: 'galactic_empire_resource_generator_stddev_pop_fields';
+  count?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Galactic_Empire_Resource_Generator_Stddev_Samp_Fields = {
+  __typename?: 'galactic_empire_resource_generator_stddev_samp_fields';
+  count?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Streaming cursor of the table "galactic_empire_resource_generator" */
@@ -1957,15 +2012,25 @@ export type Galactic_Empire_Resource_Generator_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Galactic_Empire_Resource_Generator_Stream_Cursor_Value_Input = {
+  count?: InputMaybe<Scalars['numeric']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   galactic_empire_id?: InputMaybe<Scalars['uuid']['input']>;
   generator_type_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  planet_id?: InputMaybe<Scalars['uuid']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** aggregate sum on columns */
+export type Galactic_Empire_Resource_Generator_Sum_Fields = {
+  __typename?: 'galactic_empire_resource_generator_sum_fields';
+  count?: Maybe<Scalars['numeric']['output']>;
 };
 
 /** update columns of table "galactic_empire_resource_generator" */
 export enum Galactic_Empire_Resource_Generator_Update_Column {
+  /** column name */
+  Count = 'count',
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
@@ -1975,14 +2040,36 @@ export enum Galactic_Empire_Resource_Generator_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  PlanetId = 'planet_id',
+  /** column name */
   UpdatedAt = 'updated_at'
 }
 
 export type Galactic_Empire_Resource_Generator_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Galactic_Empire_Resource_Generator_Inc_Input>;
   /** sets the columns of the filtered rows to the given values */
   _set?: InputMaybe<Galactic_Empire_Resource_Generator_Set_Input>;
   /** filter the rows which have to be updated */
   where: Galactic_Empire_Resource_Generator_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Galactic_Empire_Resource_Generator_Var_Pop_Fields = {
+  __typename?: 'galactic_empire_resource_generator_var_pop_fields';
+  count?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate var_samp on columns */
+export type Galactic_Empire_Resource_Generator_Var_Samp_Fields = {
+  __typename?: 'galactic_empire_resource_generator_var_samp_fields';
+  count?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate variance on columns */
+export type Galactic_Empire_Resource_Generator_Variance_Fields = {
+  __typename?: 'galactic_empire_resource_generator_variance_fields';
+  count?: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "galactic_empire_resources" */
@@ -4119,6 +4206,7 @@ export type Mutation_RootUpdate_Galactic_Empire_Quest_ManyArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Galactic_Empire_Resource_GeneratorArgs = {
+  _inc?: InputMaybe<Galactic_Empire_Resource_Generator_Inc_Input>;
   _set?: InputMaybe<Galactic_Empire_Resource_Generator_Set_Input>;
   where: Galactic_Empire_Resource_Generator_Bool_Exp;
 };
@@ -4126,6 +4214,7 @@ export type Mutation_RootUpdate_Galactic_Empire_Resource_GeneratorArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Galactic_Empire_Resource_Generator_By_PkArgs = {
+  _inc?: InputMaybe<Galactic_Empire_Resource_Generator_Inc_Input>;
   _set?: InputMaybe<Galactic_Empire_Resource_Generator_Set_Input>;
   pk_columns: Galactic_Empire_Resource_Generator_Pk_Columns_Input;
 };
@@ -10767,14 +10856,14 @@ export type SubmitEmpireQuestCompletionRequestMutation = { __typename?: 'mutatio
 export type EmpireResourceGeneratorsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type EmpireResourceGeneratorsSubscription = { __typename?: 'subscription_root', galactic_empire_resource_generator: Array<{ __typename?: 'galactic_empire_resource_generator', created_at: string, galactic_empire_id: string, resource_generator: { __typename?: 'resource_generator', generation_rate: number[], name: string, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null } }> };
+export type EmpireResourceGeneratorsSubscription = { __typename?: 'subscription_root', galactic_empire_resource_generator: Array<{ __typename?: 'galactic_empire_resource_generator', created_at: string, planet_id?: string | null, count: number, galactic_empire_id: string, resource_generator: { __typename?: 'resource_generator', generation_rate: number[], name: string, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null } }> };
 
 export type EmpireResourceGeneratorsByEmpireIdSubscriptionVariables = Exact<{
   empireId: Scalars['uuid']['input'];
 }>;
 
 
-export type EmpireResourceGeneratorsByEmpireIdSubscription = { __typename?: 'subscription_root', galactic_empire_resource_generator: Array<{ __typename?: 'galactic_empire_resource_generator', created_at: string, galactic_empire_id: string, resource_generator: { __typename?: 'resource_generator', generation_rate: number[], name: string, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null } }> };
+export type EmpireResourceGeneratorsByEmpireIdSubscription = { __typename?: 'subscription_root', galactic_empire_resource_generator: Array<{ __typename?: 'galactic_empire_resource_generator', created_at: string, planet_id?: string | null, count: number, galactic_empire_id: string, resource_generator: { __typename?: 'resource_generator', generation_rate: number[], name: string, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null } }> };
 
 export type GalacticEmpireResourcesSubscriptionVariables = Exact<{
   empireId: Scalars['uuid']['input'];
@@ -11558,6 +11647,8 @@ export const EmpireResourceGeneratorsDocument = gql`
     subscription EmpireResourceGenerators {
   galactic_empire_resource_generator {
     created_at
+    planet_id
+    count
     resource_generator {
       generation_rate
       resource_type {
@@ -11582,6 +11673,8 @@ export const EmpireResourceGeneratorsByEmpireIdDocument = gql`
     where: {galactic_empire_id: {_eq: $empireId}}
   ) {
     created_at
+    planet_id
+    count
     resource_generator {
       generation_rate
       resource_type {

@@ -1,6 +1,8 @@
 subscription EmpireResourceGenerators {
   galactic_empire_resource_generator {
     created_at
+    planet_id
+    count
     resource_generator {
       generation_rate
       resource_type {
@@ -23,6 +25,8 @@ subscription EmpireResourceGeneratorsByEmpireId($empireId: uuid!) {
     where: { galactic_empire_id: { _eq: $empireId } }
   ) {
     created_at
+    planet_id
+    count
     resource_generator {
       generation_rate
       resource_type {

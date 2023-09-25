@@ -12,11 +12,13 @@ select_permissions:
   - role: dev
     permission:
       columns:
+        - count
         - created_at
-        - updated_at
         - galactic_empire_id
         - generator_type_id
         - id
+        - planet_id
+        - updated_at
       filter:
         galactic_empire:
           user_id:
@@ -24,11 +26,13 @@ select_permissions:
   - role: user
     permission:
       columns:
+        - count
         - created_at
-        - updated_at
         - galactic_empire_id
         - generator_type_id
         - id
+        - planet_id
+        - updated_at
       filter:
         galactic_empire:
           user_id:

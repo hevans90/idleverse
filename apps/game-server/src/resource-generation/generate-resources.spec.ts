@@ -20,6 +20,8 @@ const generatorsSubResults: FetchResult<EmpireResourceGeneratorsSubscription> =
         {
           created_at: new Date().toISOString(),
           galactic_empire_id: uuidv4(),
+          planet_id: uuidv4(),
+          count: 6,
           resource_generator: {
             id: uuidv4(),
             generation_rate: [1],
@@ -72,7 +74,7 @@ describe('generateResources', () => {
       variables: {
         galacticEmpireId: galactic_empire_id,
         galacticCreditsIncrement: 0,
-        commonMetalsIncrement: resource_generator.generation_rate[0],
+        commonMetalsIncrement: resource_generator.generation_rate[0] * 6,
         hydrocarbonsIncrement: 0,
         rareMetalsIncrement: 0,
         voidMatterIncrement: 0,

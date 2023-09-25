@@ -103,12 +103,12 @@ export const generateResources = (
                 generator.resource_generator.generation_rate;
               incrementRate(
                 generator.resource_generator.resource_type.type as ResourceType,
-                rate1
+                rate1 * generator.count
               );
               incrementRate(
                 generator.resource_generator.resource_type_2
                   .type as ResourceType,
-                rate2
+                rate2 * generator.count
               );
             } else {
               // this generator generates 1 resource type
@@ -116,7 +116,7 @@ export const generateResources = (
 
               incrementRate(
                 generator.resource_generator.resource_type.type as ResourceType,
-                rate
+                rate * generator.count
               );
             }
           });
