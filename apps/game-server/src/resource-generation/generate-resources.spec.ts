@@ -31,6 +31,8 @@ const generatorsSubResults: FetchResult<EmpireResourceGeneratorsSubscription> =
               type: 'common metals',
             },
             resource_type_2: null,
+            cost_amount_1: 10,
+            cost_resource_type_id_1: uuidv4(),
           },
         },
       ],
