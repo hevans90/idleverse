@@ -4,14 +4,16 @@ import {
   GalacticEmpireQuestByIdQuery,
   Quest_Step_Type_Enum,
 } from '@idleverse/galaxy-gql';
+
+import { ResourceErrorTypes } from '../entities/error-enums/resource-errors';
 import {
   ResourceModification,
   resourceModificationFactory,
-} from '../datasources/hasura-empire-resource-modifiers';
+} from '../resource-modification/utils';
 import {
   nullifyEmptyResourceModification,
   validateResourceModification,
-} from './validate-resource-modification';
+} from '../resource-modification/validate-resource-modification';
 
 export const questStepProgressionValidator = ({
   step,
@@ -22,7 +24,7 @@ export const questStepProgressionValidator = ({
   galactic_empire: GalacticEmpireQuestByIdQuery['galactic_empire_quest_by_pk']['galactic_empire'];
   resourceModification: ResourceModification;
 }): {
-  error?: QuestErrorTypes;
+  error?: QuestErrorTypes | ResourceErrorTypes;
   resourceModification?: ResourceModification;
 } => {
   switch (step.type) {
@@ -37,7 +39,7 @@ export const questStepProgressionValidator = ({
     case Quest_Step_Type_Enum.ResourceCost:
       {
         if (!galactic_empire.resources.length) {
-          return { error: QuestErrorTypes.NoResourcesUnlocked };
+          return { error: ResourceErrorTypes.NoResourcesUnlocked };
         }
         const resourceValidation = validateResourceModification({
           resources: galactic_empire.resources,

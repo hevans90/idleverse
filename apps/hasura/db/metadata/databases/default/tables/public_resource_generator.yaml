@@ -2,6 +2,15 @@ table:
   name: resource_generator
   schema: public
 object_relationships:
+  - name: cost_resource_1
+    using:
+      manual_configuration:
+        column_mapping:
+          cost_resource_type_id_1: id
+        insertion_order: null
+        remote_table:
+          name: resource_type
+          schema: public
   - name: resource_type
     using:
       foreign_key_constraint_on: resource_type_1_id
@@ -12,6 +21,7 @@ select_permissions:
   - role: dev
     permission:
       columns:
+        - cost_resource_type_id_1
         - description
         - generation_rate
         - id
@@ -24,6 +34,7 @@ select_permissions:
   - role: user
     permission:
       columns:
+        - cost_resource_type_id_1
         - description
         - generation_rate
         - id

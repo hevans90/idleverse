@@ -1,0 +1,11 @@
+mutation PurchaseResourceGenerator(
+  $galacticEmpireId: String!
+  $resourceGeneratorId: String!
+) {
+  purchaseResourceGenerator(
+    galactic_empire_id: $galacticEmpireId
+    generator_type_id: $resourceGeneratorId
+  ) {
+    spent
+  }
+}

@@ -2,6 +2,7 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { Auth0API } from '../datasources/auth0';
 import { Context } from '../datasources/context';
 import { HasuraAPI } from '../datasources/hasura-api';
+import { HasuraEmpirePurchases } from '../datasources/hasura-empire-purchases';
 import { HasuraEmpireResourceModifiers } from '../datasources/hasura-empire-resource-modifiers';
 import { HasuraQuestProgression } from '../datasources/hasura-quest-progression';
 
@@ -15,6 +16,7 @@ export const mockContext = (
     user: undefined,
     dataSources: {
       hasuraAPI: new HasuraAPI(mockClient),
+      hasuraEmpirePurchases: new HasuraEmpirePurchases(mockClient),
       hasuraQuestProgression: new HasuraQuestProgression(mockClient),
       hasuraEmpireResourceModifiers: new HasuraEmpireResourceModifiers(
         mockClient

@@ -1,9 +1,10 @@
-import { GalacticEmpireQuestByIdQuery } from '@idleverse/galaxy-gql';
 import {
-  ResourceModification,
-  ResourceModifierKey,
-} from '../datasources/hasura-empire-resource-modifiers';
-import { QuestErrorTypes } from '../entities/error-enums/quest-errors';
+  EmpireResourceGeneratorsByTypeQuery,
+  GalacticEmpireQuestByIdQuery,
+} from '@idleverse/galaxy-gql';
+
+import { ResourceErrorTypes } from '../entities/error-enums/resource-errors';
+import { ResourceModification, ResourceModifierKey } from './utils';
 
 export const emptyResourceModification = (
   galacticEmpireId: string
@@ -51,48 +52,44 @@ export const validateResourceModification = ({
   resource_amount,
   resource_id,
 }: {
-  resources: GalacticEmpireQuestByIdQuery['galactic_empire_quest_by_pk']['galactic_empire']['resources'];
+  resources:
+    | GalacticEmpireQuestByIdQuery['galactic_empire_quest_by_pk']['galactic_empire']['resources']
+    | EmpireResourceGeneratorsByTypeQuery['galactic_empire_resource_generator'][0]['galactic_empire']['resources'];
   resource_amount: number;
   resource_id: string;
-}): { error?: QuestErrorTypes; modifierKey?: ResourceModifierKey } => {
+}): {
+  error?: ResourceErrorTypes;
+  modifierKey?: ResourceModifierKey;
+} => {
   const resourceToModify = resources.find(
     ({ resource_type: { id } }) => id === resource_id
   );
 
   if (!resourceToModify) {
     return {
-      error: QuestErrorTypes.ResourceNotUnlocked,
+      error: ResourceErrorTypes.ResourceNotUnlocked,
     };
   }
 
-  // if decrement, and decrement amount is greater than total
-  if (resource_amount < 0 && -resource_amount > resourceToModify.value) {
-    return { error: QuestErrorTypes.NotEnoughResources };
+  const resourceTypeToModifierKeyMap = {
+    'galactic credits': 'galacticCreditsIncrement',
+    'common metals': 'commonMetalsIncrement',
+    hydrocarbons: 'hydrocarbonsIncrement',
+    'rare metals': 'rareMetalsIncrement',
+    'void matter': 'voidMatterIncrement',
+  };
+
+  const modifierKey =
+    resourceTypeToModifierKeyMap[resourceToModify.resource_type.type];
+
+  if (!modifierKey) {
+    return {
+      error: ResourceErrorTypes.InvalidResourceType,
+    };
   }
-  let modifierKey: ResourceModifierKey;
 
-  switch (resourceToModify.resource_type.type) {
-    case 'galactic credits':
-      modifierKey = 'galacticCreditsIncrement';
-      break;
-    case 'common metals':
-      modifierKey = 'commonMetalsIncrement';
-      break;
-    case 'hydrocarbons':
-      modifierKey = 'hydrocarbonsIncrement';
-      break;
-    case 'rare metals':
-      modifierKey = 'rareMetalsIncrement';
-      break;
-    case 'void matter':
-      modifierKey = 'voidMatterIncrement';
-      break;
-
-    default: {
-      return {
-        error: QuestErrorTypes.InvalidResourceType,
-      };
-    }
+  if (resource_amount < 0 && -resource_amount > resourceToModify.value) {
+    return { error: ResourceErrorTypes.NotEnoughResources };
   }
 
   return { modifierKey };

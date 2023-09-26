@@ -80,6 +80,11 @@ export type PlanetCreationInput = {
   texture_resolution: Scalars['Float']['input'];
 };
 
+export type PurchaseCompletion = {
+  __typename?: 'PurchaseCompletion';
+  spent: Scalars['Float']['output'];
+};
+
 export type QuestCompletion = {
   __typename?: 'QuestCompletion';
   next_quest_in_chain_added?: Maybe<Scalars['String']['output']>;
@@ -3183,6 +3188,7 @@ export type Mutation_Root = {
   /** insert a single row into the table: "user_private" */
   insert_user_private_one?: Maybe<User_Private>;
   progressQuestStep?: Maybe<QuestStepProgression>;
+  purchaseResourceGenerator?: Maybe<PurchaseCompletion>;
   setDisplayName?: Maybe<Register>;
   /** update data of the table: "background" */
   update_background?: Maybe<Background_Mutation_Response>;
@@ -4057,6 +4063,13 @@ export type Mutation_RootProgressQuestStepArgs = {
 
 
 /** mutation root */
+export type Mutation_RootPurchaseResourceGeneratorArgs = {
+  galactic_empire_id: Scalars['String']['input'];
+  generator_type_id: Scalars['String']['input'];
+};
+
+
+/** mutation root */
 export type Mutation_RootSetDisplayNameArgs = {
   display_name: Scalars['String']['input'];
 };
@@ -4480,6 +4493,7 @@ export type Mutation_RootUpdate_Quest_Type_ManyArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Resource_GeneratorArgs = {
+  _inc?: InputMaybe<Resource_Generator_Inc_Input>;
   _set?: InputMaybe<Resource_Generator_Set_Input>;
   where: Resource_Generator_Bool_Exp;
 };
@@ -4487,6 +4501,7 @@ export type Mutation_RootUpdate_Resource_GeneratorArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Resource_Generator_By_PkArgs = {
+  _inc?: InputMaybe<Resource_Generator_Inc_Input>;
   _set?: InputMaybe<Resource_Generator_Set_Input>;
   pk_columns: Resource_Generator_Pk_Columns_Input;
 };
@@ -8082,6 +8097,10 @@ export type Quest_Updates = {
 /** columns and relationships of "resource_generator" */
 export type Resource_Generator = {
   __typename?: 'resource_generator';
+  cost_amount_1: Scalars['numeric']['output'];
+  /** An object relationship */
+  cost_resource_1?: Maybe<Resource_Type>;
+  cost_resource_type_id_1: Scalars['uuid']['output'];
   description: Scalars['String']['output'];
   generation_rate: Scalars['_numeric']['output'];
   id: Scalars['uuid']['output'];
@@ -8106,9 +8125,17 @@ export type Resource_Generator_Aggregate = {
 /** aggregate fields of "resource_generator" */
 export type Resource_Generator_Aggregate_Fields = {
   __typename?: 'resource_generator_aggregate_fields';
+  avg?: Maybe<Resource_Generator_Avg_Fields>;
   count: Scalars['Int']['output'];
   max?: Maybe<Resource_Generator_Max_Fields>;
   min?: Maybe<Resource_Generator_Min_Fields>;
+  stddev?: Maybe<Resource_Generator_Stddev_Fields>;
+  stddev_pop?: Maybe<Resource_Generator_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Resource_Generator_Stddev_Samp_Fields>;
+  sum?: Maybe<Resource_Generator_Sum_Fields>;
+  var_pop?: Maybe<Resource_Generator_Var_Pop_Fields>;
+  var_samp?: Maybe<Resource_Generator_Var_Samp_Fields>;
+  variance?: Maybe<Resource_Generator_Variance_Fields>;
 };
 
 
@@ -8118,11 +8145,20 @@ export type Resource_Generator_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+/** aggregate avg on columns */
+export type Resource_Generator_Avg_Fields = {
+  __typename?: 'resource_generator_avg_fields';
+  cost_amount_1?: Maybe<Scalars['Float']['output']>;
+};
+
 /** Boolean expression to filter rows from the table "resource_generator". All fields are combined with a logical 'AND'. */
 export type Resource_Generator_Bool_Exp = {
   _and?: InputMaybe<Array<Resource_Generator_Bool_Exp>>;
   _not?: InputMaybe<Resource_Generator_Bool_Exp>;
   _or?: InputMaybe<Array<Resource_Generator_Bool_Exp>>;
+  cost_amount_1?: InputMaybe<Numeric_Comparison_Exp>;
+  cost_resource_1?: InputMaybe<Resource_Type_Bool_Exp>;
+  cost_resource_type_id_1?: InputMaybe<Uuid_Comparison_Exp>;
   description?: InputMaybe<String_Comparison_Exp>;
   generation_rate?: InputMaybe<_Numeric_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
@@ -8141,8 +8177,16 @@ export enum Resource_Generator_Constraint {
   ResourceGeneratorTypePkey = 'resource_generator_type_pkey'
 }
 
+/** input type for incrementing numeric columns in table "resource_generator" */
+export type Resource_Generator_Inc_Input = {
+  cost_amount_1?: InputMaybe<Scalars['numeric']['input']>;
+};
+
 /** input type for inserting data into table "resource_generator" */
 export type Resource_Generator_Insert_Input = {
+  cost_amount_1?: InputMaybe<Scalars['numeric']['input']>;
+  cost_resource_1?: InputMaybe<Resource_Type_Obj_Rel_Insert_Input>;
+  cost_resource_type_id_1?: InputMaybe<Scalars['uuid']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   generation_rate?: InputMaybe<Scalars['_numeric']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
@@ -8158,6 +8202,8 @@ export type Resource_Generator_Insert_Input = {
 /** aggregate max on columns */
 export type Resource_Generator_Max_Fields = {
   __typename?: 'resource_generator_max_fields';
+  cost_amount_1?: Maybe<Scalars['numeric']['output']>;
+  cost_resource_type_id_1?: Maybe<Scalars['uuid']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   image_url?: Maybe<Scalars['String']['output']>;
@@ -8170,6 +8216,8 @@ export type Resource_Generator_Max_Fields = {
 /** aggregate min on columns */
 export type Resource_Generator_Min_Fields = {
   __typename?: 'resource_generator_min_fields';
+  cost_amount_1?: Maybe<Scalars['numeric']['output']>;
+  cost_resource_type_id_1?: Maybe<Scalars['uuid']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   image_url?: Maybe<Scalars['String']['output']>;
@@ -8204,6 +8252,9 @@ export type Resource_Generator_On_Conflict = {
 
 /** Ordering options when selecting data from "resource_generator". */
 export type Resource_Generator_Order_By = {
+  cost_amount_1?: InputMaybe<Order_By>;
+  cost_resource_1?: InputMaybe<Resource_Type_Order_By>;
+  cost_resource_type_id_1?: InputMaybe<Order_By>;
   description?: InputMaybe<Order_By>;
   generation_rate?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
@@ -8224,6 +8275,10 @@ export type Resource_Generator_Pk_Columns_Input = {
 /** select columns of table "resource_generator" */
 export enum Resource_Generator_Select_Column {
   /** column name */
+  CostAmount_1 = 'cost_amount_1',
+  /** column name */
+  CostResourceTypeId_1 = 'cost_resource_type_id_1',
+  /** column name */
   Description = 'description',
   /** column name */
   GenerationRate = 'generation_rate',
@@ -8243,6 +8298,8 @@ export enum Resource_Generator_Select_Column {
 
 /** input type for updating data in table "resource_generator" */
 export type Resource_Generator_Set_Input = {
+  cost_amount_1?: InputMaybe<Scalars['numeric']['input']>;
+  cost_resource_type_id_1?: InputMaybe<Scalars['uuid']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   generation_rate?: InputMaybe<Scalars['_numeric']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
@@ -8251,6 +8308,24 @@ export type Resource_Generator_Set_Input = {
   resource_type_1_id?: InputMaybe<Scalars['uuid']['input']>;
   resource_type_2_id?: InputMaybe<Scalars['uuid']['input']>;
   unlocked_by_technology_id?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type Resource_Generator_Stddev_Fields = {
+  __typename?: 'resource_generator_stddev_fields';
+  cost_amount_1?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Resource_Generator_Stddev_Pop_Fields = {
+  __typename?: 'resource_generator_stddev_pop_fields';
+  cost_amount_1?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Resource_Generator_Stddev_Samp_Fields = {
+  __typename?: 'resource_generator_stddev_samp_fields';
+  cost_amount_1?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Streaming cursor of the table "resource_generator" */
@@ -8263,6 +8338,8 @@ export type Resource_Generator_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Resource_Generator_Stream_Cursor_Value_Input = {
+  cost_amount_1?: InputMaybe<Scalars['numeric']['input']>;
+  cost_resource_type_id_1?: InputMaybe<Scalars['uuid']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   generation_rate?: InputMaybe<Scalars['_numeric']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
@@ -8273,8 +8350,18 @@ export type Resource_Generator_Stream_Cursor_Value_Input = {
   unlocked_by_technology_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
+/** aggregate sum on columns */
+export type Resource_Generator_Sum_Fields = {
+  __typename?: 'resource_generator_sum_fields';
+  cost_amount_1?: Maybe<Scalars['numeric']['output']>;
+};
+
 /** update columns of table "resource_generator" */
 export enum Resource_Generator_Update_Column {
+  /** column name */
+  CostAmount_1 = 'cost_amount_1',
+  /** column name */
+  CostResourceTypeId_1 = 'cost_resource_type_id_1',
   /** column name */
   Description = 'description',
   /** column name */
@@ -8294,10 +8381,30 @@ export enum Resource_Generator_Update_Column {
 }
 
 export type Resource_Generator_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Resource_Generator_Inc_Input>;
   /** sets the columns of the filtered rows to the given values */
   _set?: InputMaybe<Resource_Generator_Set_Input>;
   /** filter the rows which have to be updated */
   where: Resource_Generator_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Resource_Generator_Var_Pop_Fields = {
+  __typename?: 'resource_generator_var_pop_fields';
+  cost_amount_1?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate var_samp on columns */
+export type Resource_Generator_Var_Samp_Fields = {
+  __typename?: 'resource_generator_var_samp_fields';
+  cost_amount_1?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate variance on columns */
+export type Resource_Generator_Variance_Fields = {
+  __typename?: 'resource_generator_variance_fields';
+  cost_amount_1?: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "resource_type" */
@@ -10853,17 +10960,52 @@ export type SubmitEmpireQuestCompletionRequestMutationVariables = Exact<{
 
 export type SubmitEmpireQuestCompletionRequestMutation = { __typename?: 'mutation_root', completeQuest?: { __typename?: 'QuestCompletion', quest_id: string, next_quest_in_chain_added?: string | null } | null };
 
+export type IncrementResourceGeneratorCountMutationVariables = Exact<{
+  galacticEmpireId: Scalars['uuid']['input'];
+  resourceGeneratorId: Scalars['uuid']['input'];
+  increment: Scalars['numeric']['input'];
+}>;
+
+
+export type IncrementResourceGeneratorCountMutation = { __typename?: 'mutation_root', update_galactic_empire_resource_generator?: { __typename?: 'galactic_empire_resource_generator_mutation_response', affected_rows: number } | null };
+
+export type CreateEmpireResourceGeneratorMutationVariables = Exact<{
+  galacticEmpireId: Scalars['uuid']['input'];
+  generatorTypeId: Scalars['uuid']['input'];
+}>;
+
+
+export type CreateEmpireResourceGeneratorMutation = { __typename?: 'mutation_root', insert_galactic_empire_resource_generator_one?: { __typename?: 'galactic_empire_resource_generator', id: string } | null };
+
+export type PurchaseResourceGeneratorMutationVariables = Exact<{
+  galacticEmpireId: Scalars['String']['input'];
+  resourceGeneratorId: Scalars['String']['input'];
+}>;
+
+
+export type PurchaseResourceGeneratorMutation = { __typename?: 'mutation_root', purchaseResourceGenerator?: { __typename?: 'PurchaseCompletion', spent: number } | null };
+
+export type EmpireResourceGeneratorsByTypeQueryVariables = Exact<{
+  galacticEmpireId: Scalars['uuid']['input'];
+  typeId: Scalars['uuid']['input'];
+}>;
+
+
+export type EmpireResourceGeneratorsByTypeQuery = { __typename?: 'query_root', galactic_empire_resource_generator: Array<{ __typename?: 'galactic_empire_resource_generator', planet_id?: string | null, count: number, resource_generator: { __typename?: 'resource_generator', id: string, cost_amount_1: number, cost_resource_type_id_1: string }, galactic_empire: { __typename?: 'galactic_empire', id: string, resources: Array<{ __typename?: 'galactic_empire_resources', value: number, resource_type: { __typename?: 'resource_type', type: string, id: string } }> } }> };
+
+export type GalacticEmpireResourceGeneratorFieldsFragment = { __typename?: 'galactic_empire_resource_generator', created_at: string, planet_id?: string | null, count: number, galactic_empire_id: string, resource_generator: { __typename?: 'resource_generator', generation_rate: number[], name: string, id: string, cost_amount_1: number, cost_resource_type_id_1: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null } };
+
 export type EmpireResourceGeneratorsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type EmpireResourceGeneratorsSubscription = { __typename?: 'subscription_root', galactic_empire_resource_generator: Array<{ __typename?: 'galactic_empire_resource_generator', created_at: string, planet_id?: string | null, count: number, galactic_empire_id: string, resource_generator: { __typename?: 'resource_generator', generation_rate: number[], name: string, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null } }> };
+export type EmpireResourceGeneratorsSubscription = { __typename?: 'subscription_root', galactic_empire_resource_generator: Array<{ __typename?: 'galactic_empire_resource_generator', created_at: string, planet_id?: string | null, count: number, galactic_empire_id: string, resource_generator: { __typename?: 'resource_generator', generation_rate: number[], name: string, id: string, cost_amount_1: number, cost_resource_type_id_1: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null } }> };
 
 export type EmpireResourceGeneratorsByEmpireIdSubscriptionVariables = Exact<{
   empireId: Scalars['uuid']['input'];
 }>;
 
 
-export type EmpireResourceGeneratorsByEmpireIdSubscription = { __typename?: 'subscription_root', galactic_empire_resource_generator: Array<{ __typename?: 'galactic_empire_resource_generator', created_at: string, planet_id?: string | null, count: number, galactic_empire_id: string, resource_generator: { __typename?: 'resource_generator', generation_rate: number[], name: string, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null } }> };
+export type EmpireResourceGeneratorsByEmpireIdSubscription = { __typename?: 'subscription_root', galactic_empire_resource_generator: Array<{ __typename?: 'galactic_empire_resource_generator', created_at: string, planet_id?: string | null, count: number, galactic_empire_id: string, resource_generator: { __typename?: 'resource_generator', generation_rate: number[], name: string, id: string, cost_amount_1: number, cost_resource_type_id_1: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null } }> };
 
 export type GalacticEmpireResourcesSubscriptionVariables = Exact<{
   empireId: Scalars['uuid']['input'];
@@ -10990,7 +11132,7 @@ export type UpdateQuestByIdMutation = { __typename?: 'mutation_root', update_que
 export type ResourceGeneratorsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ResourceGeneratorsQuery = { __typename?: 'query_root', resource_generator: Array<{ __typename?: 'resource_generator', id: string, name: string, image_url?: string | null, description: string, generation_rate: number[], resource_type_1_id: string, resource_type_2_id?: string | null, unlocked_by_technology_id?: string | null, resource_type: { __typename?: 'resource_type', id: string, type: string, image_url?: string | null }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string, image_url?: string | null } | null }> };
+export type ResourceGeneratorsQuery = { __typename?: 'query_root', resource_generator: Array<{ __typename?: 'resource_generator', id: string, name: string, image_url?: string | null, description: string, generation_rate: number[], resource_type_1_id: string, resource_type_2_id?: string | null, unlocked_by_technology_id?: string | null, cost_amount_1: number, cost_resource_type_id_1: string, resource_type: { __typename?: 'resource_type', id: string, type: string, image_url?: string | null }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string, image_url?: string | null } | null }> };
 
 export type ResourcesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -11148,6 +11290,29 @@ export const GalacticEmpireQuestFieldsFragmentDoc = gql`
     }
   }
   quest_step_id
+}
+    `;
+export const GalacticEmpireResourceGeneratorFieldsFragmentDoc = gql`
+    fragment GalacticEmpireResourceGeneratorFields on galactic_empire_resource_generator {
+  created_at
+  planet_id
+  count
+  resource_generator {
+    generation_rate
+    resource_type {
+      id
+      type
+    }
+    name
+    id
+    resource_type_2 {
+      id
+      type
+    }
+    cost_amount_1
+    cost_resource_type_id_1
+  }
+  galactic_empire_id
 }
     `;
 export const QuestFieldsFragmentDoc = gql`
@@ -11643,55 +11808,87 @@ export const SubmitEmpireQuestCompletionRequestDocument = gql`
 export type SubmitEmpireQuestCompletionRequestMutationFn = Apollo.MutationFunction<SubmitEmpireQuestCompletionRequestMutation, SubmitEmpireQuestCompletionRequestMutationVariables>;
 export type SubmitEmpireQuestCompletionRequestMutationResult = Apollo.MutationResult<SubmitEmpireQuestCompletionRequestMutation>;
 export type SubmitEmpireQuestCompletionRequestMutationOptions = Apollo.BaseMutationOptions<SubmitEmpireQuestCompletionRequestMutation, SubmitEmpireQuestCompletionRequestMutationVariables>;
-export const EmpireResourceGeneratorsDocument = gql`
-    subscription EmpireResourceGenerators {
-  galactic_empire_resource_generator {
-    created_at
-    planet_id
-    count
-    resource_generator {
-      generation_rate
-      resource_type {
-        id
-        type
-      }
-      name
-      id
-      resource_type_2 {
-        id
-        type
-      }
-    }
-    galactic_empire_id
+export const IncrementResourceGeneratorCountDocument = gql`
+    mutation IncrementResourceGeneratorCount($galacticEmpireId: uuid!, $resourceGeneratorId: uuid!, $increment: numeric!) {
+  update_galactic_empire_resource_generator(
+    _inc: {count: $increment}
+    where: {galactic_empire_id: {_eq: $galacticEmpireId}, generator_type_id: {_eq: $resourceGeneratorId}}
+  ) {
+    affected_rows
   }
 }
     `;
+export type IncrementResourceGeneratorCountMutationFn = Apollo.MutationFunction<IncrementResourceGeneratorCountMutation, IncrementResourceGeneratorCountMutationVariables>;
+export type IncrementResourceGeneratorCountMutationResult = Apollo.MutationResult<IncrementResourceGeneratorCountMutation>;
+export type IncrementResourceGeneratorCountMutationOptions = Apollo.BaseMutationOptions<IncrementResourceGeneratorCountMutation, IncrementResourceGeneratorCountMutationVariables>;
+export const CreateEmpireResourceGeneratorDocument = gql`
+    mutation CreateEmpireResourceGenerator($galacticEmpireId: uuid!, $generatorTypeId: uuid!) {
+  insert_galactic_empire_resource_generator_one(
+    object: {generator_type_id: $generatorTypeId, galactic_empire_id: $galacticEmpireId}
+  ) {
+    id
+  }
+}
+    `;
+export type CreateEmpireResourceGeneratorMutationFn = Apollo.MutationFunction<CreateEmpireResourceGeneratorMutation, CreateEmpireResourceGeneratorMutationVariables>;
+export type CreateEmpireResourceGeneratorMutationResult = Apollo.MutationResult<CreateEmpireResourceGeneratorMutation>;
+export type CreateEmpireResourceGeneratorMutationOptions = Apollo.BaseMutationOptions<CreateEmpireResourceGeneratorMutation, CreateEmpireResourceGeneratorMutationVariables>;
+export const PurchaseResourceGeneratorDocument = gql`
+    mutation PurchaseResourceGenerator($galacticEmpireId: String!, $resourceGeneratorId: String!) {
+  purchaseResourceGenerator(
+    galactic_empire_id: $galacticEmpireId
+    generator_type_id: $resourceGeneratorId
+  ) {
+    spent
+  }
+}
+    `;
+export type PurchaseResourceGeneratorMutationFn = Apollo.MutationFunction<PurchaseResourceGeneratorMutation, PurchaseResourceGeneratorMutationVariables>;
+export type PurchaseResourceGeneratorMutationResult = Apollo.MutationResult<PurchaseResourceGeneratorMutation>;
+export type PurchaseResourceGeneratorMutationOptions = Apollo.BaseMutationOptions<PurchaseResourceGeneratorMutation, PurchaseResourceGeneratorMutationVariables>;
+export const EmpireResourceGeneratorsByTypeDocument = gql`
+    query EmpireResourceGeneratorsByType($galacticEmpireId: uuid!, $typeId: uuid!) {
+  galactic_empire_resource_generator(
+    where: {galactic_empire_id: {_eq: $galacticEmpireId}, generator_type_id: {_eq: $typeId}}
+  ) {
+    planet_id
+    count
+    resource_generator {
+      id
+      cost_amount_1
+      cost_resource_type_id_1
+    }
+    galactic_empire {
+      id
+      resources {
+        value
+        resource_type {
+          type
+          id
+        }
+      }
+    }
+  }
+}
+    `;
+export type EmpireResourceGeneratorsByTypeQueryResult = Apollo.QueryResult<EmpireResourceGeneratorsByTypeQuery, EmpireResourceGeneratorsByTypeQueryVariables>;
+export const EmpireResourceGeneratorsDocument = gql`
+    subscription EmpireResourceGenerators {
+  galactic_empire_resource_generator {
+    ...GalacticEmpireResourceGeneratorFields
+  }
+}
+    ${GalacticEmpireResourceGeneratorFieldsFragmentDoc}`;
 export type EmpireResourceGeneratorsSubscriptionResult = Apollo.SubscriptionResult<EmpireResourceGeneratorsSubscription>;
 export const EmpireResourceGeneratorsByEmpireIdDocument = gql`
     subscription EmpireResourceGeneratorsByEmpireId($empireId: uuid!) {
   galactic_empire_resource_generator(
     where: {galactic_empire_id: {_eq: $empireId}}
   ) {
-    created_at
-    planet_id
-    count
-    resource_generator {
-      generation_rate
-      resource_type {
-        id
-        type
-      }
-      name
-      id
-      resource_type_2 {
-        id
-        type
-      }
-    }
-    galactic_empire_id
+    ...GalacticEmpireResourceGeneratorFields
   }
 }
-    `;
+    ${GalacticEmpireResourceGeneratorFieldsFragmentDoc}`;
 export type EmpireResourceGeneratorsByEmpireIdSubscriptionResult = Apollo.SubscriptionResult<EmpireResourceGeneratorsByEmpireIdSubscription>;
 export const GalacticEmpireResourcesDocument = gql`
     subscription GalacticEmpireResources($empireId: uuid!) {
@@ -11961,6 +12158,8 @@ export const ResourceGeneratorsDocument = gql`
     }
     resource_type_2_id
     unlocked_by_technology_id
+    cost_amount_1
+    cost_resource_type_id_1
   }
 }
     `;
