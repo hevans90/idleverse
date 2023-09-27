@@ -1,9 +1,12 @@
 import {
   Box,
   Button,
+  Flex,
   Grid,
   GridItem,
   Heading,
+  Image,
+  Text,
   chakra,
   useToken,
 } from '@chakra-ui/react';
@@ -13,9 +16,14 @@ import { Animator } from '@arwes/react-animator';
 import { Dots } from '@arwes/react-bgs';
 import { FrameSVGCorners, FrameSVGNefrex } from '@arwes/react-frames';
 import { Resource_Generator } from '@idleverse/galaxy-gql';
-import { colorsVar, resourceGeneratorsVar } from '@idleverse/state';
+import {
+  colorsVar,
+  empireResourcesVar,
+  resourceGeneratorsVar,
+  resourcesVar,
+} from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
-import { type ReactElement } from 'react';
+import { useMemo, type ReactElement } from 'react';
 import {
   copyResponsiveFontProps,
   responsiveFontProps,
@@ -25,20 +33,91 @@ const FrameSVGWrapperBox = chakra(Box, {
   baseStyle: {},
 });
 
+type AffordableResourceGenerator = Resource_Generator & { affordable: boolean };
+
+const ResourceGenerationSummary = ({
+  generator: {
+    resource_type_1_id,
+    resource_type_2_id,
+    generation_rate,
+    image_url,
+  },
+}: {
+  generator: Resource_Generator;
+}) => {
+  const resources = useReactiveVar(resourcesVar);
+
+  const { resource1, resource2 } = useMemo(() => {
+    const resource1 = resources.find(({ id }) => id === resource_type_1_id);
+    const resource2 = resources.find(({ id }) => id === resource_type_2_id);
+
+    return { resource1, resource2 };
+  }, [resources, resource_type_1_id, resource_type_2_id]);
+
+  return (
+    <Flex direction="column" gap={1}>
+      <Flex align="center" gap={1}>
+        <Text {...copyResponsiveFontProps}>+{generation_rate[0]}</Text>
+        <Image
+          float="left"
+          width="25px"
+          height="25px"
+          src={resource1.image_url}
+          fallbackSrc="/placeholders/150x150.png"
+        />
+      </Flex>
+      {resource2 && (
+        <Flex align="center" gap={1}>
+          <Text {...copyResponsiveFontProps}>+{generation_rate[1]}</Text>
+          <Image
+            float="left"
+            width="25px"
+            height="25px"
+            src={resource2.image_url}
+            fallbackSrc="/placeholders/150x150.png"
+          />
+        </Flex>
+      )}
+    </Flex>
+  );
+};
+
 const BuildItems = ({ items }: { items: Resource_Generator[] }) => {
   const { borderSecondary, bgDark, bg } = useUiBackground();
   const { secondary } = useReactiveVar(colorsVar);
+
+  const empireResources = useReactiveVar(empireResourcesVar);
+
+  const affordableGenerators = useMemo<AffordableResourceGenerator[]>(
+    () =>
+      items.map(({ cost_amount_1, cost_resource_type_id_1, ...rest }) => {
+        const resource = empireResources.find(
+          ({ id }) => id === cost_resource_type_id_1
+        );
+        return {
+          affordable: !!resource && resource.value > cost_amount_1,
+          cost_amount_1,
+          cost_resource_type_id_1,
+          ...rest,
+        };
+      }),
+    [items, empireResources]
+  );
+
   return (
     <Grid
       width="full"
       gap="6"
       gridTemplate={[
+        'repeat(1, 1fr) / repeat(2, 1fr)',
+        'repeat(1, 1fr) / repeat(3, 1fr)',
+        'repeat(1, 1fr) / repeat(4, 1fr)',
         'repeat(1, 1fr) / repeat(4, 1fr)',
         'repeat(1, 1fr) / repeat(5, 1fr)',
         'repeat(1, 1fr) / repeat(6, 1fr)',
       ]}
     >
-      {items.map((item, index) => {
+      {affordableGenerators.map((item, index) => {
         return (
           <GridItem
             key={index}
@@ -70,14 +149,17 @@ const BuildItems = ({ items }: { items: Resource_Generator[] }) => {
               }}
             >
               <FrameSVGNefrex smallLineLength={100} largeLineLength={200} />
-              <Box
+              <Flex
                 position="relative"
-                textDecoration="underline"
+                justify="space-between"
+                align="center"
                 textDecorationColor={`${secondary}.600`}
                 {...responsiveFontProps}
               >
-                {item.name}
-              </Box>
+                <Text textDecoration="underline">{item.name}</Text>
+
+                <ResourceGenerationSummary generator={item} />
+              </Flex>
               <Box
                 position="relative"
                 opacity={0.75}
@@ -87,7 +169,7 @@ const BuildItems = ({ items }: { items: Resource_Generator[] }) => {
               </Box>
               <Button
                 padding={3}
-                isDisabled={true}
+                isDisabled={!item.affordable}
                 onClick={() => {
                   //
                 }}
