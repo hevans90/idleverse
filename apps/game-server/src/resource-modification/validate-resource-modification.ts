@@ -65,6 +65,9 @@ export const validateResourceModification = ({
     ({ resource_type: { id } }) => id === resource_id
   );
 
+  console.log('niceeee', resource_id);
+  console.log(resources);
+
   if (!resourceToModify) {
     return {
       error: ResourceErrorTypes.ResourceNotUnlocked,

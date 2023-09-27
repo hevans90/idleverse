@@ -1,0 +1,1 @@
+INSERT INTO "public"."quest"("initial", "description", "image_url", "name", "type", "id", "next_quest_in_chain") VALUES (false, E'Learning about resource generation', null, E'Learning the Ropes (III)', E'main', E'da5d312a-18dc-4d06-9bec-6d4a2ebb850c', null);
