@@ -39,6 +39,11 @@ export class EmpirePurchasesResolver {
   ) {
     if (!userId) throw new Error(UserErrorTypes.NoUserId);
 
+    const { data: empireResources } =
+      await dataSources.hasuraEmpirePurchases.getEmpireResources({
+        galacticEmpireId,
+      });
+
     const { data: availableResourceGeneratorsData } =
       await dataSources.hasuraEmpirePurchases.getResourceGenerators();
 
@@ -57,9 +62,7 @@ export class EmpirePurchasesResolver {
     let resourceModification = emptyResourceModification(galacticEmpireId);
 
     const resourceValidation = validateResourceModification({
-      resources:
-        empireResourceGeneratorsData.galactic_empire_resource_generator[0]
-          ?.galactic_empire.resources,
+      resources: empireResources.galactic_empire_resources,
       resource_amount: -generatorToPurchase.cost_amount_1,
       resource_id: generatorToPurchase.cost_resource_type_id_1,
     });

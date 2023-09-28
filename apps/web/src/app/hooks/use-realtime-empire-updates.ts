@@ -93,13 +93,13 @@ export const useRealtimeEmpireUpdates = (empireId: string) => {
         }));
 
         resourceGeneratorsData.galactic_empire_resource_generator.forEach(
-          ({ resource_generator }) => {
+          ({ resource_generator, count }) => {
             const [rate1] = resource_generator.generation_rate;
             const index1 = generation.findIndex(
               ({ resourceId: id }) => id === resource_generator.resource_type.id
             );
 
-            generation[index1].rate += rate1;
+            generation[index1].rate += rate1 * count;
             generation[index1].generators.push({
               name: resource_generator.name,
               rate: rate1,
@@ -112,7 +112,7 @@ export const useRealtimeEmpireUpdates = (empireId: string) => {
                 ({ resourceId: id }) =>
                   id === resource_generator.resource_type_2.id
               );
-              generation[index2].rate += rate2;
+              generation[index2].rate += rate2 * count;
               generation[index2].generators.push({
                 name: resource_generator.name,
                 rate: rate2,

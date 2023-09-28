@@ -11007,12 +11007,21 @@ export type EmpireResourceGeneratorsByEmpireIdSubscriptionVariables = Exact<{
 
 export type EmpireResourceGeneratorsByEmpireIdSubscription = { __typename?: 'subscription_root', galactic_empire_resource_generator: Array<{ __typename?: 'galactic_empire_resource_generator', created_at: string, planet_id?: string | null, count: number, galactic_empire_id: string, resource_generator: { __typename?: 'resource_generator', generation_rate: number[], name: string, id: string, cost_amount_1: number, cost_resource_type_id_1: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null } }> };
 
+export type EmpireResourceFieldsFragment = { __typename?: 'galactic_empire_resources', value: number, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string } };
+
 export type GalacticEmpireResourcesSubscriptionVariables = Exact<{
   empireId: Scalars['uuid']['input'];
 }>;
 
 
 export type GalacticEmpireResourcesSubscription = { __typename?: 'subscription_root', galactic_empire_resources: Array<{ __typename?: 'galactic_empire_resources', value: number, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string } }> };
+
+export type CurrentGalacticEmpireResourcesQueryVariables = Exact<{
+  empireId: Scalars['uuid']['input'];
+}>;
+
+
+export type CurrentGalacticEmpireResourcesQuery = { __typename?: 'query_root', galactic_empire_resources: Array<{ __typename?: 'galactic_empire_resources', value: number, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string } }> };
 
 export type UnlockGalacticEmpireResourceMutationVariables = Exact<{
   empireId: Scalars['uuid']['input'];
@@ -11313,6 +11322,16 @@ export const GalacticEmpireResourceGeneratorFieldsFragmentDoc = gql`
     cost_resource_type_id_1
   }
   galactic_empire_id
+}
+    `;
+export const EmpireResourceFieldsFragmentDoc = gql`
+    fragment EmpireResourceFields on galactic_empire_resources {
+  value
+  resource_type {
+    id
+    type
+  }
+  id
 }
     `;
 export const QuestFieldsFragmentDoc = gql`
@@ -11893,16 +11912,19 @@ export type EmpireResourceGeneratorsByEmpireIdSubscriptionResult = Apollo.Subscr
 export const GalacticEmpireResourcesDocument = gql`
     subscription GalacticEmpireResources($empireId: uuid!) {
   galactic_empire_resources(where: {galactic_empire_id: {_eq: $empireId}}) {
-    value
-    resource_type {
-      id
-      type
-    }
-    id
+    ...EmpireResourceFields
   }
 }
-    `;
+    ${EmpireResourceFieldsFragmentDoc}`;
 export type GalacticEmpireResourcesSubscriptionResult = Apollo.SubscriptionResult<GalacticEmpireResourcesSubscription>;
+export const CurrentGalacticEmpireResourcesDocument = gql`
+    query CurrentGalacticEmpireResources($empireId: uuid!) {
+  galactic_empire_resources(where: {galactic_empire_id: {_eq: $empireId}}) {
+    ...EmpireResourceFields
+  }
+}
+    ${EmpireResourceFieldsFragmentDoc}`;
+export type CurrentGalacticEmpireResourcesQueryResult = Apollo.QueryResult<CurrentGalacticEmpireResourcesQuery, CurrentGalacticEmpireResourcesQueryVariables>;
 export const UnlockGalacticEmpireResourceDocument = gql`
     mutation UnlockGalacticEmpireResource($empireId: uuid!, $resourceTypeId: uuid!) {
   insert_galactic_empire_resources_one(

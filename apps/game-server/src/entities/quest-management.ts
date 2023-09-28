@@ -78,8 +78,6 @@ export class QuestManagementResolver {
         empireQuestId
       );
 
-    console.log(questData);
-
     if (!questData || !questData.galactic_empire_quest_by_pk) {
       throw new Error(QuestErrorTypes.NoQuestToComplete);
     }

@@ -1,5 +1,5 @@
 import {
-  EmpireResourceGeneratorsByTypeQuery,
+  CurrentGalacticEmpireResourcesQuery,
   GalacticEmpireQuestByIdQuery,
 } from '@idleverse/galaxy-gql';
 
@@ -54,7 +54,7 @@ export const validateResourceModification = ({
 }: {
   resources:
     | GalacticEmpireQuestByIdQuery['galactic_empire_quest_by_pk']['galactic_empire']['resources']
-    | EmpireResourceGeneratorsByTypeQuery['galactic_empire_resource_generator'][0]['galactic_empire']['resources'];
+    | CurrentGalacticEmpireResourcesQuery['galactic_empire_resources'];
   resource_amount: number;
   resource_id: string;
 }): {
@@ -64,9 +64,6 @@ export const validateResourceModification = ({
   const resourceToModify = resources.find(
     ({ resource_type: { id } }) => id === resource_id
   );
-
-  console.log('niceeee', resource_id);
-  console.log(resources);
 
   if (!resourceToModify) {
     return {

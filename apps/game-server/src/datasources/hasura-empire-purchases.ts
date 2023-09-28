@@ -3,6 +3,9 @@ import {
   CreateEmpireResourceGeneratorDocument,
   CreateEmpireResourceGeneratorMutation,
   CreateEmpireResourceGeneratorMutationVariables,
+  CurrentGalacticEmpireResourcesDocument,
+  CurrentGalacticEmpireResourcesQuery,
+  CurrentGalacticEmpireResourcesQueryVariables,
   EmpireResourceGeneratorsByTypeDocument,
   EmpireResourceGeneratorsByTypeQuery,
   EmpireResourceGeneratorsByTypeQueryVariables,
@@ -22,6 +25,19 @@ export class HasuraEmpirePurchases extends DataSource {
   }
 
   client: ApolloClient<NormalizedCacheObject>;
+
+  getEmpireResources = async ({
+    galacticEmpireId,
+  }: {
+    galacticEmpireId: string;
+  }) =>
+    this.client.query<
+      CurrentGalacticEmpireResourcesQuery,
+      CurrentGalacticEmpireResourcesQueryVariables
+    >({
+      query: CurrentGalacticEmpireResourcesDocument,
+      variables: { empireId: galacticEmpireId },
+    });
 
   getResourceGenerators = async () =>
     this.client.query<ResourceGeneratorsQuery>({

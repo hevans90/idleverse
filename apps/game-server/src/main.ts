@@ -104,7 +104,7 @@ import ws = require('ws');
     dataSources: (): DataSources<Partial<Context['dataSources']>> => {
       return {
         hasuraAPI: new HasuraAPI(client),
-        hasureEmpirePurchases: new HasuraEmpirePurchases(client),
+        hasuraEmpirePurchases: new HasuraEmpirePurchases(client),
         hasuraQuestProgression: new HasuraQuestProgression(client),
         hasuraEmpireResourceModifiers: new HasuraEmpireResourceModifiers(
           client

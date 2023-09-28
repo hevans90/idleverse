@@ -11,14 +11,20 @@ import {
   useToken,
 } from '@chakra-ui/react';
 
-import { useReactiveVar } from '@apollo/client';
+import { useMutation, useReactiveVar } from '@apollo/client';
 import { Animator } from '@arwes/react-animator';
 import { Dots } from '@arwes/react-bgs';
 import { FrameSVGCorners, FrameSVGNefrex } from '@arwes/react-frames';
-import { Resource_Generator } from '@idleverse/galaxy-gql';
+import {
+  PurchaseResourceGeneratorDocument,
+  PurchaseResourceGeneratorMutation,
+  PurchaseResourceGeneratorMutationVariables,
+  Resource_Generator,
+} from '@idleverse/galaxy-gql';
 import {
   colorsVar,
   empireResourcesVar,
+  galacticEmpireVar,
   resourceGeneratorsVar,
   resourcesVar,
 } from '@idleverse/state';
@@ -86,6 +92,7 @@ const BuildItems = ({ items }: { items: Resource_Generator[] }) => {
   const { borderSecondary, bgDark, bg } = useUiBackground();
   const { secondary } = useReactiveVar(colorsVar);
 
+  const empire = useReactiveVar(galacticEmpireVar);
   const empireResources = useReactiveVar(empireResourcesVar);
 
   const affordableGenerators = useMemo<AffordableResourceGenerator[]>(
@@ -103,6 +110,12 @@ const BuildItems = ({ items }: { items: Resource_Generator[] }) => {
       }),
     [items, empireResources]
   );
+
+  const [purchaseResourceGenerator, { loading: purchaseInProgress }] =
+    useMutation<
+      PurchaseResourceGeneratorMutation,
+      PurchaseResourceGeneratorMutationVariables
+    >(PurchaseResourceGeneratorDocument);
 
   return (
     <Grid
@@ -169,9 +182,15 @@ const BuildItems = ({ items }: { items: Resource_Generator[] }) => {
               </Box>
               <Button
                 padding={3}
+                isLoading={purchaseInProgress}
                 isDisabled={!item.affordable}
                 onClick={() => {
-                  //
+                  purchaseResourceGenerator({
+                    variables: {
+                      galacticEmpireId: empire.id,
+                      resourceGeneratorId: item.id,
+                    },
+                  });
                 }}
               >
                 +
