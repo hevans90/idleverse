@@ -151,90 +151,81 @@ export const PlanetViewer = () => {
             <Loading width="100%" height="100%" text="Rendering planet" />
           }
         >
-          <Flex h="full" flexDir="column">
-            <Box flexGrow="2" minW="0">
-              <Canvas
-                style={{
-                  flex: 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-                gl={{ antialias: true }}
-                camera={{
-                  position: [0, 0, 10] as [number, number, number],
-                  fov: 50,
-                }}
-              >
-                <color attach="background" args={[0, 0, 0]} />
-                <Stars
-                  radius={40}
-                  starCount={0.5}
-                  starBrightness={0.2}
-                  rotationSpeed={0.001}
-                  colorVariation={1}
-                />
-                <Stars
-                  radius={8}
-                  starCount={0.1}
-                  starBrightness={0.5}
-                  rotationSpeed={0.005}
-                  colorVariation={0.5}
-                />
+          <Flex height={height} flexDir="column">
+            <Canvas
+              gl={{ antialias: true }}
+              camera={{
+                position: [0, 0, 10] as [number, number, number],
+                fov: 50,
+              }}
+            >
+              <color attach="background" args={[0, 0, 0]} />
+              {/* <Stars
+                radius={40}
+                starCount={0.5}
+                starBrightness={0.2}
+                rotationSpeed={0.001}
+                colorVariation={1}
+              /> */}
+              <Stars
+                radius={8}
+                starCount={0.1}
+                starBrightness={0.5}
+                rotationSpeed={0.005}
+                colorVariation={0.5}
+              />
 
-                <Stars rotationSpeed={0.1} />
-                <World
-                  planetRadius={radius}
-                  worldTexture={worldDataTexture}
-                  ringTextures={ringDataTextures}
-                  atmosphere={true}
-                  rotate={true}
-                  atmosphericDistance={atmospheric_distance}
-                  rings={rings.map(
-                    ({
-                      terrain_bias,
-                      inner_radius,
-                      outer_radius,
-                      type,
-                      rotation,
-                      colors,
-                      ...rest
-                    }) => ({
-                      ...rest,
-                      colors: colors.map((hex) => hexToRGB(hex)) as [
-                        rgb,
-                        rgb,
-                        rgb,
-                        rgb
-                      ],
-                      rotation: rotation as [x: number, y: number, z: number],
-                      terrainBias: terrain_bias as [
-                        number,
-                        number,
-                        number,
-                        number
-                      ],
-                      innerRadius: inner_radius,
-                      outerRadius: outer_radius,
-                      type: type as 'banded' | 'rocky',
-                    })
-                  )}
-                />
-                <CameraController />
-                <Pixelate
-                  bgColor={hexStringToNumber(colors[primary]['800'])}
-                  pixelSize={4}
-                />
-              </Canvas>
+              <Stars rotationSpeed={0.1} />
+              <World
+                planetRadius={radius}
+                worldTexture={worldDataTexture}
+                ringTextures={ringDataTextures}
+                atmosphere={true}
+                rotate={true}
+                atmosphericDistance={atmospheric_distance}
+                rings={rings.map(
+                  ({
+                    terrain_bias,
+                    inner_radius,
+                    outer_radius,
+                    type,
+                    rotation,
+                    colors,
+                    ...rest
+                  }) => ({
+                    ...rest,
+                    colors: colors.map((hex) => hexToRGB(hex)) as [
+                      rgb,
+                      rgb,
+                      rgb,
+                      rgb
+                    ],
+                    rotation: rotation as [x: number, y: number, z: number],
+                    terrainBias: terrain_bias as [
+                      number,
+                      number,
+                      number,
+                      number
+                    ],
+                    innerRadius: inner_radius,
+                    outerRadius: outer_radius,
+                    type: type as 'banded' | 'rocky',
+                  })
+                )}
+              />
+              <CameraController />
+              <Pixelate
+                bgColor={hexStringToNumber(colors[primary]['800'])}
+                pixelSize={4}
+              />
+            </Canvas>
 
-              {myEmpire && (
-                <>
-                  <PlanetUI />
-                  <GameUI empireId={galacticEmpire?.id} />
-                </>
-              )}
-            </Box>
-
+            {myEmpire && (
+              <>
+                <PlanetUI />
+                <GameUI empireId={galacticEmpire?.id} />
+              </>
+            )}
             <PlanetActions active={planetActionsActive} />
           </Flex>
         </Suspense>

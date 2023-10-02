@@ -1,3 +1,4 @@
+import { generatorCost } from '@idleverse/resource-gen';
 import 'reflect-metadata';
 import {
   Arg,
@@ -71,17 +72,25 @@ export class EmpirePurchasesResolver {
       throw new Error(resourceValidation.error);
     }
 
+    // now work out whether to create a new row or increment an existing generator row
+    const generatorExistsInEmpire =
+      empireResourceGeneratorsData.galactic_empire_resource_generator.find(
+        ({ resource_generator }) => resource_generator.id === generatorTypeId
+      );
+
+    const count = generatorExistsInEmpire?.count ?? 0;
+
+    const cost = generatorCost({
+      baseCost: generatorToPurchase.cost_amount_1,
+      costGrowthExponent: generatorToPurchase.cost_growth_exponent,
+      owned: count,
+    });
+
     resourceModification = resourceModificationFactory(
       resourceModification,
       resourceValidation.modifierKey,
-      -generatorToPurchase.cost_amount_1
+      -cost
     );
-
-    // now work out whether to create a new row or increment an existing generator row
-    const generatorExistsInEmpire =
-      !!empireResourceGeneratorsData.galactic_empire_resource_generator.find(
-        ({ resource_generator }) => resource_generator.id === generatorTypeId
-      );
 
     // spend the resources to buy the generator
     await dataSources.hasuraEmpireResourceModifiers.incrementEmpireResources(

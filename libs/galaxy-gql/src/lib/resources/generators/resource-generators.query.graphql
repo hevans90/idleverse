@@ -19,6 +19,7 @@ query ResourceGenerators {
     resource_type_2_id
     unlocked_by_technology_id
     cost_amount_1
+    cost_growth_exponent
     cost_resource_type_id_1
   }
 }

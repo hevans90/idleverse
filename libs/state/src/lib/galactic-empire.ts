@@ -6,7 +6,14 @@ import {
 } from '@idleverse/galaxy-gql';
 import { makeVarPersisted } from './utils';
 
-export type ResourceGenerator = { name: string; rate: number };
+export type ResourceGenerator = {
+  id: string;
+  name: string;
+  rate: number;
+  count: number;
+  costGrowthExponent: number;
+  costForNext: { resourceId: string; amount: number }[];
+};
 
 export const galacticEmpireVar =
   makeVarPersisted<GalacticEmpireFieldsFragment | null>(null, 'galacticEmpire');

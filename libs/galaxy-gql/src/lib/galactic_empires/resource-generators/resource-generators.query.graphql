@@ -9,6 +9,7 @@ query EmpireResourceGeneratorsByType($galacticEmpireId: uuid!, $typeId: uuid!) {
     count
     resource_generator {
       id
+      cost_growth_exponent
       cost_amount_1
       cost_resource_type_id_1
     }

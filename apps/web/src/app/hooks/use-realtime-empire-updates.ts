@@ -16,6 +16,7 @@ import {
   GalacticEmpireResourcesSubscription,
   GalacticEmpireResourcesSubscriptionVariables,
 } from '@idleverse/galaxy-gql';
+import { generatorCost } from '@idleverse/resource-gen';
 import {
   ResourceGenerator,
   activeQuestsVar,
@@ -101,8 +102,22 @@ export const useRealtimeEmpireUpdates = (empireId: string) => {
 
             generation[index1].rate += rate1 * count;
             generation[index1].generators.push({
+              id: resource_generator.id,
               name: resource_generator.name,
               rate: rate1,
+              count,
+              costGrowthExponent: resource_generator.cost_growth_exponent,
+              costForNext: [
+                {
+                  resourceId: resource_generator.cost_resource_type_id_1,
+
+                  amount: generatorCost({
+                    baseCost: resource_generator.cost_amount_1,
+                    costGrowthExponent: resource_generator.cost_growth_exponent,
+                    owned: count,
+                  }),
+                },
+              ],
             });
 
             if (resource_generator?.resource_type_2) {
@@ -114,8 +129,22 @@ export const useRealtimeEmpireUpdates = (empireId: string) => {
               );
               generation[index2].rate += rate2 * count;
               generation[index2].generators.push({
+                id: resource_generator.id,
                 name: resource_generator.name,
                 rate: rate2,
+                count,
+                costGrowthExponent: resource_generator.cost_growth_exponent,
+                costForNext: [
+                  {
+                    resourceId: resource_generator.cost_resource_type_id_1,
+                    amount: generatorCost({
+                      baseCost: resource_generator.cost_amount_1,
+                      costGrowthExponent:
+                        resource_generator.cost_growth_exponent,
+                      owned: count,
+                    }),
+                  },
+                ],
               });
             }
           }

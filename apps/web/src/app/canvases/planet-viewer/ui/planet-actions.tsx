@@ -5,6 +5,7 @@ import {
   Grid,
   GridItem,
   Heading,
+  Icon,
   Image,
   Text,
   chakra,
@@ -33,13 +34,25 @@ import { useMemo, type ReactElement } from 'react';
 import {
   copyResponsiveFontProps,
   responsiveFontProps,
+  responsiveIconProps,
 } from '../../../_responsive-utils/font-props';
+
+import { IoBuild } from 'react-icons/io5';
 
 const FrameSVGWrapperBox = chakra(Box, {
   baseStyle: {},
 });
 
-type AffordableResourceGenerator = Resource_Generator & { affordable: boolean };
+type AffordableResourceGenerator = Resource_Generator & {
+  count: number;
+  affordable: boolean;
+  costForNext: {
+    resourceId: string;
+    resourceName: string;
+    resourceImage: string;
+    amount: number;
+  };
+};
 
 const ResourceGenerationSummary = ({
   generator: {
@@ -97,14 +110,34 @@ const BuildItems = ({ items }: { items: Resource_Generator[] }) => {
 
   const affordableGenerators = useMemo<AffordableResourceGenerator[]>(
     () =>
-      items.map(({ cost_amount_1, cost_resource_type_id_1, ...rest }) => {
+      items.map(({ id, cost_amount_1, cost_resource_type_id_1, ...rest }) => {
         const resource = empireResources.find(
           ({ id }) => id === cost_resource_type_id_1
         );
+        const costForNext = {
+          resourceId: resource.id,
+          resourceName: resource.name,
+          resourceImage: resource.imageUrl,
+          amount: cost_amount_1,
+        };
+
+        const generator = resource.generators.find(
+          ({ id: generatorId }) => generatorId === id
+        );
+
+        if (generator) {
+          costForNext.amount = generator.costForNext.find(
+            ({ resourceId }) => resourceId === resource.id
+          )?.amount;
+        }
+
         return {
-          affordable: !!resource && resource.value > cost_amount_1,
+          count: generator?.count ?? 0,
+          id,
+          affordable: !!resource && resource.value >= costForNext.amount,
           cost_amount_1,
           cost_resource_type_id_1,
+          costForNext,
           ...rest,
         };
       }),
@@ -130,75 +163,105 @@ const BuildItems = ({ items }: { items: Resource_Generator[] }) => {
         'repeat(1, 1fr) / repeat(6, 1fr)',
       ]}
     >
-      {affordableGenerators.map((item, index) => {
-        return (
-          <GridItem
-            key={index}
-            display="flex"
-            flexDir="column"
-            alignItems="start"
-            justifyContent="center"
-            {...responsiveFontProps}
-            position="relative"
-            gap={2}
-          >
-            <FrameSVGWrapperBox
-              pointerEvents="all"
-              padding={3}
-              display="flex"
-              flexDir="column"
-              gap={2}
-              sx={{
-                '[data-name="bg"]': {
-                  color: bgDark,
-                  pointerEvents: 'all',
-                },
-                '.wrapper:hover & [data-name="bg"]': {
-                  color: bg,
-                },
-                '[data-name="line"]': {
-                  color: borderSecondary,
-                },
-              }}
-            >
-              <FrameSVGNefrex smallLineLength={100} largeLineLength={200} />
-              <Flex
-                position="relative"
-                justify="space-between"
-                align="center"
-                textDecorationColor={`${secondary}.600`}
+      {empireResources?.length
+        ? affordableGenerators.map((item, index) => {
+            return (
+              <GridItem
+                key={index}
+                display="flex"
+                flexDir="column"
+                alignItems="start"
+                justifyContent="center"
                 {...responsiveFontProps}
-              >
-                <Text textDecoration="underline">{item.name}</Text>
-
-                <ResourceGenerationSummary generator={item} />
-              </Flex>
-              <Box
                 position="relative"
-                opacity={0.75}
-                {...copyResponsiveFontProps}
+                gap={2}
               >
-                {item.description}
-              </Box>
-              <Button
-                padding={3}
-                isLoading={purchaseInProgress}
-                isDisabled={!item.affordable}
-                onClick={() => {
-                  purchaseResourceGenerator({
-                    variables: {
-                      galacticEmpireId: empire.id,
-                      resourceGeneratorId: item.id,
+                <FrameSVGWrapperBox
+                  pointerEvents="all"
+                  padding={3}
+                  display="flex"
+                  flexDir="column"
+                  gap={2}
+                  sx={{
+                    '[data-name="bg"]': {
+                      color: bgDark,
+                      pointerEvents: 'all',
                     },
-                  });
-                }}
-              >
-                +
-              </Button>
-            </FrameSVGWrapperBox>
-          </GridItem>
-        );
-      })}
+                    '.wrapper:hover & [data-name="bg"]': {
+                      color: bg,
+                    },
+                    '[data-name="line"]': {
+                      color: borderSecondary,
+                    },
+                  }}
+                >
+                  <FrameSVGNefrex smallLineLength={100} largeLineLength={200} />
+                  <Flex
+                    position="relative"
+                    justify="space-between"
+                    align="center"
+                    {...responsiveFontProps}
+                  >
+                    <Text
+                      textDecoration="underline"
+                      textDecorationColor={`${secondary}.400`}
+                    >
+                      {item.name}
+                    </Text>
+
+                    <ResourceGenerationSummary generator={item} />
+                  </Flex>
+                  <Text
+                    position="relative"
+                    color={`${secondary}.200`}
+                    {...copyResponsiveFontProps}
+                  >
+                    Owned: {item.count}
+                  </Text>
+                  <Box
+                    position="relative"
+                    opacity={0.75}
+                    {...copyResponsiveFontProps}
+                  >
+                    {item.description}
+                  </Box>
+                  <Button
+                    display="flex"
+                    gap={2}
+                    padding={3}
+                    isLoading={purchaseInProgress}
+                    isDisabled={!item.affordable}
+                    onClick={() => {
+                      purchaseResourceGenerator({
+                        variables: {
+                          galacticEmpireId: empire.id,
+                          resourceGeneratorId: item.id,
+                        },
+                      });
+                    }}
+                    {...copyResponsiveFontProps}
+                  >
+                    <Icon
+                      as={IoBuild}
+                      {...responsiveIconProps}
+                      color={`${secondary}.300`}
+                    />
+                    <Flex gap={1} alignItems="center">
+                      {item.costForNext.amount}
+                      <Image
+                        float="left"
+                        width="25px"
+                        height="25px"
+                        src={item.costForNext.resourceImage}
+                        fallbackSrc="/placeholders/150x150.png"
+                      />
+                    </Flex>
+                  </Button>
+                </FrameSVGWrapperBox>
+              </GridItem>
+            );
+          })
+        : 'No resources'}
     </Grid>
   );
 };
@@ -215,7 +278,7 @@ export const PlanetActions = ({
   const generators = useReactiveVar(resourceGeneratorsVar);
 
   return (
-    <Box flexGrow={1} bg={bgDark} borderTopColor={border} borderTopWidth={1}>
+    <Box bg={bgDark} borderTopColor={border} borderTopWidth={1}>
       <Animator duration={{ enter: 1, exit: 2 }} active={active}>
         <Box pos="relative">
           <Dots color={bgDarkHex} distance={24} />
