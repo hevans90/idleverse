@@ -4,10 +4,9 @@ import { HStack, IconButton, Input, Text, VStack } from '@chakra-ui/react';
 import { generateCelestialName } from '@idleverse/galaxy-gen';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useUiBackground } from '../../../hooks/use-ui-background';
-import { colorsVar } from '../../../_state/colors';
 
-import { planetGeneratorConfigVar } from '../../../_state/planet-generation';
+import { colorsVar, planetGeneratorConfigVar } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import { planetGenerationControlsHeight } from './sliders';
 
 export const NameSeedMobile = () => {

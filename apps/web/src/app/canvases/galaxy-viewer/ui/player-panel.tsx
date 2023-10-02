@@ -2,9 +2,10 @@ import { ApolloError } from '@apollo/client';
 import { Avatar, Box, Button, Link, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
-import { Loading } from '../../../components/loading';
-import { useUiBackground } from '../../../hooks/use-ui-background';
+
+import { useUiBackground } from '@idleverse/theme';
 import { responsiveFontProps } from '../../../_responsive-utils/font-props';
+import { Loading } from '../../../components/loading';
 import { CelestialOwner } from '../celestial-owner';
 
 type PlayerPanelProps = {

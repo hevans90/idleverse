@@ -1,15 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useReactiveVar } from '@apollo/client';
 import { CelestialByIdQuery } from '@idleverse/galaxy-gql';
-import { hexStringToNumber } from '@idleverse/theme';
+import { hexStringToNumber, useUiBackground } from '@idleverse/theme';
 import { useApp } from '@pixi/react';
 import { Assets, Container, TickerCallback } from 'pixi.js';
 import { useEffect, useRef, useState } from 'react';
-import {
-  celestialViewerPlanetDataUris,
-  celestialViewerSelectedPlanet,
-} from '../../_state/celestial-viewer';
-import { solarSystemConfigVar, timeVar } from '../../_state/reactive-variables';
+
 import { useFpsTracker } from '../galaxy-generator/utils/fps-counter';
 
 import {
@@ -17,7 +13,12 @@ import {
   createRadialEllipse,
 } from './utils/graphics-utils';
 
-import { useUiBackground } from '../../hooks/use-ui-background';
+import {
+  celestialViewerPlanetDataUris,
+  celestialViewerSelectedPlanet,
+  solarSystemConfigVar,
+  timeVar,
+} from '@idleverse/state';
 import { useStarField } from '../../showreel/colyseus-poc/rendering/use-starfield';
 import { useResize } from '../_utils/use-resize.hook';
 import { useViewport } from '../_utils/use-viewport.hook';

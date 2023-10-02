@@ -1,5 +1,6 @@
 import { Box, ListItem, UnorderedList, VStack } from '@chakra-ui/react';
-import { useUiBackground } from '../../../hooks/use-ui-background';
+
+import { useUiBackground } from '@idleverse/theme';
 import { generatorControlsHeight } from './generator-controls';
 
 export const GameUIBottomBar = ({ bottom }: { bottom?: number }) => {

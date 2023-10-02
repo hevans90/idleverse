@@ -1,9 +1,12 @@
 import { useReactiveVar } from '@apollo/client';
 import { Box, Button, Image, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { characterCreationVar } from '../_state/character-creation';
-import { colorsVar } from '../_state/colors';
-import { planetGenerationColorDrawerVar } from '../_state/planet-generation';
+
+import {
+  characterCreationVar,
+  colorsVar,
+  planetGenerationColorDrawerVar,
+} from '@idleverse/state';
 import { DataUriGenerator } from '../canvases/celestial-viewer/data-uri-generator';
 import { runPixelDataGenOnWorker } from '../canvases/planet-generator/texture-generation/run-texture-gen-on-worker';
 import { creationStep } from './creation-types';
@@ -31,7 +34,7 @@ const WorkflowButton = ({
       height={[16, 24, 32]}
       lineHeight="inherit"
       whiteSpace="normal"
-      disabled={disabled || false}
+      isDisabled={disabled || false}
       transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
       px="8px"
       borderRadius="3px"

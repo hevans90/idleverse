@@ -17,11 +17,10 @@ import {
 } from '@idleverse/galaxy-gql';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
+import { layoutVar, selfVar } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import { ResponsiveGrid } from '../components/layout';
 import { ToolBar } from '../global-ui/toolbar/toolbar';
-import { useUiBackground } from '../hooks/use-ui-background';
-import { layoutVar } from '../_state/global-settings';
-import { selfVar } from '../_state/reactive-variables';
 
 type Inputs = {
   displayName: string;

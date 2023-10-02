@@ -1,4 +1,4 @@
-import { makeVarPersisted } from '../../../_state/utils';
+import { makeVarPersisted } from '@idleverse/state';
 
 export const celestialSettingsVar = makeVarPersisted<{
   panelOpen: boolean;

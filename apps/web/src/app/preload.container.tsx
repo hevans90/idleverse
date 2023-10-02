@@ -6,6 +6,8 @@ import {
   NpcsQuery,
   QuestsDocument,
   QuestsQuery,
+  ResourceGeneratorsDocument,
+  ResourceGeneratorsQuery,
   ResourcesDocument,
   ResourcesQuery,
   SelfDocument,
@@ -16,14 +18,19 @@ import {
   UserInfoQuery,
 } from '@idleverse/galaxy-gql';
 import { useEffect, useState } from 'react';
-import { backgroundsVar } from './_state/backgrounds';
-import { factionsVar } from './_state/factions';
-import { npcsVar } from './_state/npcs';
-import { playableRacesVar } from './_state/playable-races';
-import { questsVar } from './_state/quests';
-import { selfVar, usersVar } from './_state/reactive-variables';
-import { resourcesVar } from './_state/resources';
-import { technologiesVar } from './_state/technologies';
+
+import {
+  backgroundsVar,
+  factionsVar,
+  npcsVar,
+  playableRacesVar,
+  questsVar,
+  resourceGeneratorsVar,
+  resourcesVar,
+  selfVar,
+  technologiesVar,
+  usersVar,
+} from '@idleverse/state';
 import { loadNoise } from './asset-loading/load-noise';
 import { loadPlaceholders } from './asset-loading/load-placeholders';
 import { loadTechTree } from './asset-loading/load-tech-tree';
@@ -72,6 +79,12 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
       onCompleted: ({ resource_type }) => resourcesVar(resource_type),
     });
 
+  const { loading: resourceGeneratorsLoading } =
+    useQuery<ResourceGeneratorsQuery>(ResourceGeneratorsDocument, {
+      onCompleted: ({ resource_generator }) =>
+        resourceGeneratorsVar(resource_generator),
+    });
+
   const { loading: technologiesLoading } = useQuery<TechnologiesQuery>(
     TechnologiesDocument,
     {
@@ -104,7 +117,7 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
     if (!resourcesLoading && resources) {
       loadTechTree(resources).then(() => setTechTreeLoading(false));
     }
-  }, [resourcesLoading]);
+  }, [resourcesLoading, resources]);
 
   if (usersLoading) return <Loading text="Loading Users"></Loading>;
 
@@ -117,6 +130,8 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
   if (npcsLoading) return <Loading text="Loading Npcs"></Loading>;
 
   if (resourcesLoading) return <Loading text="Loading Resources"></Loading>;
+  if (resourceGeneratorsLoading)
+    return <Loading text="Loading Resource Generators"></Loading>;
   if (technologiesLoading) {
     return <Loading text="Loading Technologies"></Loading>;
   }

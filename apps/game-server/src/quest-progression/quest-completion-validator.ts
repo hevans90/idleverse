@@ -1,11 +1,12 @@
 import { GalacticEmpireQuestByIdQuery } from '@idleverse/galaxy-gql';
-import { ResourceModification } from '../datasources/hasura-empire-resource-modifiers';
+
 import { QuestErrorTypes } from '../entities/error-enums/quest-errors';
-import { questStepProgressionValidator } from './quest-step-progression-validator';
+import { ResourceModification } from '../resource-modification/utils';
 import {
   emptyResourceModification,
   nullifyEmptyResourceModification,
-} from './validate-resource-modification';
+} from '../resource-modification/validate-resource-modification';
+import { questStepProgressionValidator } from './quest-step-progression-validator';
 
 /**
  * Ensures that the given quest data can proceed to a completion. Includes logic to validate that the final quest step is completable.

@@ -1,15 +1,16 @@
 import { useReactiveVar } from '@apollo/client';
 import { ChatIcon, SettingsIcon } from '@chakra-ui/icons';
 import { Box, Button, HStack, Kbd, useDisclosure } from '@chakra-ui/react';
-import { useKeypress } from '../../hooks/use-keypress';
-import { useUiBackground } from '../../hooks/use-ui-background';
+
 import { Auth } from '../../_auth/auth';
 import {
   responsiveFontProps,
   responsiveIconProps,
 } from '../../_responsive-utils/font-props';
-import { hotkeyHintsVar, layoutVar } from '../../_state/global-settings';
-import { globalUiVar } from '../../_state/global-ui';
+
+import { globalUiVar, hotkeyHintsVar, layoutVar } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
+import { useKeypress } from '../../hooks/use-keypress';
 import { EscMenuContainer } from '../esc-menu/escape-menu.container';
 
 export const ToolBar = () => {

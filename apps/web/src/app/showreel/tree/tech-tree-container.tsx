@@ -1,6 +1,6 @@
 import { useReactiveVar } from '@apollo/client';
-import { debugVar } from '../../_state/global-settings';
-import { roleVar } from '../../_state/reactive-variables';
+
+import { debugVar, roleVar } from '@idleverse/state';
 import { PixiWrapper } from '../../canvases/_utils/pixi-wrapper';
 import { TechTree } from './tech-tree';
 import { TechTreeNodeEditor } from './ui/admin/tech-tree-node-editor';

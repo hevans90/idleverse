@@ -1,0 +1,36 @@
+fragment GalacticEmpireResourceGeneratorFields on galactic_empire_resource_generator {
+  created_at
+  planet_id
+  count
+  resource_generator {
+    generation_rate
+    resource_type {
+      id
+      type
+    }
+    name
+    id
+    resource_type_2 {
+      id
+      type
+    }
+    cost_growth_exponent
+    cost_amount_1
+    cost_resource_type_id_1
+  }
+  galactic_empire_id
+}
+
+subscription EmpireResourceGenerators {
+  galactic_empire_resource_generator {
+    ...GalacticEmpireResourceGeneratorFields
+  }
+}
+
+subscription EmpireResourceGeneratorsByEmpireId($empireId: uuid!) {
+  galactic_empire_resource_generator(
+    where: { galactic_empire_id: { _eq: $empireId } }
+  ) {
+    ...GalacticEmpireResourceGeneratorFields
+  }
+}

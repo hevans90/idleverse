@@ -1,8 +1,8 @@
+import { colorsVar } from '@idleverse/state';
 import { colors, hexStringToNumber } from '@idleverse/theme';
 import { useApp } from '@pixi/react';
 import * as PIXI from 'pixi.js';
 import { useRef, useState } from 'react';
-import { colorsVar } from '../../../_state/colors';
 
 export const useStarField = ({
   dimensions,

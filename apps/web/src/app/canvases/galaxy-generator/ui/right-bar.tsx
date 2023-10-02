@@ -1,8 +1,8 @@
 import { useReactiveVar } from '@apollo/client';
 import { Box, Button, Checkbox } from '@chakra-ui/react';
-import { useUiBackground } from '../../../hooks/use-ui-background';
-import { colorsVar } from '../../../_state/colors';
-import { animateVar } from '../../../_state/reactive-variables';
+
+import { animateVar, colorsVar } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import { generatorControlsHeight } from './generator-controls';
 
 type Props = {

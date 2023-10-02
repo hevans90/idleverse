@@ -10,9 +10,11 @@ import { authChecker } from './authChecker';
 import { Auth0API } from './datasources/auth0';
 import { Context } from './datasources/context';
 import { HasuraAPI } from './datasources/hasura-api';
+import { HasuraEmpirePurchases } from './datasources/hasura-empire-purchases';
 import { HasuraEmpireResourceModifiers } from './datasources/hasura-empire-resource-modifiers';
 import { HasuraQuestProgression } from './datasources/hasura-quest-progression';
 import { CelestialManagementResolver } from './entities/celestial-management';
+import { EmpirePurchasesResolver } from './entities/empire-purchases';
 import { GalaxyManagementResolver } from './entities/galaxy-management';
 import { QuestManagementResolver } from './entities/quest-management';
 import { RegisterResolver } from './entities/register';
@@ -54,6 +56,7 @@ import ws = require('ws');
   const schema = await buildSchema({
     resolvers: [
       RegisterResolver,
+      EmpirePurchasesResolver,
       GalaxyManagementResolver,
       CelestialManagementResolver,
       QuestManagementResolver,
@@ -101,6 +104,7 @@ import ws = require('ws');
     dataSources: (): DataSources<Partial<Context['dataSources']>> => {
       return {
         hasuraAPI: new HasuraAPI(client),
+        hasuraEmpirePurchases: new HasuraEmpirePurchases(client),
         hasuraQuestProgression: new HasuraQuestProgression(client),
         hasuraEmpireResourceModifiers: new HasuraEmpireResourceModifiers(
           client

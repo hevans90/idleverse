@@ -10,9 +10,8 @@ import {
 import { useEffect, useState } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { Loading } from '../components/loading';
-import { colorsVar } from '../_state/colors';
-import { selfVar } from '../_state/reactive-variables';
 
+import { colorsVar, selfVar } from '@idleverse/state';
 import { GalaxyTile } from './galaxy-tile';
 
 export const GalaxyGalleryContainer = () => {

@@ -7,9 +7,8 @@ import {
   Tooltip,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { empireResourcesVar } from '../_state/galactic-empire';
-import { globalUiVar } from '../_state/global-ui';
-import { useUiBackground } from '../hooks/use-ui-background';
+import { empireResourcesVar, globalUiVar } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 
 type ResourceBarProps = StackProps;
 

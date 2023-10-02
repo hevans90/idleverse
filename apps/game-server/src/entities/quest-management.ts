@@ -11,15 +11,17 @@ import {
   Resolver,
 } from 'type-graphql';
 import { Context } from '../datasources/context';
-import { resourceModificationFactory } from '../datasources/hasura-empire-resource-modifiers';
+
 import { questCompletionValidator } from '../quest-progression/quest-completion-validator';
 import { questStepProgressionValidator } from '../quest-progression/quest-step-progression-validator';
+import { resourceModificationFactory } from '../resource-modification/utils';
 import {
   emptyResourceModification,
   nullifyEmptyResourceModification,
   validateResourceModification,
-} from '../quest-progression/validate-resource-modification';
+} from '../resource-modification/validate-resource-modification';
 import { QuestErrorTypes } from './error-enums/quest-errors';
+import { UserErrorTypes } from './error-enums/user-errors';
 
 @ObjectType()
 export class QuestManagement {
@@ -69,7 +71,7 @@ export class QuestManagementResolver {
     @Ctx() { dataSources, id: userId }: Context,
     @Arg('empire_quest_id') empireQuestId: string
   ) {
-    if (!userId) throw new Error(QuestErrorTypes.NoUserId);
+    if (!userId) throw new Error(UserErrorTypes.NoUserId);
 
     const { data: questData } =
       await dataSources.hasuraQuestProgression.getGalacticEmpireQuestById(
@@ -190,7 +192,7 @@ export class QuestManagementResolver {
     @Ctx() { dataSources, id: userId }: Context,
     @Arg('empire_quest_id') empireQuestId: string
   ) {
-    if (!userId) throw new Error(QuestErrorTypes.NoUserId);
+    if (!userId) throw new Error(UserErrorTypes.NoUserId);
 
     const { data: questData } =
       await dataSources.hasuraQuestProgression.getGalacticEmpireQuestById(

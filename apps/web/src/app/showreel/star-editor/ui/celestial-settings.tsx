@@ -15,10 +15,10 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { hexToRGB, rgbToHex } from '@idleverse/theme';
+import { hexToRGB, rgbToHex, useUiBackground } from '@idleverse/theme';
+
 import { responsiveFontProps } from '../../../_responsive-utils/font-props';
 import { ExpandingUI } from '../../../components/expanding-ui';
-import { useUiBackground } from '../../../hooks/use-ui-background';
 import { celestialSettingsVar } from '../state/celestial.state';
 
 export const CelestialSettings = () => {

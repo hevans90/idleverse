@@ -46,11 +46,9 @@ array_relationships:
           schema: public
   - name: resources
     using:
-      manual_configuration:
-        column_mapping:
-          id: id
-        insertion_order: null
-        remote_table:
+      foreign_key_constraint_on:
+        column: galactic_empire_id
+        table:
           name: galactic_empire_resources
           schema: public
 insert_permissions:

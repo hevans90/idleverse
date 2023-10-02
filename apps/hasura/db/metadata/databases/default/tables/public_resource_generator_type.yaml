@@ -17,6 +17,9 @@ select_permissions:
         - id
         - image_url
         - name
+        - resource_type_1_id
+        - resource_type_2_id
+        - unlocked_by_technology_id
       filter: {}
   - role: user
     permission:
@@ -26,4 +29,7 @@ select_permissions:
         - id
         - image_url
         - name
+        - resource_type_1_id
+        - resource_type_2_id
+        - unlocked_by_technology_id
       filter: {}

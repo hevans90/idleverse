@@ -10,16 +10,17 @@ import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { DataTexture } from 'three';
 import { Loading } from '../../components/loading';
-import { colorsVar } from '../../_state/colors';
-import { RingConfig } from '../../_state/models';
+
+import { RingConfig } from '@idleverse/models';
 import {
+  colorsVar,
   planetGenerationColorDrawerVar,
   planetGenerationRingDrawerVar,
   planetGenerationTerrainDrawerVar,
   planetGeneratorConfigVar,
-} from '../../_state/planet-generation';
-
+} from '@idleverse/state';
 import { useResize } from '../_utils/use-resize.hook';
+import { deepCompareRings } from './_utils/deep-compare-rings';
 import { CameraController } from './camera-controller';
 import { Pixelate } from './pixelate';
 import { runTextureGenOnWorker } from './texture-generation/run-texture-gen-on-worker';
@@ -28,12 +29,11 @@ import { PlanetGeneratorColorDrawer } from './ui/color-drawer';
 import { NameSeedMobile } from './ui/name-seed-mobile';
 import { PlanetGeneratorRingDrawer } from './ui/ring-drawer';
 import {
-  planetGenerationControlsHeight,
   PlanetGeneratorSliders,
+  planetGenerationControlsHeight,
 } from './ui/sliders';
 import { PlanetGeneratorTerrainDrawer } from './ui/terrain-drawer';
 import { World } from './world';
-import { deepCompareRings } from './_utils/deep-compare-rings';
 
 export const PlanetGenerator = ({
   customSize,

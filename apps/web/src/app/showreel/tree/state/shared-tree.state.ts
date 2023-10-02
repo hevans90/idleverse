@@ -1,5 +1,6 @@
 import { makeVar } from '@apollo/client';
-import { makeVarPersisted } from '../../../_state/utils';
+
+import { makeVarPersisted } from '@idleverse/state';
 import { Orientation } from '../orientation';
 import { TechnologyNode } from '../utils/create-tree-from-technologies-query';
 import { QuestNode } from '../utils/create-trees-from-quests-query';

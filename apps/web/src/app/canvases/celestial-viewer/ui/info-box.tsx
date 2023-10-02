@@ -15,15 +15,16 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { CelestialByIdQuery } from '@idleverse/galaxy-gql';
+
+import { Link as ReactRouterLink } from 'react-router-dom';
+
 import {
   celestialViewerPlanetDataUris,
   celestialViewerSelectedPlanet,
-} from '../../../_state/celestial-viewer';
-
-import { Link as ReactRouterLink } from 'react-router-dom';
+  colorsVar,
+} from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import { responsiveFontProps } from '../../../_responsive-utils/font-props';
-import { colorsVar } from '../../../_state/colors';
-import { useUiBackground } from '../../../hooks/use-ui-background';
 
 type InfoBoxProps = Pick<
   CelestialByIdQuery['celestial_by_pk'],

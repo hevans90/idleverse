@@ -6,10 +6,11 @@ import { useViewport } from '../../canvases/_utils/use-viewport.hook';
 import { Tree } from './utils/tree-structure';
 
 import { useReactiveVar } from '@apollo/client';
-import { questsVar } from '../../_state/quests';
+
 import { useNodeInteractions } from './hooks/use-node-interactions';
 import { useRenderNodes } from './hooks/use-render-nodes';
 
+import { questsVar } from '@idleverse/state';
 import { treeNodesVar, treeSettingsVar } from './state/shared-tree.state';
 import {
   QuestNode,

@@ -6,83 +6,66 @@ import {
   CompletedGalacticEmpireQuestsDocument,
   CompletedGalacticEmpireQuestsSubscription,
   CompletedGalacticEmpireQuestsSubscriptionVariables,
+  EmpireResourceGeneratorsByEmpireIdDocument,
+  EmpireResourceGeneratorsByEmpireIdSubscription,
+  EmpireResourceGeneratorsByEmpireIdSubscriptionVariables,
   GalacticEmpireNpcsDocument,
   GalacticEmpireNpcsSubscription,
   GalacticEmpireNpcsSubscriptionVariables,
   GalacticEmpireResourcesDocument,
   GalacticEmpireResourcesSubscription,
   GalacticEmpireResourcesSubscriptionVariables,
-  ResourceGeneratorsByEmpireIdDocument,
-  ResourceGeneratorsByEmpireIdSubscription,
-  ResourceGeneratorsByEmpireIdSubscriptionVariables,
 } from '@idleverse/galaxy-gql';
-import { useEffect } from 'react';
+import { generatorCost } from '@idleverse/resource-gen';
 import {
   ResourceGenerator,
   activeQuestsVar,
   completedQuestsVar,
   empireNpcsVar,
   empireResourcesVar,
-} from '../_state/galactic-empire';
-import { resourcesVar } from '../_state/resources';
+  resourcesVar,
+} from '@idleverse/state';
+import { useEffect } from 'react';
 
 export const useRealtimeEmpireUpdates = (empireId: string) => {
   const resources = useReactiveVar(resourcesVar);
 
-  const {
-    data: resourcesData,
-    loading: resourcesLoading,
-    error: resourcesError,
-  } = useSubscription<
+  const { data: resourcesData } = useSubscription<
     GalacticEmpireResourcesSubscription,
     GalacticEmpireResourcesSubscriptionVariables
   >(GalacticEmpireResourcesDocument, {
     variables: { empireId },
   });
 
-  const {
-    data: resourceGeneratorsData,
-    loading: resourceGeneratorsLoading,
-    error: resourceGeneratorsError,
-  } = useSubscription<
-    ResourceGeneratorsByEmpireIdSubscription,
-    ResourceGeneratorsByEmpireIdSubscriptionVariables
-  >(ResourceGeneratorsByEmpireIdDocument, {
+  const { data: resourceGeneratorsData } = useSubscription<
+    EmpireResourceGeneratorsByEmpireIdSubscription,
+    EmpireResourceGeneratorsByEmpireIdSubscriptionVariables
+  >(EmpireResourceGeneratorsByEmpireIdDocument, {
     variables: { empireId },
   });
 
-  const {
-    data: npcsData,
-    loading: npcsLoading,
-    error: npcsError,
-  } = useSubscription<
+  const { data: npcsData, loading: npcsLoading } = useSubscription<
     GalacticEmpireNpcsSubscription,
     GalacticEmpireNpcsSubscriptionVariables
   >(GalacticEmpireNpcsDocument, {
     variables: { empireId },
   });
 
-  const {
-    data: activeQuestsData,
-    loading: activeQuestsLoading,
-    error: activeQuestsError,
-  } = useSubscription<
-    ActiveGalacticEmpireQuestsSubscription,
-    ActiveGalacticEmpireQuestsSubscriptionVariables
-  >(ActiveGalacticEmpireQuestsDocument, {
-    variables: { empireId },
-  });
+  const { data: activeQuestsData, loading: activeQuestsLoading } =
+    useSubscription<
+      ActiveGalacticEmpireQuestsSubscription,
+      ActiveGalacticEmpireQuestsSubscriptionVariables
+    >(ActiveGalacticEmpireQuestsDocument, {
+      variables: { empireId },
+    });
 
-  const {
-    data: completedQuestsData,
-    loading: completedQuestsLoading,
-    error: completedQuestsError,
-  } = useSubscription<
-    CompletedGalacticEmpireQuestsSubscription,
-    CompletedGalacticEmpireQuestsSubscriptionVariables
-  >(CompletedGalacticEmpireQuestsDocument, {
-    variables: { empireId },
-  });
+  const { data: completedQuestsData, loading: completedQuestsLoading } =
+    useSubscription<
+      CompletedGalacticEmpireQuestsSubscription,
+      CompletedGalacticEmpireQuestsSubscriptionVariables
+    >(CompletedGalacticEmpireQuestsDocument, {
+      variables: { empireId },
+    });
 
   useEffect(() => {
     if (resourcesData) {
@@ -111,30 +94,57 @@ export const useRealtimeEmpireUpdates = (empireId: string) => {
         }));
 
         resourceGeneratorsData.galactic_empire_resource_generator.forEach(
-          ({ resource_generator_type }) => {
-            const [rate1] = resource_generator_type.generation_rate;
+          ({ resource_generator, count }) => {
+            const [rate1] = resource_generator.generation_rate;
             const index1 = generation.findIndex(
-              ({ resourceId: id }) =>
-                id === resource_generator_type.resource_type.id
+              ({ resourceId: id }) => id === resource_generator.resource_type.id
             );
 
-            generation[index1].rate += rate1;
+            generation[index1].rate += rate1 * count;
             generation[index1].generators.push({
-              name: resource_generator_type.name,
+              id: resource_generator.id,
+              name: resource_generator.name,
               rate: rate1,
+              count,
+              costGrowthExponent: resource_generator.cost_growth_exponent,
+              costForNext: [
+                {
+                  resourceId: resource_generator.cost_resource_type_id_1,
+
+                  amount: generatorCost({
+                    baseCost: resource_generator.cost_amount_1,
+                    costGrowthExponent: resource_generator.cost_growth_exponent,
+                    owned: count,
+                  }),
+                },
+              ],
             });
 
-            if (resource_generator_type?.resource_type_2) {
-              const [_, rate2] = resource_generator_type.generation_rate;
+            if (resource_generator?.resource_type_2) {
+              const [_, rate2] = resource_generator.generation_rate;
 
               const index2 = generation.findIndex(
                 ({ resourceId: id }) =>
-                  id === resource_generator_type.resource_type_2.id
+                  id === resource_generator.resource_type_2.id
               );
-              generation[index2].rate += rate2;
+              generation[index2].rate += rate2 * count;
               generation[index2].generators.push({
-                name: resource_generator_type.name,
+                id: resource_generator.id,
+                name: resource_generator.name,
                 rate: rate2,
+                count,
+                costGrowthExponent: resource_generator.cost_growth_exponent,
+                costForNext: [
+                  {
+                    resourceId: resource_generator.cost_resource_type_id_1,
+                    amount: generatorCost({
+                      baseCost: resource_generator.cost_amount_1,
+                      costGrowthExponent:
+                        resource_generator.cost_growth_exponent,
+                      owned: count,
+                    }),
+                  },
+                ],
               });
             }
           }
@@ -160,20 +170,17 @@ export const useRealtimeEmpireUpdates = (empireId: string) => {
     if (npcsData) {
       empireNpcsVar(npcsData.galactic_empire_npc.map(({ npc }) => npc));
     }
-    //
   }, [npcsLoading, npcsData]);
 
   useEffect(() => {
     if (activeQuestsData) {
       activeQuestsVar(activeQuestsData.galactic_empire_quest);
     }
-    //
   }, [activeQuestsLoading, activeQuestsData]);
 
   useEffect(() => {
     if (completedQuestsData) {
       completedQuestsVar(completedQuestsData.galactic_empire_quest);
     }
-    //
   }, [completedQuestsLoading, completedQuestsData]);
 };

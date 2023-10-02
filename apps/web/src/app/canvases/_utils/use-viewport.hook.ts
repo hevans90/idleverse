@@ -1,10 +1,9 @@
 import { useReactiveVar } from '@apollo/client';
 import { indicatorFactory } from '@idleverse/pixi-utils';
+import { debugVar } from '@idleverse/state';
 import { IClampZoomOptions, Viewport } from 'pixi-viewport';
 import { Application, Container, Graphics, Text } from 'pixi.js';
 import { useEffect, useRef } from 'react';
-
-import { debugVar } from '../../_state/global-settings';
 
 /**
  * when the screen is resized, this effect will reset the viewport's screen dimensions & then re-center

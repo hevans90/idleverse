@@ -5,11 +5,12 @@ import { useApp } from '@pixi/react';
 import { Container, TickerCallback } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { simulationPaused, timeVar } from '../../_state/reactive-variables';
+
 import { useResize } from '../../canvases/_utils/use-resize.hook';
 import { useViewport } from '../../canvases/_utils/use-viewport.hook';
 import { useFpsTracker } from '../../canvases/galaxy-generator/utils/fps-counter';
 
+import { simulationPaused, timeVar } from '@idleverse/state';
 import { generateBalls, generateGravitationalCenter } from './drawing';
 import { calculateGravity } from './gravity';
 import { BallConfig, NewtonianGraphics } from './models';

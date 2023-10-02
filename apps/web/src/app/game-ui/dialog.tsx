@@ -12,20 +12,13 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
+
+import { DialogEntry, dialogVar, hotkeyHintsVar } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import { useKeypress } from '../hooks/use-keypress';
-import { useUiBackground } from '../hooks/use-ui-background';
-import { dialogVar } from '../_state/dialog';
-import { hotkeyHintsVar } from '../_state/global-settings';
 
 type DialogProps = StackProps & {
   entries: DialogEntry[];
-};
-
-export type DialogEntry = {
-  id: string;
-  speakerName: string;
-  imageUrl: string;
-  steps: string[];
 };
 
 const prequelWaitTime = 0.3;
@@ -138,7 +131,7 @@ export const Dialog = ({ entries, ...stackProps }: DialogProps) => {
         divider={
           <StackDivider borderColor={border} margin="unset !important" />
         }
-        maxHeight="300px"
+        maxHeight="md"
       >
         <VStack padding={3} maxWidth="175px" minWidth="175px">
           <Image

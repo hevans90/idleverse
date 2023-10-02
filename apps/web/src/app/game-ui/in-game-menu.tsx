@@ -16,14 +16,18 @@ import {
 } from '@chakra-ui/react';
 import { GiMining, GiTalk } from 'react-icons/gi';
 import { MdMenuBook } from 'react-icons/md';
+
+import {
+  empireNpcsVar,
+  empireResourcesVar,
+  globalUiVar,
+  hotkeyHintsVar,
+} from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import {
   responsiveFontProps,
   responsiveIconProps,
 } from '../_responsive-utils/font-props';
-import { empireNpcsVar, empireResourcesVar } from '../_state/galactic-empire';
-import { hotkeyHintsVar } from '../_state/global-settings';
-import { globalUiVar } from '../_state/global-ui';
-import { useUiBackground } from '../hooks/use-ui-background';
 
 type InGameMenuProps = StackProps;
 

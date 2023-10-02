@@ -1,6 +1,7 @@
 import { useReactiveVar } from '@apollo/client';
 import { Quest_Step_Type_Enum } from '@idleverse/galaxy-gql';
-import { empireResourcesVar } from '../../../_state/galactic-empire';
+
+import { empireResourcesVar } from '@idleverse/state';
 import { QuestStep } from './quest-step-utils';
 
 export const useValidateQuestStep = (step: QuestStep): boolean => {

@@ -1,0 +1,29 @@
+mutation IncrementResourceGeneratorCount(
+  $galacticEmpireId: uuid!
+  $resourceGeneratorId: uuid!
+  $increment: numeric!
+) {
+  update_galactic_empire_resource_generator(
+    _inc: { count: $increment }
+    where: {
+      galactic_empire_id: { _eq: $galacticEmpireId }
+      generator_type_id: { _eq: $resourceGeneratorId }
+    }
+  ) {
+    affected_rows
+  }
+}
+
+mutation CreateEmpireResourceGenerator(
+  $galacticEmpireId: uuid!
+  $generatorTypeId: uuid!
+) {
+  insert_galactic_empire_resource_generator_one(
+    object: {
+      generator_type_id: $generatorTypeId
+      galactic_empire_id: $galacticEmpireId
+    }
+  ) {
+    id
+  }
+}

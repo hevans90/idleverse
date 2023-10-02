@@ -1,8 +1,8 @@
 import { useReactiveVar } from '@apollo/client';
 import { Box, Button, HStack, Text } from '@chakra-ui/react';
+import { simulationPaused, timeVar } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import { useEffect } from 'react';
-import { useUiBackground } from '../../../hooks/use-ui-background';
-import { simulationPaused, timeVar } from '../../../_state/reactive-variables';
 
 export const galaxySimControlsHeight = 80;
 

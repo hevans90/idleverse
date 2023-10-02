@@ -7,9 +7,9 @@ import {
   StackDivider,
   Text,
 } from '@chakra-ui/react';
+import { colorsVar } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import { useEffect, useState } from 'react';
-import { useUiBackground } from '../../hooks/use-ui-background';
-import { colorsVar } from '../../_state/colors';
 
 type GalleryItem<T> = {
   id: string;
@@ -36,7 +36,7 @@ const GalleryButton = <T,>({
       minWidth={['30vw', 'unset']}
       lineHeight="inherit"
       whiteSpace="normal"
-      disabled={selected || false}
+      isDisabled={selected || false}
       transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
       px="8px"
       borderRadius="3px"

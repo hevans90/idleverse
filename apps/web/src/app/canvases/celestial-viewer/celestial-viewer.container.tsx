@@ -8,8 +8,8 @@ import { hexToRGB } from '@idleverse/theme';
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { celestialViewerSelectedPlanet } from '../../_state/celestial-viewer';
-import { celestialVar, selfVar } from '../../_state/reactive-variables';
+
+import { celestialVar, celestialViewerSelectedPlanet } from '@idleverse/state';
 import { loadPlanets } from '../../asset-loading/load-planets';
 import { Loading } from '../../components/loading';
 import { useEmpire } from '../../hooks/use-my-empire';
@@ -21,8 +21,6 @@ import { InfoBox } from './ui/info-box';
 
 export const CelestialViewerContainer = () => {
   const { id } = useParams<{ id: string }>();
-
-  const { id: userId } = useReactiveVar(selfVar);
 
   const { data, loading } = useQuery<CelestialByIdQuery>(
     CelestialByIdDocument,
@@ -96,7 +94,7 @@ export const CelestialViewerContainer = () => {
         setPixelDataGenerating(false);
       });
     }
-  }, [id, data]);
+  }, [id, data, selectedPlanet]);
 
   useEmpire(data?.celestial_by_pk?.galactic_empire);
 

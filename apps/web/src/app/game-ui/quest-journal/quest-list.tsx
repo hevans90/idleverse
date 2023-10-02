@@ -11,13 +11,15 @@ import {
 } from '@chakra-ui/react';
 import { ActiveGalacticEmpireQuestsSubscription } from '@idleverse/galaxy-gql';
 import { useEffect, useState } from 'react';
-import { useUiBackground } from '../../hooks/use-ui-background';
-import { colorsVar } from '../../_state/colors';
+
 import {
   activeQuestsVar,
+  colorsVar,
   completedQuestsVar,
-} from '../../_state/galactic-empire';
-import { questDetailVar, questJournalVar } from '../../_state/global-ui';
+  questDetailVar,
+  questJournalVar,
+} from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import { QuestRewardThumbnails } from './quest-reward-thumbnail';
 
 export const QuestList = ({ showCompleted }: { showCompleted: boolean }) => {

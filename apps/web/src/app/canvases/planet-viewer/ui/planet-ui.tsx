@@ -5,16 +5,11 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { useKeypress } from '../../../hooks/use-keypress';
-import { useUiBackground } from '../../../hooks/use-ui-background';
 
 import { Animator } from '@arwes/react-animator';
-import {
-  FrameSVGOctagon,
-  useFrameSVGAssemblingAnimation,
-} from '@arwes/react-frames';
 import { Text } from '@arwes/react-text';
-import { ReactNode, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import { AnimatedFrame } from '@idleverse/ui';
+import { useEffect, useState } from 'react';
 
 export const PlanetUI = () => {
   useKeypress('KeyO', () => {
@@ -80,38 +75,5 @@ const PlanetOverview = ({
         </Animator>
       </ModalContent>
     </Modal>
-  );
-};
-
-export const DataDiv = styled.div<{ bg: string; border: string }>`
-  position: relative;
-  padding: 1.5rem;
-  [data-name='bg'] {
-    color: ${(props) => props.bg};
-    filter: drop-shadow(0 0 4px ${(props) => props.bg});
-  }
-  [data-name='line'] {
-    color: ${(props) => props.border};
-    filter: drop-shadow(0 0 4px ${(props) => props.border});
-  }
-`;
-
-const AnimatedFrame = ({ children }: { children?: ReactNode }) => {
-  const { canvasBg, canvasBorder } = useUiBackground();
-
-  const svgRef = useRef<SVGSVGElement | null>(null);
-  const { onRender } = useFrameSVGAssemblingAnimation(svgRef);
-  return (
-    <DataDiv bg={canvasBg} border={canvasBorder}>
-      <FrameSVGOctagon
-        squareSize={20}
-        strokeWidth={2}
-        elementRef={svgRef}
-        onRender={onRender}
-        padding={4}
-      />
-
-      {children}
-    </DataDiv>
   );
 };

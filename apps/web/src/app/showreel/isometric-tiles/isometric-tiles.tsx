@@ -2,7 +2,6 @@ import { useApp } from '@pixi/react';
 import * as PIXI from 'pixi.js';
 import { useEffect, useRef, useState } from 'react';
 
-import { Vector2D } from '../../_state/models';
 import { useResize } from '../../canvases/_utils/use-resize.hook';
 import { useViewport } from '../../canvases/_utils/use-viewport.hook';
 import { useFpsTracker } from '../../canvases/galaxy-generator/utils/fps-counter';
@@ -10,7 +9,9 @@ import { gameConfigFactory } from './factories/game-config.factory';
 
 import { useReactiveVar } from '@apollo/client';
 import { Container } from 'pixi.js';
-import { planetSurfaceVar } from '../../_state/planet-surface';
+
+import { Vector2D } from '@idleverse/models';
+import { planetSurfaceVar } from '@idleverse/state';
 import { GameConfig } from './models/game-config';
 import { IsometricLayer } from './models/isometric-layer';
 import { IsometricContainer } from './models/isometric-stack';

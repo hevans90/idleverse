@@ -10,7 +10,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { ChangeEvent, useState } from 'react';
-import { useUiBackground } from '../../../hooks/use-ui-background';
+
 import {
   hoveredNodeVar,
   searchResultsVar,
@@ -19,9 +19,10 @@ import {
 } from '../state/shared-tree.state';
 
 import { Box, Button } from '@chakra-ui/react';
+import { colorsVar } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import { search as fuzzySearch } from 'fast-fuzzy';
 import { responsiveFontProps } from '../../../_responsive-utils/font-props';
-import { colorsVar } from '../../../_state/colors';
 
 export const TreeSearch = () => {
   const { bg, border } = useUiBackground();
@@ -90,7 +91,7 @@ export const TreeSearch = () => {
               whiteSpace="normal"
               transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
               px="8px"
-              disabled={selectedNode?.id === node.id}
+              isDisabled={selectedNode?.id === node.id}
               borderRadius="3px"
               fontWeight="semibold"
               fontSize={['xxs', 'xs', 'xs', 'sm', 'md']}

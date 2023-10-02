@@ -8,12 +8,11 @@ import * as PIXI from 'pixi.js';
 import { useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import { colorsVar } from '../../_state/colors';
 import { PixiWrapper } from '../../canvases/_utils/pixi-wrapper';
 import { runPixelDataGenOnWorker } from '../../canvases/planet-generator/texture-generation/run-texture-gen-on-worker';
 import { Loading } from '../../components/loading';
 
-import { planetSurfaceVar } from '../../_state/planet-surface';
+import { colorsVar, planetSurfaceVar } from '@idleverse/state';
 import { IsometricTiles } from './isometric-tiles';
 
 export const IsometricContainer = () => {

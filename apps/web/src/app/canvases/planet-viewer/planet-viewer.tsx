@@ -1,38 +1,53 @@
 import { useQuery, useReactiveVar } from '@apollo/client';
-import { Box } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import { PlanetByIdDocument, PlanetByIdQuery } from '@idleverse/galaxy-gql';
-import { hexStringToNumber, hexToRGB, rgb } from '@idleverse/theme';
+import { hexStringToNumber, hexToRGB } from '@idleverse/theme';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { DataTexture } from 'three';
-import { planetVar } from '../../_state/planet-viewer';
+
 import { Loading } from '../../components/loading';
 import { CameraController } from '../planet-generator/camera-controller';
 import { Pixelate } from '../planet-generator/pixelate';
 
+import {
+  colorsVar,
+  galacticEmpireVar,
+  myEmpireVar,
+  planetVar,
+} from '@idleverse/state';
 import { colors } from '@idleverse/theme';
-import { colorsVar } from '../../_state/colors';
-import { myEmpireVar } from '../../_state/galactic-empire';
+
+import { rgb } from '@idleverse/models';
 import { GameUI } from '../../game-ui/game-ui';
 import { useEmpire } from '../../hooks/use-my-empire';
 import { useResize } from '../_utils/use-resize.hook';
+import { Stars } from '../planet-generator/stars';
 import { runTextureGenOnWorker } from '../planet-generator/texture-generation/run-texture-gen-on-worker';
 import { World } from '../planet-generator/world';
+import { PlanetActions } from './ui/planet-actions';
 import { PlanetUI } from './ui/planet-ui';
 
 export const PlanetViewer = () => {
+  const [planetActionsActive, setPlanetActionsActive] = useState(false);
   const { id } = useParams<{ id: string }>();
 
   const { data, loading } = useQuery<PlanetByIdQuery>(PlanetByIdDocument, {
     variables: { id },
   });
 
+  useEffect(() => {
+    const tid = setTimeout(() => setPlanetActionsActive(true), 200);
+    return () => clearTimeout(tid);
+  }, []);
+
   const { width, height } = useResize();
 
   const { primary } = useReactiveVar(colorsVar);
 
   const myEmpire = useReactiveVar(myEmpireVar);
+  const galacticEmpire = useReactiveVar(galacticEmpireVar);
 
   const [worldDataTexture, setWorldDataTexture] =
     useState<DataTexture>(undefined);
@@ -108,7 +123,7 @@ export const PlanetViewer = () => {
         }
       );
     }
-  }, [data]);
+  }, [data, id]);
 
   if (loading) {
     return (
@@ -136,53 +151,83 @@ export const PlanetViewer = () => {
             <Loading width="100%" height="100%" text="Rendering planet" />
           }
         >
-          <Canvas>
-            <World
-              planetRadius={radius}
-              worldTexture={worldDataTexture}
-              ringTextures={ringDataTextures}
-              atmosphere={true}
-              rotate={true}
-              atmosphericDistance={atmospheric_distance}
-              rings={rings.map(
-                ({
-                  terrain_bias,
-                  inner_radius,
-                  outer_radius,
-                  type,
-                  rotation,
-                  colors,
-                  ...rest
-                }) => ({
-                  ...rest,
-                  colors: colors.map((hex) => hexToRGB(hex)) as [
-                    rgb,
-                    rgb,
-                    rgb,
-                    rgb
-                  ],
-                  rotation: rotation as [x: number, y: number, z: number],
-                  terrainBias: terrain_bias as [number, number, number, number],
-                  innerRadius: inner_radius,
-                  outerRadius: outer_radius,
-                  type: type as 'banded' | 'rocky',
-                })
-              )}
-            />
-            <CameraController />
-            <Pixelate
-              bgColor={hexStringToNumber(colors[primary]['800'])}
-              pixelSize={2}
-            />
-          </Canvas>
-          {data?.planet_by_pk?.celestial?.galactic_empire?.id && myEmpire && (
-            <>
-              <GameUI
-                empireId={data.planet_by_pk.celestial.galactic_empire.id}
+          <Flex height={height} flexDir="column">
+            <Canvas
+              gl={{ antialias: true }}
+              camera={{
+                position: [0, 0, 10] as [number, number, number],
+                fov: 50,
+              }}
+            >
+              <color attach="background" args={[0, 0, 0]} />
+              {/* <Stars
+                radius={40}
+                starCount={0.5}
+                starBrightness={0.2}
+                rotationSpeed={0.001}
+                colorVariation={1}
+              /> */}
+              <Stars
+                radius={8}
+                starCount={0.1}
+                starBrightness={0.5}
+                rotationSpeed={0.005}
+                colorVariation={0.5}
               />
-              <PlanetUI />
-            </>
-          )}
+
+              <Stars rotationSpeed={0.1} />
+              <World
+                planetRadius={radius}
+                worldTexture={worldDataTexture}
+                ringTextures={ringDataTextures}
+                atmosphere={true}
+                rotate={true}
+                atmosphericDistance={atmospheric_distance}
+                rings={rings.map(
+                  ({
+                    terrain_bias,
+                    inner_radius,
+                    outer_radius,
+                    type,
+                    rotation,
+                    colors,
+                    ...rest
+                  }) => ({
+                    ...rest,
+                    colors: colors.map((hex) => hexToRGB(hex)) as [
+                      rgb,
+                      rgb,
+                      rgb,
+                      rgb
+                    ],
+                    rotation: rotation as [x: number, y: number, z: number],
+                    terrainBias: terrain_bias as [
+                      number,
+                      number,
+                      number,
+                      number
+                    ],
+                    innerRadius: inner_radius,
+                    outerRadius: outer_radius,
+                    type: type as 'banded' | 'rocky',
+                  })
+                )}
+              />
+              <CameraController />
+              <Pixelate
+                bgColor={hexStringToNumber(colors[primary]['800'])}
+                pixelSize={4}
+              />
+            </Canvas>
+
+            {myEmpire && (
+              <>
+                <PlanetUI />
+                <GameUI empireId={galacticEmpire?.id} />
+              </>
+            )}
+            <PlanetActions active={planetActionsActive} />
+          </Flex>
         </Suspense>
       </Box>
     );

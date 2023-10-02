@@ -1,11 +1,12 @@
 import { AddIcon, MinusIcon, SettingsIcon } from '@chakra-ui/icons';
 import { HStack, IconButton, StackProps, Text, VStack } from '@chakra-ui/react';
 import { ReactNode } from 'react';
+
+import { useUiBackground } from '@idleverse/theme';
 import {
   responsiveFontProps,
   responsiveIconProps,
 } from '../_responsive-utils/font-props';
-import { useUiBackground } from '../hooks/use-ui-background';
 
 export const ExpandingUI = ({
   icon = <SettingsIcon {...responsiveIconProps} />,

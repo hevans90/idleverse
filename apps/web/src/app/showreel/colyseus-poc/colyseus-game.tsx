@@ -17,8 +17,9 @@ import { generateHypotenuse } from '@idleverse/pixi-utils';
 import { colors, hexStringToNumber } from '@idleverse/theme';
 import { Viewport } from 'pixi-viewport';
 import * as PIXI from 'pixi.js';
-import { colorsVar } from '../../_state/colors';
+
 import {
+  colorsVar,
   colyseusCelestialsVar,
   colyseusGameSettingsVar,
   colyseusRoomDimensionsVar,
@@ -27,8 +28,8 @@ import {
   colyseusTrackingDistanceVar,
   colyseusTrackingEnabledVar,
   colyseusTrackingTargetVar,
-} from '../../_state/colyseus';
-import { selfVar } from '../../_state/reactive-variables';
+  selfVar,
+} from '@idleverse/state';
 import { drawBoundingBoxes } from './rendering/draw-bounding-boxes';
 import { drawGrid } from './rendering/draw-grid';
 import { useStarField } from './rendering/use-starfield';

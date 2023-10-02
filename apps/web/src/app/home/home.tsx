@@ -8,8 +8,8 @@ import {
   Stack,
   StackDivider,
   Text,
-  useColorModeValue,
   VStack,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import {
   GalacticEmpiresByUserIdDocument,
@@ -17,12 +17,12 @@ import {
   GalacticEmpiresByUserIdSubscriptionVariables,
 } from '@idleverse/galaxy-gql';
 import { Link as ReactRouterLink } from 'react-router-dom';
-import { Loading } from '../components/loading';
-import { useUiBackground } from '../hooks/use-ui-background';
+
 import { responsiveFontProps } from '../_responsive-utils/font-props';
-import { colorsVar } from '../_state/colors';
-import { layoutVar } from '../_state/global-settings';
-import { roleVar, selfVar } from '../_state/reactive-variables';
+
+import { colorsVar, layoutVar, roleVar, selfVar } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
+import { Loading } from '../components/loading';
 
 export const Home = () => {
   const { id: userId } = useReactiveVar(selfVar);
@@ -98,7 +98,7 @@ export const Home = () => {
               <Button {...responsiveFontProps}>Beta showreel</Button>
             </Link>
             <Link as={ReactRouterLink} to="/galaxy-gen">
-              <Button {...responsiveFontProps} disabled={role !== 'dev'}>
+              <Button {...responsiveFontProps} isDisabled={role !== 'dev'}>
                 Make a galaxy
               </Button>
             </Link>

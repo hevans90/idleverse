@@ -1,7 +1,7 @@
 import { useReactiveVar } from '@apollo/client';
 import { Box, Button, Link, Text, VStack } from '@chakra-ui/react';
+import { colorsVar } from '@idleverse/state';
 import { Link as ReactRouterLink } from 'react-router-dom';
-import { colorsVar } from '../_state/colors';
 
 export const Showreel = () => {
   const { secondary } = useReactiveVar(colorsVar);

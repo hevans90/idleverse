@@ -5,33 +5,35 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-  _numeric: number[];
-  _text: string[];
-  _uuid: string[];
-  numeric: number;
-  timestamp: string;
-  timestamptz: string;
-  uuid: string;
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  _numeric: { input: number[]; output: number[]; }
+  _text: { input: string[]; output: string[]; }
+  _uuid: { input: string[]; output: string[]; }
+  numeric: { input: number; output: number; }
+  timestamp: { input: string; output: string; }
+  timestamptz: { input: string; output: string; }
+  uuid: { input: string; output: string; }
 };
 
 /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
 export type Boolean_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['Boolean']>;
-  _gt?: InputMaybe<Scalars['Boolean']>;
-  _gte?: InputMaybe<Scalars['Boolean']>;
-  _in?: InputMaybe<Array<Scalars['Boolean']>>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
-  _lt?: InputMaybe<Scalars['Boolean']>;
-  _lte?: InputMaybe<Scalars['Boolean']>;
-  _neq?: InputMaybe<Scalars['Boolean']>;
-  _nin?: InputMaybe<Array<Scalars['Boolean']>>;
+  _eq?: InputMaybe<Scalars['Boolean']['input']>;
+  _gt?: InputMaybe<Scalars['Boolean']['input']>;
+  _gte?: InputMaybe<Scalars['Boolean']['input']>;
+  _in?: InputMaybe<Array<Scalars['Boolean']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['Boolean']['input']>;
+  _lte?: InputMaybe<Scalars['Boolean']['input']>;
+  _neq?: InputMaybe<Scalars['Boolean']['input']>;
+  _nin?: InputMaybe<Array<Scalars['Boolean']['input']>>;
 };
 
 export type CelestialManagement = {
@@ -41,78 +43,83 @@ export type CelestialManagement = {
 
 export type GalaxyManagement = {
   __typename?: 'GalaxyManagement';
-  insertedCelestialId: Scalars['String'];
-  insertedCelestialName: Scalars['String'];
+  insertedCelestialId: Scalars['String']['output'];
+  insertedCelestialName: Scalars['String']['output'];
 };
 
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 export type Int_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['Int']>;
-  _gt?: InputMaybe<Scalars['Int']>;
-  _gte?: InputMaybe<Scalars['Int']>;
-  _in?: InputMaybe<Array<Scalars['Int']>>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
-  _lt?: InputMaybe<Scalars['Int']>;
-  _lte?: InputMaybe<Scalars['Int']>;
-  _neq?: InputMaybe<Scalars['Int']>;
-  _nin?: InputMaybe<Array<Scalars['Int']>>;
+  _eq?: InputMaybe<Scalars['Int']['input']>;
+  _gt?: InputMaybe<Scalars['Int']['input']>;
+  _gte?: InputMaybe<Scalars['Int']['input']>;
+  _in?: InputMaybe<Array<Scalars['Int']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['Int']['input']>;
+  _lte?: InputMaybe<Scalars['Int']['input']>;
+  _neq?: InputMaybe<Scalars['Int']['input']>;
+  _nin?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
 export type PartialPlanet = {
   __typename?: 'PartialPlanet';
-  id: Scalars['String'];
-  name: Scalars['String'];
-  owner_id: Scalars['String'];
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  owner_id: Scalars['String']['output'];
 };
 
 export type PlanetCreationInput = {
-  atmospheric_distance: Scalars['Float'];
-  celestial_id: Scalars['String'];
-  id: Scalars['String'];
-  name: Scalars['String'];
-  owner_id: Scalars['String'];
-  radius: Scalars['Float'];
+  atmospheric_distance: Scalars['Float']['input'];
+  celestial_id: Scalars['String']['input'];
+  id: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  owner_id: Scalars['String']['input'];
+  radius: Scalars['Float']['input'];
   rings: RingInsertInputWrapper;
-  terrain_bias: Array<Scalars['Float']>;
-  terrain_hex_palette_id: Scalars['String'];
-  texture_resolution: Scalars['Float'];
+  terrain_bias: Array<Scalars['Float']['input']>;
+  terrain_hex_palette_id: Scalars['String']['input'];
+  texture_resolution: Scalars['Float']['input'];
+};
+
+export type PurchaseCompletion = {
+  __typename?: 'PurchaseCompletion';
+  spent: Scalars['Float']['output'];
 };
 
 export type QuestCompletion = {
   __typename?: 'QuestCompletion';
-  next_quest_in_chain_added?: Maybe<Scalars['String']>;
-  quest_id: Scalars['String'];
+  next_quest_in_chain_added?: Maybe<Scalars['String']['output']>;
+  quest_id: Scalars['String']['output'];
   rewards: Array<QuestReward>;
 };
 
 export type QuestReward = {
   __typename?: 'QuestReward';
-  npc_unlock_id?: Maybe<Scalars['String']>;
-  resource_accrual_amount?: Maybe<Scalars['Float']>;
-  resource_accrual_type_id?: Maybe<Scalars['String']>;
-  resource_unlock_id?: Maybe<Scalars['String']>;
-  type: Scalars['String'];
+  npc_unlock_id?: Maybe<Scalars['String']['output']>;
+  resource_accrual_amount?: Maybe<Scalars['Float']['output']>;
+  resource_accrual_type_id?: Maybe<Scalars['String']['output']>;
+  resource_unlock_id?: Maybe<Scalars['String']['output']>;
+  type: Scalars['String']['output'];
 };
 
 export type QuestStepProgression = {
   __typename?: 'QuestStepProgression';
-  next_step_in_quest_added?: Maybe<Scalars['String']>;
-  quest_id: Scalars['String'];
+  next_step_in_quest_added?: Maybe<Scalars['String']['output']>;
+  quest_id: Scalars['String']['output'];
 };
 
 export type Register = {
   __typename?: 'Register';
-  updatedName: Scalars['String'];
+  updatedName: Scalars['String']['output'];
 };
 
 export type RingInsertInput = {
-  colors: Array<Scalars['String']>;
-  inner_radius: Scalars['Float'];
-  outer_radius: Scalars['Float'];
-  resolution: Scalars['Float'];
-  rotation: Array<Scalars['Float']>;
-  terrain_bias: Array<Scalars['Float']>;
-  type: Scalars['String'];
+  colors: Array<Scalars['String']['input']>;
+  inner_radius: Scalars['Float']['input'];
+  outer_radius: Scalars['Float']['input'];
+  resolution: Scalars['Float']['input'];
+  rotation: Array<Scalars['Float']['input']>;
+  terrain_bias: Array<Scalars['Float']['input']>;
+  type: Scalars['String']['input'];
 };
 
 export type RingInsertInputWrapper = {
@@ -121,83 +128,83 @@ export type RingInsertInputWrapper = {
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
 export type String_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['String']>;
-  _gt?: InputMaybe<Scalars['String']>;
-  _gte?: InputMaybe<Scalars['String']>;
+  _eq?: InputMaybe<Scalars['String']['input']>;
+  _gt?: InputMaybe<Scalars['String']['input']>;
+  _gte?: InputMaybe<Scalars['String']['input']>;
   /** does the column match the given case-insensitive pattern */
-  _ilike?: InputMaybe<Scalars['String']>;
-  _in?: InputMaybe<Array<Scalars['String']>>;
+  _ilike?: InputMaybe<Scalars['String']['input']>;
+  _in?: InputMaybe<Array<Scalars['String']['input']>>;
   /** does the column match the given POSIX regular expression, case insensitive */
-  _iregex?: InputMaybe<Scalars['String']>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _iregex?: InputMaybe<Scalars['String']['input']>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
   /** does the column match the given pattern */
-  _like?: InputMaybe<Scalars['String']>;
-  _lt?: InputMaybe<Scalars['String']>;
-  _lte?: InputMaybe<Scalars['String']>;
-  _neq?: InputMaybe<Scalars['String']>;
+  _like?: InputMaybe<Scalars['String']['input']>;
+  _lt?: InputMaybe<Scalars['String']['input']>;
+  _lte?: InputMaybe<Scalars['String']['input']>;
+  _neq?: InputMaybe<Scalars['String']['input']>;
   /** does the column NOT match the given case-insensitive pattern */
-  _nilike?: InputMaybe<Scalars['String']>;
-  _nin?: InputMaybe<Array<Scalars['String']>>;
+  _nilike?: InputMaybe<Scalars['String']['input']>;
+  _nin?: InputMaybe<Array<Scalars['String']['input']>>;
   /** does the column NOT match the given POSIX regular expression, case insensitive */
-  _niregex?: InputMaybe<Scalars['String']>;
+  _niregex?: InputMaybe<Scalars['String']['input']>;
   /** does the column NOT match the given pattern */
-  _nlike?: InputMaybe<Scalars['String']>;
+  _nlike?: InputMaybe<Scalars['String']['input']>;
   /** does the column NOT match the given POSIX regular expression, case sensitive */
-  _nregex?: InputMaybe<Scalars['String']>;
+  _nregex?: InputMaybe<Scalars['String']['input']>;
   /** does the column NOT match the given SQL regular expression */
-  _nsimilar?: InputMaybe<Scalars['String']>;
+  _nsimilar?: InputMaybe<Scalars['String']['input']>;
   /** does the column match the given POSIX regular expression, case sensitive */
-  _regex?: InputMaybe<Scalars['String']>;
+  _regex?: InputMaybe<Scalars['String']['input']>;
   /** does the column match the given SQL regular expression */
-  _similar?: InputMaybe<Scalars['String']>;
+  _similar?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Boolean expression to compare columns of type "_numeric". All fields are combined with logical 'AND'. */
 export type _Numeric_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['_numeric']>;
-  _gt?: InputMaybe<Scalars['_numeric']>;
-  _gte?: InputMaybe<Scalars['_numeric']>;
-  _in?: InputMaybe<Array<Scalars['_numeric']>>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
-  _lt?: InputMaybe<Scalars['_numeric']>;
-  _lte?: InputMaybe<Scalars['_numeric']>;
-  _neq?: InputMaybe<Scalars['_numeric']>;
-  _nin?: InputMaybe<Array<Scalars['_numeric']>>;
+  _eq?: InputMaybe<Scalars['_numeric']['input']>;
+  _gt?: InputMaybe<Scalars['_numeric']['input']>;
+  _gte?: InputMaybe<Scalars['_numeric']['input']>;
+  _in?: InputMaybe<Array<Scalars['_numeric']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['_numeric']['input']>;
+  _lte?: InputMaybe<Scalars['_numeric']['input']>;
+  _neq?: InputMaybe<Scalars['_numeric']['input']>;
+  _nin?: InputMaybe<Array<Scalars['_numeric']['input']>>;
 };
 
 /** Boolean expression to compare columns of type "_text". All fields are combined with logical 'AND'. */
 export type _Text_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['_text']>;
-  _gt?: InputMaybe<Scalars['_text']>;
-  _gte?: InputMaybe<Scalars['_text']>;
-  _in?: InputMaybe<Array<Scalars['_text']>>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
-  _lt?: InputMaybe<Scalars['_text']>;
-  _lte?: InputMaybe<Scalars['_text']>;
-  _neq?: InputMaybe<Scalars['_text']>;
-  _nin?: InputMaybe<Array<Scalars['_text']>>;
+  _eq?: InputMaybe<Scalars['_text']['input']>;
+  _gt?: InputMaybe<Scalars['_text']['input']>;
+  _gte?: InputMaybe<Scalars['_text']['input']>;
+  _in?: InputMaybe<Array<Scalars['_text']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['_text']['input']>;
+  _lte?: InputMaybe<Scalars['_text']['input']>;
+  _neq?: InputMaybe<Scalars['_text']['input']>;
+  _nin?: InputMaybe<Array<Scalars['_text']['input']>>;
 };
 
 /** Boolean expression to compare columns of type "_uuid". All fields are combined with logical 'AND'. */
 export type _Uuid_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['_uuid']>;
-  _gt?: InputMaybe<Scalars['_uuid']>;
-  _gte?: InputMaybe<Scalars['_uuid']>;
-  _in?: InputMaybe<Array<Scalars['_uuid']>>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
-  _lt?: InputMaybe<Scalars['_uuid']>;
-  _lte?: InputMaybe<Scalars['_uuid']>;
-  _neq?: InputMaybe<Scalars['_uuid']>;
-  _nin?: InputMaybe<Array<Scalars['_uuid']>>;
+  _eq?: InputMaybe<Scalars['_uuid']['input']>;
+  _gt?: InputMaybe<Scalars['_uuid']['input']>;
+  _gte?: InputMaybe<Scalars['_uuid']['input']>;
+  _in?: InputMaybe<Array<Scalars['_uuid']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['_uuid']['input']>;
+  _lte?: InputMaybe<Scalars['_uuid']['input']>;
+  _neq?: InputMaybe<Scalars['_uuid']['input']>;
+  _nin?: InputMaybe<Array<Scalars['_uuid']['input']>>;
 };
 
 /** Playable backgrounds */
 export type Background = {
   __typename?: 'background';
-  description: Scalars['String'];
-  id: Scalars['uuid'];
-  image_url?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
+  description: Scalars['String']['output'];
+  id: Scalars['uuid']['output'];
+  image_url?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
 };
 
 /** aggregated selection of "background" */
@@ -210,7 +217,7 @@ export type Background_Aggregate = {
 /** aggregate fields of "background" */
 export type Background_Aggregate_Fields = {
   __typename?: 'background_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<Background_Max_Fields>;
   min?: Maybe<Background_Min_Fields>;
 };
@@ -219,7 +226,7 @@ export type Background_Aggregate_Fields = {
 /** aggregate fields of "background" */
 export type Background_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Background_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "background". All fields are combined with a logical 'AND'. */
@@ -243,35 +250,35 @@ export enum Background_Constraint {
 
 /** input type for inserting data into table "background" */
 export type Background_Insert_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  image_url?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Background_Max_Fields = {
   __typename?: 'background_max_fields';
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  image_url?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  image_url?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type Background_Min_Fields = {
   __typename?: 'background_min_fields';
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  image_url?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  image_url?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "background" */
 export type Background_Mutation_Response = {
   __typename?: 'background_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Background>;
 };
@@ -300,7 +307,7 @@ export type Background_Order_By = {
 
 /** primary key columns input for table: background */
 export type Background_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "background" */
@@ -317,10 +324,10 @@ export enum Background_Select_Column {
 
 /** input type for updating data in table "background" */
 export type Background_Set_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  image_url?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Streaming cursor of the table "background" */
@@ -333,10 +340,10 @@ export type Background_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Background_Stream_Cursor_Value_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  image_url?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** update columns of table "background" */
@@ -363,13 +370,13 @@ export type Celestial = {
   __typename?: 'celestial';
   /** An object relationship */
   galactic_empire?: Maybe<Galactic_Empire>;
-  galactic_empire_id?: Maybe<Scalars['uuid']>;
+  galactic_empire_id?: Maybe<Scalars['uuid']['output']>;
   /** An object relationship */
   galaxy: Galaxy;
-  galaxy_id: Scalars['uuid'];
-  id: Scalars['String'];
-  name?: Maybe<Scalars['String']>;
-  owner_id?: Maybe<Scalars['String']>;
+  galaxy_id: Scalars['uuid']['output'];
+  id: Scalars['String']['output'];
+  name?: Maybe<Scalars['String']['output']>;
+  owner_id?: Maybe<Scalars['String']['output']>;
   /** An array relationship */
   planets: Array<Planet>;
   /** An aggregate relationship */
@@ -382,8 +389,8 @@ export type Celestial = {
 /** columns and relationships of "celestial" */
 export type CelestialPlanetsArgs = {
   distinct_on?: InputMaybe<Array<Planet_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Planet_Order_By>>;
   where?: InputMaybe<Planet_Bool_Exp>;
 };
@@ -392,8 +399,8 @@ export type CelestialPlanetsArgs = {
 /** columns and relationships of "celestial" */
 export type CelestialPlanets_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Planet_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Planet_Order_By>>;
   where?: InputMaybe<Planet_Bool_Exp>;
 };
@@ -411,7 +418,7 @@ export type Celestial_Aggregate_Bool_Exp = {
 
 export type Celestial_Aggregate_Bool_Exp_Count = {
   arguments?: InputMaybe<Array<Celestial_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
   filter?: InputMaybe<Celestial_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -419,7 +426,7 @@ export type Celestial_Aggregate_Bool_Exp_Count = {
 /** aggregate fields of "celestial" */
 export type Celestial_Aggregate_Fields = {
   __typename?: 'celestial_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<Celestial_Max_Fields>;
   min?: Maybe<Celestial_Min_Fields>;
 };
@@ -428,7 +435,7 @@ export type Celestial_Aggregate_Fields = {
 /** aggregate fields of "celestial" */
 export type Celestial_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Celestial_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "celestial" */
@@ -471,12 +478,12 @@ export enum Celestial_Constraint {
 /** input type for inserting data into table "celestial" */
 export type Celestial_Insert_Input = {
   galactic_empire?: InputMaybe<Galactic_Empire_Obj_Rel_Insert_Input>;
-  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
+  galactic_empire_id?: InputMaybe<Scalars['uuid']['input']>;
   galaxy?: InputMaybe<Galaxy_Obj_Rel_Insert_Input>;
-  galaxy_id?: InputMaybe<Scalars['uuid']>;
-  id?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  owner_id?: InputMaybe<Scalars['String']>;
+  galaxy_id?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  owner_id?: InputMaybe<Scalars['String']['input']>;
   planets?: InputMaybe<Planet_Arr_Rel_Insert_Input>;
   user_info?: InputMaybe<User_Info_Obj_Rel_Insert_Input>;
 };
@@ -484,11 +491,11 @@ export type Celestial_Insert_Input = {
 /** aggregate max on columns */
 export type Celestial_Max_Fields = {
   __typename?: 'celestial_max_fields';
-  galactic_empire_id?: Maybe<Scalars['uuid']>;
-  galaxy_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  owner_id?: Maybe<Scalars['String']>;
+  galactic_empire_id?: Maybe<Scalars['uuid']['output']>;
+  galaxy_id?: Maybe<Scalars['uuid']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  owner_id?: Maybe<Scalars['String']['output']>;
 };
 
 /** order by max() on columns of table "celestial" */
@@ -503,11 +510,11 @@ export type Celestial_Max_Order_By = {
 /** aggregate min on columns */
 export type Celestial_Min_Fields = {
   __typename?: 'celestial_min_fields';
-  galactic_empire_id?: Maybe<Scalars['uuid']>;
-  galaxy_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  owner_id?: Maybe<Scalars['String']>;
+  galactic_empire_id?: Maybe<Scalars['uuid']['output']>;
+  galaxy_id?: Maybe<Scalars['uuid']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  owner_id?: Maybe<Scalars['String']['output']>;
 };
 
 /** order by min() on columns of table "celestial" */
@@ -523,7 +530,7 @@ export type Celestial_Min_Order_By = {
 export type Celestial_Mutation_Response = {
   __typename?: 'celestial_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Celestial>;
 };
@@ -557,7 +564,7 @@ export type Celestial_Order_By = {
 
 /** primary key columns input for table: celestial */
 export type Celestial_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "celestial" */
@@ -576,11 +583,11 @@ export enum Celestial_Select_Column {
 
 /** input type for updating data in table "celestial" */
 export type Celestial_Set_Input = {
-  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
-  galaxy_id?: InputMaybe<Scalars['uuid']>;
-  id?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  owner_id?: InputMaybe<Scalars['String']>;
+  galactic_empire_id?: InputMaybe<Scalars['uuid']['input']>;
+  galaxy_id?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  owner_id?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Streaming cursor of the table "celestial" */
@@ -593,11 +600,11 @@ export type Celestial_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Celestial_Stream_Cursor_Value_Input = {
-  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
-  galaxy_id?: InputMaybe<Scalars['uuid']>;
-  id?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  owner_id?: InputMaybe<Scalars['String']>;
+  galactic_empire_id?: InputMaybe<Scalars['uuid']['input']>;
+  galaxy_id?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  owner_id?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** update columns of table "celestial" */
@@ -624,10 +631,10 @@ export type Celestial_Updates = {
 /** columns and relationships of "chat_message" */
 export type Chat_Message = {
   __typename?: 'chat_message';
-  id: Scalars['uuid'];
-  message: Scalars['String'];
-  poster_id: Scalars['String'];
-  timestamp: Scalars['timestamp'];
+  id: Scalars['uuid']['output'];
+  message: Scalars['String']['output'];
+  poster_id: Scalars['String']['output'];
+  timestamp: Scalars['timestamp']['output'];
   /** An object relationship */
   user_info: User_Info;
 };
@@ -645,7 +652,7 @@ export type Chat_Message_Aggregate_Bool_Exp = {
 
 export type Chat_Message_Aggregate_Bool_Exp_Count = {
   arguments?: InputMaybe<Array<Chat_Message_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
   filter?: InputMaybe<Chat_Message_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -653,7 +660,7 @@ export type Chat_Message_Aggregate_Bool_Exp_Count = {
 /** aggregate fields of "chat_message" */
 export type Chat_Message_Aggregate_Fields = {
   __typename?: 'chat_message_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<Chat_Message_Max_Fields>;
   min?: Maybe<Chat_Message_Min_Fields>;
 };
@@ -662,7 +669,7 @@ export type Chat_Message_Aggregate_Fields = {
 /** aggregate fields of "chat_message" */
 export type Chat_Message_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Chat_Message_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "chat_message" */
@@ -699,20 +706,20 @@ export enum Chat_Message_Constraint {
 
 /** input type for inserting data into table "chat_message" */
 export type Chat_Message_Insert_Input = {
-  id?: InputMaybe<Scalars['uuid']>;
-  message?: InputMaybe<Scalars['String']>;
-  poster_id?: InputMaybe<Scalars['String']>;
-  timestamp?: InputMaybe<Scalars['timestamp']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  message?: InputMaybe<Scalars['String']['input']>;
+  poster_id?: InputMaybe<Scalars['String']['input']>;
+  timestamp?: InputMaybe<Scalars['timestamp']['input']>;
   user_info?: InputMaybe<User_Info_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
 export type Chat_Message_Max_Fields = {
   __typename?: 'chat_message_max_fields';
-  id?: Maybe<Scalars['uuid']>;
-  message?: Maybe<Scalars['String']>;
-  poster_id?: Maybe<Scalars['String']>;
-  timestamp?: Maybe<Scalars['timestamp']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  message?: Maybe<Scalars['String']['output']>;
+  poster_id?: Maybe<Scalars['String']['output']>;
+  timestamp?: Maybe<Scalars['timestamp']['output']>;
 };
 
 /** order by max() on columns of table "chat_message" */
@@ -726,10 +733,10 @@ export type Chat_Message_Max_Order_By = {
 /** aggregate min on columns */
 export type Chat_Message_Min_Fields = {
   __typename?: 'chat_message_min_fields';
-  id?: Maybe<Scalars['uuid']>;
-  message?: Maybe<Scalars['String']>;
-  poster_id?: Maybe<Scalars['String']>;
-  timestamp?: Maybe<Scalars['timestamp']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  message?: Maybe<Scalars['String']['output']>;
+  poster_id?: Maybe<Scalars['String']['output']>;
+  timestamp?: Maybe<Scalars['timestamp']['output']>;
 };
 
 /** order by min() on columns of table "chat_message" */
@@ -744,7 +751,7 @@ export type Chat_Message_Min_Order_By = {
 export type Chat_Message_Mutation_Response = {
   __typename?: 'chat_message_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Chat_Message>;
 };
@@ -767,7 +774,7 @@ export type Chat_Message_Order_By = {
 
 /** primary key columns input for table: chat_message */
 export type Chat_Message_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "chat_message" */
@@ -784,10 +791,10 @@ export enum Chat_Message_Select_Column {
 
 /** input type for updating data in table "chat_message" */
 export type Chat_Message_Set_Input = {
-  id?: InputMaybe<Scalars['uuid']>;
-  message?: InputMaybe<Scalars['String']>;
-  poster_id?: InputMaybe<Scalars['String']>;
-  timestamp?: InputMaybe<Scalars['timestamp']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  message?: InputMaybe<Scalars['String']['input']>;
+  poster_id?: InputMaybe<Scalars['String']['input']>;
+  timestamp?: InputMaybe<Scalars['timestamp']['input']>;
 };
 
 /** Streaming cursor of the table "chat_message" */
@@ -800,10 +807,10 @@ export type Chat_Message_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Chat_Message_Stream_Cursor_Value_Input = {
-  id?: InputMaybe<Scalars['uuid']>;
-  message?: InputMaybe<Scalars['String']>;
-  poster_id?: InputMaybe<Scalars['String']>;
-  timestamp?: InputMaybe<Scalars['timestamp']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  message?: InputMaybe<Scalars['String']['input']>;
+  poster_id?: InputMaybe<Scalars['String']['input']>;
+  timestamp?: InputMaybe<Scalars['timestamp']['input']>;
 };
 
 /** update columns of table "chat_message" */
@@ -836,10 +843,10 @@ export enum Cursor_Ordering {
 /** NPC factions */
 export type Faction = {
   __typename?: 'faction';
-  description: Scalars['String'];
-  id: Scalars['uuid'];
-  image_url?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
+  description: Scalars['String']['output'];
+  id: Scalars['uuid']['output'];
+  image_url?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
 };
 
 /** aggregated selection of "faction" */
@@ -852,7 +859,7 @@ export type Faction_Aggregate = {
 /** aggregate fields of "faction" */
 export type Faction_Aggregate_Fields = {
   __typename?: 'faction_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<Faction_Max_Fields>;
   min?: Maybe<Faction_Min_Fields>;
 };
@@ -861,7 +868,7 @@ export type Faction_Aggregate_Fields = {
 /** aggregate fields of "faction" */
 export type Faction_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Faction_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "faction". All fields are combined with a logical 'AND'. */
@@ -885,35 +892,35 @@ export enum Faction_Constraint {
 
 /** input type for inserting data into table "faction" */
 export type Faction_Insert_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  image_url?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Faction_Max_Fields = {
   __typename?: 'faction_max_fields';
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  image_url?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  image_url?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type Faction_Min_Fields = {
   __typename?: 'faction_min_fields';
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  image_url?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  image_url?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "faction" */
 export type Faction_Mutation_Response = {
   __typename?: 'faction_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Faction>;
 };
@@ -942,7 +949,7 @@ export type Faction_Order_By = {
 
 /** primary key columns input for table: faction */
 export type Faction_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "faction" */
@@ -959,10 +966,10 @@ export enum Faction_Select_Column {
 
 /** input type for updating data in table "faction" */
 export type Faction_Set_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  image_url?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Streaming cursor of the table "faction" */
@@ -975,10 +982,10 @@ export type Faction_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Faction_Stream_Cursor_Value_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  image_url?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** update columns of table "faction" */
@@ -1005,29 +1012,29 @@ export type Galactic_Empire = {
   __typename?: 'galactic_empire';
   /** An object relationship */
   background: Background;
-  background_id: Scalars['uuid'];
-  celestial_claims: Scalars['Int'];
+  background_id: Scalars['uuid']['output'];
+  celestial_claims: Scalars['Int']['output'];
   /** An array relationship */
   celestials: Array<Celestial>;
   /** An aggregate relationship */
   celestials_aggregate: Celestial_Aggregate;
   /** An object relationship */
   faction: Faction;
-  faction_id: Scalars['uuid'];
+  faction_id: Scalars['uuid']['output'];
   /** An object relationship */
   galaxy: Galaxy;
-  galaxy_id: Scalars['uuid'];
+  galaxy_id: Scalars['uuid']['output'];
   /** An object relationship */
   homeworld?: Maybe<Planet>;
-  homeworld_id?: Maybe<Scalars['uuid']>;
-  id: Scalars['uuid'];
+  homeworld_id?: Maybe<Scalars['uuid']['output']>;
+  id: Scalars['uuid']['output'];
   /** An array relationship */
   npcs: Array<Galactic_Empire_Npc>;
   /** An aggregate relationship */
   npcs_aggregate: Galactic_Empire_Npc_Aggregate;
   /** An object relationship */
   playable_race: Playable_Race;
-  playable_race_id: Scalars['uuid'];
+  playable_race_id: Scalars['uuid']['output'];
   /** An array relationship */
   quests: Array<Galactic_Empire_Quest>;
   /** An aggregate relationship */
@@ -1036,7 +1043,7 @@ export type Galactic_Empire = {
   resources: Array<Galactic_Empire_Resources>;
   /** An aggregate relationship */
   resources_aggregate: Galactic_Empire_Resources_Aggregate;
-  user_id: Scalars['String'];
+  user_id: Scalars['String']['output'];
   /** An object relationship */
   user_info: User_Info;
 };
@@ -1045,8 +1052,8 @@ export type Galactic_Empire = {
 /** columns and relationships of "galactic_empire" */
 export type Galactic_EmpireCelestialsArgs = {
   distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Celestial_Order_By>>;
   where?: InputMaybe<Celestial_Bool_Exp>;
 };
@@ -1055,8 +1062,8 @@ export type Galactic_EmpireCelestialsArgs = {
 /** columns and relationships of "galactic_empire" */
 export type Galactic_EmpireCelestials_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Celestial_Order_By>>;
   where?: InputMaybe<Celestial_Bool_Exp>;
 };
@@ -1065,8 +1072,8 @@ export type Galactic_EmpireCelestials_AggregateArgs = {
 /** columns and relationships of "galactic_empire" */
 export type Galactic_EmpireNpcsArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Npc_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Npc_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Npc_Bool_Exp>;
 };
@@ -1075,8 +1082,8 @@ export type Galactic_EmpireNpcsArgs = {
 /** columns and relationships of "galactic_empire" */
 export type Galactic_EmpireNpcs_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Npc_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Npc_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Npc_Bool_Exp>;
 };
@@ -1085,8 +1092,8 @@ export type Galactic_EmpireNpcs_AggregateArgs = {
 /** columns and relationships of "galactic_empire" */
 export type Galactic_EmpireQuestsArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Quest_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Quest_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Quest_Bool_Exp>;
 };
@@ -1095,8 +1102,8 @@ export type Galactic_EmpireQuestsArgs = {
 /** columns and relationships of "galactic_empire" */
 export type Galactic_EmpireQuests_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Quest_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Quest_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Quest_Bool_Exp>;
 };
@@ -1105,8 +1112,8 @@ export type Galactic_EmpireQuests_AggregateArgs = {
 /** columns and relationships of "galactic_empire" */
 export type Galactic_EmpireResourcesArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Resources_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Resources_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Resources_Bool_Exp>;
 };
@@ -1115,8 +1122,8 @@ export type Galactic_EmpireResourcesArgs = {
 /** columns and relationships of "galactic_empire" */
 export type Galactic_EmpireResources_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Resources_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Resources_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Resources_Bool_Exp>;
 };
@@ -1134,7 +1141,7 @@ export type Galactic_Empire_Aggregate_Bool_Exp = {
 
 export type Galactic_Empire_Aggregate_Bool_Exp_Count = {
   arguments?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
   filter?: InputMaybe<Galactic_Empire_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -1143,7 +1150,7 @@ export type Galactic_Empire_Aggregate_Bool_Exp_Count = {
 export type Galactic_Empire_Aggregate_Fields = {
   __typename?: 'galactic_empire_aggregate_fields';
   avg?: Maybe<Galactic_Empire_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<Galactic_Empire_Max_Fields>;
   min?: Maybe<Galactic_Empire_Min_Fields>;
   stddev?: Maybe<Galactic_Empire_Stddev_Fields>;
@@ -1159,7 +1166,7 @@ export type Galactic_Empire_Aggregate_Fields = {
 /** aggregate fields of "galactic_empire" */
 export type Galactic_Empire_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "galactic_empire" */
@@ -1187,7 +1194,7 @@ export type Galactic_Empire_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Galactic_Empire_Avg_Fields = {
   __typename?: 'galactic_empire_avg_fields';
-  celestial_claims?: Maybe<Scalars['Float']>;
+  celestial_claims?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "galactic_empire" */
@@ -1234,42 +1241,42 @@ export enum Galactic_Empire_Constraint {
 
 /** input type for incrementing numeric columns in table "galactic_empire" */
 export type Galactic_Empire_Inc_Input = {
-  celestial_claims?: InputMaybe<Scalars['Int']>;
+  celestial_claims?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "galactic_empire" */
 export type Galactic_Empire_Insert_Input = {
   background?: InputMaybe<Background_Obj_Rel_Insert_Input>;
-  background_id?: InputMaybe<Scalars['uuid']>;
-  celestial_claims?: InputMaybe<Scalars['Int']>;
+  background_id?: InputMaybe<Scalars['uuid']['input']>;
+  celestial_claims?: InputMaybe<Scalars['Int']['input']>;
   celestials?: InputMaybe<Celestial_Arr_Rel_Insert_Input>;
   faction?: InputMaybe<Faction_Obj_Rel_Insert_Input>;
-  faction_id?: InputMaybe<Scalars['uuid']>;
+  faction_id?: InputMaybe<Scalars['uuid']['input']>;
   galaxy?: InputMaybe<Galaxy_Obj_Rel_Insert_Input>;
-  galaxy_id?: InputMaybe<Scalars['uuid']>;
+  galaxy_id?: InputMaybe<Scalars['uuid']['input']>;
   homeworld?: InputMaybe<Planet_Obj_Rel_Insert_Input>;
-  homeworld_id?: InputMaybe<Scalars['uuid']>;
-  id?: InputMaybe<Scalars['uuid']>;
+  homeworld_id?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
   npcs?: InputMaybe<Galactic_Empire_Npc_Arr_Rel_Insert_Input>;
   playable_race?: InputMaybe<Playable_Race_Obj_Rel_Insert_Input>;
-  playable_race_id?: InputMaybe<Scalars['uuid']>;
+  playable_race_id?: InputMaybe<Scalars['uuid']['input']>;
   quests?: InputMaybe<Galactic_Empire_Quest_Arr_Rel_Insert_Input>;
   resources?: InputMaybe<Galactic_Empire_Resources_Arr_Rel_Insert_Input>;
-  user_id?: InputMaybe<Scalars['String']>;
+  user_id?: InputMaybe<Scalars['String']['input']>;
   user_info?: InputMaybe<User_Info_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
 export type Galactic_Empire_Max_Fields = {
   __typename?: 'galactic_empire_max_fields';
-  background_id?: Maybe<Scalars['uuid']>;
-  celestial_claims?: Maybe<Scalars['Int']>;
-  faction_id?: Maybe<Scalars['uuid']>;
-  galaxy_id?: Maybe<Scalars['uuid']>;
-  homeworld_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
-  playable_race_id?: Maybe<Scalars['uuid']>;
-  user_id?: Maybe<Scalars['String']>;
+  background_id?: Maybe<Scalars['uuid']['output']>;
+  celestial_claims?: Maybe<Scalars['Int']['output']>;
+  faction_id?: Maybe<Scalars['uuid']['output']>;
+  galaxy_id?: Maybe<Scalars['uuid']['output']>;
+  homeworld_id?: Maybe<Scalars['uuid']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  playable_race_id?: Maybe<Scalars['uuid']['output']>;
+  user_id?: Maybe<Scalars['String']['output']>;
 };
 
 /** order by max() on columns of table "galactic_empire" */
@@ -1287,14 +1294,14 @@ export type Galactic_Empire_Max_Order_By = {
 /** aggregate min on columns */
 export type Galactic_Empire_Min_Fields = {
   __typename?: 'galactic_empire_min_fields';
-  background_id?: Maybe<Scalars['uuid']>;
-  celestial_claims?: Maybe<Scalars['Int']>;
-  faction_id?: Maybe<Scalars['uuid']>;
-  galaxy_id?: Maybe<Scalars['uuid']>;
-  homeworld_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
-  playable_race_id?: Maybe<Scalars['uuid']>;
-  user_id?: Maybe<Scalars['String']>;
+  background_id?: Maybe<Scalars['uuid']['output']>;
+  celestial_claims?: Maybe<Scalars['Int']['output']>;
+  faction_id?: Maybe<Scalars['uuid']['output']>;
+  galaxy_id?: Maybe<Scalars['uuid']['output']>;
+  homeworld_id?: Maybe<Scalars['uuid']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  playable_race_id?: Maybe<Scalars['uuid']['output']>;
+  user_id?: Maybe<Scalars['String']['output']>;
 };
 
 /** order by min() on columns of table "galactic_empire" */
@@ -1313,7 +1320,7 @@ export type Galactic_Empire_Min_Order_By = {
 export type Galactic_Empire_Mutation_Response = {
   __typename?: 'galactic_empire_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Galactic_Empire>;
 };
@@ -1323,11 +1330,11 @@ export type Galactic_Empire_Npc = {
   __typename?: 'galactic_empire_npc';
   /** An object relationship */
   galactic_empire: Galactic_Empire;
-  galactic_empire_id: Scalars['uuid'];
-  id: Scalars['uuid'];
+  galactic_empire_id: Scalars['uuid']['output'];
+  id: Scalars['uuid']['output'];
   /** An object relationship */
   npc: Npc;
-  npc_id: Scalars['uuid'];
+  npc_id: Scalars['uuid']['output'];
 };
 
 /** aggregated selection of "galactic_empire_npc" */
@@ -1343,7 +1350,7 @@ export type Galactic_Empire_Npc_Aggregate_Bool_Exp = {
 
 export type Galactic_Empire_Npc_Aggregate_Bool_Exp_Count = {
   arguments?: InputMaybe<Array<Galactic_Empire_Npc_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
   filter?: InputMaybe<Galactic_Empire_Npc_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -1351,7 +1358,7 @@ export type Galactic_Empire_Npc_Aggregate_Bool_Exp_Count = {
 /** aggregate fields of "galactic_empire_npc" */
 export type Galactic_Empire_Npc_Aggregate_Fields = {
   __typename?: 'galactic_empire_npc_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<Galactic_Empire_Npc_Max_Fields>;
   min?: Maybe<Galactic_Empire_Npc_Min_Fields>;
 };
@@ -1360,7 +1367,7 @@ export type Galactic_Empire_Npc_Aggregate_Fields = {
 /** aggregate fields of "galactic_empire_npc" */
 export type Galactic_Empire_Npc_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Galactic_Empire_Npc_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "galactic_empire_npc" */
@@ -1400,18 +1407,18 @@ export enum Galactic_Empire_Npc_Constraint {
 /** input type for inserting data into table "galactic_empire_npc" */
 export type Galactic_Empire_Npc_Insert_Input = {
   galactic_empire?: InputMaybe<Galactic_Empire_Obj_Rel_Insert_Input>;
-  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
-  id?: InputMaybe<Scalars['uuid']>;
+  galactic_empire_id?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
   npc?: InputMaybe<Npc_Obj_Rel_Insert_Input>;
-  npc_id?: InputMaybe<Scalars['uuid']>;
+  npc_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate max on columns */
 export type Galactic_Empire_Npc_Max_Fields = {
   __typename?: 'galactic_empire_npc_max_fields';
-  galactic_empire_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
-  npc_id?: Maybe<Scalars['uuid']>;
+  galactic_empire_id?: Maybe<Scalars['uuid']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  npc_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by max() on columns of table "galactic_empire_npc" */
@@ -1424,9 +1431,9 @@ export type Galactic_Empire_Npc_Max_Order_By = {
 /** aggregate min on columns */
 export type Galactic_Empire_Npc_Min_Fields = {
   __typename?: 'galactic_empire_npc_min_fields';
-  galactic_empire_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
-  npc_id?: Maybe<Scalars['uuid']>;
+  galactic_empire_id?: Maybe<Scalars['uuid']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  npc_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by min() on columns of table "galactic_empire_npc" */
@@ -1440,7 +1447,7 @@ export type Galactic_Empire_Npc_Min_Order_By = {
 export type Galactic_Empire_Npc_Mutation_Response = {
   __typename?: 'galactic_empire_npc_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Galactic_Empire_Npc>;
 };
@@ -1463,7 +1470,7 @@ export type Galactic_Empire_Npc_Order_By = {
 
 /** primary key columns input for table: galactic_empire_npc */
 export type Galactic_Empire_Npc_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "galactic_empire_npc" */
@@ -1478,9 +1485,9 @@ export enum Galactic_Empire_Npc_Select_Column {
 
 /** input type for updating data in table "galactic_empire_npc" */
 export type Galactic_Empire_Npc_Set_Input = {
-  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  npc_id?: InputMaybe<Scalars['uuid']>;
+  galactic_empire_id?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  npc_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** Streaming cursor of the table "galactic_empire_npc" */
@@ -1493,9 +1500,9 @@ export type Galactic_Empire_Npc_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Galactic_Empire_Npc_Stream_Cursor_Value_Input = {
-  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  npc_id?: InputMaybe<Scalars['uuid']>;
+  galactic_empire_id?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  npc_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** update columns of table "galactic_empire_npc" */
@@ -1553,21 +1560,21 @@ export type Galactic_Empire_Order_By = {
 
 /** primary key columns input for table: galactic_empire */
 export type Galactic_Empire_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** columns and relationships of "galactic_empire_quest" */
 export type Galactic_Empire_Quest = {
   __typename?: 'galactic_empire_quest';
-  completed: Scalars['Boolean'];
+  completed: Scalars['Boolean']['output'];
   /** An object relationship */
   galactic_empire: Galactic_Empire;
-  galactic_empire_id: Scalars['uuid'];
-  id: Scalars['uuid'];
+  galactic_empire_id: Scalars['uuid']['output'];
+  id: Scalars['uuid']['output'];
   /** An object relationship */
   quest: Quest;
-  quest_id: Scalars['uuid'];
-  quest_step_id: Scalars['uuid'];
+  quest_id: Scalars['uuid']['output'];
+  quest_step_id: Scalars['uuid']['output'];
 };
 
 /** aggregated selection of "galactic_empire_quest" */
@@ -1585,21 +1592,21 @@ export type Galactic_Empire_Quest_Aggregate_Bool_Exp = {
 
 export type Galactic_Empire_Quest_Aggregate_Bool_Exp_Bool_And = {
   arguments: Galactic_Empire_Quest_Select_Column_Galactic_Empire_Quest_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
   filter?: InputMaybe<Galactic_Empire_Quest_Bool_Exp>;
   predicate: Boolean_Comparison_Exp;
 };
 
 export type Galactic_Empire_Quest_Aggregate_Bool_Exp_Bool_Or = {
   arguments: Galactic_Empire_Quest_Select_Column_Galactic_Empire_Quest_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
   filter?: InputMaybe<Galactic_Empire_Quest_Bool_Exp>;
   predicate: Boolean_Comparison_Exp;
 };
 
 export type Galactic_Empire_Quest_Aggregate_Bool_Exp_Count = {
   arguments?: InputMaybe<Array<Galactic_Empire_Quest_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
   filter?: InputMaybe<Galactic_Empire_Quest_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -1607,7 +1614,7 @@ export type Galactic_Empire_Quest_Aggregate_Bool_Exp_Count = {
 /** aggregate fields of "galactic_empire_quest" */
 export type Galactic_Empire_Quest_Aggregate_Fields = {
   __typename?: 'galactic_empire_quest_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<Galactic_Empire_Quest_Max_Fields>;
   min?: Maybe<Galactic_Empire_Quest_Min_Fields>;
 };
@@ -1616,7 +1623,7 @@ export type Galactic_Empire_Quest_Aggregate_Fields = {
 /** aggregate fields of "galactic_empire_quest" */
 export type Galactic_Empire_Quest_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Galactic_Empire_Quest_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "galactic_empire_quest" */
@@ -1655,22 +1662,22 @@ export enum Galactic_Empire_Quest_Constraint {
 
 /** input type for inserting data into table "galactic_empire_quest" */
 export type Galactic_Empire_Quest_Insert_Input = {
-  completed?: InputMaybe<Scalars['Boolean']>;
+  completed?: InputMaybe<Scalars['Boolean']['input']>;
   galactic_empire?: InputMaybe<Galactic_Empire_Obj_Rel_Insert_Input>;
-  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
-  id?: InputMaybe<Scalars['uuid']>;
+  galactic_empire_id?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
   quest?: InputMaybe<Quest_Obj_Rel_Insert_Input>;
-  quest_id?: InputMaybe<Scalars['uuid']>;
-  quest_step_id?: InputMaybe<Scalars['uuid']>;
+  quest_id?: InputMaybe<Scalars['uuid']['input']>;
+  quest_step_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate max on columns */
 export type Galactic_Empire_Quest_Max_Fields = {
   __typename?: 'galactic_empire_quest_max_fields';
-  galactic_empire_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
-  quest_id?: Maybe<Scalars['uuid']>;
-  quest_step_id?: Maybe<Scalars['uuid']>;
+  galactic_empire_id?: Maybe<Scalars['uuid']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  quest_id?: Maybe<Scalars['uuid']['output']>;
+  quest_step_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by max() on columns of table "galactic_empire_quest" */
@@ -1684,10 +1691,10 @@ export type Galactic_Empire_Quest_Max_Order_By = {
 /** aggregate min on columns */
 export type Galactic_Empire_Quest_Min_Fields = {
   __typename?: 'galactic_empire_quest_min_fields';
-  galactic_empire_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
-  quest_id?: Maybe<Scalars['uuid']>;
-  quest_step_id?: Maybe<Scalars['uuid']>;
+  galactic_empire_id?: Maybe<Scalars['uuid']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  quest_id?: Maybe<Scalars['uuid']['output']>;
+  quest_step_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by min() on columns of table "galactic_empire_quest" */
@@ -1702,7 +1709,7 @@ export type Galactic_Empire_Quest_Min_Order_By = {
 export type Galactic_Empire_Quest_Mutation_Response = {
   __typename?: 'galactic_empire_quest_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Galactic_Empire_Quest>;
 };
@@ -1727,7 +1734,7 @@ export type Galactic_Empire_Quest_Order_By = {
 
 /** primary key columns input for table: galactic_empire_quest */
 export type Galactic_Empire_Quest_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "galactic_empire_quest" */
@@ -1758,11 +1765,11 @@ export enum Galactic_Empire_Quest_Select_Column_Galactic_Empire_Quest_Aggregate_
 
 /** input type for updating data in table "galactic_empire_quest" */
 export type Galactic_Empire_Quest_Set_Input = {
-  completed?: InputMaybe<Scalars['Boolean']>;
-  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  quest_id?: InputMaybe<Scalars['uuid']>;
-  quest_step_id?: InputMaybe<Scalars['uuid']>;
+  completed?: InputMaybe<Scalars['Boolean']['input']>;
+  galactic_empire_id?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  quest_id?: InputMaybe<Scalars['uuid']['input']>;
+  quest_step_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** Streaming cursor of the table "galactic_empire_quest" */
@@ -1775,11 +1782,11 @@ export type Galactic_Empire_Quest_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Galactic_Empire_Quest_Stream_Cursor_Value_Input = {
-  completed?: InputMaybe<Scalars['Boolean']>;
-  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  quest_id?: InputMaybe<Scalars['uuid']>;
-  quest_step_id?: InputMaybe<Scalars['uuid']>;
+  completed?: InputMaybe<Scalars['Boolean']['input']>;
+  galactic_empire_id?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  quest_id?: InputMaybe<Scalars['uuid']['input']>;
+  quest_step_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** update columns of table "galactic_empire_quest" */
@@ -1806,15 +1813,17 @@ export type Galactic_Empire_Quest_Updates = {
 /** columns and relationships of "galactic_empire_resource_generator" */
 export type Galactic_Empire_Resource_Generator = {
   __typename?: 'galactic_empire_resource_generator';
-  created_at: Scalars['timestamptz'];
+  count: Scalars['numeric']['output'];
+  created_at: Scalars['timestamptz']['output'];
   /** An object relationship */
   galactic_empire: Galactic_Empire;
-  galactic_empire_id: Scalars['uuid'];
-  generator_type_id: Scalars['uuid'];
-  id: Scalars['uuid'];
+  galactic_empire_id: Scalars['uuid']['output'];
+  generator_type_id: Scalars['uuid']['output'];
+  id: Scalars['uuid']['output'];
+  planet_id?: Maybe<Scalars['uuid']['output']>;
   /** An object relationship */
-  resource_generator_type: Resource_Generator_Type;
-  updated_at: Scalars['timestamptz'];
+  resource_generator: Resource_Generator;
+  updated_at: Scalars['timestamptz']['output'];
 };
 
 /** aggregated selection of "galactic_empire_resource_generator" */
@@ -1827,16 +1836,30 @@ export type Galactic_Empire_Resource_Generator_Aggregate = {
 /** aggregate fields of "galactic_empire_resource_generator" */
 export type Galactic_Empire_Resource_Generator_Aggregate_Fields = {
   __typename?: 'galactic_empire_resource_generator_aggregate_fields';
-  count: Scalars['Int'];
+  avg?: Maybe<Galactic_Empire_Resource_Generator_Avg_Fields>;
+  count: Scalars['Int']['output'];
   max?: Maybe<Galactic_Empire_Resource_Generator_Max_Fields>;
   min?: Maybe<Galactic_Empire_Resource_Generator_Min_Fields>;
+  stddev?: Maybe<Galactic_Empire_Resource_Generator_Stddev_Fields>;
+  stddev_pop?: Maybe<Galactic_Empire_Resource_Generator_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Galactic_Empire_Resource_Generator_Stddev_Samp_Fields>;
+  sum?: Maybe<Galactic_Empire_Resource_Generator_Sum_Fields>;
+  var_pop?: Maybe<Galactic_Empire_Resource_Generator_Var_Pop_Fields>;
+  var_samp?: Maybe<Galactic_Empire_Resource_Generator_Var_Samp_Fields>;
+  variance?: Maybe<Galactic_Empire_Resource_Generator_Variance_Fields>;
 };
 
 
 /** aggregate fields of "galactic_empire_resource_generator" */
 export type Galactic_Empire_Resource_Generator_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Galactic_Empire_Resource_Generator_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** aggregate avg on columns */
+export type Galactic_Empire_Resource_Generator_Avg_Fields = {
+  __typename?: 'galactic_empire_resource_generator_avg_fields';
+  count?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "galactic_empire_resource_generator". All fields are combined with a logical 'AND'. */
@@ -1844,12 +1867,14 @@ export type Galactic_Empire_Resource_Generator_Bool_Exp = {
   _and?: InputMaybe<Array<Galactic_Empire_Resource_Generator_Bool_Exp>>;
   _not?: InputMaybe<Galactic_Empire_Resource_Generator_Bool_Exp>;
   _or?: InputMaybe<Array<Galactic_Empire_Resource_Generator_Bool_Exp>>;
+  count?: InputMaybe<Numeric_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   galactic_empire?: InputMaybe<Galactic_Empire_Bool_Exp>;
   galactic_empire_id?: InputMaybe<Uuid_Comparison_Exp>;
   generator_type_id?: InputMaybe<Uuid_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
-  resource_generator_type?: InputMaybe<Resource_Generator_Type_Bool_Exp>;
+  planet_id?: InputMaybe<Uuid_Comparison_Exp>;
+  resource_generator?: InputMaybe<Resource_Generator_Bool_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
 
@@ -1859,42 +1884,53 @@ export enum Galactic_Empire_Resource_Generator_Constraint {
   ResourceGeneratorPkey = 'resource_generator_pkey'
 }
 
+/** input type for incrementing numeric columns in table "galactic_empire_resource_generator" */
+export type Galactic_Empire_Resource_Generator_Inc_Input = {
+  count?: InputMaybe<Scalars['numeric']['input']>;
+};
+
 /** input type for inserting data into table "galactic_empire_resource_generator" */
 export type Galactic_Empire_Resource_Generator_Insert_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']>;
+  count?: InputMaybe<Scalars['numeric']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   galactic_empire?: InputMaybe<Galactic_Empire_Obj_Rel_Insert_Input>;
-  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
-  generator_type_id?: InputMaybe<Scalars['uuid']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  resource_generator_type?: InputMaybe<Resource_Generator_Type_Obj_Rel_Insert_Input>;
-  updated_at?: InputMaybe<Scalars['timestamptz']>;
+  galactic_empire_id?: InputMaybe<Scalars['uuid']['input']>;
+  generator_type_id?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  planet_id?: InputMaybe<Scalars['uuid']['input']>;
+  resource_generator?: InputMaybe<Resource_Generator_Obj_Rel_Insert_Input>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** aggregate max on columns */
 export type Galactic_Empire_Resource_Generator_Max_Fields = {
   __typename?: 'galactic_empire_resource_generator_max_fields';
-  created_at?: Maybe<Scalars['timestamptz']>;
-  galactic_empire_id?: Maybe<Scalars['uuid']>;
-  generator_type_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
+  count?: Maybe<Scalars['numeric']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  galactic_empire_id?: Maybe<Scalars['uuid']['output']>;
+  generator_type_id?: Maybe<Scalars['uuid']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  planet_id?: Maybe<Scalars['uuid']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** aggregate min on columns */
 export type Galactic_Empire_Resource_Generator_Min_Fields = {
   __typename?: 'galactic_empire_resource_generator_min_fields';
-  created_at?: Maybe<Scalars['timestamptz']>;
-  galactic_empire_id?: Maybe<Scalars['uuid']>;
-  generator_type_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
+  count?: Maybe<Scalars['numeric']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  galactic_empire_id?: Maybe<Scalars['uuid']['output']>;
+  generator_type_id?: Maybe<Scalars['uuid']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  planet_id?: Maybe<Scalars['uuid']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** response of any mutation on the table "galactic_empire_resource_generator" */
 export type Galactic_Empire_Resource_Generator_Mutation_Response = {
   __typename?: 'galactic_empire_resource_generator_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Galactic_Empire_Resource_Generator>;
 };
@@ -1908,22 +1944,26 @@ export type Galactic_Empire_Resource_Generator_On_Conflict = {
 
 /** Ordering options when selecting data from "galactic_empire_resource_generator". */
 export type Galactic_Empire_Resource_Generator_Order_By = {
+  count?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   galactic_empire?: InputMaybe<Galactic_Empire_Order_By>;
   galactic_empire_id?: InputMaybe<Order_By>;
   generator_type_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  resource_generator_type?: InputMaybe<Resource_Generator_Type_Order_By>;
+  planet_id?: InputMaybe<Order_By>;
+  resource_generator?: InputMaybe<Resource_Generator_Order_By>;
   updated_at?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: galactic_empire_resource_generator */
 export type Galactic_Empire_Resource_Generator_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "galactic_empire_resource_generator" */
 export enum Galactic_Empire_Resource_Generator_Select_Column {
+  /** column name */
+  Count = 'count',
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
@@ -1933,16 +1973,38 @@ export enum Galactic_Empire_Resource_Generator_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  PlanetId = 'planet_id',
+  /** column name */
   UpdatedAt = 'updated_at'
 }
 
 /** input type for updating data in table "galactic_empire_resource_generator" */
 export type Galactic_Empire_Resource_Generator_Set_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']>;
-  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
-  generator_type_id?: InputMaybe<Scalars['uuid']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']>;
+  count?: InputMaybe<Scalars['numeric']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  galactic_empire_id?: InputMaybe<Scalars['uuid']['input']>;
+  generator_type_id?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  planet_id?: InputMaybe<Scalars['uuid']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type Galactic_Empire_Resource_Generator_Stddev_Fields = {
+  __typename?: 'galactic_empire_resource_generator_stddev_fields';
+  count?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Galactic_Empire_Resource_Generator_Stddev_Pop_Fields = {
+  __typename?: 'galactic_empire_resource_generator_stddev_pop_fields';
+  count?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Galactic_Empire_Resource_Generator_Stddev_Samp_Fields = {
+  __typename?: 'galactic_empire_resource_generator_stddev_samp_fields';
+  count?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Streaming cursor of the table "galactic_empire_resource_generator" */
@@ -1955,15 +2017,25 @@ export type Galactic_Empire_Resource_Generator_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Galactic_Empire_Resource_Generator_Stream_Cursor_Value_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']>;
-  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
-  generator_type_id?: InputMaybe<Scalars['uuid']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']>;
+  count?: InputMaybe<Scalars['numeric']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  galactic_empire_id?: InputMaybe<Scalars['uuid']['input']>;
+  generator_type_id?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  planet_id?: InputMaybe<Scalars['uuid']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** aggregate sum on columns */
+export type Galactic_Empire_Resource_Generator_Sum_Fields = {
+  __typename?: 'galactic_empire_resource_generator_sum_fields';
+  count?: Maybe<Scalars['numeric']['output']>;
 };
 
 /** update columns of table "galactic_empire_resource_generator" */
 export enum Galactic_Empire_Resource_Generator_Update_Column {
+  /** column name */
+  Count = 'count',
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
@@ -1973,14 +2045,36 @@ export enum Galactic_Empire_Resource_Generator_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  PlanetId = 'planet_id',
+  /** column name */
   UpdatedAt = 'updated_at'
 }
 
 export type Galactic_Empire_Resource_Generator_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Galactic_Empire_Resource_Generator_Inc_Input>;
   /** sets the columns of the filtered rows to the given values */
   _set?: InputMaybe<Galactic_Empire_Resource_Generator_Set_Input>;
   /** filter the rows which have to be updated */
   where: Galactic_Empire_Resource_Generator_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Galactic_Empire_Resource_Generator_Var_Pop_Fields = {
+  __typename?: 'galactic_empire_resource_generator_var_pop_fields';
+  count?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate var_samp on columns */
+export type Galactic_Empire_Resource_Generator_Var_Samp_Fields = {
+  __typename?: 'galactic_empire_resource_generator_var_samp_fields';
+  count?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate variance on columns */
+export type Galactic_Empire_Resource_Generator_Variance_Fields = {
+  __typename?: 'galactic_empire_resource_generator_variance_fields';
+  count?: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "galactic_empire_resources" */
@@ -1988,13 +2082,13 @@ export type Galactic_Empire_Resources = {
   __typename?: 'galactic_empire_resources';
   /** An object relationship */
   galactic_empire: Galactic_Empire;
-  galactic_empire_id: Scalars['uuid'];
-  id: Scalars['uuid'];
+  galactic_empire_id: Scalars['uuid']['output'];
+  id: Scalars['uuid']['output'];
   /** An object relationship */
   resource_type: Resource_Type;
-  resource_type_id: Scalars['uuid'];
-  updated_at: Scalars['timestamptz'];
-  value: Scalars['Int'];
+  resource_type_id: Scalars['uuid']['output'];
+  updated_at: Scalars['timestamptz']['output'];
+  value: Scalars['Int']['output'];
 };
 
 /** aggregated selection of "galactic_empire_resources" */
@@ -2010,7 +2104,7 @@ export type Galactic_Empire_Resources_Aggregate_Bool_Exp = {
 
 export type Galactic_Empire_Resources_Aggregate_Bool_Exp_Count = {
   arguments?: InputMaybe<Array<Galactic_Empire_Resources_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
   filter?: InputMaybe<Galactic_Empire_Resources_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -2019,7 +2113,7 @@ export type Galactic_Empire_Resources_Aggregate_Bool_Exp_Count = {
 export type Galactic_Empire_Resources_Aggregate_Fields = {
   __typename?: 'galactic_empire_resources_aggregate_fields';
   avg?: Maybe<Galactic_Empire_Resources_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<Galactic_Empire_Resources_Max_Fields>;
   min?: Maybe<Galactic_Empire_Resources_Min_Fields>;
   stddev?: Maybe<Galactic_Empire_Resources_Stddev_Fields>;
@@ -2035,7 +2129,7 @@ export type Galactic_Empire_Resources_Aggregate_Fields = {
 /** aggregate fields of "galactic_empire_resources" */
 export type Galactic_Empire_Resources_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Galactic_Empire_Resources_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "galactic_empire_resources" */
@@ -2063,7 +2157,7 @@ export type Galactic_Empire_Resources_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Galactic_Empire_Resources_Avg_Fields = {
   __typename?: 'galactic_empire_resources_avg_fields';
-  value?: Maybe<Scalars['Float']>;
+  value?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "galactic_empire_resources" */
@@ -2095,28 +2189,28 @@ export enum Galactic_Empire_Resources_Constraint {
 
 /** input type for incrementing numeric columns in table "galactic_empire_resources" */
 export type Galactic_Empire_Resources_Inc_Input = {
-  value?: InputMaybe<Scalars['Int']>;
+  value?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "galactic_empire_resources" */
 export type Galactic_Empire_Resources_Insert_Input = {
   galactic_empire?: InputMaybe<Galactic_Empire_Obj_Rel_Insert_Input>;
-  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
-  id?: InputMaybe<Scalars['uuid']>;
+  galactic_empire_id?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
   resource_type?: InputMaybe<Resource_Type_Obj_Rel_Insert_Input>;
-  resource_type_id?: InputMaybe<Scalars['uuid']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']>;
-  value?: InputMaybe<Scalars['Int']>;
+  resource_type_id?: InputMaybe<Scalars['uuid']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  value?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** aggregate max on columns */
 export type Galactic_Empire_Resources_Max_Fields = {
   __typename?: 'galactic_empire_resources_max_fields';
-  galactic_empire_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
-  resource_type_id?: Maybe<Scalars['uuid']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
-  value?: Maybe<Scalars['Int']>;
+  galactic_empire_id?: Maybe<Scalars['uuid']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  resource_type_id?: Maybe<Scalars['uuid']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  value?: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by max() on columns of table "galactic_empire_resources" */
@@ -2131,11 +2225,11 @@ export type Galactic_Empire_Resources_Max_Order_By = {
 /** aggregate min on columns */
 export type Galactic_Empire_Resources_Min_Fields = {
   __typename?: 'galactic_empire_resources_min_fields';
-  galactic_empire_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
-  resource_type_id?: Maybe<Scalars['uuid']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
-  value?: Maybe<Scalars['Int']>;
+  galactic_empire_id?: Maybe<Scalars['uuid']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  resource_type_id?: Maybe<Scalars['uuid']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  value?: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by min() on columns of table "galactic_empire_resources" */
@@ -2151,7 +2245,7 @@ export type Galactic_Empire_Resources_Min_Order_By = {
 export type Galactic_Empire_Resources_Mutation_Response = {
   __typename?: 'galactic_empire_resources_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Galactic_Empire_Resources>;
 };
@@ -2176,7 +2270,7 @@ export type Galactic_Empire_Resources_Order_By = {
 
 /** primary key columns input for table: galactic_empire_resources */
 export type Galactic_Empire_Resources_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "galactic_empire_resources" */
@@ -2195,17 +2289,17 @@ export enum Galactic_Empire_Resources_Select_Column {
 
 /** input type for updating data in table "galactic_empire_resources" */
 export type Galactic_Empire_Resources_Set_Input = {
-  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  resource_type_id?: InputMaybe<Scalars['uuid']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']>;
-  value?: InputMaybe<Scalars['Int']>;
+  galactic_empire_id?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  resource_type_id?: InputMaybe<Scalars['uuid']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  value?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Galactic_Empire_Resources_Stddev_Fields = {
   __typename?: 'galactic_empire_resources_stddev_fields';
-  value?: Maybe<Scalars['Float']>;
+  value?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "galactic_empire_resources" */
@@ -2216,7 +2310,7 @@ export type Galactic_Empire_Resources_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type Galactic_Empire_Resources_Stddev_Pop_Fields = {
   __typename?: 'galactic_empire_resources_stddev_pop_fields';
-  value?: Maybe<Scalars['Float']>;
+  value?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "galactic_empire_resources" */
@@ -2227,7 +2321,7 @@ export type Galactic_Empire_Resources_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type Galactic_Empire_Resources_Stddev_Samp_Fields = {
   __typename?: 'galactic_empire_resources_stddev_samp_fields';
-  value?: Maybe<Scalars['Float']>;
+  value?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "galactic_empire_resources" */
@@ -2245,17 +2339,17 @@ export type Galactic_Empire_Resources_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Galactic_Empire_Resources_Stream_Cursor_Value_Input = {
-  galactic_empire_id?: InputMaybe<Scalars['uuid']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  resource_type_id?: InputMaybe<Scalars['uuid']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']>;
-  value?: InputMaybe<Scalars['Int']>;
+  galactic_empire_id?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  resource_type_id?: InputMaybe<Scalars['uuid']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  value?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Galactic_Empire_Resources_Sum_Fields = {
   __typename?: 'galactic_empire_resources_sum_fields';
-  value?: Maybe<Scalars['Int']>;
+  value?: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by sum() on columns of table "galactic_empire_resources" */
@@ -2289,7 +2383,7 @@ export type Galactic_Empire_Resources_Updates = {
 /** aggregate var_pop on columns */
 export type Galactic_Empire_Resources_Var_Pop_Fields = {
   __typename?: 'galactic_empire_resources_var_pop_fields';
-  value?: Maybe<Scalars['Float']>;
+  value?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "galactic_empire_resources" */
@@ -2300,7 +2394,7 @@ export type Galactic_Empire_Resources_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type Galactic_Empire_Resources_Var_Samp_Fields = {
   __typename?: 'galactic_empire_resources_var_samp_fields';
-  value?: Maybe<Scalars['Float']>;
+  value?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "galactic_empire_resources" */
@@ -2311,7 +2405,7 @@ export type Galactic_Empire_Resources_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type Galactic_Empire_Resources_Variance_Fields = {
   __typename?: 'galactic_empire_resources_variance_fields';
-  value?: Maybe<Scalars['Float']>;
+  value?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "galactic_empire_resources" */
@@ -2341,20 +2435,20 @@ export enum Galactic_Empire_Select_Column {
 
 /** input type for updating data in table "galactic_empire" */
 export type Galactic_Empire_Set_Input = {
-  background_id?: InputMaybe<Scalars['uuid']>;
-  celestial_claims?: InputMaybe<Scalars['Int']>;
-  faction_id?: InputMaybe<Scalars['uuid']>;
-  galaxy_id?: InputMaybe<Scalars['uuid']>;
-  homeworld_id?: InputMaybe<Scalars['uuid']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  playable_race_id?: InputMaybe<Scalars['uuid']>;
-  user_id?: InputMaybe<Scalars['String']>;
+  background_id?: InputMaybe<Scalars['uuid']['input']>;
+  celestial_claims?: InputMaybe<Scalars['Int']['input']>;
+  faction_id?: InputMaybe<Scalars['uuid']['input']>;
+  galaxy_id?: InputMaybe<Scalars['uuid']['input']>;
+  homeworld_id?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  playable_race_id?: InputMaybe<Scalars['uuid']['input']>;
+  user_id?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Galactic_Empire_Stddev_Fields = {
   __typename?: 'galactic_empire_stddev_fields';
-  celestial_claims?: Maybe<Scalars['Float']>;
+  celestial_claims?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "galactic_empire" */
@@ -2365,7 +2459,7 @@ export type Galactic_Empire_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type Galactic_Empire_Stddev_Pop_Fields = {
   __typename?: 'galactic_empire_stddev_pop_fields';
-  celestial_claims?: Maybe<Scalars['Float']>;
+  celestial_claims?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "galactic_empire" */
@@ -2376,7 +2470,7 @@ export type Galactic_Empire_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type Galactic_Empire_Stddev_Samp_Fields = {
   __typename?: 'galactic_empire_stddev_samp_fields';
-  celestial_claims?: Maybe<Scalars['Float']>;
+  celestial_claims?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "galactic_empire" */
@@ -2394,20 +2488,20 @@ export type Galactic_Empire_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Galactic_Empire_Stream_Cursor_Value_Input = {
-  background_id?: InputMaybe<Scalars['uuid']>;
-  celestial_claims?: InputMaybe<Scalars['Int']>;
-  faction_id?: InputMaybe<Scalars['uuid']>;
-  galaxy_id?: InputMaybe<Scalars['uuid']>;
-  homeworld_id?: InputMaybe<Scalars['uuid']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  playable_race_id?: InputMaybe<Scalars['uuid']>;
-  user_id?: InputMaybe<Scalars['String']>;
+  background_id?: InputMaybe<Scalars['uuid']['input']>;
+  celestial_claims?: InputMaybe<Scalars['Int']['input']>;
+  faction_id?: InputMaybe<Scalars['uuid']['input']>;
+  galaxy_id?: InputMaybe<Scalars['uuid']['input']>;
+  homeworld_id?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  playable_race_id?: InputMaybe<Scalars['uuid']['input']>;
+  user_id?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Galactic_Empire_Sum_Fields = {
   __typename?: 'galactic_empire_sum_fields';
-  celestial_claims?: Maybe<Scalars['Int']>;
+  celestial_claims?: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by sum() on columns of table "galactic_empire" */
@@ -2447,7 +2541,7 @@ export type Galactic_Empire_Updates = {
 /** aggregate var_pop on columns */
 export type Galactic_Empire_Var_Pop_Fields = {
   __typename?: 'galactic_empire_var_pop_fields';
-  celestial_claims?: Maybe<Scalars['Float']>;
+  celestial_claims?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "galactic_empire" */
@@ -2458,7 +2552,7 @@ export type Galactic_Empire_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type Galactic_Empire_Var_Samp_Fields = {
   __typename?: 'galactic_empire_var_samp_fields';
-  celestial_claims?: Maybe<Scalars['Float']>;
+  celestial_claims?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "galactic_empire" */
@@ -2469,7 +2563,7 @@ export type Galactic_Empire_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type Galactic_Empire_Variance_Fields = {
   __typename?: 'galactic_empire_variance_fields';
-  celestial_claims?: Maybe<Scalars['Float']>;
+  celestial_claims?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "galactic_empire" */
@@ -2480,31 +2574,31 @@ export type Galactic_Empire_Variance_Order_By = {
 /** columns and relationships of "galaxy" */
 export type Galaxy = {
   __typename?: 'galaxy';
-  arm_width: Scalars['numeric'];
-  arms: Scalars['numeric'];
+  arm_width: Scalars['numeric']['output'];
+  arms: Scalars['numeric']['output'];
   /** An array relationship */
   celestials: Array<Celestial>;
   /** An aggregate relationship */
   celestials_aggregate: Celestial_Aggregate;
-  core_concentration_factor: Scalars['numeric'];
-  core_radius_factor: Scalars['numeric'];
-  curvature: Scalars['numeric'];
+  core_concentration_factor: Scalars['numeric']['output'];
+  core_radius_factor: Scalars['numeric']['output'];
+  curvature: Scalars['numeric']['output'];
   /** An array relationship */
   galactic_empires: Array<Galactic_Empire>;
   /** An aggregate relationship */
   galactic_empires_aggregate: Galactic_Empire_Aggregate;
-  id: Scalars['uuid'];
-  name?: Maybe<Scalars['String']>;
-  radius: Scalars['Int'];
-  stars: Scalars['Int'];
+  id: Scalars['uuid']['output'];
+  name?: Maybe<Scalars['String']['output']>;
+  radius: Scalars['Int']['output'];
+  stars: Scalars['Int']['output'];
 };
 
 
 /** columns and relationships of "galaxy" */
 export type GalaxyCelestialsArgs = {
   distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Celestial_Order_By>>;
   where?: InputMaybe<Celestial_Bool_Exp>;
 };
@@ -2513,8 +2607,8 @@ export type GalaxyCelestialsArgs = {
 /** columns and relationships of "galaxy" */
 export type GalaxyCelestials_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Celestial_Order_By>>;
   where?: InputMaybe<Celestial_Bool_Exp>;
 };
@@ -2523,8 +2617,8 @@ export type GalaxyCelestials_AggregateArgs = {
 /** columns and relationships of "galaxy" */
 export type GalaxyGalactic_EmpiresArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Bool_Exp>;
 };
@@ -2533,8 +2627,8 @@ export type GalaxyGalactic_EmpiresArgs = {
 /** columns and relationships of "galaxy" */
 export type GalaxyGalactic_Empires_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Bool_Exp>;
 };
@@ -2550,7 +2644,7 @@ export type Galaxy_Aggregate = {
 export type Galaxy_Aggregate_Fields = {
   __typename?: 'galaxy_aggregate_fields';
   avg?: Maybe<Galaxy_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<Galaxy_Max_Fields>;
   min?: Maybe<Galaxy_Min_Fields>;
   stddev?: Maybe<Galaxy_Stddev_Fields>;
@@ -2566,19 +2660,19 @@ export type Galaxy_Aggregate_Fields = {
 /** aggregate fields of "galaxy" */
 export type Galaxy_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Galaxy_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type Galaxy_Avg_Fields = {
   __typename?: 'galaxy_avg_fields';
-  arm_width?: Maybe<Scalars['Float']>;
-  arms?: Maybe<Scalars['Float']>;
-  core_concentration_factor?: Maybe<Scalars['Float']>;
-  core_radius_factor?: Maybe<Scalars['Float']>;
-  curvature?: Maybe<Scalars['Float']>;
-  radius?: Maybe<Scalars['Float']>;
-  stars?: Maybe<Scalars['Float']>;
+  arm_width?: Maybe<Scalars['Float']['output']>;
+  arms?: Maybe<Scalars['Float']['output']>;
+  core_concentration_factor?: Maybe<Scalars['Float']['output']>;
+  core_radius_factor?: Maybe<Scalars['Float']['output']>;
+  curvature?: Maybe<Scalars['Float']['output']>;
+  radius?: Maybe<Scalars['Float']['output']>;
+  stars?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "galaxy". All fields are combined with a logical 'AND'. */
@@ -2609,63 +2703,63 @@ export enum Galaxy_Constraint {
 
 /** input type for incrementing numeric columns in table "galaxy" */
 export type Galaxy_Inc_Input = {
-  arm_width?: InputMaybe<Scalars['numeric']>;
-  arms?: InputMaybe<Scalars['numeric']>;
-  core_concentration_factor?: InputMaybe<Scalars['numeric']>;
-  core_radius_factor?: InputMaybe<Scalars['numeric']>;
-  curvature?: InputMaybe<Scalars['numeric']>;
-  radius?: InputMaybe<Scalars['Int']>;
-  stars?: InputMaybe<Scalars['Int']>;
+  arm_width?: InputMaybe<Scalars['numeric']['input']>;
+  arms?: InputMaybe<Scalars['numeric']['input']>;
+  core_concentration_factor?: InputMaybe<Scalars['numeric']['input']>;
+  core_radius_factor?: InputMaybe<Scalars['numeric']['input']>;
+  curvature?: InputMaybe<Scalars['numeric']['input']>;
+  radius?: InputMaybe<Scalars['Int']['input']>;
+  stars?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "galaxy" */
 export type Galaxy_Insert_Input = {
-  arm_width?: InputMaybe<Scalars['numeric']>;
-  arms?: InputMaybe<Scalars['numeric']>;
+  arm_width?: InputMaybe<Scalars['numeric']['input']>;
+  arms?: InputMaybe<Scalars['numeric']['input']>;
   celestials?: InputMaybe<Celestial_Arr_Rel_Insert_Input>;
-  core_concentration_factor?: InputMaybe<Scalars['numeric']>;
-  core_radius_factor?: InputMaybe<Scalars['numeric']>;
-  curvature?: InputMaybe<Scalars['numeric']>;
+  core_concentration_factor?: InputMaybe<Scalars['numeric']['input']>;
+  core_radius_factor?: InputMaybe<Scalars['numeric']['input']>;
+  curvature?: InputMaybe<Scalars['numeric']['input']>;
   galactic_empires?: InputMaybe<Galactic_Empire_Arr_Rel_Insert_Input>;
-  id?: InputMaybe<Scalars['uuid']>;
-  name?: InputMaybe<Scalars['String']>;
-  radius?: InputMaybe<Scalars['Int']>;
-  stars?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  radius?: InputMaybe<Scalars['Int']['input']>;
+  stars?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** aggregate max on columns */
 export type Galaxy_Max_Fields = {
   __typename?: 'galaxy_max_fields';
-  arm_width?: Maybe<Scalars['numeric']>;
-  arms?: Maybe<Scalars['numeric']>;
-  core_concentration_factor?: Maybe<Scalars['numeric']>;
-  core_radius_factor?: Maybe<Scalars['numeric']>;
-  curvature?: Maybe<Scalars['numeric']>;
-  id?: Maybe<Scalars['uuid']>;
-  name?: Maybe<Scalars['String']>;
-  radius?: Maybe<Scalars['Int']>;
-  stars?: Maybe<Scalars['Int']>;
+  arm_width?: Maybe<Scalars['numeric']['output']>;
+  arms?: Maybe<Scalars['numeric']['output']>;
+  core_concentration_factor?: Maybe<Scalars['numeric']['output']>;
+  core_radius_factor?: Maybe<Scalars['numeric']['output']>;
+  curvature?: Maybe<Scalars['numeric']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  radius?: Maybe<Scalars['Int']['output']>;
+  stars?: Maybe<Scalars['Int']['output']>;
 };
 
 /** aggregate min on columns */
 export type Galaxy_Min_Fields = {
   __typename?: 'galaxy_min_fields';
-  arm_width?: Maybe<Scalars['numeric']>;
-  arms?: Maybe<Scalars['numeric']>;
-  core_concentration_factor?: Maybe<Scalars['numeric']>;
-  core_radius_factor?: Maybe<Scalars['numeric']>;
-  curvature?: Maybe<Scalars['numeric']>;
-  id?: Maybe<Scalars['uuid']>;
-  name?: Maybe<Scalars['String']>;
-  radius?: Maybe<Scalars['Int']>;
-  stars?: Maybe<Scalars['Int']>;
+  arm_width?: Maybe<Scalars['numeric']['output']>;
+  arms?: Maybe<Scalars['numeric']['output']>;
+  core_concentration_factor?: Maybe<Scalars['numeric']['output']>;
+  core_radius_factor?: Maybe<Scalars['numeric']['output']>;
+  curvature?: Maybe<Scalars['numeric']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  radius?: Maybe<Scalars['Int']['output']>;
+  stars?: Maybe<Scalars['Int']['output']>;
 };
 
 /** response of any mutation on the table "galaxy" */
 export type Galaxy_Mutation_Response = {
   __typename?: 'galaxy_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Galaxy>;
 };
@@ -2701,7 +2795,7 @@ export type Galaxy_Order_By = {
 
 /** primary key columns input for table: galaxy */
 export type Galaxy_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "galaxy" */
@@ -2728,51 +2822,51 @@ export enum Galaxy_Select_Column {
 
 /** input type for updating data in table "galaxy" */
 export type Galaxy_Set_Input = {
-  arm_width?: InputMaybe<Scalars['numeric']>;
-  arms?: InputMaybe<Scalars['numeric']>;
-  core_concentration_factor?: InputMaybe<Scalars['numeric']>;
-  core_radius_factor?: InputMaybe<Scalars['numeric']>;
-  curvature?: InputMaybe<Scalars['numeric']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  name?: InputMaybe<Scalars['String']>;
-  radius?: InputMaybe<Scalars['Int']>;
-  stars?: InputMaybe<Scalars['Int']>;
+  arm_width?: InputMaybe<Scalars['numeric']['input']>;
+  arms?: InputMaybe<Scalars['numeric']['input']>;
+  core_concentration_factor?: InputMaybe<Scalars['numeric']['input']>;
+  core_radius_factor?: InputMaybe<Scalars['numeric']['input']>;
+  curvature?: InputMaybe<Scalars['numeric']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  radius?: InputMaybe<Scalars['Int']['input']>;
+  stars?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Galaxy_Stddev_Fields = {
   __typename?: 'galaxy_stddev_fields';
-  arm_width?: Maybe<Scalars['Float']>;
-  arms?: Maybe<Scalars['Float']>;
-  core_concentration_factor?: Maybe<Scalars['Float']>;
-  core_radius_factor?: Maybe<Scalars['Float']>;
-  curvature?: Maybe<Scalars['Float']>;
-  radius?: Maybe<Scalars['Float']>;
-  stars?: Maybe<Scalars['Float']>;
+  arm_width?: Maybe<Scalars['Float']['output']>;
+  arms?: Maybe<Scalars['Float']['output']>;
+  core_concentration_factor?: Maybe<Scalars['Float']['output']>;
+  core_radius_factor?: Maybe<Scalars['Float']['output']>;
+  curvature?: Maybe<Scalars['Float']['output']>;
+  radius?: Maybe<Scalars['Float']['output']>;
+  stars?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Galaxy_Stddev_Pop_Fields = {
   __typename?: 'galaxy_stddev_pop_fields';
-  arm_width?: Maybe<Scalars['Float']>;
-  arms?: Maybe<Scalars['Float']>;
-  core_concentration_factor?: Maybe<Scalars['Float']>;
-  core_radius_factor?: Maybe<Scalars['Float']>;
-  curvature?: Maybe<Scalars['Float']>;
-  radius?: Maybe<Scalars['Float']>;
-  stars?: Maybe<Scalars['Float']>;
+  arm_width?: Maybe<Scalars['Float']['output']>;
+  arms?: Maybe<Scalars['Float']['output']>;
+  core_concentration_factor?: Maybe<Scalars['Float']['output']>;
+  core_radius_factor?: Maybe<Scalars['Float']['output']>;
+  curvature?: Maybe<Scalars['Float']['output']>;
+  radius?: Maybe<Scalars['Float']['output']>;
+  stars?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Galaxy_Stddev_Samp_Fields = {
   __typename?: 'galaxy_stddev_samp_fields';
-  arm_width?: Maybe<Scalars['Float']>;
-  arms?: Maybe<Scalars['Float']>;
-  core_concentration_factor?: Maybe<Scalars['Float']>;
-  core_radius_factor?: Maybe<Scalars['Float']>;
-  curvature?: Maybe<Scalars['Float']>;
-  radius?: Maybe<Scalars['Float']>;
-  stars?: Maybe<Scalars['Float']>;
+  arm_width?: Maybe<Scalars['Float']['output']>;
+  arms?: Maybe<Scalars['Float']['output']>;
+  core_concentration_factor?: Maybe<Scalars['Float']['output']>;
+  core_radius_factor?: Maybe<Scalars['Float']['output']>;
+  curvature?: Maybe<Scalars['Float']['output']>;
+  radius?: Maybe<Scalars['Float']['output']>;
+  stars?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Streaming cursor of the table "galaxy" */
@@ -2785,27 +2879,27 @@ export type Galaxy_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Galaxy_Stream_Cursor_Value_Input = {
-  arm_width?: InputMaybe<Scalars['numeric']>;
-  arms?: InputMaybe<Scalars['numeric']>;
-  core_concentration_factor?: InputMaybe<Scalars['numeric']>;
-  core_radius_factor?: InputMaybe<Scalars['numeric']>;
-  curvature?: InputMaybe<Scalars['numeric']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  name?: InputMaybe<Scalars['String']>;
-  radius?: InputMaybe<Scalars['Int']>;
-  stars?: InputMaybe<Scalars['Int']>;
+  arm_width?: InputMaybe<Scalars['numeric']['input']>;
+  arms?: InputMaybe<Scalars['numeric']['input']>;
+  core_concentration_factor?: InputMaybe<Scalars['numeric']['input']>;
+  core_radius_factor?: InputMaybe<Scalars['numeric']['input']>;
+  curvature?: InputMaybe<Scalars['numeric']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  radius?: InputMaybe<Scalars['Int']['input']>;
+  stars?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Galaxy_Sum_Fields = {
   __typename?: 'galaxy_sum_fields';
-  arm_width?: Maybe<Scalars['numeric']>;
-  arms?: Maybe<Scalars['numeric']>;
-  core_concentration_factor?: Maybe<Scalars['numeric']>;
-  core_radius_factor?: Maybe<Scalars['numeric']>;
-  curvature?: Maybe<Scalars['numeric']>;
-  radius?: Maybe<Scalars['Int']>;
-  stars?: Maybe<Scalars['Int']>;
+  arm_width?: Maybe<Scalars['numeric']['output']>;
+  arms?: Maybe<Scalars['numeric']['output']>;
+  core_concentration_factor?: Maybe<Scalars['numeric']['output']>;
+  core_radius_factor?: Maybe<Scalars['numeric']['output']>;
+  curvature?: Maybe<Scalars['numeric']['output']>;
+  radius?: Maybe<Scalars['Int']['output']>;
+  stars?: Maybe<Scalars['Int']['output']>;
 };
 
 /** update columns of table "galaxy" */
@@ -2842,37 +2936,37 @@ export type Galaxy_Updates = {
 /** aggregate var_pop on columns */
 export type Galaxy_Var_Pop_Fields = {
   __typename?: 'galaxy_var_pop_fields';
-  arm_width?: Maybe<Scalars['Float']>;
-  arms?: Maybe<Scalars['Float']>;
-  core_concentration_factor?: Maybe<Scalars['Float']>;
-  core_radius_factor?: Maybe<Scalars['Float']>;
-  curvature?: Maybe<Scalars['Float']>;
-  radius?: Maybe<Scalars['Float']>;
-  stars?: Maybe<Scalars['Float']>;
+  arm_width?: Maybe<Scalars['Float']['output']>;
+  arms?: Maybe<Scalars['Float']['output']>;
+  core_concentration_factor?: Maybe<Scalars['Float']['output']>;
+  core_radius_factor?: Maybe<Scalars['Float']['output']>;
+  curvature?: Maybe<Scalars['Float']['output']>;
+  radius?: Maybe<Scalars['Float']['output']>;
+  stars?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type Galaxy_Var_Samp_Fields = {
   __typename?: 'galaxy_var_samp_fields';
-  arm_width?: Maybe<Scalars['Float']>;
-  arms?: Maybe<Scalars['Float']>;
-  core_concentration_factor?: Maybe<Scalars['Float']>;
-  core_radius_factor?: Maybe<Scalars['Float']>;
-  curvature?: Maybe<Scalars['Float']>;
-  radius?: Maybe<Scalars['Float']>;
-  stars?: Maybe<Scalars['Float']>;
+  arm_width?: Maybe<Scalars['Float']['output']>;
+  arms?: Maybe<Scalars['Float']['output']>;
+  core_concentration_factor?: Maybe<Scalars['Float']['output']>;
+  core_radius_factor?: Maybe<Scalars['Float']['output']>;
+  curvature?: Maybe<Scalars['Float']['output']>;
+  radius?: Maybe<Scalars['Float']['output']>;
+  stars?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type Galaxy_Variance_Fields = {
   __typename?: 'galaxy_variance_fields';
-  arm_width?: Maybe<Scalars['Float']>;
-  arms?: Maybe<Scalars['Float']>;
-  core_concentration_factor?: Maybe<Scalars['Float']>;
-  core_radius_factor?: Maybe<Scalars['Float']>;
-  curvature?: Maybe<Scalars['Float']>;
-  radius?: Maybe<Scalars['Float']>;
-  stars?: Maybe<Scalars['Float']>;
+  arm_width?: Maybe<Scalars['Float']['output']>;
+  arms?: Maybe<Scalars['Float']['output']>;
+  core_concentration_factor?: Maybe<Scalars['Float']['output']>;
+  core_radius_factor?: Maybe<Scalars['Float']['output']>;
+  curvature?: Maybe<Scalars['Float']['output']>;
+  radius?: Maybe<Scalars['Float']['output']>;
+  stars?: Maybe<Scalars['Float']['output']>;
 };
 
 /** mutation root */
@@ -2961,10 +3055,10 @@ export type Mutation_Root = {
   delete_quest_type?: Maybe<Quest_Type_Mutation_Response>;
   /** delete single row from the table: "quest_type" */
   delete_quest_type_by_pk?: Maybe<Quest_Type>;
-  /** delete data from the table: "resource_generator_type" */
-  delete_resource_generator_type?: Maybe<Resource_Generator_Type_Mutation_Response>;
-  /** delete single row from the table: "resource_generator_type" */
-  delete_resource_generator_type_by_pk?: Maybe<Resource_Generator_Type>;
+  /** delete data from the table: "resource_generator" */
+  delete_resource_generator?: Maybe<Resource_Generator_Mutation_Response>;
+  /** delete single row from the table: "resource_generator" */
+  delete_resource_generator_by_pk?: Maybe<Resource_Generator>;
   /** delete data from the table: "resource_type" */
   delete_resource_type?: Maybe<Resource_Type_Mutation_Response>;
   /** delete single row from the table: "resource_type" */
@@ -3065,10 +3159,10 @@ export type Mutation_Root = {
   insert_quest_type?: Maybe<Quest_Type_Mutation_Response>;
   /** insert a single row into the table: "quest_type" */
   insert_quest_type_one?: Maybe<Quest_Type>;
-  /** insert data into the table: "resource_generator_type" */
-  insert_resource_generator_type?: Maybe<Resource_Generator_Type_Mutation_Response>;
-  /** insert a single row into the table: "resource_generator_type" */
-  insert_resource_generator_type_one?: Maybe<Resource_Generator_Type>;
+  /** insert data into the table: "resource_generator" */
+  insert_resource_generator?: Maybe<Resource_Generator_Mutation_Response>;
+  /** insert a single row into the table: "resource_generator" */
+  insert_resource_generator_one?: Maybe<Resource_Generator>;
   /** insert data into the table: "resource_type" */
   insert_resource_type?: Maybe<Resource_Type_Mutation_Response>;
   /** insert a single row into the table: "resource_type" */
@@ -3094,6 +3188,7 @@ export type Mutation_Root = {
   /** insert a single row into the table: "user_private" */
   insert_user_private_one?: Maybe<User_Private>;
   progressQuestStep?: Maybe<QuestStepProgression>;
+  purchaseResourceGenerator?: Maybe<PurchaseCompletion>;
   setDisplayName?: Maybe<Register>;
   /** update data of the table: "background" */
   update_background?: Maybe<Background_Mutation_Response>;
@@ -3215,12 +3310,12 @@ export type Mutation_Root = {
   update_quest_type_by_pk?: Maybe<Quest_Type>;
   /** update multiples rows of table: "quest_type" */
   update_quest_type_many?: Maybe<Array<Maybe<Quest_Type_Mutation_Response>>>;
-  /** update data of the table: "resource_generator_type" */
-  update_resource_generator_type?: Maybe<Resource_Generator_Type_Mutation_Response>;
-  /** update single row of the table: "resource_generator_type" */
-  update_resource_generator_type_by_pk?: Maybe<Resource_Generator_Type>;
-  /** update multiples rows of table: "resource_generator_type" */
-  update_resource_generator_type_many?: Maybe<Array<Maybe<Resource_Generator_Type_Mutation_Response>>>;
+  /** update data of the table: "resource_generator" */
+  update_resource_generator?: Maybe<Resource_Generator_Mutation_Response>;
+  /** update single row of the table: "resource_generator" */
+  update_resource_generator_by_pk?: Maybe<Resource_Generator>;
+  /** update multiples rows of table: "resource_generator" */
+  update_resource_generator_many?: Maybe<Array<Maybe<Resource_Generator_Mutation_Response>>>;
   /** update data of the table: "resource_type" */
   update_resource_type?: Maybe<Resource_Type_Mutation_Response>;
   /** update single row of the table: "resource_type" */
@@ -3258,14 +3353,14 @@ export type Mutation_Root = {
 
 /** mutation root */
 export type Mutation_RootCompleteQuestArgs = {
-  empire_quest_id: Scalars['String'];
+  empire_quest_id: Scalars['String']['input'];
 };
 
 
 /** mutation root */
 export type Mutation_RootCreateEmpireOriginCelestialArgs = {
-  galactic_empire_id: Scalars['String'];
-  galaxy_id: Scalars['String'];
+  galactic_empire_id: Scalars['String']['input'];
+  galaxy_id: Scalars['String']['input'];
 };
 
 
@@ -3283,7 +3378,7 @@ export type Mutation_RootDelete_BackgroundArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Background_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -3295,7 +3390,7 @@ export type Mutation_RootDelete_CelestialArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Celestial_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 
@@ -3307,7 +3402,7 @@ export type Mutation_RootDelete_Chat_MessageArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Chat_Message_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -3319,7 +3414,7 @@ export type Mutation_RootDelete_FactionArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Faction_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -3331,7 +3426,7 @@ export type Mutation_RootDelete_Galactic_EmpireArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Galactic_Empire_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -3343,7 +3438,7 @@ export type Mutation_RootDelete_Galactic_Empire_NpcArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Galactic_Empire_Npc_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -3355,7 +3450,7 @@ export type Mutation_RootDelete_Galactic_Empire_QuestArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Galactic_Empire_Quest_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -3367,7 +3462,7 @@ export type Mutation_RootDelete_Galactic_Empire_Resource_GeneratorArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Galactic_Empire_Resource_Generator_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -3379,7 +3474,7 @@ export type Mutation_RootDelete_Galactic_Empire_ResourcesArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Galactic_Empire_Resources_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -3391,7 +3486,7 @@ export type Mutation_RootDelete_GalaxyArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Galaxy_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -3403,7 +3498,7 @@ export type Mutation_RootDelete_NpcArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Npc_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -3415,7 +3510,7 @@ export type Mutation_RootDelete_PlanetArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Planet_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -3427,7 +3522,7 @@ export type Mutation_RootDelete_Planetary_RingArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Planetary_Ring_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -3439,7 +3534,7 @@ export type Mutation_RootDelete_Playable_RaceArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Playable_Race_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -3451,7 +3546,7 @@ export type Mutation_RootDelete_QuestArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Quest_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -3463,7 +3558,7 @@ export type Mutation_RootDelete_Quest_RewardArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Quest_Reward_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -3475,7 +3570,7 @@ export type Mutation_RootDelete_Quest_Reward_TypeArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Quest_Reward_Type_By_PkArgs = {
-  value: Scalars['String'];
+  value: Scalars['String']['input'];
 };
 
 
@@ -3487,7 +3582,7 @@ export type Mutation_RootDelete_Quest_StepArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Quest_Step_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -3499,7 +3594,7 @@ export type Mutation_RootDelete_Quest_Step_TypeArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Quest_Step_Type_By_PkArgs = {
-  value: Scalars['String'];
+  value: Scalars['String']['input'];
 };
 
 
@@ -3511,19 +3606,19 @@ export type Mutation_RootDelete_Quest_TypeArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Quest_Type_By_PkArgs = {
-  value: Scalars['String'];
+  value: Scalars['String']['input'];
 };
 
 
 /** mutation root */
-export type Mutation_RootDelete_Resource_Generator_TypeArgs = {
-  where: Resource_Generator_Type_Bool_Exp;
+export type Mutation_RootDelete_Resource_GeneratorArgs = {
+  where: Resource_Generator_Bool_Exp;
 };
 
 
 /** mutation root */
-export type Mutation_RootDelete_Resource_Generator_Type_By_PkArgs = {
-  id: Scalars['uuid'];
+export type Mutation_RootDelete_Resource_Generator_By_PkArgs = {
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -3535,7 +3630,7 @@ export type Mutation_RootDelete_Resource_TypeArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Resource_Type_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -3547,7 +3642,7 @@ export type Mutation_RootDelete_TechnologyArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Technology_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -3559,7 +3654,7 @@ export type Mutation_RootDelete_Terrain_Hex_PaletteArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Terrain_Hex_Palette_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -3571,7 +3666,7 @@ export type Mutation_RootDelete_User_InfoArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_User_Info_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 
@@ -3868,16 +3963,16 @@ export type Mutation_RootInsert_Quest_Type_OneArgs = {
 
 
 /** mutation root */
-export type Mutation_RootInsert_Resource_Generator_TypeArgs = {
-  objects: Array<Resource_Generator_Type_Insert_Input>;
-  on_conflict?: InputMaybe<Resource_Generator_Type_On_Conflict>;
+export type Mutation_RootInsert_Resource_GeneratorArgs = {
+  objects: Array<Resource_Generator_Insert_Input>;
+  on_conflict?: InputMaybe<Resource_Generator_On_Conflict>;
 };
 
 
 /** mutation root */
-export type Mutation_RootInsert_Resource_Generator_Type_OneArgs = {
-  object: Resource_Generator_Type_Insert_Input;
-  on_conflict?: InputMaybe<Resource_Generator_Type_On_Conflict>;
+export type Mutation_RootInsert_Resource_Generator_OneArgs = {
+  object: Resource_Generator_Insert_Input;
+  on_conflict?: InputMaybe<Resource_Generator_On_Conflict>;
 };
 
 
@@ -3963,13 +4058,20 @@ export type Mutation_RootInsert_User_Private_OneArgs = {
 
 /** mutation root */
 export type Mutation_RootProgressQuestStepArgs = {
-  empire_quest_id: Scalars['String'];
+  empire_quest_id: Scalars['String']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootPurchaseResourceGeneratorArgs = {
+  galactic_empire_id: Scalars['String']['input'];
+  generator_type_id: Scalars['String']['input'];
 };
 
 
 /** mutation root */
 export type Mutation_RootSetDisplayNameArgs = {
-  display_name: Scalars['String'];
+  display_name: Scalars['String']['input'];
 };
 
 
@@ -4117,6 +4219,7 @@ export type Mutation_RootUpdate_Galactic_Empire_Quest_ManyArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Galactic_Empire_Resource_GeneratorArgs = {
+  _inc?: InputMaybe<Galactic_Empire_Resource_Generator_Inc_Input>;
   _set?: InputMaybe<Galactic_Empire_Resource_Generator_Set_Input>;
   where: Galactic_Empire_Resource_Generator_Bool_Exp;
 };
@@ -4124,6 +4227,7 @@ export type Mutation_RootUpdate_Galactic_Empire_Resource_GeneratorArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Galactic_Empire_Resource_Generator_By_PkArgs = {
+  _inc?: InputMaybe<Galactic_Empire_Resource_Generator_Inc_Input>;
   _set?: InputMaybe<Galactic_Empire_Resource_Generator_Set_Input>;
   pk_columns: Galactic_Empire_Resource_Generator_Pk_Columns_Input;
 };
@@ -4388,22 +4492,24 @@ export type Mutation_RootUpdate_Quest_Type_ManyArgs = {
 
 
 /** mutation root */
-export type Mutation_RootUpdate_Resource_Generator_TypeArgs = {
-  _set?: InputMaybe<Resource_Generator_Type_Set_Input>;
-  where: Resource_Generator_Type_Bool_Exp;
+export type Mutation_RootUpdate_Resource_GeneratorArgs = {
+  _inc?: InputMaybe<Resource_Generator_Inc_Input>;
+  _set?: InputMaybe<Resource_Generator_Set_Input>;
+  where: Resource_Generator_Bool_Exp;
 };
 
 
 /** mutation root */
-export type Mutation_RootUpdate_Resource_Generator_Type_By_PkArgs = {
-  _set?: InputMaybe<Resource_Generator_Type_Set_Input>;
-  pk_columns: Resource_Generator_Type_Pk_Columns_Input;
+export type Mutation_RootUpdate_Resource_Generator_By_PkArgs = {
+  _inc?: InputMaybe<Resource_Generator_Inc_Input>;
+  _set?: InputMaybe<Resource_Generator_Set_Input>;
+  pk_columns: Resource_Generator_Pk_Columns_Input;
 };
 
 
 /** mutation root */
-export type Mutation_RootUpdate_Resource_Generator_Type_ManyArgs = {
-  updates: Array<Resource_Generator_Type_Updates>;
+export type Mutation_RootUpdate_Resource_Generator_ManyArgs = {
+  updates: Array<Resource_Generator_Updates>;
 };
 
 
@@ -4522,13 +4628,13 @@ export type Npc = {
   __typename?: 'npc';
   /** An object relationship */
   faction?: Maybe<Faction>;
-  faction_id?: Maybe<Scalars['uuid']>;
-  id: Scalars['uuid'];
-  image_url: Scalars['String'];
-  name: Scalars['String'];
+  faction_id?: Maybe<Scalars['uuid']['output']>;
+  id: Scalars['uuid']['output'];
+  image_url: Scalars['String']['output'];
+  name: Scalars['String']['output'];
   /** An object relationship */
   playable_race?: Maybe<Playable_Race>;
-  race_id?: Maybe<Scalars['uuid']>;
+  race_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** aggregated selection of "npc" */
@@ -4541,7 +4647,7 @@ export type Npc_Aggregate = {
 /** aggregate fields of "npc" */
 export type Npc_Aggregate_Fields = {
   __typename?: 'npc_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<Npc_Max_Fields>;
   min?: Maybe<Npc_Min_Fields>;
 };
@@ -4550,7 +4656,7 @@ export type Npc_Aggregate_Fields = {
 /** aggregate fields of "npc" */
 export type Npc_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Npc_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "npc". All fields are combined with a logical 'AND'. */
@@ -4576,39 +4682,39 @@ export enum Npc_Constraint {
 /** input type for inserting data into table "npc" */
 export type Npc_Insert_Input = {
   faction?: InputMaybe<Faction_Obj_Rel_Insert_Input>;
-  faction_id?: InputMaybe<Scalars['uuid']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  image_url?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  faction_id?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   playable_race?: InputMaybe<Playable_Race_Obj_Rel_Insert_Input>;
-  race_id?: InputMaybe<Scalars['uuid']>;
+  race_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate max on columns */
 export type Npc_Max_Fields = {
   __typename?: 'npc_max_fields';
-  faction_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
-  image_url?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  race_id?: Maybe<Scalars['uuid']>;
+  faction_id?: Maybe<Scalars['uuid']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  image_url?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  race_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** aggregate min on columns */
 export type Npc_Min_Fields = {
   __typename?: 'npc_min_fields';
-  faction_id?: Maybe<Scalars['uuid']>;
-  id?: Maybe<Scalars['uuid']>;
-  image_url?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  race_id?: Maybe<Scalars['uuid']>;
+  faction_id?: Maybe<Scalars['uuid']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  image_url?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  race_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** response of any mutation on the table "npc" */
 export type Npc_Mutation_Response = {
   __typename?: 'npc_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Npc>;
 };
@@ -4640,7 +4746,7 @@ export type Npc_Order_By = {
 
 /** primary key columns input for table: npc */
 export type Npc_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "npc" */
@@ -4659,11 +4765,11 @@ export enum Npc_Select_Column {
 
 /** input type for updating data in table "npc" */
 export type Npc_Set_Input = {
-  faction_id?: InputMaybe<Scalars['uuid']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  image_url?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  race_id?: InputMaybe<Scalars['uuid']>;
+  faction_id?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  race_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** Streaming cursor of the table "npc" */
@@ -4676,11 +4782,11 @@ export type Npc_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Npc_Stream_Cursor_Value_Input = {
-  faction_id?: InputMaybe<Scalars['uuid']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  image_url?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  race_id?: InputMaybe<Scalars['uuid']>;
+  faction_id?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  race_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** update columns of table "npc" */
@@ -4706,15 +4812,15 @@ export type Npc_Updates = {
 
 /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
 export type Numeric_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['numeric']>;
-  _gt?: InputMaybe<Scalars['numeric']>;
-  _gte?: InputMaybe<Scalars['numeric']>;
-  _in?: InputMaybe<Array<Scalars['numeric']>>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
-  _lt?: InputMaybe<Scalars['numeric']>;
-  _lte?: InputMaybe<Scalars['numeric']>;
-  _neq?: InputMaybe<Scalars['numeric']>;
-  _nin?: InputMaybe<Array<Scalars['numeric']>>;
+  _eq?: InputMaybe<Scalars['numeric']['input']>;
+  _gt?: InputMaybe<Scalars['numeric']['input']>;
+  _gte?: InputMaybe<Scalars['numeric']['input']>;
+  _in?: InputMaybe<Array<Scalars['numeric']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['numeric']['input']>;
+  _lte?: InputMaybe<Scalars['numeric']['input']>;
+  _neq?: InputMaybe<Scalars['numeric']['input']>;
+  _nin?: InputMaybe<Array<Scalars['numeric']['input']>>;
 };
 
 /** column ordering options */
@@ -4736,23 +4842,23 @@ export enum Order_By {
 /** columns and relationships of "planet" */
 export type Planet = {
   __typename?: 'planet';
-  atmospheric_distance: Scalars['numeric'];
+  atmospheric_distance: Scalars['numeric']['output'];
   /** An object relationship */
   celestial: Celestial;
-  celestial_id: Scalars['String'];
-  id: Scalars['uuid'];
-  name: Scalars['String'];
-  owner_id: Scalars['String'];
-  radius: Scalars['numeric'];
+  celestial_id: Scalars['String']['output'];
+  id: Scalars['uuid']['output'];
+  name: Scalars['String']['output'];
+  owner_id: Scalars['String']['output'];
+  radius: Scalars['numeric']['output'];
   /** An array relationship */
   rings: Array<Planetary_Ring>;
   /** An aggregate relationship */
   rings_aggregate: Planetary_Ring_Aggregate;
-  terrain_bias: Scalars['_numeric'];
+  terrain_bias: Scalars['_numeric']['output'];
   /** An object relationship */
   terrain_hex_palette: Terrain_Hex_Palette;
-  terrain_hex_palette_id: Scalars['uuid'];
-  texture_resolution: Scalars['Int'];
+  terrain_hex_palette_id: Scalars['uuid']['output'];
+  texture_resolution: Scalars['Int']['output'];
   /** An object relationship */
   user_info?: Maybe<User_Info>;
 };
@@ -4761,8 +4867,8 @@ export type Planet = {
 /** columns and relationships of "planet" */
 export type PlanetRingsArgs = {
   distinct_on?: InputMaybe<Array<Planetary_Ring_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Planetary_Ring_Order_By>>;
   where?: InputMaybe<Planetary_Ring_Bool_Exp>;
 };
@@ -4771,8 +4877,8 @@ export type PlanetRingsArgs = {
 /** columns and relationships of "planet" */
 export type PlanetRings_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Planetary_Ring_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Planetary_Ring_Order_By>>;
   where?: InputMaybe<Planetary_Ring_Bool_Exp>;
 };
@@ -4790,7 +4896,7 @@ export type Planet_Aggregate_Bool_Exp = {
 
 export type Planet_Aggregate_Bool_Exp_Count = {
   arguments?: InputMaybe<Array<Planet_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
   filter?: InputMaybe<Planet_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -4799,7 +4905,7 @@ export type Planet_Aggregate_Bool_Exp_Count = {
 export type Planet_Aggregate_Fields = {
   __typename?: 'planet_aggregate_fields';
   avg?: Maybe<Planet_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<Planet_Max_Fields>;
   min?: Maybe<Planet_Min_Fields>;
   stddev?: Maybe<Planet_Stddev_Fields>;
@@ -4815,7 +4921,7 @@ export type Planet_Aggregate_Fields = {
 /** aggregate fields of "planet" */
 export type Planet_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Planet_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "planet" */
@@ -4843,9 +4949,9 @@ export type Planet_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Planet_Avg_Fields = {
   __typename?: 'planet_avg_fields';
-  atmospheric_distance?: Maybe<Scalars['Float']>;
-  radius?: Maybe<Scalars['Float']>;
-  texture_resolution?: Maybe<Scalars['Float']>;
+  atmospheric_distance?: Maybe<Scalars['Float']['output']>;
+  radius?: Maybe<Scalars['Float']['output']>;
+  texture_resolution?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "planet" */
@@ -4886,39 +4992,39 @@ export enum Planet_Constraint {
 
 /** input type for incrementing numeric columns in table "planet" */
 export type Planet_Inc_Input = {
-  atmospheric_distance?: InputMaybe<Scalars['numeric']>;
-  radius?: InputMaybe<Scalars['numeric']>;
-  texture_resolution?: InputMaybe<Scalars['Int']>;
+  atmospheric_distance?: InputMaybe<Scalars['numeric']['input']>;
+  radius?: InputMaybe<Scalars['numeric']['input']>;
+  texture_resolution?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "planet" */
 export type Planet_Insert_Input = {
-  atmospheric_distance?: InputMaybe<Scalars['numeric']>;
+  atmospheric_distance?: InputMaybe<Scalars['numeric']['input']>;
   celestial?: InputMaybe<Celestial_Obj_Rel_Insert_Input>;
-  celestial_id?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  name?: InputMaybe<Scalars['String']>;
-  owner_id?: InputMaybe<Scalars['String']>;
-  radius?: InputMaybe<Scalars['numeric']>;
+  celestial_id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  owner_id?: InputMaybe<Scalars['String']['input']>;
+  radius?: InputMaybe<Scalars['numeric']['input']>;
   rings?: InputMaybe<Planetary_Ring_Arr_Rel_Insert_Input>;
-  terrain_bias?: InputMaybe<Scalars['_numeric']>;
+  terrain_bias?: InputMaybe<Scalars['_numeric']['input']>;
   terrain_hex_palette?: InputMaybe<Terrain_Hex_Palette_Obj_Rel_Insert_Input>;
-  terrain_hex_palette_id?: InputMaybe<Scalars['uuid']>;
-  texture_resolution?: InputMaybe<Scalars['Int']>;
+  terrain_hex_palette_id?: InputMaybe<Scalars['uuid']['input']>;
+  texture_resolution?: InputMaybe<Scalars['Int']['input']>;
   user_info?: InputMaybe<User_Info_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
 export type Planet_Max_Fields = {
   __typename?: 'planet_max_fields';
-  atmospheric_distance?: Maybe<Scalars['numeric']>;
-  celestial_id?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  name?: Maybe<Scalars['String']>;
-  owner_id?: Maybe<Scalars['String']>;
-  radius?: Maybe<Scalars['numeric']>;
-  terrain_hex_palette_id?: Maybe<Scalars['uuid']>;
-  texture_resolution?: Maybe<Scalars['Int']>;
+  atmospheric_distance?: Maybe<Scalars['numeric']['output']>;
+  celestial_id?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  owner_id?: Maybe<Scalars['String']['output']>;
+  radius?: Maybe<Scalars['numeric']['output']>;
+  terrain_hex_palette_id?: Maybe<Scalars['uuid']['output']>;
+  texture_resolution?: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by max() on columns of table "planet" */
@@ -4936,14 +5042,14 @@ export type Planet_Max_Order_By = {
 /** aggregate min on columns */
 export type Planet_Min_Fields = {
   __typename?: 'planet_min_fields';
-  atmospheric_distance?: Maybe<Scalars['numeric']>;
-  celestial_id?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  name?: Maybe<Scalars['String']>;
-  owner_id?: Maybe<Scalars['String']>;
-  radius?: Maybe<Scalars['numeric']>;
-  terrain_hex_palette_id?: Maybe<Scalars['uuid']>;
-  texture_resolution?: Maybe<Scalars['Int']>;
+  atmospheric_distance?: Maybe<Scalars['numeric']['output']>;
+  celestial_id?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  owner_id?: Maybe<Scalars['String']['output']>;
+  radius?: Maybe<Scalars['numeric']['output']>;
+  terrain_hex_palette_id?: Maybe<Scalars['uuid']['output']>;
+  texture_resolution?: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by min() on columns of table "planet" */
@@ -4962,7 +5068,7 @@ export type Planet_Min_Order_By = {
 export type Planet_Mutation_Response = {
   __typename?: 'planet_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Planet>;
 };
@@ -5000,7 +5106,7 @@ export type Planet_Order_By = {
 
 /** primary key columns input for table: planet */
 export type Planet_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "planet" */
@@ -5027,23 +5133,23 @@ export enum Planet_Select_Column {
 
 /** input type for updating data in table "planet" */
 export type Planet_Set_Input = {
-  atmospheric_distance?: InputMaybe<Scalars['numeric']>;
-  celestial_id?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  name?: InputMaybe<Scalars['String']>;
-  owner_id?: InputMaybe<Scalars['String']>;
-  radius?: InputMaybe<Scalars['numeric']>;
-  terrain_bias?: InputMaybe<Scalars['_numeric']>;
-  terrain_hex_palette_id?: InputMaybe<Scalars['uuid']>;
-  texture_resolution?: InputMaybe<Scalars['Int']>;
+  atmospheric_distance?: InputMaybe<Scalars['numeric']['input']>;
+  celestial_id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  owner_id?: InputMaybe<Scalars['String']['input']>;
+  radius?: InputMaybe<Scalars['numeric']['input']>;
+  terrain_bias?: InputMaybe<Scalars['_numeric']['input']>;
+  terrain_hex_palette_id?: InputMaybe<Scalars['uuid']['input']>;
+  texture_resolution?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Planet_Stddev_Fields = {
   __typename?: 'planet_stddev_fields';
-  atmospheric_distance?: Maybe<Scalars['Float']>;
-  radius?: Maybe<Scalars['Float']>;
-  texture_resolution?: Maybe<Scalars['Float']>;
+  atmospheric_distance?: Maybe<Scalars['Float']['output']>;
+  radius?: Maybe<Scalars['Float']['output']>;
+  texture_resolution?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "planet" */
@@ -5056,9 +5162,9 @@ export type Planet_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type Planet_Stddev_Pop_Fields = {
   __typename?: 'planet_stddev_pop_fields';
-  atmospheric_distance?: Maybe<Scalars['Float']>;
-  radius?: Maybe<Scalars['Float']>;
-  texture_resolution?: Maybe<Scalars['Float']>;
+  atmospheric_distance?: Maybe<Scalars['Float']['output']>;
+  radius?: Maybe<Scalars['Float']['output']>;
+  texture_resolution?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "planet" */
@@ -5071,9 +5177,9 @@ export type Planet_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type Planet_Stddev_Samp_Fields = {
   __typename?: 'planet_stddev_samp_fields';
-  atmospheric_distance?: Maybe<Scalars['Float']>;
-  radius?: Maybe<Scalars['Float']>;
-  texture_resolution?: Maybe<Scalars['Float']>;
+  atmospheric_distance?: Maybe<Scalars['Float']['output']>;
+  radius?: Maybe<Scalars['Float']['output']>;
+  texture_resolution?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "planet" */
@@ -5093,23 +5199,23 @@ export type Planet_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Planet_Stream_Cursor_Value_Input = {
-  atmospheric_distance?: InputMaybe<Scalars['numeric']>;
-  celestial_id?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  name?: InputMaybe<Scalars['String']>;
-  owner_id?: InputMaybe<Scalars['String']>;
-  radius?: InputMaybe<Scalars['numeric']>;
-  terrain_bias?: InputMaybe<Scalars['_numeric']>;
-  terrain_hex_palette_id?: InputMaybe<Scalars['uuid']>;
-  texture_resolution?: InputMaybe<Scalars['Int']>;
+  atmospheric_distance?: InputMaybe<Scalars['numeric']['input']>;
+  celestial_id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  owner_id?: InputMaybe<Scalars['String']['input']>;
+  radius?: InputMaybe<Scalars['numeric']['input']>;
+  terrain_bias?: InputMaybe<Scalars['_numeric']['input']>;
+  terrain_hex_palette_id?: InputMaybe<Scalars['uuid']['input']>;
+  texture_resolution?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Planet_Sum_Fields = {
   __typename?: 'planet_sum_fields';
-  atmospheric_distance?: Maybe<Scalars['numeric']>;
-  radius?: Maybe<Scalars['numeric']>;
-  texture_resolution?: Maybe<Scalars['Int']>;
+  atmospheric_distance?: Maybe<Scalars['numeric']['output']>;
+  radius?: Maybe<Scalars['numeric']['output']>;
+  texture_resolution?: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by sum() on columns of table "planet" */
@@ -5153,9 +5259,9 @@ export type Planet_Updates = {
 /** aggregate var_pop on columns */
 export type Planet_Var_Pop_Fields = {
   __typename?: 'planet_var_pop_fields';
-  atmospheric_distance?: Maybe<Scalars['Float']>;
-  radius?: Maybe<Scalars['Float']>;
-  texture_resolution?: Maybe<Scalars['Float']>;
+  atmospheric_distance?: Maybe<Scalars['Float']['output']>;
+  radius?: Maybe<Scalars['Float']['output']>;
+  texture_resolution?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "planet" */
@@ -5168,9 +5274,9 @@ export type Planet_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type Planet_Var_Samp_Fields = {
   __typename?: 'planet_var_samp_fields';
-  atmospheric_distance?: Maybe<Scalars['Float']>;
-  radius?: Maybe<Scalars['Float']>;
-  texture_resolution?: Maybe<Scalars['Float']>;
+  atmospheric_distance?: Maybe<Scalars['Float']['output']>;
+  radius?: Maybe<Scalars['Float']['output']>;
+  texture_resolution?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "planet" */
@@ -5183,9 +5289,9 @@ export type Planet_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type Planet_Variance_Fields = {
   __typename?: 'planet_variance_fields';
-  atmospheric_distance?: Maybe<Scalars['Float']>;
-  radius?: Maybe<Scalars['Float']>;
-  texture_resolution?: Maybe<Scalars['Float']>;
+  atmospheric_distance?: Maybe<Scalars['Float']['output']>;
+  radius?: Maybe<Scalars['Float']['output']>;
+  texture_resolution?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "planet" */
@@ -5198,14 +5304,14 @@ export type Planet_Variance_Order_By = {
 /** columns and relationships of "planetary_ring" */
 export type Planetary_Ring = {
   __typename?: 'planetary_ring';
-  colors: Scalars['_text'];
-  id: Scalars['uuid'];
-  inner_radius: Scalars['numeric'];
-  outer_radius: Scalars['numeric'];
-  resolution: Scalars['Int'];
-  rotation: Scalars['_numeric'];
-  terrain_bias: Scalars['_numeric'];
-  type: Scalars['String'];
+  colors: Scalars['_text']['output'];
+  id: Scalars['uuid']['output'];
+  inner_radius: Scalars['numeric']['output'];
+  outer_radius: Scalars['numeric']['output'];
+  resolution: Scalars['Int']['output'];
+  rotation: Scalars['_numeric']['output'];
+  terrain_bias: Scalars['_numeric']['output'];
+  type: Scalars['String']['output'];
 };
 
 /** aggregated selection of "planetary_ring" */
@@ -5221,7 +5327,7 @@ export type Planetary_Ring_Aggregate_Bool_Exp = {
 
 export type Planetary_Ring_Aggregate_Bool_Exp_Count = {
   arguments?: InputMaybe<Array<Planetary_Ring_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
   filter?: InputMaybe<Planetary_Ring_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -5230,7 +5336,7 @@ export type Planetary_Ring_Aggregate_Bool_Exp_Count = {
 export type Planetary_Ring_Aggregate_Fields = {
   __typename?: 'planetary_ring_aggregate_fields';
   avg?: Maybe<Planetary_Ring_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<Planetary_Ring_Max_Fields>;
   min?: Maybe<Planetary_Ring_Min_Fields>;
   stddev?: Maybe<Planetary_Ring_Stddev_Fields>;
@@ -5246,7 +5352,7 @@ export type Planetary_Ring_Aggregate_Fields = {
 /** aggregate fields of "planetary_ring" */
 export type Planetary_Ring_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Planetary_Ring_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "planetary_ring" */
@@ -5274,9 +5380,9 @@ export type Planetary_Ring_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Planetary_Ring_Avg_Fields = {
   __typename?: 'planetary_ring_avg_fields';
-  inner_radius?: Maybe<Scalars['Float']>;
-  outer_radius?: Maybe<Scalars['Float']>;
-  resolution?: Maybe<Scalars['Float']>;
+  inner_radius?: Maybe<Scalars['Float']['output']>;
+  outer_radius?: Maybe<Scalars['Float']['output']>;
+  resolution?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "planetary_ring" */
@@ -5309,31 +5415,31 @@ export enum Planetary_Ring_Constraint {
 
 /** input type for incrementing numeric columns in table "planetary_ring" */
 export type Planetary_Ring_Inc_Input = {
-  inner_radius?: InputMaybe<Scalars['numeric']>;
-  outer_radius?: InputMaybe<Scalars['numeric']>;
-  resolution?: InputMaybe<Scalars['Int']>;
+  inner_radius?: InputMaybe<Scalars['numeric']['input']>;
+  outer_radius?: InputMaybe<Scalars['numeric']['input']>;
+  resolution?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "planetary_ring" */
 export type Planetary_Ring_Insert_Input = {
-  colors?: InputMaybe<Scalars['_text']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  inner_radius?: InputMaybe<Scalars['numeric']>;
-  outer_radius?: InputMaybe<Scalars['numeric']>;
-  resolution?: InputMaybe<Scalars['Int']>;
-  rotation?: InputMaybe<Scalars['_numeric']>;
-  terrain_bias?: InputMaybe<Scalars['_numeric']>;
-  type?: InputMaybe<Scalars['String']>;
+  colors?: InputMaybe<Scalars['_text']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  inner_radius?: InputMaybe<Scalars['numeric']['input']>;
+  outer_radius?: InputMaybe<Scalars['numeric']['input']>;
+  resolution?: InputMaybe<Scalars['Int']['input']>;
+  rotation?: InputMaybe<Scalars['_numeric']['input']>;
+  terrain_bias?: InputMaybe<Scalars['_numeric']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Planetary_Ring_Max_Fields = {
   __typename?: 'planetary_ring_max_fields';
-  id?: Maybe<Scalars['uuid']>;
-  inner_radius?: Maybe<Scalars['numeric']>;
-  outer_radius?: Maybe<Scalars['numeric']>;
-  resolution?: Maybe<Scalars['Int']>;
-  type?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  inner_radius?: Maybe<Scalars['numeric']['output']>;
+  outer_radius?: Maybe<Scalars['numeric']['output']>;
+  resolution?: Maybe<Scalars['Int']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 /** order by max() on columns of table "planetary_ring" */
@@ -5348,11 +5454,11 @@ export type Planetary_Ring_Max_Order_By = {
 /** aggregate min on columns */
 export type Planetary_Ring_Min_Fields = {
   __typename?: 'planetary_ring_min_fields';
-  id?: Maybe<Scalars['uuid']>;
-  inner_radius?: Maybe<Scalars['numeric']>;
-  outer_radius?: Maybe<Scalars['numeric']>;
-  resolution?: Maybe<Scalars['Int']>;
-  type?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  inner_radius?: Maybe<Scalars['numeric']['output']>;
+  outer_radius?: Maybe<Scalars['numeric']['output']>;
+  resolution?: Maybe<Scalars['Int']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 /** order by min() on columns of table "planetary_ring" */
@@ -5368,7 +5474,7 @@ export type Planetary_Ring_Min_Order_By = {
 export type Planetary_Ring_Mutation_Response = {
   __typename?: 'planetary_ring_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Planetary_Ring>;
 };
@@ -5394,7 +5500,7 @@ export type Planetary_Ring_Order_By = {
 
 /** primary key columns input for table: planetary_ring */
 export type Planetary_Ring_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "planetary_ring" */
@@ -5419,22 +5525,22 @@ export enum Planetary_Ring_Select_Column {
 
 /** input type for updating data in table "planetary_ring" */
 export type Planetary_Ring_Set_Input = {
-  colors?: InputMaybe<Scalars['_text']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  inner_radius?: InputMaybe<Scalars['numeric']>;
-  outer_radius?: InputMaybe<Scalars['numeric']>;
-  resolution?: InputMaybe<Scalars['Int']>;
-  rotation?: InputMaybe<Scalars['_numeric']>;
-  terrain_bias?: InputMaybe<Scalars['_numeric']>;
-  type?: InputMaybe<Scalars['String']>;
+  colors?: InputMaybe<Scalars['_text']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  inner_radius?: InputMaybe<Scalars['numeric']['input']>;
+  outer_radius?: InputMaybe<Scalars['numeric']['input']>;
+  resolution?: InputMaybe<Scalars['Int']['input']>;
+  rotation?: InputMaybe<Scalars['_numeric']['input']>;
+  terrain_bias?: InputMaybe<Scalars['_numeric']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Planetary_Ring_Stddev_Fields = {
   __typename?: 'planetary_ring_stddev_fields';
-  inner_radius?: Maybe<Scalars['Float']>;
-  outer_radius?: Maybe<Scalars['Float']>;
-  resolution?: Maybe<Scalars['Float']>;
+  inner_radius?: Maybe<Scalars['Float']['output']>;
+  outer_radius?: Maybe<Scalars['Float']['output']>;
+  resolution?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "planetary_ring" */
@@ -5447,9 +5553,9 @@ export type Planetary_Ring_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type Planetary_Ring_Stddev_Pop_Fields = {
   __typename?: 'planetary_ring_stddev_pop_fields';
-  inner_radius?: Maybe<Scalars['Float']>;
-  outer_radius?: Maybe<Scalars['Float']>;
-  resolution?: Maybe<Scalars['Float']>;
+  inner_radius?: Maybe<Scalars['Float']['output']>;
+  outer_radius?: Maybe<Scalars['Float']['output']>;
+  resolution?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "planetary_ring" */
@@ -5462,9 +5568,9 @@ export type Planetary_Ring_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type Planetary_Ring_Stddev_Samp_Fields = {
   __typename?: 'planetary_ring_stddev_samp_fields';
-  inner_radius?: Maybe<Scalars['Float']>;
-  outer_radius?: Maybe<Scalars['Float']>;
-  resolution?: Maybe<Scalars['Float']>;
+  inner_radius?: Maybe<Scalars['Float']['output']>;
+  outer_radius?: Maybe<Scalars['Float']['output']>;
+  resolution?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "planetary_ring" */
@@ -5484,22 +5590,22 @@ export type Planetary_Ring_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Planetary_Ring_Stream_Cursor_Value_Input = {
-  colors?: InputMaybe<Scalars['_text']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  inner_radius?: InputMaybe<Scalars['numeric']>;
-  outer_radius?: InputMaybe<Scalars['numeric']>;
-  resolution?: InputMaybe<Scalars['Int']>;
-  rotation?: InputMaybe<Scalars['_numeric']>;
-  terrain_bias?: InputMaybe<Scalars['_numeric']>;
-  type?: InputMaybe<Scalars['String']>;
+  colors?: InputMaybe<Scalars['_text']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  inner_radius?: InputMaybe<Scalars['numeric']['input']>;
+  outer_radius?: InputMaybe<Scalars['numeric']['input']>;
+  resolution?: InputMaybe<Scalars['Int']['input']>;
+  rotation?: InputMaybe<Scalars['_numeric']['input']>;
+  terrain_bias?: InputMaybe<Scalars['_numeric']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Planetary_Ring_Sum_Fields = {
   __typename?: 'planetary_ring_sum_fields';
-  inner_radius?: Maybe<Scalars['numeric']>;
-  outer_radius?: Maybe<Scalars['numeric']>;
-  resolution?: Maybe<Scalars['Int']>;
+  inner_radius?: Maybe<Scalars['numeric']['output']>;
+  outer_radius?: Maybe<Scalars['numeric']['output']>;
+  resolution?: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by sum() on columns of table "planetary_ring" */
@@ -5541,9 +5647,9 @@ export type Planetary_Ring_Updates = {
 /** aggregate var_pop on columns */
 export type Planetary_Ring_Var_Pop_Fields = {
   __typename?: 'planetary_ring_var_pop_fields';
-  inner_radius?: Maybe<Scalars['Float']>;
-  outer_radius?: Maybe<Scalars['Float']>;
-  resolution?: Maybe<Scalars['Float']>;
+  inner_radius?: Maybe<Scalars['Float']['output']>;
+  outer_radius?: Maybe<Scalars['Float']['output']>;
+  resolution?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "planetary_ring" */
@@ -5556,9 +5662,9 @@ export type Planetary_Ring_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type Planetary_Ring_Var_Samp_Fields = {
   __typename?: 'planetary_ring_var_samp_fields';
-  inner_radius?: Maybe<Scalars['Float']>;
-  outer_radius?: Maybe<Scalars['Float']>;
-  resolution?: Maybe<Scalars['Float']>;
+  inner_radius?: Maybe<Scalars['Float']['output']>;
+  outer_radius?: Maybe<Scalars['Float']['output']>;
+  resolution?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "planetary_ring" */
@@ -5571,9 +5677,9 @@ export type Planetary_Ring_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type Planetary_Ring_Variance_Fields = {
   __typename?: 'planetary_ring_variance_fields';
-  inner_radius?: Maybe<Scalars['Float']>;
-  outer_radius?: Maybe<Scalars['Float']>;
-  resolution?: Maybe<Scalars['Float']>;
+  inner_radius?: Maybe<Scalars['Float']['output']>;
+  outer_radius?: Maybe<Scalars['Float']['output']>;
+  resolution?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "planetary_ring" */
@@ -5586,10 +5692,10 @@ export type Planetary_Ring_Variance_Order_By = {
 /** Playable races */
 export type Playable_Race = {
   __typename?: 'playable_race';
-  description: Scalars['String'];
-  id: Scalars['uuid'];
-  image_url?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
+  description: Scalars['String']['output'];
+  id: Scalars['uuid']['output'];
+  image_url?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
 };
 
 /** aggregated selection of "playable_race" */
@@ -5602,7 +5708,7 @@ export type Playable_Race_Aggregate = {
 /** aggregate fields of "playable_race" */
 export type Playable_Race_Aggregate_Fields = {
   __typename?: 'playable_race_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<Playable_Race_Max_Fields>;
   min?: Maybe<Playable_Race_Min_Fields>;
 };
@@ -5611,7 +5717,7 @@ export type Playable_Race_Aggregate_Fields = {
 /** aggregate fields of "playable_race" */
 export type Playable_Race_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Playable_Race_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "playable_race". All fields are combined with a logical 'AND'. */
@@ -5633,35 +5739,35 @@ export enum Playable_Race_Constraint {
 
 /** input type for inserting data into table "playable_race" */
 export type Playable_Race_Insert_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  image_url?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Playable_Race_Max_Fields = {
   __typename?: 'playable_race_max_fields';
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  image_url?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  image_url?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type Playable_Race_Min_Fields = {
   __typename?: 'playable_race_min_fields';
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  image_url?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  image_url?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "playable_race" */
 export type Playable_Race_Mutation_Response = {
   __typename?: 'playable_race_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Playable_Race>;
 };
@@ -5690,7 +5796,7 @@ export type Playable_Race_Order_By = {
 
 /** primary key columns input for table: playable_race */
 export type Playable_Race_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "playable_race" */
@@ -5707,10 +5813,10 @@ export enum Playable_Race_Select_Column {
 
 /** input type for updating data in table "playable_race" */
 export type Playable_Race_Set_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  image_url?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Streaming cursor of the table "playable_race" */
@@ -5723,10 +5829,10 @@ export type Playable_Race_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Playable_Race_Stream_Cursor_Value_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  image_url?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** update columns of table "playable_race" */
@@ -5870,12 +5976,12 @@ export type Query_Root = {
   quest_type_aggregate: Quest_Type_Aggregate;
   /** fetch data from the table: "quest_type" using primary key columns */
   quest_type_by_pk?: Maybe<Quest_Type>;
-  /** fetch data from the table: "resource_generator_type" */
-  resource_generator_type: Array<Resource_Generator_Type>;
-  /** fetch aggregated fields from the table: "resource_generator_type" */
-  resource_generator_type_aggregate: Resource_Generator_Type_Aggregate;
-  /** fetch data from the table: "resource_generator_type" using primary key columns */
-  resource_generator_type_by_pk?: Maybe<Resource_Generator_Type>;
+  /** fetch data from the table: "resource_generator" */
+  resource_generator: Array<Resource_Generator>;
+  /** fetch aggregated fields from the table: "resource_generator" */
+  resource_generator_aggregate: Resource_Generator_Aggregate;
+  /** fetch data from the table: "resource_generator" using primary key columns */
+  resource_generator_by_pk?: Maybe<Resource_Generator>;
   /** fetch data from the table: "resource_type" */
   resource_type: Array<Resource_Type>;
   /** fetch aggregated fields from the table: "resource_type" */
@@ -5914,8 +6020,8 @@ export type Query_Root = {
 
 export type Query_RootBackgroundArgs = {
   distinct_on?: InputMaybe<Array<Background_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Background_Order_By>>;
   where?: InputMaybe<Background_Bool_Exp>;
 };
@@ -5923,22 +6029,22 @@ export type Query_RootBackgroundArgs = {
 
 export type Query_RootBackground_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Background_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Background_Order_By>>;
   where?: InputMaybe<Background_Bool_Exp>;
 };
 
 
 export type Query_RootBackground_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Query_RootCelestialArgs = {
   distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Celestial_Order_By>>;
   where?: InputMaybe<Celestial_Bool_Exp>;
 };
@@ -5946,22 +6052,22 @@ export type Query_RootCelestialArgs = {
 
 export type Query_RootCelestial_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Celestial_Order_By>>;
   where?: InputMaybe<Celestial_Bool_Exp>;
 };
 
 
 export type Query_RootCelestial_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 
 export type Query_RootChat_MessageArgs = {
   distinct_on?: InputMaybe<Array<Chat_Message_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Chat_Message_Order_By>>;
   where?: InputMaybe<Chat_Message_Bool_Exp>;
 };
@@ -5969,22 +6075,22 @@ export type Query_RootChat_MessageArgs = {
 
 export type Query_RootChat_Message_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Chat_Message_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Chat_Message_Order_By>>;
   where?: InputMaybe<Chat_Message_Bool_Exp>;
 };
 
 
 export type Query_RootChat_Message_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Query_RootFactionArgs = {
   distinct_on?: InputMaybe<Array<Faction_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Faction_Order_By>>;
   where?: InputMaybe<Faction_Bool_Exp>;
 };
@@ -5992,22 +6098,22 @@ export type Query_RootFactionArgs = {
 
 export type Query_RootFaction_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Faction_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Faction_Order_By>>;
   where?: InputMaybe<Faction_Bool_Exp>;
 };
 
 
 export type Query_RootFaction_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Query_RootGalactic_EmpireArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Bool_Exp>;
 };
@@ -6015,22 +6121,22 @@ export type Query_RootGalactic_EmpireArgs = {
 
 export type Query_RootGalactic_Empire_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Bool_Exp>;
 };
 
 
 export type Query_RootGalactic_Empire_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Query_RootGalactic_Empire_NpcArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Npc_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Npc_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Npc_Bool_Exp>;
 };
@@ -6038,22 +6144,22 @@ export type Query_RootGalactic_Empire_NpcArgs = {
 
 export type Query_RootGalactic_Empire_Npc_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Npc_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Npc_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Npc_Bool_Exp>;
 };
 
 
 export type Query_RootGalactic_Empire_Npc_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Query_RootGalactic_Empire_QuestArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Quest_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Quest_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Quest_Bool_Exp>;
 };
@@ -6061,22 +6167,22 @@ export type Query_RootGalactic_Empire_QuestArgs = {
 
 export type Query_RootGalactic_Empire_Quest_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Quest_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Quest_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Quest_Bool_Exp>;
 };
 
 
 export type Query_RootGalactic_Empire_Quest_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Query_RootGalactic_Empire_Resource_GeneratorArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Resource_Generator_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Resource_Generator_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Resource_Generator_Bool_Exp>;
 };
@@ -6084,22 +6190,22 @@ export type Query_RootGalactic_Empire_Resource_GeneratorArgs = {
 
 export type Query_RootGalactic_Empire_Resource_Generator_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Resource_Generator_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Resource_Generator_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Resource_Generator_Bool_Exp>;
 };
 
 
 export type Query_RootGalactic_Empire_Resource_Generator_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Query_RootGalactic_Empire_ResourcesArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Resources_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Resources_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Resources_Bool_Exp>;
 };
@@ -6107,22 +6213,22 @@ export type Query_RootGalactic_Empire_ResourcesArgs = {
 
 export type Query_RootGalactic_Empire_Resources_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Resources_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Resources_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Resources_Bool_Exp>;
 };
 
 
 export type Query_RootGalactic_Empire_Resources_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Query_RootGalaxyArgs = {
   distinct_on?: InputMaybe<Array<Galaxy_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galaxy_Order_By>>;
   where?: InputMaybe<Galaxy_Bool_Exp>;
 };
@@ -6130,22 +6236,22 @@ export type Query_RootGalaxyArgs = {
 
 export type Query_RootGalaxy_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Galaxy_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galaxy_Order_By>>;
   where?: InputMaybe<Galaxy_Bool_Exp>;
 };
 
 
 export type Query_RootGalaxy_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Query_RootNpcArgs = {
   distinct_on?: InputMaybe<Array<Npc_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Npc_Order_By>>;
   where?: InputMaybe<Npc_Bool_Exp>;
 };
@@ -6153,22 +6259,22 @@ export type Query_RootNpcArgs = {
 
 export type Query_RootNpc_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Npc_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Npc_Order_By>>;
   where?: InputMaybe<Npc_Bool_Exp>;
 };
 
 
 export type Query_RootNpc_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Query_RootPlanetArgs = {
   distinct_on?: InputMaybe<Array<Planet_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Planet_Order_By>>;
   where?: InputMaybe<Planet_Bool_Exp>;
 };
@@ -6176,22 +6282,22 @@ export type Query_RootPlanetArgs = {
 
 export type Query_RootPlanet_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Planet_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Planet_Order_By>>;
   where?: InputMaybe<Planet_Bool_Exp>;
 };
 
 
 export type Query_RootPlanet_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Query_RootPlanetary_RingArgs = {
   distinct_on?: InputMaybe<Array<Planetary_Ring_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Planetary_Ring_Order_By>>;
   where?: InputMaybe<Planetary_Ring_Bool_Exp>;
 };
@@ -6199,22 +6305,22 @@ export type Query_RootPlanetary_RingArgs = {
 
 export type Query_RootPlanetary_Ring_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Planetary_Ring_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Planetary_Ring_Order_By>>;
   where?: InputMaybe<Planetary_Ring_Bool_Exp>;
 };
 
 
 export type Query_RootPlanetary_Ring_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Query_RootPlayable_RaceArgs = {
   distinct_on?: InputMaybe<Array<Playable_Race_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Playable_Race_Order_By>>;
   where?: InputMaybe<Playable_Race_Bool_Exp>;
 };
@@ -6222,22 +6328,22 @@ export type Query_RootPlayable_RaceArgs = {
 
 export type Query_RootPlayable_Race_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Playable_Race_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Playable_Race_Order_By>>;
   where?: InputMaybe<Playable_Race_Bool_Exp>;
 };
 
 
 export type Query_RootPlayable_Race_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Query_RootQuestArgs = {
   distinct_on?: InputMaybe<Array<Quest_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Order_By>>;
   where?: InputMaybe<Quest_Bool_Exp>;
 };
@@ -6245,22 +6351,22 @@ export type Query_RootQuestArgs = {
 
 export type Query_RootQuest_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Quest_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Order_By>>;
   where?: InputMaybe<Quest_Bool_Exp>;
 };
 
 
 export type Query_RootQuest_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Query_RootQuest_RewardArgs = {
   distinct_on?: InputMaybe<Array<Quest_Reward_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Reward_Order_By>>;
   where?: InputMaybe<Quest_Reward_Bool_Exp>;
 };
@@ -6268,22 +6374,22 @@ export type Query_RootQuest_RewardArgs = {
 
 export type Query_RootQuest_Reward_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Quest_Reward_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Reward_Order_By>>;
   where?: InputMaybe<Quest_Reward_Bool_Exp>;
 };
 
 
 export type Query_RootQuest_Reward_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Query_RootQuest_Reward_TypeArgs = {
   distinct_on?: InputMaybe<Array<Quest_Reward_Type_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Reward_Type_Order_By>>;
   where?: InputMaybe<Quest_Reward_Type_Bool_Exp>;
 };
@@ -6291,22 +6397,22 @@ export type Query_RootQuest_Reward_TypeArgs = {
 
 export type Query_RootQuest_Reward_Type_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Quest_Reward_Type_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Reward_Type_Order_By>>;
   where?: InputMaybe<Quest_Reward_Type_Bool_Exp>;
 };
 
 
 export type Query_RootQuest_Reward_Type_By_PkArgs = {
-  value: Scalars['String'];
+  value: Scalars['String']['input'];
 };
 
 
 export type Query_RootQuest_StepArgs = {
   distinct_on?: InputMaybe<Array<Quest_Step_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Step_Order_By>>;
   where?: InputMaybe<Quest_Step_Bool_Exp>;
 };
@@ -6314,22 +6420,22 @@ export type Query_RootQuest_StepArgs = {
 
 export type Query_RootQuest_Step_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Quest_Step_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Step_Order_By>>;
   where?: InputMaybe<Quest_Step_Bool_Exp>;
 };
 
 
 export type Query_RootQuest_Step_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Query_RootQuest_Step_TypeArgs = {
   distinct_on?: InputMaybe<Array<Quest_Step_Type_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Step_Type_Order_By>>;
   where?: InputMaybe<Quest_Step_Type_Bool_Exp>;
 };
@@ -6337,22 +6443,22 @@ export type Query_RootQuest_Step_TypeArgs = {
 
 export type Query_RootQuest_Step_Type_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Quest_Step_Type_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Step_Type_Order_By>>;
   where?: InputMaybe<Quest_Step_Type_Bool_Exp>;
 };
 
 
 export type Query_RootQuest_Step_Type_By_PkArgs = {
-  value: Scalars['String'];
+  value: Scalars['String']['input'];
 };
 
 
 export type Query_RootQuest_TypeArgs = {
   distinct_on?: InputMaybe<Array<Quest_Type_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Type_Order_By>>;
   where?: InputMaybe<Quest_Type_Bool_Exp>;
 };
@@ -6360,45 +6466,45 @@ export type Query_RootQuest_TypeArgs = {
 
 export type Query_RootQuest_Type_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Quest_Type_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Type_Order_By>>;
   where?: InputMaybe<Quest_Type_Bool_Exp>;
 };
 
 
 export type Query_RootQuest_Type_By_PkArgs = {
-  value: Scalars['String'];
+  value: Scalars['String']['input'];
 };
 
 
-export type Query_RootResource_Generator_TypeArgs = {
-  distinct_on?: InputMaybe<Array<Resource_Generator_Type_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Resource_Generator_Type_Order_By>>;
-  where?: InputMaybe<Resource_Generator_Type_Bool_Exp>;
+export type Query_RootResource_GeneratorArgs = {
+  distinct_on?: InputMaybe<Array<Resource_Generator_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Resource_Generator_Order_By>>;
+  where?: InputMaybe<Resource_Generator_Bool_Exp>;
 };
 
 
-export type Query_RootResource_Generator_Type_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Resource_Generator_Type_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Resource_Generator_Type_Order_By>>;
-  where?: InputMaybe<Resource_Generator_Type_Bool_Exp>;
+export type Query_RootResource_Generator_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Resource_Generator_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Resource_Generator_Order_By>>;
+  where?: InputMaybe<Resource_Generator_Bool_Exp>;
 };
 
 
-export type Query_RootResource_Generator_Type_By_PkArgs = {
-  id: Scalars['uuid'];
+export type Query_RootResource_Generator_By_PkArgs = {
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Query_RootResource_TypeArgs = {
   distinct_on?: InputMaybe<Array<Resource_Type_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Resource_Type_Order_By>>;
   where?: InputMaybe<Resource_Type_Bool_Exp>;
 };
@@ -6406,22 +6512,22 @@ export type Query_RootResource_TypeArgs = {
 
 export type Query_RootResource_Type_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Resource_Type_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Resource_Type_Order_By>>;
   where?: InputMaybe<Resource_Type_Bool_Exp>;
 };
 
 
 export type Query_RootResource_Type_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Query_RootTechnologyArgs = {
   distinct_on?: InputMaybe<Array<Technology_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Technology_Order_By>>;
   where?: InputMaybe<Technology_Bool_Exp>;
 };
@@ -6429,22 +6535,22 @@ export type Query_RootTechnologyArgs = {
 
 export type Query_RootTechnology_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Technology_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Technology_Order_By>>;
   where?: InputMaybe<Technology_Bool_Exp>;
 };
 
 
 export type Query_RootTechnology_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Query_RootTerrain_Hex_PaletteArgs = {
   distinct_on?: InputMaybe<Array<Terrain_Hex_Palette_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Terrain_Hex_Palette_Order_By>>;
   where?: InputMaybe<Terrain_Hex_Palette_Bool_Exp>;
 };
@@ -6452,22 +6558,22 @@ export type Query_RootTerrain_Hex_PaletteArgs = {
 
 export type Query_RootTerrain_Hex_Palette_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Terrain_Hex_Palette_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Terrain_Hex_Palette_Order_By>>;
   where?: InputMaybe<Terrain_Hex_Palette_Bool_Exp>;
 };
 
 
 export type Query_RootTerrain_Hex_Palette_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Query_RootUser_InfoArgs = {
   distinct_on?: InputMaybe<Array<User_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<User_Info_Order_By>>;
   where?: InputMaybe<User_Info_Bool_Exp>;
 };
@@ -6475,22 +6581,22 @@ export type Query_RootUser_InfoArgs = {
 
 export type Query_RootUser_Info_AggregateArgs = {
   distinct_on?: InputMaybe<Array<User_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<User_Info_Order_By>>;
   where?: InputMaybe<User_Info_Bool_Exp>;
 };
 
 
 export type Query_RootUser_Info_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 
 export type Query_RootUser_MeArgs = {
   distinct_on?: InputMaybe<Array<User_Me_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<User_Me_Order_By>>;
   where?: InputMaybe<User_Me_Bool_Exp>;
 };
@@ -6498,8 +6604,8 @@ export type Query_RootUser_MeArgs = {
 
 export type Query_RootUser_Me_AggregateArgs = {
   distinct_on?: InputMaybe<Array<User_Me_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<User_Me_Order_By>>;
   where?: InputMaybe<User_Me_Bool_Exp>;
 };
@@ -6507,8 +6613,8 @@ export type Query_RootUser_Me_AggregateArgs = {
 
 export type Query_RootUser_PrivateArgs = {
   distinct_on?: InputMaybe<Array<User_Private_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<User_Private_Order_By>>;
   where?: InputMaybe<User_Private_Bool_Exp>;
 };
@@ -6516,8 +6622,8 @@ export type Query_RootUser_PrivateArgs = {
 
 export type Query_RootUser_Private_AggregateArgs = {
   distinct_on?: InputMaybe<Array<User_Private_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<User_Private_Order_By>>;
   where?: InputMaybe<User_Private_Bool_Exp>;
 };
@@ -6525,14 +6631,14 @@ export type Query_RootUser_Private_AggregateArgs = {
 /** columns and relationships of "quest" */
 export type Quest = {
   __typename?: 'quest';
-  description: Scalars['String'];
-  id: Scalars['uuid'];
-  image_url?: Maybe<Scalars['String']>;
-  initial?: Maybe<Scalars['Boolean']>;
-  name: Scalars['String'];
+  description: Scalars['String']['output'];
+  id: Scalars['uuid']['output'];
+  image_url?: Maybe<Scalars['String']['output']>;
+  initial?: Maybe<Scalars['Boolean']['output']>;
+  name: Scalars['String']['output'];
   /** An object relationship */
   next_quest?: Maybe<Quest>;
-  next_quest_in_chain?: Maybe<Scalars['uuid']>;
+  next_quest_in_chain?: Maybe<Scalars['uuid']['output']>;
   /** An object relationship */
   quest_type: Quest_Type;
   /** An array relationship */
@@ -6550,8 +6656,8 @@ export type Quest = {
 /** columns and relationships of "quest" */
 export type QuestRewardsArgs = {
   distinct_on?: InputMaybe<Array<Quest_Reward_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Reward_Order_By>>;
   where?: InputMaybe<Quest_Reward_Bool_Exp>;
 };
@@ -6560,8 +6666,8 @@ export type QuestRewardsArgs = {
 /** columns and relationships of "quest" */
 export type QuestRewards_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Quest_Reward_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Reward_Order_By>>;
   where?: InputMaybe<Quest_Reward_Bool_Exp>;
 };
@@ -6570,8 +6676,8 @@ export type QuestRewards_AggregateArgs = {
 /** columns and relationships of "quest" */
 export type QuestStepsArgs = {
   distinct_on?: InputMaybe<Array<Quest_Step_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Step_Order_By>>;
   where?: InputMaybe<Quest_Step_Bool_Exp>;
 };
@@ -6580,8 +6686,8 @@ export type QuestStepsArgs = {
 /** columns and relationships of "quest" */
 export type QuestSteps_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Quest_Step_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Step_Order_By>>;
   where?: InputMaybe<Quest_Step_Bool_Exp>;
 };
@@ -6596,7 +6702,7 @@ export type Quest_Aggregate = {
 /** aggregate fields of "quest" */
 export type Quest_Aggregate_Fields = {
   __typename?: 'quest_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<Quest_Max_Fields>;
   min?: Maybe<Quest_Min_Fields>;
 };
@@ -6605,7 +6711,7 @@ export type Quest_Aggregate_Fields = {
 /** aggregate fields of "quest" */
 export type Quest_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Quest_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "quest". All fields are combined with a logical 'AND'. */
@@ -6638,13 +6744,13 @@ export enum Quest_Constraint {
 
 /** input type for inserting data into table "quest" */
 export type Quest_Insert_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  image_url?: InputMaybe<Scalars['String']>;
-  initial?: InputMaybe<Scalars['Boolean']>;
-  name?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
+  initial?: InputMaybe<Scalars['Boolean']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   next_quest?: InputMaybe<Quest_Obj_Rel_Insert_Input>;
-  next_quest_in_chain?: InputMaybe<Scalars['uuid']>;
+  next_quest_in_chain?: InputMaybe<Scalars['uuid']['input']>;
   quest_type?: InputMaybe<Quest_Type_Obj_Rel_Insert_Input>;
   rewards?: InputMaybe<Quest_Reward_Arr_Rel_Insert_Input>;
   steps?: InputMaybe<Quest_Step_Arr_Rel_Insert_Input>;
@@ -6654,28 +6760,28 @@ export type Quest_Insert_Input = {
 /** aggregate max on columns */
 export type Quest_Max_Fields = {
   __typename?: 'quest_max_fields';
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  image_url?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  next_quest_in_chain?: Maybe<Scalars['uuid']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  image_url?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  next_quest_in_chain?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** aggregate min on columns */
 export type Quest_Min_Fields = {
   __typename?: 'quest_min_fields';
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  image_url?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  next_quest_in_chain?: Maybe<Scalars['uuid']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  image_url?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  next_quest_in_chain?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** response of any mutation on the table "quest" */
 export type Quest_Mutation_Response = {
   __typename?: 'quest_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Quest>;
 };
@@ -6711,18 +6817,18 @@ export type Quest_Order_By = {
 
 /** primary key columns input for table: quest */
 export type Quest_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** columns and relationships of "quest_reward" */
 export type Quest_Reward = {
   __typename?: 'quest_reward';
-  id: Scalars['uuid'];
-  npc_unlock_id?: Maybe<Scalars['uuid']>;
-  quest_id: Scalars['uuid'];
-  resource_accrual_amount?: Maybe<Scalars['Int']>;
-  resource_accrual_type_id?: Maybe<Scalars['uuid']>;
-  resource_unlock_id?: Maybe<Scalars['uuid']>;
+  id: Scalars['uuid']['output'];
+  npc_unlock_id?: Maybe<Scalars['uuid']['output']>;
+  quest_id: Scalars['uuid']['output'];
+  resource_accrual_amount?: Maybe<Scalars['Int']['output']>;
+  resource_accrual_type_id?: Maybe<Scalars['uuid']['output']>;
+  resource_unlock_id?: Maybe<Scalars['uuid']['output']>;
   type: Quest_Reward_Type_Enum;
 };
 
@@ -6739,7 +6845,7 @@ export type Quest_Reward_Aggregate_Bool_Exp = {
 
 export type Quest_Reward_Aggregate_Bool_Exp_Count = {
   arguments?: InputMaybe<Array<Quest_Reward_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
   filter?: InputMaybe<Quest_Reward_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -6748,7 +6854,7 @@ export type Quest_Reward_Aggregate_Bool_Exp_Count = {
 export type Quest_Reward_Aggregate_Fields = {
   __typename?: 'quest_reward_aggregate_fields';
   avg?: Maybe<Quest_Reward_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<Quest_Reward_Max_Fields>;
   min?: Maybe<Quest_Reward_Min_Fields>;
   stddev?: Maybe<Quest_Reward_Stddev_Fields>;
@@ -6764,7 +6870,7 @@ export type Quest_Reward_Aggregate_Fields = {
 /** aggregate fields of "quest_reward" */
 export type Quest_Reward_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Quest_Reward_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "quest_reward" */
@@ -6792,7 +6898,7 @@ export type Quest_Reward_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Quest_Reward_Avg_Fields = {
   __typename?: 'quest_reward_avg_fields';
-  resource_accrual_amount?: Maybe<Scalars['Float']>;
+  resource_accrual_amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "quest_reward" */
@@ -6822,29 +6928,29 @@ export enum Quest_Reward_Constraint {
 
 /** input type for incrementing numeric columns in table "quest_reward" */
 export type Quest_Reward_Inc_Input = {
-  resource_accrual_amount?: InputMaybe<Scalars['Int']>;
+  resource_accrual_amount?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "quest_reward" */
 export type Quest_Reward_Insert_Input = {
-  id?: InputMaybe<Scalars['uuid']>;
-  npc_unlock_id?: InputMaybe<Scalars['uuid']>;
-  quest_id?: InputMaybe<Scalars['uuid']>;
-  resource_accrual_amount?: InputMaybe<Scalars['Int']>;
-  resource_accrual_type_id?: InputMaybe<Scalars['uuid']>;
-  resource_unlock_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  npc_unlock_id?: InputMaybe<Scalars['uuid']['input']>;
+  quest_id?: InputMaybe<Scalars['uuid']['input']>;
+  resource_accrual_amount?: InputMaybe<Scalars['Int']['input']>;
+  resource_accrual_type_id?: InputMaybe<Scalars['uuid']['input']>;
+  resource_unlock_id?: InputMaybe<Scalars['uuid']['input']>;
   type?: InputMaybe<Quest_Reward_Type_Enum>;
 };
 
 /** aggregate max on columns */
 export type Quest_Reward_Max_Fields = {
   __typename?: 'quest_reward_max_fields';
-  id?: Maybe<Scalars['uuid']>;
-  npc_unlock_id?: Maybe<Scalars['uuid']>;
-  quest_id?: Maybe<Scalars['uuid']>;
-  resource_accrual_amount?: Maybe<Scalars['Int']>;
-  resource_accrual_type_id?: Maybe<Scalars['uuid']>;
-  resource_unlock_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  npc_unlock_id?: Maybe<Scalars['uuid']['output']>;
+  quest_id?: Maybe<Scalars['uuid']['output']>;
+  resource_accrual_amount?: Maybe<Scalars['Int']['output']>;
+  resource_accrual_type_id?: Maybe<Scalars['uuid']['output']>;
+  resource_unlock_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by max() on columns of table "quest_reward" */
@@ -6860,12 +6966,12 @@ export type Quest_Reward_Max_Order_By = {
 /** aggregate min on columns */
 export type Quest_Reward_Min_Fields = {
   __typename?: 'quest_reward_min_fields';
-  id?: Maybe<Scalars['uuid']>;
-  npc_unlock_id?: Maybe<Scalars['uuid']>;
-  quest_id?: Maybe<Scalars['uuid']>;
-  resource_accrual_amount?: Maybe<Scalars['Int']>;
-  resource_accrual_type_id?: Maybe<Scalars['uuid']>;
-  resource_unlock_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  npc_unlock_id?: Maybe<Scalars['uuid']['output']>;
+  quest_id?: Maybe<Scalars['uuid']['output']>;
+  resource_accrual_amount?: Maybe<Scalars['Int']['output']>;
+  resource_accrual_type_id?: Maybe<Scalars['uuid']['output']>;
+  resource_unlock_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by min() on columns of table "quest_reward" */
@@ -6882,7 +6988,7 @@ export type Quest_Reward_Min_Order_By = {
 export type Quest_Reward_Mutation_Response = {
   __typename?: 'quest_reward_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Quest_Reward>;
 };
@@ -6907,7 +7013,7 @@ export type Quest_Reward_Order_By = {
 
 /** primary key columns input for table: quest_reward */
 export type Quest_Reward_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "quest_reward" */
@@ -6930,19 +7036,19 @@ export enum Quest_Reward_Select_Column {
 
 /** input type for updating data in table "quest_reward" */
 export type Quest_Reward_Set_Input = {
-  id?: InputMaybe<Scalars['uuid']>;
-  npc_unlock_id?: InputMaybe<Scalars['uuid']>;
-  quest_id?: InputMaybe<Scalars['uuid']>;
-  resource_accrual_amount?: InputMaybe<Scalars['Int']>;
-  resource_accrual_type_id?: InputMaybe<Scalars['uuid']>;
-  resource_unlock_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  npc_unlock_id?: InputMaybe<Scalars['uuid']['input']>;
+  quest_id?: InputMaybe<Scalars['uuid']['input']>;
+  resource_accrual_amount?: InputMaybe<Scalars['Int']['input']>;
+  resource_accrual_type_id?: InputMaybe<Scalars['uuid']['input']>;
+  resource_unlock_id?: InputMaybe<Scalars['uuid']['input']>;
   type?: InputMaybe<Quest_Reward_Type_Enum>;
 };
 
 /** aggregate stddev on columns */
 export type Quest_Reward_Stddev_Fields = {
   __typename?: 'quest_reward_stddev_fields';
-  resource_accrual_amount?: Maybe<Scalars['Float']>;
+  resource_accrual_amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "quest_reward" */
@@ -6953,7 +7059,7 @@ export type Quest_Reward_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type Quest_Reward_Stddev_Pop_Fields = {
   __typename?: 'quest_reward_stddev_pop_fields';
-  resource_accrual_amount?: Maybe<Scalars['Float']>;
+  resource_accrual_amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "quest_reward" */
@@ -6964,7 +7070,7 @@ export type Quest_Reward_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type Quest_Reward_Stddev_Samp_Fields = {
   __typename?: 'quest_reward_stddev_samp_fields';
-  resource_accrual_amount?: Maybe<Scalars['Float']>;
+  resource_accrual_amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "quest_reward" */
@@ -6982,19 +7088,19 @@ export type Quest_Reward_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Quest_Reward_Stream_Cursor_Value_Input = {
-  id?: InputMaybe<Scalars['uuid']>;
-  npc_unlock_id?: InputMaybe<Scalars['uuid']>;
-  quest_id?: InputMaybe<Scalars['uuid']>;
-  resource_accrual_amount?: InputMaybe<Scalars['Int']>;
-  resource_accrual_type_id?: InputMaybe<Scalars['uuid']>;
-  resource_unlock_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  npc_unlock_id?: InputMaybe<Scalars['uuid']['input']>;
+  quest_id?: InputMaybe<Scalars['uuid']['input']>;
+  resource_accrual_amount?: InputMaybe<Scalars['Int']['input']>;
+  resource_accrual_type_id?: InputMaybe<Scalars['uuid']['input']>;
+  resource_unlock_id?: InputMaybe<Scalars['uuid']['input']>;
   type?: InputMaybe<Quest_Reward_Type_Enum>;
 };
 
 /** aggregate sum on columns */
 export type Quest_Reward_Sum_Fields = {
   __typename?: 'quest_reward_sum_fields';
-  resource_accrual_amount?: Maybe<Scalars['Int']>;
+  resource_accrual_amount?: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by sum() on columns of table "quest_reward" */
@@ -7005,8 +7111,8 @@ export type Quest_Reward_Sum_Order_By = {
 /** columns and relationships of "quest_reward_type" */
 export type Quest_Reward_Type = {
   __typename?: 'quest_reward_type';
-  description: Scalars['String'];
-  value: Scalars['String'];
+  description: Scalars['String']['output'];
+  value: Scalars['String']['output'];
 };
 
 /** aggregated selection of "quest_reward_type" */
@@ -7019,7 +7125,7 @@ export type Quest_Reward_Type_Aggregate = {
 /** aggregate fields of "quest_reward_type" */
 export type Quest_Reward_Type_Aggregate_Fields = {
   __typename?: 'quest_reward_type_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<Quest_Reward_Type_Max_Fields>;
   min?: Maybe<Quest_Reward_Type_Min_Fields>;
 };
@@ -7028,7 +7134,7 @@ export type Quest_Reward_Type_Aggregate_Fields = {
 /** aggregate fields of "quest_reward_type" */
 export type Quest_Reward_Type_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Quest_Reward_Type_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "quest_reward_type". All fields are combined with a logical 'AND'. */
@@ -7059,36 +7165,36 @@ export enum Quest_Reward_Type_Enum {
 export type Quest_Reward_Type_Enum_Comparison_Exp = {
   _eq?: InputMaybe<Quest_Reward_Type_Enum>;
   _in?: InputMaybe<Array<Quest_Reward_Type_Enum>>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
   _neq?: InputMaybe<Quest_Reward_Type_Enum>;
   _nin?: InputMaybe<Array<Quest_Reward_Type_Enum>>;
 };
 
 /** input type for inserting data into table "quest_reward_type" */
 export type Quest_Reward_Type_Insert_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  value?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Quest_Reward_Type_Max_Fields = {
   __typename?: 'quest_reward_type_max_fields';
-  description?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type Quest_Reward_Type_Min_Fields = {
   __typename?: 'quest_reward_type_min_fields';
-  description?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "quest_reward_type" */
 export type Quest_Reward_Type_Mutation_Response = {
   __typename?: 'quest_reward_type_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Quest_Reward_Type>;
 };
@@ -7108,7 +7214,7 @@ export type Quest_Reward_Type_Order_By = {
 
 /** primary key columns input for table: quest_reward_type */
 export type Quest_Reward_Type_Pk_Columns_Input = {
-  value: Scalars['String'];
+  value: Scalars['String']['input'];
 };
 
 /** select columns of table "quest_reward_type" */
@@ -7121,8 +7227,8 @@ export enum Quest_Reward_Type_Select_Column {
 
 /** input type for updating data in table "quest_reward_type" */
 export type Quest_Reward_Type_Set_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  value?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Streaming cursor of the table "quest_reward_type" */
@@ -7135,8 +7241,8 @@ export type Quest_Reward_Type_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Quest_Reward_Type_Stream_Cursor_Value_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  value?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** update columns of table "quest_reward_type" */
@@ -7184,7 +7290,7 @@ export type Quest_Reward_Updates = {
 /** aggregate var_pop on columns */
 export type Quest_Reward_Var_Pop_Fields = {
   __typename?: 'quest_reward_var_pop_fields';
-  resource_accrual_amount?: Maybe<Scalars['Float']>;
+  resource_accrual_amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "quest_reward" */
@@ -7195,7 +7301,7 @@ export type Quest_Reward_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type Quest_Reward_Var_Samp_Fields = {
   __typename?: 'quest_reward_var_samp_fields';
-  resource_accrual_amount?: Maybe<Scalars['Float']>;
+  resource_accrual_amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "quest_reward" */
@@ -7206,7 +7312,7 @@ export type Quest_Reward_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type Quest_Reward_Variance_Fields = {
   __typename?: 'quest_reward_variance_fields';
-  resource_accrual_amount?: Maybe<Scalars['Float']>;
+  resource_accrual_amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "quest_reward" */
@@ -7234,28 +7340,28 @@ export enum Quest_Select_Column {
 
 /** input type for updating data in table "quest" */
 export type Quest_Set_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  image_url?: InputMaybe<Scalars['String']>;
-  initial?: InputMaybe<Scalars['Boolean']>;
-  name?: InputMaybe<Scalars['String']>;
-  next_quest_in_chain?: InputMaybe<Scalars['uuid']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
+  initial?: InputMaybe<Scalars['Boolean']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  next_quest_in_chain?: InputMaybe<Scalars['uuid']['input']>;
   type?: InputMaybe<Quest_Type_Enum>;
 };
 
 /** columns and relationships of "quest_step" */
 export type Quest_Step = {
   __typename?: 'quest_step';
-  description: Scalars['String'];
-  id: Scalars['uuid'];
-  initial: Scalars['Boolean'];
-  next_step_in_quest?: Maybe<Scalars['uuid']>;
+  description: Scalars['String']['output'];
+  id: Scalars['uuid']['output'];
+  initial: Scalars['Boolean']['output'];
+  next_step_in_quest?: Maybe<Scalars['uuid']['output']>;
   /** An object relationship */
   npc?: Maybe<Npc>;
-  npc_contact_id?: Maybe<Scalars['uuid']>;
-  quest_id: Scalars['uuid'];
-  resource_cost_amount?: Maybe<Scalars['Int']>;
-  resource_cost_id?: Maybe<Scalars['uuid']>;
+  npc_contact_id?: Maybe<Scalars['uuid']['output']>;
+  quest_id: Scalars['uuid']['output'];
+  resource_cost_amount?: Maybe<Scalars['Int']['output']>;
+  resource_cost_id?: Maybe<Scalars['uuid']['output']>;
   type: Quest_Step_Type_Enum;
 };
 
@@ -7274,21 +7380,21 @@ export type Quest_Step_Aggregate_Bool_Exp = {
 
 export type Quest_Step_Aggregate_Bool_Exp_Bool_And = {
   arguments: Quest_Step_Select_Column_Quest_Step_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
   filter?: InputMaybe<Quest_Step_Bool_Exp>;
   predicate: Boolean_Comparison_Exp;
 };
 
 export type Quest_Step_Aggregate_Bool_Exp_Bool_Or = {
   arguments: Quest_Step_Select_Column_Quest_Step_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
   filter?: InputMaybe<Quest_Step_Bool_Exp>;
   predicate: Boolean_Comparison_Exp;
 };
 
 export type Quest_Step_Aggregate_Bool_Exp_Count = {
   arguments?: InputMaybe<Array<Quest_Step_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
   filter?: InputMaybe<Quest_Step_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -7297,7 +7403,7 @@ export type Quest_Step_Aggregate_Bool_Exp_Count = {
 export type Quest_Step_Aggregate_Fields = {
   __typename?: 'quest_step_aggregate_fields';
   avg?: Maybe<Quest_Step_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<Quest_Step_Max_Fields>;
   min?: Maybe<Quest_Step_Min_Fields>;
   stddev?: Maybe<Quest_Step_Stddev_Fields>;
@@ -7313,7 +7419,7 @@ export type Quest_Step_Aggregate_Fields = {
 /** aggregate fields of "quest_step" */
 export type Quest_Step_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Quest_Step_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "quest_step" */
@@ -7341,7 +7447,7 @@ export type Quest_Step_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Quest_Step_Avg_Fields = {
   __typename?: 'quest_step_avg_fields';
-  resource_cost_amount?: Maybe<Scalars['Float']>;
+  resource_cost_amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "quest_step" */
@@ -7374,33 +7480,33 @@ export enum Quest_Step_Constraint {
 
 /** input type for incrementing numeric columns in table "quest_step" */
 export type Quest_Step_Inc_Input = {
-  resource_cost_amount?: InputMaybe<Scalars['Int']>;
+  resource_cost_amount?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "quest_step" */
 export type Quest_Step_Insert_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  initial?: InputMaybe<Scalars['Boolean']>;
-  next_step_in_quest?: InputMaybe<Scalars['uuid']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  initial?: InputMaybe<Scalars['Boolean']['input']>;
+  next_step_in_quest?: InputMaybe<Scalars['uuid']['input']>;
   npc?: InputMaybe<Npc_Obj_Rel_Insert_Input>;
-  npc_contact_id?: InputMaybe<Scalars['uuid']>;
-  quest_id?: InputMaybe<Scalars['uuid']>;
-  resource_cost_amount?: InputMaybe<Scalars['Int']>;
-  resource_cost_id?: InputMaybe<Scalars['uuid']>;
+  npc_contact_id?: InputMaybe<Scalars['uuid']['input']>;
+  quest_id?: InputMaybe<Scalars['uuid']['input']>;
+  resource_cost_amount?: InputMaybe<Scalars['Int']['input']>;
+  resource_cost_id?: InputMaybe<Scalars['uuid']['input']>;
   type?: InputMaybe<Quest_Step_Type_Enum>;
 };
 
 /** aggregate max on columns */
 export type Quest_Step_Max_Fields = {
   __typename?: 'quest_step_max_fields';
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  next_step_in_quest?: Maybe<Scalars['uuid']>;
-  npc_contact_id?: Maybe<Scalars['uuid']>;
-  quest_id?: Maybe<Scalars['uuid']>;
-  resource_cost_amount?: Maybe<Scalars['Int']>;
-  resource_cost_id?: Maybe<Scalars['uuid']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  next_step_in_quest?: Maybe<Scalars['uuid']['output']>;
+  npc_contact_id?: Maybe<Scalars['uuid']['output']>;
+  quest_id?: Maybe<Scalars['uuid']['output']>;
+  resource_cost_amount?: Maybe<Scalars['Int']['output']>;
+  resource_cost_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by max() on columns of table "quest_step" */
@@ -7417,13 +7523,13 @@ export type Quest_Step_Max_Order_By = {
 /** aggregate min on columns */
 export type Quest_Step_Min_Fields = {
   __typename?: 'quest_step_min_fields';
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  next_step_in_quest?: Maybe<Scalars['uuid']>;
-  npc_contact_id?: Maybe<Scalars['uuid']>;
-  quest_id?: Maybe<Scalars['uuid']>;
-  resource_cost_amount?: Maybe<Scalars['Int']>;
-  resource_cost_id?: Maybe<Scalars['uuid']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  next_step_in_quest?: Maybe<Scalars['uuid']['output']>;
+  npc_contact_id?: Maybe<Scalars['uuid']['output']>;
+  quest_id?: Maybe<Scalars['uuid']['output']>;
+  resource_cost_amount?: Maybe<Scalars['Int']['output']>;
+  resource_cost_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by min() on columns of table "quest_step" */
@@ -7441,7 +7547,7 @@ export type Quest_Step_Min_Order_By = {
 export type Quest_Step_Mutation_Response = {
   __typename?: 'quest_step_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Quest_Step>;
 };
@@ -7469,7 +7575,7 @@ export type Quest_Step_Order_By = {
 
 /** primary key columns input for table: quest_step */
 export type Quest_Step_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "quest_step" */
@@ -7508,21 +7614,21 @@ export enum Quest_Step_Select_Column_Quest_Step_Aggregate_Bool_Exp_Bool_Or_Argum
 
 /** input type for updating data in table "quest_step" */
 export type Quest_Step_Set_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  initial?: InputMaybe<Scalars['Boolean']>;
-  next_step_in_quest?: InputMaybe<Scalars['uuid']>;
-  npc_contact_id?: InputMaybe<Scalars['uuid']>;
-  quest_id?: InputMaybe<Scalars['uuid']>;
-  resource_cost_amount?: InputMaybe<Scalars['Int']>;
-  resource_cost_id?: InputMaybe<Scalars['uuid']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  initial?: InputMaybe<Scalars['Boolean']['input']>;
+  next_step_in_quest?: InputMaybe<Scalars['uuid']['input']>;
+  npc_contact_id?: InputMaybe<Scalars['uuid']['input']>;
+  quest_id?: InputMaybe<Scalars['uuid']['input']>;
+  resource_cost_amount?: InputMaybe<Scalars['Int']['input']>;
+  resource_cost_id?: InputMaybe<Scalars['uuid']['input']>;
   type?: InputMaybe<Quest_Step_Type_Enum>;
 };
 
 /** aggregate stddev on columns */
 export type Quest_Step_Stddev_Fields = {
   __typename?: 'quest_step_stddev_fields';
-  resource_cost_amount?: Maybe<Scalars['Float']>;
+  resource_cost_amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "quest_step" */
@@ -7533,7 +7639,7 @@ export type Quest_Step_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type Quest_Step_Stddev_Pop_Fields = {
   __typename?: 'quest_step_stddev_pop_fields';
-  resource_cost_amount?: Maybe<Scalars['Float']>;
+  resource_cost_amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "quest_step" */
@@ -7544,7 +7650,7 @@ export type Quest_Step_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type Quest_Step_Stddev_Samp_Fields = {
   __typename?: 'quest_step_stddev_samp_fields';
-  resource_cost_amount?: Maybe<Scalars['Float']>;
+  resource_cost_amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "quest_step" */
@@ -7562,21 +7668,21 @@ export type Quest_Step_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Quest_Step_Stream_Cursor_Value_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  initial?: InputMaybe<Scalars['Boolean']>;
-  next_step_in_quest?: InputMaybe<Scalars['uuid']>;
-  npc_contact_id?: InputMaybe<Scalars['uuid']>;
-  quest_id?: InputMaybe<Scalars['uuid']>;
-  resource_cost_amount?: InputMaybe<Scalars['Int']>;
-  resource_cost_id?: InputMaybe<Scalars['uuid']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  initial?: InputMaybe<Scalars['Boolean']['input']>;
+  next_step_in_quest?: InputMaybe<Scalars['uuid']['input']>;
+  npc_contact_id?: InputMaybe<Scalars['uuid']['input']>;
+  quest_id?: InputMaybe<Scalars['uuid']['input']>;
+  resource_cost_amount?: InputMaybe<Scalars['Int']['input']>;
+  resource_cost_id?: InputMaybe<Scalars['uuid']['input']>;
   type?: InputMaybe<Quest_Step_Type_Enum>;
 };
 
 /** aggregate sum on columns */
 export type Quest_Step_Sum_Fields = {
   __typename?: 'quest_step_sum_fields';
-  resource_cost_amount?: Maybe<Scalars['Int']>;
+  resource_cost_amount?: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by sum() on columns of table "quest_step" */
@@ -7587,8 +7693,8 @@ export type Quest_Step_Sum_Order_By = {
 /** columns and relationships of "quest_step_type" */
 export type Quest_Step_Type = {
   __typename?: 'quest_step_type';
-  description: Scalars['String'];
-  value: Scalars['String'];
+  description: Scalars['String']['output'];
+  value: Scalars['String']['output'];
 };
 
 /** aggregated selection of "quest_step_type" */
@@ -7601,7 +7707,7 @@ export type Quest_Step_Type_Aggregate = {
 /** aggregate fields of "quest_step_type" */
 export type Quest_Step_Type_Aggregate_Fields = {
   __typename?: 'quest_step_type_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<Quest_Step_Type_Max_Fields>;
   min?: Maybe<Quest_Step_Type_Min_Fields>;
 };
@@ -7610,7 +7716,7 @@ export type Quest_Step_Type_Aggregate_Fields = {
 /** aggregate fields of "quest_step_type" */
 export type Quest_Step_Type_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Quest_Step_Type_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "quest_step_type". All fields are combined with a logical 'AND'. */
@@ -7641,36 +7747,36 @@ export enum Quest_Step_Type_Enum {
 export type Quest_Step_Type_Enum_Comparison_Exp = {
   _eq?: InputMaybe<Quest_Step_Type_Enum>;
   _in?: InputMaybe<Array<Quest_Step_Type_Enum>>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
   _neq?: InputMaybe<Quest_Step_Type_Enum>;
   _nin?: InputMaybe<Array<Quest_Step_Type_Enum>>;
 };
 
 /** input type for inserting data into table "quest_step_type" */
 export type Quest_Step_Type_Insert_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  value?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Quest_Step_Type_Max_Fields = {
   __typename?: 'quest_step_type_max_fields';
-  description?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type Quest_Step_Type_Min_Fields = {
   __typename?: 'quest_step_type_min_fields';
-  description?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "quest_step_type" */
 export type Quest_Step_Type_Mutation_Response = {
   __typename?: 'quest_step_type_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Quest_Step_Type>;
 };
@@ -7690,7 +7796,7 @@ export type Quest_Step_Type_Order_By = {
 
 /** primary key columns input for table: quest_step_type */
 export type Quest_Step_Type_Pk_Columns_Input = {
-  value: Scalars['String'];
+  value: Scalars['String']['input'];
 };
 
 /** select columns of table "quest_step_type" */
@@ -7703,8 +7809,8 @@ export enum Quest_Step_Type_Select_Column {
 
 /** input type for updating data in table "quest_step_type" */
 export type Quest_Step_Type_Set_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  value?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Streaming cursor of the table "quest_step_type" */
@@ -7717,8 +7823,8 @@ export type Quest_Step_Type_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Quest_Step_Type_Stream_Cursor_Value_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  value?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** update columns of table "quest_step_type" */
@@ -7770,7 +7876,7 @@ export type Quest_Step_Updates = {
 /** aggregate var_pop on columns */
 export type Quest_Step_Var_Pop_Fields = {
   __typename?: 'quest_step_var_pop_fields';
-  resource_cost_amount?: Maybe<Scalars['Float']>;
+  resource_cost_amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "quest_step" */
@@ -7781,7 +7887,7 @@ export type Quest_Step_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type Quest_Step_Var_Samp_Fields = {
   __typename?: 'quest_step_var_samp_fields';
-  resource_cost_amount?: Maybe<Scalars['Float']>;
+  resource_cost_amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "quest_step" */
@@ -7792,7 +7898,7 @@ export type Quest_Step_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type Quest_Step_Variance_Fields = {
   __typename?: 'quest_step_variance_fields';
-  resource_cost_amount?: Maybe<Scalars['Float']>;
+  resource_cost_amount?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "quest_step" */
@@ -7810,19 +7916,19 @@ export type Quest_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Quest_Stream_Cursor_Value_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  image_url?: InputMaybe<Scalars['String']>;
-  initial?: InputMaybe<Scalars['Boolean']>;
-  name?: InputMaybe<Scalars['String']>;
-  next_quest_in_chain?: InputMaybe<Scalars['uuid']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
+  initial?: InputMaybe<Scalars['Boolean']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  next_quest_in_chain?: InputMaybe<Scalars['uuid']['input']>;
   type?: InputMaybe<Quest_Type_Enum>;
 };
 
 /** columns and relationships of "quest_type" */
 export type Quest_Type = {
   __typename?: 'quest_type';
-  value: Scalars['String'];
+  value: Scalars['String']['output'];
 };
 
 /** aggregated selection of "quest_type" */
@@ -7835,7 +7941,7 @@ export type Quest_Type_Aggregate = {
 /** aggregate fields of "quest_type" */
 export type Quest_Type_Aggregate_Fields = {
   __typename?: 'quest_type_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<Quest_Type_Max_Fields>;
   min?: Maybe<Quest_Type_Min_Fields>;
 };
@@ -7844,7 +7950,7 @@ export type Quest_Type_Aggregate_Fields = {
 /** aggregate fields of "quest_type" */
 export type Quest_Type_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Quest_Type_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "quest_type". All fields are combined with a logical 'AND'. */
@@ -7871,33 +7977,33 @@ export enum Quest_Type_Enum {
 export type Quest_Type_Enum_Comparison_Exp = {
   _eq?: InputMaybe<Quest_Type_Enum>;
   _in?: InputMaybe<Array<Quest_Type_Enum>>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
   _neq?: InputMaybe<Quest_Type_Enum>;
   _nin?: InputMaybe<Array<Quest_Type_Enum>>;
 };
 
 /** input type for inserting data into table "quest_type" */
 export type Quest_Type_Insert_Input = {
-  value?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Quest_Type_Max_Fields = {
   __typename?: 'quest_type_max_fields';
-  value?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type Quest_Type_Min_Fields = {
   __typename?: 'quest_type_min_fields';
-  value?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "quest_type" */
 export type Quest_Type_Mutation_Response = {
   __typename?: 'quest_type_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Quest_Type>;
 };
@@ -7923,7 +8029,7 @@ export type Quest_Type_Order_By = {
 
 /** primary key columns input for table: quest_type */
 export type Quest_Type_Pk_Columns_Input = {
-  value: Scalars['String'];
+  value: Scalars['String']['input'];
 };
 
 /** select columns of table "quest_type" */
@@ -7934,7 +8040,7 @@ export enum Quest_Type_Select_Column {
 
 /** input type for updating data in table "quest_type" */
 export type Quest_Type_Set_Input = {
-  value?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Streaming cursor of the table "quest_type" */
@@ -7947,7 +8053,7 @@ export type Quest_Type_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Quest_Type_Stream_Cursor_Value_Input = {
-  value?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** update columns of table "quest_type" */
@@ -7988,49 +8094,74 @@ export type Quest_Updates = {
   where: Quest_Bool_Exp;
 };
 
-/** columns and relationships of "resource_generator_type" */
-export type Resource_Generator_Type = {
-  __typename?: 'resource_generator_type';
-  description: Scalars['String'];
-  generation_rate: Scalars['_numeric'];
-  id: Scalars['uuid'];
-  image_url?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
+/** columns and relationships of "resource_generator" */
+export type Resource_Generator = {
+  __typename?: 'resource_generator';
+  cost_amount_1: Scalars['numeric']['output'];
+  cost_growth_exponent: Scalars['numeric']['output'];
+  /** An object relationship */
+  cost_resource_1?: Maybe<Resource_Type>;
+  cost_resource_type_id_1: Scalars['uuid']['output'];
+  description: Scalars['String']['output'];
+  generation_rate: Scalars['_numeric']['output'];
+  id: Scalars['uuid']['output'];
+  image_url?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
   /** An object relationship */
   resource_type: Resource_Type;
-  resource_type_1_id: Scalars['uuid'];
+  resource_type_1_id: Scalars['uuid']['output'];
   /** An object relationship */
   resource_type_2?: Maybe<Resource_Type>;
-  resource_type_2_id?: Maybe<Scalars['uuid']>;
+  resource_type_2_id?: Maybe<Scalars['uuid']['output']>;
+  unlocked_by_technology_id?: Maybe<Scalars['uuid']['output']>;
 };
 
-/** aggregated selection of "resource_generator_type" */
-export type Resource_Generator_Type_Aggregate = {
-  __typename?: 'resource_generator_type_aggregate';
-  aggregate?: Maybe<Resource_Generator_Type_Aggregate_Fields>;
-  nodes: Array<Resource_Generator_Type>;
+/** aggregated selection of "resource_generator" */
+export type Resource_Generator_Aggregate = {
+  __typename?: 'resource_generator_aggregate';
+  aggregate?: Maybe<Resource_Generator_Aggregate_Fields>;
+  nodes: Array<Resource_Generator>;
 };
 
-/** aggregate fields of "resource_generator_type" */
-export type Resource_Generator_Type_Aggregate_Fields = {
-  __typename?: 'resource_generator_type_aggregate_fields';
-  count: Scalars['Int'];
-  max?: Maybe<Resource_Generator_Type_Max_Fields>;
-  min?: Maybe<Resource_Generator_Type_Min_Fields>;
+/** aggregate fields of "resource_generator" */
+export type Resource_Generator_Aggregate_Fields = {
+  __typename?: 'resource_generator_aggregate_fields';
+  avg?: Maybe<Resource_Generator_Avg_Fields>;
+  count: Scalars['Int']['output'];
+  max?: Maybe<Resource_Generator_Max_Fields>;
+  min?: Maybe<Resource_Generator_Min_Fields>;
+  stddev?: Maybe<Resource_Generator_Stddev_Fields>;
+  stddev_pop?: Maybe<Resource_Generator_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Resource_Generator_Stddev_Samp_Fields>;
+  sum?: Maybe<Resource_Generator_Sum_Fields>;
+  var_pop?: Maybe<Resource_Generator_Var_Pop_Fields>;
+  var_samp?: Maybe<Resource_Generator_Var_Samp_Fields>;
+  variance?: Maybe<Resource_Generator_Variance_Fields>;
 };
 
 
-/** aggregate fields of "resource_generator_type" */
-export type Resource_Generator_Type_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Resource_Generator_Type_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+/** aggregate fields of "resource_generator" */
+export type Resource_Generator_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Resource_Generator_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-/** Boolean expression to filter rows from the table "resource_generator_type". All fields are combined with a logical 'AND'. */
-export type Resource_Generator_Type_Bool_Exp = {
-  _and?: InputMaybe<Array<Resource_Generator_Type_Bool_Exp>>;
-  _not?: InputMaybe<Resource_Generator_Type_Bool_Exp>;
-  _or?: InputMaybe<Array<Resource_Generator_Type_Bool_Exp>>;
+/** aggregate avg on columns */
+export type Resource_Generator_Avg_Fields = {
+  __typename?: 'resource_generator_avg_fields';
+  cost_amount_1?: Maybe<Scalars['Float']['output']>;
+  cost_growth_exponent?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Boolean expression to filter rows from the table "resource_generator". All fields are combined with a logical 'AND'. */
+export type Resource_Generator_Bool_Exp = {
+  _and?: InputMaybe<Array<Resource_Generator_Bool_Exp>>;
+  _not?: InputMaybe<Resource_Generator_Bool_Exp>;
+  _or?: InputMaybe<Array<Resource_Generator_Bool_Exp>>;
+  cost_amount_1?: InputMaybe<Numeric_Comparison_Exp>;
+  cost_growth_exponent?: InputMaybe<Numeric_Comparison_Exp>;
+  cost_resource_1?: InputMaybe<Resource_Type_Bool_Exp>;
+  cost_resource_type_id_1?: InputMaybe<Uuid_Comparison_Exp>;
   description?: InputMaybe<String_Comparison_Exp>;
   generation_rate?: InputMaybe<_Numeric_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
@@ -8040,74 +8171,98 @@ export type Resource_Generator_Type_Bool_Exp = {
   resource_type_1_id?: InputMaybe<Uuid_Comparison_Exp>;
   resource_type_2?: InputMaybe<Resource_Type_Bool_Exp>;
   resource_type_2_id?: InputMaybe<Uuid_Comparison_Exp>;
+  unlocked_by_technology_id?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
-/** unique or primary key constraints on table "resource_generator_type" */
-export enum Resource_Generator_Type_Constraint {
+/** unique or primary key constraints on table "resource_generator" */
+export enum Resource_Generator_Constraint {
   /** unique or primary key constraint on columns "id" */
   ResourceGeneratorTypePkey = 'resource_generator_type_pkey'
 }
 
-/** input type for inserting data into table "resource_generator_type" */
-export type Resource_Generator_Type_Insert_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  generation_rate?: InputMaybe<Scalars['_numeric']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  image_url?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+/** input type for incrementing numeric columns in table "resource_generator" */
+export type Resource_Generator_Inc_Input = {
+  cost_amount_1?: InputMaybe<Scalars['numeric']['input']>;
+  cost_growth_exponent?: InputMaybe<Scalars['numeric']['input']>;
+};
+
+/** input type for inserting data into table "resource_generator" */
+export type Resource_Generator_Insert_Input = {
+  cost_amount_1?: InputMaybe<Scalars['numeric']['input']>;
+  cost_growth_exponent?: InputMaybe<Scalars['numeric']['input']>;
+  cost_resource_1?: InputMaybe<Resource_Type_Obj_Rel_Insert_Input>;
+  cost_resource_type_id_1?: InputMaybe<Scalars['uuid']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  generation_rate?: InputMaybe<Scalars['_numeric']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   resource_type?: InputMaybe<Resource_Type_Obj_Rel_Insert_Input>;
-  resource_type_1_id?: InputMaybe<Scalars['uuid']>;
+  resource_type_1_id?: InputMaybe<Scalars['uuid']['input']>;
   resource_type_2?: InputMaybe<Resource_Type_Obj_Rel_Insert_Input>;
-  resource_type_2_id?: InputMaybe<Scalars['uuid']>;
+  resource_type_2_id?: InputMaybe<Scalars['uuid']['input']>;
+  unlocked_by_technology_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate max on columns */
-export type Resource_Generator_Type_Max_Fields = {
-  __typename?: 'resource_generator_type_max_fields';
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  image_url?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  resource_type_1_id?: Maybe<Scalars['uuid']>;
-  resource_type_2_id?: Maybe<Scalars['uuid']>;
+export type Resource_Generator_Max_Fields = {
+  __typename?: 'resource_generator_max_fields';
+  cost_amount_1?: Maybe<Scalars['numeric']['output']>;
+  cost_growth_exponent?: Maybe<Scalars['numeric']['output']>;
+  cost_resource_type_id_1?: Maybe<Scalars['uuid']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  image_url?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  resource_type_1_id?: Maybe<Scalars['uuid']['output']>;
+  resource_type_2_id?: Maybe<Scalars['uuid']['output']>;
+  unlocked_by_technology_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** aggregate min on columns */
-export type Resource_Generator_Type_Min_Fields = {
-  __typename?: 'resource_generator_type_min_fields';
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  image_url?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  resource_type_1_id?: Maybe<Scalars['uuid']>;
-  resource_type_2_id?: Maybe<Scalars['uuid']>;
+export type Resource_Generator_Min_Fields = {
+  __typename?: 'resource_generator_min_fields';
+  cost_amount_1?: Maybe<Scalars['numeric']['output']>;
+  cost_growth_exponent?: Maybe<Scalars['numeric']['output']>;
+  cost_resource_type_id_1?: Maybe<Scalars['uuid']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  image_url?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  resource_type_1_id?: Maybe<Scalars['uuid']['output']>;
+  resource_type_2_id?: Maybe<Scalars['uuid']['output']>;
+  unlocked_by_technology_id?: Maybe<Scalars['uuid']['output']>;
 };
 
-/** response of any mutation on the table "resource_generator_type" */
-export type Resource_Generator_Type_Mutation_Response = {
-  __typename?: 'resource_generator_type_mutation_response';
+/** response of any mutation on the table "resource_generator" */
+export type Resource_Generator_Mutation_Response = {
+  __typename?: 'resource_generator_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
-  returning: Array<Resource_Generator_Type>;
+  returning: Array<Resource_Generator>;
 };
 
-/** input type for inserting object relation for remote table "resource_generator_type" */
-export type Resource_Generator_Type_Obj_Rel_Insert_Input = {
-  data: Resource_Generator_Type_Insert_Input;
+/** input type for inserting object relation for remote table "resource_generator" */
+export type Resource_Generator_Obj_Rel_Insert_Input = {
+  data: Resource_Generator_Insert_Input;
   /** upsert condition */
-  on_conflict?: InputMaybe<Resource_Generator_Type_On_Conflict>;
+  on_conflict?: InputMaybe<Resource_Generator_On_Conflict>;
 };
 
-/** on_conflict condition type for table "resource_generator_type" */
-export type Resource_Generator_Type_On_Conflict = {
-  constraint: Resource_Generator_Type_Constraint;
-  update_columns?: Array<Resource_Generator_Type_Update_Column>;
-  where?: InputMaybe<Resource_Generator_Type_Bool_Exp>;
+/** on_conflict condition type for table "resource_generator" */
+export type Resource_Generator_On_Conflict = {
+  constraint: Resource_Generator_Constraint;
+  update_columns?: Array<Resource_Generator_Update_Column>;
+  where?: InputMaybe<Resource_Generator_Bool_Exp>;
 };
 
-/** Ordering options when selecting data from "resource_generator_type". */
-export type Resource_Generator_Type_Order_By = {
+/** Ordering options when selecting data from "resource_generator". */
+export type Resource_Generator_Order_By = {
+  cost_amount_1?: InputMaybe<Order_By>;
+  cost_growth_exponent?: InputMaybe<Order_By>;
+  cost_resource_1?: InputMaybe<Resource_Type_Order_By>;
+  cost_resource_type_id_1?: InputMaybe<Order_By>;
   description?: InputMaybe<Order_By>;
   generation_rate?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
@@ -8117,15 +8272,22 @@ export type Resource_Generator_Type_Order_By = {
   resource_type_1_id?: InputMaybe<Order_By>;
   resource_type_2?: InputMaybe<Resource_Type_Order_By>;
   resource_type_2_id?: InputMaybe<Order_By>;
+  unlocked_by_technology_id?: InputMaybe<Order_By>;
 };
 
-/** primary key columns input for table: resource_generator_type */
-export type Resource_Generator_Type_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+/** primary key columns input for table: resource_generator */
+export type Resource_Generator_Pk_Columns_Input = {
+  id: Scalars['uuid']['input'];
 };
 
-/** select columns of table "resource_generator_type" */
-export enum Resource_Generator_Type_Select_Column {
+/** select columns of table "resource_generator" */
+export enum Resource_Generator_Select_Column {
+  /** column name */
+  CostAmount_1 = 'cost_amount_1',
+  /** column name */
+  CostGrowthExponent = 'cost_growth_exponent',
+  /** column name */
+  CostResourceTypeId_1 = 'cost_resource_type_id_1',
   /** column name */
   Description = 'description',
   /** column name */
@@ -8139,41 +8301,85 @@ export enum Resource_Generator_Type_Select_Column {
   /** column name */
   ResourceType_1Id = 'resource_type_1_id',
   /** column name */
-  ResourceType_2Id = 'resource_type_2_id'
+  ResourceType_2Id = 'resource_type_2_id',
+  /** column name */
+  UnlockedByTechnologyId = 'unlocked_by_technology_id'
 }
 
-/** input type for updating data in table "resource_generator_type" */
-export type Resource_Generator_Type_Set_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  generation_rate?: InputMaybe<Scalars['_numeric']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  image_url?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  resource_type_1_id?: InputMaybe<Scalars['uuid']>;
-  resource_type_2_id?: InputMaybe<Scalars['uuid']>;
+/** input type for updating data in table "resource_generator" */
+export type Resource_Generator_Set_Input = {
+  cost_amount_1?: InputMaybe<Scalars['numeric']['input']>;
+  cost_growth_exponent?: InputMaybe<Scalars['numeric']['input']>;
+  cost_resource_type_id_1?: InputMaybe<Scalars['uuid']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  generation_rate?: InputMaybe<Scalars['_numeric']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  resource_type_1_id?: InputMaybe<Scalars['uuid']['input']>;
+  resource_type_2_id?: InputMaybe<Scalars['uuid']['input']>;
+  unlocked_by_technology_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
-/** Streaming cursor of the table "resource_generator_type" */
-export type Resource_Generator_Type_Stream_Cursor_Input = {
+/** aggregate stddev on columns */
+export type Resource_Generator_Stddev_Fields = {
+  __typename?: 'resource_generator_stddev_fields';
+  cost_amount_1?: Maybe<Scalars['Float']['output']>;
+  cost_growth_exponent?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Resource_Generator_Stddev_Pop_Fields = {
+  __typename?: 'resource_generator_stddev_pop_fields';
+  cost_amount_1?: Maybe<Scalars['Float']['output']>;
+  cost_growth_exponent?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Resource_Generator_Stddev_Samp_Fields = {
+  __typename?: 'resource_generator_stddev_samp_fields';
+  cost_amount_1?: Maybe<Scalars['Float']['output']>;
+  cost_growth_exponent?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Streaming cursor of the table "resource_generator" */
+export type Resource_Generator_Stream_Cursor_Input = {
   /** Stream column input with initial value */
-  initial_value: Resource_Generator_Type_Stream_Cursor_Value_Input;
+  initial_value: Resource_Generator_Stream_Cursor_Value_Input;
   /** cursor ordering */
   ordering?: InputMaybe<Cursor_Ordering>;
 };
 
 /** Initial value of the column from where the streaming should start */
-export type Resource_Generator_Type_Stream_Cursor_Value_Input = {
-  description?: InputMaybe<Scalars['String']>;
-  generation_rate?: InputMaybe<Scalars['_numeric']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  image_url?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  resource_type_1_id?: InputMaybe<Scalars['uuid']>;
-  resource_type_2_id?: InputMaybe<Scalars['uuid']>;
+export type Resource_Generator_Stream_Cursor_Value_Input = {
+  cost_amount_1?: InputMaybe<Scalars['numeric']['input']>;
+  cost_growth_exponent?: InputMaybe<Scalars['numeric']['input']>;
+  cost_resource_type_id_1?: InputMaybe<Scalars['uuid']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  generation_rate?: InputMaybe<Scalars['_numeric']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  resource_type_1_id?: InputMaybe<Scalars['uuid']['input']>;
+  resource_type_2_id?: InputMaybe<Scalars['uuid']['input']>;
+  unlocked_by_technology_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
-/** update columns of table "resource_generator_type" */
-export enum Resource_Generator_Type_Update_Column {
+/** aggregate sum on columns */
+export type Resource_Generator_Sum_Fields = {
+  __typename?: 'resource_generator_sum_fields';
+  cost_amount_1?: Maybe<Scalars['numeric']['output']>;
+  cost_growth_exponent?: Maybe<Scalars['numeric']['output']>;
+};
+
+/** update columns of table "resource_generator" */
+export enum Resource_Generator_Update_Column {
+  /** column name */
+  CostAmount_1 = 'cost_amount_1',
+  /** column name */
+  CostGrowthExponent = 'cost_growth_exponent',
+  /** column name */
+  CostResourceTypeId_1 = 'cost_resource_type_id_1',
   /** column name */
   Description = 'description',
   /** column name */
@@ -8187,23 +8393,48 @@ export enum Resource_Generator_Type_Update_Column {
   /** column name */
   ResourceType_1Id = 'resource_type_1_id',
   /** column name */
-  ResourceType_2Id = 'resource_type_2_id'
+  ResourceType_2Id = 'resource_type_2_id',
+  /** column name */
+  UnlockedByTechnologyId = 'unlocked_by_technology_id'
 }
 
-export type Resource_Generator_Type_Updates = {
+export type Resource_Generator_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Resource_Generator_Inc_Input>;
   /** sets the columns of the filtered rows to the given values */
-  _set?: InputMaybe<Resource_Generator_Type_Set_Input>;
+  _set?: InputMaybe<Resource_Generator_Set_Input>;
   /** filter the rows which have to be updated */
-  where: Resource_Generator_Type_Bool_Exp;
+  where: Resource_Generator_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Resource_Generator_Var_Pop_Fields = {
+  __typename?: 'resource_generator_var_pop_fields';
+  cost_amount_1?: Maybe<Scalars['Float']['output']>;
+  cost_growth_exponent?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate var_samp on columns */
+export type Resource_Generator_Var_Samp_Fields = {
+  __typename?: 'resource_generator_var_samp_fields';
+  cost_amount_1?: Maybe<Scalars['Float']['output']>;
+  cost_growth_exponent?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate variance on columns */
+export type Resource_Generator_Variance_Fields = {
+  __typename?: 'resource_generator_variance_fields';
+  cost_amount_1?: Maybe<Scalars['Float']['output']>;
+  cost_growth_exponent?: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "resource_type" */
 export type Resource_Type = {
   __typename?: 'resource_type';
-  id: Scalars['uuid'];
-  image_url?: Maybe<Scalars['String']>;
-  image_url_pixel?: Maybe<Scalars['String']>;
-  type: Scalars['String'];
+  id: Scalars['uuid']['output'];
+  image_url?: Maybe<Scalars['String']['output']>;
+  image_url_pixel?: Maybe<Scalars['String']['output']>;
+  type: Scalars['String']['output'];
 };
 
 /** aggregated selection of "resource_type" */
@@ -8216,7 +8447,7 @@ export type Resource_Type_Aggregate = {
 /** aggregate fields of "resource_type" */
 export type Resource_Type_Aggregate_Fields = {
   __typename?: 'resource_type_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<Resource_Type_Max_Fields>;
   min?: Maybe<Resource_Type_Min_Fields>;
 };
@@ -8225,7 +8456,7 @@ export type Resource_Type_Aggregate_Fields = {
 /** aggregate fields of "resource_type" */
 export type Resource_Type_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Resource_Type_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "resource_type". All fields are combined with a logical 'AND'. */
@@ -8249,35 +8480,35 @@ export enum Resource_Type_Constraint {
 
 /** input type for inserting data into table "resource_type" */
 export type Resource_Type_Insert_Input = {
-  id?: InputMaybe<Scalars['uuid']>;
-  image_url?: InputMaybe<Scalars['String']>;
-  image_url_pixel?: InputMaybe<Scalars['String']>;
-  type?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
+  image_url_pixel?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Resource_Type_Max_Fields = {
   __typename?: 'resource_type_max_fields';
-  id?: Maybe<Scalars['uuid']>;
-  image_url?: Maybe<Scalars['String']>;
-  image_url_pixel?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  image_url?: Maybe<Scalars['String']['output']>;
+  image_url_pixel?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type Resource_Type_Min_Fields = {
   __typename?: 'resource_type_min_fields';
-  id?: Maybe<Scalars['uuid']>;
-  image_url?: Maybe<Scalars['String']>;
-  image_url_pixel?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  image_url?: Maybe<Scalars['String']['output']>;
+  image_url_pixel?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "resource_type" */
 export type Resource_Type_Mutation_Response = {
   __typename?: 'resource_type_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Resource_Type>;
 };
@@ -8306,7 +8537,7 @@ export type Resource_Type_Order_By = {
 
 /** primary key columns input for table: resource_type */
 export type Resource_Type_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "resource_type" */
@@ -8323,10 +8554,10 @@ export enum Resource_Type_Select_Column {
 
 /** input type for updating data in table "resource_type" */
 export type Resource_Type_Set_Input = {
-  id?: InputMaybe<Scalars['uuid']>;
-  image_url?: InputMaybe<Scalars['String']>;
-  image_url_pixel?: InputMaybe<Scalars['String']>;
-  type?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
+  image_url_pixel?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Streaming cursor of the table "resource_type" */
@@ -8339,10 +8570,10 @@ export type Resource_Type_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Resource_Type_Stream_Cursor_Value_Input = {
-  id?: InputMaybe<Scalars['uuid']>;
-  image_url?: InputMaybe<Scalars['String']>;
-  image_url_pixel?: InputMaybe<Scalars['String']>;
-  type?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
+  image_url_pixel?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** update columns of table "resource_type" */
@@ -8526,14 +8757,14 @@ export type Subscription_Root = {
   quest_type_by_pk?: Maybe<Quest_Type>;
   /** fetch data from the table in a streaming manner: "quest_type" */
   quest_type_stream: Array<Quest_Type>;
-  /** fetch data from the table: "resource_generator_type" */
-  resource_generator_type: Array<Resource_Generator_Type>;
-  /** fetch aggregated fields from the table: "resource_generator_type" */
-  resource_generator_type_aggregate: Resource_Generator_Type_Aggregate;
-  /** fetch data from the table: "resource_generator_type" using primary key columns */
-  resource_generator_type_by_pk?: Maybe<Resource_Generator_Type>;
-  /** fetch data from the table in a streaming manner: "resource_generator_type" */
-  resource_generator_type_stream: Array<Resource_Generator_Type>;
+  /** fetch data from the table: "resource_generator" */
+  resource_generator: Array<Resource_Generator>;
+  /** fetch aggregated fields from the table: "resource_generator" */
+  resource_generator_aggregate: Resource_Generator_Aggregate;
+  /** fetch data from the table: "resource_generator" using primary key columns */
+  resource_generator_by_pk?: Maybe<Resource_Generator>;
+  /** fetch data from the table in a streaming manner: "resource_generator" */
+  resource_generator_stream: Array<Resource_Generator>;
   /** fetch data from the table: "resource_type" */
   resource_type: Array<Resource_Type>;
   /** fetch aggregated fields from the table: "resource_type" */
@@ -8583,8 +8814,8 @@ export type Subscription_Root = {
 
 export type Subscription_RootBackgroundArgs = {
   distinct_on?: InputMaybe<Array<Background_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Background_Order_By>>;
   where?: InputMaybe<Background_Bool_Exp>;
 };
@@ -8592,20 +8823,20 @@ export type Subscription_RootBackgroundArgs = {
 
 export type Subscription_RootBackground_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Background_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Background_Order_By>>;
   where?: InputMaybe<Background_Bool_Exp>;
 };
 
 
 export type Subscription_RootBackground_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Subscription_RootBackground_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Background_Stream_Cursor_Input>>;
   where?: InputMaybe<Background_Bool_Exp>;
 };
@@ -8613,8 +8844,8 @@ export type Subscription_RootBackground_StreamArgs = {
 
 export type Subscription_RootCelestialArgs = {
   distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Celestial_Order_By>>;
   where?: InputMaybe<Celestial_Bool_Exp>;
 };
@@ -8622,20 +8853,20 @@ export type Subscription_RootCelestialArgs = {
 
 export type Subscription_RootCelestial_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Celestial_Order_By>>;
   where?: InputMaybe<Celestial_Bool_Exp>;
 };
 
 
 export type Subscription_RootCelestial_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 
 export type Subscription_RootCelestial_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Celestial_Stream_Cursor_Input>>;
   where?: InputMaybe<Celestial_Bool_Exp>;
 };
@@ -8643,8 +8874,8 @@ export type Subscription_RootCelestial_StreamArgs = {
 
 export type Subscription_RootChat_MessageArgs = {
   distinct_on?: InputMaybe<Array<Chat_Message_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Chat_Message_Order_By>>;
   where?: InputMaybe<Chat_Message_Bool_Exp>;
 };
@@ -8652,20 +8883,20 @@ export type Subscription_RootChat_MessageArgs = {
 
 export type Subscription_RootChat_Message_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Chat_Message_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Chat_Message_Order_By>>;
   where?: InputMaybe<Chat_Message_Bool_Exp>;
 };
 
 
 export type Subscription_RootChat_Message_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Subscription_RootChat_Message_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Chat_Message_Stream_Cursor_Input>>;
   where?: InputMaybe<Chat_Message_Bool_Exp>;
 };
@@ -8673,8 +8904,8 @@ export type Subscription_RootChat_Message_StreamArgs = {
 
 export type Subscription_RootFactionArgs = {
   distinct_on?: InputMaybe<Array<Faction_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Faction_Order_By>>;
   where?: InputMaybe<Faction_Bool_Exp>;
 };
@@ -8682,20 +8913,20 @@ export type Subscription_RootFactionArgs = {
 
 export type Subscription_RootFaction_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Faction_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Faction_Order_By>>;
   where?: InputMaybe<Faction_Bool_Exp>;
 };
 
 
 export type Subscription_RootFaction_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Subscription_RootFaction_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Faction_Stream_Cursor_Input>>;
   where?: InputMaybe<Faction_Bool_Exp>;
 };
@@ -8703,8 +8934,8 @@ export type Subscription_RootFaction_StreamArgs = {
 
 export type Subscription_RootGalactic_EmpireArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Bool_Exp>;
 };
@@ -8712,22 +8943,22 @@ export type Subscription_RootGalactic_EmpireArgs = {
 
 export type Subscription_RootGalactic_Empire_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Bool_Exp>;
 };
 
 
 export type Subscription_RootGalactic_Empire_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Subscription_RootGalactic_Empire_NpcArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Npc_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Npc_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Npc_Bool_Exp>;
 };
@@ -8735,20 +8966,20 @@ export type Subscription_RootGalactic_Empire_NpcArgs = {
 
 export type Subscription_RootGalactic_Empire_Npc_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Npc_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Npc_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Npc_Bool_Exp>;
 };
 
 
 export type Subscription_RootGalactic_Empire_Npc_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Subscription_RootGalactic_Empire_Npc_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Galactic_Empire_Npc_Stream_Cursor_Input>>;
   where?: InputMaybe<Galactic_Empire_Npc_Bool_Exp>;
 };
@@ -8756,8 +8987,8 @@ export type Subscription_RootGalactic_Empire_Npc_StreamArgs = {
 
 export type Subscription_RootGalactic_Empire_QuestArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Quest_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Quest_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Quest_Bool_Exp>;
 };
@@ -8765,20 +8996,20 @@ export type Subscription_RootGalactic_Empire_QuestArgs = {
 
 export type Subscription_RootGalactic_Empire_Quest_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Quest_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Quest_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Quest_Bool_Exp>;
 };
 
 
 export type Subscription_RootGalactic_Empire_Quest_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Subscription_RootGalactic_Empire_Quest_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Galactic_Empire_Quest_Stream_Cursor_Input>>;
   where?: InputMaybe<Galactic_Empire_Quest_Bool_Exp>;
 };
@@ -8786,8 +9017,8 @@ export type Subscription_RootGalactic_Empire_Quest_StreamArgs = {
 
 export type Subscription_RootGalactic_Empire_Resource_GeneratorArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Resource_Generator_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Resource_Generator_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Resource_Generator_Bool_Exp>;
 };
@@ -8795,20 +9026,20 @@ export type Subscription_RootGalactic_Empire_Resource_GeneratorArgs = {
 
 export type Subscription_RootGalactic_Empire_Resource_Generator_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Resource_Generator_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Resource_Generator_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Resource_Generator_Bool_Exp>;
 };
 
 
 export type Subscription_RootGalactic_Empire_Resource_Generator_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Subscription_RootGalactic_Empire_Resource_Generator_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Galactic_Empire_Resource_Generator_Stream_Cursor_Input>>;
   where?: InputMaybe<Galactic_Empire_Resource_Generator_Bool_Exp>;
 };
@@ -8816,8 +9047,8 @@ export type Subscription_RootGalactic_Empire_Resource_Generator_StreamArgs = {
 
 export type Subscription_RootGalactic_Empire_ResourcesArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Resources_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Resources_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Resources_Bool_Exp>;
 };
@@ -8825,27 +9056,27 @@ export type Subscription_RootGalactic_Empire_ResourcesArgs = {
 
 export type Subscription_RootGalactic_Empire_Resources_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Resources_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Resources_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Resources_Bool_Exp>;
 };
 
 
 export type Subscription_RootGalactic_Empire_Resources_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Subscription_RootGalactic_Empire_Resources_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Galactic_Empire_Resources_Stream_Cursor_Input>>;
   where?: InputMaybe<Galactic_Empire_Resources_Bool_Exp>;
 };
 
 
 export type Subscription_RootGalactic_Empire_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Galactic_Empire_Stream_Cursor_Input>>;
   where?: InputMaybe<Galactic_Empire_Bool_Exp>;
 };
@@ -8853,8 +9084,8 @@ export type Subscription_RootGalactic_Empire_StreamArgs = {
 
 export type Subscription_RootGalaxyArgs = {
   distinct_on?: InputMaybe<Array<Galaxy_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galaxy_Order_By>>;
   where?: InputMaybe<Galaxy_Bool_Exp>;
 };
@@ -8862,20 +9093,20 @@ export type Subscription_RootGalaxyArgs = {
 
 export type Subscription_RootGalaxy_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Galaxy_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galaxy_Order_By>>;
   where?: InputMaybe<Galaxy_Bool_Exp>;
 };
 
 
 export type Subscription_RootGalaxy_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Subscription_RootGalaxy_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Galaxy_Stream_Cursor_Input>>;
   where?: InputMaybe<Galaxy_Bool_Exp>;
 };
@@ -8883,8 +9114,8 @@ export type Subscription_RootGalaxy_StreamArgs = {
 
 export type Subscription_RootNpcArgs = {
   distinct_on?: InputMaybe<Array<Npc_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Npc_Order_By>>;
   where?: InputMaybe<Npc_Bool_Exp>;
 };
@@ -8892,20 +9123,20 @@ export type Subscription_RootNpcArgs = {
 
 export type Subscription_RootNpc_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Npc_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Npc_Order_By>>;
   where?: InputMaybe<Npc_Bool_Exp>;
 };
 
 
 export type Subscription_RootNpc_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Subscription_RootNpc_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Npc_Stream_Cursor_Input>>;
   where?: InputMaybe<Npc_Bool_Exp>;
 };
@@ -8913,8 +9144,8 @@ export type Subscription_RootNpc_StreamArgs = {
 
 export type Subscription_RootPlanetArgs = {
   distinct_on?: InputMaybe<Array<Planet_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Planet_Order_By>>;
   where?: InputMaybe<Planet_Bool_Exp>;
 };
@@ -8922,20 +9153,20 @@ export type Subscription_RootPlanetArgs = {
 
 export type Subscription_RootPlanet_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Planet_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Planet_Order_By>>;
   where?: InputMaybe<Planet_Bool_Exp>;
 };
 
 
 export type Subscription_RootPlanet_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Subscription_RootPlanet_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Planet_Stream_Cursor_Input>>;
   where?: InputMaybe<Planet_Bool_Exp>;
 };
@@ -8943,8 +9174,8 @@ export type Subscription_RootPlanet_StreamArgs = {
 
 export type Subscription_RootPlanetary_RingArgs = {
   distinct_on?: InputMaybe<Array<Planetary_Ring_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Planetary_Ring_Order_By>>;
   where?: InputMaybe<Planetary_Ring_Bool_Exp>;
 };
@@ -8952,20 +9183,20 @@ export type Subscription_RootPlanetary_RingArgs = {
 
 export type Subscription_RootPlanetary_Ring_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Planetary_Ring_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Planetary_Ring_Order_By>>;
   where?: InputMaybe<Planetary_Ring_Bool_Exp>;
 };
 
 
 export type Subscription_RootPlanetary_Ring_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Subscription_RootPlanetary_Ring_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Planetary_Ring_Stream_Cursor_Input>>;
   where?: InputMaybe<Planetary_Ring_Bool_Exp>;
 };
@@ -8973,8 +9204,8 @@ export type Subscription_RootPlanetary_Ring_StreamArgs = {
 
 export type Subscription_RootPlayable_RaceArgs = {
   distinct_on?: InputMaybe<Array<Playable_Race_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Playable_Race_Order_By>>;
   where?: InputMaybe<Playable_Race_Bool_Exp>;
 };
@@ -8982,20 +9213,20 @@ export type Subscription_RootPlayable_RaceArgs = {
 
 export type Subscription_RootPlayable_Race_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Playable_Race_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Playable_Race_Order_By>>;
   where?: InputMaybe<Playable_Race_Bool_Exp>;
 };
 
 
 export type Subscription_RootPlayable_Race_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Subscription_RootPlayable_Race_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Playable_Race_Stream_Cursor_Input>>;
   where?: InputMaybe<Playable_Race_Bool_Exp>;
 };
@@ -9003,8 +9234,8 @@ export type Subscription_RootPlayable_Race_StreamArgs = {
 
 export type Subscription_RootQuestArgs = {
   distinct_on?: InputMaybe<Array<Quest_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Order_By>>;
   where?: InputMaybe<Quest_Bool_Exp>;
 };
@@ -9012,22 +9243,22 @@ export type Subscription_RootQuestArgs = {
 
 export type Subscription_RootQuest_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Quest_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Order_By>>;
   where?: InputMaybe<Quest_Bool_Exp>;
 };
 
 
 export type Subscription_RootQuest_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Subscription_RootQuest_RewardArgs = {
   distinct_on?: InputMaybe<Array<Quest_Reward_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Reward_Order_By>>;
   where?: InputMaybe<Quest_Reward_Bool_Exp>;
 };
@@ -9035,20 +9266,20 @@ export type Subscription_RootQuest_RewardArgs = {
 
 export type Subscription_RootQuest_Reward_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Quest_Reward_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Reward_Order_By>>;
   where?: InputMaybe<Quest_Reward_Bool_Exp>;
 };
 
 
 export type Subscription_RootQuest_Reward_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Subscription_RootQuest_Reward_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Quest_Reward_Stream_Cursor_Input>>;
   where?: InputMaybe<Quest_Reward_Bool_Exp>;
 };
@@ -9056,8 +9287,8 @@ export type Subscription_RootQuest_Reward_StreamArgs = {
 
 export type Subscription_RootQuest_Reward_TypeArgs = {
   distinct_on?: InputMaybe<Array<Quest_Reward_Type_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Reward_Type_Order_By>>;
   where?: InputMaybe<Quest_Reward_Type_Bool_Exp>;
 };
@@ -9065,20 +9296,20 @@ export type Subscription_RootQuest_Reward_TypeArgs = {
 
 export type Subscription_RootQuest_Reward_Type_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Quest_Reward_Type_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Reward_Type_Order_By>>;
   where?: InputMaybe<Quest_Reward_Type_Bool_Exp>;
 };
 
 
 export type Subscription_RootQuest_Reward_Type_By_PkArgs = {
-  value: Scalars['String'];
+  value: Scalars['String']['input'];
 };
 
 
 export type Subscription_RootQuest_Reward_Type_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Quest_Reward_Type_Stream_Cursor_Input>>;
   where?: InputMaybe<Quest_Reward_Type_Bool_Exp>;
 };
@@ -9086,8 +9317,8 @@ export type Subscription_RootQuest_Reward_Type_StreamArgs = {
 
 export type Subscription_RootQuest_StepArgs = {
   distinct_on?: InputMaybe<Array<Quest_Step_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Step_Order_By>>;
   where?: InputMaybe<Quest_Step_Bool_Exp>;
 };
@@ -9095,20 +9326,20 @@ export type Subscription_RootQuest_StepArgs = {
 
 export type Subscription_RootQuest_Step_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Quest_Step_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Step_Order_By>>;
   where?: InputMaybe<Quest_Step_Bool_Exp>;
 };
 
 
 export type Subscription_RootQuest_Step_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Subscription_RootQuest_Step_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Quest_Step_Stream_Cursor_Input>>;
   where?: InputMaybe<Quest_Step_Bool_Exp>;
 };
@@ -9116,8 +9347,8 @@ export type Subscription_RootQuest_Step_StreamArgs = {
 
 export type Subscription_RootQuest_Step_TypeArgs = {
   distinct_on?: InputMaybe<Array<Quest_Step_Type_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Step_Type_Order_By>>;
   where?: InputMaybe<Quest_Step_Type_Bool_Exp>;
 };
@@ -9125,27 +9356,27 @@ export type Subscription_RootQuest_Step_TypeArgs = {
 
 export type Subscription_RootQuest_Step_Type_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Quest_Step_Type_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Step_Type_Order_By>>;
   where?: InputMaybe<Quest_Step_Type_Bool_Exp>;
 };
 
 
 export type Subscription_RootQuest_Step_Type_By_PkArgs = {
-  value: Scalars['String'];
+  value: Scalars['String']['input'];
 };
 
 
 export type Subscription_RootQuest_Step_Type_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Quest_Step_Type_Stream_Cursor_Input>>;
   where?: InputMaybe<Quest_Step_Type_Bool_Exp>;
 };
 
 
 export type Subscription_RootQuest_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Quest_Stream_Cursor_Input>>;
   where?: InputMaybe<Quest_Bool_Exp>;
 };
@@ -9153,8 +9384,8 @@ export type Subscription_RootQuest_StreamArgs = {
 
 export type Subscription_RootQuest_TypeArgs = {
   distinct_on?: InputMaybe<Array<Quest_Type_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Type_Order_By>>;
   where?: InputMaybe<Quest_Type_Bool_Exp>;
 };
@@ -9162,59 +9393,59 @@ export type Subscription_RootQuest_TypeArgs = {
 
 export type Subscription_RootQuest_Type_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Quest_Type_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Quest_Type_Order_By>>;
   where?: InputMaybe<Quest_Type_Bool_Exp>;
 };
 
 
 export type Subscription_RootQuest_Type_By_PkArgs = {
-  value: Scalars['String'];
+  value: Scalars['String']['input'];
 };
 
 
 export type Subscription_RootQuest_Type_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Quest_Type_Stream_Cursor_Input>>;
   where?: InputMaybe<Quest_Type_Bool_Exp>;
 };
 
 
-export type Subscription_RootResource_Generator_TypeArgs = {
-  distinct_on?: InputMaybe<Array<Resource_Generator_Type_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Resource_Generator_Type_Order_By>>;
-  where?: InputMaybe<Resource_Generator_Type_Bool_Exp>;
+export type Subscription_RootResource_GeneratorArgs = {
+  distinct_on?: InputMaybe<Array<Resource_Generator_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Resource_Generator_Order_By>>;
+  where?: InputMaybe<Resource_Generator_Bool_Exp>;
 };
 
 
-export type Subscription_RootResource_Generator_Type_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Resource_Generator_Type_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Resource_Generator_Type_Order_By>>;
-  where?: InputMaybe<Resource_Generator_Type_Bool_Exp>;
+export type Subscription_RootResource_Generator_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Resource_Generator_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Resource_Generator_Order_By>>;
+  where?: InputMaybe<Resource_Generator_Bool_Exp>;
 };
 
 
-export type Subscription_RootResource_Generator_Type_By_PkArgs = {
-  id: Scalars['uuid'];
+export type Subscription_RootResource_Generator_By_PkArgs = {
+  id: Scalars['uuid']['input'];
 };
 
 
-export type Subscription_RootResource_Generator_Type_StreamArgs = {
-  batch_size: Scalars['Int'];
-  cursor: Array<InputMaybe<Resource_Generator_Type_Stream_Cursor_Input>>;
-  where?: InputMaybe<Resource_Generator_Type_Bool_Exp>;
+export type Subscription_RootResource_Generator_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Resource_Generator_Stream_Cursor_Input>>;
+  where?: InputMaybe<Resource_Generator_Bool_Exp>;
 };
 
 
 export type Subscription_RootResource_TypeArgs = {
   distinct_on?: InputMaybe<Array<Resource_Type_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Resource_Type_Order_By>>;
   where?: InputMaybe<Resource_Type_Bool_Exp>;
 };
@@ -9222,20 +9453,20 @@ export type Subscription_RootResource_TypeArgs = {
 
 export type Subscription_RootResource_Type_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Resource_Type_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Resource_Type_Order_By>>;
   where?: InputMaybe<Resource_Type_Bool_Exp>;
 };
 
 
 export type Subscription_RootResource_Type_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Subscription_RootResource_Type_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Resource_Type_Stream_Cursor_Input>>;
   where?: InputMaybe<Resource_Type_Bool_Exp>;
 };
@@ -9243,8 +9474,8 @@ export type Subscription_RootResource_Type_StreamArgs = {
 
 export type Subscription_RootTechnologyArgs = {
   distinct_on?: InputMaybe<Array<Technology_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Technology_Order_By>>;
   where?: InputMaybe<Technology_Bool_Exp>;
 };
@@ -9252,20 +9483,20 @@ export type Subscription_RootTechnologyArgs = {
 
 export type Subscription_RootTechnology_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Technology_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Technology_Order_By>>;
   where?: InputMaybe<Technology_Bool_Exp>;
 };
 
 
 export type Subscription_RootTechnology_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Subscription_RootTechnology_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Technology_Stream_Cursor_Input>>;
   where?: InputMaybe<Technology_Bool_Exp>;
 };
@@ -9273,8 +9504,8 @@ export type Subscription_RootTechnology_StreamArgs = {
 
 export type Subscription_RootTerrain_Hex_PaletteArgs = {
   distinct_on?: InputMaybe<Array<Terrain_Hex_Palette_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Terrain_Hex_Palette_Order_By>>;
   where?: InputMaybe<Terrain_Hex_Palette_Bool_Exp>;
 };
@@ -9282,20 +9513,20 @@ export type Subscription_RootTerrain_Hex_PaletteArgs = {
 
 export type Subscription_RootTerrain_Hex_Palette_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Terrain_Hex_Palette_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Terrain_Hex_Palette_Order_By>>;
   where?: InputMaybe<Terrain_Hex_Palette_Bool_Exp>;
 };
 
 
 export type Subscription_RootTerrain_Hex_Palette_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 
 export type Subscription_RootTerrain_Hex_Palette_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Terrain_Hex_Palette_Stream_Cursor_Input>>;
   where?: InputMaybe<Terrain_Hex_Palette_Bool_Exp>;
 };
@@ -9303,8 +9534,8 @@ export type Subscription_RootTerrain_Hex_Palette_StreamArgs = {
 
 export type Subscription_RootUser_InfoArgs = {
   distinct_on?: InputMaybe<Array<User_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<User_Info_Order_By>>;
   where?: InputMaybe<User_Info_Bool_Exp>;
 };
@@ -9312,20 +9543,20 @@ export type Subscription_RootUser_InfoArgs = {
 
 export type Subscription_RootUser_Info_AggregateArgs = {
   distinct_on?: InputMaybe<Array<User_Info_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<User_Info_Order_By>>;
   where?: InputMaybe<User_Info_Bool_Exp>;
 };
 
 
 export type Subscription_RootUser_Info_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 
 export type Subscription_RootUser_Info_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<User_Info_Stream_Cursor_Input>>;
   where?: InputMaybe<User_Info_Bool_Exp>;
 };
@@ -9333,8 +9564,8 @@ export type Subscription_RootUser_Info_StreamArgs = {
 
 export type Subscription_RootUser_MeArgs = {
   distinct_on?: InputMaybe<Array<User_Me_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<User_Me_Order_By>>;
   where?: InputMaybe<User_Me_Bool_Exp>;
 };
@@ -9342,15 +9573,15 @@ export type Subscription_RootUser_MeArgs = {
 
 export type Subscription_RootUser_Me_AggregateArgs = {
   distinct_on?: InputMaybe<Array<User_Me_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<User_Me_Order_By>>;
   where?: InputMaybe<User_Me_Bool_Exp>;
 };
 
 
 export type Subscription_RootUser_Me_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<User_Me_Stream_Cursor_Input>>;
   where?: InputMaybe<User_Me_Bool_Exp>;
 };
@@ -9358,8 +9589,8 @@ export type Subscription_RootUser_Me_StreamArgs = {
 
 export type Subscription_RootUser_PrivateArgs = {
   distinct_on?: InputMaybe<Array<User_Private_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<User_Private_Order_By>>;
   where?: InputMaybe<User_Private_Bool_Exp>;
 };
@@ -9367,15 +9598,15 @@ export type Subscription_RootUser_PrivateArgs = {
 
 export type Subscription_RootUser_Private_AggregateArgs = {
   distinct_on?: InputMaybe<Array<User_Private_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<User_Private_Order_By>>;
   where?: InputMaybe<User_Private_Bool_Exp>;
 };
 
 
 export type Subscription_RootUser_Private_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<User_Private_Stream_Cursor_Input>>;
   where?: InputMaybe<User_Private_Bool_Exp>;
 };
@@ -9383,13 +9614,13 @@ export type Subscription_RootUser_Private_StreamArgs = {
 /** columns and relationships of "technology" */
 export type Technology = {
   __typename?: 'technology';
-  children: Scalars['_uuid'];
-  description?: Maybe<Scalars['String']>;
-  id: Scalars['uuid'];
-  image_url?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
-  research_cost: Scalars['Int'];
-  root?: Maybe<Scalars['Boolean']>;
+  children: Scalars['_uuid']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['uuid']['output'];
+  image_url?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
+  research_cost: Scalars['Int']['output'];
+  root?: Maybe<Scalars['Boolean']['output']>;
 };
 
 /** aggregated selection of "technology" */
@@ -9403,7 +9634,7 @@ export type Technology_Aggregate = {
 export type Technology_Aggregate_Fields = {
   __typename?: 'technology_aggregate_fields';
   avg?: Maybe<Technology_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<Technology_Max_Fields>;
   min?: Maybe<Technology_Min_Fields>;
   stddev?: Maybe<Technology_Stddev_Fields>;
@@ -9419,13 +9650,13 @@ export type Technology_Aggregate_Fields = {
 /** aggregate fields of "technology" */
 export type Technology_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Technology_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type Technology_Avg_Fields = {
   __typename?: 'technology_avg_fields';
-  research_cost?: Maybe<Scalars['Float']>;
+  research_cost?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "technology". All fields are combined with a logical 'AND'. */
@@ -9452,45 +9683,45 @@ export enum Technology_Constraint {
 
 /** input type for incrementing numeric columns in table "technology" */
 export type Technology_Inc_Input = {
-  research_cost?: InputMaybe<Scalars['Int']>;
+  research_cost?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "technology" */
 export type Technology_Insert_Input = {
-  children?: InputMaybe<Scalars['_uuid']>;
-  description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  image_url?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  research_cost?: InputMaybe<Scalars['Int']>;
-  root?: InputMaybe<Scalars['Boolean']>;
+  children?: InputMaybe<Scalars['_uuid']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  research_cost?: InputMaybe<Scalars['Int']['input']>;
+  root?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate max on columns */
 export type Technology_Max_Fields = {
   __typename?: 'technology_max_fields';
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  image_url?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  research_cost?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  image_url?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  research_cost?: Maybe<Scalars['Int']['output']>;
 };
 
 /** aggregate min on columns */
 export type Technology_Min_Fields = {
   __typename?: 'technology_min_fields';
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  image_url?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  research_cost?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  image_url?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  research_cost?: Maybe<Scalars['Int']['output']>;
 };
 
 /** response of any mutation on the table "technology" */
 export type Technology_Mutation_Response = {
   __typename?: 'technology_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Technology>;
 };
@@ -9515,7 +9746,7 @@ export type Technology_Order_By = {
 
 /** primary key columns input for table: technology */
 export type Technology_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "technology" */
@@ -9538,31 +9769,31 @@ export enum Technology_Select_Column {
 
 /** input type for updating data in table "technology" */
 export type Technology_Set_Input = {
-  children?: InputMaybe<Scalars['_uuid']>;
-  description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  image_url?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  research_cost?: InputMaybe<Scalars['Int']>;
-  root?: InputMaybe<Scalars['Boolean']>;
+  children?: InputMaybe<Scalars['_uuid']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  research_cost?: InputMaybe<Scalars['Int']['input']>;
+  root?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Technology_Stddev_Fields = {
   __typename?: 'technology_stddev_fields';
-  research_cost?: Maybe<Scalars['Float']>;
+  research_cost?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Technology_Stddev_Pop_Fields = {
   __typename?: 'technology_stddev_pop_fields';
-  research_cost?: Maybe<Scalars['Float']>;
+  research_cost?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Technology_Stddev_Samp_Fields = {
   __typename?: 'technology_stddev_samp_fields';
-  research_cost?: Maybe<Scalars['Float']>;
+  research_cost?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Streaming cursor of the table "technology" */
@@ -9575,19 +9806,19 @@ export type Technology_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Technology_Stream_Cursor_Value_Input = {
-  children?: InputMaybe<Scalars['_uuid']>;
-  description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  image_url?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  research_cost?: InputMaybe<Scalars['Int']>;
-  root?: InputMaybe<Scalars['Boolean']>;
+  children?: InputMaybe<Scalars['_uuid']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  research_cost?: InputMaybe<Scalars['Int']['input']>;
+  root?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Technology_Sum_Fields = {
   __typename?: 'technology_sum_fields';
-  research_cost?: Maybe<Scalars['Int']>;
+  research_cost?: Maybe<Scalars['Int']['output']>;
 };
 
 /** update columns of table "technology" */
@@ -9620,30 +9851,30 @@ export type Technology_Updates = {
 /** aggregate var_pop on columns */
 export type Technology_Var_Pop_Fields = {
   __typename?: 'technology_var_pop_fields';
-  research_cost?: Maybe<Scalars['Float']>;
+  research_cost?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type Technology_Var_Samp_Fields = {
   __typename?: 'technology_var_samp_fields';
-  research_cost?: Maybe<Scalars['Float']>;
+  research_cost?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type Technology_Variance_Fields = {
   __typename?: 'technology_variance_fields';
-  research_cost?: Maybe<Scalars['Float']>;
+  research_cost?: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "terrain_hex_palette" */
 export type Terrain_Hex_Palette = {
   __typename?: 'terrain_hex_palette';
-  forest: Scalars['String'];
-  grass: Scalars['String'];
-  id: Scalars['uuid'];
-  name: Scalars['String'];
-  sand: Scalars['String'];
-  water: Scalars['String'];
+  forest: Scalars['String']['output'];
+  grass: Scalars['String']['output'];
+  id: Scalars['uuid']['output'];
+  name: Scalars['String']['output'];
+  sand: Scalars['String']['output'];
+  water: Scalars['String']['output'];
 };
 
 /** aggregated selection of "terrain_hex_palette" */
@@ -9656,7 +9887,7 @@ export type Terrain_Hex_Palette_Aggregate = {
 /** aggregate fields of "terrain_hex_palette" */
 export type Terrain_Hex_Palette_Aggregate_Fields = {
   __typename?: 'terrain_hex_palette_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<Terrain_Hex_Palette_Max_Fields>;
   min?: Maybe<Terrain_Hex_Palette_Min_Fields>;
 };
@@ -9665,7 +9896,7 @@ export type Terrain_Hex_Palette_Aggregate_Fields = {
 /** aggregate fields of "terrain_hex_palette" */
 export type Terrain_Hex_Palette_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Terrain_Hex_Palette_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "terrain_hex_palette". All fields are combined with a logical 'AND'. */
@@ -9691,41 +9922,41 @@ export enum Terrain_Hex_Palette_Constraint {
 
 /** input type for inserting data into table "terrain_hex_palette" */
 export type Terrain_Hex_Palette_Insert_Input = {
-  forest?: InputMaybe<Scalars['String']>;
-  grass?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  name?: InputMaybe<Scalars['String']>;
-  sand?: InputMaybe<Scalars['String']>;
-  water?: InputMaybe<Scalars['String']>;
+  forest?: InputMaybe<Scalars['String']['input']>;
+  grass?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  sand?: InputMaybe<Scalars['String']['input']>;
+  water?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Terrain_Hex_Palette_Max_Fields = {
   __typename?: 'terrain_hex_palette_max_fields';
-  forest?: Maybe<Scalars['String']>;
-  grass?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  name?: Maybe<Scalars['String']>;
-  sand?: Maybe<Scalars['String']>;
-  water?: Maybe<Scalars['String']>;
+  forest?: Maybe<Scalars['String']['output']>;
+  grass?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  sand?: Maybe<Scalars['String']['output']>;
+  water?: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type Terrain_Hex_Palette_Min_Fields = {
   __typename?: 'terrain_hex_palette_min_fields';
-  forest?: Maybe<Scalars['String']>;
-  grass?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['uuid']>;
-  name?: Maybe<Scalars['String']>;
-  sand?: Maybe<Scalars['String']>;
-  water?: Maybe<Scalars['String']>;
+  forest?: Maybe<Scalars['String']['output']>;
+  grass?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  sand?: Maybe<Scalars['String']['output']>;
+  water?: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "terrain_hex_palette" */
 export type Terrain_Hex_Palette_Mutation_Response = {
   __typename?: 'terrain_hex_palette_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Terrain_Hex_Palette>;
 };
@@ -9756,7 +9987,7 @@ export type Terrain_Hex_Palette_Order_By = {
 
 /** primary key columns input for table: terrain_hex_palette */
 export type Terrain_Hex_Palette_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "terrain_hex_palette" */
@@ -9777,12 +10008,12 @@ export enum Terrain_Hex_Palette_Select_Column {
 
 /** input type for updating data in table "terrain_hex_palette" */
 export type Terrain_Hex_Palette_Set_Input = {
-  forest?: InputMaybe<Scalars['String']>;
-  grass?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  name?: InputMaybe<Scalars['String']>;
-  sand?: InputMaybe<Scalars['String']>;
-  water?: InputMaybe<Scalars['String']>;
+  forest?: InputMaybe<Scalars['String']['input']>;
+  grass?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  sand?: InputMaybe<Scalars['String']['input']>;
+  water?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Streaming cursor of the table "terrain_hex_palette" */
@@ -9795,12 +10026,12 @@ export type Terrain_Hex_Palette_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Terrain_Hex_Palette_Stream_Cursor_Value_Input = {
-  forest?: InputMaybe<Scalars['String']>;
-  grass?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['uuid']>;
-  name?: InputMaybe<Scalars['String']>;
-  sand?: InputMaybe<Scalars['String']>;
-  water?: InputMaybe<Scalars['String']>;
+  forest?: InputMaybe<Scalars['String']['input']>;
+  grass?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  sand?: InputMaybe<Scalars['String']['input']>;
+  water?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** update columns of table "terrain_hex_palette" */
@@ -9828,34 +10059,34 @@ export type Terrain_Hex_Palette_Updates = {
 
 /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
 export type Timestamp_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['timestamp']>;
-  _gt?: InputMaybe<Scalars['timestamp']>;
-  _gte?: InputMaybe<Scalars['timestamp']>;
-  _in?: InputMaybe<Array<Scalars['timestamp']>>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
-  _lt?: InputMaybe<Scalars['timestamp']>;
-  _lte?: InputMaybe<Scalars['timestamp']>;
-  _neq?: InputMaybe<Scalars['timestamp']>;
-  _nin?: InputMaybe<Array<Scalars['timestamp']>>;
+  _eq?: InputMaybe<Scalars['timestamp']['input']>;
+  _gt?: InputMaybe<Scalars['timestamp']['input']>;
+  _gte?: InputMaybe<Scalars['timestamp']['input']>;
+  _in?: InputMaybe<Array<Scalars['timestamp']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['timestamp']['input']>;
+  _lte?: InputMaybe<Scalars['timestamp']['input']>;
+  _neq?: InputMaybe<Scalars['timestamp']['input']>;
+  _nin?: InputMaybe<Array<Scalars['timestamp']['input']>>;
 };
 
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
 export type Timestamptz_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['timestamptz']>;
-  _gt?: InputMaybe<Scalars['timestamptz']>;
-  _gte?: InputMaybe<Scalars['timestamptz']>;
-  _in?: InputMaybe<Array<Scalars['timestamptz']>>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
-  _lt?: InputMaybe<Scalars['timestamptz']>;
-  _lte?: InputMaybe<Scalars['timestamptz']>;
-  _neq?: InputMaybe<Scalars['timestamptz']>;
-  _nin?: InputMaybe<Array<Scalars['timestamptz']>>;
+  _eq?: InputMaybe<Scalars['timestamptz']['input']>;
+  _gt?: InputMaybe<Scalars['timestamptz']['input']>;
+  _gte?: InputMaybe<Scalars['timestamptz']['input']>;
+  _in?: InputMaybe<Array<Scalars['timestamptz']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['timestamptz']['input']>;
+  _lte?: InputMaybe<Scalars['timestamptz']['input']>;
+  _neq?: InputMaybe<Scalars['timestamptz']['input']>;
+  _nin?: InputMaybe<Array<Scalars['timestamptz']['input']>>;
 };
 
 /** columns and relationships of "user_info" */
 export type User_Info = {
   __typename?: 'user_info';
-  avatar_url?: Maybe<Scalars['String']>;
+  avatar_url?: Maybe<Scalars['String']['output']>;
   /** An array relationship */
   celestials: Array<Celestial>;
   /** An aggregate relationship */
@@ -9864,24 +10095,24 @@ export type User_Info = {
   chat_messages: Array<Chat_Message>;
   /** An aggregate relationship */
   chat_messages_aggregate: Chat_Message_Aggregate;
-  display_name?: Maybe<Scalars['String']>;
-  free_claims: Scalars['Int'];
+  display_name?: Maybe<Scalars['String']['output']>;
+  free_claims: Scalars['Int']['output'];
   /** An array relationship */
   galactic_empires: Array<Galactic_Empire>;
   /** An aggregate relationship */
   galactic_empires_aggregate: Galactic_Empire_Aggregate;
-  id: Scalars['String'];
-  name?: Maybe<Scalars['String']>;
-  nickname: Scalars['String'];
-  secret_setting_test?: Maybe<Scalars['String']>;
+  id: Scalars['String']['output'];
+  name?: Maybe<Scalars['String']['output']>;
+  nickname: Scalars['String']['output'];
+  secret_setting_test?: Maybe<Scalars['String']['output']>;
 };
 
 
 /** columns and relationships of "user_info" */
 export type User_InfoCelestialsArgs = {
   distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Celestial_Order_By>>;
   where?: InputMaybe<Celestial_Bool_Exp>;
 };
@@ -9890,8 +10121,8 @@ export type User_InfoCelestialsArgs = {
 /** columns and relationships of "user_info" */
 export type User_InfoCelestials_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Celestial_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Celestial_Order_By>>;
   where?: InputMaybe<Celestial_Bool_Exp>;
 };
@@ -9900,8 +10131,8 @@ export type User_InfoCelestials_AggregateArgs = {
 /** columns and relationships of "user_info" */
 export type User_InfoChat_MessagesArgs = {
   distinct_on?: InputMaybe<Array<Chat_Message_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Chat_Message_Order_By>>;
   where?: InputMaybe<Chat_Message_Bool_Exp>;
 };
@@ -9910,8 +10141,8 @@ export type User_InfoChat_MessagesArgs = {
 /** columns and relationships of "user_info" */
 export type User_InfoChat_Messages_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Chat_Message_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Chat_Message_Order_By>>;
   where?: InputMaybe<Chat_Message_Bool_Exp>;
 };
@@ -9920,8 +10151,8 @@ export type User_InfoChat_Messages_AggregateArgs = {
 /** columns and relationships of "user_info" */
 export type User_InfoGalactic_EmpiresArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Bool_Exp>;
 };
@@ -9930,8 +10161,8 @@ export type User_InfoGalactic_EmpiresArgs = {
 /** columns and relationships of "user_info" */
 export type User_InfoGalactic_Empires_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Galactic_Empire_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Galactic_Empire_Order_By>>;
   where?: InputMaybe<Galactic_Empire_Bool_Exp>;
 };
@@ -9947,7 +10178,7 @@ export type User_Info_Aggregate = {
 export type User_Info_Aggregate_Fields = {
   __typename?: 'user_info_aggregate_fields';
   avg?: Maybe<User_Info_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<User_Info_Max_Fields>;
   min?: Maybe<User_Info_Min_Fields>;
   stddev?: Maybe<User_Info_Stddev_Fields>;
@@ -9963,13 +10194,13 @@ export type User_Info_Aggregate_Fields = {
 /** aggregate fields of "user_info" */
 export type User_Info_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<User_Info_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type User_Info_Avg_Fields = {
   __typename?: 'user_info_avg_fields';
-  free_claims?: Maybe<Scalars['Float']>;
+  free_claims?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "user_info". All fields are combined with a logical 'AND'. */
@@ -10002,52 +10233,52 @@ export enum User_Info_Constraint {
 
 /** input type for incrementing numeric columns in table "user_info" */
 export type User_Info_Inc_Input = {
-  free_claims?: InputMaybe<Scalars['Int']>;
+  free_claims?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "user_info" */
 export type User_Info_Insert_Input = {
-  avatar_url?: InputMaybe<Scalars['String']>;
+  avatar_url?: InputMaybe<Scalars['String']['input']>;
   celestials?: InputMaybe<Celestial_Arr_Rel_Insert_Input>;
   chat_messages?: InputMaybe<Chat_Message_Arr_Rel_Insert_Input>;
-  display_name?: InputMaybe<Scalars['String']>;
-  free_claims?: InputMaybe<Scalars['Int']>;
+  display_name?: InputMaybe<Scalars['String']['input']>;
+  free_claims?: InputMaybe<Scalars['Int']['input']>;
   galactic_empires?: InputMaybe<Galactic_Empire_Arr_Rel_Insert_Input>;
-  id?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  nickname?: InputMaybe<Scalars['String']>;
-  secret_setting_test?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  nickname?: InputMaybe<Scalars['String']['input']>;
+  secret_setting_test?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type User_Info_Max_Fields = {
   __typename?: 'user_info_max_fields';
-  avatar_url?: Maybe<Scalars['String']>;
-  display_name?: Maybe<Scalars['String']>;
-  free_claims?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  nickname?: Maybe<Scalars['String']>;
-  secret_setting_test?: Maybe<Scalars['String']>;
+  avatar_url?: Maybe<Scalars['String']['output']>;
+  display_name?: Maybe<Scalars['String']['output']>;
+  free_claims?: Maybe<Scalars['Int']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  nickname?: Maybe<Scalars['String']['output']>;
+  secret_setting_test?: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type User_Info_Min_Fields = {
   __typename?: 'user_info_min_fields';
-  avatar_url?: Maybe<Scalars['String']>;
-  display_name?: Maybe<Scalars['String']>;
-  free_claims?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  nickname?: Maybe<Scalars['String']>;
-  secret_setting_test?: Maybe<Scalars['String']>;
+  avatar_url?: Maybe<Scalars['String']['output']>;
+  display_name?: Maybe<Scalars['String']['output']>;
+  free_claims?: Maybe<Scalars['Int']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  nickname?: Maybe<Scalars['String']['output']>;
+  secret_setting_test?: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "user_info" */
 export type User_Info_Mutation_Response = {
   __typename?: 'user_info_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<User_Info>;
 };
@@ -10082,7 +10313,7 @@ export type User_Info_Order_By = {
 
 /** primary key columns input for table: user_info */
 export type User_Info_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "user_info" */
@@ -10105,31 +10336,31 @@ export enum User_Info_Select_Column {
 
 /** input type for updating data in table "user_info" */
 export type User_Info_Set_Input = {
-  avatar_url?: InputMaybe<Scalars['String']>;
-  display_name?: InputMaybe<Scalars['String']>;
-  free_claims?: InputMaybe<Scalars['Int']>;
-  id?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  nickname?: InputMaybe<Scalars['String']>;
-  secret_setting_test?: InputMaybe<Scalars['String']>;
+  avatar_url?: InputMaybe<Scalars['String']['input']>;
+  display_name?: InputMaybe<Scalars['String']['input']>;
+  free_claims?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  nickname?: InputMaybe<Scalars['String']['input']>;
+  secret_setting_test?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type User_Info_Stddev_Fields = {
   __typename?: 'user_info_stddev_fields';
-  free_claims?: Maybe<Scalars['Float']>;
+  free_claims?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type User_Info_Stddev_Pop_Fields = {
   __typename?: 'user_info_stddev_pop_fields';
-  free_claims?: Maybe<Scalars['Float']>;
+  free_claims?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type User_Info_Stddev_Samp_Fields = {
   __typename?: 'user_info_stddev_samp_fields';
-  free_claims?: Maybe<Scalars['Float']>;
+  free_claims?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Streaming cursor of the table "user_info" */
@@ -10142,19 +10373,19 @@ export type User_Info_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type User_Info_Stream_Cursor_Value_Input = {
-  avatar_url?: InputMaybe<Scalars['String']>;
-  display_name?: InputMaybe<Scalars['String']>;
-  free_claims?: InputMaybe<Scalars['Int']>;
-  id?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  nickname?: InputMaybe<Scalars['String']>;
-  secret_setting_test?: InputMaybe<Scalars['String']>;
+  avatar_url?: InputMaybe<Scalars['String']['input']>;
+  display_name?: InputMaybe<Scalars['String']['input']>;
+  free_claims?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  nickname?: InputMaybe<Scalars['String']['input']>;
+  secret_setting_test?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate sum on columns */
 export type User_Info_Sum_Fields = {
   __typename?: 'user_info_sum_fields';
-  free_claims?: Maybe<Scalars['Int']>;
+  free_claims?: Maybe<Scalars['Int']['output']>;
 };
 
 /** update columns of table "user_info" */
@@ -10187,31 +10418,31 @@ export type User_Info_Updates = {
 /** aggregate var_pop on columns */
 export type User_Info_Var_Pop_Fields = {
   __typename?: 'user_info_var_pop_fields';
-  free_claims?: Maybe<Scalars['Float']>;
+  free_claims?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type User_Info_Var_Samp_Fields = {
   __typename?: 'user_info_var_samp_fields';
-  free_claims?: Maybe<Scalars['Float']>;
+  free_claims?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type User_Info_Variance_Fields = {
   __typename?: 'user_info_variance_fields';
-  free_claims?: Maybe<Scalars['Float']>;
+  free_claims?: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "user_me" */
 export type User_Me = {
   __typename?: 'user_me';
-  avatar_url?: Maybe<Scalars['String']>;
-  display_name?: Maybe<Scalars['String']>;
-  free_claims?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  nickname?: Maybe<Scalars['String']>;
-  secret_setting_test?: Maybe<Scalars['String']>;
+  avatar_url?: Maybe<Scalars['String']['output']>;
+  display_name?: Maybe<Scalars['String']['output']>;
+  free_claims?: Maybe<Scalars['Int']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  nickname?: Maybe<Scalars['String']['output']>;
+  secret_setting_test?: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregated selection of "user_me" */
@@ -10225,7 +10456,7 @@ export type User_Me_Aggregate = {
 export type User_Me_Aggregate_Fields = {
   __typename?: 'user_me_aggregate_fields';
   avg?: Maybe<User_Me_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<User_Me_Max_Fields>;
   min?: Maybe<User_Me_Min_Fields>;
   stddev?: Maybe<User_Me_Stddev_Fields>;
@@ -10241,13 +10472,13 @@ export type User_Me_Aggregate_Fields = {
 /** aggregate fields of "user_me" */
 export type User_Me_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<User_Me_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type User_Me_Avg_Fields = {
   __typename?: 'user_me_avg_fields';
-  free_claims?: Maybe<Scalars['Float']>;
+  free_claims?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "user_me". All fields are combined with a logical 'AND'. */
@@ -10266,49 +10497,49 @@ export type User_Me_Bool_Exp = {
 
 /** input type for incrementing numeric columns in table "user_me" */
 export type User_Me_Inc_Input = {
-  free_claims?: InputMaybe<Scalars['Int']>;
+  free_claims?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "user_me" */
 export type User_Me_Insert_Input = {
-  avatar_url?: InputMaybe<Scalars['String']>;
-  display_name?: InputMaybe<Scalars['String']>;
-  free_claims?: InputMaybe<Scalars['Int']>;
-  id?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  nickname?: InputMaybe<Scalars['String']>;
-  secret_setting_test?: InputMaybe<Scalars['String']>;
+  avatar_url?: InputMaybe<Scalars['String']['input']>;
+  display_name?: InputMaybe<Scalars['String']['input']>;
+  free_claims?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  nickname?: InputMaybe<Scalars['String']['input']>;
+  secret_setting_test?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type User_Me_Max_Fields = {
   __typename?: 'user_me_max_fields';
-  avatar_url?: Maybe<Scalars['String']>;
-  display_name?: Maybe<Scalars['String']>;
-  free_claims?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  nickname?: Maybe<Scalars['String']>;
-  secret_setting_test?: Maybe<Scalars['String']>;
+  avatar_url?: Maybe<Scalars['String']['output']>;
+  display_name?: Maybe<Scalars['String']['output']>;
+  free_claims?: Maybe<Scalars['Int']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  nickname?: Maybe<Scalars['String']['output']>;
+  secret_setting_test?: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type User_Me_Min_Fields = {
   __typename?: 'user_me_min_fields';
-  avatar_url?: Maybe<Scalars['String']>;
-  display_name?: Maybe<Scalars['String']>;
-  free_claims?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  nickname?: Maybe<Scalars['String']>;
-  secret_setting_test?: Maybe<Scalars['String']>;
+  avatar_url?: Maybe<Scalars['String']['output']>;
+  display_name?: Maybe<Scalars['String']['output']>;
+  free_claims?: Maybe<Scalars['Int']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  nickname?: Maybe<Scalars['String']['output']>;
+  secret_setting_test?: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "user_me" */
 export type User_Me_Mutation_Response = {
   __typename?: 'user_me_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<User_Me>;
 };
@@ -10344,31 +10575,31 @@ export enum User_Me_Select_Column {
 
 /** input type for updating data in table "user_me" */
 export type User_Me_Set_Input = {
-  avatar_url?: InputMaybe<Scalars['String']>;
-  display_name?: InputMaybe<Scalars['String']>;
-  free_claims?: InputMaybe<Scalars['Int']>;
-  id?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  nickname?: InputMaybe<Scalars['String']>;
-  secret_setting_test?: InputMaybe<Scalars['String']>;
+  avatar_url?: InputMaybe<Scalars['String']['input']>;
+  display_name?: InputMaybe<Scalars['String']['input']>;
+  free_claims?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  nickname?: InputMaybe<Scalars['String']['input']>;
+  secret_setting_test?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type User_Me_Stddev_Fields = {
   __typename?: 'user_me_stddev_fields';
-  free_claims?: Maybe<Scalars['Float']>;
+  free_claims?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type User_Me_Stddev_Pop_Fields = {
   __typename?: 'user_me_stddev_pop_fields';
-  free_claims?: Maybe<Scalars['Float']>;
+  free_claims?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type User_Me_Stddev_Samp_Fields = {
   __typename?: 'user_me_stddev_samp_fields';
-  free_claims?: Maybe<Scalars['Float']>;
+  free_claims?: Maybe<Scalars['Float']['output']>;
 };
 
 /** Streaming cursor of the table "user_me" */
@@ -10381,19 +10612,19 @@ export type User_Me_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type User_Me_Stream_Cursor_Value_Input = {
-  avatar_url?: InputMaybe<Scalars['String']>;
-  display_name?: InputMaybe<Scalars['String']>;
-  free_claims?: InputMaybe<Scalars['Int']>;
-  id?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  nickname?: InputMaybe<Scalars['String']>;
-  secret_setting_test?: InputMaybe<Scalars['String']>;
+  avatar_url?: InputMaybe<Scalars['String']['input']>;
+  display_name?: InputMaybe<Scalars['String']['input']>;
+  free_claims?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  nickname?: InputMaybe<Scalars['String']['input']>;
+  secret_setting_test?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate sum on columns */
 export type User_Me_Sum_Fields = {
   __typename?: 'user_me_sum_fields';
-  free_claims?: Maybe<Scalars['Int']>;
+  free_claims?: Maybe<Scalars['Int']['output']>;
 };
 
 export type User_Me_Updates = {
@@ -10408,26 +10639,26 @@ export type User_Me_Updates = {
 /** aggregate var_pop on columns */
 export type User_Me_Var_Pop_Fields = {
   __typename?: 'user_me_var_pop_fields';
-  free_claims?: Maybe<Scalars['Float']>;
+  free_claims?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type User_Me_Var_Samp_Fields = {
   __typename?: 'user_me_var_samp_fields';
-  free_claims?: Maybe<Scalars['Float']>;
+  free_claims?: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type User_Me_Variance_Fields = {
   __typename?: 'user_me_variance_fields';
-  free_claims?: Maybe<Scalars['Float']>;
+  free_claims?: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "user_private" */
 export type User_Private = {
   __typename?: 'user_private';
-  secret_setting_test?: Maybe<Scalars['String']>;
-  user_id?: Maybe<Scalars['String']>;
+  secret_setting_test?: Maybe<Scalars['String']['output']>;
+  user_id?: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregated selection of "user_private" */
@@ -10440,7 +10671,7 @@ export type User_Private_Aggregate = {
 /** aggregate fields of "user_private" */
 export type User_Private_Aggregate_Fields = {
   __typename?: 'user_private_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max?: Maybe<User_Private_Max_Fields>;
   min?: Maybe<User_Private_Min_Fields>;
 };
@@ -10449,7 +10680,7 @@ export type User_Private_Aggregate_Fields = {
 /** aggregate fields of "user_private" */
 export type User_Private_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<User_Private_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "user_private". All fields are combined with a logical 'AND'. */
@@ -10463,29 +10694,29 @@ export type User_Private_Bool_Exp = {
 
 /** input type for inserting data into table "user_private" */
 export type User_Private_Insert_Input = {
-  secret_setting_test?: InputMaybe<Scalars['String']>;
-  user_id?: InputMaybe<Scalars['String']>;
+  secret_setting_test?: InputMaybe<Scalars['String']['input']>;
+  user_id?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type User_Private_Max_Fields = {
   __typename?: 'user_private_max_fields';
-  secret_setting_test?: Maybe<Scalars['String']>;
-  user_id?: Maybe<Scalars['String']>;
+  secret_setting_test?: Maybe<Scalars['String']['output']>;
+  user_id?: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type User_Private_Min_Fields = {
   __typename?: 'user_private_min_fields';
-  secret_setting_test?: Maybe<Scalars['String']>;
-  user_id?: Maybe<Scalars['String']>;
+  secret_setting_test?: Maybe<Scalars['String']['output']>;
+  user_id?: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "user_private" */
 export type User_Private_Mutation_Response = {
   __typename?: 'user_private_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<User_Private>;
 };
@@ -10506,8 +10737,8 @@ export enum User_Private_Select_Column {
 
 /** input type for updating data in table "user_private" */
 export type User_Private_Set_Input = {
-  secret_setting_test?: InputMaybe<Scalars['String']>;
-  user_id?: InputMaybe<Scalars['String']>;
+  secret_setting_test?: InputMaybe<Scalars['String']['input']>;
+  user_id?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Streaming cursor of the table "user_private" */
@@ -10520,8 +10751,8 @@ export type User_Private_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type User_Private_Stream_Cursor_Value_Input = {
-  secret_setting_test?: InputMaybe<Scalars['String']>;
-  user_id?: InputMaybe<Scalars['String']>;
+  secret_setting_test?: InputMaybe<Scalars['String']['input']>;
+  user_id?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type User_Private_Updates = {
@@ -10533,15 +10764,15 @@ export type User_Private_Updates = {
 
 /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
 export type Uuid_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['uuid']>;
-  _gt?: InputMaybe<Scalars['uuid']>;
-  _gte?: InputMaybe<Scalars['uuid']>;
-  _in?: InputMaybe<Array<Scalars['uuid']>>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
-  _lt?: InputMaybe<Scalars['uuid']>;
-  _lte?: InputMaybe<Scalars['uuid']>;
-  _neq?: InputMaybe<Scalars['uuid']>;
-  _nin?: InputMaybe<Array<Scalars['uuid']>>;
+  _eq?: InputMaybe<Scalars['uuid']['input']>;
+  _gt?: InputMaybe<Scalars['uuid']['input']>;
+  _gte?: InputMaybe<Scalars['uuid']['input']>;
+  _in?: InputMaybe<Array<Scalars['uuid']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['uuid']['input']>;
+  _lte?: InputMaybe<Scalars['uuid']['input']>;
+  _neq?: InputMaybe<Scalars['uuid']['input']>;
+  _nin?: InputMaybe<Array<Scalars['uuid']['input']>>;
 };
 
 export type CelestialFieldsFragment = { __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null };
@@ -10551,7 +10782,7 @@ export type GalacticEmpireFieldsFragment = { __typename?: 'galactic_empire', id:
 export type GalaxyFieldsFragment = { __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> };
 
 export type CelestialByIdQueryVariables = Exact<{
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 }>;
 
 
@@ -10563,26 +10794,26 @@ export type CelestialsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 export type CelestialsSubscription = { __typename?: 'subscription_root', celestial: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> };
 
 export type CelestialsByGalaxyIdSubscriptionVariables = Exact<{
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 }>;
 
 
 export type CelestialsByGalaxyIdSubscription = { __typename?: 'subscription_root', galaxy_by_pk?: { __typename?: 'galaxy', celestials: Array<{ __typename?: 'celestial', name?: string | null, id: string, owner_id?: string | null }>, celestials_aggregate: { __typename?: 'celestial_aggregate', nodes: Array<{ __typename?: 'celestial', owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, avatar_url?: string | null } | null }> } } | null };
 
 export type CreateEmpireOriginCelestialMutationVariables = Exact<{
-  galaxy_id: Scalars['String'];
-  galacticEmpireId: Scalars['String'];
+  galaxy_id: Scalars['String']['input'];
+  galacticEmpireId: Scalars['String']['input'];
 }>;
 
 
 export type CreateEmpireOriginCelestialMutation = { __typename?: 'mutation_root', createEmpireOriginCelestial?: { __typename?: 'GalaxyManagement', insertedCelestialId: string, insertedCelestialName: string } | null };
 
 export type TryInsertClaimedCelestialMutationVariables = Exact<{
-  galaxy_id: Scalars['uuid'];
-  galactic_empire_id: Scalars['uuid'];
-  id: Scalars['String'];
-  name: Scalars['String'];
-  owner_id: Scalars['String'];
+  galaxy_id: Scalars['uuid']['input'];
+  galactic_empire_id: Scalars['uuid']['input'];
+  id: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  owner_id: Scalars['String']['input'];
 }>;
 
 
@@ -10604,7 +10835,7 @@ export type LatestMessageSubscriptionVariables = Exact<{ [key: string]: never; }
 export type LatestMessageSubscription = { __typename?: 'subscription_root', chat_message: Array<{ __typename?: 'chat_message', id: string, message: string }> };
 
 export type SendNewMessageMutationVariables = Exact<{
-  message?: InputMaybe<Scalars['String']>;
+  message?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -10618,57 +10849,57 @@ export type CreateGalacticEmpireMutationVariables = Exact<{
 export type CreateGalacticEmpireMutation = { __typename?: 'mutation_root', insert_galactic_empire_one?: { __typename?: 'galactic_empire', id: string } | null };
 
 export type GalacticEmpiresByGalaxyIdQueryVariables = Exact<{
-  galaxyId: Scalars['uuid'];
+  galaxyId: Scalars['uuid']['input'];
 }>;
 
 
 export type GalacticEmpiresByGalaxyIdQuery = { __typename?: 'query_root', galactic_empire: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }> };
 
 export type GalacticEmpiresByUserIdSubscriptionVariables = Exact<{
-  userId: Scalars['String'];
+  userId: Scalars['String']['input'];
 }>;
 
 
 export type GalacticEmpiresByUserIdSubscription = { __typename?: 'subscription_root', galactic_empire: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }> };
 
 export type IncrementGalacticEmpireResourcesMutationVariables = Exact<{
-  galacticEmpireId: Scalars['uuid'];
-  galacticCreditsIncrement: Scalars['Int'];
-  commonMetalsIncrement: Scalars['Int'];
-  rareMetalsIncrement: Scalars['Int'];
-  hydrocarbonsIncrement: Scalars['Int'];
-  voidMatterIncrement: Scalars['Int'];
+  galacticEmpireId: Scalars['uuid']['input'];
+  galacticCreditsIncrement: Scalars['Int']['input'];
+  commonMetalsIncrement: Scalars['Int']['input'];
+  rareMetalsIncrement: Scalars['Int']['input'];
+  hydrocarbonsIncrement: Scalars['Int']['input'];
+  voidMatterIncrement: Scalars['Int']['input'];
 }>;
 
 
 export type IncrementGalacticEmpireResourcesMutation = { __typename?: 'mutation_root', common_metals?: { __typename?: 'galactic_empire_resources_mutation_response', affected_rows: number } | null, galactic_credits?: { __typename?: 'galactic_empire_resources_mutation_response', affected_rows: number } | null, hydrocarbons?: { __typename?: 'galactic_empire_resources_mutation_response', affected_rows: number } | null, rare_metals?: { __typename?: 'galactic_empire_resources_mutation_response', affected_rows: number } | null, void_matter?: { __typename?: 'galactic_empire_resources_mutation_response', affected_rows: number } | null };
 
 export type IncrementResourceMutationVariables = Exact<{
-  galacticEmpireId: Scalars['uuid'];
-  resourceType: Scalars['String'];
-  increment: Scalars['Int'];
+  galacticEmpireId: Scalars['uuid']['input'];
+  resourceType: Scalars['String']['input'];
+  increment: Scalars['Int']['input'];
 }>;
 
 
 export type IncrementResourceMutation = { __typename?: 'mutation_root', update_galactic_empire_resources?: { __typename?: 'galactic_empire_resources_mutation_response', affected_rows: number } | null };
 
 export type GalacticEmpireNpcsSubscriptionVariables = Exact<{
-  empireId: Scalars['uuid'];
+  empireId: Scalars['uuid']['input'];
 }>;
 
 
 export type GalacticEmpireNpcsSubscription = { __typename?: 'subscription_root', galactic_empire_npc: Array<{ __typename?: 'galactic_empire_npc', npc: { __typename?: 'npc', id: string, name: string, image_url: string, playable_race?: { __typename?: 'playable_race', name: string, id: string } | null, faction?: { __typename?: 'faction', name: string, id: string } | null } }> };
 
 export type UnlockGalacticEmpireNpcMutationVariables = Exact<{
-  empireId: Scalars['uuid'];
-  npcId: Scalars['uuid'];
+  empireId: Scalars['uuid']['input'];
+  npcId: Scalars['uuid']['input'];
 }>;
 
 
 export type UnlockGalacticEmpireNpcMutation = { __typename?: 'mutation_root', insert_galactic_empire_npc_one?: { __typename?: 'galactic_empire_npc', npc_id: string, galactic_empire_id: string } | null };
 
 export type ActiveGalacticEmpireQuestsByEmpireIdSubscriptionVariables = Exact<{
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 }>;
 
 
@@ -10682,21 +10913,21 @@ export type AddGalacticEmpireQuestMutationVariables = Exact<{
 export type AddGalacticEmpireQuestMutation = { __typename?: 'mutation_root', insert_galactic_empire_quest_one?: { __typename?: 'galactic_empire_quest', quest_id: string, galactic_empire_id: string } | null };
 
 export type CompleteGalacticEmpireQuestByIdMutationVariables = Exact<{
-  questId: Scalars['uuid'];
+  questId: Scalars['uuid']['input'];
 }>;
 
 
 export type CompleteGalacticEmpireQuestByIdMutation = { __typename?: 'mutation_root', update_galactic_empire_quest_by_pk?: { __typename?: 'galactic_empire_quest', completed: boolean, quest_id: string } | null };
 
 export type CompleteQuestStepMutationVariables = Exact<{
-  empireQuestId: Scalars['String'];
+  empireQuestId: Scalars['String']['input'];
 }>;
 
 
 export type CompleteQuestStepMutation = { __typename?: 'mutation_root', progressQuestStep?: { __typename?: 'QuestStepProgression', next_step_in_quest_added?: string | null, quest_id: string } | null };
 
 export type CompleteQuestMutationVariables = Exact<{
-  empireQuestId: Scalars['String'];
+  empireQuestId: Scalars['String']['input'];
 }>;
 
 
@@ -10708,7 +10939,7 @@ export type EmpiresWithoutQuestsSubscriptionVariables = Exact<{ [key: string]: n
 export type EmpiresWithoutQuestsSubscription = { __typename?: 'subscription_root', galactic_empire_aggregate: { __typename?: 'galactic_empire_aggregate', nodes: Array<{ __typename?: 'galactic_empire', id: string }> } };
 
 export type GalacticEmpireQuestByIdQueryVariables = Exact<{
-  empireQuestId: Scalars['uuid'];
+  empireQuestId: Scalars['uuid']['input'];
 }>;
 
 
@@ -10717,14 +10948,14 @@ export type GalacticEmpireQuestByIdQuery = { __typename?: 'query_root', galactic
 export type GalacticEmpireQuestFieldsFragment = { __typename?: 'galactic_empire_quest', id: string, completed: boolean, quest_step_id: string, quest: { __typename?: 'quest', id: string, type: Quest_Type_Enum, description: string, name: string, rewards: Array<{ __typename?: 'quest_reward', npc_unlock_id?: string | null, resource_accrual_amount?: number | null, resource_accrual_type_id?: string | null, resource_unlock_id?: string | null, type: Quest_Reward_Type_Enum }>, next_quest?: { __typename?: 'quest', name: string } | null, steps: Array<{ __typename?: 'quest_step', id: string, type: Quest_Step_Type_Enum, description: string, initial: boolean, resource_cost_id?: string | null, resource_cost_amount?: number | null, npc_contact_id?: string | null, next_step_in_quest?: string | null }> } };
 
 export type CompletedGalacticEmpireQuestsSubscriptionVariables = Exact<{
-  empireId: Scalars['uuid'];
+  empireId: Scalars['uuid']['input'];
 }>;
 
 
 export type CompletedGalacticEmpireQuestsSubscription = { __typename?: 'subscription_root', galactic_empire_quest: Array<{ __typename?: 'galactic_empire_quest', id: string, completed: boolean, quest_step_id: string, quest: { __typename?: 'quest', id: string, type: Quest_Type_Enum, description: string, name: string, rewards: Array<{ __typename?: 'quest_reward', npc_unlock_id?: string | null, resource_accrual_amount?: number | null, resource_accrual_type_id?: string | null, resource_unlock_id?: string | null, type: Quest_Reward_Type_Enum }>, next_quest?: { __typename?: 'quest', name: string } | null, steps: Array<{ __typename?: 'quest_step', id: string, type: Quest_Step_Type_Enum, description: string, initial: boolean, resource_cost_id?: string | null, resource_cost_amount?: number | null, npc_contact_id?: string | null, next_step_in_quest?: string | null }> } }> };
 
 export type ActiveGalacticEmpireQuestsSubscriptionVariables = Exact<{
-  empireId: Scalars['uuid'];
+  empireId: Scalars['uuid']['input'];
 }>;
 
 
@@ -10736,42 +10967,86 @@ export type InitialMainQuestIdQueryVariables = Exact<{ [key: string]: never; }>;
 export type InitialMainQuestIdQuery = { __typename?: 'query_root', quest: Array<{ __typename?: 'quest', id: string, steps: Array<{ __typename?: 'quest_step', id: string }> }> };
 
 export type ProgressGalacticEmpireQuestStepByIdMutationVariables = Exact<{
-  questId: Scalars['uuid'];
-  stepId: Scalars['uuid'];
+  questId: Scalars['uuid']['input'];
+  stepId: Scalars['uuid']['input'];
 }>;
 
 
 export type ProgressGalacticEmpireQuestStepByIdMutation = { __typename?: 'mutation_root', update_galactic_empire_quest_by_pk?: { __typename?: 'galactic_empire_quest', completed: boolean, quest_id: string } | null };
 
 export type SubmitEmpireQuestCompletionRequestMutationVariables = Exact<{
-  empireQuestId: Scalars['String'];
+  empireQuestId: Scalars['String']['input'];
 }>;
 
 
 export type SubmitEmpireQuestCompletionRequestMutation = { __typename?: 'mutation_root', completeQuest?: { __typename?: 'QuestCompletion', quest_id: string, next_quest_in_chain_added?: string | null } | null };
 
-export type ResourceGeneratorsSubscriptionVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ResourceGeneratorsSubscription = { __typename?: 'subscription_root', galactic_empire_resource_generator: Array<{ __typename?: 'galactic_empire_resource_generator', created_at: string, galactic_empire_id: string, resource_generator_type: { __typename?: 'resource_generator_type', generation_rate: number[], name: string, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null } }> };
-
-export type ResourceGeneratorsByEmpireIdSubscriptionVariables = Exact<{
-  empireId: Scalars['uuid'];
+export type IncrementResourceGeneratorCountMutationVariables = Exact<{
+  galacticEmpireId: Scalars['uuid']['input'];
+  resourceGeneratorId: Scalars['uuid']['input'];
+  increment: Scalars['numeric']['input'];
 }>;
 
 
-export type ResourceGeneratorsByEmpireIdSubscription = { __typename?: 'subscription_root', galactic_empire_resource_generator: Array<{ __typename?: 'galactic_empire_resource_generator', created_at: string, galactic_empire_id: string, resource_generator_type: { __typename?: 'resource_generator_type', generation_rate: number[], name: string, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null } }> };
+export type IncrementResourceGeneratorCountMutation = { __typename?: 'mutation_root', update_galactic_empire_resource_generator?: { __typename?: 'galactic_empire_resource_generator_mutation_response', affected_rows: number } | null };
+
+export type CreateEmpireResourceGeneratorMutationVariables = Exact<{
+  galacticEmpireId: Scalars['uuid']['input'];
+  generatorTypeId: Scalars['uuid']['input'];
+}>;
+
+
+export type CreateEmpireResourceGeneratorMutation = { __typename?: 'mutation_root', insert_galactic_empire_resource_generator_one?: { __typename?: 'galactic_empire_resource_generator', id: string } | null };
+
+export type PurchaseResourceGeneratorMutationVariables = Exact<{
+  galacticEmpireId: Scalars['String']['input'];
+  resourceGeneratorId: Scalars['String']['input'];
+}>;
+
+
+export type PurchaseResourceGeneratorMutation = { __typename?: 'mutation_root', purchaseResourceGenerator?: { __typename?: 'PurchaseCompletion', spent: number } | null };
+
+export type EmpireResourceGeneratorsByTypeQueryVariables = Exact<{
+  galacticEmpireId: Scalars['uuid']['input'];
+  typeId: Scalars['uuid']['input'];
+}>;
+
+
+export type EmpireResourceGeneratorsByTypeQuery = { __typename?: 'query_root', galactic_empire_resource_generator: Array<{ __typename?: 'galactic_empire_resource_generator', planet_id?: string | null, count: number, resource_generator: { __typename?: 'resource_generator', id: string, cost_growth_exponent: number, cost_amount_1: number, cost_resource_type_id_1: string }, galactic_empire: { __typename?: 'galactic_empire', id: string, resources: Array<{ __typename?: 'galactic_empire_resources', value: number, resource_type: { __typename?: 'resource_type', type: string, id: string } }> } }> };
+
+export type GalacticEmpireResourceGeneratorFieldsFragment = { __typename?: 'galactic_empire_resource_generator', created_at: string, planet_id?: string | null, count: number, galactic_empire_id: string, resource_generator: { __typename?: 'resource_generator', generation_rate: number[], name: string, id: string, cost_growth_exponent: number, cost_amount_1: number, cost_resource_type_id_1: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null } };
+
+export type EmpireResourceGeneratorsSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type EmpireResourceGeneratorsSubscription = { __typename?: 'subscription_root', galactic_empire_resource_generator: Array<{ __typename?: 'galactic_empire_resource_generator', created_at: string, planet_id?: string | null, count: number, galactic_empire_id: string, resource_generator: { __typename?: 'resource_generator', generation_rate: number[], name: string, id: string, cost_growth_exponent: number, cost_amount_1: number, cost_resource_type_id_1: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null } }> };
+
+export type EmpireResourceGeneratorsByEmpireIdSubscriptionVariables = Exact<{
+  empireId: Scalars['uuid']['input'];
+}>;
+
+
+export type EmpireResourceGeneratorsByEmpireIdSubscription = { __typename?: 'subscription_root', galactic_empire_resource_generator: Array<{ __typename?: 'galactic_empire_resource_generator', created_at: string, planet_id?: string | null, count: number, galactic_empire_id: string, resource_generator: { __typename?: 'resource_generator', generation_rate: number[], name: string, id: string, cost_growth_exponent: number, cost_amount_1: number, cost_resource_type_id_1: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null } }> };
+
+export type EmpireResourceFieldsFragment = { __typename?: 'galactic_empire_resources', value: number, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string } };
 
 export type GalacticEmpireResourcesSubscriptionVariables = Exact<{
-  empireId: Scalars['uuid'];
+  empireId: Scalars['uuid']['input'];
 }>;
 
 
 export type GalacticEmpireResourcesSubscription = { __typename?: 'subscription_root', galactic_empire_resources: Array<{ __typename?: 'galactic_empire_resources', value: number, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string } }> };
 
+export type CurrentGalacticEmpireResourcesQueryVariables = Exact<{
+  empireId: Scalars['uuid']['input'];
+}>;
+
+
+export type CurrentGalacticEmpireResourcesQuery = { __typename?: 'query_root', galactic_empire_resources: Array<{ __typename?: 'galactic_empire_resources', value: number, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string } }> };
+
 export type UnlockGalacticEmpireResourceMutationVariables = Exact<{
-  empireId: Scalars['uuid'];
-  resourceTypeId: Scalars['uuid'];
+  empireId: Scalars['uuid']['input'];
+  resourceTypeId: Scalars['uuid']['input'];
 }>;
 
 
@@ -10785,7 +11060,7 @@ export type CreateGalaxyMutationVariables = Exact<{
 export type CreateGalaxyMutation = { __typename?: 'mutation_root', insert_galaxy_one?: { __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> } | null };
 
 export type DeleteGalaxyByIdMutationVariables = Exact<{
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 }>;
 
 
@@ -10797,28 +11072,28 @@ export type GalaxiesSubscriptionVariables = Exact<{ [key: string]: never; }>;
 export type GalaxiesSubscription = { __typename?: 'subscription_root', galaxy: Array<{ __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> }> };
 
 export type GalaxiesWithOwnedCelestialsSubscriptionVariables = Exact<{
-  userId: Scalars['String'];
+  userId: Scalars['String']['input'];
 }>;
 
 
 export type GalaxiesWithOwnedCelestialsSubscription = { __typename?: 'subscription_root', galaxy_aggregate: { __typename?: 'galaxy_aggregate', nodes: Array<{ __typename?: 'galaxy', id: string }> } };
 
 export type GalaxyByIdQueryVariables = Exact<{
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 }>;
 
 
 export type GalaxyByIdQuery = { __typename?: 'query_root', galaxy_by_pk?: { __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> } | null };
 
 export type GalaxyByIdSubSubscriptionVariables = Exact<{
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 }>;
 
 
 export type GalaxyByIdSubSubscription = { __typename?: 'subscription_root', galaxy_by_pk?: { __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> } | null };
 
 export type GetGalaxyByIdAndUnclaimedCelestialsQueryVariables = Exact<{
-  galaxyId: Scalars['uuid'];
+  galaxyId: Scalars['uuid']['input'];
 }>;
 
 
@@ -10837,14 +11112,14 @@ export type CreatePlanetMutationVariables = Exact<{
 export type CreatePlanetMutation = { __typename?: 'mutation_root', createPlanet?: { __typename?: 'CelestialManagement', createdPlanet: { __typename?: 'PartialPlanet', id: string, name: string, owner_id: string } } | null };
 
 export type PlanetByIdQueryVariables = Exact<{
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 }>;
 
 
 export type PlanetByIdQuery = { __typename?: 'query_root', planet_by_pk?: { __typename?: 'planet', atmospheric_distance: number, id: string, name: string, owner_id: string, radius: number, terrain_bias: number[], texture_resolution: number, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string, id: string }, rings: Array<{ __typename?: 'planetary_ring', colors: string[], id: string, inner_radius: number, outer_radius: number, resolution: number, rotation: number[], terrain_bias: number[], type: string }>, user_info?: { __typename?: 'user_info', avatar_url?: string | null, name?: string | null, nickname: string, id: string } | null, celestial: { __typename?: 'celestial', name?: string | null, planets_aggregate: { __typename?: 'planet_aggregate', aggregate?: { __typename?: 'planet_aggregate_fields', count: number } | null }, galactic_empire?: { __typename?: 'galactic_empire', id: string, user_id: string, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> } | null } } | null };
 
 export type PlanetsByCelestialIdQueryVariables = Exact<{
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 }>;
 
 
@@ -10877,12 +11152,17 @@ export type QuestsQueryVariables = Exact<{ [key: string]: never; }>;
 export type QuestsQuery = { __typename?: 'query_root', quest: Array<{ __typename?: 'quest', name: string, initial?: boolean | null, id: string, description: string, next_quest_in_chain?: string | null, type: Quest_Type_Enum, image_url?: string | null, steps_aggregate: { __typename?: 'quest_step_aggregate', aggregate?: { __typename?: 'quest_step_aggregate_fields', count: number } | null }, rewards: Array<{ __typename?: 'quest_reward', resource_unlock_id?: string | null, resource_accrual_type_id?: string | null, resource_accrual_amount?: number | null, npc_unlock_id?: string | null, type: Quest_Reward_Type_Enum }> }> };
 
 export type UpdateQuestByIdMutationVariables = Exact<{
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
   input: Quest_Set_Input;
 }>;
 
 
 export type UpdateQuestByIdMutation = { __typename?: 'mutation_root', update_quest_by_pk?: { __typename?: 'quest', name: string, initial?: boolean | null, id: string, description: string, next_quest_in_chain?: string | null, type: Quest_Type_Enum, image_url?: string | null, steps_aggregate: { __typename?: 'quest_step_aggregate', aggregate?: { __typename?: 'quest_step_aggregate_fields', count: number } | null }, rewards: Array<{ __typename?: 'quest_reward', resource_unlock_id?: string | null, resource_accrual_type_id?: string | null, resource_accrual_amount?: number | null, npc_unlock_id?: string | null, type: Quest_Reward_Type_Enum }> } | null };
+
+export type ResourceGeneratorsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ResourceGeneratorsQuery = { __typename?: 'query_root', resource_generator: Array<{ __typename?: 'resource_generator', id: string, name: string, image_url?: string | null, description: string, generation_rate: number[], resource_type_1_id: string, resource_type_2_id?: string | null, unlocked_by_technology_id?: string | null, cost_amount_1: number, cost_growth_exponent: number, cost_resource_type_id_1: string, resource_type: { __typename?: 'resource_type', id: string, type: string, image_url?: string | null }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string, image_url?: string | null } | null }> };
 
 export type ResourcesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -10895,15 +11175,15 @@ export type SelfQueryVariables = Exact<{ [key: string]: never; }>;
 export type SelfQuery = { __typename?: 'query_root', user_me: Array<{ __typename?: 'user_me', display_name?: string | null, id?: string | null, name?: string | null, nickname?: string | null, secret_setting_test?: string | null, avatar_url?: string | null }> };
 
 export type SetDisplayNameByUserIdMutationVariables = Exact<{
-  id: Scalars['String'];
-  display_name: Scalars['String'];
+  id: Scalars['String']['input'];
+  display_name: Scalars['String']['input'];
 }>;
 
 
 export type SetDisplayNameByUserIdMutation = { __typename?: 'mutation_root', update_user_info_by_pk?: { __typename?: 'user_info', display_name?: string | null } | null };
 
 export type SetNameByUserIdMutationVariables = Exact<{
-  display_name?: InputMaybe<Scalars['String']>;
+  display_name?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -10924,7 +11204,7 @@ export type TechnologiesQuery = { __typename?: 'query_root', technology: Array<{
 export type TechFieldsFragment = { __typename?: 'technology', id: string, root?: boolean | null, name: string, description?: string | null, children: string[], research_cost: number, image_url?: string | null };
 
 export type UpdateTechnologyByIdMutationVariables = Exact<{
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
   input: Technology_Set_Input;
 }>;
 
@@ -10932,7 +11212,7 @@ export type UpdateTechnologyByIdMutationVariables = Exact<{
 export type UpdateTechnologyByIdMutation = { __typename?: 'mutation_root', update_technology_by_pk?: { __typename?: 'technology', id: string, root?: boolean | null, name: string, description?: string | null, children: string[], research_cost: number, image_url?: string | null } | null };
 
 export type UserInfoByIdQueryVariables = Exact<{
-  userId: Scalars['String'];
+  userId: Scalars['String']['input'];
 }>;
 
 
@@ -11040,6 +11320,40 @@ export const GalacticEmpireQuestFieldsFragmentDoc = gql`
     }
   }
   quest_step_id
+}
+    `;
+export const GalacticEmpireResourceGeneratorFieldsFragmentDoc = gql`
+    fragment GalacticEmpireResourceGeneratorFields on galactic_empire_resource_generator {
+  created_at
+  planet_id
+  count
+  resource_generator {
+    generation_rate
+    resource_type {
+      id
+      type
+    }
+    name
+    id
+    resource_type_2 {
+      id
+      type
+    }
+    cost_growth_exponent
+    cost_amount_1
+    cost_resource_type_id_1
+  }
+  galactic_empire_id
+}
+    `;
+export const EmpireResourceFieldsFragmentDoc = gql`
+    fragment EmpireResourceFields on galactic_empire_resources {
+  value
+  resource_type {
+    id
+    type
+  }
+  id
 }
     `;
 export const QuestFieldsFragmentDoc = gql`
@@ -11535,65 +11849,105 @@ export const SubmitEmpireQuestCompletionRequestDocument = gql`
 export type SubmitEmpireQuestCompletionRequestMutationFn = Apollo.MutationFunction<SubmitEmpireQuestCompletionRequestMutation, SubmitEmpireQuestCompletionRequestMutationVariables>;
 export type SubmitEmpireQuestCompletionRequestMutationResult = Apollo.MutationResult<SubmitEmpireQuestCompletionRequestMutation>;
 export type SubmitEmpireQuestCompletionRequestMutationOptions = Apollo.BaseMutationOptions<SubmitEmpireQuestCompletionRequestMutation, SubmitEmpireQuestCompletionRequestMutationVariables>;
-export const ResourceGeneratorsDocument = gql`
-    subscription ResourceGenerators {
-  galactic_empire_resource_generator {
-    created_at
-    resource_generator_type {
-      generation_rate
-      resource_type {
-        id
-        type
-      }
-      name
-      id
-      resource_type_2 {
-        id
-        type
-      }
-    }
-    galactic_empire_id
-  }
-}
-    `;
-export type ResourceGeneratorsSubscriptionResult = Apollo.SubscriptionResult<ResourceGeneratorsSubscription>;
-export const ResourceGeneratorsByEmpireIdDocument = gql`
-    subscription ResourceGeneratorsByEmpireId($empireId: uuid!) {
-  galactic_empire_resource_generator(
-    where: {galactic_empire_id: {_eq: $empireId}}
+export const IncrementResourceGeneratorCountDocument = gql`
+    mutation IncrementResourceGeneratorCount($galacticEmpireId: uuid!, $resourceGeneratorId: uuid!, $increment: numeric!) {
+  update_galactic_empire_resource_generator(
+    _inc: {count: $increment}
+    where: {galactic_empire_id: {_eq: $galacticEmpireId}, generator_type_id: {_eq: $resourceGeneratorId}}
   ) {
-    created_at
-    resource_generator_type {
-      generation_rate
-      resource_type {
-        id
-        type
-      }
-      name
-      id
-      resource_type_2 {
-        id
-        type
-      }
-    }
-    galactic_empire_id
+    affected_rows
   }
 }
     `;
-export type ResourceGeneratorsByEmpireIdSubscriptionResult = Apollo.SubscriptionResult<ResourceGeneratorsByEmpireIdSubscription>;
-export const GalacticEmpireResourcesDocument = gql`
-    subscription GalacticEmpireResources($empireId: uuid!) {
-  galactic_empire_resources(where: {galactic_empire_id: {_eq: $empireId}}) {
-    value
-    resource_type {
-      id
-      type
-    }
+export type IncrementResourceGeneratorCountMutationFn = Apollo.MutationFunction<IncrementResourceGeneratorCountMutation, IncrementResourceGeneratorCountMutationVariables>;
+export type IncrementResourceGeneratorCountMutationResult = Apollo.MutationResult<IncrementResourceGeneratorCountMutation>;
+export type IncrementResourceGeneratorCountMutationOptions = Apollo.BaseMutationOptions<IncrementResourceGeneratorCountMutation, IncrementResourceGeneratorCountMutationVariables>;
+export const CreateEmpireResourceGeneratorDocument = gql`
+    mutation CreateEmpireResourceGenerator($galacticEmpireId: uuid!, $generatorTypeId: uuid!) {
+  insert_galactic_empire_resource_generator_one(
+    object: {generator_type_id: $generatorTypeId, galactic_empire_id: $galacticEmpireId}
+  ) {
     id
   }
 }
     `;
+export type CreateEmpireResourceGeneratorMutationFn = Apollo.MutationFunction<CreateEmpireResourceGeneratorMutation, CreateEmpireResourceGeneratorMutationVariables>;
+export type CreateEmpireResourceGeneratorMutationResult = Apollo.MutationResult<CreateEmpireResourceGeneratorMutation>;
+export type CreateEmpireResourceGeneratorMutationOptions = Apollo.BaseMutationOptions<CreateEmpireResourceGeneratorMutation, CreateEmpireResourceGeneratorMutationVariables>;
+export const PurchaseResourceGeneratorDocument = gql`
+    mutation PurchaseResourceGenerator($galacticEmpireId: String!, $resourceGeneratorId: String!) {
+  purchaseResourceGenerator(
+    galactic_empire_id: $galacticEmpireId
+    generator_type_id: $resourceGeneratorId
+  ) {
+    spent
+  }
+}
+    `;
+export type PurchaseResourceGeneratorMutationFn = Apollo.MutationFunction<PurchaseResourceGeneratorMutation, PurchaseResourceGeneratorMutationVariables>;
+export type PurchaseResourceGeneratorMutationResult = Apollo.MutationResult<PurchaseResourceGeneratorMutation>;
+export type PurchaseResourceGeneratorMutationOptions = Apollo.BaseMutationOptions<PurchaseResourceGeneratorMutation, PurchaseResourceGeneratorMutationVariables>;
+export const EmpireResourceGeneratorsByTypeDocument = gql`
+    query EmpireResourceGeneratorsByType($galacticEmpireId: uuid!, $typeId: uuid!) {
+  galactic_empire_resource_generator(
+    where: {galactic_empire_id: {_eq: $galacticEmpireId}, generator_type_id: {_eq: $typeId}}
+  ) {
+    planet_id
+    count
+    resource_generator {
+      id
+      cost_growth_exponent
+      cost_amount_1
+      cost_resource_type_id_1
+    }
+    galactic_empire {
+      id
+      resources {
+        value
+        resource_type {
+          type
+          id
+        }
+      }
+    }
+  }
+}
+    `;
+export type EmpireResourceGeneratorsByTypeQueryResult = Apollo.QueryResult<EmpireResourceGeneratorsByTypeQuery, EmpireResourceGeneratorsByTypeQueryVariables>;
+export const EmpireResourceGeneratorsDocument = gql`
+    subscription EmpireResourceGenerators {
+  galactic_empire_resource_generator {
+    ...GalacticEmpireResourceGeneratorFields
+  }
+}
+    ${GalacticEmpireResourceGeneratorFieldsFragmentDoc}`;
+export type EmpireResourceGeneratorsSubscriptionResult = Apollo.SubscriptionResult<EmpireResourceGeneratorsSubscription>;
+export const EmpireResourceGeneratorsByEmpireIdDocument = gql`
+    subscription EmpireResourceGeneratorsByEmpireId($empireId: uuid!) {
+  galactic_empire_resource_generator(
+    where: {galactic_empire_id: {_eq: $empireId}}
+  ) {
+    ...GalacticEmpireResourceGeneratorFields
+  }
+}
+    ${GalacticEmpireResourceGeneratorFieldsFragmentDoc}`;
+export type EmpireResourceGeneratorsByEmpireIdSubscriptionResult = Apollo.SubscriptionResult<EmpireResourceGeneratorsByEmpireIdSubscription>;
+export const GalacticEmpireResourcesDocument = gql`
+    subscription GalacticEmpireResources($empireId: uuid!) {
+  galactic_empire_resources(where: {galactic_empire_id: {_eq: $empireId}}) {
+    ...EmpireResourceFields
+  }
+}
+    ${EmpireResourceFieldsFragmentDoc}`;
 export type GalacticEmpireResourcesSubscriptionResult = Apollo.SubscriptionResult<GalacticEmpireResourcesSubscription>;
+export const CurrentGalacticEmpireResourcesDocument = gql`
+    query CurrentGalacticEmpireResources($empireId: uuid!) {
+  galactic_empire_resources(where: {galactic_empire_id: {_eq: $empireId}}) {
+    ...EmpireResourceFields
+  }
+}
+    ${EmpireResourceFieldsFragmentDoc}`;
+export type CurrentGalacticEmpireResourcesQueryResult = Apollo.QueryResult<CurrentGalacticEmpireResourcesQuery, CurrentGalacticEmpireResourcesQueryVariables>;
 export const UnlockGalacticEmpireResourceDocument = gql`
     mutation UnlockGalacticEmpireResource($empireId: uuid!, $resourceTypeId: uuid!) {
   insert_galactic_empire_resources_one(
@@ -11828,6 +12182,34 @@ export const UpdateQuestByIdDocument = gql`
 export type UpdateQuestByIdMutationFn = Apollo.MutationFunction<UpdateQuestByIdMutation, UpdateQuestByIdMutationVariables>;
 export type UpdateQuestByIdMutationResult = Apollo.MutationResult<UpdateQuestByIdMutation>;
 export type UpdateQuestByIdMutationOptions = Apollo.BaseMutationOptions<UpdateQuestByIdMutation, UpdateQuestByIdMutationVariables>;
+export const ResourceGeneratorsDocument = gql`
+    query ResourceGenerators {
+  resource_generator {
+    id
+    name
+    image_url
+    description
+    generation_rate
+    resource_type {
+      id
+      type
+      image_url
+    }
+    resource_type_1_id
+    resource_type_2 {
+      id
+      type
+      image_url
+    }
+    resource_type_2_id
+    unlocked_by_technology_id
+    cost_amount_1
+    cost_growth_exponent
+    cost_resource_type_id_1
+  }
+}
+    `;
+export type ResourceGeneratorsQueryResult = Apollo.QueryResult<ResourceGeneratorsQuery, ResourceGeneratorsQueryVariables>;
 export const ResourcesDocument = gql`
     query Resources {
   resource_type {
@@ -11923,3 +12305,14 @@ export const UserInfoDocument = gql`
 }
     `;
 export type UserInfoQueryResult = Apollo.QueryResult<UserInfoQuery, UserInfoQueryVariables>;
+
+      export interface PossibleTypesResultData {
+        possibleTypes: {
+          [key: string]: string[]
+        }
+      }
+      const result: PossibleTypesResultData = {
+  "possibleTypes": {}
+};
+      export default result;
+    

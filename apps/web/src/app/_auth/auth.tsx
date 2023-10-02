@@ -2,7 +2,8 @@ import { useReactiveVar } from '@apollo/client';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Avatar, Badge, Box, Text } from '@chakra-ui/react';
 import { Loading } from '../components/loading';
-import { roleVar } from '../_state/reactive-variables';
+
+import { roleVar } from '@idleverse/state';
 import { LoginButton } from './login-button';
 import { LogoutButton } from './logout-button';
 

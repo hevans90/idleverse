@@ -8,8 +8,8 @@ import { colors } from '@idleverse/theme';
 import { useApp } from '@pixi/react';
 import { Container } from 'pixi.js';
 import { useEffect } from 'react';
-import { colorsVar } from '../../_state/colors';
-import { galaxyRotationVar } from '../../_state/reactive-variables';
+
+import { colorsVar, galaxyRotationVar } from '@idleverse/state';
 import { Star } from '../galaxy-generator/graphics/star';
 
 type GalaxyThumbnailProps = {

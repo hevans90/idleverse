@@ -11,6 +11,8 @@ import {
 import { mockQuery } from '../_test-utils/mock-apollo-client.test-util';
 import { mockContext } from '../_test-utils/mock-context';
 import { QuestErrorTypes } from './error-enums/quest-errors';
+import { ResourceErrorTypes } from './error-enums/resource-errors';
+import { UserErrorTypes } from './error-enums/user-errors';
 import { QuestManagementResolver } from './quest-management';
 
 describe('QuestManagementResolver', () => {
@@ -39,7 +41,7 @@ describe('QuestManagementResolver', () => {
         });
         await expect(
           resolver.completeQuest(mockContext(mockClient, undefined), undefined)
-        ).rejects.toEqual(new Error(QuestErrorTypes.NoUserId));
+        ).rejects.toEqual(new Error(UserErrorTypes.NoUserId));
       });
 
       it('the quest cannot be found', async () => {
@@ -131,7 +133,7 @@ describe('QuestManagementResolver', () => {
         });
         await expect(
           resolver.completeQuest(mockContext(mockClient, 'user-id'), undefined)
-        ).rejects.toEqual(new Error(QuestErrorTypes.NoResourcesUnlocked));
+        ).rejects.toEqual(new Error(ResourceErrorTypes.NoResourcesUnlocked));
       });
 
       it('the empire has not unlocked the specifically required resource', async () => {
@@ -168,7 +170,7 @@ describe('QuestManagementResolver', () => {
         });
         await expect(
           resolver.completeQuest(mockContext(mockClient, 'user-id'), undefined)
-        ).rejects.toEqual(new Error(QuestErrorTypes.ResourceNotUnlocked));
+        ).rejects.toEqual(new Error(ResourceErrorTypes.ResourceNotUnlocked));
       });
 
       it('the empire does not have enough of the specified resource to spend to complete the quest step', async () => {
@@ -206,7 +208,7 @@ describe('QuestManagementResolver', () => {
         });
         await expect(
           resolver.completeQuest(mockContext(mockClient, 'user-id'), undefined)
-        ).rejects.toEqual(new Error(QuestErrorTypes.NotEnoughResources));
+        ).rejects.toEqual(new Error(ResourceErrorTypes.NotEnoughResources));
       });
 
       it('an invalid resource is specified', async () => {
@@ -244,7 +246,7 @@ describe('QuestManagementResolver', () => {
         });
         await expect(
           resolver.completeQuest(mockContext(mockClient, 'user-id'), undefined)
-        ).rejects.toEqual(new Error(QuestErrorTypes.InvalidResourceType));
+        ).rejects.toEqual(new Error(ResourceErrorTypes.InvalidResourceType));
       });
     });
   });

@@ -1,4 +1,4 @@
-import { rgb } from '@idleverse/theme';
+import { rgb } from '@idleverse/models';
 import SimplexNoise from 'simplex-noise';
 
 import { generatePerlinNoise } from './perlin';

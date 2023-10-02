@@ -1,0 +1,27 @@
+query EmpireResourceGeneratorsByType($galacticEmpireId: uuid!, $typeId: uuid!) {
+  galactic_empire_resource_generator(
+    where: {
+      galactic_empire_id: { _eq: $galacticEmpireId }
+      generator_type_id: { _eq: $typeId }
+    }
+  ) {
+    planet_id
+    count
+    resource_generator {
+      id
+      cost_growth_exponent
+      cost_amount_1
+      cost_resource_type_id_1
+    }
+    galactic_empire {
+      id
+      resources {
+        value
+        resource_type {
+          type
+          id
+        }
+      }
+    }
+  }
+}

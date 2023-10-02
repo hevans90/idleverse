@@ -1,10 +1,20 @@
+fragment EmpireResourceFields on galactic_empire_resources {
+  value
+  resource_type {
+    id
+    type
+  }
+  id
+}
+
 subscription GalacticEmpireResources($empireId: uuid!) {
   galactic_empire_resources(where: { galactic_empire_id: { _eq: $empireId } }) {
-    value
-    resource_type {
-      id
-      type
-    }
-    id
+    ...EmpireResourceFields
+  }
+}
+
+query CurrentGalacticEmpireResources($empireId: uuid!) {
+  galactic_empire_resources(where: { galactic_empire_id: { _eq: $empireId } }) {
+    ...EmpireResourceFields
   }
 }

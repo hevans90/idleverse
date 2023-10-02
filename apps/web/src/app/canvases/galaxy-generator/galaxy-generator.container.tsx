@@ -13,8 +13,8 @@ import {
   Galaxy_Insert_Input,
 } from '@idleverse/galaxy-gql';
 import { useEffect, useRef } from 'react';
-import { galaxyConfigVar, roleVar } from '../../_state/reactive-variables';
 
+import { galaxyConfigVar, roleVar } from '@idleverse/state';
 import { useNavigate } from 'react-router-dom';
 import { PixiWrapper } from '../_utils/pixi-wrapper';
 import { GalaxyGenerator } from './galaxy-generator';

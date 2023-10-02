@@ -13,8 +13,8 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { empireResourcesVar } from '../../_state/galactic-empire';
-import { useUiBackground } from '../../hooks/use-ui-background';
+import { empireResourcesVar } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 
 export const ResourceOverview = ({
   isOpen,

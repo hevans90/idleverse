@@ -5,8 +5,9 @@ import {
   SendNewMessageMutation,
 } from '@idleverse/galaxy-gql';
 import React from 'react';
-import { colorsVar } from '../_state/colors';
-import { useUiBackground } from '../hooks/use-ui-background';
+
+import { colorsVar } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import { sideNavWidth } from './layout';
 
 export const ChatSubmit = () => {

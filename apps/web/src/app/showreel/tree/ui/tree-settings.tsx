@@ -21,9 +21,10 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { Fragment } from 'react';
+
+import { useUiBackground } from '@idleverse/theme';
 import { responsiveFontProps } from '../../../_responsive-utils/font-props';
 import { ExpandingUI } from '../../../components/expanding-ui';
-import { useUiBackground } from '../../../hooks/use-ui-background';
 import { orientations } from '../orientation';
 import { treeSettingsVar } from '../state/shared-tree.state';
 

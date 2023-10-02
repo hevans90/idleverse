@@ -5,11 +5,11 @@ import {
 } from '@apollo/client';
 
 import {
+  EmpireResourceGeneratorsDocument,
+  EmpireResourceGeneratorsSubscription,
   IncrementGalacticEmpireResourcesDocument,
   IncrementGalacticEmpireResourcesMutation,
   IncrementGalacticEmpireResourcesMutationVariables,
-  ResourceGeneratorsDocument,
-  ResourceGeneratorsSubscription,
 } from '@idleverse/galaxy-gql';
 
 type ResourceType =
@@ -43,8 +43,8 @@ export const generateResources = (
   let generationRates: GalacticResourceGenerationRate[] = [];
 
   client
-    .subscribe<ResourceGeneratorsSubscription>({
-      query: ResourceGeneratorsDocument,
+    .subscribe<EmpireResourceGeneratorsSubscription>({
+      query: EmpireResourceGeneratorsDocument,
     })
     .subscribe({
       next: ({
@@ -97,28 +97,26 @@ export const generateResources = (
           );
 
           generatorsByEmpireId.forEach((generator) => {
-            if (generator.resource_generator_type?.resource_type_2) {
+            if (generator.resource_generator?.resource_type_2) {
               // this generator generates 2 resource types
               const [rate1, rate2] =
-                generator.resource_generator_type.generation_rate;
+                generator.resource_generator.generation_rate;
               incrementRate(
-                generator.resource_generator_type.resource_type
-                  .type as ResourceType,
-                rate1
+                generator.resource_generator.resource_type.type as ResourceType,
+                rate1 * generator.count
               );
               incrementRate(
-                generator.resource_generator_type.resource_type_2
+                generator.resource_generator.resource_type_2
                   .type as ResourceType,
-                rate2
+                rate2 * generator.count
               );
             } else {
               // this generator generates 1 resource type
-              const [rate] = generator.resource_generator_type.generation_rate;
+              const [rate] = generator.resource_generator.generation_rate;
 
               incrementRate(
-                generator.resource_generator_type.resource_type
-                  .type as ResourceType,
-                rate
+                generator.resource_generator.resource_type.type as ResourceType,
+                rate * generator.count
               );
             }
           });

@@ -1,5 +1,5 @@
+import { celestialViewerPlanetDataUris } from '@idleverse/state';
 import { useEffect, useRef } from 'react';
-import { celestialViewerPlanetDataUris } from '../../_state/celestial-viewer';
 
 export const DataUriGenerator = ({
   celestialId,

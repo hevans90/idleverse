@@ -1,12 +1,12 @@
 import { PlanetCreationInput, RingInsertInput } from '@idleverse/galaxy-gql';
-import { rgbToHex } from '@idleverse/theme';
-import { RingConfig } from '../../_state/models';
+import { RingConfig } from '@idleverse/models';
 import {
   planetGenerationColorDrawerVar,
   planetGenerationRingDrawerVar,
   planetGenerationTerrainDrawerVar,
   planetGeneratorConfigVar,
-} from '../../_state/planet-generation';
+} from '@idleverse/state';
+import { rgbToHex } from '@idleverse/theme';
 
 const mapFromRingConfigToRingInsertInput = ({
   colors,

@@ -1,12 +1,13 @@
 import { useReactiveVar } from '@apollo/client';
 import { Box } from '@chakra-ui/layout';
 import { useBreakpointValue } from '@chakra-ui/react';
-import styled from 'styled-components';
-import { layoutVar } from '../_state/global-settings';
-import { LayoutConfig } from '../_state/models';
+import styled from '@emotion/styled';
+
+import { LayoutConfig } from '@idleverse/models';
+import { layoutVar } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import { SideNav } from '../global-ui/sidenav/sidenav';
 import { ToolBar } from '../global-ui/toolbar/toolbar';
-import { useUiBackground } from '../hooks/use-ui-background';
 import { Breadcrumb } from './breadcrumb';
 
 export const sideNavWidth = 450;

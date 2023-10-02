@@ -8,11 +8,11 @@ import {
   MenuList,
   Text,
 } from '@chakra-ui/react';
-import { colors, themePaletteKeys } from '@idleverse/theme';
+import { colors, themePaletteKeys, useUiBackground } from '@idleverse/theme';
 import { Fragment } from 'react';
+
+import { colorsVar } from '@idleverse/state';
 import { ColorQuad } from '../../canvases/planet-generator/ui/color-quad';
-import { useUiBackground } from '../../hooks/use-ui-background';
-import { colorsVar } from '../../_state/colors';
 
 export const ThemePalettePicker = ({
   palette,

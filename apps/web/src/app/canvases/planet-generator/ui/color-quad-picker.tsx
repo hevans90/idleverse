@@ -1,8 +1,9 @@
 import { Grid } from '@chakra-ui/react';
-import { hexToRGB, rgb, rgbToHex, themeColorToHex } from '@idleverse/theme';
+import { hexToRGB, rgbToHex, themeColorToHex } from '@idleverse/theme';
 import { useCallback, useEffect, useState } from 'react';
 import { ColorPicker } from '../../../components/color-picker';
 
+import { rgb } from '@idleverse/models';
 import { colors as themeColors } from '@idleverse/theme';
 
 export const ColorQuadPicker = ({

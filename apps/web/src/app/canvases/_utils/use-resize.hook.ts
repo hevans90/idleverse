@@ -1,10 +1,10 @@
 import { useReactiveVar } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { sideNavWidth, topBarHeight } from '../../components/layout';
-import { layoutVar } from '../../_state/global-settings';
 
 import { generatorControlsHeight } from '../galaxy-generator/ui/generator-controls';
 
+import { layoutVar } from '@idleverse/state';
 import { galaxySimControlsHeight } from '../../showreel/gravity-simulation/ui/gravity-simulation-controls';
 import { planetGenerationControlsHeight } from '../planet-generator/ui/sliders';
 

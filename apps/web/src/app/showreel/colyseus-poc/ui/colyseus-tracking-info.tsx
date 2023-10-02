@@ -1,13 +1,14 @@
 import { useReactiveVar } from '@apollo/client';
 import { VStack } from '@chakra-ui/layout';
 import { HStack, StackDivider, Switch, Text } from '@chakra-ui/react';
-import { responsiveFontProps } from '../../../_responsive-utils/font-props';
+
 import {
   colyseusTrackingDistanceVar,
   colyseusTrackingEnabledVar,
   colyseusTrackingTargetVar,
-} from '../../../_state/colyseus';
-import { useUiBackground } from '../../../hooks/use-ui-background';
+} from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
+import { responsiveFontProps } from '../../../_responsive-utils/font-props';
 
 export const ColyseusTrackingInfo = () => {
   const trackingEnabled = useReactiveVar(colyseusTrackingEnabledVar);

@@ -10,13 +10,14 @@ import { colors } from '@idleverse/theme';
 import { useApp } from '@pixi/react';
 import { Container, Graphics, TickerCallback } from 'pixi.js';
 import { useEffect, useRef } from 'react';
-import { colorsVar } from '../../_state/colors';
+
 import {
   animateVar,
+  colorsVar,
   galaxyConfigVar,
   galaxyRotationVar,
   timeVar,
-} from '../../_state/reactive-variables';
+} from '@idleverse/state';
 import { useResize } from '../_utils/use-resize.hook';
 import { useViewport } from '../_utils/use-viewport.hook';
 import { Star } from './graphics/star';

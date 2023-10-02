@@ -136,6 +136,7 @@ export const StarEditor = () => {
     return () => {
       app.ticker?.remove(tickerRef.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [size, viewport, brightness, radius, color, coronalStrength, density]);
 
   return <></>;

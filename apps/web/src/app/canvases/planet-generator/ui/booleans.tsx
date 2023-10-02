@@ -1,6 +1,7 @@
 import { Checkbox, HStack, Text, VStack } from '@chakra-ui/react';
-import { useUiBackground } from '../../../hooks/use-ui-background';
-import { planetGeneratorConfigVar } from '../../../_state/planet-generation';
+
+import { planetGeneratorConfigVar } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import { planetGenerationControlsHeight } from './sliders';
 
 export const PlanetGeneratorBooleans = () => {

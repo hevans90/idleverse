@@ -1,22 +1,13 @@
 import { useThree } from '@react-three/fiber';
 import { useEffect } from 'react';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 export const CameraController = () => {
-  const { camera, gl } = useThree();
+  const { camera } = useThree();
 
   useEffect(() => {
-    camera.position.set(1, 1, 3);
-  }, []);
+    camera.position.set(5, 3, 5);
+    camera.lookAt(0, 0, 0);
+  }, [camera, camera.position]);
 
-  useEffect(() => {
-    const controls = new OrbitControls(camera, gl.domElement);
-
-    controls.minDistance = 1.5;
-    controls.maxDistance = 10;
-    return () => {
-      controls.dispose();
-    };
-  }, [camera, gl]);
   return null;
 };

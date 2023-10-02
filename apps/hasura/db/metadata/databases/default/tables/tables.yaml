@@ -18,7 +18,7 @@
 - "!include public_quest_step.yaml"
 - "!include public_quest_step_type.yaml"
 - "!include public_quest_type.yaml"
-- "!include public_resource_generator_type.yaml"
+- "!include public_resource_generator.yaml"
 - "!include public_resource_type.yaml"
 - "!include public_technology.yaml"
 - "!include public_terrain_hex_palette.yaml"

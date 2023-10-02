@@ -11,10 +11,9 @@ import {
   ActiveGalacticEmpireQuestsSubscription,
   Quest_Reward_Type_Enum,
 } from '@idleverse/galaxy-gql';
+import { npcsVar, resourcesVar } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import { Fragment } from 'react';
-import { npcsVar } from '../../_state/npcs';
-import { resourcesVar } from '../../_state/resources';
-import { useUiBackground } from '../../hooks/use-ui-background';
 
 export const QuestRewardThumbnails = ({
   rewards,

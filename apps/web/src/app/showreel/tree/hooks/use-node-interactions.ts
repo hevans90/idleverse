@@ -3,7 +3,7 @@ import { colors, hexStringToNumber } from '@idleverse/theme';
 import { GlowFilter } from '@pixi/filter-glow';
 import * as PIXI from 'pixi.js';
 import { useEffect, useRef } from 'react';
-import { colorsVar } from '../../../_state/colors';
+
 import {
   TreeNodeWithDepth,
   hoveredNodeVar,
@@ -12,6 +12,7 @@ import {
   treeSettingsVar,
 } from '../state/shared-tree.state';
 
+import { colorsVar } from '@idleverse/state';
 import { TechnologyNode } from '../utils/create-tree-from-technologies-query';
 import { QuestNode } from '../utils/create-trees-from-quests-query';
 

@@ -16,6 +16,7 @@ module.exports = {
         'typescript',
         'typescript-operations',
         'typescript-react-apollo',
+        'fragment-matcher',
       ],
       config: {
         skipTypename: false,

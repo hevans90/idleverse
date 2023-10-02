@@ -1,5 +1,5 @@
 import { Box, HStack, VStack } from '@chakra-ui/react';
-import { TerrainHexPalette } from '../../../_state/models';
+import { TerrainHexPalette } from '@idleverse/models';
 
 export const ColorQuad = ({
   water,

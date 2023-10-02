@@ -1,21 +1,22 @@
 module.exports = {
   overwrite: true,
+  schema: [
+    {
+      'http://localhost:8080/v1/graphql': {
+        headers: {
+          'x-hasura-admin-secret': 'myadminsecretkey',
+        },
+      },
+    },
+  ],
   generates: {
     'libs/galaxy-gql/src/lib/galaxy-api.ts': {
       documents: 'libs/galaxy-gql/src/lib/**/*.graphql',
-      schema: [
-        {
-          'http://localhost:8080/v1/graphql': {
-            headers: {
-              'x-hasura-admin-secret': 'myadminsecretkey',
-            },
-          },
-        },
-      ],
       plugins: [
         'typescript',
         'typescript-operations',
         'typescript-react-apollo',
+        'fragment-matcher',
       ],
       config: {
         skipTypename: false,
@@ -32,6 +33,9 @@ module.exports = {
           uuid: 'string',
         },
       },
+    },
+    './graphql.schema.json': {
+      plugins: ['introspection'],
     },
   },
 };

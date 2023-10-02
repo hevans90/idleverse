@@ -3,9 +3,9 @@ import {
   Quest_Step_Type_Enum,
 } from '@idleverse/galaxy-gql';
 import { v4 as uuidv4 } from 'uuid';
-import { QuestErrorTypes } from '../entities/error-enums/quest-errors';
+import { ResourceErrorTypes } from '../entities/error-enums/resource-errors';
+import { emptyResourceModification } from '../resource-modification/validate-resource-modification';
 import { questStepProgressionValidator } from './quest-step-progression-validator';
-import { emptyResourceModification } from './validate-resource-modification';
 
 type Step =
   GalacticEmpireQuestByIdQuery['galactic_empire_quest_by_pk']['quest']['steps'][0];
@@ -72,7 +72,7 @@ describe('questStepProgressionValidator', () => {
           galactic_empire: empireFactory([], empireId),
           resourceModification: emptyResourceModification(empireId),
         })
-      ).toEqual({ error: QuestErrorTypes.NoResourcesUnlocked });
+      ).toEqual({ error: ResourceErrorTypes.NoResourcesUnlocked });
     });
   });
 
@@ -99,7 +99,7 @@ describe('questStepProgressionValidator', () => {
         ),
         resourceModification: emptyResourceModification(empireId),
       })
-    ).toEqual({ error: QuestErrorTypes.ResourceNotUnlocked });
+    ).toEqual({ error: ResourceErrorTypes.ResourceNotUnlocked });
   });
   it('should throw an appropriate error if the empire does not have enough of the specified resource to spend', () => {
     const resourceId = uuidv4();
@@ -125,7 +125,7 @@ describe('questStepProgressionValidator', () => {
         ),
         resourceModification: emptyResourceModification(empireId),
       })
-    ).toEqual({ error: QuestErrorTypes.NotEnoughResources });
+    ).toEqual({ error: ResourceErrorTypes.NotEnoughResources });
   });
   it('should return a valid resource modification', () => {
     const resourceId = uuidv4();

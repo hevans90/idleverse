@@ -10,12 +10,14 @@ import {
 } from '@chakra-ui/react';
 import { Playable_Race } from '@idleverse/galaxy-gql';
 import { useState } from 'react';
-import { useUiBackground } from '../../hooks/use-ui-background';
+
 import {
   headerResponsiveFontProps,
   responsiveFontProps,
 } from '../../_responsive-utils/font-props';
-import { playableRacesVar } from '../../_state/playable-races';
+
+import { playableRacesVar } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
 import { GallerySelector } from '../components/gallery-selector';
 
 export const RaceSelectionModal = ({
@@ -71,7 +73,7 @@ export const RaceSelectionModal = ({
         >
           <Button
             {...responsiveFontProps}
-            disabled={!locallySelectedRace}
+            isDisabled={!locallySelectedRace}
             onClick={() => onClose(locallySelectedRace)}
           >
             Confirm
