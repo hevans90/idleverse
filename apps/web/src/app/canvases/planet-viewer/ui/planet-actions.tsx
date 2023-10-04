@@ -114,6 +114,12 @@ const BuildItems = ({ items }: { items: Resource_Generator[] }) => {
         const resource = empireResources.find(
           ({ id }) => id === cost_resource_type_id_1
         );
+
+        if (!resource) {
+          // don't allow this generator to appear unless the empire has the unlocked resource
+          return undefined;
+        }
+
         const costForNext = {
           resourceId: resource.id,
           resourceName: resource.name,
@@ -261,7 +267,7 @@ const BuildItems = ({ items }: { items: Resource_Generator[] }) => {
               </GridItem>
             );
           })
-        : 'No resources'}
+        : 'Your empire has no resources unlocked. Try completing some quests to get started.'}
     </Grid>
   );
 };
