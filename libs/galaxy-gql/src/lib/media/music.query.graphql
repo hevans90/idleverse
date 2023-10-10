@@ -1,0 +1,10 @@
+query Music {
+  music {
+    etag
+    name
+    metadata {
+      Key
+      Value
+    }
+  }
+}

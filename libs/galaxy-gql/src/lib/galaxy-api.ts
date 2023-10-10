@@ -60,6 +60,19 @@ export type Int_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
+export type MediaMetadata = {
+  __typename?: 'MediaMetadata';
+  Key: Scalars['String']['output'];
+  Value: Scalars['String']['output'];
+};
+
+export type MediaResult = {
+  __typename?: 'MediaResult';
+  etag: Scalars['String']['output'];
+  metadata?: Maybe<Array<MediaMetadata>>;
+  name: Scalars['String']['output'];
+};
+
 export type PartialPlanet = {
   __typename?: 'PartialPlanet';
   id: Scalars['String']['output'];
@@ -5916,6 +5929,7 @@ export type Query_Root = {
   galaxy_aggregate: Galaxy_Aggregate;
   /** fetch data from the table: "galaxy" using primary key columns */
   galaxy_by_pk?: Maybe<Galaxy>;
+  music?: Maybe<Array<MediaResult>>;
   /** fetch data from the table: "npc" */
   npc: Array<Npc>;
   /** fetch aggregated fields from the table: "npc" */
@@ -11099,6 +11113,11 @@ export type GetGalaxyByIdAndUnclaimedCelestialsQueryVariables = Exact<{
 
 export type GetGalaxyByIdAndUnclaimedCelestialsQuery = { __typename?: 'query_root', galaxy_by_pk?: { __typename?: 'galaxy', id: string, stars: number } | null, celestial: Array<{ __typename?: 'celestial', id: string }> };
 
+export type MusicQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MusicQuery = { __typename?: 'query_root', music?: Array<{ __typename?: 'MediaResult', etag: string, name: string, metadata?: Array<{ __typename?: 'MediaMetadata', Key: string, Value: string }> | null }> | null };
+
 export type NpcsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -12030,6 +12049,19 @@ export const GetGalaxyByIdAndUnclaimedCelestialsDocument = gql`
 }
     `;
 export type GetGalaxyByIdAndUnclaimedCelestialsQueryResult = Apollo.QueryResult<GetGalaxyByIdAndUnclaimedCelestialsQuery, GetGalaxyByIdAndUnclaimedCelestialsQueryVariables>;
+export const MusicDocument = gql`
+    query Music {
+  music {
+    etag
+    name
+    metadata {
+      Key
+      Value
+    }
+  }
+}
+    `;
+export type MusicQueryResult = Apollo.QueryResult<MusicQuery, MusicQueryVariables>;
 export const NpcsDocument = gql`
     query Npcs {
   npc {

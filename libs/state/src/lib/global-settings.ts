@@ -1,4 +1,5 @@
-import { LayoutConfig } from '@idleverse/models';
+import { makeVar } from '@apollo/client';
+import { HydratedMediaResult, LayoutConfig } from '@idleverse/models';
 import { makeVarPersisted } from './utils';
 
 export const hotkeyHintsVar = makeVarPersisted<boolean>(true, 'hotkeyHints');
@@ -14,3 +15,11 @@ export const layoutVar = makeVarPersisted<LayoutConfig>(
   },
   'layout'
 );
+
+export const musicPlayerVar = makeVar<{
+  show: boolean;
+  data: HydratedMediaResult[];
+}>({
+  show: false,
+  data: [],
+});

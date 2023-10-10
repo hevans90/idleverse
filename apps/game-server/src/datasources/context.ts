@@ -5,14 +5,16 @@ import { HasuraAPI } from './hasura-api';
 import { HasuraEmpirePurchases } from './hasura-empire-purchases';
 import { HasuraEmpireResourceModifiers } from './hasura-empire-resource-modifiers';
 import { HasuraQuestProgression } from './hasura-quest-progression';
+import { MinioAPI } from './minio';
 
 export interface Context {
   dataSources: {
-    hasuraAPI: HasuraAPI;
     auth0API: Auth0API;
+    hasuraAPI: HasuraAPI;
     hasuraEmpirePurchases: HasuraEmpirePurchases;
     hasuraQuestProgression: HasuraQuestProgression;
     hasuraEmpireResourceModifiers: HasuraEmpireResourceModifiers;
+    minio: MinioAPI;
   };
   req: express.Request<any>;
   user: User;

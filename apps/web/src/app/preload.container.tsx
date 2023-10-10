@@ -17,7 +17,7 @@ import {
   UserInfoDocument,
   UserInfoQuery,
 } from '@idleverse/galaxy-gql';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 import {
   backgroundsVar,
@@ -40,7 +40,7 @@ import { Loading } from './components/loading';
 /**
  * Performs all async loading and blocks any children rendering until complete.
  */
-export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
+export const PreloadContainer = ({ children }: { children: ReactNode }) => {
   const [userAvatarsLoading, setUserAvatarsLoading] = useState(true);
   const [placeholdersLoading, setPlaceholdersLoading] = useState(true);
   const [techTreeLoading, setTechTreeLoading] = useState(true);
@@ -145,5 +145,6 @@ export const PreloadContainer = ({ children }: { children: JSX.Element }) => {
   }
   if (techTreeLoading) return <Loading text="Generating Tech Tree"></Loading>;
 
-  return children;
+  // eslint-disable-next-line react/jsx-no-useless-fragment
+  return <>{children}</>;
 };

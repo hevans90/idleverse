@@ -22,8 +22,12 @@ import { automaticMainQuestAssignment } from './quest-progression/automatic-ques
 import { generateResources } from './resource-generation/generate-resources';
 import ws = require('ws');
 
+import { Client as MinioClient } from 'minio';
+import { MinioAPI } from './datasources/minio';
+import { MinioMediaResolver } from './entities/minio-media';
+
 (async () => {
-  const client = apolloBootstrapper(
+  const apolloClient = apolloBootstrapper(
     process.env.HASURA_URI,
     process.env.SECURE_HASURA === 'secure',
     'admin-secret',
@@ -53,13 +57,22 @@ import ws = require('ws');
     }
   );
 
+  const minioClient = new MinioClient({
+    endPoint: process.env.MINIO_BASE_URL,
+    port: 9000,
+    useSSL: false,
+    accessKey: process.env.MINIO_ACCESS_KEY,
+    secretKey: process.env.MINIO_SECRET_KEY,
+  });
+
   const schema = await buildSchema({
     resolvers: [
-      RegisterResolver,
+      CelestialManagementResolver,
       EmpirePurchasesResolver,
       GalaxyManagementResolver,
-      CelestialManagementResolver,
+      MinioMediaResolver,
       QuestManagementResolver,
+      RegisterResolver,
     ],
     authChecker,
     emitSchemaFile: true,
@@ -103,13 +116,14 @@ import ws = require('ws');
     },
     dataSources: (): DataSources<Partial<Context['dataSources']>> => {
       return {
-        hasuraAPI: new HasuraAPI(client),
-        hasuraEmpirePurchases: new HasuraEmpirePurchases(client),
-        hasuraQuestProgression: new HasuraQuestProgression(client),
+        hasuraAPI: new HasuraAPI(apolloClient),
+        hasuraEmpirePurchases: new HasuraEmpirePurchases(apolloClient),
+        hasuraQuestProgression: new HasuraQuestProgression(apolloClient),
         hasuraEmpireResourceModifiers: new HasuraEmpireResourceModifiers(
-          client
+          apolloClient
         ),
         auth0API: new Auth0API(),
+        minio: new MinioAPI(minioClient),
       };
     },
     introspection: true,
@@ -139,19 +153,22 @@ import ws = require('ws');
 
   await server.start();
 
-  generateResources(client);
+  generateResources(apolloClient);
 
-  automaticMainQuestAssignment(client, new HasuraQuestProgression(client));
+  automaticMainQuestAssignment(
+    apolloClient,
+    new HasuraQuestProgression(apolloClient)
+  );
 
   // Apply the GraphQL server middleware
   server.applyMiddleware({ app, path });
 
   // Launch the express server
-  app.listen({ port: process.env.PORT || 4000, host: '' }, () =>
+  app.listen({ port: process.env.PORT || 4000, host: '' }, () => {
     console.log(
       `🚀 Idleverse Game Server ready at http://localhost:${
         process.env.PORT || 4000
       }${server.graphqlPath}`
-    )
-  );
+    );
+  });
 })();
