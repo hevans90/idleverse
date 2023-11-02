@@ -5,9 +5,9 @@ import iterm2
 cmd_top_left="cd idleverse && nx serve idleverse-web -c docker"
 cmd_bottom_left = "cd idleverse"
 
-cmd_top_right="cd idleverse && yarn docker-up && yarn prepare-watch && yarn hasura && yarn console"
+cmd_top_right="cd idleverse && bun docker-up && bun prepare-watch && bun hasura && bun console"
 cmd_middle_right="cd idleverse && nx serve colyseus"
-cmd_bottom_right = "cd idleverse && yarn run generate:docker"
+cmd_bottom_right = "cd idleverse && bun run generate:docker"
 
 async def main(connection):
     app = await iterm2.async_get_app(connection)

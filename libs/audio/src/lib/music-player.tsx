@@ -1,11 +1,22 @@
 import { useUiBackground } from '@idleverse/theme';
 import { AnimatedFrame } from '@idleverse/ui';
+import { intervalToDuration } from 'date-fns';
 
 import { useQuery, useReactiveVar } from '@apollo/client';
 
-import { Box, Flex, Icon, IconButton, Spinner } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  IconButton,
+  Progress,
+  Slider,
+  SliderFilledTrack,
+  SliderThumb,
+  SliderTrack,
+  Spinner,
+} from '@chakra-ui/react';
 import { musicPlayerVar } from '@idleverse/state';
-import { useEffect, useRef, useState } from 'react';
+import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
 import Draggable from 'react-draggable';
 
 import { MusicDocument, MusicQuery } from '@idleverse/galaxy-gql';
@@ -16,74 +27,238 @@ import {
   IoPlaySharp,
   IoPlaySkipBackSharp,
   IoPlaySkipForwardSharp,
+  IoVolumeHigh,
+  IoVolumeLow,
+  IoVolumeMute,
 } from 'react-icons/io5';
 
 import { HydratedMediaResult } from '@idleverse/models';
-import { BsMusicNoteBeamed } from 'react-icons/bs';
 
 const CurrentTrack = ({
   track,
+  trackIndex,
+  totalTracks,
+  audioRef,
 }: {
   track: HydratedMediaResult | undefined;
+  trackIndex: number;
+  totalTracks: number;
+
+  audioRef: RefObject<HTMLAudioElement>;
 }) => {
   return (
-    <>
-      {JSON.stringify(track)}
-      <Icon as={BsMusicNoteBeamed} />
-    </>
+    <Flex gap={2} direction="column">
+      {/* <Box>
+        {trackIndex} / {totalTracks}
+      </Box> */}
+      <Box>{track?.name.replace('.mp3', '')}</Box>
+    </Flex>
   );
+};
+
+export const ProgressBar = ({
+  audioRef,
+  trackTime,
+  trackDuration,
+}: {
+  audioRef: RefObject<HTMLAudioElement>;
+  trackTime: number;
+  trackDuration: number;
+}) => {
+  const currentTime = intervalToDuration({ start: 0, end: trackTime * 1000 });
+  const duration = intervalToDuration({ start: 0, end: trackDuration * 1000 });
+
+  const zeroPad = (num: number) => String(num).padStart(2, '0');
+
+  const formattedcurrentTime = `${currentTime.minutes}:${zeroPad(
+    currentTime.seconds ?? 0
+  )}`;
+  const formattedDuration = `${duration.minutes}:${zeroPad(
+    duration.seconds ?? 0
+  )}`;
+
+  return (
+    <Flex alignItems="center" minW={500} my={4} gap={4}>
+      <Box>{formattedcurrentTime}</Box>
+      <Slider
+        max={trackDuration}
+        aria-label="audio-progress-slider"
+        onChangeEnd={(val) => {
+          if (audioRef.current) {
+            audioRef.current.currentTime = val;
+          }
+        }}
+        defaultValue={0}
+      >
+        <SliderTrack background="unset" />
+        <Progress colorScheme="green" value={trackTime} max={trackDuration} />
+        <SliderThumb boxSize={5} background="unset" />
+      </Slider>
+
+      <Box>{formattedDuration}</Box>
+    </Flex>
+  );
+  //
 };
 
 const AudioPlayer = () => {
   const { data } = useReactiveVar(musicPlayerVar);
 
-  const [track, setTrack] = useState<HydratedMediaResult>(data?.[0]);
+  const [trackIndex, setTrackIndex] = useState<number>(0);
+  const [track, setTrack] = useState<HydratedMediaResult>(data?.[trackIndex]);
+  const [trackTime, setTrackTime] = useState(0);
+  const [trackDuration, setTrackDuration] = useState(0);
+
+  const [volume, setVolume] = useState(100);
+
+  const [muteVolume, setMuteVolume] = useState(false);
+
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const updateLoopRef = useRef<number>();
+
+  const onLoadedMetadata = () => {
+    setTrackDuration(audioRef?.current?.duration ?? 0);
+  };
+
+  const updateLoop = useCallback(() => {
+    const currentTime = audioRef?.current?.currentTime ?? 0;
+    setTrackTime(currentTime);
+
+    updateLoopRef.current = requestAnimationFrame(updateLoop);
+  }, [audioRef, trackDuration, setTrackTime]);
+
+  const skipForward = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime += 15;
+    }
+  };
+
+  const skipBackward = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime -= 15;
+    }
+  };
+
+  const handleNext = () => {
+    if (trackIndex >= data.length - 1) {
+      setTrackIndex(0);
+      setTrack(data?.[0]);
+    } else {
+      setTrackIndex((prev) => prev + 1);
+      setTrack(data?.[trackIndex + 1]);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (trackIndex === 0) {
+      const lastTrackIndex = data?.length - 1;
+      setTrackIndex(lastTrackIndex);
+      setTrack(data?.[lastTrackIndex]);
+    } else {
+      setTrackIndex((prev) => prev - 1);
+      setTrack(data?.[trackIndex - 1]);
+    }
+  };
 
   useEffect(() => {
     if (isPlaying) {
       audioRef.current?.play();
+      updateLoopRef.current = requestAnimationFrame(updateLoop);
     } else {
       audioRef.current?.pause();
+      if (updateLoopRef.current) {
+        cancelAnimationFrame(updateLoopRef.current);
+      }
     }
-  }, [isPlaying, audioRef]);
+  }, [isPlaying, audioRef, updateLoop]);
+
+  useEffect(() => {
+    if (audioRef?.current) {
+      audioRef.current.volume = volume / 100;
+      audioRef.current.muted = muteVolume;
+    }
+  }, [volume, audioRef, muteVolume]);
 
   return (
     <>
-      <CurrentTrack track={track} />
-      {JSON.stringify(track)}
+      <CurrentTrack
+        audioRef={audioRef}
+        track={track}
+        trackIndex={trackIndex + 1}
+        totalTracks={data.length}
+      />
+      <ProgressBar
+        audioRef={audioRef}
+        trackTime={trackTime}
+        trackDuration={trackDuration}
+      />
       <Flex gap={2} position="relative">
-        <IconButton
-          isDisabled={!track}
-          icon={<IoPlaySkipBackSharp />}
-          aria-label="play-skip-back"
-        />
-        <IconButton
-          isDisabled={!track}
-          icon={<IoPlayBackSharp />}
-          aria-label="play-back"
-        />
+        <Flex gap={2} flexGrow={2}>
+          <IconButton
+            onClick={skipBackward}
+            isDisabled={!track}
+            icon={<IoPlaySkipBackSharp />}
+            aria-label="play-skip-back"
+          />
+          <IconButton
+            onClick={handlePrevious}
+            isDisabled={!track}
+            icon={<IoPlayBackSharp />}
+            aria-label="play-back"
+          />
 
-        <IconButton
-          onClick={() => setIsPlaying((prev) => !prev)}
-          isDisabled={!track}
-          icon={isPlaying ? <IoPauseSharp /> : <IoPlaySharp />}
-          aria-label="pause"
-        />
+          <IconButton
+            onClick={() => setIsPlaying((prev) => !prev)}
+            isDisabled={!track}
+            icon={isPlaying ? <IoPauseSharp /> : <IoPlaySharp />}
+            aria-label="pause"
+          />
 
-        <IconButton
-          isDisabled={!track}
-          icon={<IoPlayForwardSharp />}
-          aria-label="play-forward"
-        />
-        <IconButton
-          isDisabled={!track}
-          icon={<IoPlaySkipForwardSharp />}
-          aria-label="play-skip-forward"
-        />
+          <IconButton
+            onClick={handleNext}
+            isDisabled={!track}
+            icon={<IoPlayForwardSharp />}
+            aria-label="play-forward"
+          />
+          <IconButton
+            onClick={skipForward}
+            isDisabled={!track}
+            icon={<IoPlaySkipForwardSharp />}
+            aria-label="play-skip-forward"
+          />
+        </Flex>
+        <Flex gap={2} flexGrow={1}>
+          <button onClick={() => setMuteVolume((prev) => !prev)}>
+            {muteVolume || volume < 5 ? (
+              <IoVolumeMute />
+            ) : volume < 40 ? (
+              <IoVolumeLow />
+            ) : (
+              <IoVolumeHigh />
+            )}
+          </button>
+          <Slider
+            aria-label="volume-slider"
+            onChangeEnd={setVolume}
+            defaultValue={volume}
+            min={0}
+            max={100}
+          >
+            <SliderTrack>
+              <SliderFilledTrack />
+            </SliderTrack>
+            <SliderThumb />
+          </Slider>
+        </Flex>
       </Flex>
-      <audio ref={audioRef} src={track?.url} />
+
+      <audio
+        ref={audioRef}
+        src={track?.url}
+        onLoadedMetadata={onLoadedMetadata}
+        onEnded={handleNext}
+      />
     </>
   );
 };
@@ -143,7 +318,6 @@ export const MusicPlayer = ({
         bottom={10}
         left={10}
         zIndex={zIndex}
-        maxWidth="30rem"
         cursor={dragging ? 'grabbing' : 'grab'}
       >
         <AnimatedFrame show={show}>
