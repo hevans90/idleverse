@@ -4,6 +4,7 @@
 export const environment = {
   production: false,
   secure: true,
+  minioUri: 'idleverse-minio.fly.dev',
   hasuraUri: 'idleverse-hasura.fly.dev/v1/graphql',
   colyseusUrl: 'wss://idleverse-colyseus.herokuapp.com',
 };

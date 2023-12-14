@@ -22,6 +22,7 @@
     "**/*.tsx",
     "../../libs/pixi-utils/src/lib/indicator-factory.ts",
     "../../libs/state/src/lib/backgrounds.ts",
-    "../../libs/theme/src/lib/use-ui-background.ts"
+    "../../libs/theme/src/lib/use-ui-background.ts",
+    "../../libs/audio/src/lib/music-player.tsx"
   ]
 }

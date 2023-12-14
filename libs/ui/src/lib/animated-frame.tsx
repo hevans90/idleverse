@@ -1,7 +1,9 @@
+import { Animator } from '@arwes/react-animator';
 import {
   FrameSVGOctagon,
   useFrameSVGAssemblingAnimation,
 } from '@arwes/react-frames';
+import { Box } from '@chakra-ui/layout';
 import styled from '@emotion/styled';
 import { useUiBackground } from '@idleverse/theme';
 import { ReactNode, useRef } from 'react';
@@ -9,6 +11,7 @@ import { ReactNode, useRef } from 'react';
 const DataDiv = styled.div<{ bg: string; border: string }>`
   position: relative;
   padding: 1.5rem;
+
   [data-name='bg'] {
     color: ${(props) => props.bg};
     filter: drop-shadow(0 0 4px ${(props) => props.bg});
@@ -19,7 +22,13 @@ const DataDiv = styled.div<{ bg: string; border: string }>`
   }
 `;
 
-export const AnimatedFrame = ({ children }: { children?: ReactNode }) => {
+const AnimatedFrameContent = ({
+  children,
+  show,
+}: {
+  children?: ReactNode;
+  show: boolean;
+}) => {
   const { canvasBg, canvasBorder } = useUiBackground();
 
   const svgRef = useRef<SVGSVGElement | null>(null);
@@ -33,8 +42,21 @@ export const AnimatedFrame = ({ children }: { children?: ReactNode }) => {
         onRender={onRender}
         padding={4}
       />
-
-      {children}
+      <Box position="relative" visibility={show ? 'visible' : 'hidden'}>
+        {children}
+      </Box>
     </DataDiv>
   );
 };
+
+export const AnimatedFrame = ({
+  children,
+  show,
+}: {
+  children?: ReactNode;
+  show: boolean;
+}) => (
+  <Animator active={show}>
+    <AnimatedFrameContent show={show}>{children}</AnimatedFrameContent>
+  </Animator>
+);

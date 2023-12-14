@@ -1,6 +1,14 @@
 import { useReactiveVar } from '@apollo/client';
 import { ChatIcon, SettingsIcon } from '@chakra-ui/icons';
-import { Box, Button, HStack, Kbd, useDisclosure } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  HStack,
+  Icon,
+  Kbd,
+  useDisclosure,
+} from '@chakra-ui/react';
+import { BsFileMusic } from 'react-icons/bs';
 
 import { Auth } from '../../_auth/auth';
 import {
@@ -8,7 +16,12 @@ import {
   responsiveIconProps,
 } from '../../_responsive-utils/font-props';
 
-import { globalUiVar, hotkeyHintsVar, layoutVar } from '@idleverse/state';
+import {
+  globalUiVar,
+  hotkeyHintsVar,
+  layoutVar,
+  musicPlayerVar,
+} from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
 import { useKeypress } from '../../hooks/use-keypress';
 import { EscMenuContainer } from '../esc-menu/escape-menu.container';
@@ -29,6 +42,7 @@ export const ToolBar = () => {
   const { sideNav, toolBar } = useReactiveVar(layoutVar);
 
   const { escapeMenuOpen } = useReactiveVar(globalUiVar);
+  const { show: showMusicPlayer } = useReactiveVar(musicPlayerVar);
 
   const hotkeyHints = useReactiveVar(hotkeyHintsVar);
 
@@ -75,6 +89,14 @@ export const ToolBar = () => {
                 &nbsp; <Kbd>Esc</Kbd>
               </>
             )}
+          </Button>
+          <Button
+            onClick={() => {
+              musicPlayerVar({ ...musicPlayerVar(), show: !showMusicPlayer });
+            }}
+            {...responsiveFontProps}
+          >
+            <Icon as={BsFileMusic} {...responsiveIconProps} />
           </Button>
         </HStack>
         <Auth></Auth>

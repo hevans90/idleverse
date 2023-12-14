@@ -1,4 +1,4 @@
-import { SelfQuery } from '@idleverse/galaxy-gql';
+import { MediaResult, SelfQuery } from '@idleverse/galaxy-gql';
 
 export type Self = SelfQuery['user_me'][0];
 
@@ -105,3 +105,5 @@ export const stringOfLength = <Min extends number, Max extends number>(
 
   return input; // the type of input here is now StringOfLength<Min,Max>
 };
+
+export type HydratedMediaResult = MediaResult & { url: string };

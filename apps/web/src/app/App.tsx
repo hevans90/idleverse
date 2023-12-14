@@ -12,6 +12,8 @@ import {
   galaxyRotationVar,
   roleVar,
 } from '@idleverse/state';
+
+import { MusicPlayer } from '@idleverse/audio';
 import { Layout } from './components/layout';
 import { Loading } from './components/loading';
 import { PreloadContainer } from './preload.container';
@@ -93,6 +95,7 @@ export const App = () => {
   return (
     <ApolloProvider client={client}>
       <PreloadContainer>
+        <MusicPlayer environment={environment} />
         <Layout>
           <Routes>
             {routes.map(({ path, component: Component }, key) => (
