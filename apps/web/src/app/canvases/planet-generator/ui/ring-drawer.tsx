@@ -141,7 +141,7 @@ export const PlanetGeneratorRingDrawer = () => {
                 <Th
                   key={i}
                   borderColor={tableBorderColor}
-                  fontSize="xxs"
+                  fontSize="2xs"
                   paddingLeft={2}
                   paddingRight={1}
                   isNumeric={numeric}
@@ -182,7 +182,7 @@ export const PlanetGeneratorRingDrawer = () => {
                           transition="all 0.2s"
                           borderRadius="md"
                           borderWidth="1px"
-                          fontSize="xxs"
+                          fontSize="2xs"
                           _hover={{ bg: 'gray.500' }}
                           _expanded={{ bg: 'gray.700' }}
                           _focus={{ boxShadow: 'outline' }}
@@ -234,7 +234,7 @@ export const PlanetGeneratorRingDrawer = () => {
                           updateRings();
                         }}
                       >
-                        <NumberInputField fontSize="xxs" autoFocus />
+                        <NumberInputField fontSize="2xs" autoFocus />
                         <NumberInputStepper>
                           <NumberIncrementStepper />
                           <NumberDecrementStepper />
@@ -267,7 +267,7 @@ export const PlanetGeneratorRingDrawer = () => {
                           updateRings();
                         }}
                       >
-                        <NumberInputField fontSize="xxs" autoFocus />
+                        <NumberInputField fontSize="2xs" autoFocus />
                         <NumberInputStepper>
                           <NumberIncrementStepper />
                           <NumberDecrementStepper />
@@ -364,7 +364,7 @@ export const PlanetGeneratorRingDrawer = () => {
                             updateRings();
                           }}
                         >
-                          <NumberInputField fontSize="xxs" autoFocus />
+                          <NumberInputField fontSize="2xs" autoFocus />
                           <NumberInputStepper>
                             <NumberIncrementStepper />
                             <NumberDecrementStepper />
@@ -385,7 +385,7 @@ export const PlanetGeneratorRingDrawer = () => {
                             updateRings();
                           }}
                         >
-                          <NumberInputField fontSize="xxs" autoFocus />
+                          <NumberInputField fontSize="2xs" autoFocus />
                           <NumberInputStepper>
                             <NumberIncrementStepper />
                             <NumberDecrementStepper />
@@ -414,7 +414,7 @@ export const PlanetGeneratorRingDrawer = () => {
                           updateRings();
                         }}
                       >
-                        <NumberInputField fontSize="xxs" autoFocus />
+                        <NumberInputField fontSize="2xs" autoFocus />
                         <NumberInputStepper>
                           <NumberIncrementStepper />
                           <NumberDecrementStepper />

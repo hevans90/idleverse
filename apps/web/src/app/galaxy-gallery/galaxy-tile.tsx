@@ -63,7 +63,7 @@ export const GalaxyTile = ({
 
   const textProps: TextProps = {
     position: 'absolute',
-    fontSize: 'xxs',
+    fontSize: '2xs',
     bgColor: 'gray.600',
     padding: 1,
     paddingTop: 1.5,

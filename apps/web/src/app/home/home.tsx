@@ -11,6 +11,7 @@ import {
   VStack,
   useColorModeValue,
 } from '@chakra-ui/react';
+
 import {
   GalacticEmpiresByUserIdDocument,
   GalacticEmpiresByUserIdSubscription,
@@ -22,12 +23,12 @@ import { responsiveFontProps } from '../_responsive-utils/font-props';
 
 import { colorsVar, layoutVar, roleVar, selfVar } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
-import { Loading } from '../components/loading';
+import { AnimatedFrame, AnimatedText, BlinkingText } from '@idleverse/ui';
 
 export const Home = () => {
   const { id: userId } = useReactiveVar(selfVar);
 
-  const { bgDarker, border } = useUiBackground();
+  const { canvasBgDarker } = useUiBackground();
 
   const { secondary } = useReactiveVar(colorsVar);
 
@@ -56,9 +57,6 @@ export const Home = () => {
     GalacticEmpiresByUserIdSubscriptionVariables
   >(GalacticEmpiresByUserIdDocument, { variables: { userId } });
 
-  if (loadingGameplaySessions)
-    return <Loading text="Loading gameplay sessions"></Loading>;
-
   return (
     <Box
       height={`calc(100% - 1rem)`}
@@ -69,13 +67,10 @@ export const Home = () => {
       margin="0 1rem 1rem 1rem"
     >
       <VStack justify="end" flexGrow={1}>
-        <Text
-          fontSize={['xl', '2xl', '3xl', '4xl', '5xl']}
-          textAlign="center"
-          marginBottom={[10, 20]}
-        >
-          Welcome back commander.
-        </Text>
+        <AnimatedText textAlign="center" marginBottom={10} fontSize="4xl">
+          Welcome back commander
+          <BlinkingText interval={0.9}>.</BlinkingText>
+        </AnimatedText>
       </VStack>
 
       <Stack
@@ -118,23 +113,20 @@ export const Home = () => {
           width="100%"
           height={['75%', '75%', '75%', '100%']}
         >
-          <>
-            <Text marginBottom={5} textAlign="center">
-              You have {data.galactic_empire.length} galactic&nbsp;
-              {data.galactic_empire.length === 1 ? 'empire' : 'empires'}.
-            </Text>
+          {loadingGameplaySessions ? <>Loading</> : null}
+          {!loadingGameplaySessions && data.galactic_empire.length > 0 ? (
+            <>
+              <Text marginBottom={5} textAlign="center">
+                You have {data.galactic_empire.length} galactic&nbsp;
+                {data.galactic_empire.length === 1 ? 'empire' : 'empires'}.
+              </Text>
 
-            {data.galactic_empire.length > 0 && (
               <SimpleGrid
                 width="100%"
                 maxWidth={['unset', 'unset', 'unset', '1000px']}
-                padding={2}
-                columns={2}
+                minChildWidth={250}
                 spacing={5}
                 overflow="auto"
-                borderWidth="1px"
-                borderStyle="solid"
-                borderColor={border}
               >
                 {data.galactic_empire.map(
                   (
@@ -144,84 +136,82 @@ export const Home = () => {
                     },
                     i
                   ) => (
-                    <Box
-                      key={i}
-                      bgColor={bgDarker}
-                      borderWidth="1px"
-                      borderStyle="solid"
-                      borderColor={border}
-                      minHeight="20vh"
-                    >
-                      <VStack height="100%" padding={3} align="start">
-                        <VStack
-                          width="100%"
-                          align="start"
-                          fontSize={['xxs', 'xs', 'xs', 'sm']}
-                        >
-                          <HStack width="100%" justifyContent="space-between">
-                            <Text>Galaxy Name:</Text>
-                            <Text>{name}</Text>
-                          </HStack>
-                          <HStack width="100%" justifyContent="space-between">
-                            <Text>Owned celestials:</Text>
-                            <Text color={secondaryTextColor}>
-                              {ownedCelestials.length}
-                            </Text>
-                          </HStack>
-                        </VStack>
-                        <SimpleGrid
-                          width="100%"
-                          columns={[1, 1, 2]}
-                          spacing={2}
-                          maxHeight="200px"
-                          overflow="auto"
-                        >
-                          {ownedCelestials.map(({ id, name, planets }, i) => (
-                            <Link
-                              key={i}
-                              as={ReactRouterLink}
-                              to={`/celestials/${id}`}
-                              borderRadius="3px"
-                              borderWidth="1px"
-                              borderStyle="solid"
-                              padding={2}
-                              {...customHover}
-                            >
-                              <Text fontSize="xs" marginBottom={1}>
-                                {name}
-                              </Text>
-                              {planets.length >= 1 ? (
-                                <Text fontSize="xxs" color={secondaryTextColor}>
-                                  {planets.length}
-                                  {planets.length > 1 ? 'planets' : 'planet'}
-                                </Text>
-                              ) : (
-                                <Text fontSize="xxs" color={redTextColor}>
-                                  no planets
-                                </Text>
-                              )}
-                            </Link>
-                          ))}
-                        </SimpleGrid>
-
-                        <VStack flexGrow={1} justify="end" width="100%">
-                          <Link
+                    <AnimatedFrame show bg={canvasBgDarker}>
+                      <Box key={i} minHeight="20vh">
+                        <VStack height="100%" padding={3} align="start">
+                          <VStack
                             width="100%"
-                            as={ReactRouterLink}
-                            to={`/galaxies/${galaxyId}`}
+                            align="start"
+                            fontSize={['2xs', 'xs', 'xs', 'sm']}
                           >
-                            <Button width="100%" {...responsiveFontProps}>
-                              Go to Galaxy
-                            </Button>
-                          </Link>
+                            <HStack width="100%" justifyContent="space-between">
+                              <Text>Galaxy:</Text>
+                              <Text whiteSpace="nowrap">{name}</Text>
+                            </HStack>
+                            <HStack width="100%" justifyContent="space-between">
+                              <Text>Systems:</Text>
+                              <Text color={secondaryTextColor}>
+                                {ownedCelestials.length}
+                              </Text>
+                            </HStack>
+                          </VStack>
+                          <SimpleGrid
+                            width="100%"
+                            minChildWidth={100}
+                            spacing={2}
+                            maxHeight="200px"
+                            overflow="auto"
+                          >
+                            {ownedCelestials.map(({ id, name, planets }, i) => (
+                              <Link
+                                key={i}
+                                as={ReactRouterLink}
+                                to={`/celestials/${id}`}
+                                borderRadius="3px"
+                                borderWidth="1px"
+                                borderStyle="solid"
+                                padding={2}
+                                {...customHover}
+                              >
+                                <Text fontSize="xs" marginBottom={1}>
+                                  {name}
+                                </Text>
+                                {planets.length >= 1 ? (
+                                  <Text
+                                    fontSize="2xs"
+                                    color={secondaryTextColor}
+                                  >
+                                    {planets.length}
+                                    {planets.length > 1 ? 'planets' : 'planet'}
+                                  </Text>
+                                ) : (
+                                  <Text fontSize="2xs" color={redTextColor}>
+                                    no planets
+                                  </Text>
+                                )}
+                              </Link>
+                            ))}
+                          </SimpleGrid>
+
+                          <VStack flexGrow={1} justify="end" width="100%">
+                            <Link
+                              width="100%"
+                              as={ReactRouterLink}
+                              to={`/galaxies/${galaxyId}`}
+                            >
+                              <Button width="100%" {...responsiveFontProps}>
+                                Visit
+                              </Button>
+                            </Link>
+                          </VStack>
                         </VStack>
-                      </VStack>
-                    </Box>
+                      </Box>
+                    </AnimatedFrame>
                   )
                 )}
               </SimpleGrid>
-            )}
-          </>
+            </>
+          ) : null}
         </VStack>
       </Stack>
     </Box>

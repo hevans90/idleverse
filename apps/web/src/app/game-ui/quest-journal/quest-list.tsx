@@ -28,13 +28,13 @@ export const QuestList = ({ showCompleted }: { showCompleted: boolean }) => {
   const thProps: TableColumnHeaderProps = {
     borderColor: border,
     padding: 2,
-    fontSize: 'xxs',
+    fontSize: '2xs',
   };
 
   const tdProps: TableCellProps = {
     borderColor: border,
     padding: 2,
-    fontSize: 'xxs',
+    fontSize: '2xs',
   };
 
   const [quests, setQuests] = useState<

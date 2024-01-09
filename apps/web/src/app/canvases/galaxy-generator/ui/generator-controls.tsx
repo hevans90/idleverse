@@ -96,7 +96,7 @@ export const GeneratorControls = () => {
             seed
           </Text>
           <Input
-            fontSize="xxs"
+            fontSize="2xs"
             value={localConfigValues.seed}
             isReadOnly={true}
           />

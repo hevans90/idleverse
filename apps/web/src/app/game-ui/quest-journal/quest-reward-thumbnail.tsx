@@ -97,7 +97,7 @@ const RewardThumbnail = ({
     </HStack>
   ) : (
     <Tooltip
-      fontSize="xxs"
+      fontSize="2xs"
       bg={bgLight}
       color={color}
       label={tooltip}

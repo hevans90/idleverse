@@ -94,7 +94,7 @@ export const TreeSearch = () => {
               isDisabled={selectedNode?.id === node.id}
               borderRadius="3px"
               fontWeight="semibold"
-              fontSize={['xxs', 'xs', 'xs', 'sm', 'md']}
+              fontSize={['2xs', 'xs', 'xs', 'sm', 'md']}
               color="white.900"
               _hover={{ bg: `${secondary}.500` }}
               _active={{

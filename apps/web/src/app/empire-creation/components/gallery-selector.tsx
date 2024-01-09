@@ -41,7 +41,7 @@ const GalleryButton = <T,>({
       px="8px"
       borderRadius="3px"
       fontWeight="semibold"
-      fontSize={['xxs', 'xs', 'xs', 'sm', 'md']}
+      fontSize={['2xs', 'xs', 'xs', 'sm', 'md']}
       bg={selected ? `${secondary}.600` : 'whiteAlpha.100'}
       color="white.900"
       _hover={!selected && { bg: 'whiteAlpha.300' }}
@@ -140,7 +140,7 @@ export const GallerySelector = <T,>({
               marginLeft={1}
             />
 
-            <Text fontSize="xxs"> {selectedItem.description}</Text>
+            <Text fontSize="2xs"> {selectedItem.description}</Text>
           </>
         )}
         {!selectedItem && <Text>Pick a {name}</Text>}
