@@ -11,6 +11,7 @@ import { ReactNode, useRef } from 'react';
 const DataDiv = styled.div<{ bg: string; border: string }>`
   position: relative;
   padding: 1.5rem;
+  width: fit-content;
 
   [data-name='bg'] {
     color: ${(props) => props.bg};
@@ -29,12 +30,12 @@ const UnderlinedFrameContent = ({
   children?: ReactNode;
   show: boolean;
 }) => {
-  const { canvasBg, canvasBorder } = useUiBackground();
+  const { canvasBgDarker, canvasBorder } = useUiBackground();
 
   const svgRef = useRef<SVGSVGElement | null>(null);
   const { onRender } = useFrameSVGAssemblingAnimation(svgRef);
   return (
-    <DataDiv bg={canvasBg} border={canvasBorder}>
+    <DataDiv bg={canvasBgDarker} border={canvasBorder}>
       <FrameSVGUnderline elementRef={svgRef} onRender={onRender} />
       <Box position="relative" visibility={show ? 'visible' : 'hidden'}>
         {children}

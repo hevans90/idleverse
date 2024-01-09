@@ -17,6 +17,7 @@ import { Link as ReactRouterLink } from 'react-router-dom';
 
 import { colorsVar, galaxyConfigVar } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
+import { UnderlinedFrame } from '@idleverse/ui';
 import { GalaxyThumbnail } from '../canvases/galaxy-thumbnail/galaxy-thumbnail';
 
 export const GalaxyTile = ({
@@ -88,114 +89,106 @@ export const GalaxyTile = ({
   }, [tileContainerRef]);
 
   return (
-    <Box
-      ref={tileContainerRef}
-      bgColor={bgDarker}
-      id="tile-container"
-      height="20vw"
-      width="20vw"
-      minWidth="xs"
-      minHeight="xs"
-      maxHeight="md"
-      maxWidth="md"
-      key={galaxyConfig.id}
-      color={col}
-      {...customHover}
-      marginRight={2}
-      marginBottom={2}
-      onTouchStart={onHover}
-      onMouseEnter={onHover}
-      onMouseLeave={onHoverEnd}
-      as={alreadyJoined ? alreadyJoinedProps.as : null}
-      to={alreadyJoined ? alreadyJoinedProps.to : null}
-    >
-      <HStack
-        justify="center"
-        position="relative"
-        width="100%"
-        height="100%"
-        marginRight={5}
+    <UnderlinedFrame>
+      <Box
+        ref={tileContainerRef}
+        bgColor={bgDarker}
+        id="tile-container"
+        display="block"
+        height={[150, 200, 250]}
+        width={[150, 200, 250]}
+        maxW={[150, 200, 250]}
+        key={galaxyConfig.id}
+        color={col}
+        {...customHover}
+        onTouchStart={onHover}
+        onMouseEnter={onHover}
+        onMouseLeave={onHoverEnd}
+        as={alreadyJoined ? alreadyJoinedProps.as : null}
+        to={alreadyJoined ? alreadyJoinedProps.to : null}
       >
-        <Stage
-          height={tileHeight}
-          width={tileWidth}
-          options={{
-            antialias: true,
-            backgroundAlpha: 0,
-          }}
-        >
-          <GalaxyThumbnail
-            galaxyConfig={dbGalaxyToGalaxyConfig(galaxyConfig)}
-          />
-        </Stage>
+        <HStack justify="center" width="100%" height="100%">
+          <Stage
+            height={tileHeight}
+            width={tileWidth}
+            options={{
+              antialias: true,
+              backgroundAlpha: 0,
+            }}
+          >
+            <GalaxyThumbnail
+              galaxyConfig={dbGalaxyToGalaxyConfig(galaxyConfig)}
+            />
+          </Stage>
 
-        <Text top="0.5rem" left="0.5rem" {...textProps}>
-          {galaxyConfig.name}
-        </Text>
-        <Text top="2.5rem" left="0.5rem" {...textProps}>
-          Stars: {galaxyConfig.stars}
-        </Text>
-        {displayOwnershipTotals && (
+          <Text top="0.5rem" left="0.5rem" {...textProps}>
+            {galaxyConfig.name}
+          </Text>
+          <Text top="2.5rem" left="0.5rem" {...textProps}>
+            Stars: {galaxyConfig.stars}
+          </Text>
+          {displayOwnershipTotals && (
+            <HStack
+              bottom="2.5rem"
+              left="0.5rem"
+              {...textProps}
+              width="calc(100% - 1rem)"
+              justify="space-between"
+            >
+              <Text>My Celestials:</Text>
+              <Text>{totalUserOwns}</Text>
+            </HStack>
+          )}
+
+          {!alreadyJoined && isHovered && (
+            <HStack
+              position="absolute"
+              top={0}
+              right={0}
+              bottom={0}
+              left={0}
+              margin="auto !important"
+              justify="center"
+            >
+              <Link as={ReactRouterLink} to={`${galaxyUrl}/join`}>
+                <Button
+                  colorScheme={secondary}
+                  size="sm"
+                  onClick={() => {
+                    galaxyConfigVar(dbGalaxyToGalaxyConfig(galaxyConfig));
+                  }}
+                >
+                  Join
+                </Button>
+              </Link>
+
+              <Link as={ReactRouterLink} to={galaxyUrl}>
+                <Button
+                  _hover={{ backgroundColor: 'gray.400' }}
+                  backgroundColor="gray.500"
+                  color="white"
+                  opacity={1}
+                  size="sm"
+                >
+                  Visit
+                </Button>
+              </Link>
+            </HStack>
+          )}
+
           <HStack
-            bottom="2.5rem"
+            bottom="0.5rem"
             left="0.5rem"
             {...textProps}
             width="calc(100% - 1rem)"
             justify="space-between"
+            color="red.200"
           >
-            <Text>My Celestials:</Text>
-            <Text>{totalUserOwns}</Text>
+            <Text>Owned Celestials:</Text>
+            <Text>{galaxyConfig.celestials.length}</Text>
           </HStack>
-        )}
-
-        {!alreadyJoined && isHovered && (
-          <HStack
-            position="absolute"
-            top={0}
-            right={0}
-            bottom={0}
-            left={0}
-            margin="auto !important"
-            justify="center"
-          >
-            <Link as={ReactRouterLink} to={`${galaxyUrl}/join`}>
-              <Button
-                colorScheme={secondary}
-                size="sm"
-                onClick={() => {
-                  galaxyConfigVar(dbGalaxyToGalaxyConfig(galaxyConfig));
-                }}
-              >
-                Join
-              </Button>
-            </Link>
-
-            <Link as={ReactRouterLink} to={galaxyUrl}>
-              <Button
-                _hover={{ backgroundColor: 'gray.400' }}
-                backgroundColor="gray.500"
-                color="white"
-                opacity={1}
-                size="sm"
-              >
-                Visit
-              </Button>
-            </Link>
-          </HStack>
-        )}
-
-        <HStack
-          bottom="0.5rem"
-          left="0.5rem"
-          {...textProps}
-          width="calc(100% - 1rem)"
-          justify="space-between"
-          color="red.200"
-        >
-          <Text>Owned Celestials:</Text>
-          <Text>{galaxyConfig.celestials.length}</Text>
         </HStack>
-      </HStack>
-    </Box>
+      </Box>
+    </UnderlinedFrame>
   );
 };
