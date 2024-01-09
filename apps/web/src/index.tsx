@@ -1,7 +1,8 @@
 import { useReactiveVar } from '@apollo/client';
+
 import { ChakraProvider, Theme } from '@chakra-ui/react';
 import { theme } from '@idleverse/theme';
-import { StrictMode, useState } from 'react';
+import { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './app/App';
 
@@ -41,11 +42,7 @@ const AppWithDynamicTheme = () => {
 
 const container = document.getElementById('root');
 const root = createRoot(container); // createRoot(container!) if you use TypeScript
-root.render(
-  <StrictMode>
-    <AppWithDynamicTheme />
-  </StrictMode>
-);
+root.render(<AppWithDynamicTheme />);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

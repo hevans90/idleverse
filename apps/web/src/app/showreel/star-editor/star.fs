@@ -83,6 +83,7 @@ void main()
     sp*=(2.-u_brightness);
     float r=dot(sp,sp);
     float f=(1.-sqrt(abs(1.-r)))/(r)+u_brightness*.5;
+    
     if(dist<radius){
         corona*=pow(dist*invRadius,24.);
         vec2 newUv;
@@ -96,7 +97,12 @@ void main()
         starSphere=texture2D(noiseSample,starUV).rgb;
     }
     
+    vec3 colorWithGlow=vec3(f*(.75+u_brightness*.3)*orange);
+    if(dist>(radius)){
+        colorWithGlow=vec3(0);
+    }
+    
     float starGlow=min(max(1.-dist*(1.-u_brightness),0.),1.)*u_brightness;
-    vec3 color=vec3(f*(.75+u_brightness*.3)*orange)+starSphere+corona*orange+starGlow*orangeRed;
+    vec3 color=colorWithGlow+starSphere+corona*orange+starGlow*orangeRed;
     gl_FragColor=vec4(color,0);
 }
