@@ -1,6 +1,6 @@
 import { useReactiveVar, useSubscription } from '@apollo/client';
 import { Box, Link, Text } from '@chakra-ui/layout';
-import { Button, SimpleGrid, VStack } from '@chakra-ui/react';
+import { Button, Flex, VStack } from '@chakra-ui/react';
 import {
   GalacticEmpiresByUserIdDocument,
   GalacticEmpiresByUserIdSubscription,
@@ -13,6 +13,7 @@ import { Link as ReactRouterLink } from 'react-router-dom';
 import { Loading } from '../components/loading';
 
 import { colorsVar, selfVar } from '@idleverse/state';
+import { headerResponsiveFontProps } from '../_responsive-utils/font-props';
 import { GalaxyTile } from './galaxy-tile';
 
 export const GalaxyGalleryContainer = () => {
@@ -57,11 +58,19 @@ export const GalaxyGalleryContainer = () => {
   }
 
   return data.galaxy.length && myEmpires.galactic_empire.length ? (
-    <VStack paddingTop={10} gap={5}>
+    <VStack
+      paddingTop={10}
+      gap={5}
+      height="100%"
+      alignItems="center"
+      justifyContent="center"
+    >
       {galaxiesToJoin?.length && (
         <>
-          <Text>Galaxies to join:</Text>
-          <SimpleGrid minChildWidth={[150, 200, 250]} spacing={5}>
+          <Text textAlign="center" {...headerResponsiveFontProps}>
+            Galaxies to join:
+          </Text>
+          <Flex gap={5} wrap="wrap" alignItems="center" justifyContent="center">
             {galaxiesToJoin &&
               galaxiesToJoin.map((galaxyConfig, i) => (
                 <GalaxyTile
@@ -75,20 +84,14 @@ export const GalaxyGalleryContainer = () => {
                   }}
                 />
               ))}
-          </SimpleGrid>
+          </Flex>
         </>
       )}
 
-      <Text textAlign="center">
-        You already have empires in the following galaxies:
+      <Text textAlign="center" {...headerResponsiveFontProps}>
+        Already joined:
       </Text>
-      <SimpleGrid
-        width="100%"
-        // maxWidth={['unset', 'unset', 'unset', '1000px']}
-        minChildWidth={250}
-        spacing={5}
-        overflow="auto"
-      >
+      <Flex gap={5} wrap="wrap" alignItems="center" justifyContent="center">
         {/* <SimpleGrid minChildWidth="220px" spacing="40px"> */}
         {galaxiesJoined &&
           galaxiesJoined.map((galaxyConfig, i) => (
@@ -106,7 +109,7 @@ export const GalaxyGalleryContainer = () => {
               }}
             />
           ))}
-      </SimpleGrid>
+      </Flex>
     </VStack>
   ) : (
     <Box

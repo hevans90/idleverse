@@ -16,7 +16,6 @@ import { useEffect, useRef, useState } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
 import { colorsVar, galaxyConfigVar } from '@idleverse/state';
-import { useUiBackground } from '@idleverse/theme';
 import { UnderlinedFrame } from '@idleverse/ui';
 import { GalaxyThumbnail } from '../canvases/galaxy-thumbnail/galaxy-thumbnail';
 
@@ -34,7 +33,6 @@ export const GalaxyTile = ({
   totalUserOwns: number;
 }) => {
   const { primary, secondary } = useReactiveVar(colorsVar);
-  const { bgDarker } = useUiBackground();
 
   const col = useColorModeValue(`${secondary}.500`, `${secondary}.300`);
 
@@ -92,12 +90,11 @@ export const GalaxyTile = ({
     <UnderlinedFrame>
       <Box
         ref={tileContainerRef}
-        bgColor={bgDarker}
         id="tile-container"
         display="block"
-        height={[150, 200, 250]}
-        width={[150, 200, 250]}
-        maxW={[150, 200, 250]}
+        height={[200, 200, 250, 300]}
+        width={[200, 200, 250, 300]}
+        maxW={[200, 200, 250, 300]}
         key={galaxyConfig.id}
         color={col}
         {...customHover}

@@ -78,7 +78,7 @@ export const ProgressBar = ({
   )}`;
 
   return (
-    <Flex alignItems="center" minW={500} my={4} gap={4}>
+    <Flex alignItems="center" minW={[250, 350, 450]} my={4} gap={4}>
       <Box>{formattedcurrentTime}</Box>
       <Slider
         max={trackDuration}

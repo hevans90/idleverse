@@ -10,7 +10,6 @@ import { ReactNode, useRef } from 'react';
 
 const DataDiv = styled.div<{ bg: string; border: string }>`
   position: relative;
-  padding: 1.5rem;
   width: fit-content;
 
   [data-name='bg'] {
@@ -36,8 +35,13 @@ const UnderlinedFrameContent = ({
   const { onRender } = useFrameSVGAssemblingAnimation(svgRef);
   return (
     <DataDiv bg={canvasBgDarker} border={canvasBorder}>
-      <FrameSVGUnderline elementRef={svgRef} onRender={onRender} />
-      <Box position="relative" visibility={show ? 'visible' : 'hidden'}>
+      <FrameSVGUnderline elementRef={svgRef} onRender={onRender} z={5} />
+      <Box
+        position="relative"
+        visibility={show ? 'visible' : 'hidden'}
+        overflow="hidden"
+        zIndex={3}
+      >
         {children}
       </Box>
     </DataDiv>
