@@ -4,12 +4,43 @@ import { StepsStyleConfig } from 'chakra-ui-steps';
 
 import {
   Checkbox,
+  ColorHues,
   extendTheme,
   Input,
   NumberInput,
   RangeSliderFilledTrack,
   Slider,
 } from '@chakra-ui/react';
+
+type DefaultHues = {
+  dark: { text: keyof ColorHues; bg: keyof ColorHues };
+  light: { text: keyof ColorHues; bg: keyof ColorHues };
+};
+
+export const defaultShades: DefaultHues = {
+  dark: {
+    text: 200,
+    bg: 800,
+  },
+  light: {
+    text: 800,
+    bg: 300,
+  },
+};
+
+export const fontSizes: Partial<Theme['fontSizes']> = {
+  '2xs': '0.6rem',
+  xs: '0.7rem',
+  sm: '0.8rem',
+  md: '0.9rem',
+  lg: '1.1rem',
+  xl: '1.3rem',
+  '2xl': '1.5rem',
+  '3xl': '2rem',
+  '4xl': '2.5rem',
+  '5xl': '3rem',
+  '6xl': '3.5rem',
+};
 
 type themePalettes = Pick<
   Theme['colors'],
@@ -208,7 +239,13 @@ export const theme: ({
       global: (props: StyleFunctionProps) => ({
         body: {
           background:
-            props.colorMode === 'dark' ? `${primary}.800` : `${primary}.300`,
+            props.colorMode === 'dark'
+              ? `${primary}.${defaultShades.dark.bg}`
+              : `${primary}.${defaultShades.light.bg}`,
+          color:
+            props.colorMode === 'dark'
+              ? `${primary}.${defaultShades.dark.text}`
+              : `${primary}.${defaultShades.light.text}`,
         },
       }),
     } as Partial<Pick<Theme, 'styles'>>,
@@ -219,9 +256,7 @@ export const theme: ({
       heading: 'zx spectrum',
       mono: 'zx spectrum',
     } as Partial<Pick<Theme, 'fonts'>>,
-    fontSizes: {
-      xxs: '0.7rem',
-    },
+    fontSizes,
     shadows: { outline: `0 0 0 3px var(--chakra-colors-${secondary}-400)` },
   });
 };

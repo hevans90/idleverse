@@ -6,13 +6,13 @@ export const headerResponsiveFontProps: {
   fontSize: ['md', 'lg', 'lg', 'xl', '2xl'],
 };
 export const responsiveFontProps: { fontSize: TypographyProps['fontSize'] } = {
-  fontSize: ['xxs', 'xs', 'xs', 'sm', 'md'],
+  fontSize: ['2xs', '2xs', 'xs', 'xs', 'sm'],
 };
 
 export const copyResponsiveFontProps: {
   fontSize: TypographyProps['fontSize'];
 } = {
-  fontSize: ['xxs', 'xxs', 'xs', 'xs', 'xs'],
+  fontSize: ['2xs', '2xs', 'xs', 'xs', 'xs'],
 };
 
 export const responsiveIconProps: { boxSize: IconProps['boxSize'] } = {

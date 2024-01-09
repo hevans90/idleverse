@@ -1,11 +1,13 @@
 import { useReactiveVar } from '@apollo/client';
-import { useColorModeValue } from '@chakra-ui/react';
+import { useColorMode, useColorModeValue } from '@chakra-ui/react';
 
 import { colorsVar } from '@idleverse/state';
 import { colors } from './theme';
 
 export const useUiBackground = () => {
   const { primary, secondary } = useReactiveVar(colorsVar);
+
+  const { colorMode } = useColorMode();
 
   const bgLightSecondary = useColorModeValue(
     `${secondary}.200`,
@@ -21,8 +23,13 @@ export const useUiBackground = () => {
     `${secondary}.600`
   );
 
-  const canvasBg: string = colors[primary]['800'];
-  const canvasBorder: string = colors[primary]['600'];
+  const canvasBg: string =
+    colors[primary][colorMode === 'dark' ? '800' : '200'];
+  const canvasBgDarker: string =
+    colors[primary][colorMode === 'dark' ? '900' : '300'];
+
+  const canvasBorder: string =
+    colors[primary][colorMode === 'dark' ? '600' : '200'];
 
   return {
     bg,
@@ -33,6 +40,7 @@ export const useUiBackground = () => {
     border,
     borderSecondary,
     canvasBg,
+    canvasBgDarker,
     canvasBorder,
   };
 };

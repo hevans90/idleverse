@@ -75,9 +75,9 @@ export const SideNav = () => {
           <OrderedList marginInlineStart="unset">
             {messages?.map((item, i) => (
               <ListItem key={item.id}>
-                <Box fontSize="xxs" color={chatMessageColor}>
+                <Box fontSize="2xs" color={chatMessageColor}>
                   <Text
-                    fontSize="xxs"
+                    fontSize="2xs"
                     color={
                       item.user_info.nickname === user?.nickname
                         ? myUserColor

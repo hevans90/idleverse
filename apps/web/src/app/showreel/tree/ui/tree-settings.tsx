@@ -127,7 +127,7 @@ export const TreeSettings = () => {
               transition="all 0.2s"
               borderRadius="md"
               borderWidth="1px"
-              fontSize="xxs"
+              fontSize="2xs"
             >
               {treeSettings.orientation}
             </MenuButton>

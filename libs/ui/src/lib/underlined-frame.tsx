@@ -1,6 +1,6 @@
 import { Animator } from '@arwes/react-animator';
 import {
-  FrameSVGOctagon,
+  FrameSVGUnderline,
   useFrameSVGAssemblingAnimation,
 } from '@arwes/react-frames';
 import { Box } from '@chakra-ui/layout';
@@ -22,23 +22,11 @@ const DataDiv = styled.div<{ bg: string; border: string }>`
   }
 `;
 
-const AnimatedFrameContent = ({
+const UnderlinedFrameContent = ({
   children,
-  bg,
-  borderStrokeWidth = 1,
   show,
-  leftTop = true,
-  rightTop = true,
-  rightBottom = true,
-  leftBottom = true,
 }: {
   children?: ReactNode;
-  bg?: string;
-  borderStrokeWidth?: number;
-  leftTop?: boolean;
-  rightTop?: boolean;
-  rightBottom?: boolean;
-  leftBottom?: boolean;
   show: boolean;
 }) => {
   const { canvasBg, canvasBorder } = useUiBackground();
@@ -46,18 +34,8 @@ const AnimatedFrameContent = ({
   const svgRef = useRef<SVGSVGElement | null>(null);
   const { onRender } = useFrameSVGAssemblingAnimation(svgRef);
   return (
-    <DataDiv bg={bg ?? canvasBg} border={canvasBorder}>
-      <FrameSVGOctagon
-        squareSize={20}
-        strokeWidth={borderStrokeWidth}
-        leftTop={leftTop}
-        rightTop={rightTop}
-        rightBottom={rightBottom}
-        leftBottom={leftBottom}
-        elementRef={svgRef}
-        onRender={onRender}
-        padding={4}
-      />
+    <DataDiv bg={canvasBg} border={canvasBorder}>
+      <FrameSVGUnderline elementRef={svgRef} onRender={onRender} />
       <Box position="relative" visibility={show ? 'visible' : 'hidden'}>
         {children}
       </Box>
@@ -65,18 +43,8 @@ const AnimatedFrameContent = ({
   );
 };
 
-export const AnimatedFrame = ({
-  children,
-  bg,
-  show,
-}: {
-  children?: ReactNode;
-  bg?: string;
-  show: boolean;
-}) => (
-  <Animator active={show}>
-    <AnimatedFrameContent show={show} bg={bg}>
-      {children}
-    </AnimatedFrameContent>
+export const UnderlinedFrame = ({ children }: { children?: ReactNode }) => (
+  <Animator active={true}>
+    <UnderlinedFrameContent show={true}>{children}</UnderlinedFrameContent>
   </Animator>
 );

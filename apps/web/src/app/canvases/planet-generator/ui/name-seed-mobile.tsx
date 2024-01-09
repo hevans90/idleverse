@@ -40,11 +40,11 @@ export const NameSeedMobile = () => {
       padding={2}
     >
       <HStack>
-        <Text minWidth="100px" fontSize={['xxs', 'xs']}>
+        <Text minWidth="100px" fontSize={['2xs', 'xs']}>
           name
         </Text>
         <Input
-          fontSize="xxs"
+          fontSize="2xs"
           value={localConfigValues.name}
           maxLength={25}
           flexGrow="1"
@@ -81,11 +81,11 @@ export const NameSeedMobile = () => {
         />
       </HStack>
       <HStack>
-        <Text minWidth="100px" fontSize={['xxs', 'xs']}>
+        <Text minWidth="100px" fontSize={['2xs', 'xs']}>
           seed
         </Text>
         <Input
-          fontSize="xxs"
+          fontSize="2xs"
           value={localConfigValues.seed}
           flexGrow="1"
           isReadOnly={true}

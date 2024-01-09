@@ -105,11 +105,11 @@ export const PlanetGeneratorSliders = () => {
         marginRight="2rem"
       >
         <HStack mb={1}>
-          <Text minWidth="100px" fontSize={['xxs', 'xs']}>
+          <Text minWidth="100px" fontSize={['2xs', 'xs']}>
             name
           </Text>
           <Input
-            fontSize="xxs"
+            fontSize="2xs"
             value={localConfigValues.name}
             maxLength={25}
             flexGrow="1"
@@ -146,11 +146,11 @@ export const PlanetGeneratorSliders = () => {
           />
         </HStack>
         <HStack>
-          <Text minWidth="100px" fontSize={['xxs', 'xs']}>
+          <Text minWidth="100px" fontSize={['2xs', 'xs']}>
             seed
           </Text>
           <Input
-            fontSize="xxs"
+            fontSize="2xs"
             value={localConfigValues.seed}
             flexGrow="1"
             isReadOnly={true}
@@ -189,7 +189,7 @@ export const PlanetGeneratorSliders = () => {
             justifyContent="space-between"
             spacing={5}
           >
-            <Text minWidth="250px" fontSize={['xxs', 'xs']}>
+            <Text minWidth="250px" fontSize={['2xs', 'xs']}>
               {slider.displayName}
             </Text>
             <Slider
