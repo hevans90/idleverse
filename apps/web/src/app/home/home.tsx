@@ -22,7 +22,6 @@ import { responsiveFontProps } from '../_responsive-utils/font-props';
 
 import { colorsVar, layoutVar, roleVar, selfVar } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
-import { Loading } from '../components/loading';
 
 export const Home = () => {
   const { id: userId } = useReactiveVar(selfVar);
@@ -55,9 +54,6 @@ export const Home = () => {
     GalacticEmpiresByUserIdSubscription,
     GalacticEmpiresByUserIdSubscriptionVariables
   >(GalacticEmpiresByUserIdDocument, { variables: { userId } });
-
-  if (loadingGameplaySessions)
-    return <Loading text="Loading gameplay sessions"></Loading>;
 
   return (
     <Box
@@ -118,13 +114,14 @@ export const Home = () => {
           width="100%"
           height={['75%', '75%', '75%', '100%']}
         >
-          <>
-            <Text marginBottom={5} textAlign="center">
-              You have {data.galactic_empire.length} galactic&nbsp;
-              {data.galactic_empire.length === 1 ? 'empire' : 'empires'}.
-            </Text>
+          {loadingGameplaySessions ? <>Loading</> : null}
+          {!loadingGameplaySessions && data.galactic_empire.length > 0 ? (
+            <>
+              <Text marginBottom={5} textAlign="center">
+                You have {data.galactic_empire.length} galactic&nbsp;
+                {data.galactic_empire.length === 1 ? 'empire' : 'empires'}.
+              </Text>
 
-            {data.galactic_empire.length > 0 && (
               <SimpleGrid
                 width="100%"
                 maxWidth={['unset', 'unset', 'unset', '1000px']}
@@ -220,8 +217,8 @@ export const Home = () => {
                   )
                 )}
               </SimpleGrid>
-            )}
-          </>
+            </>
+          ) : null}
         </VStack>
       </Stack>
     </Box>
