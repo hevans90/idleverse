@@ -11085,13 +11085,6 @@ export type GalaxiesSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 export type GalaxiesSubscription = { __typename?: 'subscription_root', galaxy: Array<{ __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, name?: string | null } | null }> }> };
 
-export type GalaxiesWithOwnedCelestialsSubscriptionVariables = Exact<{
-  userId: Scalars['String']['input'];
-}>;
-
-
-export type GalaxiesWithOwnedCelestialsSubscription = { __typename?: 'subscription_root', galaxy_aggregate: { __typename?: 'galaxy_aggregate', nodes: Array<{ __typename?: 'galaxy', id: string }> } };
-
 export type GalaxyByIdQueryVariables = Exact<{
   id: Scalars['uuid']['input'];
 }>;
@@ -12009,16 +12002,6 @@ export const GalaxiesDocument = gql`
 }
     ${GalaxyFieldsFragmentDoc}`;
 export type GalaxiesSubscriptionResult = Apollo.SubscriptionResult<GalaxiesSubscription>;
-export const GalaxiesWithOwnedCelestialsDocument = gql`
-    subscription GalaxiesWithOwnedCelestials($userId: String!) {
-  galaxy_aggregate(where: {celestials: {owner_id: {_eq: $userId}}}) {
-    nodes {
-      id
-    }
-  }
-}
-    `;
-export type GalaxiesWithOwnedCelestialsSubscriptionResult = Apollo.SubscriptionResult<GalaxiesWithOwnedCelestialsSubscription>;
 export const GalaxyByIdDocument = gql`
     query GalaxyById($id: uuid!) {
   galaxy_by_pk(id: $id) {

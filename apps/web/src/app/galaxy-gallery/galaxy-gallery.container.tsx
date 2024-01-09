@@ -1,17 +1,19 @@
 import { useReactiveVar, useSubscription } from '@apollo/client';
 import { Box, Link, Text } from '@chakra-ui/layout';
-import { Button, VStack } from '@chakra-ui/react';
+import { Button, Flex, VStack } from '@chakra-ui/react';
 import {
+  GalacticEmpiresByUserIdDocument,
+  GalacticEmpiresByUserIdSubscription,
+  GalacticEmpiresByUserIdSubscriptionVariables,
   GalaxiesDocument,
   GalaxiesSubscription,
-  GalaxiesWithOwnedCelestialsDocument,
-  GalaxiesWithOwnedCelestialsSubscription,
 } from '@idleverse/galaxy-gql';
 import { useEffect, useState } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { Loading } from '../components/loading';
 
 import { colorsVar, selfVar } from '@idleverse/state';
+import { headerResponsiveFontProps } from '../_responsive-utils/font-props';
 import { GalaxyTile } from './galaxy-tile';
 
 export const GalaxyGalleryContainer = () => {
@@ -19,11 +21,10 @@ export const GalaxyGalleryContainer = () => {
 
   const { secondary } = useReactiveVar(colorsVar);
 
-  const { data: myGalaxyIds, loading: myGalaxyIdsLoading } =
-    useSubscription<GalaxiesWithOwnedCelestialsSubscription>(
-      GalaxiesWithOwnedCelestialsDocument,
-      { variables: { userId } }
-    );
+  const { data: myEmpires, loading: loadingMyEmpires } = useSubscription<
+    GalacticEmpiresByUserIdSubscription,
+    GalacticEmpiresByUserIdSubscriptionVariables
+  >(GalacticEmpiresByUserIdDocument, { variables: { userId } });
 
   const { data, loading } =
     useSubscription<GalaxiesSubscription>(GalaxiesDocument);
@@ -35,49 +36,63 @@ export const GalaxyGalleryContainer = () => {
     useState<GalaxiesSubscription['galaxy']>(null);
 
   useEffect(() => {
-    if (data && myGalaxyIds) {
+    if (data && myEmpires) {
+      const myGalaxyIds = myEmpires.galactic_empire.map(
+        ({ galaxy: { id } }) => id
+      );
+
       setGalaxiesToJoin(
-        data.galaxy.filter(
-          ({ id }) =>
-            !myGalaxyIds.galaxy_aggregate.nodes.map(({ id }) => id).includes(id)
-        )
+        data.galaxy.filter(({ id }) => !myGalaxyIds.includes(id))
       );
 
       setGalaxiesJoined(
-        data.galaxy.filter(({ id }) =>
-          myGalaxyIds.galaxy_aggregate.nodes.map(({ id }) => id).includes(id)
-        )
+        data.galaxy.filter(({ id }) => myGalaxyIds.includes(id))
       );
     }
-  }, [data, myGalaxyIds, loading, myGalaxyIdsLoading]);
+  }, [data, myEmpires, loading, loadingMyEmpires]);
 
-  if (loading || myGalaxyIdsLoading) {
+  if (loading || loadingMyEmpires) {
     return (
       <Loading text="Loading Galaxies" height="100%" width="100%"></Loading>
     );
   }
 
-  return data.galaxy.length && myGalaxyIds.galaxy_aggregate ? (
-    <VStack width="100%" paddingTop={10}>
-      <Text padding={5}>Galaxies to join</Text>
-      <Box display="flex" flexWrap="wrap" justifyContent="center">
-        {galaxiesToJoin &&
-          galaxiesToJoin.map((galaxyConfig, i) => (
-            <GalaxyTile
-              key={i}
-              {...{
-                alreadyJoined: false,
-                galaxyConfig,
-                i,
-                displayOwnershipTotals: false,
-                totalUserOwns: 0,
-              }}
-            />
-          ))}
-      </Box>
+  return data.galaxy.length && myEmpires.galactic_empire.length ? (
+    <VStack
+      paddingTop={10}
+      gap={5}
+      height="100%"
+      alignItems="center"
+      justifyContent="center"
+    >
+      {galaxiesToJoin?.length && (
+        <>
+          <Text textAlign="center" {...headerResponsiveFontProps}>
+            Galaxies to join:
+          </Text>
+          <Flex gap={5} wrap="wrap" alignItems="center" justifyContent="center">
+            {galaxiesToJoin &&
+              galaxiesToJoin.map((galaxyConfig, i) => (
+                <GalaxyTile
+                  key={i}
+                  {...{
+                    alreadyJoined: false,
+                    galaxyConfig,
+                    i,
+                    displayOwnershipTotals: false,
+                    totalUserOwns: 0,
+                  }}
+                />
+              ))}
+          </Flex>
+        </>
+      )}
 
-      <Text padding={5}>Already joined</Text>
-      <Box display="flex" flexWrap="wrap" justifyContent="center">
+      <Text textAlign="center" {...headerResponsiveFontProps}>
+        Already joined:
+      </Text>
+      <Flex gap={5} wrap="wrap" alignItems="center" justifyContent="center">
+        {/* <SimpleGrid minChildWidth="220px" spacing="40px"> */}
         {galaxiesJoined &&
           galaxiesJoined.map((galaxyConfig, i) => (
             <GalaxyTile
@@ -87,13 +102,14 @@ export const GalaxyGalleryContainer = () => {
                 galaxyConfig,
                 i,
                 displayOwnershipTotals: true,
-                totalUserOwns: myGalaxyIds.galaxy_aggregate.nodes.filter(
-                  (x) => x.id === galaxyConfig.id
-                ).length,
+                totalUserOwns:
+                  myEmpires.galactic_empire.find(
+                    ({ galaxy: { id } }) => id === galaxyConfig.id
+                  )?.celestials?.length ?? 0,
               }}
             />
           ))}
-      </Box>
+      </Flex>
     </VStack>
   ) : (
     <Box
