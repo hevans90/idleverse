@@ -152,9 +152,7 @@ export const JoinGalaxy = () => {
   useEffect(() => {
     return () => {
       characterCreationVar({
-        race: undefined,
-        background: undefined,
-        faction: undefined,
+        ...characterCreationVar(),
         homeworld: undefined,
       });
     };
@@ -306,10 +304,11 @@ export const JoinGalaxy = () => {
           ref={tileContainerRef}
           height="30vw"
           width="30vw"
-          minWidth="xs"
-          minHeight="xs"
-          maxHeight="md"
-          maxWidth="md"
+          minHeight={['75vw', '75vw', '50vw', 250]}
+          minWidth={['75vw', '75vw', '50vw', 250]}
+          maxHeight={[200, 350]}
+          maxWidth={[200, 350]}
+          // maxWidth="md"
         >
           <Stage
             height={tileHeight}
