@@ -29,7 +29,10 @@ export const useUiBackground = () => {
     colors[primary][colorMode === 'dark' ? '900' : '300'];
 
   const canvasBorder: string =
-    colors[primary][colorMode === 'dark' ? '600' : '200'];
+    colors[primary][colorMode === 'dark' ? '200' : '600'];
+
+  const canvasBorderSecondary: string =
+    colors[secondary][colorMode === 'dark' ? '600' : '200'];
 
   return {
     bg,
@@ -42,5 +45,6 @@ export const useUiBackground = () => {
     canvasBg,
     canvasBgDarker,
     canvasBorder,
+    canvasBorderSecondary,
   };
 };

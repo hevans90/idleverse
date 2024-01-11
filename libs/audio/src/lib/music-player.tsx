@@ -1,4 +1,3 @@
-import { useUiBackground } from '@idleverse/theme';
 import { AnimatedFrame } from '@idleverse/ui';
 import { intervalToDuration } from 'date-fns';
 
@@ -268,8 +267,6 @@ export const MusicPlayer = ({
 }: {
   environment: { secure: boolean; minioUri: string };
 }) => {
-  const { bg, border } = useUiBackground();
-
   const [dragging, setDragging] = useState(false);
   const [zIndex, setZIndex] = useState(2);
 
