@@ -5,8 +5,9 @@ import {
   TerrainHexPalettesQuery,
 } from '@idleverse/galaxy-gql';
 import { colors, hexStringToNumber } from '@idleverse/theme';
-import { Stats } from '@react-three/drei';
+import { OrbitControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
+
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { DataTexture } from 'three';
 import { Loading } from '../../components/loading';
@@ -161,7 +162,12 @@ export const PlanetGenerator = ({
               bgColor={hexStringToNumber(colors[primary]['800'])}
               pixelSize={pixelSize}
             />
-            <Stats className="planet-gen-stats" parent={containerRef} />
+            <OrbitControls
+              minPolarAngle={Math.PI / 16}
+              maxPolarAngle={Math.PI - Math.PI / 16}
+              minDistance={5}
+              maxDistance={100}
+            />
           </Canvas>
         </Suspense>
       </Box>

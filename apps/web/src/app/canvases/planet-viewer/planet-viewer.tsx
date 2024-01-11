@@ -20,6 +20,7 @@ import {
 import { colors } from '@idleverse/theme';
 
 import { rgb } from '@idleverse/models';
+import { OrbitControls } from '@react-three/drei';
 import { GameUI } from '../../game-ui/game-ui';
 import { useEmpire } from '../../hooks/use-my-empire';
 import { useResize } from '../_utils/use-resize.hook';
@@ -160,13 +161,7 @@ export const PlanetViewer = () => {
               }}
             >
               <color attach="background" args={[0, 0, 0]} />
-              {/* <Stars
-                radius={40}
-                starCount={0.5}
-                starBrightness={0.2}
-                rotationSpeed={0.001}
-                colorVariation={1}
-              /> */}
+
               <Stars
                 radius={8}
                 starCount={0.1}
@@ -217,6 +212,12 @@ export const PlanetViewer = () => {
               <Pixelate
                 bgColor={hexStringToNumber(colors[primary]['800'])}
                 pixelSize={4}
+              />
+              <OrbitControls
+                minPolarAngle={Math.PI / 16}
+                maxPolarAngle={Math.PI - Math.PI / 16}
+                minDistance={5}
+                maxDistance={100}
               />
             </Canvas>
 
