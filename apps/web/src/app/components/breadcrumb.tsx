@@ -1,13 +1,21 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import { useReactiveVar } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
 
+import styled from '@emotion/styled';
 import { celestialVar, galaxyConfigVar, planetVar } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
 import { responsiveFontProps } from '../_responsive-utils/font-props';
 
-export const BREADCRUMB_HEIGHT = 55;
+export const BREADCRUMB_HEIGHT = '40px';
+
+export const InlineSpan = styled.span`
+  display: inline-flex;
+  height: 100%;
+  align-items: center;
+`;
 
 export const Breadcrumb = () => {
   const { bg, border } = useUiBackground();
@@ -19,15 +27,15 @@ export const Breadcrumb = () => {
   const crumbs = useBreadcrumbs([
     {
       path: '/galaxies/:id',
-      breadcrumb: () => <span>{galaxyName}</span>,
+      breadcrumb: () => <>{galaxyName}</>,
     },
     {
       path: '/celestials/:id',
-      breadcrumb: () => <span>{celestial?.name}</span>,
+      breadcrumb: () => <>{celestial?.name}</>,
     },
     {
       path: '/planets/:id',
-      breadcrumb: () => <span>{planet?.name}</span>,
+      breadcrumb: () => <>{planet?.name}</>,
     },
   ]);
 
@@ -37,12 +45,12 @@ export const Breadcrumb = () => {
   }
   return (
     <Box
-      padding="1rem"
-      height={`${BREADCRUMB_HEIGHT}px`}
+      padding={[3, 3, 2]}
+      height={BREADCRUMB_HEIGHT}
       display={['none', 'none', 'flex']}
       flexDirection="row"
       position="absolute"
-      alignItems="start"
+      justifyContent="center"
       bgColor={bg}
       top="0"
       left="0"
@@ -55,12 +63,10 @@ export const Breadcrumb = () => {
       {...responsiveFontProps}
     >
       {crumbs.map(({ key, match, breadcrumb }, i) => (
-        <span key={match.pathname}>
-          <Link to={match.pathname}>
-            {i !== 0 ? <>&nbsp;&gt;&nbsp;</> : null}
-            {breadcrumb}
-          </Link>
-        </span>
+        <Link key={match.pathname} to={match.pathname}>
+          {i !== 0 ? <>&nbsp;&gt;&nbsp;</> : null}
+          <InlineSpan>{breadcrumb}</InlineSpan>
+        </Link>
       ))}
     </Box>
   );
