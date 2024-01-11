@@ -25,6 +25,7 @@ const DataDiv = styled.div<{ bg: string; border: string }>`
 const AnimatedFrameContent = ({
   children,
   bg,
+  border,
   borderStrokeWidth = 1,
   show,
   leftTop = true,
@@ -34,6 +35,7 @@ const AnimatedFrameContent = ({
 }: {
   children?: ReactNode;
   bg?: string;
+  border?: string;
   borderStrokeWidth?: number;
   leftTop?: boolean;
   rightTop?: boolean;
@@ -46,7 +48,7 @@ const AnimatedFrameContent = ({
   const svgRef = useRef<SVGSVGElement | null>(null);
   const { onRender } = useFrameSVGAssemblingAnimation(svgRef);
   return (
-    <DataDiv bg={bg ?? canvasBg} border={canvasBorder}>
+    <DataDiv bg={bg ?? canvasBg} border={border ?? canvasBorder}>
       <FrameSVGOctagon
         squareSize={20}
         strokeWidth={borderStrokeWidth}
@@ -68,14 +70,16 @@ const AnimatedFrameContent = ({
 export const AnimatedFrame = ({
   children,
   bg,
+  border,
   show,
 }: {
   children?: ReactNode;
   bg?: string;
+  border?: string;
   show: boolean;
 }) => (
   <Animator active={show}>
-    <AnimatedFrameContent show={show} bg={bg}>
+    <AnimatedFrameContent show={show} bg={bg} border={border}>
       {children}
     </AnimatedFrameContent>
   </Animator>
