@@ -1,3 +1,4 @@
+/* eslint-disable @nx/enforce-module-boundaries */
 import { useReactiveVar } from '@apollo/client';
 import { useColorMode, useColorModeValue } from '@chakra-ui/react';
 

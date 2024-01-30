@@ -1,5 +1,6 @@
-import { Box, keyframes, Text, TypographyProps } from '@chakra-ui/react';
+import { Box, Text, TypographyProps } from '@chakra-ui/react';
 import { useUiBackground } from '@idleverse/theme';
+import { BlinkingText } from '@idleverse/ui';
 
 type LoadingProps = {
   height?: string;
@@ -16,26 +17,6 @@ export const Loading = ({
 }: LoadingProps | undefined) => {
   const { bgDark } = useUiBackground();
 
-  const ellipsis = keyframes`
-  to {
-    width: 6.5rem;    
-  }`;
-
-  const loadingEllipsis = {
-    _after: {
-      overflow: 'hidden',
-      position: 'absolute',
-      left: '98%',
-      verticalAlign: 'bottom',
-      animation: `${ellipsis} steps(4,end) 900ms infinite`,
-      content: `"..."`,
-      width: 0,
-      fontSize: fontSize,
-      whiteSpace: 'nowrap',
-      letterSpacing: ['8px', '-1px', '-8px', '-15px'],
-    },
-  };
-
   return (
     <Box
       bg={bgDark}
@@ -46,9 +27,12 @@ export const Loading = ({
       justifyContent="center"
       textAlign="center"
     >
-      <Text fontSize={fontSize} position="relative" {...loadingEllipsis}>
+      <Text fontSize={fontSize} position="relative">
         {text}
       </Text>
+      <BlinkingText fontSize={fontSize} interval={0.5}>
+        .
+      </BlinkingText>
     </Box>
   );
 };

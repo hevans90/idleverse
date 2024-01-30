@@ -21,22 +21,22 @@ export const routes = [
   { path: '/showreel', name: 'showreel', component: Showreel },
   { path: '/galaxies', name: 'galaxies', component: GalaxyGalleryContainer },
   {
-    path: '/galaxies/:id',
+    path: '/galaxies/:name',
     name: 'view-galaxy',
     component: GalaxyViewerContainer,
   },
   {
-    path: '/galaxies/:id/join',
+    path: '/galaxies/:name/join',
     name: 'view-galaxy',
     component: JoinGalaxy,
   },
   {
-    path: '/celestials/:id',
+    path: '/celestials/:name',
     name: 'view-celestial',
     component: CelestialViewerContainer,
   },
   {
-    path: '/planets/:id',
+    path: '/planets/:name',
     name: 'view-planet',
     component: PlanetViewer,
   },

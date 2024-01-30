@@ -250,7 +250,7 @@ const PlanetInfo = ({
 
         <Link
           as={ReactRouterLink}
-          to={`/planets/${planetInfo.id}`}
+          to={`/planets/${planetInfo.name}`}
           width="100%"
         >
           <Button width="100%" {...responsiveFontProps}>

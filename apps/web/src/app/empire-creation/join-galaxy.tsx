@@ -18,8 +18,9 @@ import {
   CreatePlanetDocument,
   CreatePlanetMutation,
   CreatePlanetMutationVariables,
-  GalaxyByIdDocument,
-  GalaxyByIdQuery,
+  GalaxyByNameDocument,
+  GalaxyByNameQuery,
+  GalaxyByNameQueryVariables,
 } from '@idleverse/galaxy-gql';
 import { Stage } from '@pixi/react';
 import { useEffect, useRef, useState } from 'react';
@@ -49,14 +50,14 @@ export const JoinGalaxy = () => {
 
   const { id: userId } = useReactiveVar(selfVar);
 
-  const { id } = useParams<{ id: string }>();
+  const { name } = useParams<{ name: string }>();
 
-  const { data: galaxyData, loading } = useQuery<GalaxyByIdQuery>(
-    GalaxyByIdDocument,
-    {
-      variables: { id },
-    }
-  );
+  const { data: galaxyData, loading } = useQuery<
+    GalaxyByNameQuery,
+    GalaxyByNameQueryVariables
+  >(GalaxyByNameDocument, {
+    variables: { name },
+  });
 
   const [alreadyJoinedGalaxy, setalreadyJoinedGalaxy] =
     useState<boolean>(false);
@@ -121,7 +122,7 @@ export const JoinGalaxy = () => {
       variables: {
         input: {
           user_id: userId,
-          galaxy_id: galaxyData.galaxy_by_pk.id,
+          galaxy_id: galaxyData.galaxy?.[0].id,
           playable_race_id: characterCreationState.race.id,
           background_id: characterCreationState.background.id,
           faction_id: characterCreationState.faction.id,
@@ -132,7 +133,7 @@ export const JoinGalaxy = () => {
     setEmpireCreationStatus('origin system');
     const celestial = await createEmpireOriginCelestial({
       variables: {
-        galaxy_id: galaxyData.galaxy_by_pk.id,
+        galaxy_id: galaxyData.galaxy?.[0].id,
         galacticEmpireId: empireData.insert_galactic_empire_one.id,
       },
     });
@@ -152,20 +153,18 @@ export const JoinGalaxy = () => {
   useEffect(() => {
     return () => {
       characterCreationVar({
-        race: undefined,
-        background: undefined,
-        faction: undefined,
+        ...characterCreationVar(),
         homeworld: undefined,
       });
     };
   }, []);
 
   useEffect(() => {
-    if (galaxyData) {
-      galaxyConfigVar(dbGalaxyToGalaxyConfig(galaxyData.galaxy_by_pk));
+    if (galaxyData?.[0]) {
+      galaxyConfigVar(dbGalaxyToGalaxyConfig(galaxyData.galaxy[0]));
 
       const userAlreadyHasAnEmpireHere =
-        galaxyData.galaxy_by_pk.galactic_empires.find(
+        galaxyData.galaxy[0].galactic_empires.find(
           ({ user_id }) => user_id === userId
         );
 
@@ -221,7 +220,7 @@ export const JoinGalaxy = () => {
         </Text>
         <Link
           as={ReactRouterLink}
-          to={`/galaxies/${galaxyData.galaxy_by_pk.id}`}
+          to={`/galaxies/${galaxyData.galaxy[0].name}`}
         >
           <Button>Galaxy View</Button>
         </Link>
@@ -245,11 +244,19 @@ export const JoinGalaxy = () => {
         <Text>Your empire was founded successfully.</Text>
         <Link
           as={ReactRouterLink}
-          to={`/galaxies/${galaxyData.galaxy_by_pk.id}`}
+          to={`/galaxies/${galaxyData.galaxy[0].name}`}
         >
           <Button>Begin</Button>
         </Link>
       </VStack>
+    );
+  }
+
+  if (!galaxyData.galaxy.length) {
+    return (
+      <Box h="100%" display="flex" alignItems="center" justifyContent="center">
+        Something went wrong. There is no galaxy to join.
+      </Box>
     );
   }
 
@@ -298,7 +305,7 @@ export const JoinGalaxy = () => {
         <VStack spacing={3}>
           <Text textAlign="center">It's time to begin your journey in:</Text>
           <Text textAlign="center" fontWeight="bold" color={`${secondary}.500`}>
-            {galaxyData.galaxy_by_pk.name}
+            {galaxyData.galaxy[0].name}
           </Text>
         </VStack>
 
@@ -306,10 +313,11 @@ export const JoinGalaxy = () => {
           ref={tileContainerRef}
           height="30vw"
           width="30vw"
-          minWidth="xs"
-          minHeight="xs"
-          maxHeight="md"
-          maxWidth="md"
+          minHeight={['75vw', '75vw', '50vw', 250]}
+          minWidth={['75vw', '75vw', '50vw', 250]}
+          maxHeight={[200, 350]}
+          maxWidth={[200, 350]}
+          // maxWidth="md"
         >
           <Stage
             height={tileHeight}
@@ -320,7 +328,7 @@ export const JoinGalaxy = () => {
             }}
           >
             <GalaxyThumbnail
-              galaxyConfig={dbGalaxyToGalaxyConfig(galaxyData.galaxy_by_pk)}
+              galaxyConfig={dbGalaxyToGalaxyConfig(galaxyData.galaxy[0])}
             />
           </Stage>
         </Box>

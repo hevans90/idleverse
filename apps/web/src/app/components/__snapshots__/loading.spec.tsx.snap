@@ -6,10 +6,15 @@ exports[`loading should render 1`] = `
     class="css-sidcim"
   >
     <p
-      class="chakra-text css-1i3wv1p"
+      class="chakra-text css-17vwc26"
     >
       Loading
     </p>
+    <span
+      class="chakra-text css-a0yd5z"
+    >
+      .
+    </span>
   </div>
   <span
     hidden=""
@@ -24,10 +29,15 @@ exports[`loading should render custom text 1`] = `
     class="css-sidcim"
   >
     <p
-      class="chakra-text css-1i3wv1p"
+      class="chakra-text css-17vwc26"
     >
       Loading memes
     </p>
+    <span
+      class="chakra-text css-a0yd5z"
+    >
+      .
+    </span>
   </div>
   <span
     hidden=""
@@ -42,10 +52,15 @@ exports[`loading should render custom text and size 1`] = `
     class="css-n4refw"
   >
     <p
-      class="chakra-text css-1i3wv1p"
+      class="chakra-text css-17vwc26"
     >
       Loading memes
     </p>
+    <span
+      class="chakra-text css-a0yd5z"
+    >
+      .
+    </span>
   </div>
   <span
     hidden=""

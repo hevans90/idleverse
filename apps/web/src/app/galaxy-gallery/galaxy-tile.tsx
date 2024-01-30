@@ -53,7 +53,7 @@ export const GalaxyTile = ({
     },
   };
 
-  const galaxyUrl = `/galaxies/${galaxyConfig.id}`;
+  const galaxyUrl = `/galaxies/${galaxyConfig.name}`;
 
   const alreadyJoinedProps = {
     as: ReactRouterLink,

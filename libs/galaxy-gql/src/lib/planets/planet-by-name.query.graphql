@@ -1,0 +1,5 @@
+query PlanetByName($name: String!) {
+  planet(where: { name: { _eq: $name } }) {
+    ...PlanetFields
+  }
+}

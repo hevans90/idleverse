@@ -12,7 +12,7 @@ type PlayerPanelProps = {
   owners: CelestialOwner[];
   loading: boolean;
   error?: ApolloError;
-  galaxyId: string;
+  galaxyName: string;
   userId: string;
 };
 
@@ -20,7 +20,7 @@ export const PlayerPanel = ({
   owners,
   loading,
   error,
-  galaxyId,
+  galaxyName,
   userId,
 }: PlayerPanelProps) => {
   const { bg, border } = useUiBackground();
@@ -75,7 +75,7 @@ export const PlayerPanel = ({
       {(!owners.length || !userHasEmpire) && (
         <Link
           as={ReactRouterLink}
-          to={`/galaxies/${galaxyId}/join`}
+          to={`/galaxies/${galaxyName}/join`}
           width="100%"
           mt={3}
         >

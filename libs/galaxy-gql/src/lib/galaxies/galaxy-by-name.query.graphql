@@ -1,0 +1,5 @@
+query GalaxyByName($name: String!) {
+  galaxy(where: { name: { _eq: $name } }) {
+    ...GalaxyFields
+  }
+}

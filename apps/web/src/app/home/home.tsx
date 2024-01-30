@@ -141,6 +141,7 @@ export const Home = () => {
                     i
                   ) => (
                     <AnimatedFrame
+                      key={i}
                       show
                       bg={canvasBgDarker}
                       border={canvasBorderSecondary}
@@ -175,11 +176,11 @@ export const Home = () => {
                           maxHeight="200px"
                           overflow="auto"
                         >
-                          {ownedCelestials.map(({ id, name, planets }, i) => (
+                          {ownedCelestials.map(({ name, planets }, i) => (
                             <Link
-                              key={i}
+                              key={name}
                               as={ReactRouterLink}
-                              to={`/celestials/${id}`}
+                              to={`/celestials/${name}`}
                               borderRadius="3px"
                               borderWidth="1px"
                               borderStyle="solid"
@@ -207,7 +208,7 @@ export const Home = () => {
                           <Link
                             width="100%"
                             as={ReactRouterLink}
-                            to={`/galaxies/${galaxyId}`}
+                            to={`/galaxies/${name}`}
                           >
                             <Button width="100%" {...responsiveFontProps}>
                               Visit

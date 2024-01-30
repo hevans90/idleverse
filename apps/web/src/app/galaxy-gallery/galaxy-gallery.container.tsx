@@ -92,7 +92,6 @@ export const GalaxyGalleryContainer = () => {
         Already joined:
       </Text>
       <Flex gap={5} wrap="wrap" alignItems="center" justifyContent="center">
-        {/* <SimpleGrid minChildWidth="220px" spacing="40px"> */}
         {galaxiesJoined &&
           galaxiesJoined.map((galaxyConfig, i) => (
             <GalaxyTile

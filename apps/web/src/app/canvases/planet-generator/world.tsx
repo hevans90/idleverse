@@ -70,8 +70,8 @@ export const World = ({
 
   return (
     <>
-      <ambientLight intensity={1} />
-      <directionalLight />
+      <ambientLight intensity={0.2} />
+      <directionalLight intensity={2} color="white" position={[10, 10, 0]} />
 
       {rings.map(({ innerRadius, outerRadius, id, rotation }, index) => (
         <mesh

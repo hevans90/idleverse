@@ -1,0 +1,5 @@
+query CelestialByName($name: String!) {
+  celestial(where: { name: { _eq: $name } }) {
+    ...CelestialFields
+  }
+}

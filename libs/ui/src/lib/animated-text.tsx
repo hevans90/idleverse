@@ -24,6 +24,7 @@ export const AnimatedText: FC<TextProps> = ({
   return (
     <Animator active={true}>
       <ArwesText
+        as="div"
         manager="decipher"
         easing="outSine"
         fixed

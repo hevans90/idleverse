@@ -5,8 +5,9 @@ import {
   CelestialsByGalaxyIdDocument,
   CelestialsByGalaxyIdSubscription,
   CelestialsByGalaxyIdSubscriptionVariables,
-  GalaxyByIdSubDocument,
-  GalaxyByIdSubSubscription,
+  GalaxyByNameSubDocument,
+  GalaxyByNameSubSubscription,
+  GalaxyByNameSubSubscriptionVariables,
   UserInfoByIdDocument,
   UserInfoByIdQuery,
 } from '@idleverse/galaxy-gql';
@@ -23,21 +24,23 @@ import {
   myEmpireVar,
   selfVar,
 } from '@idleverse/state';
+import { celestialOwnerMapper } from './celestial-owner';
 import { GalaxyViewer } from './galaxy-viewer';
+import { PlayerPanel } from './ui/player-panel';
 
 export const GalaxyViewerContainer = () => {
-  const { id } = useParams<{ id: string }>();
+  const { name } = useParams<{ name: string }>();
 
   const { id: userId } = useReactiveVar(selfVar);
 
   const [userByIdQuery] = useLazyQuery<UserInfoByIdQuery>(UserInfoByIdDocument);
 
-  const { data, loading } = useSubscription<GalaxyByIdSubSubscription>(
-    GalaxyByIdSubDocument,
-    {
-      variables: { id },
-    }
-  );
+  const { data, loading: galaxyLoading } = useSubscription<
+    GalaxyByNameSubSubscription,
+    GalaxyByNameSubSubscriptionVariables
+  >(GalaxyByNameSubDocument, {
+    variables: { name },
+  });
 
   const navigate = useNavigate();
 
@@ -49,15 +52,16 @@ export const GalaxyViewerContainer = () => {
     CelestialsByGalaxyIdSubscription,
     CelestialsByGalaxyIdSubscriptionVariables
   >(CelestialsByGalaxyIdDocument, {
-    variables: { id },
+    variables: { id: data?.galaxy[0]?.id },
+    skip: galaxyLoading,
   });
 
   useEffect(() => {
-    if (data) {
-      galaxyConfigVar(dbGalaxyToGalaxyConfig(data.galaxy_by_pk));
+    if (data?.galaxy?.[0]) {
+      galaxyConfigVar(dbGalaxyToGalaxyConfig(data.galaxy[0]));
 
-      const myEmpire = data.galaxy_by_pk.galactic_empires.find(
-        (x) => x.user_id === userId
+      const myEmpire = data.galaxy[0].galactic_empires.find(
+        ({ user_id }) => user_id === userId
       );
 
       if (myEmpire) {
@@ -72,20 +76,20 @@ export const GalaxyViewerContainer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  if (loading || celestialLoading) {
+  if (galaxyLoading || celestialLoading) {
     return <Loading width="100%" height="100%" text="Loading Galaxy"></Loading>;
-  } else if (data && celestialData) {
+  } else if (data.galaxy?.[0] && celestialData) {
     return (
       <PixiWrapper
         ui={
           <>
-            {/* <PlayerPanel
+            <PlayerPanel
               userId={userId}
-              galaxyId={data.galaxy_by_pk.id}
+              galaxyName={data.galaxy[0].name}
               owners={celestialOwnerMapper(celestialData)}
               loading={celestialLoading}
               error={celestialError}
-            ></PlayerPanel> */}
+            ></PlayerPanel>
             <GameUIBottomBar bottom={0} />
           </>
         }
@@ -93,7 +97,7 @@ export const GalaxyViewerContainer = () => {
         <GalaxyViewer
           newUserQuery={userByIdQuery}
           claimedCelestials={celestialData.galaxy_by_pk.celestials}
-          galaxyConfig={dbGalaxyToGalaxyConfig(data.galaxy_by_pk)}
+          galaxyConfig={dbGalaxyToGalaxyConfig(data.galaxy[0])}
           navigate={navigate}
         />
       </PixiWrapper>

@@ -1,46 +1,5 @@
 query PlanetById($id: uuid!) {
   planet_by_pk(id: $id) {
-    atmospheric_distance
-    id
-    name
-    owner_id
-    radius
-    terrain_bias
-    terrain_hex_palette {
-      forest
-      grass
-      name
-      sand
-      water
-      id
-    }
-    texture_resolution
-    rings {
-      colors
-      id
-      inner_radius
-      outer_radius
-      resolution
-      rotation
-      terrain_bias
-      type
-    }
-    user_info {
-      avatar_url
-      name
-      nickname
-      id
-    }
-    celestial {
-      name
-      planets_aggregate {
-        aggregate {
-          count
-        }
-      }
-      galactic_empire {
-        ...GalacticEmpireFields
-      }
-    }
+    ...PlanetFields
   }
 }

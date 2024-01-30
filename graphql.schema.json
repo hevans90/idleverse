@@ -4586,6 +4586,12 @@
         "interfaces": null,
         "enumValues": [
           {
+            "name": "celestial_name_key",
+            "description": "unique or primary key constraint on columns \"name\"",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "system_pkey",
             "description": "unique or primary key constraint on columns \"id\"",
             "isDeprecated": false,
@@ -19577,6 +19583,12 @@
         "inputFields": null,
         "interfaces": null,
         "enumValues": [
+          {
+            "name": "galaxy_name_key",
+            "description": "unique or primary key constraint on columns \"name\"",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "galaxy_pkey",
             "description": "unique or primary key constraint on columns \"id\"",

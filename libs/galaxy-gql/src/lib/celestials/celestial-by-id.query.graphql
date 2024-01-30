@@ -1,35 +1,5 @@
 query CelestialById($id: String!) {
   celestial_by_pk(id: $id) {
-    id
-    name
-    owner_id
-    user_info {
-      display_name
-      id
-      avatar_url
-    }
-    planets {
-      id
-      name
-      radius
-      rings {
-        id
-        type
-        colors
-      }
-      terrain_bias
-      texture_resolution
-      atmospheric_distance
-      terrain_hex_palette {
-        forest
-        grass
-        name
-        sand
-        water
-      }
-    }
-    galactic_empire {
-      ...GalacticEmpireFields
-    }
+    ...CelestialFields
   }
 }

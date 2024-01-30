@@ -11,6 +11,7 @@ export type StarProps = {
   isClaimed?: boolean;
   ownerId?: string;
   avatarTexture?: Texture;
+  name?: string;
 };
 
 const claimedRadius = 4;

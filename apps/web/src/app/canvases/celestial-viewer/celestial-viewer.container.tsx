@@ -1,8 +1,9 @@
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
 import {
-  CelestialByIdDocument,
-  CelestialByIdQuery,
+  CelestialByNameDocument,
+  CelestialByNameQuery,
+  CelestialByNameQueryVariables,
 } from '@idleverse/galaxy-gql';
 import { hexToRGB } from '@idleverse/theme';
 
@@ -20,14 +21,14 @@ import { DataUriGenerator } from './data-uri-generator';
 import { InfoBox } from './ui/info-box';
 
 export const CelestialViewerContainer = () => {
-  const { id } = useParams<{ id: string }>();
+  const { name } = useParams<{ name: string }>();
 
-  const { data, loading } = useQuery<CelestialByIdQuery>(
-    CelestialByIdDocument,
-    {
-      variables: { id },
-    }
-  );
+  const { data, loading } = useQuery<
+    CelestialByNameQuery,
+    CelestialByNameQueryVariables
+  >(CelestialByNameDocument, {
+    variables: { name },
+  });
 
   const [pixelDataGenerating, setPixelDataGenerating] = useState(true);
   const [texturesGenerating, setTexturesGenerating] = useState(true);
@@ -49,13 +50,13 @@ export const CelestialViewerContainer = () => {
   }, []);
 
   useEffect(() => {
-    if (data) {
-      celestialVar(data.celestial_by_pk);
+    if (data?.celestial?.[0]) {
+      celestialVar(data.celestial[0]);
 
       // if a previously selected planet isn't a part of this system, wipe it to avoid bugs
       if (
         selectedPlanet &&
-        !data.celestial_by_pk.planets.find(({ id }) => id === selectedPlanet.id)
+        !data.celestial[0].planets.find(({ id }) => id === selectedPlanet.id)
       ) {
         celestialViewerSelectedPlanet(null);
       }
@@ -66,7 +67,7 @@ export const CelestialViewerContainer = () => {
         width: number;
         height: number;
       }>[] = [];
-      data?.celestial_by_pk?.planets.forEach(
+      data.celestial[0]?.planets.forEach(
         ({
           id,
           texture_resolution: textureResolution,
@@ -94,9 +95,9 @@ export const CelestialViewerContainer = () => {
         setPixelDataGenerating(false);
       });
     }
-  }, [id, data, selectedPlanet]);
+  }, [name, data, selectedPlanet]);
 
-  useEmpire(data?.celestial_by_pk?.galactic_empire);
+  useEmpire(data?.celestial[0]?.galactic_empire);
 
   if (loading) {
     return (
@@ -131,19 +132,19 @@ export const CelestialViewerContainer = () => {
         ></Loading>
 
         <DataUriGenerator
-          celestialId={id}
+          celestialId={data?.celestial?.[0].id}
           input={pixelData}
           onGenerationFinished={() => setTexturesGenerating(false)}
         />
       </>
     );
-  } else if (data.celestial_by_pk) {
+  } else if (data.celestial?.[0]) {
     return (
       <PixiWrapper
         ui={
           <>
             <InfoBox
-              {...data.celestial_by_pk}
+              {...data.celestial[0]}
               position="absolute"
               bottom={0}
               left={0}
@@ -154,7 +155,7 @@ export const CelestialViewerContainer = () => {
           </>
         }
       >
-        <CelestialViewer celestial={data.celestial_by_pk} />
+        <CelestialViewer celestial={data.celestial[0]} />
       </PixiWrapper>
     );
   } else {
