@@ -1,7 +1,3 @@
-export function resourceGen(): string {
-  return 'resource-gen';
-}
-
 export const generatorCost = ({
   baseCost,
   costGrowthExponent,

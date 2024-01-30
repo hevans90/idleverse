@@ -177,7 +177,7 @@ export const Home = () => {
                         >
                           {ownedCelestials.map(({ id, name, planets }, i) => (
                             <Link
-                              key={i}
+                              key={name}
                               as={ReactRouterLink}
                               to={`/celestials/${id}`}
                               borderRadius="3px"

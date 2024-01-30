@@ -1,5 +1,0 @@
-subscription GalaxyByIdSub($id: uuid!) {
-  galaxy_by_pk(id: $id) {
-    ...GalaxyFields
-  }
-}
