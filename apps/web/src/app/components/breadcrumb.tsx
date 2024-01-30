@@ -26,15 +26,15 @@ export const Breadcrumb = () => {
 
   const crumbs = useBreadcrumbs([
     {
-      path: '/galaxies/:id',
+      path: '/galaxies/:name',
       breadcrumb: () => <>{galaxyName}</>,
     },
     {
-      path: '/celestials/:id',
+      path: '/celestials/:name',
       breadcrumb: () => <>{celestial?.name}</>,
     },
     {
-      path: '/planets/:id',
+      path: '/planets/:name',
       breadcrumb: () => <>{planet?.name}</>,
     },
   ]);

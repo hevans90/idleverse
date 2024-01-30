@@ -1,6 +1,10 @@
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { Box, Flex } from '@chakra-ui/react';
-import { PlanetByIdDocument, PlanetByIdQuery } from '@idleverse/galaxy-gql';
+import {
+  PlanetByNameDocument,
+  PlanetByNameQuery,
+  PlanetByNameQueryVariables,
+} from '@idleverse/galaxy-gql';
 import { hexStringToNumber, hexToRGB, useUiBackground } from '@idleverse/theme';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useState } from 'react';
@@ -32,10 +36,13 @@ import { PlanetUI } from './ui/planet-ui';
 export const PlanetViewer = () => {
   const { canvasBgDarker } = useUiBackground();
   const [planetActionsActive, setPlanetActionsActive] = useState(false);
-  const { id } = useParams<{ id: string }>();
+  const { name } = useParams<{ name: string }>();
 
-  const { data, loading } = useQuery<PlanetByIdQuery>(PlanetByIdDocument, {
-    variables: { id },
+  const { data, loading } = useQuery<
+    PlanetByNameQuery,
+    PlanetByNameQueryVariables
+  >(PlanetByNameDocument, {
+    variables: { name },
   });
 
   useEffect(() => {
@@ -63,22 +70,22 @@ export const PlanetViewer = () => {
     useState<boolean>(false);
 
   useEffect(() => {
-    if (!loading && data) {
-      planetVar(data.planet_by_pk);
+    if (!loading && data?.planet?.[0]) {
+      planetVar(data.planet?.[0]);
     }
   }, [loading, data]);
 
-  useEmpire(data?.planet_by_pk?.celestial?.galactic_empire);
+  useEmpire(data?.planet?.[0]?.celestial?.galactic_empire);
 
   useEffect(() => {
-    if (data) {
+    if (data?.planet?.[0]) {
       const {
         id: seed,
         terrain_bias,
         texture_resolution,
         terrain_hex_palette: { water, sand, grass, forest },
         rings,
-      } = data.planet_by_pk;
+      } = data.planet[0];
 
       setWorldTextureGenerating(true);
 
@@ -116,7 +123,7 @@ export const PlanetViewer = () => {
             terrain_bias as [number, number, number, number],
             ring_seed
           ).then((texture) => {
-            setRingDataTextures((prev) => ({ ...prev, [id]: texture }));
+            setRingDataTextures((prev) => ({ ...prev, [ring_seed]: texture }));
             if (index === rings.length - 1) {
               setRingTexturesGenerating(false);
             }
@@ -124,7 +131,7 @@ export const PlanetViewer = () => {
         }
       );
     }
-  }, [data, id]);
+  }, [data, name]);
 
   if (loading) {
     return (
@@ -142,8 +149,8 @@ export const PlanetViewer = () => {
     );
   }
 
-  if (data) {
-    const { radius, atmospheric_distance, rings } = data.planet_by_pk;
+  if (data?.planet[0]) {
+    const { radius, atmospheric_distance, rings } = data.planet[0];
 
     return (
       <Box position="relative" width={width} height={height}>

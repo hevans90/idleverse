@@ -70,7 +70,7 @@ export const GalaxyViewer = ({
       _star.y = position.y;
     });
 
-  const navigateToCelestial = (id: string) => navigate(`/celestials/${id}`);
+  const navigateToCelestial = (name: string) => navigate(`/celestials/${name}`);
 
   useEffect(() => {
     galaxyContainerRef.current.name = 'galaxy';
@@ -94,6 +94,7 @@ export const GalaxyViewer = ({
       // THIS IS EXPENSIVE
       const id = getCelestialIdHash(star.constants);
 
+      let celestialName: string;
       let ownerId: string;
 
       if (star.isClaimed) {
@@ -102,6 +103,7 @@ export const GalaxyViewer = ({
         );
 
         ownerId = celestial.owner_id;
+        celestialName = celestial.name;
       }
 
       const _star = Star({
@@ -109,6 +111,7 @@ export const GalaxyViewer = ({
         y,
         id,
         isClaimed: star.isClaimed,
+        name: celestialName,
         ownerId,
         claimedCol: colors[colorsVar().secondary]['400'],
         unclaimedCol: colors[colorsVar().secondary]['200'],
@@ -118,7 +121,7 @@ export const GalaxyViewer = ({
         const avatar = _star.getChildByName('avatar') as Graphics;
 
         avatar.on('mousedown', () => {
-          navigateToCelestial(id);
+          navigateToCelestial(celestialName);
         });
       }
 

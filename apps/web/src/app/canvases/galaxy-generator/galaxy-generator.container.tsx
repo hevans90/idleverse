@@ -64,7 +64,7 @@ export const GalaxyGenContainer = () => {
           title: `${created.data.insert_galaxy_one.name} created successfully.`,
           status: 'success',
         });
-        navigate(`/galaxies/${galaxyConfig.seed}`);
+        navigate(`/galaxies/${galaxyConfig.name}`);
       } catch (e) {
         console.error(e);
         toast({ title: e.message, status: 'error' });

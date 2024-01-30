@@ -218,7 +218,10 @@ export const JoinGalaxy = () => {
         <Text textAlign="center">
           You already have an empire in this galaxy.
         </Text>
-        <Link as={ReactRouterLink} to={`/galaxies/${galaxyData.galaxy[0].id}`}>
+        <Link
+          as={ReactRouterLink}
+          to={`/galaxies/${galaxyData.galaxy[0].name}`}
+        >
           <Button>Galaxy View</Button>
         </Link>
       </VStack>
@@ -239,7 +242,10 @@ export const JoinGalaxy = () => {
     return (
       <VStack height="100%" justify="center" spacing={10}>
         <Text>Your empire was founded successfully.</Text>
-        <Link as={ReactRouterLink} to={`/galaxies/${galaxyData.galaxy[0].id}`}>
+        <Link
+          as={ReactRouterLink}
+          to={`/galaxies/${galaxyData.galaxy[0].name}`}
+        >
           <Button>Begin</Button>
         </Link>
       </VStack>
