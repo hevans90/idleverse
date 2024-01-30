@@ -141,6 +141,7 @@ export const Home = () => {
                     i
                   ) => (
                     <AnimatedFrame
+                      key={i}
                       show
                       bg={canvasBgDarker}
                       border={canvasBorderSecondary}
