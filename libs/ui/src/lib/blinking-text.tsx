@@ -1,12 +1,14 @@
-import { keyframes, Text } from '@chakra-ui/react';
+import { keyframes, Text, TypographyProps } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 export const BlinkingText = ({
   children,
   interval = 1,
+  fontSize = ['md', '2xl', '3xl', '4xl'],
 }: {
   children?: ReactNode;
   interval?: number;
+  fontSize?: TypographyProps['fontSize'];
 }) => {
   const blinker = keyframes`
     0%   { opacity: 1; }
@@ -16,7 +18,11 @@ export const BlinkingText = ({
   `;
 
   return (
-    <Text as="span" animation={`${interval}s ${blinker} normal infinite`}>
+    <Text
+      as="span"
+      fontSize={fontSize}
+      animation={`${interval}s ${blinker} normal infinite`}
+    >
       {children}
     </Text>
   );
