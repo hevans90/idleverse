@@ -1,7 +1,7 @@
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { Box, Flex } from '@chakra-ui/react';
 import { PlanetByIdDocument, PlanetByIdQuery } from '@idleverse/galaxy-gql';
-import { hexStringToNumber, hexToRGB } from '@idleverse/theme';
+import { hexStringToNumber, hexToRGB, useUiBackground } from '@idleverse/theme';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -17,7 +17,6 @@ import {
   myEmpireVar,
   planetVar,
 } from '@idleverse/state';
-import { colors } from '@idleverse/theme';
 
 import { rgb } from '@idleverse/models';
 import { OrbitControls } from '@react-three/drei';
@@ -31,6 +30,7 @@ import { PlanetActions } from './ui/planet-actions';
 import { PlanetUI } from './ui/planet-ui';
 
 export const PlanetViewer = () => {
+  const { canvasBgDarker } = useUiBackground();
   const [planetActionsActive, setPlanetActionsActive] = useState(false);
   const { id } = useParams<{ id: string }>();
 
@@ -210,7 +210,7 @@ export const PlanetViewer = () => {
               />
               <CameraController />
               <Pixelate
-                bgColor={hexStringToNumber(colors[primary]['800'])}
+                bgColor={hexStringToNumber(canvasBgDarker)}
                 pixelSize={4}
               />
               <OrbitControls

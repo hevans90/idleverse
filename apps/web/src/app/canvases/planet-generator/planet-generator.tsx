@@ -4,7 +4,7 @@ import {
   TerrainHexPalettesDocument,
   TerrainHexPalettesQuery,
 } from '@idleverse/galaxy-gql';
-import { colors, hexStringToNumber } from '@idleverse/theme';
+import { hexStringToNumber, useUiBackground } from '@idleverse/theme';
 import { OrbitControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 
@@ -24,6 +24,7 @@ import { useResize } from '../_utils/use-resize.hook';
 import { deepCompareRings } from './_utils/deep-compare-rings';
 import { CameraController } from './camera-controller';
 import { Pixelate } from './pixelate';
+import { Stars } from './stars';
 import { runTextureGenOnWorker } from './texture-generation/run-texture-gen-on-worker';
 import { PlanetGeneratorBooleans } from './ui/booleans';
 import { PlanetGeneratorColorDrawer } from './ui/color-drawer';
@@ -41,6 +42,8 @@ export const PlanetGenerator = ({
 }: {
   customSize?: { width: number; height: number };
 }) => {
+  const { canvasBgDarker } = useUiBackground();
+
   const { data: colorPalettes, loading: colorPalettesLoading } =
     useQuery<TerrainHexPalettesQuery>(TerrainHexPalettesDocument);
 
@@ -148,6 +151,7 @@ export const PlanetGenerator = ({
           }
         >
           <Canvas>
+            <Stars rotationSpeed={0.1} />
             <World
               planetRadius={radius}
               worldTexture={worldDataTexture}
@@ -159,7 +163,7 @@ export const PlanetGenerator = ({
             />
             <CameraController />
             <Pixelate
-              bgColor={hexStringToNumber(colors[primary]['800'])}
+              bgColor={hexStringToNumber(canvasBgDarker)}
               pixelSize={pixelSize}
             />
             <OrbitControls
