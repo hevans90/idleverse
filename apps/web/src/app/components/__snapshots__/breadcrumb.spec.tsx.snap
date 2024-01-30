@@ -3,47 +3,55 @@
 exports[`breadcrumb should render 1`] = `
 <div>
   <div
-    class="css-nbdg8o"
+    class="css-ne8ruz"
   >
-    <span>
-      <a
-        href="/"
+    <a
+      href="/"
+    >
+      <span
+        class="css-1bdcejg"
       >
         <span>
           Home
         </span>
-      </a>
-    </span>
-    <span>
-      <a
-        href="/one"
+      </span>
+    </a>
+    <a
+      href="/one"
+    >
+       &gt; 
+      <span
+        class="css-1bdcejg"
       >
-         &gt; 
         <span>
           One
         </span>
-      </a>
-    </span>
-    <span>
-      <a
-        href="/one/two"
+      </span>
+    </a>
+    <a
+      href="/one/two"
+    >
+       &gt; 
+      <span
+        class="css-1bdcejg"
       >
-         &gt; 
         <span>
           Two
         </span>
-      </a>
-    </span>
-    <span>
-      <a
-        href="/one/two/three"
+      </span>
+    </a>
+    <a
+      href="/one/two/three"
+    >
+       &gt; 
+      <span
+        class="css-1bdcejg"
       >
-         &gt; 
         <span>
           Three
         </span>
-      </a>
-    </span>
+      </span>
+    </a>
   </div>
   <span
     hidden=""
