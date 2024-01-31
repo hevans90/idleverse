@@ -58,7 +58,7 @@ export const BackgroundSelectionModal = ({
           <GallerySelector
             name="background"
             items={backgrounds}
-            defaultItem={locallySelectedBackground}
+            selectedId={locallySelectedBackground.id}
             onSelectionChange={(background) =>
               setLocallySelectedBackround(background)
             }

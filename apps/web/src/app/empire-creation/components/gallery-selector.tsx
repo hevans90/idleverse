@@ -9,7 +9,6 @@ import {
 } from '@chakra-ui/react';
 import { colorsVar } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
-import { useEffect, useState } from 'react';
 
 type GalleryItem<T> = {
   id: string;
@@ -70,25 +69,18 @@ type GallerySelectionProps<T> = {
   name: string;
   items: GalleryItem<T>[];
   onSelectionChange: (item: GalleryItem<T>) => void;
-  defaultItem?: GalleryItem<T>;
+  selectedId?: string;
 };
 
 export const GallerySelector = <T,>({
   name,
   items,
-  defaultItem,
+  selectedId,
   onSelectionChange,
 }: GallerySelectionProps<T>) => {
   const { bg, border } = useUiBackground();
 
-  const [selectedItem, setSelectedItem] = useState<GalleryItem<T>>();
-
-  useEffect(() => setSelectedItem(defaultItem), [defaultItem]);
-
-  useEffect(
-    () => selectedItem && onSelectionChange(selectedItem),
-    [onSelectionChange, selectedItem]
-  );
+  const selectedItem = items.find(({ id }) => id === selectedId);
 
   return (
     <Stack
@@ -115,8 +107,8 @@ export const GallerySelector = <T,>({
           <GalleryButton
             key={item.id}
             item={item}
-            selected={selectedItem?.id === item.id}
-            onClick={(galleryItem) => setSelectedItem(galleryItem)}
+            selected={selectedId === item.id}
+            onClick={(galleryItem) => onSelectionChange(galleryItem)}
           />
         ))}
       </Stack>
@@ -127,7 +119,7 @@ export const GallerySelector = <T,>({
         display={['block', 'block', 'block', 'block', 'flex']}
         flexDir={['row-reverse']}
       >
-        {selectedItem && (
+        {selectedId && (
           <>
             <Image
               float="left"
@@ -140,7 +132,11 @@ export const GallerySelector = <T,>({
               marginLeft={1}
             />
 
-            <Text fontSize="2xs"> {selectedItem.description}</Text>
+            <Text
+              fontSize="2xs"
+              whiteSpace="pre-line"
+              dangerouslySetInnerHTML={{ __html: selectedItem.description }}
+            ></Text>
           </>
         )}
         {!selectedItem && <Text>Pick a {name}</Text>}

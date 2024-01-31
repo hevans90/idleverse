@@ -59,7 +59,7 @@ export const RaceSelectionModal = ({
           <GallerySelector
             name="race"
             items={playableRaces}
-            defaultItem={locallySelectedRace}
+            selectedId={locallySelectedRace.id}
             onSelectionChange={(race) => setLocallySelectedRace(race)}
           />
         </ModalBody>

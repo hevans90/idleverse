@@ -59,7 +59,7 @@ export const FactionSelectionModal = ({
           <GallerySelector
             name="faction"
             items={factions}
-            defaultItem={locallySelectedFaction}
+            selectedId={locallySelectedFaction.id}
             onSelectionChange={(faction) => setLocallySelectedFaction(faction)}
           />
         </ModalBody>
