@@ -9,7 +9,17 @@
       "options": {
         "commands": [
           {
-            "command": "echo Ready to deploy to fly."
+            "command": "echo Ready to update media."
+          }
+        ]
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "bun run apps/minio/seed/seed.ts"
           }
         ]
       }

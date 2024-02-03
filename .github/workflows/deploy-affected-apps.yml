@@ -14,6 +14,9 @@ jobs:
       HASURA_URL: https://idleverse-hasura.fly.dev
       HASURA_ADMIN_SECRET: ${{ secrets.HASURA_ADMIN_SECRET }}
       FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      MINIO_URL: ${{ secrets.MINIO_URL }}
+      MINIO_ACCESS_KEY: ${{ secrets.MINIO_ACCESS_KEY }}
+      MINIO_SECRET_KEY: ${{ secrets.MINIO_SECRET_KEY }}
 
     steps:
       - name: Checkout 🛎️
@@ -27,6 +30,9 @@ jobs:
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Install bun
+        uses: oven-sh/setup-bun@v1
 
       - uses: actions/cache@v2
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
