@@ -122,6 +122,7 @@ export const GallerySelector = <T,>({
         {selectedId && (
           <>
             <Image
+              objectFit="cover"
               float="left"
               width={['112px', '112px', '224px', '224px', '338px']}
               height={['150px', '150px', '300px', '300px', '450px']}
