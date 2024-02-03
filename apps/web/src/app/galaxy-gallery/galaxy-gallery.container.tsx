@@ -57,7 +57,7 @@ export const GalaxyGalleryContainer = () => {
     );
   }
 
-  return data.galaxy.length && myEmpires.galactic_empire.length ? (
+  return data.galaxy.length ? (
     <VStack
       paddingTop={10}
       gap={5}
@@ -87,28 +87,30 @@ export const GalaxyGalleryContainer = () => {
           </Flex>
         </>
       )}
-
-      <Text textAlign="center" {...headerResponsiveFontProps}>
-        Already joined:
-      </Text>
-      <Flex gap={5} wrap="wrap" alignItems="center" justifyContent="center">
-        {galaxiesJoined &&
-          galaxiesJoined.map((galaxyConfig, i) => (
-            <GalaxyTile
-              key={i}
-              {...{
-                alreadyJoined: true,
-                galaxyConfig,
-                i,
-                displayOwnershipTotals: true,
-                totalUserOwns:
-                  myEmpires.galactic_empire.find(
-                    ({ galaxy: { id } }) => id === galaxyConfig.id
-                  )?.celestials?.length ?? 0,
-              }}
-            />
-          ))}
-      </Flex>
+      {galaxiesJoined?.length && (
+        <>
+          <Text textAlign="center" {...headerResponsiveFontProps}>
+            Already joined:
+          </Text>
+          <Flex gap={5} wrap="wrap" alignItems="center" justifyContent="center">
+            {galaxiesJoined.map((galaxyConfig, i) => (
+              <GalaxyTile
+                key={i}
+                {...{
+                  alreadyJoined: true,
+                  galaxyConfig,
+                  i,
+                  displayOwnershipTotals: true,
+                  totalUserOwns:
+                    myEmpires.galactic_empire.find(
+                      ({ galaxy: { id } }) => id === galaxyConfig.id
+                    )?.celestials?.length ?? 0,
+                }}
+              />
+            ))}
+          </Flex>
+        </>
+      )}
     </VStack>
   ) : (
     <Box
