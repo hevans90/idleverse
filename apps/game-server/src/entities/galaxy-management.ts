@@ -10,7 +10,6 @@ import {
   Field,
   Mutation,
   ObjectType,
-  Query,
   Resolver,
 } from 'type-graphql';
 import { Context } from '../datasources/context';
@@ -26,11 +25,6 @@ class GalaxyManagement {
 
 @Resolver((of) => GalaxyManagement)
 export class GalaxyManagementResolver {
-  @Query((returns) => GalaxyManagement, { nullable: true })
-  async returnNothing() {
-    return null;
-  }
-
   @Authorized('user')
   @Mutation((returns) => GalaxyManagement, { nullable: true })
   async createEmpireOriginCelestial(

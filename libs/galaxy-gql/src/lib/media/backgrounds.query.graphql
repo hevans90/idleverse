@@ -1,5 +1,5 @@
-query Music {
-  media(mediaType: "music") {
+query Backgrounds {
+  media(mediaType: "backgrounds") {
     etag
     name
     metadata {

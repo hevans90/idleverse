@@ -1,5 +1,9 @@
 import { readdir } from 'fs/promises';
 import { BucketItem, Client, ClientOptions } from 'minio';
+import mp3Duration from 'mp3-duration';
+import { promisify } from 'util';
+
+const mp3durationAsync = promisify(mp3Duration);
 
 const publicPolicyFactory = (bucketName: string) => ({
   Version: '2012-10-17',
@@ -83,15 +87,23 @@ const getBucketContent = async (bucketName: string) => {
 
 const uploadAudio = async () => {
   for (let i = 0; i < buckets.length; i++) {
-    const tracksToUpload = await readdir(`${__dirname}/${buckets[i]}`);
+    const directory = `${__dirname}/${buckets[i]}`;
+    const tracksToUpload = await readdir(directory);
 
-    const promises = tracksToUpload.map((trackName) =>
-      client.fPutObject(
+    const promises = tracksToUpload.map(async (trackName) => {
+      const duration = await mp3durationAsync(`${directory}/${trackName}`);
+
+      console.log(trackName, duration);
+
+      return client.fPutObject(
         buckets[i],
         trackName,
-        `${__dirname}/${buckets[i]}/${trackName}`
-      )
-    );
+        `${directory}/${trackName}`,
+        {
+          duration,
+        }
+      );
+    });
 
     try {
       await Promise.all(promises);
