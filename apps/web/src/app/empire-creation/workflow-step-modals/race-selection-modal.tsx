@@ -18,6 +18,7 @@ import {
 
 import { playableRacesVar } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
+import { AnimatedText } from '@idleverse/ui';
 import { GallerySelector } from '../components/gallery-selector';
 
 export const RaceSelectionModal = ({
@@ -53,7 +54,13 @@ export const RaceSelectionModal = ({
           borderBottom="1px solid"
           borderBottomColor={border}
         >
-          Select Race
+          <AnimatedText
+            duration={{ enter: 0.3 }}
+            content="Select Race"
+            animationType="decipher"
+            textAlign="center"
+            fontSize="xl"
+          ></AnimatedText>
         </ModalHeader>
         <ModalBody bg={bgLight} padding={0} display="flex">
           <GallerySelector

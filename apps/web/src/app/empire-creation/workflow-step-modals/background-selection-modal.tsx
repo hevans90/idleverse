@@ -19,6 +19,7 @@ import { useEffect, useRef, useState } from 'react';
 import { HydratedMediaResult } from '@idleverse/models';
 import { backgroundsMediaVar, backgroundsVar } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
+import { AnimatedText } from '@idleverse/ui';
 import { environment } from '../../../environments/environment';
 import {
   headerResponsiveFontProps,
@@ -71,6 +72,8 @@ export const BackgroundSelectionModal = ({
         name.includes(locallySelectedBackground.name.toLowerCase())
       );
       setTrack(foundTrack);
+
+      audioRef.current?.pause();
       audioRef.current?.play();
     }
   }, [isOpen, audioRef, locallySelectedBackground, mediaData, mediaLoading]);
@@ -92,7 +95,13 @@ export const BackgroundSelectionModal = ({
           borderTopLeftRadius={6}
           borderBottomColor={border}
         >
-          Select Background
+          <AnimatedText
+            content="Select Background"
+            duration={{ enter: 0.3 }}
+            animationType="decipher"
+            textAlign="center"
+            fontSize="xl"
+          ></AnimatedText>
         </ModalHeader>
         <ModalBody bg={bgLight} padding={0} display="flex">
           <audio autoPlay ref={audioRef} src={track?.url} />

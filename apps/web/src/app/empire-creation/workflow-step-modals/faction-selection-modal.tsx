@@ -18,6 +18,7 @@ import {
 
 import { factionsVar } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
+import { AnimatedText } from '@idleverse/ui';
 import { GallerySelector } from '../components/gallery-selector';
 
 export const FactionSelectionModal = ({
@@ -53,7 +54,13 @@ export const FactionSelectionModal = ({
           borderTopLeftRadius={6}
           borderBottomColor={border}
         >
-          Select Faction
+          <AnimatedText
+            content="Select Faction"
+            duration={{ enter: 0.3 }}
+            animationType="decipher"
+            textAlign="center"
+            fontSize="xl"
+          ></AnimatedText>
         </ModalHeader>
         <ModalBody bg={bgLight} padding={0} display="flex">
           <GallerySelector
