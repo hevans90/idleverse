@@ -9,6 +9,8 @@ import {
 } from '@chakra-ui/react';
 import { colorsVar } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
+import { AnimatedText } from '@idleverse/ui';
+import { ReactNode } from 'react';
 
 type GalleryItem<T> = {
   id: string;
@@ -70,6 +72,9 @@ type GallerySelectionProps<T> = {
   items: GalleryItem<T>[];
   onSelectionChange: (item: GalleryItem<T>) => void;
   selectedId?: string;
+  children?: ReactNode;
+  progressingText?: boolean;
+  progressingTextDuration?: number;
 };
 
 export const GallerySelector = <T,>({
@@ -77,6 +82,9 @@ export const GallerySelector = <T,>({
   items,
   selectedId,
   onSelectionChange,
+  children,
+  progressingText,
+  progressingTextDuration,
 }: GallerySelectionProps<T>) => {
   const { bg, border } = useUiBackground();
 
@@ -133,15 +141,31 @@ export const GallerySelector = <T,>({
               marginLeft={1}
             />
 
-            <Text
-              fontSize="2xs"
-              whiteSpace="pre-line"
-              dangerouslySetInnerHTML={{ __html: selectedItem.description }}
-            ></Text>
+            {progressingText ? (
+              <AnimatedText
+                fontSize="2xs"
+                content={selectedItem.description}
+                duration={
+                  progressingTextDuration
+                    ? {
+                        enter: progressingTextDuration,
+                      }
+                    : { enter: 1, exit: 2 }
+                }
+              />
+            ) : (
+              <Text
+                fontSize="2xs"
+                whiteSpace="pre-line"
+                dangerouslySetInnerHTML={{ __html: selectedItem.description }}
+              ></Text>
+            )}
           </>
         )}
         {!selectedItem && <Text>Pick a {name}</Text>}
       </Box>
+
+      {children ? <Box>{children}</Box> : null}
     </Stack>
   );
 };

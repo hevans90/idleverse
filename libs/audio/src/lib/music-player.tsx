@@ -125,7 +125,7 @@ const AudioPlayer = () => {
     setTrackTime(currentTime);
 
     updateLoopRef.current = requestAnimationFrame(updateLoop);
-  }, [audioRef, trackDuration, setTrackTime]);
+  }, [audioRef, setTrackTime]);
 
   const skipForward = () => {
     if (audioRef.current) {

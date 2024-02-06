@@ -1,4 +1,5 @@
-import { useReactiveVar } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
+
 import {
   Button,
   Modal,
@@ -8,11 +9,17 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
-import { Background } from '@idleverse/galaxy-gql';
-import { useState } from 'react';
+import {
+  Background,
+  BackgroundsDocument,
+  BackgroundsQuery,
+} from '@idleverse/galaxy-gql';
+import { useEffect, useRef, useState } from 'react';
 
-import { backgroundsVar } from '@idleverse/state';
+import { HydratedMediaResult } from '@idleverse/models';
+import { backgroundsMediaVar, backgroundsVar } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
+import { environment } from '../../../environments/environment';
 import {
   headerResponsiveFontProps,
   responsiveFontProps,
@@ -30,10 +37,43 @@ export const BackgroundSelectionModal = ({
 }) => {
   const backgrounds = useReactiveVar(backgroundsVar);
 
+  const { data: mediaData } = useReactiveVar(backgroundsMediaVar);
+
   const [locallySelectedBackground, setLocallySelectedBackround] =
     useState<Background>(selectedBackground);
 
   const { bg, border, bgLight } = useUiBackground();
+
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  const [track, setTrack] = useState<HydratedMediaResult>();
+
+  const { loading: mediaLoading } = useQuery<BackgroundsQuery>(
+    BackgroundsDocument,
+    {
+      onCompleted: ({ media }) =>
+        backgroundsMediaVar({
+          data:
+            media?.map(({ name, ...rest }) => ({
+              url: `${environment.secure ? 'https' : 'http'}://${
+                environment.minioUri
+              }/backgrounds/${name}`,
+              name,
+              ...rest,
+            })) ?? [],
+        }),
+    }
+  );
+
+  useEffect(() => {
+    if (isOpen && !mediaLoading && mediaData) {
+      const foundTrack = mediaData.find(({ name }) =>
+        name.includes(locallySelectedBackground.name.toLowerCase())
+      );
+      setTrack(foundTrack);
+      audioRef.current?.play();
+    }
+  }, [isOpen, audioRef, locallySelectedBackground, mediaData, mediaLoading]);
 
   return (
     <Modal
@@ -55,14 +95,18 @@ export const BackgroundSelectionModal = ({
           Select Background
         </ModalHeader>
         <ModalBody bg={bgLight} padding={0} display="flex">
+          <audio autoPlay ref={audioRef} src={track?.url} />
           <GallerySelector
+            key={locallySelectedBackground.id}
             name="background"
             items={backgrounds}
             selectedId={locallySelectedBackground.id}
+            progressingText={true}
+            progressingTextDuration={track?.metadata?.duration}
             onSelectionChange={(background) =>
               setLocallySelectedBackround(background)
             }
-          />
+          ></GallerySelector>
         </ModalBody>
 
         <ModalFooter
