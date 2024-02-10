@@ -33,11 +33,12 @@ const publicPolicyFactory = (bucketName: string) => ({
   ],
 });
 
-const tracksToUpload = await readdir(__dirname + '/music');
-const backgroundAudioToUpload = await readdir(__dirname + '/backgrounds');
+const buckets = ['music', 'backgrounds', 'races'];
 
-console.log('music to add', tracksToUpload);
-console.log('background audio to add', backgroundAudioToUpload);
+for (const bucket of buckets) {
+  const tracks = await readdir(`${__dirname}/${bucket}`);
+  console.log(`${bucket}:`, tracks);
+}
 
 const localRun = (process.env.MINIO_URL as string).includes('localhost');
 
@@ -54,7 +55,6 @@ if (localRun) {
 
 const client = new Client(clientConfig);
 
-const buckets = ['music', 'backgrounds'];
 const makeBuckets = async () => {
   for (let i = 0; i < buckets.length; i++) {
     const bucketExists = await client.bucketExists(buckets[i]);
@@ -68,7 +68,9 @@ const makeBuckets = async () => {
       buckets[i],
       JSON.stringify(publicPolicyFactory(buckets[i]))
     );
-    console.log(`\n${buckets[i]} bucket policy added`);
+    console.log(
+      `${buckets[i]} bucket policy added${i === buckets.length - 1 ? '\n' : ''}`
+    );
   }
 };
 const getBucketContent = async (bucketName: string) => {
@@ -110,7 +112,7 @@ const uploadAudio = async () => {
       console.log(
         `\n${promises.length} track${
           promises.length > 1 ? 's' : ''
-        } uploaded successfully to bucket: ${buckets[i]}`
+        } uploaded successfully to bucket: ${buckets[i]}\n`
       );
     } catch (e) {
       console.error('\ntrack upload failed', e);

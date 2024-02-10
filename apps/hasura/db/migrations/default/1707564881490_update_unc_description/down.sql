@@ -1,0 +1,5 @@
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- UPDATE playable_race
+-- SET description = 'The once-divided human society on Terra is now the authoritarian UNC (United Nations Conglomerate), emerging from a post-nuclear world war in the mid-2200s. Centralizing power in Paris, it brutally suppresses separatists, utilizing advanced mech-suits to quell rebellion. Citizens lose individuality, serving the Conglomerate devoid of free will or joy.'
+-- WHERE id = 'bf459053-ea32-47d5-b92c-82fe902c92a9';
