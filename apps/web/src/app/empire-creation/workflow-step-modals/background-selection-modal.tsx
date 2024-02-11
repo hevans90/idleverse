@@ -57,7 +57,7 @@ export const BackgroundSelectionModal = ({
   const { audioRef, listenedToCurrent, replayCurrentAudio, track } =
     useReplayableAudio({
       category: 'backgrounds',
-      locallySelectedName: locallySelectedBackground.name.toLowerCase(),
+      locallySelectedName: locallySelectedBackground?.name.toLowerCase(),
       isOpen,
     });
 
@@ -92,13 +92,15 @@ export const BackgroundSelectionModal = ({
             fontSize="xl"
           ></AnimatedText>
 
-          <Button
-            isDisabled={!listenedToCurrent}
-            {...responsiveFontProps}
-            onClick={() => replayCurrentAudio()}
-          >
-            <Icon as={MdRefresh} {...responsiveIconProps} />
-          </Button>
+          {locallySelectedBackground && (
+            <Button
+              isDisabled={!listenedToCurrent}
+              {...responsiveFontProps}
+              onClick={() => replayCurrentAudio()}
+            >
+              <Icon as={MdRefresh} {...responsiveIconProps} />
+            </Button>
+          )}
         </ModalHeader>
         <ModalBody bg={bgLight} padding={0} display="flex">
           <audio
@@ -113,10 +115,9 @@ export const BackgroundSelectionModal = ({
             }
           />
           <GallerySelector
-            key={locallySelectedBackground.id}
             name="background"
             items={backgrounds}
-            selectedId={locallySelectedBackground.id}
+            selectedId={locallySelectedBackground?.id}
             progressingText={!listenedToCurrent}
             progressingTextDuration={track?.metadata?.duration}
             onSelectionChange={(background) =>
@@ -137,7 +138,6 @@ export const BackgroundSelectionModal = ({
         >
           <Button
             {...responsiveFontProps}
-            isDisabled={!locallySelectedBackground}
             onClick={() =>
               onClose({
                 background: locallySelectedBackground,

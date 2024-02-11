@@ -125,7 +125,7 @@ export const GallerySelector = <T,>({
         flexGrow={3}
         width="auto"
         display={['block', 'block', 'block', 'block', 'flex']}
-        flexDir={['row-reverse']}
+        flexDir={selectedId ? ['row-reverse'] : 'row'}
       >
         {selectedId && (
           <>

@@ -52,7 +52,7 @@ export const FactionSelectionModal = ({
   const { audioRef, listenedToCurrent, replayCurrentAudio, track } =
     useReplayableAudio({
       category: 'factions',
-      locallySelectedName: locallySelectedFaction.name.toLowerCase(),
+      locallySelectedName: locallySelectedFaction?.name.toLowerCase(),
       isOpen,
     });
 
@@ -88,13 +88,15 @@ export const FactionSelectionModal = ({
             textAlign="center"
             fontSize="xl"
           ></AnimatedText>
-          <Button
-            isDisabled={!listenedToCurrent}
-            {...responsiveFontProps}
-            onClick={() => replayCurrentAudio()}
-          >
-            <Icon as={MdRefresh} {...responsiveIconProps} />
-          </Button>
+          {locallySelectedFaction && (
+            <Button
+              isDisabled={!listenedToCurrent}
+              {...responsiveFontProps}
+              onClick={() => replayCurrentAudio()}
+            >
+              <Icon as={MdRefresh} {...responsiveIconProps} />
+            </Button>
+          )}
         </ModalHeader>
         <ModalBody bg={bgLight} padding={0} display="flex">
           <audio
@@ -111,7 +113,7 @@ export const FactionSelectionModal = ({
           <GallerySelector
             name="faction"
             items={factions}
-            selectedId={locallySelectedFaction.id}
+            selectedId={locallySelectedFaction?.id}
             progressingText={!listenedToCurrent}
             progressingTextDuration={track?.metadata?.duration}
             onSelectionChange={(faction) => setLocallySelectedFaction(faction)}
@@ -130,7 +132,6 @@ export const FactionSelectionModal = ({
         >
           <Button
             {...responsiveFontProps}
-            isDisabled={!locallySelectedFaction}
             onClick={() =>
               onClose({
                 faction: locallySelectedFaction,

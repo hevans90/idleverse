@@ -16,7 +16,7 @@ export const useReplayableAudio = ({
   isOpen,
 }: {
   category: 'backgrounds' | 'factions' | 'races';
-  locallySelectedName: string;
+  locallySelectedName?: string;
   isOpen: boolean;
 }) => {
   const reactiveVarMap = useMemo(
@@ -48,7 +48,7 @@ export const useReplayableAudio = ({
   const [track, setTrack] = useState<HydratedMediaResult>();
 
   useEffect(() => {
-    if (isOpen && mediaData) {
+    if (isOpen && mediaData && locallySelectedName) {
       const foundTrack = mediaData.find(({ name }) =>
         name.includes(locallySelectedName)
       );
