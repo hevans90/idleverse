@@ -156,7 +156,6 @@ export const GallerySelector = <T,>({
             ) : (
               <Text
                 fontSize="2xs"
-                whiteSpace="pre-line"
                 dangerouslySetInnerHTML={{ __html: selectedItem.description }}
               ></Text>
             )}

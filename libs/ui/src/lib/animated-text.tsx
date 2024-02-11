@@ -51,7 +51,7 @@ export const AnimatedText: FC<AnimatedTextProps> = ({
   const totalContentLength = paragraphs.join(' ').length;
 
   return paragraphs.length === 1 ? (
-    <Animator active={true} duration={duration}>
+    <Animator active duration={duration}>
       <ArwesText {...defaultTextProps}>
         <Text as="span" whiteSpace="pre-line" fontSize={fontSize} {...rest}>
           {content}
