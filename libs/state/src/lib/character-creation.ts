@@ -7,10 +7,10 @@ import {
 import { makeVarPersisted } from './utils';
 
 export const characterCreationVar = makeVarPersisted<{
-  race: Playable_Race;
-  background: Background;
-  faction: Faction;
-  homeworld: PlanetCreationInput;
+  race?: Playable_Race;
+  background?: Background;
+  faction?: Faction;
+  homeworld?: PlanetCreationInput;
 }>(
   {
     race: undefined,

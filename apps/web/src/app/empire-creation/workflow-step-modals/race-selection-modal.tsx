@@ -45,7 +45,7 @@ export const RaceSelectionModal = ({
   const { audioRef, listenedToCurrent, replayCurrentAudio, track } =
     useReplayableAudio({
       category: 'races',
-      locallySelectedName: locallySelectedRace.name.toLowerCase(),
+      locallySelectedName: locallySelectedRace?.name.toLowerCase(),
       isOpen,
     });
 
@@ -77,13 +77,15 @@ export const RaceSelectionModal = ({
             textAlign="center"
             fontSize="xl"
           ></AnimatedText>
-          <Button
-            isDisabled={!listenedToCurrent}
-            {...responsiveFontProps}
-            onClick={() => replayCurrentAudio()}
-          >
-            <Icon as={MdRefresh} {...responsiveIconProps} />
-          </Button>
+          {locallySelectedRace && (
+            <Button
+              isDisabled={!listenedToCurrent}
+              {...responsiveFontProps}
+              onClick={() => replayCurrentAudio()}
+            >
+              <Icon as={MdRefresh} {...responsiveIconProps} />
+            </Button>
+          )}
         </ModalHeader>
         <ModalBody bg={bgLight} padding={0} display="flex">
           <audio
@@ -100,7 +102,7 @@ export const RaceSelectionModal = ({
           <GallerySelector
             name="race"
             items={playableRaces}
-            selectedId={locallySelectedRace.id}
+            selectedId={locallySelectedRace?.id}
             progressingText={!listenedToCurrent}
             progressingTextDuration={track?.metadata?.duration}
             onSelectionChange={(race) => setLocallySelectedRace(race)}
