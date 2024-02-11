@@ -107,3 +107,7 @@ export const stringOfLength = <Min extends number, Max extends number>(
 };
 
 export type HydratedMediaResult = MediaResult & { url: string };
+
+export const BACKGROUNDS = ['ecologist', 'prospector'] as const;
+export const FACTIONS = ['ancients', 'nihils'] as const;
+export const RACES = ['forgotten', 'nomads', 'unc'] as const;

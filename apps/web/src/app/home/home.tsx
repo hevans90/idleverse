@@ -67,9 +67,13 @@ export const Home = () => {
       flexDirection="column"
       margin="0 1rem 1rem 1rem"
     >
-      <VStack justify="end" flexGrow={1}>
-        <AnimatedText textAlign="center" marginBottom={10} fontSize="4xl">
-          Welcome back commander
+      <VStack justify="end" flexGrow={1} marginBottom={10}>
+        <AnimatedText
+          animationType="decipher"
+          textAlign="center"
+          fontSize="4xl"
+          content="Welcome back commander"
+        >
           <BlinkingText interval={0.9}>.</BlinkingText>
         </AnimatedText>
       </VStack>

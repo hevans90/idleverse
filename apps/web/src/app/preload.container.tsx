@@ -36,6 +36,7 @@ import { loadPlaceholders } from './asset-loading/load-placeholders';
 import { loadTechTree } from './asset-loading/load-tech-tree';
 import { loadUserInfo } from './asset-loading/load-users';
 import { Loading } from './components/loading';
+import { useLoadAudioMetadata } from './use-load-audio-metadata';
 
 /**
  * Performs all async loading and blocks any children rendering until complete.
@@ -46,6 +47,8 @@ export const PreloadContainer = ({ children }: { children: ReactNode }) => {
   const [techTreeLoading, setTechTreeLoading] = useState(true);
 
   const self = useReactiveVar(selfVar);
+
+  const { mediaMetadataLoading } = useLoadAudioMetadata();
 
   const { loading: profileLoading } = useQuery<SelfQuery>(SelfDocument, {
     onCompleted: (data) => {
@@ -144,6 +147,8 @@ export const PreloadContainer = ({ children }: { children: ReactNode }) => {
     return <Loading text="Loading Placeholders"></Loading>;
   }
   if (techTreeLoading) return <Loading text="Generating Tech Tree"></Loading>;
+  if (mediaMetadataLoading)
+    return <Loading text="Loading Audio Metadata"></Loading>;
 
   // eslint-disable-next-line react/jsx-no-useless-fragment
   return <>{children}</>;

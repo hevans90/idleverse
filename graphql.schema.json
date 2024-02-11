@@ -386,7 +386,7 @@
         "description": null,
         "fields": [
           {
-            "name": "Key",
+            "name": "contentType",
             "description": null,
             "args": [],
             "type": {
@@ -402,7 +402,7 @@
             "deprecationReason": null
           },
           {
-            "name": "Value",
+            "name": "duration",
             "description": null,
             "args": [],
             "type": {
@@ -410,7 +410,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "String",
+                "name": "Float",
                 "ofType": null
               }
             },
@@ -449,17 +449,9 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "MediaMetadata",
-                  "ofType": null
-                }
-              }
+              "kind": "OBJECT",
+              "name": "MediaMetadata",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -39841,9 +39833,26 @@
             "deprecationReason": null
           },
           {
-            "name": "music",
+            "name": "media",
             "description": null,
-            "args": [],
+            "args": [
+              {
+                "name": "mediaType",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
             "type": {
               "kind": "LIST",
               "name": null,
@@ -42531,18 +42540,6 @@
             "type": {
               "kind": "OBJECT",
               "name": "resource_type",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "returnNothing",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "OBJECT",
-              "name": "GalaxyManagement",
               "ofType": null
             },
             "isDeprecated": false,

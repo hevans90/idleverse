@@ -1,10 +1,10 @@
 query Music {
-  music {
+  media(mediaType: "music") {
     etag
     name
     metadata {
-      Key
-      Value
+      duration
+      contentType
     }
   }
 }

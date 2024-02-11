@@ -125,7 +125,7 @@ const AudioPlayer = () => {
     setTrackTime(currentTime);
 
     updateLoopRef.current = requestAnimationFrame(updateLoop);
-  }, [audioRef, trackDuration, setTrackTime]);
+  }, [audioRef, setTrackTime]);
 
   const skipForward = () => {
     if (audioRef.current) {
@@ -273,11 +273,11 @@ export const MusicPlayer = ({
   const { show, data, ...rest } = useReactiveVar(musicPlayerVar);
 
   const { loading } = useQuery<MusicQuery>(MusicDocument, {
-    onCompleted: ({ music }) =>
+    onCompleted: ({ media }) =>
       musicPlayerVar({
         show,
         data:
-          music?.map(({ name, ...rest }) => ({
+          media?.map(({ name, ...rest }) => ({
             url: `${environment.secure ? 'https' : 'http'}://${
               environment.minioUri
             }/music/${name}`,

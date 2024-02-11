@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react';
 
 import { useUiBackground } from '@idleverse/theme';
+import { AnimatedText } from '@idleverse/ui';
 import {
   headerResponsiveFontProps,
   responsiveFontProps,
@@ -39,7 +40,13 @@ export const HomeworldGenerationModal = ({
           borderBottomColor={border}
           {...headerResponsiveFontProps}
         >
-          Create your homeworld
+          <AnimatedText
+            content="Create your homeworld"
+            duration={{ enter: 0.3 }}
+            animationType="decipher"
+            textAlign="center"
+            fontSize="xl"
+          ></AnimatedText>
         </ModalHeader>
         <ModalBody bg={bgDark} padding={0} position="relative">
           <PlanetGenerator customSize={{ width, height }} />

@@ -1,19 +1,15 @@
 import 'reflect-metadata';
-import { Ctx, Field, ObjectType, Query, Resolver } from 'type-graphql';
+import { Arg, Ctx, Field, ObjectType, Query, Resolver } from 'type-graphql';
 import { Context } from '../datasources/context';
 
-import {
-  BucketItemWithMetadata,
-  ItemBucketMetadataList,
-  MetadataItem,
-} from 'minio';
+import { BucketItemWithMetadata, ItemBucketMetadataList } from 'minio';
 
 @ObjectType()
-export class MediaMetadata implements MetadataItem {
+export class MediaMetadata {
   @Field()
-  Key: string;
+  contentType: string;
   @Field()
-  Value: string;
+  duration: number;
 }
 
 @ObjectType()
@@ -26,15 +22,18 @@ export class MediaResult
   @Field()
   etag: string;
 
-  @Field(() => [MediaMetadata], { nullable: true })
+  @Field(() => MediaMetadata, { nullable: true })
   metadata?: ItemBucketMetadataList;
 }
 
 @Resolver((of) => MediaResult)
 export class MinioMediaResolver {
   @Query((returns) => [MediaResult], { nullable: true })
-  async music(@Ctx() context: Context) {
-    const data = await context.dataSources.minio.getMusic();
+  async media(
+    @Ctx() context: Context,
+    @Arg('mediaType') mediaType: 'music' | 'backgrounds' | 'races' | 'factions'
+  ) {
+    const data = await context.dataSources.minio.getBucketItems(mediaType);
     return data;
   }
 }

@@ -268,24 +268,34 @@ export const JoinGalaxy = () => {
         onClose={(race) => {
           characterCreationVar({ ...characterCreationVar(), race });
           onRaceSelectionClose();
+
+          // open background
+          onBackgroundSelectionOpen();
         }}
       />
 
       <BackgroundSelectionModal
         selectedBackground={characterCreationState.background}
         isOpen={backgroundSelectionOpen}
-        onClose={(background) => {
+        onClose={({ background, progress }) => {
           characterCreationVar({ ...characterCreationVar(), background });
           onBackgroundSelectionClose();
+
+          if (progress === 'next') onFactionSelectionOpen();
+          if (progress === 'prev') onRaceSelectionOpen();
         }}
       />
 
       <FactionSelectionModal
         selectedFaction={characterCreationState.faction}
         isOpen={factionSelectionOpen}
-        onClose={(faction) => {
+        onClose={({ faction, progress }) => {
           characterCreationVar({ ...characterCreationVar(), faction });
           onFactionSelectionClose();
+
+          // open homeworld gen
+          if (progress === 'next') onHomeworldGenerationOpen();
+          if (progress === 'prev') onBackgroundSelectionOpen();
         }}
       />
 
@@ -317,7 +327,6 @@ export const JoinGalaxy = () => {
           minWidth={['75vw', '75vw', '50vw', 250]}
           maxHeight={[200, 350]}
           maxWidth={[200, 350]}
-          // maxWidth="md"
         >
           <Stage
             height={tileHeight}

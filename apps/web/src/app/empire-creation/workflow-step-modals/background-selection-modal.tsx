@@ -1,6 +1,8 @@
 import { useReactiveVar } from '@apollo/client';
+
 import {
   Button,
+  Icon,
   Modal,
   ModalBody,
   ModalContent,
@@ -11,13 +13,24 @@ import {
 import { Background } from '@idleverse/galaxy-gql';
 import { useState } from 'react';
 
-import { backgroundsVar } from '@idleverse/state';
+import {
+  backgroundsMediaListenedToVar,
+  backgroundsVar,
+} from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
+import { AnimatedText } from '@idleverse/ui';
+import {
+  MdOutlineKeyboardDoubleArrowLeft,
+  MdOutlineKeyboardDoubleArrowRight,
+  MdRefresh,
+} from 'react-icons/md';
 import {
   headerResponsiveFontProps,
   responsiveFontProps,
+  responsiveIconProps,
 } from '../../_responsive-utils/font-props';
 import { GallerySelector } from '../components/gallery-selector';
+import { useReplayableAudio } from './use-replayable-audio.hook';
 
 export const BackgroundSelectionModal = ({
   isOpen,
@@ -25,7 +38,13 @@ export const BackgroundSelectionModal = ({
   selectedBackground,
 }: {
   isOpen: boolean;
-  onClose: (background: Background) => void;
+  onClose: ({
+    background,
+    progress,
+  }: {
+    background: Background;
+    progress: 'next' | 'prev';
+  }) => void;
   selectedBackground?: Background;
 }) => {
   const backgrounds = useReactiveVar(backgroundsVar);
@@ -35,12 +54,22 @@ export const BackgroundSelectionModal = ({
 
   const { bg, border, bgLight } = useUiBackground();
 
+  const { audioRef, listenedToCurrent, replayCurrentAudio, track } =
+    useReplayableAudio({
+      category: 'backgrounds',
+      locallySelectedName: locallySelectedBackground.name.toLowerCase(),
+      isOpen,
+    });
+
   return (
     <Modal
       isOpen={isOpen}
-      onClose={() => onClose(locallySelectedBackground)}
+      onClose={() =>
+        onClose({ background: locallySelectedBackground, progress: 'next' })
+      }
       size={['full', '6xl', '5xl']}
       isCentered
+      closeOnOverlayClick={false}
     >
       <ModalOverlay />
       <ModalContent>
@@ -51,18 +80,49 @@ export const BackgroundSelectionModal = ({
           borderTopRightRadius={6}
           borderTopLeftRadius={6}
           borderBottomColor={border}
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
         >
-          Select Background
+          <AnimatedText
+            content="Select Background"
+            duration={{ enter: 0.3 }}
+            animationType="decipher"
+            textAlign="center"
+            fontSize="xl"
+          ></AnimatedText>
+
+          <Button
+            isDisabled={!listenedToCurrent}
+            {...responsiveFontProps}
+            onClick={() => replayCurrentAudio()}
+          >
+            <Icon as={MdRefresh} {...responsiveIconProps} />
+          </Button>
         </ModalHeader>
         <ModalBody bg={bgLight} padding={0} display="flex">
+          <audio
+            autoPlay={!listenedToCurrent}
+            ref={audioRef}
+            src={track?.url}
+            onEnded={() =>
+              backgroundsMediaListenedToVar({
+                ...backgroundsMediaListenedToVar(),
+                [locallySelectedBackground.name.toLowerCase()]: true,
+              })
+            }
+          />
           <GallerySelector
+            key={locallySelectedBackground.id}
             name="background"
             items={backgrounds}
             selectedId={locallySelectedBackground.id}
+            progressingText={!listenedToCurrent}
+            progressingTextDuration={track?.metadata?.duration}
             onSelectionChange={(background) =>
               setLocallySelectedBackround(background)
             }
-          />
+          ></GallerySelector>
         </ModalBody>
 
         <ModalFooter
@@ -71,13 +131,41 @@ export const BackgroundSelectionModal = ({
           borderBottomLeftRadius={6}
           borderTop="1px solid"
           borderTopColor={border}
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
         >
           <Button
             {...responsiveFontProps}
             isDisabled={!locallySelectedBackground}
-            onClick={() => onClose(locallySelectedBackground)}
+            onClick={() =>
+              onClose({
+                background: locallySelectedBackground,
+                progress: 'prev',
+              })
+            }
           >
-            Confirm
+            <Icon
+              as={MdOutlineKeyboardDoubleArrowLeft}
+              {...responsiveIconProps}
+            />
+            &nbsp;Race
+          </Button>
+          <Button
+            {...responsiveFontProps}
+            isDisabled={!locallySelectedBackground}
+            onClick={() =>
+              onClose({
+                background: locallySelectedBackground,
+                progress: 'next',
+              })
+            }
+          >
+            Faction &nbsp;
+            <Icon
+              as={MdOutlineKeyboardDoubleArrowRight}
+              {...responsiveIconProps}
+            />
           </Button>
         </ModalFooter>
       </ModalContent>
