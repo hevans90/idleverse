@@ -1,0 +1,20 @@
+fragment MediaMetadataFields on MediaResult {
+  etag
+  name
+  metadata {
+    duration
+    contentType
+  }
+}
+
+query MediaMetadata {
+  backgrounds: media(mediaType: "backgrounds") {
+    ...MediaMetadataFields
+  }
+  factions: media(mediaType: "factions") {
+    ...MediaMetadataFields
+  }
+  races: media(mediaType: "races") {
+    ...MediaMetadataFields
+  }
+}

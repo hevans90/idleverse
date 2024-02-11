@@ -1,0 +1,5 @@
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- UPDATE faction
+-- SET description = 'The ''Ancients'', as spacefaring humans have dubbed them are a mysterious yet seemingly benevolent xenos race. Their skeletal remains were first discovered on Mars in the Sol system, along with technology that was eventually used to send faster-than-light communication to living ancients residing near the galactic core. We do not yet fully understand their language, but enough is known to get by. <br/><br/> They have thus helped humanity from afar for centuries, drip-feeding technology and societal advice. Their true intentions remain unknown.'
+-- WHERE id = '2069117e-52f6-4100-b672-1d8a432d78a6';

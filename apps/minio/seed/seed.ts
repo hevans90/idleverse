@@ -33,7 +33,7 @@ const publicPolicyFactory = (bucketName: string) => ({
   ],
 });
 
-const buckets = ['music', 'backgrounds', 'races'];
+const buckets = ['music', 'backgrounds', 'races', 'factions'];
 
 for (const bucket of buckets) {
   const tracks = await readdir(`${__dirname}/${bucket}`);

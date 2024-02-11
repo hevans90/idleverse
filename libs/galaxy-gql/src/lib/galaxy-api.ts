@@ -11130,10 +11130,12 @@ export type GetGalaxyByIdAndUnclaimedCelestialsQueryVariables = Exact<{
 
 export type GetGalaxyByIdAndUnclaimedCelestialsQuery = { __typename?: 'query_root', galaxy_by_pk?: { __typename?: 'galaxy', id: string, stars: number } | null, celestial: Array<{ __typename?: 'celestial', id: string }> };
 
-export type BackgroundsQueryVariables = Exact<{ [key: string]: never; }>;
+export type MediaMetadataFieldsFragment = { __typename?: 'MediaResult', etag: string, name: string, metadata?: { __typename?: 'MediaMetadata', duration: number, contentType: string } | null };
+
+export type MediaMetadataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type BackgroundsQuery = { __typename?: 'query_root', media?: Array<{ __typename?: 'MediaResult', etag: string, name: string, metadata?: { __typename?: 'MediaMetadata', duration: number, contentType: string } | null }> | null };
+export type MediaMetadataQuery = { __typename?: 'query_root', backgrounds?: Array<{ __typename?: 'MediaResult', etag: string, name: string, metadata?: { __typename?: 'MediaMetadata', duration: number, contentType: string } | null }> | null, factions?: Array<{ __typename?: 'MediaResult', etag: string, name: string, metadata?: { __typename?: 'MediaMetadata', duration: number, contentType: string } | null }> | null, races?: Array<{ __typename?: 'MediaResult', etag: string, name: string, metadata?: { __typename?: 'MediaMetadata', duration: number, contentType: string } | null }> | null };
 
 export type MusicQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -11472,6 +11474,16 @@ export const EmpireResourceFieldsFragmentDoc = gql`
     type
   }
   id
+}
+    `;
+export const MediaMetadataFieldsFragmentDoc = gql`
+    fragment MediaMetadataFields on MediaResult {
+  etag
+  name
+  metadata {
+    duration
+    contentType
+  }
 }
     `;
 export const QuestFieldsFragmentDoc = gql`
@@ -12124,19 +12136,20 @@ export const GetGalaxyByIdAndUnclaimedCelestialsDocument = gql`
 }
     `;
 export type GetGalaxyByIdAndUnclaimedCelestialsQueryResult = Apollo.QueryResult<GetGalaxyByIdAndUnclaimedCelestialsQuery, GetGalaxyByIdAndUnclaimedCelestialsQueryVariables>;
-export const BackgroundsDocument = gql`
-    query Backgrounds {
-  media(mediaType: "backgrounds") {
-    etag
-    name
-    metadata {
-      duration
-      contentType
-    }
+export const MediaMetadataDocument = gql`
+    query MediaMetadata {
+  backgrounds: media(mediaType: "backgrounds") {
+    ...MediaMetadataFields
+  }
+  factions: media(mediaType: "factions") {
+    ...MediaMetadataFields
+  }
+  races: media(mediaType: "races") {
+    ...MediaMetadataFields
   }
 }
-    `;
-export type BackgroundsQueryResult = Apollo.QueryResult<BackgroundsQuery, BackgroundsQueryVariables>;
+    ${MediaMetadataFieldsFragmentDoc}`;
+export type MediaMetadataQueryResult = Apollo.QueryResult<MediaMetadataQuery, MediaMetadataQueryVariables>;
 export const MusicDocument = gql`
     query Music {
   media(mediaType: "music") {

@@ -45,7 +45,9 @@ export class MinioAPI extends DataSource {
     return itemsWithMetadata;
   }
 
-  async getBucketItems(bucketName: 'music' | 'backgrounds' | 'races') {
+  async getBucketItems(
+    bucketName: 'music' | 'backgrounds' | 'races' | 'factions'
+  ) {
     return new Promise<minio.BucketItemWithMetadata[]>((res, rej) => {
       const data: minio.BucketItemWithMetadata[] = [];
 

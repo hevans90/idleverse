@@ -31,7 +31,7 @@ export class MinioMediaResolver {
   @Query((returns) => [MediaResult], { nullable: true })
   async media(
     @Ctx() context: Context,
-    @Arg('mediaType') mediaType: 'music' | 'backgrounds' | 'races'
+    @Arg('mediaType') mediaType: 'music' | 'backgrounds' | 'races' | 'factions'
   ) {
     const data = await context.dataSources.minio.getBucketItems(mediaType);
     return data;
