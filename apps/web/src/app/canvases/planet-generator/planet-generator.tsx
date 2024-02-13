@@ -169,8 +169,8 @@ export const PlanetGenerator = ({
             <OrbitControls
               minPolarAngle={Math.PI / 16}
               maxPolarAngle={Math.PI - Math.PI / 16}
-              minDistance={5}
-              maxDistance={100}
+              minDistance={3}
+              maxDistance={200}
             />
           </Canvas>
         </Suspense>
