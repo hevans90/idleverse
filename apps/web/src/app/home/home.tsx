@@ -156,6 +156,7 @@ export const Home = () => {
                         height="100%"
                         padding={3}
                         align="start"
+                        overflow="hidden"
                       >
                         <VStack
                           width="100%"
@@ -164,7 +165,13 @@ export const Home = () => {
                         >
                           <HStack width="100%" justifyContent="space-between">
                             <Text>Galaxy:</Text>
-                            <Text whiteSpace="nowrap">{name}</Text>
+                            <Text
+                              whiteSpace="nowrap"
+                              overflow="hidden"
+                              textOverflow="ellipsis"
+                            >
+                              {name}
+                            </Text>
                           </HStack>
                           <HStack width="100%" justifyContent="space-between">
                             <Text>Systems:</Text>
