@@ -3,7 +3,6 @@ import { RingConfig } from '@idleverse/models';
 import {
   planetGenerationColorDrawerVar,
   planetGenerationRingDrawerVar,
-  planetGenerationTerrainDrawerVar,
   planetGeneratorConfigVar,
 } from '@idleverse/state';
 import { rgbToHex } from '@idleverse/theme';
@@ -38,8 +37,8 @@ export const generatePlanetInsertionVars = (
     textureResolution,
   } = planetGeneratorConfigVar();
 
-  const { currentPaletteId } = planetGenerationColorDrawerVar();
-  const { terrainBias } = planetGenerationTerrainDrawerVar();
+  const { currentPaletteId, terrainBias } = planetGenerationColorDrawerVar();
+
   const { rings } = planetGenerationRingDrawerVar();
 
   return {

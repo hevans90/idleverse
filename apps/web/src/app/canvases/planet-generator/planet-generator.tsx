@@ -17,7 +17,6 @@ import {
   colorsVar,
   planetGenerationColorDrawerVar,
   planetGenerationRingDrawerVar,
-  planetGenerationTerrainDrawerVar,
   planetGeneratorConfigVar,
 } from '@idleverse/state';
 import { useResize } from '../_utils/use-resize.hook';
@@ -34,7 +33,7 @@ import {
   PlanetGeneratorSliders,
   planetGenerationControlsHeight,
 } from './ui/sliders';
-import { PlanetGeneratorTerrainDrawer } from './ui/terrain-drawer';
+
 import { World } from './world';
 
 export const PlanetGenerator = ({
@@ -66,9 +65,9 @@ export const PlanetGenerator = ({
 
   const {
     currentPalette: { water, sand, grass, forest },
+    terrainBias,
   } = useReactiveVar(planetGenerationColorDrawerVar);
 
-  const { terrainBias } = useReactiveVar(planetGenerationTerrainDrawerVar);
   const { rings } = useReactiveVar(planetGenerationRingDrawerVar);
 
   const prevRingsRef = useRef<RingConfig[]>([]);
@@ -183,7 +182,6 @@ export const PlanetGenerator = ({
           <PlanetGeneratorColorDrawer paletteData={colorPalettes} />
           <NameSeedMobile />
 
-          <PlanetGeneratorTerrainDrawer />
           <PlanetGeneratorRingDrawer />
           <PlanetGeneratorSliders />
         </>
