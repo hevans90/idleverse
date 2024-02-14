@@ -24,7 +24,11 @@ import {
 } from '@idleverse/galaxy-gql';
 import { Stage } from '@pixi/react';
 import { useEffect, useRef, useState } from 'react';
-import { Link as ReactRouterLink, useParams } from 'react-router-dom';
+import {
+  Link as ReactRouterLink,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 
 import {
   characterCreationVar,
@@ -36,6 +40,7 @@ import { GalaxyThumbnail } from '../canvases/galaxy-thumbnail/galaxy-thumbnail';
 import { randomisePlanetSeedAndName } from '../canvases/planet-generator/_utils/randomise-planet-seed-and-name';
 import { generatePlanetInsertionVars } from '../canvases/planet-generator/generate-planet-input-vars';
 import { Loading } from '../components/loading';
+import { PixelateSVGFilter } from './components/pixelate-svg-filter';
 import { creationStep } from './creation-types';
 import { CreationWorkflow } from './creation-workflow';
 import { BackgroundSelectionModal } from './workflow-step-modals/background-selection-modal';
@@ -51,6 +56,8 @@ export const JoinGalaxy = () => {
   const { id: userId } = useReactiveVar(selfVar);
 
   const { name } = useParams<{ name: string }>();
+
+  const navigate = useNavigate();
 
   const { data: galaxyData, loading } = useQuery<
     GalaxyByNameQuery,
@@ -160,7 +167,7 @@ export const JoinGalaxy = () => {
   }, []);
 
   useEffect(() => {
-    if (galaxyData?.[0]) {
+    if (galaxyData?.galaxy?.[0]) {
       galaxyConfigVar(dbGalaxyToGalaxyConfig(galaxyData.galaxy[0]));
 
       const userAlreadyHasAnEmpireHere =
@@ -172,23 +179,23 @@ export const JoinGalaxy = () => {
         setalreadyJoinedGalaxy(true);
       }
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [galaxyData]);
+  }, [galaxyData, userId]);
 
   useEffect(() => {
     if (readyToCreateEmpire) {
-      runCreationMutations().then(() => {
-        setEmpireCreationStatus('done');
-
-        /**
-         * After a successful creation, randomise the planet id & seed.
-         * Since this is a persisted reactive var (in local storage),
-         * without this the user will likely, upon trying to join another galaxy,
-         * try to insert a planet that breaks db constraints (dupe ids/names).
-         */
-        randomisePlanetSeedAndName();
-      });
+      setTimeout(() => {
+        runCreationMutations().then(() => {
+          setEmpireCreationStatus('done');
+          /**
+           * After a successful creation, randomise the planet id & seed.
+           * Since this is a persisted reactive var (in local storage),
+           * without this the user will likely, upon trying to join another galaxy,
+           * try to insert a planet that breaks db constraints (dupe ids/names).
+           */
+          randomisePlanetSeedAndName();
+          navigate(`/galaxies/${galaxyData.galaxy[0].name}`);
+        });
+      }, 2000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [readyToCreateEmpire]);
@@ -311,7 +318,12 @@ export const JoinGalaxy = () => {
         }}
       />
 
-      <VStack height="100%" justify="center" spacing={10}>
+      <VStack
+        height="100%"
+        justify="center"
+        spacing={10}
+        filter={'url(#pixelate)'}
+      >
         <VStack spacing={3}>
           <Text textAlign="center">It's time to begin your journey in:</Text>
           <Text textAlign="center" fontWeight="bold" color={`${secondary}.500`}>
@@ -357,6 +369,13 @@ export const JoinGalaxy = () => {
             stepFunctions[creationStep]();
           }}
           value={characterCreationState}
+        />
+
+        <PixelateSVGFilter
+          start={readyToCreateEmpire}
+          reversed={false}
+          minDistortion={1}
+          maxDistortion={100}
         />
       </VStack>
     </>
