@@ -29,12 +29,12 @@ const UnderlinedFrameContent = ({
   children?: ReactNode;
   show: boolean;
 }) => {
-  const { canvasBgDarker, canvasBorder } = useUiBackground();
+  const { rawBgDarker, rawBorder } = useUiBackground();
 
   const svgRef = useRef<SVGSVGElement | null>(null);
   const { onRender } = useFrameSVGAssemblingAnimation(svgRef);
   return (
-    <DataDiv bg={canvasBgDarker} border={canvasBorder}>
+    <DataDiv bg={rawBgDarker} border={rawBorder}>
       <FrameSVGUnderline elementRef={svgRef} onRender={onRender} z={5} />
       <Box
         position="relative"

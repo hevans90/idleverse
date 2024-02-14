@@ -1,6 +1,16 @@
 import { useReactiveVar } from '@apollo/client';
-import { Box, Button, Image, SimpleGrid, Stack, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Image,
+  SimpleGrid,
+  Stack,
+  Text,
+  VStack,
+} from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+
+import { AnimatedButton } from '@idleverse/ui';
 
 import {
   characterCreationVar,
@@ -120,38 +130,63 @@ export const CreationWorkflow = ({
       minChildWidth={['180px', '120px']}
       spacing={2}
     >
-      <WorkflowButton
-        onClick={() => onStepClicked('race')}
-        stepName="race"
-        value={race?.name}
-      />
-      <WorkflowButton
-        onClick={() => onStepClicked('background')}
-        stepName="background"
-        value={background?.name}
-      />
-      <WorkflowButton
-        onClick={() => onStepClicked('faction')}
-        stepName="faction"
-        value={faction?.name}
-      />
-      <WorkflowButton
-        onClick={() => onStepClicked('homeworld')}
-        stepName="homeworld"
-        displayName="generate homeworld"
-        value={homeworld?.name}
-        imageUrl={homeworldDataURI ? homeworldDataURI : undefined}
-      />
-      {!generatingPlanetThumbnailPixelData && generatingPlanetThumbnailDataURI && (
-        <DataUriGenerator
-          celestialId="character-creation"
-          input={[planetThumbnailPixelData]}
-          onGenerationFinished={({ uris }) => {
-            setHomeworldDataURI(uris[0].uri);
-            setGeneratingPlanetThumbnailDataURI(false);
-          }}
-        />
-      )}
+      <AnimatedButton onClick={() => onStepClicked('race')}>
+        <VStack>
+          <Text>{race?.name}</Text>
+
+          {race && (
+            <Image
+              boxSize="50px"
+              src={`/races/icons/${race.name.toLowerCase()}.png`}
+              borderRadius="full"
+            />
+          )}
+        </VStack>
+      </AnimatedButton>
+      <AnimatedButton onClick={() => onStepClicked('background')}>
+        <VStack>
+          <Text>{background?.name}</Text>
+          {background && (
+            <Image
+              boxSize="50px"
+              src={`/backgrounds/icons/${background.name.toLowerCase()}.png`}
+              borderRadius="full"
+            />
+          )}
+        </VStack>
+      </AnimatedButton>
+      <AnimatedButton onClick={() => onStepClicked('faction')}>
+        <VStack>
+          <Text>{faction?.name}</Text>
+          {faction && (
+            <Image
+              boxSize="50px"
+              src={`/factions/${faction.name.toLowerCase()}.png`}
+              borderRadius="full"
+            />
+          )}
+        </VStack>
+      </AnimatedButton>
+      <AnimatedButton onClick={() => onStepClicked('homeworld')}>
+        <VStack>
+          <Text>{homeworld?.name ?? 'generate homeworld'}</Text>
+          {!generatingPlanetThumbnailPixelData &&
+            generatingPlanetThumbnailDataURI && (
+              <DataUriGenerator
+                celestialId="character-creation"
+                input={[planetThumbnailPixelData]}
+                onGenerationFinished={({ uris }) => {
+                  setHomeworldDataURI(uris[0].uri);
+                  setGeneratingPlanetThumbnailDataURI(false);
+                }}
+              />
+            )}
+          {homeworldDataURI && (
+            <Image boxSize="50px" src={homeworldDataURI} borderRadius="full" />
+          )}
+        </VStack>
+      </AnimatedButton>
+
       <WorkflowButton
         onClick={() => onStepClicked('start')}
         stepName="start"

@@ -43,12 +43,12 @@ const AnimatedFrameContent = ({
   leftBottom?: boolean;
   show: boolean;
 }) => {
-  const { canvasBg, canvasBorder } = useUiBackground();
+  const { rawBg, rawBorder } = useUiBackground();
 
   const svgRef = useRef<SVGSVGElement | null>(null);
   const { onRender } = useFrameSVGAssemblingAnimation(svgRef);
   return (
-    <DataDiv bg={bg ?? canvasBg} border={border ?? canvasBorder}>
+    <DataDiv bg={bg ?? rawBg} border={border ?? rawBorder}>
       <FrameSVGOctagon
         squareSize={20}
         strokeWidth={borderStrokeWidth}

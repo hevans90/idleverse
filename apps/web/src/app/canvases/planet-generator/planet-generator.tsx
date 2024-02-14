@@ -41,7 +41,7 @@ export const PlanetGenerator = ({
 }: {
   customSize?: { width: number; height: number };
 }) => {
-  const { canvasBgDarker } = useUiBackground();
+  const { rawBgDarker } = useUiBackground();
 
   const { data: colorPalettes, loading: colorPalettesLoading } =
     useQuery<TerrainHexPalettesQuery>(TerrainHexPalettesDocument);
@@ -162,7 +162,7 @@ export const PlanetGenerator = ({
             />
             <CameraController />
             <Pixelate
-              bgColor={hexStringToNumber(canvasBgDarker)}
+              bgColor={hexStringToNumber(rawBgDarker)}
               pixelSize={pixelSize}
             />
             <OrbitControls

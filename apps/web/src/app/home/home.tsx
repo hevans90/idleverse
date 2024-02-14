@@ -28,7 +28,7 @@ import { AnimatedFrame, AnimatedText, BlinkingText } from '@idleverse/ui';
 export const Home = () => {
   const { id: userId } = useReactiveVar(selfVar);
 
-  const { canvasBgDarker, borderSecondary, canvasBorderSecondary } =
+  const { rawBgDarker, borderSecondary, rawBorderSecondary } =
     useUiBackground();
 
   const { secondary } = useReactiveVar(colorsVar);
@@ -147,8 +147,8 @@ export const Home = () => {
                     <AnimatedFrame
                       key={i}
                       show
-                      bg={canvasBgDarker}
-                      border={canvasBorderSecondary}
+                      bg={rawBgDarker}
+                      border={rawBorderSecondary}
                     >
                       <VStack
                         key={i}

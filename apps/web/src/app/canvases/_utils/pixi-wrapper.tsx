@@ -17,7 +17,7 @@ export const PixiWrapper = (props: {
 }) => {
   const { disableZoomCallback } = useDisableWheelZoom();
 
-  const { canvasBg } = useUiBackground();
+  const { rawBg } = useUiBackground();
 
   const size = useResize(props.resizeControls || 'none');
 
@@ -38,7 +38,7 @@ export const PixiWrapper = (props: {
         <Stage
           {...size}
           options={{
-            backgroundColor: hexStringToNumber(canvasBg),
+            backgroundColor: hexStringToNumber(rawBg),
             antialias: true,
           }}
         >

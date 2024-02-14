@@ -24,15 +24,16 @@ export const useUiBackground = () => {
     `${secondary}.600`
   );
 
-  const canvasBg: string =
+  const rawBg: string = colors[primary][colorMode === 'dark' ? '700' : '200'];
+  const rawBgDark: string =
     colors[primary][colorMode === 'dark' ? '800' : '200'];
-  const canvasBgDarker: string =
+  const rawBgDarker: string =
     colors[primary][colorMode === 'dark' ? '900' : '300'];
 
-  const canvasBorder: string =
+  const rawBorder: string =
     colors[primary][colorMode === 'dark' ? '200' : '600'];
 
-  const canvasBorderSecondary: string =
+  const rawBorderSecondary: string =
     colors[secondary][colorMode === 'dark' ? '600' : '200'];
 
   return {
@@ -43,9 +44,10 @@ export const useUiBackground = () => {
     bgDarker,
     border,
     borderSecondary,
-    canvasBg,
-    canvasBgDarker,
-    canvasBorder,
-    canvasBorderSecondary,
+    rawBg,
+    rawBgDark,
+    rawBgDarker,
+    rawBorder,
+    rawBorderSecondary,
   };
 };
