@@ -136,9 +136,8 @@ export const CreationWorkflow = ({
 
           {race && (
             <Image
-              boxSize="50px"
+              height="50px"
               src={`/races/icons/${race.name.toLowerCase()}.png`}
-              borderRadius="full"
             />
           )}
         </VStack>
@@ -161,7 +160,7 @@ export const CreationWorkflow = ({
           {faction && (
             <Image
               boxSize="50px"
-              src={`/factions/${faction.name.toLowerCase()}.png`}
+              src={`/factions/icons/${faction.name.toLowerCase()}.png`}
               borderRadius="full"
             />
           )}
