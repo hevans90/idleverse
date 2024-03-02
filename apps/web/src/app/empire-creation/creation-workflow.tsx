@@ -2,6 +2,8 @@ import { useReactiveVar } from '@apollo/client';
 import {
   Box,
   Button,
+  ButtonProps,
+  GridItem,
   Image,
   SimpleGrid,
   Stack,
@@ -17,6 +19,7 @@ import {
   colorsVar,
   planetGenerationColorDrawerVar,
 } from '@idleverse/state';
+import { responsiveFontProps } from '../_responsive-utils/font-props';
 import { DataUriGenerator } from '../canvases/celestial-viewer/data-uri-generator';
 import { runPixelDataGenOnWorker } from '../canvases/planet-generator/texture-generation/run-texture-gen-on-worker';
 import { creationStep } from './creation-types';
@@ -28,6 +31,7 @@ const WorkflowButton = ({
   disabled,
   value,
   imageUrl,
+  ...buttonProps
 }: {
   stepName: creationStep;
   displayName?: string;
@@ -35,11 +39,12 @@ const WorkflowButton = ({
   onClick: (stepName: creationStep) => unknown;
   value?: string;
   imageUrl?: string;
-}) => {
+} & ButtonProps) => {
   const { secondary } = useReactiveVar(colorsVar);
   return (
     <Box
       as={Button}
+      {...buttonProps}
       padding={5}
       height={[16, 24, 32]}
       lineHeight="inherit"
@@ -65,7 +70,7 @@ const WorkflowButton = ({
         {imageUrl && (
           <Image boxSize="50px" src={imageUrl} borderRadius="full" />
         )}
-        <Text>{value || displayName || stepName}</Text>
+        <Text {...responsiveFontProps}>{value || displayName || stepName}</Text>
       </Stack>
     </Box>
   );
@@ -131,8 +136,13 @@ export const CreationWorkflow = ({
       spacing={2}
     >
       <AnimatedButton onClick={() => onStepClicked('race')}>
-        <VStack>
-          <Text>{race?.name ?? 'race'}</Text>
+        <VStack gap={[1, 1, 2]} padding={[2, 2, 2, 0]}>
+          <Text
+            display={['none', 'none', 'none', 'block']}
+            {...responsiveFontProps}
+          >
+            {race?.name ?? 'race'}
+          </Text>
 
           {race && (
             <Image
@@ -143,8 +153,13 @@ export const CreationWorkflow = ({
         </VStack>
       </AnimatedButton>
       <AnimatedButton onClick={() => onStepClicked('background')}>
-        <VStack>
-          <Text>{background?.name ?? 'background'}</Text>
+        <VStack gap={[1, 1, 2]} padding={[2, 2, 2, 0]}>
+          <Text
+            display={['none', 'none', 'none', 'block']}
+            {...responsiveFontProps}
+          >
+            {background?.name ?? 'background'}
+          </Text>
           {background && (
             <Image
               boxSize="50px"
@@ -155,8 +170,13 @@ export const CreationWorkflow = ({
         </VStack>
       </AnimatedButton>
       <AnimatedButton onClick={() => onStepClicked('faction')}>
-        <VStack>
-          <Text>{faction?.name ?? 'faction'}</Text>
+        <VStack gap={[1, 1, 2]} padding={[2, 2, 2, 0]}>
+          <Text
+            display={['none', 'none', 'none', 'block']}
+            {...responsiveFontProps}
+          >
+            {faction?.name ?? 'faction'}
+          </Text>
           {faction && (
             <Image
               boxSize="50px"
@@ -167,8 +187,13 @@ export const CreationWorkflow = ({
         </VStack>
       </AnimatedButton>
       <AnimatedButton onClick={() => onStepClicked('homeworld')}>
-        <VStack>
-          <Text>{homeworld?.name ?? 'generate homeworld'}</Text>
+        <VStack gap={[1, 1, 2]} padding={[2, 2, 2, 0]}>
+          <Text
+            display={['none', 'none', 'none', 'block']}
+            {...responsiveFontProps}
+          >
+            {homeworld?.name ?? 'generate homeworld'}
+          </Text>
           {!generatingPlanetThumbnailPixelData &&
             generatingPlanetThumbnailDataURI && (
               <DataUriGenerator
@@ -185,13 +210,15 @@ export const CreationWorkflow = ({
           )}
         </VStack>
       </AnimatedButton>
-
-      <WorkflowButton
-        onClick={() => onStepClicked('start')}
-        stepName="start"
-        displayName="create your empire"
-        disabled={!ready}
-      />
+      <GridItem colSpan={[4, 4, 1]}>
+        <WorkflowButton
+          width="100%"
+          onClick={() => onStepClicked('start')}
+          stepName="start"
+          displayName="create your empire"
+          disabled={!ready}
+        />
+      </GridItem>
     </SimpleGrid>
   );
 };
