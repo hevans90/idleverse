@@ -43,7 +43,7 @@ export const BackgroundSelectionModal = ({
     progress,
   }: {
     background: Background;
-    progress: 'next' | 'prev';
+    progress: 'none' | 'next' | 'prev';
   }) => void;
   selectedBackground?: Background;
 }) => {
@@ -65,11 +65,11 @@ export const BackgroundSelectionModal = ({
     <Modal
       isOpen={isOpen}
       onClose={() =>
-        onClose({ background: locallySelectedBackground, progress: 'next' })
+        onClose({ background: locallySelectedBackground, progress: 'none' })
       }
       size={['full', '6xl', '5xl']}
       isCentered
-      closeOnOverlayClick={false}
+      closeOnOverlayClick={true}
     >
       <ModalOverlay />
       <ModalContent>

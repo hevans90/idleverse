@@ -272,12 +272,12 @@ export const JoinGalaxy = () => {
       <RaceSelectionModal
         selectedRace={characterCreationState.race}
         isOpen={raceSelectionOpen}
-        onClose={(race) => {
+        onClose={({ race, progress }) => {
           characterCreationVar({ ...characterCreationVar(), race });
           onRaceSelectionClose();
 
           // open background
-          onBackgroundSelectionOpen();
+          if (progress === 'next') onBackgroundSelectionOpen();
         }}
       />
 

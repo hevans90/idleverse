@@ -132,7 +132,7 @@ export const CreationWorkflow = ({
     >
       <AnimatedButton onClick={() => onStepClicked('race')}>
         <VStack>
-          <Text>{race?.name}</Text>
+          <Text>{race?.name ?? 'race'}</Text>
 
           {race && (
             <Image
@@ -144,7 +144,7 @@ export const CreationWorkflow = ({
       </AnimatedButton>
       <AnimatedButton onClick={() => onStepClicked('background')}>
         <VStack>
-          <Text>{background?.name}</Text>
+          <Text>{background?.name ?? 'background'}</Text>
           {background && (
             <Image
               boxSize="50px"
@@ -156,7 +156,7 @@ export const CreationWorkflow = ({
       </AnimatedButton>
       <AnimatedButton onClick={() => onStepClicked('faction')}>
         <VStack>
-          <Text>{faction?.name}</Text>
+          <Text>{faction?.name ?? 'faction'}</Text>
           {faction && (
             <Image
               boxSize="50px"
