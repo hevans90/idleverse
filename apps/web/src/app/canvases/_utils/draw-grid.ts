@@ -16,8 +16,7 @@ export const drawGrid = ({
 }) => {
   const container = new PIXI.Container();
 
-  const chunkWidth = width / columns;
-  const chunkHeight = height / rows;
+  const cellWidth = 200;
 
   const textStyle: Partial<PIXI.ITextStyle> = {
     fontFamily: 'zx spectrum',
@@ -25,21 +24,22 @@ export const drawGrid = ({
     fill: '#fff',
     align: 'center',
     stroke: '#000',
-    strokeThickness: 4,
+    strokeThickness: 0,
   };
 
-  for (let column = 0; column < columns; column++) {
-    for (let row = 0; row < rows; row++) {
+  for (let column = 0; column < columns + 1; column++) {
+    for (let row = 0; row < rows + 1; row++) {
       const grid = new PIXI.Graphics();
+
       const text = new PIXI.Text(
-        `${column * chunkWidth}, ${row * chunkHeight} `,
+        `${Math.floor(column * cellWidth)}, ${Math.floor(row * cellWidth)} `,
         textStyle
       );
 
-      const xChunk = column * chunkWidth;
-      const nextXChunk = (column + 1) * chunkWidth;
-      const yChunk = row * chunkHeight;
-      const nextYChunk = (row + 1) * chunkHeight;
+      const xChunk = column * cellWidth;
+      const nextXChunk = (column + 1) * cellWidth;
+      const yChunk = row * cellWidth;
+      const nextYChunk = (row + 1) * cellWidth;
 
       text.position.x = xChunk;
       text.position.y = yChunk;
@@ -48,25 +48,24 @@ export const drawGrid = ({
       // ----> x
       grid.moveTo(xChunk, yChunk);
 
-      if (row !== 0) {
-        // <==== x
-        grid.lineTo(nextXChunk, yChunk);
-      }
+      // <==== x
+      grid.lineTo(nextXChunk, yChunk);
 
       // |
       // |
       // \/
+
       grid.moveTo(nextXChunk, nextYChunk);
 
-      if (column !== columns - 1) {
-        // /\
-        // ||
-        // ||
-        grid.lineTo(nextXChunk, yChunk);
-      }
+      // /\
+      // ||
+      // ||
+      grid.lineTo(nextXChunk, yChunk);
 
-      container.addChild(grid);
-      container.addChild(text);
+      if (column !== -columns - 1 && row !== -rows - 1) {
+        container.addChild(text);
+        container.addChild(grid);
+      }
     }
   }
 

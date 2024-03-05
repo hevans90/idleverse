@@ -2,7 +2,7 @@ import { useReactiveVar } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
 import { hexStringToNumber, useUiBackground } from '@idleverse/theme';
 import { Stage } from '@pixi/react';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 import { galacticEmpireVar, myEmpireVar } from '@idleverse/state';
 import { GameUI } from '../../game-ui/game-ui';
@@ -10,14 +10,14 @@ import { useDisableWheelZoom } from './use-disable-wheel-zoom.hook';
 import { controls, useResize } from './use-resize.hook';
 
 export const PixiWrapper = (props: {
-  children?: JSX.Element;
+  children?: ReactNode;
   ui?: JSX.Element;
   resizeControls?: controls;
   showGameUI?: boolean;
 }) => {
   const { disableZoomCallback } = useDisableWheelZoom();
 
-  const { rawBg } = useUiBackground();
+  const { rawBgDark } = useUiBackground();
 
   const size = useResize(props.resizeControls || 'none');
 
@@ -38,7 +38,7 @@ export const PixiWrapper = (props: {
         <Stage
           {...size}
           options={{
-            backgroundColor: hexStringToNumber(rawBg),
+            backgroundColor: hexStringToNumber(rawBgDark),
             antialias: true,
           }}
         >
