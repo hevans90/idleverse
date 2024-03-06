@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { PixiComponent, useApp } from '@pixi/react';
 import { Viewport, type IViewportOptions } from 'pixi-viewport';
-import { Application, Graphics } from 'pixi.js';
-import { forwardRef } from 'react';
+import { Application } from 'pixi.js';
+import { ReactNode, forwardRef } from 'react';
 
 // we share the ticker and interaction from app
 const PixiViewportComponent = PixiComponent('Viewport', {
@@ -10,8 +10,8 @@ const PixiViewportComponent = PixiComponent('Viewport', {
     props: {
       app: Application;
       size: { width: number; height: number };
-      children: number;
-      gridDebug?: boolean;
+      children: ReactNode;
+      initialZoom?: number;
     } & Partial<IViewportOptions>
   ) {
     const { app, ...viewportProps } = props;
@@ -24,57 +24,27 @@ const PixiViewportComponent = PixiComponent('Viewport', {
 
     if (props.worldHeight && props.worldWidth) {
       viewport
-        .fitWidth(props.worldWidth, false, false)
-        .fitHeight(props.worldHeight, false, false)
         .drag()
         .decelerate()
         .pinch()
-        .wheel({ trackpadPinch: true, wheelZoom: true });
-      // .clampZoom({
-      //   maxHeight: props.size.height * 2,
-      //   minHeight: props.size.height / 2,
-      // });
+        .wheel({ trackpadPinch: true, wheelZoom: true })
+        .clampZoom({
+          maxHeight: props.worldHeight * 8,
+          minHeight: props.worldWidth / 16,
+        })
+        .clamp({ direction: 'all' });
+    }
+
+    if (props.initialZoom) {
+      viewport.setZoom(props.initialZoom, true);
     }
 
     viewport.sortableChildren = true;
-
-    if (props.gridDebug) {
-      // const grid = drawGrid({
-      //   width: props.worldWidth,
-      //   height: props.worldHeight,
-      //   columns: props.worldWidth / 200,
-      //   rows: props.worldHeight / 200,
-      //   gridColor: colors[colorsVar().secondary]['300'],
-      // });
-      // grid.name = 'debug-grid';
-      // viewport.addChild(grid);
-
-      const outline = new Graphics();
-      outline
-        .lineStyle(3, 0xff0000)
-        .drawRect(0, 0, viewport.worldWidth, viewport.worldHeight);
-      viewport.addChild(outline);
-    }
-
     return viewport;
   },
   applyProps(viewport, _oldProps, _newProps) {
     const { children: oldChildren, ...oldProps } = _oldProps;
     const { children: newChildren, ...newProps } = _newProps;
-
-    const existingGrid = viewport.getChildByName('debug-grid');
-    if (!newProps.gridDebug) {
-      if (existingGrid) viewport.removeChild(existingGrid);
-    }
-    if (newProps.gridDebug) {
-      if (existingGrid) {
-        viewport.removeChild(existingGrid);
-      }
-    }
-
-    viewport
-      .fitWidth(newProps.worldWidth, false, false)
-      .fitHeight(newProps.worldHeight, true, false);
 
     Object.keys(newProps).forEach((p) => {
       // @ts-ignore
@@ -83,9 +53,14 @@ const PixiViewportComponent = PixiComponent('Viewport', {
         viewport[p] = newProps[p];
       }
     });
+
+    viewport.moveCenter(newProps.worldWidth / 2, newProps.worldHeight / 2);
   },
   didMount() {
     //
+  },
+  config: {
+    destroy: false,
   },
 });
 
@@ -94,10 +69,9 @@ const PixiViewportComponent = PixiComponent('Viewport', {
 export const PixiViewport = forwardRef<
   Viewport,
   Partial<IViewportOptions> & {
-    children: any;
+    children: ReactNode;
     size: { width: number; height: number };
-    gridDebug?: boolean;
-    initialPosition?: { x: number; y: number };
+    initialZoom?: number;
   }
 >((props, ref) => (
   <PixiViewportComponent ref={ref} app={useApp()} {...props} />

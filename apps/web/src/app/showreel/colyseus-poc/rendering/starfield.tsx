@@ -14,7 +14,7 @@ export const StarField = ({
 }) => {
   const app = useApp();
 
-  const noStars = 3000;
+  const noStars = 10000;
   const particleContainerRef = useRef<PIXI.ParticleContainer>();
 
   useEffect(() => {
@@ -28,12 +28,12 @@ export const StarField = ({
 
     for (let i = 0; i < noStars; i++) {
       // Make star speed & size scale non-linearly - there should be more far away than close
-      const scaleFactor = Math.pow(i, 3) / Math.pow(noStars, 3);
+      const scaleFactor = Math.pow(i, 3) / Math.pow(noStars, 4);
       // Create a star sprite
       const star = new PIXI.Sprite(starTexture);
       star.anchor.set(0.5);
       // Make stars progressively bigger as we add them, effectively z-sorting
-      star.scale.set(scaleFactor / 20 + 0.01);
+      star.scale.set(scaleFactor / 35 + 0.01);
       // star.dLife = scaleFactor*3
       // Make sure larger stars move faster
       // star.dy = 5 * scaleFactor;

@@ -39,15 +39,24 @@ export const StarEditor = ({
     };
   }, [viewportRef]);
 
+  const calculateResolution = useCallback(() => {
+    console.log(viewportRef.current.scale.x);
+    console.log('initial', {
+      x: (viewportRef.current.worldWidth / 2) * viewportRef.current.scale.x,
+      y: (viewportRef.current.worldHeight / 2) * viewportRef.current.scale.x,
+    });
+    return {
+      x: (viewportRef.current.worldWidth / 4) * viewportRef.current.scale.x,
+      y: (viewportRef.current.worldHeight / 4) * viewportRef.current.scale.x,
+    };
+  }, [viewportRef]);
+
   const afterLoad = async () => {
     const bundle = await PIXI.Assets.loadBundle('noise');
     const perlin = bundle['perlin-bw'];
     perlin.baseTexture.wrapMode = PIXI.WRAP_MODES.REPEAT;
 
-    const u_resolution = {
-      x: viewportRef.current.width,
-      y: viewportRef.current.height,
-    };
+    const u_resolution = calculateResolution();
 
     const u_color = [
       (color.r / 255).toFixed(1),
@@ -78,21 +87,13 @@ export const StarEditor = ({
         u_offset: calculateOffset(),
         u_color,
       });
-    }
 
-    tickerRef.current = (delta) => {
-      filterRef.current.uniforms.u_time = totalTime.current;
-      totalTime.current += delta / 60;
-    };
-  };
-
-  useEffect(() => {
-    if (viewportRef.current) {
-      viewportRef.current.on('wheel', (e) => {
-        filterRef.current.uniforms.u_resolution = {
-          x: viewportRef.current.width,
-          y: viewportRef.current.height,
-        };
+      viewportRef.current.on('zoomed-end', () => {
+        filterRef.current.uniforms.u_resolution = calculateResolution();
+        filterRef.current.uniforms.u_offset = calculateOffset();
+      });
+      viewportRef.current.on('wheel', () => {
+        filterRef.current.uniforms.u_resolution = calculateResolution();
         filterRef.current.uniforms.u_offset = calculateOffset();
       });
       viewportRef.current.on('moved', (e) => {
@@ -101,7 +102,12 @@ export const StarEditor = ({
         }
       });
     }
-  }, [viewportRef]);
+
+    tickerRef.current = (delta) => {
+      filterRef.current.uniforms.u_time = totalTime.current;
+      totalTime.current += delta / 60;
+    };
+  };
 
   useEffect(() => {
     if (viewportRef.current) {
