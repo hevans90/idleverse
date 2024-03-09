@@ -1,4 +1,5 @@
 export * from './lib/backgrounds';
+export * from './lib/celestial-creation';
 export * from './lib/celestial-viewer';
 export * from './lib/character-creation';
 export * from './lib/colors';

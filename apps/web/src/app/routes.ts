@@ -16,7 +16,7 @@ import { StarEditorContainer } from './showreel/star-editor/star-editor-containe
 import { QuestTreeContainer } from './showreel/tree/quest-tree-container';
 import { TechTreeContainer } from './showreel/tree/tech-tree-container';
 
-import { SystemEditorContainer } from './canvases/system-editor/system-editor.container';
+import { SystemEditorContainer } from './showreel/system-editor/system-editor.container';
 
 export const routes = [
   { path: '/', name: 'home', component: Home },

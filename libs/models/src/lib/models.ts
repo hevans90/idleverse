@@ -36,6 +36,21 @@ export type PlanetGenerationConfig = {
   rotate: boolean;
 };
 
+export type CelestialType =
+  | 'red-giant'
+  | 'main-sequence'
+  | 'white-dwarf'
+  | 'blue-giant';
+
+export type CelestialGenerationConfig = {
+  preset: CelestialType;
+  brightness: number;
+  density: number;
+  coronalStrength: number;
+  color: { r: number; g: number; b: number };
+  radius: number;
+};
+
 export type BreadCrumb = {
   name: string;
   component: () => JSX.Element;

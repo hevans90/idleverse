@@ -2,6 +2,10 @@ import { useReactiveVar } from '@apollo/client';
 import {
   HStack,
   Input,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
@@ -17,12 +21,18 @@ import {
 } from '@chakra-ui/react';
 import { hexToRGB, rgbToHex, useUiBackground } from '@idleverse/theme';
 
+import {
+  celestialPresets,
+  celestialSettingsVar,
+  colorsVar,
+} from '@idleverse/state';
+import { Fragment } from 'react';
 import { responsiveFontProps } from '../../../_responsive-utils/font-props';
 import { ExpandingUI } from '../../../components/expanding-ui';
-import { celestialSettingsVar } from '../state/celestial.state';
 
 export const CelestialSettings = () => {
-  const { border } = useUiBackground();
+  const { border, bg } = useUiBackground();
+  const { primary } = useReactiveVar(colorsVar);
 
   const settings = useReactiveVar(celestialSettingsVar);
 
@@ -92,8 +102,37 @@ export const CelestialSettings = () => {
         spacing={5}
         divider={<StackDivider borderColor={border} />}
       >
+        <Menu>
+          <MenuButton
+            px={4}
+            py={2}
+            borderRadius="md"
+            borderWidth="1px"
+            _hover={{ bg: `${primary}.500` }}
+            _expanded={{ bg: `${primary}.700` }}
+            _focus={{ boxShadow: 'outline' }}
+          >
+            {settings.preset.replace('-', ' ')}
+          </MenuButton>
+          <MenuList bg={bg} zIndex={2}>
+            {celestialPresets.map(({ preset, ...rest }, i) => (
+              <Fragment key={i}>
+                <MenuItem
+                  bg={bg}
+                  _hover={{ bg: `${primary}.500` }}
+                  onClick={() => {
+                    celestialSettingsVar({ ...settings, preset, ...rest });
+                  }}
+                >
+                  {preset.replace('-', ' ')}
+                </MenuItem>
+              </Fragment>
+            ))}
+          </MenuList>
+        </Menu>
+
         {numericalSettings.map(({ name, setting, precision, ...rest }) => (
-          <VStack width="100%" key={name}>
+          <VStack width="100%" key={name} zIndex={1}>
             <HStack gap={10} width="100%" justifyContent="space-between">
               <Text {...responsiveFontProps}>{name}</Text>
               <NumberInput

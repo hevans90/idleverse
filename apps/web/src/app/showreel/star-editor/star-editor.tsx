@@ -2,26 +2,37 @@ import { useReactiveVar } from '@apollo/client';
 import { PixelateFilter } from '@pixi/filter-pixelate';
 import { useApp } from '@pixi/react';
 import * as PIXI from 'pixi.js';
-import { MutableRefObject, useCallback, useEffect, useRef } from 'react';
+import {
+  MutableRefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useResize } from '../../canvases/_utils/use-resize.hook';
 
-import { celestialSettingsVar } from './state/celestial.state';
-
+import { celestialSettingsVar } from '@idleverse/state';
 import { Viewport } from 'pixi-viewport';
+import { clearInterval } from 'timers';
 import fragment from './star.fs';
 
 export const StarEditor = ({
   containerRef,
   viewportRef,
+  starRadius,
 }: {
   containerRef: MutableRefObject<PIXI.Container>;
   viewportRef: MutableRefObject<Viewport>;
+  starRadius?: number;
 }) => {
   const app = useApp();
   const size = useResize();
 
   const tickerRef = useRef<(delta: number) => void>();
   const filterRef = useRef<PIXI.Filter>();
+
+  const [snapIntervalTimer, setSnapIntervalTimer] =
+    useState<ReturnType<typeof setInterval>>(null);
 
   const totalTime = useRef<number>(0);
 
@@ -39,17 +50,17 @@ export const StarEditor = ({
     };
   }, [viewportRef]);
 
-  const calculateResolution = useCallback(() => {
-    console.log(viewportRef.current.scale.x);
-    console.log('initial', {
-      x: (viewportRef.current.worldWidth / 2) * viewportRef.current.scale.x,
-      y: (viewportRef.current.worldHeight / 2) * viewportRef.current.scale.x,
-    });
-    return {
-      x: (viewportRef.current.worldWidth / 4) * viewportRef.current.scale.x,
-      y: (viewportRef.current.worldHeight / 4) * viewportRef.current.scale.x,
-    };
-  }, [viewportRef]);
+  const calculateResolution = useCallback(
+    () => ({
+      x:
+        (((starRadius ?? 1) * viewportRef.current.worldWidth) / 4) *
+        viewportRef.current.scale.x,
+      y:
+        (((starRadius ?? 1) * viewportRef.current.worldHeight) / 4) *
+        viewportRef.current.scale.x,
+    }),
+    [viewportRef]
+  );
 
   const afterLoad = async () => {
     const bundle = await PIXI.Assets.loadBundle('noise');
@@ -88,18 +99,22 @@ export const StarEditor = ({
         u_color,
       });
 
-      viewportRef.current.on('zoomed-end', () => {
-        filterRef.current.uniforms.u_resolution = calculateResolution();
-        filterRef.current.uniforms.u_offset = calculateOffset();
-      });
-      viewportRef.current.on('wheel', () => {
-        filterRef.current.uniforms.u_resolution = calculateResolution();
-        filterRef.current.uniforms.u_offset = calculateOffset();
-      });
       viewportRef.current.on('moved', (e) => {
-        if (e.type !== 'wheel') {
-          filterRef.current.uniforms.u_offset = calculateOffset();
-        }
+        filterRef.current.uniforms.u_resolution = calculateResolution();
+        filterRef.current.uniforms.u_offset = calculateOffset();
+      });
+
+      viewportRef.current.on('snap-zoom-start', (e) => {
+        setSnapIntervalTimer(
+          setInterval(() => {
+            filterRef.current.uniforms.u_resolution = calculateResolution();
+            filterRef.current.uniforms.u_offset = calculateOffset();
+          }, 10)
+        );
+      });
+      viewportRef.current.on('snap-zoom-end', (e) => {
+        clearInterval(snapIntervalTimer);
+        setSnapIntervalTimer(null);
       });
     }
 
