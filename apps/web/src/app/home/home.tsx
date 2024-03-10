@@ -71,6 +71,7 @@ export const Home = () => {
         <AnimatedText
           animationType="decipher"
           textAlign="center"
+          display="block"
           fontSize="4xl"
           content="Welcome back commander"
         >
