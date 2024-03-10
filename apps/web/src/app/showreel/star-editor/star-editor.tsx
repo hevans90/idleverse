@@ -40,6 +40,9 @@ export const StarEditor = ({
     useReactiveVar(celestialSettingsVar);
 
   const calculateOffset = useCallback(() => {
+    if (!viewportRef.current) {
+      return;
+    }
     const { x, y } = viewportRef.current.toScreen(
       viewportRef.current.worldWidth / 2,
       viewportRef.current.worldHeight / 2
@@ -53,13 +56,13 @@ export const StarEditor = ({
   const calculateResolution = useCallback(
     () => ({
       x:
-        (((starRadius ?? 1) * viewportRef.current.worldWidth) / 4) *
-        viewportRef.current.scale.x,
+        (((starRadius ?? 1) * viewportRef.current?.worldWidth) / 4) *
+        viewportRef.current?.scale.x,
       y:
-        (((starRadius ?? 1) * viewportRef.current.worldHeight) / 4) *
-        viewportRef.current.scale.x,
+        (((starRadius ?? 1) * viewportRef.current?.worldHeight) / 4) *
+        viewportRef.current?.scale.x,
     }),
-    [viewportRef]
+    []
   );
 
   const afterLoad = async () => {

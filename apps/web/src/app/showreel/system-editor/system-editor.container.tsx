@@ -17,7 +17,7 @@ export const SystemEditorContainer = () => {
 
   const worldSize = { width: 3200, height: 1800 };
 
-  const [starRadius, setStarRadius] = useState(0.5);
+  const [starRadius, setStarRadius] = useState(1);
 
   return (
     <PixiWrapper showGameUI={false} ui={<></>}>
