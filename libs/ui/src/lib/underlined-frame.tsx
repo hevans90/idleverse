@@ -14,7 +14,7 @@ const DataDiv = styled.div<{ bg: string; border: string }>`
 
   [data-name='bg'] {
     color: ${(props) => props.bg};
-    filter: drop-shadow(0 0 4px ${(props) => props.bg});
+    /* filter: drop-shadow(0 0 4px ${(props) => props.bg}); */
   }
   [data-name='line'] {
     color: ${(props) => props.border};

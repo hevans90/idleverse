@@ -30,7 +30,7 @@ import { Fragment } from 'react';
 import { responsiveFontProps } from '../../../_responsive-utils/font-props';
 import { ExpandingUI } from '../../../components/expanding-ui';
 
-export const CelestialSettings = () => {
+export const StarSettings = () => {
   const { border, bg } = useUiBackground();
   const { primary } = useReactiveVar(colorsVar);
 

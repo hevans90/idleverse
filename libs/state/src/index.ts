@@ -18,5 +18,6 @@ export * from './lib/quests';
 export * from './lib/reactive-variables';
 export * from './lib/resource-generators';
 export * from './lib/resources';
+export * from './lib/system-editor';
 export * from './lib/technologies';
 export * from './lib/utils';

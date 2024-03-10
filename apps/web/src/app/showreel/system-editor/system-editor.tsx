@@ -1,22 +1,24 @@
-import { colorsVar } from '@idleverse/state';
+import { useReactiveVar } from '@apollo/client';
+import { colorsVar, systemEditorConfigVar } from '@idleverse/state';
 import { colors, hexStringToNumber } from '@idleverse/theme';
-import { Container, Graphics, useApp } from '@pixi/react';
+import { Container, Graphics } from '@pixi/react';
 import { Viewport } from 'pixi-viewport';
 import { Graphics as PixiGraphics, Point } from 'pixi.js';
-import { MutableRefObject, useCallback } from 'react';
+import { MutableRefObject, useCallback, useEffect } from 'react';
 import { useResize } from '../../canvases/_utils/use-resize.hook';
 
 export const SystemEditor = ({
   viewportRef,
   worldSize,
-  starRadius,
+  celestialRadius,
 }: {
   viewportRef: MutableRefObject<Viewport>;
   worldSize: { width: number; height: number };
-  starRadius: number;
+  celestialRadius: number;
 }) => {
   const size = useResize();
-  const app = useApp();
+
+  const config = useReactiveVar(systemEditorConfigVar);
 
   const outlinePalette = colors[colorsVar().secondary];
 
@@ -25,7 +27,11 @@ export const SystemEditor = ({
       g.clear();
 
       g.beginFill(hexStringToNumber(outlinePalette['200']), 0.5);
-      g.drawCircle(worldSize.width / 2, worldSize.height / 2, starRadius * 200);
+      g.drawCircle(
+        worldSize.width / 2,
+        worldSize.height / 2,
+        celestialRadius * 200
+      );
       g.alpha = 0;
       g.cursor = 'pointer';
 
@@ -34,10 +40,10 @@ export const SystemEditor = ({
 
       g.endFill();
     },
-    [starRadius, outlinePalette, worldSize.width, worldSize.height]
+    [celestialRadius, outlinePalette, worldSize.width, worldSize.height]
   );
 
-  const focusStar = useCallback(() => {
+  const focusCelestial = useCallback(() => {
     if (viewportRef.current) {
       let delay = 0;
 
@@ -49,7 +55,7 @@ export const SystemEditor = ({
       ) {
         delay = 350;
         viewportRef.current.snap(worldSize.width / 2, worldSize.height / 2, {
-          removeOnComplete: true,
+          // removeOnComplete: true,
           time: delay,
         });
       }
@@ -60,11 +66,16 @@ export const SystemEditor = ({
           removeOnComplete: true,
           removeOnInterrupt: true,
           time: 1000,
-          width: size.width / 2,
+          width: (2 * size.width) / 3,
         });
-        viewportRef.current.plugins.remove('snap');
+        systemEditorConfigVar({ ...config, focus: 'celestial' });
+        // viewportRef.current.plugins.remove('snap');
       }, delay);
     }
+  }, [config]);
+
+  useEffect(() => {
+    systemEditorConfigVar({ ...config, focus: undefined });
   }, []);
 
   return (
@@ -72,7 +83,7 @@ export const SystemEditor = ({
       <Graphics
         draw={draw}
         interactive={true}
-        pointerdown={focusStar}
+        pointerdown={focusCelestial}
         zIndex={2}
       />
     </Container>

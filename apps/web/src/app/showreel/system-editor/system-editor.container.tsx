@@ -6,8 +6,12 @@ import { PixiWrapper } from '../../canvases/_utils/pixi-wrapper';
 import { useResize } from '../../canvases/_utils/use-resize.hook';
 import { PixiViewport } from '../../canvases/_utils/viewport';
 import { StarField } from '../colyseus-poc/rendering/starfield';
-import { StarEditor } from '../star-editor/star-editor';
+import { StarRenderer } from '../star-editor/star-renderer';
 import { SystemEditor } from './system-editor';
+
+import { useReactiveVar } from '@apollo/client';
+import { systemEditorConfigVar } from '@idleverse/state';
+import { CelestialSettings } from './ui/celestial-settings';
 
 export const SystemEditorContainer = () => {
   const viewportRef = useRef<Viewport>(null);
@@ -19,8 +23,17 @@ export const SystemEditorContainer = () => {
 
   const [starRadius, setStarRadius] = useState(1);
 
+  const config = useReactiveVar(systemEditorConfigVar);
+
   return (
-    <PixiWrapper showGameUI={false} ui={<></>}>
+    <PixiWrapper
+      showGameUI={false}
+      ui={
+        <>
+          <CelestialSettings />
+        </>
+      }
+    >
       <PixiViewport
         size={size}
         ref={viewportRef}
@@ -35,14 +48,15 @@ export const SystemEditorContainer = () => {
         <SystemEditor
           viewportRef={viewportRef}
           worldSize={worldSize}
-          starRadius={starRadius}
+          celestialRadius={starRadius}
         />
         <Container
           ref={containerRef}
           filterArea={new Rectangle(0, 0, size.width, size.height)}
           zIndex={1}
         >
-          <StarEditor
+          <StarRenderer
+            config={config.celestial.config}
             containerRef={containerRef}
             viewportRef={viewportRef}
             starRadius={starRadius}

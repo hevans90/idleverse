@@ -1,4 +1,3 @@
-import { useReactiveVar } from '@apollo/client';
 import { PixelateFilter } from '@pixi/filter-pixelate';
 import { useApp } from '@pixi/react';
 import * as PIXI from 'pixi.js';
@@ -11,19 +10,21 @@ import {
 } from 'react';
 import { useResize } from '../../canvases/_utils/use-resize.hook';
 
-import { celestialSettingsVar } from '@idleverse/state';
+import { CelestialGenerationConfig } from '@idleverse/models';
 import { Viewport } from 'pixi-viewport';
 import { clearInterval } from 'timers';
 import fragment from './star.fs';
 
-export const StarEditor = ({
+export const StarRenderer = ({
   containerRef,
   viewportRef,
   starRadius,
+  config,
 }: {
   containerRef: MutableRefObject<PIXI.Container>;
   viewportRef: MutableRefObject<Viewport>;
   starRadius?: number;
+  config: CelestialGenerationConfig;
 }) => {
   const app = useApp();
   const size = useResize();
@@ -36,8 +37,7 @@ export const StarEditor = ({
 
   const totalTime = useRef<number>(0);
 
-  const { brightness, radius, color, coronalStrength, density } =
-    useReactiveVar(celestialSettingsVar);
+  const { brightness, radius, color, coronalStrength, density } = config;
 
   const calculateOffset = useCallback(() => {
     if (!viewportRef.current) {
