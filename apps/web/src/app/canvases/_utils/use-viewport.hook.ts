@@ -1,9 +1,11 @@
 import { useReactiveVar } from '@apollo/client';
 import { indicatorFactory } from '@idleverse/pixi-utils';
-import { debugVar } from '@idleverse/state';
+import { colorsVar, debugVar } from '@idleverse/state';
+import { colors } from '@idleverse/theme';
 import { IClampZoomOptions, Viewport } from 'pixi-viewport';
 import { Application, Container, Graphics, Text } from 'pixi.js';
 import { useEffect, useRef } from 'react';
+import { drawGrid } from './draw-grid';
 
 /**
  * when the screen is resized, this effect will reset the viewport's screen dimensions & then re-center
@@ -26,6 +28,7 @@ export const useViewport = ({
   clampDrag?: boolean;
 }) => {
   const outline = useRef<Graphics>(null);
+  const grid = useRef<Container>(null);
 
   const debug = useReactiveVar(debugVar);
 
@@ -111,6 +114,15 @@ export const useViewport = ({
         sizeIndicator.current.text = `width: ${size.width}\n\nheight: ${size.height}`;
 
         app.stage.addChild(sizeIndicator.current);
+
+        grid.current = drawGrid({
+          width: worldWidth ?? size.width,
+          height: size.height,
+          columns: 16,
+          rows: 9,
+          gridColor: colors[colorsVar().secondary]['300'],
+        });
+        viewportRef.current.addChild(grid.current);
       }
 
       viewportRef.current.fitWorld();
@@ -125,6 +137,7 @@ export const useViewport = ({
       try {
         // this will also remove any children (debug outline etc)
         viewportRef.current.removeChild(outline.current);
+        viewportRef.current.removeChild(grid.current);
         app.stage?.removeChild(viewportRef.current);
         app.stage?.removeChild(sizeIndicator.current);
       } catch (e) {

@@ -11,5 +11,12 @@ module.exports = composePlugins(withNx(), withReact(), (config) => {
       loader: 'ts-shader-loader',
     },
   ];
+  config.resolve = {
+    ...config.resolve,
+    fallback: {
+      ...config.resolve.fallback,
+      timers: require.resolve('timers-browserify'),
+    },
+  };
   return config;
 });

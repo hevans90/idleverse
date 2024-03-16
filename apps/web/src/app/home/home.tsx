@@ -28,7 +28,7 @@ import { AnimatedFrame, AnimatedText, BlinkingText } from '@idleverse/ui';
 export const Home = () => {
   const { id: userId } = useReactiveVar(selfVar);
 
-  const { canvasBgDarker, borderSecondary, canvasBorderSecondary } =
+  const { rawBgDarker, borderSecondary, rawBorderSecondary } =
     useUiBackground();
 
   const { secondary } = useReactiveVar(colorsVar);
@@ -71,6 +71,7 @@ export const Home = () => {
         <AnimatedText
           animationType="decipher"
           textAlign="center"
+          display="block"
           fontSize="4xl"
           content="Welcome back commander"
         >
@@ -147,8 +148,8 @@ export const Home = () => {
                     <AnimatedFrame
                       key={i}
                       show
-                      bg={canvasBgDarker}
-                      border={canvasBorderSecondary}
+                      bg={rawBgDarker}
+                      border={rawBorderSecondary}
                     >
                       <VStack
                         key={i}
@@ -156,6 +157,7 @@ export const Home = () => {
                         height="100%"
                         padding={3}
                         align="start"
+                        overflow="hidden"
                       >
                         <VStack
                           width="100%"
@@ -164,7 +166,13 @@ export const Home = () => {
                         >
                           <HStack width="100%" justifyContent="space-between">
                             <Text>Galaxy:</Text>
-                            <Text whiteSpace="nowrap">{name}</Text>
+                            <Text
+                              whiteSpace="nowrap"
+                              overflow="hidden"
+                              textOverflow="ellipsis"
+                            >
+                              {name}
+                            </Text>
                           </HStack>
                           <HStack width="100%" justifyContent="space-between">
                             <Text>Systems:</Text>

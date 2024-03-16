@@ -30,8 +30,8 @@ import {
   colyseusTrackingTargetVar,
   selfVar,
 } from '@idleverse/state';
+import { drawGrid } from '../../canvases/_utils/draw-grid';
 import { drawBoundingBoxes } from './rendering/draw-bounding-boxes';
-import { drawGrid } from './rendering/draw-grid';
 import { useStarField } from './rendering/use-starfield';
 import {
   detectPositionalChanges,

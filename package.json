@@ -98,6 +98,7 @@
     "simplex-noise": "^3.0.1",
     "subscriptions-transport-ws": "^0.9.19",
     "three": "^0.138.2",
+    "timers-browserify": "^2.0.12",
     "tslib": "^2.3.0",
     "type-graphql": "^1.1.1",
     "typedi": "^0.10.0",

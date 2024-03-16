@@ -16,6 +16,8 @@ import { StarEditorContainer } from './showreel/star-editor/star-editor-containe
 import { QuestTreeContainer } from './showreel/tree/quest-tree-container';
 import { TechTreeContainer } from './showreel/tree/tech-tree-container';
 
+import { SystemEditorContainer } from './showreel/system-editor/system-editor.container';
+
 export const routes = [
   { path: '/', name: 'home', component: Home },
   { path: '/showreel', name: 'showreel', component: Showreel },
@@ -80,5 +82,10 @@ export const routes = [
     path: '/star-editor',
     name: 'star editor',
     component: StarEditorContainer,
+  },
+  {
+    path: '/system-editor',
+    name: 'system designer',
+    component: SystemEditorContainer,
   },
 ];

@@ -5,6 +5,13 @@ export const headerResponsiveFontProps: {
 } = {
   fontSize: ['md', 'lg', 'lg', 'xl', '2xl'],
 };
+
+export const subHeaderResponsiveFontProps: {
+  fontSize: TypographyProps['fontSize'];
+} = {
+  fontSize: ['md', 'lg', 'lg'],
+};
+
 export const responsiveFontProps: { fontSize: TypographyProps['fontSize'] } = {
   fontSize: ['2xs', '2xs', 'xs', 'xs', 'sm'],
 };

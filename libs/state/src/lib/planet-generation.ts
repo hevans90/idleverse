@@ -32,6 +32,7 @@ export const planetGenerationColorDrawerVar = makeVarPersisted<{
   currentPalette: TerrainRGBPalette;
   currentHexPalette?: TerrainHexPalette;
   currentPaletteId?: string;
+  terrainBias: [number, number, number, number];
 }>(
   {
     panelOpen: false,
@@ -42,16 +43,9 @@ export const planetGenerationColorDrawerVar = makeVarPersisted<{
       grass: { r: 0, g: 0, b: 0 },
       forest: { r: 0, g: 0, b: 0 },
     },
+    terrainBias: [0, 0.2, 0.4, 0.6],
   },
   'planetGenerationColorControls'
-);
-
-export const planetGenerationTerrainDrawerVar = makeVarPersisted<{
-  panelOpen: boolean;
-  terrainBias: [number, number, number, number];
-}>(
-  { panelOpen: false, terrainBias: [0, 0.2, 0.4, 0.6] },
-  'planetGenerationTerrainControls'
 );
 
 export const planetGenerationRingDrawerVar = makeVarPersisted<{

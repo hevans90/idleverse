@@ -37,6 +37,10 @@ export const Breadcrumb = () => {
       path: '/planets/:name',
       breadcrumb: () => <>{planet?.name}</>,
     },
+    {
+      path: '/system-editor',
+      breadcrumb: () => <>System designer</>,
+    },
   ]);
 
   // Don't render a single breadcrumb.

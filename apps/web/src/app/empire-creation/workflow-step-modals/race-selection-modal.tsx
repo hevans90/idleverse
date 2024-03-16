@@ -32,7 +32,13 @@ export const RaceSelectionModal = ({
   selectedRace,
 }: {
   isOpen: boolean;
-  onClose: (race: Playable_Race) => void;
+  onClose: ({
+    race,
+    progress,
+  }: {
+    race: Playable_Race;
+    progress: 'none' | 'next';
+  }) => void;
   selectedRace?: Playable_Race;
 }) => {
   const playableRaces = useReactiveVar(playableRacesVar);
@@ -52,10 +58,10 @@ export const RaceSelectionModal = ({
   return (
     <Modal
       isOpen={isOpen}
-      onClose={() => onClose(locallySelectedRace)}
+      onClose={() => onClose({ race: locallySelectedRace, progress: 'none' })}
       size={['full', '6xl', '5xl']}
       isCentered
-      closeOnOverlayClick={false}
+      closeOnOverlayClick={true}
     >
       <ModalOverlay />
       <ModalContent>
@@ -119,7 +125,9 @@ export const RaceSelectionModal = ({
           <Button
             {...responsiveFontProps}
             isDisabled={!locallySelectedRace}
-            onClick={() => onClose(locallySelectedRace)}
+            onClick={() =>
+              onClose({ race: locallySelectedRace, progress: 'next' })
+            }
           >
             Background &nbsp;
             <Icon as={MdDoubleArrow} {...responsiveIconProps} />

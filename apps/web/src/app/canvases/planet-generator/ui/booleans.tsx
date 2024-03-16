@@ -1,11 +1,14 @@
-import { Checkbox, HStack, Text, VStack } from '@chakra-ui/react';
+import { HStack, Switch, Text, VStack } from '@chakra-ui/react';
 
-import { planetGeneratorConfigVar } from '@idleverse/state';
+import { useReactiveVar } from '@apollo/client';
+import { colorsVar, planetGeneratorConfigVar } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
 import { planetGenerationControlsHeight } from './sliders';
 
 export const PlanetGeneratorBooleans = () => {
   const { bg, border } = useUiBackground();
+
+  const { secondary } = useReactiveVar(colorsVar);
 
   return (
     <VStack
@@ -25,7 +28,9 @@ export const PlanetGeneratorBooleans = () => {
         <Text minWidth="175px" fontSize="small">
           UI
         </Text>
-        <Checkbox
+        <Switch
+          colorScheme={secondary}
+          size="lg"
           isChecked={planetGeneratorConfigVar().ui}
           onChange={() =>
             planetGeneratorConfigVar({
@@ -33,13 +38,15 @@ export const PlanetGeneratorBooleans = () => {
               ui: !planetGeneratorConfigVar().ui,
             })
           }
-        ></Checkbox>
+        />
       </HStack>
       <HStack width="100%" display={['none', 'none', 'none', 'flex']}>
         <Text minWidth="175px" fontSize="small">
           Atmosphere
         </Text>
-        <Checkbox
+        <Switch
+          colorScheme={secondary}
+          size="lg"
           isChecked={planetGeneratorConfigVar().atmosphere}
           onChange={() =>
             planetGeneratorConfigVar({
@@ -47,13 +54,15 @@ export const PlanetGeneratorBooleans = () => {
               atmosphere: !planetGeneratorConfigVar().atmosphere,
             })
           }
-        ></Checkbox>
+        />
       </HStack>
       <HStack width="100%" display={['none', 'none', 'none', 'flex']}>
         <Text minWidth="175px" fontSize="small">
           Rotate
         </Text>
-        <Checkbox
+        <Switch
+          colorScheme={secondary}
+          size="lg"
           isChecked={planetGeneratorConfigVar().rotate}
           onChange={() =>
             planetGeneratorConfigVar({
@@ -61,7 +70,7 @@ export const PlanetGeneratorBooleans = () => {
               rotate: !planetGeneratorConfigVar().rotate,
             })
           }
-        ></Checkbox>
+        />
       </HStack>
     </VStack>
   );

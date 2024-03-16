@@ -1,12 +1,25 @@
 import { useReactiveVar } from '@apollo/client';
-import { Box, Button, Image, SimpleGrid, Stack, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  ButtonProps,
+  GridItem,
+  Image,
+  SimpleGrid,
+  Stack,
+  Text,
+  VStack,
+} from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+
+import { AnimatedButton } from '@idleverse/ui';
 
 import {
   characterCreationVar,
   colorsVar,
   planetGenerationColorDrawerVar,
 } from '@idleverse/state';
+import { responsiveFontProps } from '../_responsive-utils/font-props';
 import { DataUriGenerator } from '../canvases/celestial-viewer/data-uri-generator';
 import { runPixelDataGenOnWorker } from '../canvases/planet-generator/texture-generation/run-texture-gen-on-worker';
 import { creationStep } from './creation-types';
@@ -18,6 +31,7 @@ const WorkflowButton = ({
   disabled,
   value,
   imageUrl,
+  ...buttonProps
 }: {
   stepName: creationStep;
   displayName?: string;
@@ -25,11 +39,12 @@ const WorkflowButton = ({
   onClick: (stepName: creationStep) => unknown;
   value?: string;
   imageUrl?: string;
-}) => {
+} & ButtonProps) => {
   const { secondary } = useReactiveVar(colorsVar);
   return (
     <Box
       as={Button}
+      {...buttonProps}
       padding={5}
       height={[16, 24, 32]}
       lineHeight="inherit"
@@ -55,7 +70,7 @@ const WorkflowButton = ({
         {imageUrl && (
           <Image boxSize="50px" src={imageUrl} borderRadius="full" />
         )}
-        <Text>{value || displayName || stepName}</Text>
+        <Text {...responsiveFontProps}>{value || displayName || stepName}</Text>
       </Stack>
     </Box>
   );
@@ -120,44 +135,90 @@ export const CreationWorkflow = ({
       minChildWidth={['180px', '120px']}
       spacing={2}
     >
-      <WorkflowButton
-        onClick={() => onStepClicked('race')}
-        stepName="race"
-        value={race?.name}
-      />
-      <WorkflowButton
-        onClick={() => onStepClicked('background')}
-        stepName="background"
-        value={background?.name}
-      />
-      <WorkflowButton
-        onClick={() => onStepClicked('faction')}
-        stepName="faction"
-        value={faction?.name}
-      />
-      <WorkflowButton
-        onClick={() => onStepClicked('homeworld')}
-        stepName="homeworld"
-        displayName="generate homeworld"
-        value={homeworld?.name}
-        imageUrl={homeworldDataURI ? homeworldDataURI : undefined}
-      />
-      {!generatingPlanetThumbnailPixelData && generatingPlanetThumbnailDataURI && (
-        <DataUriGenerator
-          celestialId="character-creation"
-          input={[planetThumbnailPixelData]}
-          onGenerationFinished={({ uris }) => {
-            setHomeworldDataURI(uris[0].uri);
-            setGeneratingPlanetThumbnailDataURI(false);
-          }}
+      <AnimatedButton onClick={() => onStepClicked('race')}>
+        <VStack gap={[1, 1, 2]} padding={[2, 2, 2, 0]}>
+          <Text
+            display={['none', 'none', 'none', 'block']}
+            {...responsiveFontProps}
+          >
+            {race?.name ?? 'race'}
+          </Text>
+
+          {race && (
+            <Image
+              height="50px"
+              src={`/races/icons/${race.name.toLowerCase()}.png`}
+            />
+          )}
+        </VStack>
+      </AnimatedButton>
+      <AnimatedButton onClick={() => onStepClicked('background')}>
+        <VStack gap={[1, 1, 2]} padding={[2, 2, 2, 0]}>
+          <Text
+            display={['none', 'none', 'none', 'block']}
+            {...responsiveFontProps}
+          >
+            {background?.name ?? 'background'}
+          </Text>
+          {background && (
+            <Image
+              boxSize="50px"
+              src={`/backgrounds/icons/${background.name.toLowerCase()}.png`}
+              borderRadius="full"
+            />
+          )}
+        </VStack>
+      </AnimatedButton>
+      <AnimatedButton onClick={() => onStepClicked('faction')}>
+        <VStack gap={[1, 1, 2]} padding={[2, 2, 2, 0]}>
+          <Text
+            display={['none', 'none', 'none', 'block']}
+            {...responsiveFontProps}
+          >
+            {faction?.name ?? 'faction'}
+          </Text>
+          {faction && (
+            <Image
+              boxSize="50px"
+              src={`/factions/icons/${faction.name.toLowerCase()}.png`}
+              borderRadius="full"
+            />
+          )}
+        </VStack>
+      </AnimatedButton>
+      <AnimatedButton onClick={() => onStepClicked('homeworld')}>
+        <VStack gap={[1, 1, 2]} padding={[2, 2, 2, 0]}>
+          <Text
+            display={['none', 'none', 'none', 'block']}
+            {...responsiveFontProps}
+          >
+            {homeworld?.name ?? 'generate homeworld'}
+          </Text>
+          {!generatingPlanetThumbnailPixelData &&
+            generatingPlanetThumbnailDataURI && (
+              <DataUriGenerator
+                celestialId="character-creation"
+                input={[planetThumbnailPixelData]}
+                onGenerationFinished={({ uris }) => {
+                  setHomeworldDataURI(uris[0].uri);
+                  setGeneratingPlanetThumbnailDataURI(false);
+                }}
+              />
+            )}
+          {homeworldDataURI && (
+            <Image boxSize="50px" src={homeworldDataURI} borderRadius="full" />
+          )}
+        </VStack>
+      </AnimatedButton>
+      <GridItem colSpan={[4, 4, 1]}>
+        <WorkflowButton
+          width="100%"
+          onClick={() => onStepClicked('start')}
+          stepName="start"
+          displayName="create your empire"
+          disabled={!ready}
         />
-      )}
-      <WorkflowButton
-        onClick={() => onStepClicked('start')}
-        stepName="start"
-        displayName="create your empire"
-        disabled={!ready}
-      />
+      </GridItem>
     </SimpleGrid>
   );
 };

@@ -1,3 +1,4 @@
+export * from './lib/animated-button';
 export * from './lib/animated-frame';
 export * from './lib/animated-text';
 export * from './lib/blinking-text';
