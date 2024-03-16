@@ -4,10 +4,10 @@ import { makeVarPersisted } from './utils';
 export const celestialPresets: CelestialGenerationConfig[] = [
   {
     preset: 'main-sequence',
-    brightness: 0.45,
-    density: 0.3,
-    coronalStrength: 0.35,
-    radius: 1.5,
+    brightness: 0.6,
+    density: 0.8,
+    coronalStrength: 0.5,
+    radius: 1.7,
     color: { r: 255, g: 255, b: 255 },
   },
   {

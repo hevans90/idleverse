@@ -11,7 +11,8 @@ import { SystemEditor } from './system-editor';
 
 import { useReactiveVar } from '@apollo/client';
 import { systemEditorConfigVar } from '@idleverse/state';
-import { CelestialSettings } from './ui/celestial-settings';
+import { SystemEditorFocusUI } from './ui/focus-ui';
+import { SystemEditorOverview } from './ui/overview';
 
 export const SystemEditorContainer = () => {
   const viewportRef = useRef<Viewport>(null);
@@ -30,7 +31,8 @@ export const SystemEditorContainer = () => {
       showGameUI={false}
       ui={
         <>
-          <CelestialSettings />
+          <SystemEditorOverview />
+          <SystemEditorFocusUI />
         </>
       }
     >
@@ -41,7 +43,7 @@ export const SystemEditorContainer = () => {
         screenHeight={size.height}
         worldHeight={worldSize.height}
         worldWidth={worldSize.width}
-        initialZoom={0.5}
+        initialZoom={0.15}
       >
         <StarField dimensions={worldSize} />
 
