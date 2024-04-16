@@ -4,10 +4,10 @@ import { Container } from '@pixi/react';
 import { Viewport } from 'pixi-viewport';
 import { Container as PixiContainer, Rectangle } from 'pixi.js';
 import { useRef } from 'react';
+import { StarField } from '../../canvases/_rendering/starfield';
 import { PixiWrapper } from '../../canvases/_utils/pixi-wrapper';
 import { useResize } from '../../canvases/_utils/use-resize.hook';
 import { PixiViewport } from '../../canvases/_utils/viewport';
-import { StarField } from '../colyseus-poc/rendering/starfield';
 import { StarRenderer } from './star-renderer';
 import { StarSettings } from './ui/star-settings';
 

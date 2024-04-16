@@ -9,38 +9,21 @@ import { colors, hexStringToNumber } from '@idleverse/theme';
 import { Container, Graphics } from '@pixi/react';
 import { Viewport } from 'pixi-viewport';
 import { Graphics as PixiGraphics, Point } from 'pixi.js';
-import { MutableRefObject, useCallback, useEffect, useMemo } from 'react';
+import { MutableRefObject, useCallback, useEffect } from 'react';
 import { useResize } from '../../canvases/_utils/use-resize.hook';
 
 export const SystemEditor = ({
   viewportRef,
   worldSize,
-  celestialRadius,
+  worldRadii,
+  center,
 }: {
   viewportRef: MutableRefObject<Viewport>;
   worldSize: { width: number; height: number };
-  celestialRadius: number;
+  worldRadii: { [key in SystemFocus]: number };
+  center: { x: number; y: number };
 }) => {
   const size = useResize();
-
-  const center = useMemo(
-    () => ({
-      x: worldSize.width / 2,
-      y: worldSize.height / 2,
-    }),
-    [worldSize]
-  );
-
-  const zoomXBuffer = 500;
-
-  const worldRadii = useMemo(() => {
-    const map: { [key in SystemFocus]: number } = {
-      celestial: celestialRadius * 500,
-      'goldilocks-zone': worldSize.width / 2,
-      'asteroid-belt': worldSize.width - worldSize.width / 10,
-    };
-    return map;
-  }, [celestialRadius, worldSize.width]);
 
   const config = useReactiveVar(systemEditorConfigVar);
   const focus = useReactiveVar(systemEditorFocusVar);
@@ -136,14 +119,14 @@ export const SystemEditor = ({
         }, delay);
       }
     },
-    [config, center, size]
+    [viewportRef, center.x, center.y]
   );
 
   useEffect(() => {
     if (focus) {
       viewportToCircle(worldRadii[focus] * 2, focus);
     }
-  }, [focus]);
+  }, [focus, viewportToCircle, worldRadii]);
 
   useEffect(() => {
     systemEditorFocusVar(undefined);
