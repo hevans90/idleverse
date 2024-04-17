@@ -3,7 +3,7 @@
 exports[`loading should render 1`] = `
 <div>
   <div
-    class="css-sidcim"
+    class="css-6las5i"
   >
     <p
       class="chakra-text css-17vwc26"
@@ -26,7 +26,7 @@ exports[`loading should render 1`] = `
 exports[`loading should render custom text 1`] = `
 <div>
   <div
-    class="css-sidcim"
+    class="css-6las5i"
   >
     <p
       class="chakra-text css-17vwc26"
@@ -49,7 +49,7 @@ exports[`loading should render custom text 1`] = `
 exports[`loading should render custom text and size 1`] = `
 <div>
   <div
-    class="css-n4refw"
+    class="css-evs3sj"
   >
     <p
       class="chakra-text css-17vwc26"

@@ -17,7 +17,6 @@ import {
   colorsVar,
   planetGenerationColorDrawerVar,
   planetGenerationRingDrawerVar,
-  planetGenerationTerrainDrawerVar,
   planetGeneratorConfigVar,
 } from '@idleverse/state';
 import { useResize } from '../_utils/use-resize.hook';
@@ -34,7 +33,7 @@ import {
   PlanetGeneratorSliders,
   planetGenerationControlsHeight,
 } from './ui/sliders';
-import { PlanetGeneratorTerrainDrawer } from './ui/terrain-drawer';
+
 import { World } from './world';
 
 export const PlanetGenerator = ({
@@ -42,7 +41,7 @@ export const PlanetGenerator = ({
 }: {
   customSize?: { width: number; height: number };
 }) => {
-  const { canvasBgDarker } = useUiBackground();
+  const { rawBgDarker } = useUiBackground();
 
   const { data: colorPalettes, loading: colorPalettesLoading } =
     useQuery<TerrainHexPalettesQuery>(TerrainHexPalettesDocument);
@@ -66,9 +65,9 @@ export const PlanetGenerator = ({
 
   const {
     currentPalette: { water, sand, grass, forest },
+    terrainBias,
   } = useReactiveVar(planetGenerationColorDrawerVar);
 
-  const { terrainBias } = useReactiveVar(planetGenerationTerrainDrawerVar);
   const { rings } = useReactiveVar(planetGenerationRingDrawerVar);
 
   const prevRingsRef = useRef<RingConfig[]>([]);
@@ -163,14 +162,14 @@ export const PlanetGenerator = ({
             />
             <CameraController />
             <Pixelate
-              bgColor={hexStringToNumber(canvasBgDarker)}
+              bgColor={hexStringToNumber(rawBgDarker)}
               pixelSize={pixelSize}
             />
             <OrbitControls
               minPolarAngle={Math.PI / 16}
               maxPolarAngle={Math.PI - Math.PI / 16}
-              minDistance={5}
-              maxDistance={100}
+              minDistance={3}
+              maxDistance={200}
             />
           </Canvas>
         </Suspense>
@@ -183,7 +182,6 @@ export const PlanetGenerator = ({
           <PlanetGeneratorColorDrawer paletteData={colorPalettes} />
           <NameSeedMobile />
 
-          <PlanetGeneratorTerrainDrawer />
           <PlanetGeneratorRingDrawer />
           <PlanetGeneratorSliders />
         </>

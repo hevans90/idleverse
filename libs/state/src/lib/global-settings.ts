@@ -10,7 +10,7 @@ export const fpsVar = makeVarPersisted<boolean>(false, 'fps');
 
 export const layoutVar = makeVarPersisted<LayoutConfig>(
   {
-    sideNav: true,
+    sideNav: false,
     toolBar: true,
   },
   'layout'

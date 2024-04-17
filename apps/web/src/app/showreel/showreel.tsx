@@ -43,6 +43,10 @@ export const Showreel = () => {
       route: 'star-editor',
       display: 'Star Editor',
     },
+    {
+      route: 'system-editor',
+      display: 'System Designer',
+    },
   ];
 
   return (

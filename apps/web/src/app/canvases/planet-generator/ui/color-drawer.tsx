@@ -1,12 +1,17 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import { useReactiveVar } from '@apollo/client';
 import {
+  Box,
   HStack,
   Menu,
   MenuButton,
   MenuDivider,
   MenuItem,
   MenuList,
+  RangeSlider,
+  RangeSliderFilledTrack,
+  RangeSliderThumb,
+  RangeSliderTrack,
   Text,
   VStack,
 } from '@chakra-ui/react';
@@ -85,7 +90,7 @@ export const PlanetGeneratorColorDrawer = ({
       headerChildren={
         <>
           {drawerState.panelOpen && (
-            <Text {...responsiveFontProps}>Colors</Text>
+            <Text {...responsiveFontProps}>Terrain</Text>
           )}
         </>
       }
@@ -114,7 +119,7 @@ export const PlanetGeneratorColorDrawer = ({
               <Text>{localPalette.name}</Text> <ColorQuad {...localPalette} />
             </HStack>
           </MenuButton>
-          <MenuList bg={bg} borderColor={border}>
+          <MenuList bg={bg} borderColor={border} zIndex={2}>
             {palettePresets.map(
               ({ name, water, sand, grass, forest, id }, i) => (
                 <Fragment key={id}>
@@ -146,6 +151,44 @@ export const PlanetGeneratorColorDrawer = ({
             )}
           </MenuList>
         </Menu>
+        <Box padding={3} w="100%" minWidth="275px" zIndex={1}>
+          <RangeSlider
+            defaultValue={drawerState.terrainBias}
+            min={0}
+            max={1}
+            step={0.01}
+            onChangeEnd={(val: [number, number, number, number]) =>
+              planetGenerationColorDrawerVar({
+                ...drawerState,
+                terrainBias: val,
+              })
+            }
+          >
+            <RangeSliderTrack>
+              <RangeSliderFilledTrack />
+            </RangeSliderTrack>
+            <RangeSliderThumb
+              boxSize={6}
+              index={0}
+              bgColor={drawerState.currentHexPalette?.water}
+            />
+            <RangeSliderThumb
+              boxSize={6}
+              index={1}
+              bgColor={drawerState.currentHexPalette?.sand}
+            />
+            <RangeSliderThumb
+              boxSize={6}
+              index={2}
+              bgColor={drawerState.currentHexPalette?.grass}
+            />
+            <RangeSliderThumb
+              boxSize={6}
+              index={3}
+              bgColor={drawerState.currentHexPalette?.forest}
+            />
+          </RangeSlider>
+        </Box>
       </VStack>
     </ExpandingUI>
   );

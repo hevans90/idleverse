@@ -19,12 +19,22 @@ export const Auth = () => {
   if (isAuthenticated && user) {
     return (
       <Box display="flex" alignItems="center">
-        <Avatar size="sm" src={user.picture} mr={2} name={user.name} />
+        <Avatar
+          size="sm"
+          src={user.picture}
+          mr={2}
+          name={user.name}
+          display={['none', 'none', 'block']}
+        />
 
         <Text mr={3} display={['none', 'none', 'block']}>
           {user.name}
         </Text>
-        {role === 'dev' && <Badge mr={3}>dev</Badge>}
+        {role === 'dev' && (
+          <Badge mr={3} display={['none', 'none', 'block']}>
+            dev
+          </Badge>
+        )}
 
         <LogoutButton></LogoutButton>
       </Box>

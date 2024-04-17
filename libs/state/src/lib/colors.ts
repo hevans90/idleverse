@@ -4,4 +4,4 @@ import { makeVarPersisted } from './utils';
 export const colorsVar = makeVarPersisted<{
   primary: typeof themePaletteKeys[0];
   secondary: typeof themePaletteKeys[0];
-}>({ primary: 'orange', secondary: 'red' }, 'colors');
+}>({ primary: 'gray', secondary: 'teal' }, 'colors');

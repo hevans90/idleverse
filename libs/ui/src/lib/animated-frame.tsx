@@ -1,3 +1,4 @@
+import { FrameSVGOctagonProps } from '@arwes/react';
 import { Animator } from '@arwes/react-animator';
 import {
   FrameSVGOctagon,
@@ -14,11 +15,9 @@ const DataDiv = styled.div<{ bg: string; border: string }>`
 
   [data-name='bg'] {
     color: ${(props) => props.bg};
-    filter: drop-shadow(0 0 4px ${(props) => props.bg});
   }
   [data-name='line'] {
     color: ${(props) => props.border};
-    filter: drop-shadow(0 0 4px ${(props) => props.border});
   }
 `;
 
@@ -28,37 +27,27 @@ const AnimatedFrameContent = ({
   border,
   borderStrokeWidth = 1,
   show,
-  leftTop = true,
-  rightTop = true,
-  rightBottom = true,
-  leftBottom = true,
+  ...rest
 }: {
   children?: ReactNode;
   bg?: string;
   border?: string;
   borderStrokeWidth?: number;
-  leftTop?: boolean;
-  rightTop?: boolean;
-  rightBottom?: boolean;
-  leftBottom?: boolean;
   show: boolean;
-}) => {
-  const { canvasBg, canvasBorder } = useUiBackground();
+} & FrameSVGOctagonProps) => {
+  const { rawBg, rawBorder } = useUiBackground();
 
   const svgRef = useRef<SVGSVGElement | null>(null);
   const { onRender } = useFrameSVGAssemblingAnimation(svgRef);
   return (
-    <DataDiv bg={bg ?? canvasBg} border={border ?? canvasBorder}>
+    <DataDiv bg={bg ?? rawBg} border={border ?? rawBorder}>
       <FrameSVGOctagon
         squareSize={20}
         strokeWidth={borderStrokeWidth}
-        leftTop={leftTop}
-        rightTop={rightTop}
-        rightBottom={rightBottom}
-        leftBottom={leftBottom}
         elementRef={svgRef}
         onRender={onRender}
         padding={4}
+        {...rest}
       />
       <Box position="relative" visibility={show ? 'visible' : 'hidden'}>
         {children}
@@ -72,14 +61,15 @@ export const AnimatedFrame = ({
   bg,
   border,
   show,
+  ...rest
 }: {
   children?: ReactNode;
   bg?: string;
   border?: string;
   show: boolean;
-}) => (
+} & FrameSVGOctagonProps) => (
   <Animator active={show}>
-    <AnimatedFrameContent show={show} bg={bg} border={border}>
+    <AnimatedFrameContent show={show} bg={bg} border={border} {...rest}>
       {children}
     </AnimatedFrameContent>
   </Animator>

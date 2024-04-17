@@ -1,4 +1,5 @@
 export * from './lib/backgrounds';
+export * from './lib/celestial-creation';
 export * from './lib/celestial-viewer';
 export * from './lib/character-creation';
 export * from './lib/colors';
@@ -17,5 +18,6 @@ export * from './lib/quests';
 export * from './lib/reactive-variables';
 export * from './lib/resource-generators';
 export * from './lib/resources';
+export * from './lib/system-editor';
 export * from './lib/technologies';
 export * from './lib/utils';

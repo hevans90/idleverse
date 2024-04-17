@@ -34,7 +34,7 @@ import { PlanetActions } from './ui/planet-actions';
 import { PlanetUI } from './ui/planet-ui';
 
 export const PlanetViewer = () => {
-  const { canvasBgDarker } = useUiBackground();
+  const { rawBgDarker } = useUiBackground();
   const [planetActionsActive, setPlanetActionsActive] = useState(false);
   const { name } = useParams<{ name: string }>();
 
@@ -217,7 +217,7 @@ export const PlanetViewer = () => {
               />
               <CameraController />
               <Pixelate
-                bgColor={hexStringToNumber(canvasBgDarker)}
+                bgColor={hexStringToNumber(rawBgDarker)}
                 pixelSize={4}
               />
               <OrbitControls

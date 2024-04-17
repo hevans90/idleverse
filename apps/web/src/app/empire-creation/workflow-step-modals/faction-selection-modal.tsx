@@ -40,7 +40,7 @@ export const FactionSelectionModal = ({
     progress,
   }: {
     faction: Faction;
-    progress: 'next' | 'prev';
+    progress: 'none' | 'next' | 'prev';
   }) => void;
   selectedFaction?: Faction;
 }) => {
@@ -62,15 +62,16 @@ export const FactionSelectionModal = ({
     <Modal
       isOpen={isOpen}
       onClose={() =>
-        onClose({ faction: locallySelectedFaction, progress: 'next' })
+        onClose({ faction: locallySelectedFaction, progress: 'none' })
       }
       size={['full', '6xl', '5xl']}
       isCentered
-      closeOnOverlayClick={false}
+      closeOnOverlayClick={true}
     >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader
+          p={3}
           {...headerResponsiveFontProps}
           borderBottom="1px solid"
           bg={bg}
@@ -121,6 +122,7 @@ export const FactionSelectionModal = ({
         </ModalBody>
 
         <ModalFooter
+          p={3}
           bg={bg}
           borderBottomRightRadius={6}
           borderBottomLeftRadius={6}
