@@ -12,6 +12,7 @@ import {
   MenuList,
   Text,
   VStack,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import { generateCelestialName } from '@idleverse/galaxy-gen';
 import {
@@ -23,7 +24,10 @@ import {
 } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
 import { AnimatedFrame } from '@idleverse/ui';
-import { headerResponsiveFontProps } from '../../../_responsive-utils/font-props';
+import {
+  headerResponsiveFontProps,
+  responsiveFontProps,
+} from '../../../_responsive-utils/font-props';
 
 export const SystemEditorOverview = () => {
   const currentFocus = useReactiveVar(systemEditorFocusVar);
@@ -31,19 +35,34 @@ export const SystemEditorOverview = () => {
 
   const { rawBgDarker } = useUiBackground();
 
+  const bp: 'small' | 'medium' | 'large' = useBreakpointValue({
+    base: 'small',
+    md: 'medium',
+    lg: 'large',
+  });
+
+  const isMobile = bp === 'small';
+
   return (
-    <Box position="absolute" top={-2} right={-2}>
+    <Box
+      position="absolute"
+      top={-2}
+      left={isMobile ? -2 : 'unset'}
+      right={isMobile ? 'unset' : -2}
+      width={['105vw', 'unset']}
+    >
       <AnimatedFrame
         show={true}
         leftTop={false}
+        leftBottom={isMobile ? false : true}
         rightBottom={false}
         rightTop={false}
         bg={rawBgDarker}
       >
-        <VStack padding={1} gap={2} width="100%">
+        <VStack gap={2} width="100%">
           <Text
             as="u"
-            mb={5}
+            mb={2}
             {...headerResponsiveFontProps}
             textUnderlineOffset={2}
             textDecorationColor={`${secondary}.400`}
@@ -54,7 +73,9 @@ export const SystemEditorOverview = () => {
             {SYSTEM_FOCI.map((focus, i) => (
               <HStack key={i} width="100%" justifyContent="space-between">
                 <Button
+                  flexGrow={1}
                   opacity={0.75}
+                  {...responsiveFontProps}
                   _disabled={{
                     bg: `${secondary}.700`,
                     transform: 'scale(0.98)',
@@ -69,7 +90,7 @@ export const SystemEditorOverview = () => {
                 >
                   {focus.replace('-', ' ')}{' '}
                 </Button>
-                <Text>{currentFocus === focus ? '<--' : null}</Text>
+                {/* <Text>{currentFocus === focus ? '<--' : null}</Text> */}
               </HStack>
             ))}
           </VStack>

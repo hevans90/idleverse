@@ -24,7 +24,11 @@ export const Auth = () => {
         <Text mr={3} display={['none', 'none', 'block']}>
           {user.name}
         </Text>
-        {role === 'dev' && <Badge mr={3}>dev</Badge>}
+        {role === 'dev' && (
+          <Badge mr={3} display={['none', 'none', 'block']}>
+            dev
+          </Badge>
+        )}
 
         <LogoutButton></LogoutButton>
       </Box>

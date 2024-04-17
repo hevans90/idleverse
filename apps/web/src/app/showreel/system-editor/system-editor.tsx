@@ -66,7 +66,7 @@ export const SystemEditor = ({
     ) => {
       g.clear();
 
-      g.beginFill(hexStringToNumber(outlinePalette['200']), 0.5);
+      g.beginFill(hexStringToNumber(outlinePalette['200']), 0.3);
       g.drawCircle(center.x, center.y, outerRadius);
       g.beginHole();
       g.drawCircle(center.x, center.y, innerRadius);
