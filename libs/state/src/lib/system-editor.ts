@@ -1,5 +1,4 @@
 import { makeVar } from '@apollo/client';
-import { generateCelestialName } from '@idleverse/galaxy-gen';
 import { CelestialGenerationConfig } from '@idleverse/models';
 import { celestialPresets } from './celestial-creation';
 import { makeVarPersisted } from './utils';
@@ -27,7 +26,7 @@ export const systemEditorConfigVar = makeVarPersisted<{
 }>(
   {
     celestial: {
-      name: generateCelestialName(),
+      name: '',
       type: 'star',
       config: celestialPresets[0],
     },

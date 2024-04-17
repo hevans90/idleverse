@@ -10,6 +10,7 @@ import { StarRenderer } from '../star-editor/star-renderer';
 import { SystemEditor } from './system-editor';
 
 import { useReactiveVar } from '@apollo/client';
+import { useBreakpointValue } from '@chakra-ui/react';
 import { SystemFocus, systemEditorConfigVar } from '@idleverse/state';
 import { Asteroids } from '../../canvases/_rendering/asteroids';
 import { SystemEditorFocusUI } from './ui/focus-ui';
@@ -39,12 +40,18 @@ export const SystemEditorContainer = () => {
     const map: { [key in SystemFocus]: number } = {
       celestial: celestualRadius * 500,
       'goldilocks-zone': worldSize.width / 2,
-      'asteroid-belt': worldSize.width - worldSize.width / 10,
+      'asteroid-belt': worldSize.width - worldSize.width / 8,
     };
     return map;
   }, [celestualRadius, worldSize.width]);
 
-  console.log(worldRadii);
+  const bp: 'small' | 'medium' | 'large' = useBreakpointValue({
+    base: 'small',
+    md: 'medium',
+    lg: 'large',
+  });
+
+  const isMobile = bp === 'small';
 
   return (
     <PixiWrapper
@@ -63,7 +70,7 @@ export const SystemEditorContainer = () => {
         screenHeight={size.height}
         worldHeight={worldSize.height}
         worldWidth={worldSize.width}
-        initialZoom={0.15}
+        initialZoom={isMobile ? 0.05 : 0.1}
       >
         <StarField dimensions={worldSize} />
 
@@ -80,6 +87,7 @@ export const SystemEditorContainer = () => {
           worldSize={worldSize}
           worldRadii={worldRadii}
           center={center}
+          isMobile={isMobile}
         />
         <Container
           ref={containerRef}

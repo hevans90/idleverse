@@ -74,6 +74,7 @@ export const BackgroundSelectionModal = ({
       <ModalOverlay />
       <ModalContent>
         <ModalHeader
+          p={3}
           {...headerResponsiveFontProps}
           borderBottom="1px solid"
           bg={bg}
@@ -127,6 +128,7 @@ export const BackgroundSelectionModal = ({
         </ModalBody>
 
         <ModalFooter
+          p={3}
           bg={bg}
           borderBottomRightRadius={6}
           borderBottomLeftRadius={6}

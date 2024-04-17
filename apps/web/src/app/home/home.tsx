@@ -72,10 +72,12 @@ export const Home = () => {
           animationType="decipher"
           textAlign="center"
           display="block"
-          fontSize="4xl"
-          content="Welcome back commander"
+          fontSize={['2xl', '3xl']}
+          content="Idleverse"
         >
-          <BlinkingText interval={0.9}>.</BlinkingText>
+          <BlinkingText interval={0.9} fontSize={['2xl', '3xl']}>
+            .
+          </BlinkingText>
         </AnimatedText>
       </VStack>
 
@@ -97,17 +99,28 @@ export const Home = () => {
           <VStack
             divider={<StackDivider borderColor={borderSecondary} />}
             spacing={5}
+            width={['100%', 'unset']}
           >
             <Link as={ReactRouterLink} to="/showreel" width="100%">
-              <Button {...responsiveFontProps}>Beta showreel</Button>
+              <Button width="100%" {...responsiveFontProps}>
+                Beta showreel
+              </Button>
             </Link>
-            <Link as={ReactRouterLink} to="/galaxy-gen">
-              <Button {...responsiveFontProps} isDisabled={role !== 'dev'}>
+            <Link as={ReactRouterLink} to="/galaxy-gen" width="100%">
+              <Button
+                width="100%"
+                {...responsiveFontProps}
+                isDisabled={role !== 'dev'}
+              >
                 Make a galaxy
               </Button>
             </Link>
-            <Link as={ReactRouterLink} to="/galaxies">
-              <Button {...responsiveFontProps} colorScheme={secondary}>
+            <Link as={ReactRouterLink} to="/galaxies" width="100%">
+              <Button
+                width="100%"
+                {...responsiveFontProps}
+                colorScheme={secondary}
+              >
                 Join a galaxy
               </Button>
             </Link>
@@ -119,7 +132,6 @@ export const Home = () => {
           flexGrow={sideNav ? 2 : 1}
           flexBasis={0}
           align="center"
-          width="100%"
           height={['75%', '75%', '75%', '100%']}
         >
           {loadingGameplaySessions ? <>Loading</> : null}
@@ -127,11 +139,11 @@ export const Home = () => {
             <>
               <Text marginBottom={5} textAlign="center">
                 You have {data.galactic_empire.length} galactic&nbsp;
-                {data.galactic_empire.length === 1 ? 'empire' : 'empires'}.
+                {data.galactic_empire.length === 1 ? 'empire' : 'empires'}
               </Text>
 
               <SimpleGrid
-                width="100%"
+                width="90%"
                 maxWidth={['unset', 'unset', 'unset', '1000px']}
                 minChildWidth={250}
                 spacing={5}

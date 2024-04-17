@@ -7,7 +7,7 @@ import {
 } from '@idleverse/state';
 import { colors, hexStringToNumber } from '@idleverse/theme';
 import { Container, Graphics } from '@pixi/react';
-import { Viewport } from 'pixi-viewport';
+import { ISnapZoomOptions, Viewport } from 'pixi-viewport';
 import { Graphics as PixiGraphics, Point } from 'pixi.js';
 import { MutableRefObject, useCallback, useEffect } from 'react';
 import { useResize } from '../../canvases/_utils/use-resize.hook';
@@ -17,11 +17,13 @@ export const SystemEditor = ({
   worldSize,
   worldRadii,
   center,
+  isMobile,
 }: {
   viewportRef: MutableRefObject<Viewport>;
   worldSize: { width: number; height: number };
   worldRadii: { [key in SystemFocus]: number };
   center: { x: number; y: number };
+  isMobile: boolean;
 }) => {
   const size = useResize();
 
@@ -107,13 +109,18 @@ export const SystemEditor = ({
         }
 
         setTimeout(() => {
-          viewportRef.current.snapZoom({
+          let zoomOptions: ISnapZoomOptions = {
             center: new Point(center.x, center.y),
             removeOnComplete: true,
             removeOnInterrupt: true,
             time: 1000,
-            width: width * 2,
-          });
+          };
+
+          zoomOptions = isMobile
+            ? { ...zoomOptions, width: width + 200 }
+            : { ...zoomOptions, height: width * 2 + 100 };
+
+          viewportRef.current.snapZoom(zoomOptions);
 
           // viewportRef.current.plugins.remove('snap');
         }, delay);

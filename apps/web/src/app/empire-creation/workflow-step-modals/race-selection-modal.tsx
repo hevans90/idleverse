@@ -66,6 +66,7 @@ export const RaceSelectionModal = ({
       <ModalOverlay />
       <ModalContent>
         <ModalHeader
+          p={3}
           {...headerResponsiveFontProps}
           bg={bg}
           borderTopRightRadius={6}
@@ -116,6 +117,7 @@ export const RaceSelectionModal = ({
         </ModalBody>
 
         <ModalFooter
+          p={3}
           bg={bg}
           borderBottomRightRadius={6}
           borderBottomLeftRadius={6}

@@ -46,10 +46,11 @@ export const SystemEditorOverview = () => {
   return (
     <Box
       position="absolute"
-      top={-2}
-      left={isMobile ? -2 : 'unset'}
-      right={isMobile ? 'unset' : -2}
-      width={['105vw', 'unset']}
+      bottom={[-2, 'unset']}
+      top={['unset', -2]}
+      left={[-2, 'unset']}
+      right={['unset', -2]}
+      width={['104vw', 'unset']}
     >
       <AnimatedFrame
         show={true}
@@ -88,7 +89,7 @@ export const SystemEditorOverview = () => {
                     systemEditorFocusVar(focus);
                   }}
                 >
-                  {focus.replace('-', ' ')}{' '}
+                  {focus.replace('-', ' ').toLocaleUpperCase()}{' '}
                 </Button>
                 {/* <Text>{currentFocus === focus ? '<--' : null}</Text> */}
               </HStack>

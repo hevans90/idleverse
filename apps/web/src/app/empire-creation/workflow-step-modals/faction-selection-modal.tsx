@@ -71,6 +71,7 @@ export const FactionSelectionModal = ({
       <ModalOverlay />
       <ModalContent>
         <ModalHeader
+          p={3}
           {...headerResponsiveFontProps}
           borderBottom="1px solid"
           bg={bg}
@@ -121,6 +122,7 @@ export const FactionSelectionModal = ({
         </ModalBody>
 
         <ModalFooter
+          p={3}
           bg={bg}
           borderBottomRightRadius={6}
           borderBottomLeftRadius={6}

@@ -11,6 +11,7 @@ import {
   MenuList,
   Text,
   VStack,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import { generateCelestialName } from '@idleverse/galaxy-gen';
 import {
@@ -28,17 +29,33 @@ export const SystemEditorFocusUI = () => {
 
   const { rawBgDarker } = useUiBackground();
 
+  const bp: 'small' | 'medium' | 'large' = useBreakpointValue({
+    base: 'small',
+    md: 'medium',
+    lg: 'large',
+  });
+
+  const isMobile = bp === 'small';
+
   return focus ? (
-    <Box position="absolute" left={-2} bottom={-2}>
+    <Box
+      position="absolute"
+      bottom={['unset', -2]}
+      top={[-2, 'unset']}
+      left={-2}
+      right={'unset'}
+      width={['104vw', 'unset']}
+    >
       <AnimatedFrame
         show={true}
         leftBottom={false}
         leftTop={false}
         rightBottom={false}
+        rightTop={isMobile ? false : true}
         bg={rawBgDarker}
       >
-        <VStack padding={5} gap={2}>
-          <Text width="100%" mb={5} {...subHeaderResponsiveFontProps}>
+        <VStack gap={2}>
+          <Text width="100%" mb={2} {...subHeaderResponsiveFontProps}>
             {focus.replace('-', ' ').toLocaleUpperCase()}
           </Text>
           {focus === 'celestial' ? <CelestialFocusUI /> : null}
@@ -93,14 +110,14 @@ export const CelestialFocusUI = (args) => {
           ))}
         </MenuList>
       </Menu>
-      <HStack>
+      <HStack width="100%">
         <Input
           fontSize="2xs"
+          placeholder="name your star"
           value={config.celestial.name}
           maxLength={25}
           flexGrow="1"
           onChange={(event) => {
-            console.log('name change');
             systemEditorConfigVar({
               ...config,
               celestial: { ...config.celestial, name: event.target.value },
