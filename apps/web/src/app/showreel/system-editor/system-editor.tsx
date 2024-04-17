@@ -118,7 +118,7 @@ export const SystemEditor = ({
 
           zoomOptions = isMobile
             ? { ...zoomOptions, width: width + 200 }
-            : { ...zoomOptions, height: width * 2 + 100 };
+            : { ...zoomOptions, height: width + 200 };
 
           viewportRef.current.snapZoom(zoomOptions);
 
@@ -126,7 +126,7 @@ export const SystemEditor = ({
         }, delay);
       }
     },
-    [viewportRef, center.x, center.y]
+    [viewportRef, center.x, center.y, isMobile]
   );
 
   useEffect(() => {
