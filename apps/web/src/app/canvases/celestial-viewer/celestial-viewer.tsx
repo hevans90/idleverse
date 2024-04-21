@@ -119,12 +119,20 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
       Assets.loadBundle(bundleKey).then((bundle) => {
         celestial.planets.forEach(({ id, name, radius }) =>
           tempPlanets.push(
-            buildPlanet(bundle?.[name], radius, app, name, id, sun, () => {
-              celestialViewerSelectedPlanet({
-                name,
-                id,
-              });
-            })
+            buildPlanet(
+              bundle?.[name],
+              radius,
+              app,
+              name,
+              id,
+              () => {
+                celestialViewerSelectedPlanet({
+                  name,
+                  id,
+                });
+              },
+              sun
+            )
           )
         );
 

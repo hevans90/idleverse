@@ -1,19 +1,19 @@
 import { celestialViewerPlanetDataUris } from '@idleverse/state';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 export const DataUriGenerator = ({
+  canvasRef,
   celestialId,
   input,
   onGenerationFinished,
 }: {
+  canvasRef: React.MutableRefObject<HTMLCanvasElement>;
   onGenerationFinished: (
     uris: ReturnType<typeof celestialViewerPlanetDataUris>
   ) => void;
   celestialId: string;
   input: { seed: string; data: Uint8Array; width: number; height: number }[];
 }) => {
-  const canvasRef = useRef<HTMLCanvasElement>();
-
   useEffect(() => {
     const uris: { seed: string; uri: string }[] = [];
 
@@ -39,11 +39,21 @@ export const DataUriGenerator = ({
       const uri = canvasRef.current.toDataURL();
 
       uris.push({ seed, uri });
+
+      canvasContext.clearRect(
+        0,
+        0,
+        canvasContext.canvas.width,
+        canvasContext.canvas.height
+      );
+
+      canvasRef.current.width = 0;
+      canvasRef.current.height = 0;
     });
 
     celestialViewerPlanetDataUris({ celestialId, uris });
     onGenerationFinished({ celestialId, uris });
   }, []);
 
-  return <canvas ref={canvasRef} />;
+  return <></>;
 };

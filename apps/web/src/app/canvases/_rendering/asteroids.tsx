@@ -199,7 +199,7 @@ export const Asteroids = ({
     app.ticker.add(tickerRef.current);
 
     return () => {
-      containerRef?.current.removeChildren();
+      containerRef?.current?.removeChildren();
       app.ticker?.remove(tickerRef.current);
       Matter.Composite.clear(engineRef?.current.world, false, true);
     };

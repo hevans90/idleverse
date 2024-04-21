@@ -16,8 +16,8 @@ export const buildPlanet = (
   app: Application,
   name: string,
   id: string,
-  sun: Planet,
-  selectionFunction: () => void
+  selectionFunction: () => void,
+  sun?: Planet
 ) => {
   const radiusFactor = 28;
 

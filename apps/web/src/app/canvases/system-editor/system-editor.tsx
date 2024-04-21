@@ -1,16 +1,10 @@
 import { useReactiveVar } from '@apollo/client';
-import {
-  SystemFocus,
-  colorsVar,
-  systemEditorConfigVar,
-  systemEditorFocusVar,
-} from '@idleverse/state';
+import { SystemFocus, colorsVar, systemEditorFocusVar } from '@idleverse/state';
 import { colors, hexStringToNumber } from '@idleverse/theme';
 import { Container, Graphics } from '@pixi/react';
 import { ISnapZoomOptions, Viewport } from 'pixi-viewport';
 import { Graphics as PixiGraphics, Point } from 'pixi.js';
 import { MutableRefObject, useCallback, useEffect } from 'react';
-import { useResize } from '../_utils/use-resize.hook';
 
 export const SystemEditor = ({
   viewportRef,
@@ -25,9 +19,6 @@ export const SystemEditor = ({
   center: { x: number; y: number };
   isMobile: boolean;
 }) => {
-  const size = useResize();
-
-  const config = useReactiveVar(systemEditorConfigVar);
   const focus = useReactiveVar(systemEditorFocusVar);
 
   const outlinePalette = colors[colorsVar().secondary];
@@ -141,6 +132,7 @@ export const SystemEditor = ({
 
   return (
     <Container>
+      {/* Celestial circle */}
       <Graphics
         alpha={focus === 'celestial' ? 0.5 : 0.1}
         draw={drawCelestialHighlight}
@@ -152,6 +144,7 @@ export const SystemEditor = ({
         }}
         zIndex={2}
       />
+      {/* Goldilocks ring */}
       <Graphics
         draw={(g) =>
           drawRing(g, {
@@ -170,6 +163,8 @@ export const SystemEditor = ({
         interactive={true}
         zIndex={2}
       />
+
+      {/* Asteroid ring */}
       <Graphics
         draw={(g) =>
           drawRing(g, {
