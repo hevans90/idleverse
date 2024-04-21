@@ -2,17 +2,17 @@ import { Container } from '@pixi/react';
 import { Viewport } from 'pixi-viewport';
 import { Container as PixiContainer, Rectangle } from 'pixi.js';
 import { useMemo, useRef, useState } from 'react';
-import { StarField } from '../../canvases/_rendering/starfield';
-import { PixiWrapper } from '../../canvases/_utils/pixi-wrapper';
-import { useResize } from '../../canvases/_utils/use-resize.hook';
-import { PixiViewport } from '../../canvases/_utils/viewport';
-import { StarRenderer } from '../star-editor/star-renderer';
+import { StarRenderer } from '../../showreel/star-editor/star-renderer';
+import { StarField } from '../_rendering/starfield';
+import { PixiWrapper } from '../_utils/pixi-wrapper';
+import { useResize } from '../_utils/use-resize.hook';
+import { PixiViewport } from '../_utils/viewport';
 import { SystemEditor } from './system-editor';
 
 import { useReactiveVar } from '@apollo/client';
 import { useBreakpointValue } from '@chakra-ui/react';
 import { SystemFocus, systemEditorConfigVar } from '@idleverse/state';
-import { Asteroids } from '../../canvases/_rendering/asteroids';
+import { Asteroids } from '../_rendering/asteroids';
 import { SystemEditorFocusUI } from './ui/focus-ui';
 import { SystemEditorOverview } from './ui/overview';
 

@@ -10,7 +10,7 @@ import { Container, Graphics } from '@pixi/react';
 import { ISnapZoomOptions, Viewport } from 'pixi-viewport';
 import { Graphics as PixiGraphics, Point } from 'pixi.js';
 import { MutableRefObject, useCallback, useEffect } from 'react';
-import { useResize } from '../../canvases/_utils/use-resize.hook';
+import { useResize } from '../_utils/use-resize.hook';
 
 export const SystemEditor = ({
   viewportRef,
