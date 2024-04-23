@@ -11,13 +11,9 @@ import { SystemEditor } from './system-editor';
 
 import { useReactiveVar } from '@apollo/client';
 import { useBreakpointValue } from '@chakra-ui/react';
-import {
-  SystemFocus,
-  planetGenerationColorDrawerVar,
-  systemEditorConfigVar,
-} from '@idleverse/state';
+import { SystemFocus, systemEditorConfigVar } from '@idleverse/state';
 import { Asteroids } from '../_rendering/asteroids';
-import { Planets } from './planets';
+import { PlanetContainer } from './planet.container';
 import { SystemEditorFocusUI } from './ui/focus-ui';
 import { SystemEditorOverview } from './ui/overview';
 
@@ -27,13 +23,9 @@ export const SystemEditorContainer = () => {
 
   const dataURICanvasRef = useRef<HTMLCanvasElement>(null);
 
-  const { currentHexPalette, terrainBias } = useReactiveVar(
-    planetGenerationColorDrawerVar
-  );
-
   const size = useResize();
 
-  const worldSize = { width: 3200, height: 1800 };
+  const worldSize = useMemo(() => ({ width: 3200, height: 1800 }), []);
 
   const center = useMemo(
     () => ({
@@ -94,30 +86,7 @@ export const SystemEditorContainer = () => {
             }}
           />
 
-          <Planets
-            canvasRef={dataURICanvasRef}
-            celestialId="editor"
-            planets={[
-              {
-                planet_by_pk: {
-                  celestial: null,
-                  owner_id: '1',
-                  atmospheric_distance: 1,
-                  rings: [],
-                  texture_resolution: 1024,
-                  name: 'nice',
-                  id: '',
-                  radius: 1,
-                  terrain_bias: terrainBias,
-                  terrain_hex_palette: {
-                    ...currentHexPalette,
-                    name: 'nice',
-                    id: '1',
-                  },
-                },
-              },
-            ]}
-          />
+          <PlanetContainer canvasRef={dataURICanvasRef} />
 
           <SystemEditor
             viewportRef={viewportRef}

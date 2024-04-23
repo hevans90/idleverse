@@ -61,7 +61,6 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
 
   useSelectedPlanet(
     solarSystemContainerRef.current,
-    selectedPlanet?.name,
     selectedPlanetPosition?.x,
     selectedPlanetPosition?.y
   );

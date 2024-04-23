@@ -1,136 +1,68 @@
-import { useReactiveVar } from '@apollo/client';
-import { PlanetByIdQuery } from '@idleverse/galaxy-gql';
-import {
-  celestialViewerPlanetDataUris,
-  celestialViewerSelectedPlanet,
-} from '@idleverse/state';
-import { hexToRGB } from '@idleverse/theme';
-import { useApp } from '@pixi/react';
-import { Assets } from 'pixi.js';
-import { useEffect, useState } from 'react';
-import { loadPlanets } from '../../asset-loading/load-planets';
-import { DataUriGenerator } from '../celestial-viewer/data-uri-generator';
+import { celestialViewerSelectedPlanet } from '@idleverse/state';
+import { Container, useApp } from '@pixi/react';
+import { Container as PixiContainer, TickerCallback } from 'pixi.js';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Planet } from '../celestial-viewer/models';
-import { buildPlanet } from '../celestial-viewer/utils/drawing-utils';
-import { runPixelDataGenOnWorker } from '../planet-generator/texture-generation/run-texture-gen-on-worker';
+import { useSelectedPlanet } from '../celestial-viewer/use-selected-planet';
 
-export const Planets = ({
-  celestialId,
-  planets,
-  canvasRef,
-}: {
-  celestialId?: string;
-  planets: PlanetByIdQuery[];
-  canvasRef: React.MutableRefObject<HTMLCanvasElement>;
-}) => {
+export const Planets = ({ planets }: { planets: Planet[] }) => {
+  console.log('NOT GOOD');
   const app = useApp();
+  const containerRef = useRef<PixiContainer>();
 
-  const [pixelDataGenerating, setPixelDataGenerating] = useState(true);
-  const [texturesGenerating, setTexturesGenerating] = useState(true);
-  const [celestialSpritesLoading, setCelestialSpritesLoading] = useState(true);
+  const [selectedPlanetPosition, setSelectedPlanetPosition] = useState<{
+    x: number;
+    y: number;
+  }>(null);
 
-  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanet);
+  const selectedPlanet = useSelectedPlanet(
+    containerRef.current,
+    selectedPlanetPosition?.x,
+    selectedPlanetPosition?.y
+  );
 
-  const planetDataUris = useReactiveVar(celestialViewerPlanetDataUris);
+  const selectedIndicatorTickerRef = useRef<TickerCallback<unknown>>();
 
-  const [pixelData, setPixelData] = useState<
-    {
-      seed: string;
-      data: Uint8Array;
-      width: number;
-      height: number;
-    }[]
-  >(null);
+  const setupTicker = useCallback(
+    (planetArr: Planet[]) => {
+      const selectedPlanet = celestialViewerSelectedPlanet();
+
+      const selectedFound = planetArr.find(
+        (planet) => planet.config.id === selectedPlanet?.id
+      );
+
+      if (selectedFound) {
+        selectedIndicatorTickerRef.current = () => {
+          setSelectedPlanetPosition({
+            x:
+              selectedFound.sprite.x -
+              selectedFound.sprite.width / 2 -
+              // rough character width of zx-spectrum mono font characters
+              selectedPlanet.name.length * 7.75,
+            y: selectedFound.sprite.y - selectedFound.sprite.height - 10,
+          });
+        };
+        app.ticker?.add(selectedIndicatorTickerRef.current);
+      }
+    },
+    [app.ticker, selectedPlanet]
+  );
 
   useEffect(() => {
-    loadPlanets().then(() => setCelestialSpritesLoading(false));
+    try {
+      app.ticker.remove(selectedIndicatorTickerRef.current);
+    } catch (e) {
+      //
+    }
+
+    setupTicker(planets);
+  }, [selectedPlanet, planets, setupTicker, app.ticker]);
+
+  useEffect(() => {
+    planets.forEach((planet) => {
+      containerRef.current.addChild(planet.sprite);
+    });
   }, []);
 
-  // generate pixel data for each planet
-  useEffect(() => {
-    celestialViewerSelectedPlanet(null);
-
-    const pixelDataToGenerate: Promise<{
-      seed: string;
-      data: Uint8Array;
-      width: number;
-      height: number;
-    }>[] = [];
-    planets.forEach(
-      ({
-        planet_by_pk: {
-          id,
-          texture_resolution: textureResolution,
-          terrain_hex_palette: { water, sand, grass, forest },
-          terrain_bias,
-        },
-      }) =>
-        pixelDataToGenerate.push(
-          runPixelDataGenOnWorker(
-            'perlin',
-            textureResolution,
-            [
-              hexToRGB(water),
-              hexToRGB(sand),
-              hexToRGB(grass),
-              hexToRGB(forest),
-            ],
-            terrain_bias as [number, number, number, number],
-            id
-          )
-        )
-    );
-
-    Promise.all(pixelDataToGenerate).then((values) => {
-      setPixelData(values);
-      setPixelDataGenerating(false);
-    });
-  }, [planets, selectedPlanet]);
-
-  const onDataURIGenerationfinished = async (data: {
-    celestialId: string;
-    uris: {
-      seed: string;
-      uri: string;
-    }[];
-  }) => {
-    const tempPlanets: Planet[] = [];
-    setTexturesGenerating(false);
-
-    const pixiAssetBundleKey = celestialId ?? 'editor';
-
-    Assets.addBundle(
-      pixiAssetBundleKey,
-      planets.map(({ planet_by_pk: { id, name } }) => ({
-        name,
-        srcs: planetDataUris.uris.find(({ seed }) => seed === id).uri,
-      }))
-    );
-
-    const bundle: { name: string }[] = await Assets.loadBundle(
-      pixiAssetBundleKey
-    );
-
-    planets.forEach(({ planet_by_pk: { id, name, radius } }) =>
-      tempPlanets.push(
-        buildPlanet(bundle?.[name], radius, app, name, id, () => {
-          celestialViewerSelectedPlanet({
-            name,
-            id,
-          });
-        })
-      )
-    );
-  };
-
-  if (!pixelDataGenerating && texturesGenerating) {
-    return (
-      <DataUriGenerator
-        canvasRef={canvasRef}
-        celestialId={celestialId ?? 'editor'}
-        input={pixelData}
-        onGenerationFinished={(data) => onDataURIGenerationfinished(data)}
-      />
-    );
-  }
+  return <Container ref={containerRef} />;
 };
