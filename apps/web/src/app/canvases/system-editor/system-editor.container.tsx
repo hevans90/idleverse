@@ -89,6 +89,7 @@ export const SystemEditorContainer = () => {
           <PlanetContainer
             canvasRef={dataURICanvasRef}
             viewportRef={viewportRef}
+            center={center}
           />
 
           <SystemEditor

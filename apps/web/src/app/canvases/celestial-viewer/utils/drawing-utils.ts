@@ -17,7 +17,7 @@ export const buildPlanet = ({
   name,
   id,
   selectionFunction,
-  initialScale = { x: 0.3, y: 0.3 },
+  initialScale = { x: 5, y: 5 },
   sun,
 }: {
   planetTexture: Texture<Resource>;
@@ -56,8 +56,8 @@ export const buildPlanet = ({
     radius,
     origin: { x: 0, y: 0 },
     orbit: {
-      x: Math.random() > 0.2 ? 200 * radius : 100 * radius,
-      y: Math.random() > 0.2 ? 200 * radius : 100 * radius,
+      x: 1500,
+      y: 1200,
       speed: 1 / radius,
     },
   };
@@ -78,7 +78,7 @@ export const createPlanet = ({
 }: {
   name: string;
   config: PlanetConfig;
-  sprite: AnimatedSprite | Sprite;
+  sprite?: AnimatedSprite | Sprite;
   parent?: Planet;
 }): Planet => ({
   name,
@@ -88,8 +88,8 @@ export const createPlanet = ({
   position: config.origin,
   scale: 1,
   originalDimensions: {
-    height: sprite.height,
-    width: sprite.width,
+    height: sprite?.height,
+    width: sprite?.width,
   },
 });
 
@@ -114,6 +114,7 @@ export const updatePlanetPosition = (
   const parentPosition = planet.parent
     ? planet.parent.position
     : { x: 0, y: 0 };
+
   planet.position = {
     x: planet.config.origin.x + planetOffset.x + parentPosition.x,
     y: planet.config.origin.y + planetOffset.y + parentPosition.y,

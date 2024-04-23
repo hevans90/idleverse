@@ -1,9 +1,14 @@
+import { timeVar } from '@idleverse/state';
 import { Container, useApp } from '@pixi/react';
 import { Viewport } from 'pixi-viewport';
 import { Container as PixiContainer, TickerCallback } from 'pixi.js';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Planet } from '../celestial-viewer/models';
 import { useSelectedPlanet } from '../celestial-viewer/use-selected-planet';
+import {
+  centerPlanetDraw,
+  updatePlanetPosition,
+} from '../celestial-viewer/utils/drawing-utils';
 
 export const Planets = ({
   planets,
@@ -65,6 +70,17 @@ export const Planets = ({
   useEffect(() => {
     planets.forEach((planet) => {
       containerRef.current.addChild(planet.sprite);
+    });
+
+    app.ticker.add((dt) => {
+      timeVar(timeVar() + dt);
+
+      planets.forEach((planet) => {
+        planet.sprite.rotation += (1 / planet.config.radius) * 0.01;
+
+        updatePlanetPosition(timeVar(), planet, 10);
+        centerPlanetDraw(planet, false);
+      });
     });
   }, []);
 

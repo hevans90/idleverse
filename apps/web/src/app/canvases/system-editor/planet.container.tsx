@@ -10,18 +10,23 @@ import { useApp } from '@pixi/react';
 import { Viewport } from 'pixi-viewport';
 import { Assets } from 'pixi.js';
 import { useEffect, useState } from 'react';
-import { Planet } from '../celestial-viewer/models';
+import { Planet, PlanetConfig } from '../celestial-viewer/models';
 import { useGenerateDataUris } from '../celestial-viewer/use-generate-data-uris';
-import { buildPlanet } from '../celestial-viewer/utils/drawing-utils';
+import {
+  buildPlanet,
+  createPlanet,
+} from '../celestial-viewer/utils/drawing-utils';
 import { runPixelDataGenOnWorker } from '../planet-generator/texture-generation/run-texture-gen-on-worker';
 import { Planets } from './planets';
 
 export const PlanetContainer = ({
   canvasRef,
   viewportRef,
+  center,
 }: {
   canvasRef: React.MutableRefObject<HTMLCanvasElement>;
   viewportRef: React.MutableRefObject<Viewport>;
+  center: { x: number; y: number };
 }) => {
   const app = useApp();
 
@@ -127,6 +132,17 @@ export const PlanetContainer = ({
       pixiAssetBundleKey
     );
 
+    const celestialConfig: PlanetConfig = {
+      id: 'celestial',
+      radius: 100,
+      origin: center,
+      orbit: { x: 0, y: 0, speed: 0 },
+    };
+    const sun: Planet = createPlanet({
+      name: 'celestial',
+      config: celestialConfig,
+    });
+
     planets.forEach(({ planet_by_pk: { id, name, radius } }) =>
       tempPlanets.push(
         buildPlanet({
@@ -141,6 +157,7 @@ export const PlanetContainer = ({
               id,
             });
           },
+          sun,
         })
       )
     );

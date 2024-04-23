@@ -33,7 +33,6 @@ export const useSelectedPlanet = ({
 
   useEffect(() => {
     if (selectedPlanet && container) {
-      console.log('CONTAINER SCALE', container.scale);
       container.addChild(selectedPlanetText);
       const indicator = container.getChildByName(indicatorKey) as Text;
       indicator.text = selectedPlanet.name;
