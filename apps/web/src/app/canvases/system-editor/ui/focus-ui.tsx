@@ -2,6 +2,7 @@ import { useReactiveVar } from '@apollo/client';
 import { RepeatIcon } from '@chakra-ui/icons';
 import {
   Box,
+  Button,
   HStack,
   IconButton,
   Input,
@@ -14,17 +15,26 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 import { generateCelestialName } from '@idleverse/galaxy-gen';
+import { PlanetByIdQuery } from '@idleverse/galaxy-gql';
 import {
   celestialPresets,
+  celestialViewerSelectedPlanet,
   colorsVar,
   systemEditorConfigVar,
   systemEditorFocusVar,
 } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
 import { AnimatedFrame } from '@idleverse/ui';
-import { subHeaderResponsiveFontProps } from '../../../_responsive-utils/font-props';
+import {
+  responsiveFontProps,
+  subHeaderResponsiveFontProps,
+} from '../../../_responsive-utils/font-props';
 
-export const SystemEditorFocusUI = () => {
+export const SystemEditorFocusUI = ({
+  planets,
+}: {
+  planets: PlanetByIdQuery[];
+}) => {
   const focus = useReactiveVar(systemEditorFocusVar);
 
   const { rawBgDarker } = useUiBackground();
@@ -59,13 +69,16 @@ export const SystemEditorFocusUI = () => {
             {focus.replace('-', ' ').toLocaleUpperCase()}
           </Text>
           {focus === 'celestial' ? <CelestialFocusUI /> : null}
+          {focus === 'goldilocks-zone' ? (
+            <GoldilocksFocusUI planets={planets} />
+          ) : null}
         </VStack>
       </AnimatedFrame>
     </Box>
   ) : null;
 };
 
-export const CelestialFocusUI = (args) => {
+export const CelestialFocusUI = () => {
   const config = useReactiveVar(systemEditorConfigVar);
 
   const { bg } = useUiBackground();
@@ -140,6 +153,42 @@ export const CelestialFocusUI = (args) => {
           }}
         />
       </HStack>
+    </>
+  );
+};
+
+export const GoldilocksFocusUI = ({
+  planets,
+}: {
+  planets: PlanetByIdQuery[];
+}) => {
+  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanet);
+
+  const { secondary } = useReactiveVar(colorsVar);
+
+  return (
+    <>
+      {planets.map(({ planet_by_pk: { name, id } }) => (
+        <Button
+          key={id}
+          flexGrow={1}
+          opacity={0.75}
+          {...responsiveFontProps}
+          _disabled={{
+            bg: `${secondary}.700`,
+            transform: 'scale(0.98)',
+            pointerEvents: 'none',
+            opacity: 1,
+            _hover: { bg: `${secondary}.600` },
+          }}
+          isDisabled={selectedPlanet?.id === id}
+          onClick={() => {
+            celestialViewerSelectedPlanet({ name, id });
+          }}
+        >
+          {name.toLocaleUpperCase()}{' '}
+        </Button>
+      ))}
     </>
   );
 };

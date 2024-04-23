@@ -1,9 +1,7 @@
-import { useReactiveVar } from '@apollo/client';
 import { PlanetByIdQuery } from '@idleverse/galaxy-gql';
 import {
   celestialViewerPlanetDataUris,
   celestialViewerSelectedPlanet,
-  planetGenerationColorDrawerVar,
 } from '@idleverse/state';
 import { hexToRGB } from '@idleverse/theme';
 import { useApp } from '@pixi/react';
@@ -23,39 +21,16 @@ export const PlanetContainer = ({
   canvasRef,
   viewportRef,
   center,
+  planets,
 }: {
   canvasRef: React.MutableRefObject<HTMLCanvasElement>;
   viewportRef: React.MutableRefObject<Viewport>;
   center: { x: number; y: number };
+  planets: PlanetByIdQuery[];
 }) => {
   const app = useApp();
 
   const [texturesGenerating, setTexturesGenerating] = useState(true);
-
-  const { currentHexPalette, terrainBias } = useReactiveVar(
-    planetGenerationColorDrawerVar
-  );
-
-  const [planets, setPlanets] = useState<PlanetByIdQuery[]>([
-    {
-      planet_by_pk: {
-        celestial: null,
-        owner_id: '1',
-        atmospheric_distance: 1,
-        rings: [],
-        texture_resolution: 1024,
-        name: 'nice',
-        id: 'showreel-planet',
-        radius: 1,
-        terrain_bias: terrainBias,
-        terrain_hex_palette: {
-          ...currentHexPalette,
-          name: 'nice',
-          id: '1',
-        },
-      },
-    },
-  ]);
 
   const [localPlanets, setLocalPlanets] = useState<Planet[]>([]);
 

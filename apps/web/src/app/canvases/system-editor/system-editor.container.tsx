@@ -11,7 +11,12 @@ import { SystemEditor } from './system-editor';
 
 import { useReactiveVar } from '@apollo/client';
 import { useBreakpointValue } from '@chakra-ui/react';
-import { SystemFocus, systemEditorConfigVar } from '@idleverse/state';
+import { PlanetByIdQuery } from '@idleverse/galaxy-gql';
+import {
+  SystemFocus,
+  planetGenerationColorDrawerVar,
+  systemEditorConfigVar,
+} from '@idleverse/state';
 import { Asteroids } from '../_rendering/asteroids';
 import { PlanetContainer } from './planet.container';
 import { SystemEditorFocusUI } from './ui/focus-ui';
@@ -26,6 +31,31 @@ export const SystemEditorContainer = () => {
   const size = useResize();
 
   const worldSize = useMemo(() => ({ width: 3200, height: 1800 }), []);
+
+  const { currentHexPalette, terrainBias } = useReactiveVar(
+    planetGenerationColorDrawerVar
+  );
+
+  const [planets, setPlanets] = useState<PlanetByIdQuery[]>([
+    {
+      planet_by_pk: {
+        celestial: null,
+        owner_id: '1',
+        atmospheric_distance: 1,
+        rings: [],
+        texture_resolution: 1024,
+        name: 'nice',
+        id: 'showreel-planet',
+        radius: 1,
+        terrain_bias: terrainBias,
+        terrain_hex_palette: {
+          ...currentHexPalette,
+          name: 'nice',
+          id: '1',
+        },
+      },
+    },
+  ]);
 
   const center = useMemo(
     () => ({
@@ -63,7 +93,7 @@ export const SystemEditorContainer = () => {
         ui={
           <>
             <SystemEditorOverview />
-            <SystemEditorFocusUI />
+            <SystemEditorFocusUI planets={planets} />
           </>
         }
       >
@@ -90,6 +120,7 @@ export const SystemEditorContainer = () => {
             canvasRef={dataURICanvasRef}
             viewportRef={viewportRef}
             center={center}
+            planets={planets}
           />
 
           <SystemEditor
