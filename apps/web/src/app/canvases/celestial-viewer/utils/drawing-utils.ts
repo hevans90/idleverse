@@ -10,15 +10,25 @@ import {
 
 import { Planet, PlanetConfig } from '../models';
 
-export const buildPlanet = (
-  planetTexture: Texture<Resource>,
-  radius: number,
-  app: Application,
-  name: string,
-  id: string,
-  selectionFunction: () => void,
-  sun?: Planet
-) => {
+export const buildPlanet = ({
+  planetTexture,
+  radius,
+  app,
+  name,
+  id,
+  selectionFunction,
+  initialScale = { x: 0.3, y: 0.3 },
+  sun,
+}: {
+  planetTexture: Texture<Resource>;
+  radius: number;
+  app: Application;
+  name: string;
+  id: string;
+  selectionFunction: () => void;
+  initialScale?: { x: number; y: number };
+  sun?: Planet;
+}) => {
   const radiusFactor = 28;
 
   const planetGraphic = new Graphics()
@@ -36,7 +46,7 @@ export const buildPlanet = (
   sprite.eventMode = 'static';
   sprite.cursor = 'pointer';
   sprite.zIndex = 1;
-  sprite.scale = { x: 0.3, y: 0.3 };
+  sprite.scale = initialScale;
   sprite.anchor.set(0.5, 0.5);
 
   sprite.on('mousedown', () => selectionFunction());

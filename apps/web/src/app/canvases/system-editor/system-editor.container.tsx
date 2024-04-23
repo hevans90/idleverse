@@ -86,7 +86,10 @@ export const SystemEditorContainer = () => {
             }}
           />
 
-          <PlanetContainer canvasRef={dataURICanvasRef} />
+          <PlanetContainer
+            canvasRef={dataURICanvasRef}
+            viewportRef={viewportRef}
+          />
 
           <SystemEditor
             viewportRef={viewportRef}

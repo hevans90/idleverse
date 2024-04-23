@@ -3,6 +3,18 @@ import { PixiComponent, useApp } from '@pixi/react';
 import { Viewport, type IViewportOptions } from 'pixi-viewport';
 import { Application } from 'pixi.js';
 import { ReactNode, forwardRef } from 'react';
+import { findChildrenByName } from './recursive-container-search';
+
+export const updateScaledObjects = (viewport: Viewport) => {
+  const preservedScaleObjects = findChildrenByName({
+    container: viewport,
+    nameSubstring: 'PRESERVE_SCALE',
+  });
+  preservedScaleObjects.forEach((object) => {
+    object.scale.y = 1 / viewport.scale.y;
+    object.scale.x = 1 / viewport.scale.x;
+  });
+};
 
 // we share the ticker and interaction from app
 const PixiViewportComponent = PixiComponent('Viewport', {
@@ -39,7 +51,10 @@ const PixiViewportComponent = PixiComponent('Viewport', {
       viewport.setZoom(props.initialZoom, true);
     }
 
+    viewport.on('zoomed', () => updateScaledObjects(viewport));
+
     viewport.sortableChildren = true;
+
     return viewport;
   },
   applyProps(viewport, _oldProps, _newProps) {

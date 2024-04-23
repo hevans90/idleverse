@@ -1,12 +1,17 @@
-import { celestialViewerSelectedPlanet } from '@idleverse/state';
 import { Container, useApp } from '@pixi/react';
+import { Viewport } from 'pixi-viewport';
 import { Container as PixiContainer, TickerCallback } from 'pixi.js';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Planet } from '../celestial-viewer/models';
 import { useSelectedPlanet } from '../celestial-viewer/use-selected-planet';
 
-export const Planets = ({ planets }: { planets: Planet[] }) => {
-  console.log('NOT GOOD');
+export const Planets = ({
+  planets,
+  viewportRef,
+}: {
+  planets: Planet[];
+  viewportRef: React.MutableRefObject<Viewport>;
+}) => {
   const app = useApp();
   const containerRef = useRef<PixiContainer>();
 
@@ -15,18 +20,17 @@ export const Planets = ({ planets }: { planets: Planet[] }) => {
     y: number;
   }>(null);
 
-  const selectedPlanet = useSelectedPlanet(
-    containerRef.current,
-    selectedPlanetPosition?.x,
-    selectedPlanetPosition?.y
-  );
+  const selectedPlanet = useSelectedPlanet({
+    container: containerRef.current,
+    x: selectedPlanetPosition?.x,
+    y: selectedPlanetPosition?.y,
+    viewport: viewportRef.current,
+  });
 
   const selectedIndicatorTickerRef = useRef<TickerCallback<unknown>>();
 
   const setupTicker = useCallback(
     (planetArr: Planet[]) => {
-      const selectedPlanet = celestialViewerSelectedPlanet();
-
       const selectedFound = planetArr.find(
         (planet) => planet.config.id === selectedPlanet?.id
       );

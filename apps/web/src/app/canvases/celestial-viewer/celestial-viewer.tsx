@@ -59,20 +59,21 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
 
   const solarSystemContainerRef = useRef(new Container());
 
-  useSelectedPlanet(
-    solarSystemContainerRef.current,
-    selectedPlanetPosition?.x,
-    selectedPlanetPosition?.y
-  );
-
-  useFpsTracker(app);
-
-  useViewport({
+  const viewport = useViewport({
     app,
     size,
     containerRef: solarSystemContainerRef,
     clampDrag: true,
   });
+
+  useSelectedPlanet({
+    container: solarSystemContainerRef.current,
+    x: selectedPlanetPosition?.x,
+    y: selectedPlanetPosition?.y,
+    viewport,
+  });
+
+  useFpsTracker(app);
 
   useEffect(() => {
     if (app.renderer !== null) {
@@ -118,20 +119,20 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
       Assets.loadBundle(bundleKey).then((bundle) => {
         celestial.planets.forEach(({ id, name, radius }) =>
           tempPlanets.push(
-            buildPlanet(
-              bundle?.[name],
+            buildPlanet({
+              planetTexture: bundle?.[name],
               radius,
               app,
               name,
               id,
-              () => {
+              selectionFunction: () => {
                 celestialViewerSelectedPlanet({
                   name,
                   id,
                 });
               },
-              sun
-            )
+              sun,
+            })
           )
         );
 

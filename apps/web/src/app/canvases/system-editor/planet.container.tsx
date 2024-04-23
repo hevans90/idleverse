@@ -7,6 +7,7 @@ import {
 } from '@idleverse/state';
 import { hexToRGB } from '@idleverse/theme';
 import { useApp } from '@pixi/react';
+import { Viewport } from 'pixi-viewport';
 import { Assets } from 'pixi.js';
 import { useEffect, useState } from 'react';
 import { Planet } from '../celestial-viewer/models';
@@ -17,8 +18,10 @@ import { Planets } from './planets';
 
 export const PlanetContainer = ({
   canvasRef,
+  viewportRef,
 }: {
   canvasRef: React.MutableRefObject<HTMLCanvasElement>;
+  viewportRef: React.MutableRefObject<Viewport>;
 }) => {
   const app = useApp();
 
@@ -62,8 +65,6 @@ export const PlanetContainer = ({
 
   // generate pixel data for each planet
   useEffect(() => {
-    celestialViewerSelectedPlanet(null);
-
     const pixelDataToGenerate: Promise<{
       seed: string;
       data: Uint8Array;
@@ -128,11 +129,18 @@ export const PlanetContainer = ({
 
     planets.forEach(({ planet_by_pk: { id, name, radius } }) =>
       tempPlanets.push(
-        buildPlanet(bundle?.[name], radius, app, name, id, () => {
-          celestialViewerSelectedPlanet({
-            name,
-            id,
-          });
+        buildPlanet({
+          planetTexture: bundle?.[name],
+          radius,
+          app,
+          name,
+          id,
+          selectionFunction: () => {
+            celestialViewerSelectedPlanet({
+              name,
+              id,
+            });
+          },
         })
       )
     );
@@ -147,5 +155,7 @@ export const PlanetContainer = ({
     onGenerationFinished: onDataURIGenerationfinished,
   });
 
-  return localPlanets.length ? <Planets planets={localPlanets} /> : null;
+  return localPlanets.length ? (
+    <Planets planets={localPlanets} viewportRef={viewportRef} />
+  ) : null;
 };
