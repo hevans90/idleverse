@@ -157,13 +157,13 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
               },
               config: { orbit },
             }) => {
-              const radialCircle = createRadialEllipse(
-                origin.x,
-                origin.y,
-                orbit.x,
-                orbit.y,
-                hexStringToNumber(rawBorder)
-              );
+              const radialCircle = createRadialEllipse({
+                x: origin.x,
+                y: origin.y,
+                width: orbit.x,
+                height: orbit.y,
+                color: hexStringToNumber(rawBorder),
+              });
 
               solarSystemContainerRef.current.addChild(radialCircle);
             }

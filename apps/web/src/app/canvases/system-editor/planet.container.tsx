@@ -3,10 +3,10 @@ import {
   celestialViewerPlanetDataUris,
   celestialViewerSelectedPlanet,
 } from '@idleverse/state';
-import { hexToRGB } from '@idleverse/theme';
+import { hexStringToNumber, hexToRGB, useUiBackground } from '@idleverse/theme';
 import { useApp } from '@pixi/react';
 import { Viewport } from 'pixi-viewport';
-import { Assets } from 'pixi.js';
+import { Assets, Graphics } from 'pixi.js';
 import { useEffect, useState } from 'react';
 import { Planet, PlanetConfig } from '../celestial-viewer/models';
 import { useGenerateDataUris } from '../celestial-viewer/use-generate-data-uris';
@@ -14,6 +14,7 @@ import {
   buildPlanet,
   createPlanet,
 } from '../celestial-viewer/utils/drawing-utils';
+import { createRadialEllipse } from '../celestial-viewer/utils/graphics-utils';
 import { runPixelDataGenOnWorker } from '../planet-generator/texture-generation/run-texture-gen-on-worker';
 import { Planets } from './planets';
 
@@ -30,8 +31,13 @@ export const PlanetContainer = ({
 }) => {
   const app = useApp();
 
+  const { rawBorder } = useUiBackground();
+
   const [texturesGenerating, setTexturesGenerating] = useState(true);
 
+  const [localOrbitalEllipses, setLocalOrbitalEllipses] = useState<Graphics[]>(
+    []
+  );
   const [localPlanets, setLocalPlanets] = useState<Planet[]>([]);
 
   const [pixelData, setPixelData] = useState<
@@ -88,6 +94,7 @@ export const PlanetContainer = ({
       uri: string;
     }[];
   }) => {
+    const orbitalEllipses: Graphics[] = [];
     const tempPlanets: Planet[] = [];
     setTexturesGenerating(false);
 
@@ -137,7 +144,31 @@ export const PlanetContainer = ({
       )
     );
 
+    tempPlanets
+      // all planets that have a parent i.e. not the central star, or other freely floating objects
+      .filter((planet) => planet?.parent)
+      .forEach(
+        ({
+          parent: {
+            config: { origin },
+          },
+          config: { orbit },
+        }) => {
+          const radialEllipse = createRadialEllipse({
+            thickness: 5,
+            x: origin.x,
+            y: origin.y,
+            width: orbit.x,
+            height: orbit.y,
+            color: hexStringToNumber(rawBorder),
+          });
+
+          orbitalEllipses.push(radialEllipse);
+        }
+      );
+
     setLocalPlanets(tempPlanets);
+    setLocalOrbitalEllipses(orbitalEllipses);
   };
 
   useGenerateDataUris({
@@ -148,6 +179,10 @@ export const PlanetContainer = ({
   });
 
   return localPlanets.length ? (
-    <Planets planets={localPlanets} viewportRef={viewportRef} />
+    <Planets
+      planets={localPlanets}
+      orbitalEllipses={localOrbitalEllipses}
+      viewportRef={viewportRef}
+    />
   ) : null;
 };

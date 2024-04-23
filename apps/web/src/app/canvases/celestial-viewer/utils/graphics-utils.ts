@@ -52,17 +52,27 @@ export const createAnimatedPlanetSprite = (conf: SpriteSheetConfig) => {
   return sprite;
 };
 
-export const createRadialEllipse = (
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-  color: number
-) => {
+export const createRadialEllipse = ({
+  x,
+  y,
+  width,
+  height,
+  color,
+
+  thickness = 1,
+}: {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  color: number;
+  thickness?: number;
+}) => {
   const gr = new Graphics();
-  gr.lineStyle(1, color);
+  gr.lineStyle(thickness, color);
   gr.drawEllipse(x, y, width, height);
   gr.endFill();
   gr.zIndex = 0;
+
   return gr;
 };

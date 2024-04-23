@@ -1,7 +1,7 @@
 import { timeVar } from '@idleverse/state';
 import { Container, useApp } from '@pixi/react';
 import { Viewport } from 'pixi-viewport';
-import { Container as PixiContainer, TickerCallback } from 'pixi.js';
+import { Graphics, Container as PixiContainer, TickerCallback } from 'pixi.js';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Planet } from '../celestial-viewer/models';
 import { useSelectedPlanet } from '../celestial-viewer/use-selected-planet';
@@ -12,9 +12,11 @@ import {
 
 export const Planets = ({
   planets,
+  orbitalEllipses,
   viewportRef,
 }: {
   planets: Planet[];
+  orbitalEllipses: Graphics[];
   viewportRef: React.MutableRefObject<Viewport>;
 }) => {
   const app = useApp();
@@ -32,6 +34,7 @@ export const Planets = ({
     viewport: viewportRef.current,
   });
 
+  const orbitalTickerRef = useRef<TickerCallback<unknown>>();
   const selectedIndicatorTickerRef = useRef<TickerCallback<unknown>>();
 
   const setupTicker = useCallback(
@@ -71,8 +74,11 @@ export const Planets = ({
     planets.forEach((planet) => {
       containerRef.current.addChild(planet.sprite);
     });
+    orbitalEllipses.forEach((ellipse) =>
+      containerRef.current.addChild(ellipse)
+    );
 
-    app.ticker.add((dt) => {
+    orbitalTickerRef.current = (dt) => {
       timeVar(timeVar() + dt);
 
       planets.forEach((planet) => {
@@ -81,8 +87,14 @@ export const Planets = ({
         updatePlanetPosition(timeVar(), planet, 10);
         centerPlanetDraw(planet, false);
       });
-    });
+    };
+
+    app.ticker.add(orbitalTickerRef.current);
+
+    return () => {
+      app.ticker.remove(orbitalTickerRef.current);
+    };
   }, []);
 
-  return <Container ref={containerRef} />;
+  return <Container sortableChildren={true} ref={containerRef} />;
 };

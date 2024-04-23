@@ -51,7 +51,9 @@ const PixiViewportComponent = PixiComponent('Viewport', {
       viewport.setZoom(props.initialZoom, true);
     }
 
-    viewport.on('zoomed', () => updateScaledObjects(viewport));
+    viewport.on('zoomed', () => {
+      updateScaledObjects(viewport);
+    });
 
     viewport.sortableChildren = true;
 

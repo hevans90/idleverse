@@ -36,13 +36,15 @@ export const useSelectedPlanet = ({
       container.addChild(selectedPlanetText);
       const indicator = container.getChildByName(indicatorKey) as Text;
       indicator.text = selectedPlanet.name;
-      indicator.position.x = x;
-      indicator.position.y = y;
-      indicator.zIndex = 2;
       indicator.scale = {
         x: 1 / viewport.scale.x,
         y: 1 / viewport.scale.y,
       };
+
+      indicator.anchor.set(0.5, 0.5);
+      indicator.position.x = x + indicator.width / 4;
+      indicator.position.y = y - indicator.height / 2;
+      indicator.zIndex = 2;
     }
 
     return () => {
@@ -54,13 +56,13 @@ export const useSelectedPlanet = ({
     };
   }, [selectedPlanet, container, selectedPlanetText, indicatorKey, x, y]);
 
-  useEffect(() => {
-    if (selectedPlanet && container) {
-      const indicator = container.getChildByName(indicatorKey) as Text;
-      indicator.position.x = x;
-      indicator.position.y = y;
-    }
-  }, [x, y, container, selectedPlanet, indicatorKey]);
+  // useEffect(() => {
+  //   if (selectedPlanet && container) {
+  //     const indicator = container.getChildByName(indicatorKey) as Text;
+  //     indicator.position.x = x;
+  //     indicator.position.y = y;
+  //   }
+  // }, [x, y, container, selectedPlanet, indicatorKey]);
 
   return selectedPlanet;
 };
