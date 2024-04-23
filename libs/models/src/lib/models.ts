@@ -34,6 +34,9 @@ export type PlanetGenerationConfig = {
   atmosphericDistance: number;
   atmosphere: boolean;
   rotate: boolean;
+
+  /** In AU */
+  orbitalRadius: number;
 };
 
 export type CelestialType =

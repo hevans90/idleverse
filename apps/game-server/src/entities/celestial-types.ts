@@ -1,8 +1,8 @@
 import {
   Planet,
+  Planet_Insert_Input,
   Planetary_Ring_Arr_Rel_Insert_Input,
   Planetary_Ring_Insert_Input,
-  Planet_Insert_Input,
 } from '@idleverse/galaxy-gql';
 import { Field, Float, InputType, ObjectType } from 'type-graphql';
 
@@ -71,6 +71,9 @@ export class PlanetCreationInput implements Planet_Insert_Input {
 
   @Field()
   atmospheric_distance: number;
+
+  @Field()
+  orbital_radius: number;
 }
 
 @ObjectType()

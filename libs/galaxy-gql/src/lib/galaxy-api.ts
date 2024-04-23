@@ -85,6 +85,7 @@ export type PlanetCreationInput = {
   celestial_id: Scalars['String']['input'];
   id: Scalars['String']['input'];
   name: Scalars['String']['input'];
+  orbital_radius: Scalars['Float']['input'];
   owner_id: Scalars['String']['input'];
   radius: Scalars['Float']['input'];
   rings: RingInsertInputWrapper;
@@ -4865,6 +4866,7 @@ export type Planet = {
   celestial_id: Scalars['String']['output'];
   id: Scalars['uuid']['output'];
   name: Scalars['String']['output'];
+  orbital_radius?: Maybe<Scalars['numeric']['output']>;
   owner_id: Scalars['String']['output'];
   radius: Scalars['numeric']['output'];
   /** An array relationship */
@@ -4967,6 +4969,7 @@ export type Planet_Arr_Rel_Insert_Input = {
 export type Planet_Avg_Fields = {
   __typename?: 'planet_avg_fields';
   atmospheric_distance?: Maybe<Scalars['Float']['output']>;
+  orbital_radius?: Maybe<Scalars['Float']['output']>;
   radius?: Maybe<Scalars['Float']['output']>;
   texture_resolution?: Maybe<Scalars['Float']['output']>;
 };
@@ -4974,6 +4977,7 @@ export type Planet_Avg_Fields = {
 /** order by avg() on columns of table "planet" */
 export type Planet_Avg_Order_By = {
   atmospheric_distance?: InputMaybe<Order_By>;
+  orbital_radius?: InputMaybe<Order_By>;
   radius?: InputMaybe<Order_By>;
   texture_resolution?: InputMaybe<Order_By>;
 };
@@ -4988,6 +4992,7 @@ export type Planet_Bool_Exp = {
   celestial_id?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
+  orbital_radius?: InputMaybe<Numeric_Comparison_Exp>;
   owner_id?: InputMaybe<String_Comparison_Exp>;
   radius?: InputMaybe<Numeric_Comparison_Exp>;
   rings?: InputMaybe<Planetary_Ring_Bool_Exp>;
@@ -5010,6 +5015,7 @@ export enum Planet_Constraint {
 /** input type for incrementing numeric columns in table "planet" */
 export type Planet_Inc_Input = {
   atmospheric_distance?: InputMaybe<Scalars['numeric']['input']>;
+  orbital_radius?: InputMaybe<Scalars['numeric']['input']>;
   radius?: InputMaybe<Scalars['numeric']['input']>;
   texture_resolution?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -5021,6 +5027,7 @@ export type Planet_Insert_Input = {
   celestial_id?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  orbital_radius?: InputMaybe<Scalars['numeric']['input']>;
   owner_id?: InputMaybe<Scalars['String']['input']>;
   radius?: InputMaybe<Scalars['numeric']['input']>;
   rings?: InputMaybe<Planetary_Ring_Arr_Rel_Insert_Input>;
@@ -5038,6 +5045,7 @@ export type Planet_Max_Fields = {
   celestial_id?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   name?: Maybe<Scalars['String']['output']>;
+  orbital_radius?: Maybe<Scalars['numeric']['output']>;
   owner_id?: Maybe<Scalars['String']['output']>;
   radius?: Maybe<Scalars['numeric']['output']>;
   terrain_hex_palette_id?: Maybe<Scalars['uuid']['output']>;
@@ -5050,6 +5058,7 @@ export type Planet_Max_Order_By = {
   celestial_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
+  orbital_radius?: InputMaybe<Order_By>;
   owner_id?: InputMaybe<Order_By>;
   radius?: InputMaybe<Order_By>;
   terrain_hex_palette_id?: InputMaybe<Order_By>;
@@ -5063,6 +5072,7 @@ export type Planet_Min_Fields = {
   celestial_id?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   name?: Maybe<Scalars['String']['output']>;
+  orbital_radius?: Maybe<Scalars['numeric']['output']>;
   owner_id?: Maybe<Scalars['String']['output']>;
   radius?: Maybe<Scalars['numeric']['output']>;
   terrain_hex_palette_id?: Maybe<Scalars['uuid']['output']>;
@@ -5075,6 +5085,7 @@ export type Planet_Min_Order_By = {
   celestial_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
+  orbital_radius?: InputMaybe<Order_By>;
   owner_id?: InputMaybe<Order_By>;
   radius?: InputMaybe<Order_By>;
   terrain_hex_palette_id?: InputMaybe<Order_By>;
@@ -5111,6 +5122,7 @@ export type Planet_Order_By = {
   celestial_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
+  orbital_radius?: InputMaybe<Order_By>;
   owner_id?: InputMaybe<Order_By>;
   radius?: InputMaybe<Order_By>;
   rings_aggregate?: InputMaybe<Planetary_Ring_Aggregate_Order_By>;
@@ -5137,6 +5149,8 @@ export enum Planet_Select_Column {
   /** column name */
   Name = 'name',
   /** column name */
+  OrbitalRadius = 'orbital_radius',
+  /** column name */
   OwnerId = 'owner_id',
   /** column name */
   Radius = 'radius',
@@ -5154,6 +5168,7 @@ export type Planet_Set_Input = {
   celestial_id?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  orbital_radius?: InputMaybe<Scalars['numeric']['input']>;
   owner_id?: InputMaybe<Scalars['String']['input']>;
   radius?: InputMaybe<Scalars['numeric']['input']>;
   terrain_bias?: InputMaybe<Scalars['_numeric']['input']>;
@@ -5165,6 +5180,7 @@ export type Planet_Set_Input = {
 export type Planet_Stddev_Fields = {
   __typename?: 'planet_stddev_fields';
   atmospheric_distance?: Maybe<Scalars['Float']['output']>;
+  orbital_radius?: Maybe<Scalars['Float']['output']>;
   radius?: Maybe<Scalars['Float']['output']>;
   texture_resolution?: Maybe<Scalars['Float']['output']>;
 };
@@ -5172,6 +5188,7 @@ export type Planet_Stddev_Fields = {
 /** order by stddev() on columns of table "planet" */
 export type Planet_Stddev_Order_By = {
   atmospheric_distance?: InputMaybe<Order_By>;
+  orbital_radius?: InputMaybe<Order_By>;
   radius?: InputMaybe<Order_By>;
   texture_resolution?: InputMaybe<Order_By>;
 };
@@ -5180,6 +5197,7 @@ export type Planet_Stddev_Order_By = {
 export type Planet_Stddev_Pop_Fields = {
   __typename?: 'planet_stddev_pop_fields';
   atmospheric_distance?: Maybe<Scalars['Float']['output']>;
+  orbital_radius?: Maybe<Scalars['Float']['output']>;
   radius?: Maybe<Scalars['Float']['output']>;
   texture_resolution?: Maybe<Scalars['Float']['output']>;
 };
@@ -5187,6 +5205,7 @@ export type Planet_Stddev_Pop_Fields = {
 /** order by stddev_pop() on columns of table "planet" */
 export type Planet_Stddev_Pop_Order_By = {
   atmospheric_distance?: InputMaybe<Order_By>;
+  orbital_radius?: InputMaybe<Order_By>;
   radius?: InputMaybe<Order_By>;
   texture_resolution?: InputMaybe<Order_By>;
 };
@@ -5195,6 +5214,7 @@ export type Planet_Stddev_Pop_Order_By = {
 export type Planet_Stddev_Samp_Fields = {
   __typename?: 'planet_stddev_samp_fields';
   atmospheric_distance?: Maybe<Scalars['Float']['output']>;
+  orbital_radius?: Maybe<Scalars['Float']['output']>;
   radius?: Maybe<Scalars['Float']['output']>;
   texture_resolution?: Maybe<Scalars['Float']['output']>;
 };
@@ -5202,6 +5222,7 @@ export type Planet_Stddev_Samp_Fields = {
 /** order by stddev_samp() on columns of table "planet" */
 export type Planet_Stddev_Samp_Order_By = {
   atmospheric_distance?: InputMaybe<Order_By>;
+  orbital_radius?: InputMaybe<Order_By>;
   radius?: InputMaybe<Order_By>;
   texture_resolution?: InputMaybe<Order_By>;
 };
@@ -5220,6 +5241,7 @@ export type Planet_Stream_Cursor_Value_Input = {
   celestial_id?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  orbital_radius?: InputMaybe<Scalars['numeric']['input']>;
   owner_id?: InputMaybe<Scalars['String']['input']>;
   radius?: InputMaybe<Scalars['numeric']['input']>;
   terrain_bias?: InputMaybe<Scalars['_numeric']['input']>;
@@ -5231,6 +5253,7 @@ export type Planet_Stream_Cursor_Value_Input = {
 export type Planet_Sum_Fields = {
   __typename?: 'planet_sum_fields';
   atmospheric_distance?: Maybe<Scalars['numeric']['output']>;
+  orbital_radius?: Maybe<Scalars['numeric']['output']>;
   radius?: Maybe<Scalars['numeric']['output']>;
   texture_resolution?: Maybe<Scalars['Int']['output']>;
 };
@@ -5238,6 +5261,7 @@ export type Planet_Sum_Fields = {
 /** order by sum() on columns of table "planet" */
 export type Planet_Sum_Order_By = {
   atmospheric_distance?: InputMaybe<Order_By>;
+  orbital_radius?: InputMaybe<Order_By>;
   radius?: InputMaybe<Order_By>;
   texture_resolution?: InputMaybe<Order_By>;
 };
@@ -5252,6 +5276,8 @@ export enum Planet_Update_Column {
   Id = 'id',
   /** column name */
   Name = 'name',
+  /** column name */
+  OrbitalRadius = 'orbital_radius',
   /** column name */
   OwnerId = 'owner_id',
   /** column name */
@@ -5277,6 +5303,7 @@ export type Planet_Updates = {
 export type Planet_Var_Pop_Fields = {
   __typename?: 'planet_var_pop_fields';
   atmospheric_distance?: Maybe<Scalars['Float']['output']>;
+  orbital_radius?: Maybe<Scalars['Float']['output']>;
   radius?: Maybe<Scalars['Float']['output']>;
   texture_resolution?: Maybe<Scalars['Float']['output']>;
 };
@@ -5284,6 +5311,7 @@ export type Planet_Var_Pop_Fields = {
 /** order by var_pop() on columns of table "planet" */
 export type Planet_Var_Pop_Order_By = {
   atmospheric_distance?: InputMaybe<Order_By>;
+  orbital_radius?: InputMaybe<Order_By>;
   radius?: InputMaybe<Order_By>;
   texture_resolution?: InputMaybe<Order_By>;
 };
@@ -5292,6 +5320,7 @@ export type Planet_Var_Pop_Order_By = {
 export type Planet_Var_Samp_Fields = {
   __typename?: 'planet_var_samp_fields';
   atmospheric_distance?: Maybe<Scalars['Float']['output']>;
+  orbital_radius?: Maybe<Scalars['Float']['output']>;
   radius?: Maybe<Scalars['Float']['output']>;
   texture_resolution?: Maybe<Scalars['Float']['output']>;
 };
@@ -5299,6 +5328,7 @@ export type Planet_Var_Samp_Fields = {
 /** order by var_samp() on columns of table "planet" */
 export type Planet_Var_Samp_Order_By = {
   atmospheric_distance?: InputMaybe<Order_By>;
+  orbital_radius?: InputMaybe<Order_By>;
   radius?: InputMaybe<Order_By>;
   texture_resolution?: InputMaybe<Order_By>;
 };
@@ -5307,6 +5337,7 @@ export type Planet_Var_Samp_Order_By = {
 export type Planet_Variance_Fields = {
   __typename?: 'planet_variance_fields';
   atmospheric_distance?: Maybe<Scalars['Float']['output']>;
+  orbital_radius?: Maybe<Scalars['Float']['output']>;
   radius?: Maybe<Scalars['Float']['output']>;
   texture_resolution?: Maybe<Scalars['Float']['output']>;
 };
@@ -5314,6 +5345,7 @@ export type Planet_Variance_Fields = {
 /** order by variance() on columns of table "planet" */
 export type Planet_Variance_Order_By = {
   atmospheric_distance?: InputMaybe<Order_By>;
+  orbital_radius?: InputMaybe<Order_By>;
   radius?: InputMaybe<Order_By>;
   texture_resolution?: InputMaybe<Order_By>;
 };

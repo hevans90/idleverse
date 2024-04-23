@@ -31,15 +31,16 @@ select_permissions:
   - role: dev
     permission:
       columns:
-        - terrain_bias
-        - owner_id
-        - texture_resolution
         - atmospheric_distance
-        - radius
         - celestial_id
-        - name
         - id
+        - name
+        - orbital_radius
+        - owner_id
+        - radius
+        - terrain_bias
         - terrain_hex_palette_id
+        - texture_resolution
       filter: {}
       allow_aggregations: true
   - role: user
@@ -49,6 +50,7 @@ select_permissions:
         - celestial_id
         - id
         - name
+        - orbital_radius
         - owner_id
         - radius
         - terrain_bias

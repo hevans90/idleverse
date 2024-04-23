@@ -22,6 +22,7 @@ export const planetGeneratorConfigVar =
       atmosphericDistance: 3,
       atmosphere: true,
       rotate: true,
+      orbitalRadius: 1,
     },
     'planetGenerationWorldVar'
   );
