@@ -18,6 +18,7 @@ import { generateCelestialName } from '@idleverse/galaxy-gen';
 import {
   SYSTEM_FOCI,
   celestialPresets,
+  celestialViewerSelectedPlanet,
   colorsVar,
   systemEditorConfigVar,
   systemEditorFocusVar,
@@ -87,6 +88,7 @@ export const SystemEditorOverview = () => {
                   isDisabled={currentFocus === focus}
                   onClick={() => {
                     systemEditorFocusVar(focus);
+                    celestialViewerSelectedPlanet(null);
                   }}
                 >
                   {focus.replace('-', ' ').toLocaleUpperCase()}{' '}

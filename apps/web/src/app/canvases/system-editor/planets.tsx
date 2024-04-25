@@ -40,6 +40,9 @@ export const Planets = ({
   const selectedIndicatorTickerRef = useRef<TickerCallback<unknown>>();
 
   useEffect(() => {
+    if (!selectedPlanet) {
+      viewportRef.current.plugins.remove('follow');
+    }
     if (selectedPlanet && containerRef.current) {
       // check if exists
       const planet = containerRef.current.getChildByName(
@@ -72,6 +75,15 @@ export const Planets = ({
         positionIndicator(existingIndicator);
       };
       app.ticker.add(selectedIndicatorTickerRef.current);
+
+      const snapDuration = 200;
+      viewportRef.current.snap(planet.position.x, planet.position.y, {
+        time: snapDuration,
+        removeOnComplete: true,
+      });
+      setTimeout(() => {
+        viewportRef.current.follow(planet);
+      }, snapDuration);
     }
 
     return () => {

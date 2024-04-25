@@ -1,5 +1,10 @@
 import { useReactiveVar } from '@apollo/client';
-import { SystemFocus, colorsVar, systemEditorFocusVar } from '@idleverse/state';
+import {
+  SystemFocus,
+  celestialViewerSelectedPlanet,
+  colorsVar,
+  systemEditorFocusVar,
+} from '@idleverse/state';
 import { colors, hexStringToNumber } from '@idleverse/theme';
 import { Container, Graphics } from '@pixi/react';
 import { ISnapZoomOptions, Viewport } from 'pixi-viewport';
@@ -139,7 +144,7 @@ export const SystemEditor = ({
         interactive={true}
         pointerdown={() => {
           viewportToCircle(worldRadii['celestial'] * 2, 'celestial');
-
+          celestialViewerSelectedPlanet(null);
           systemEditorFocusVar('celestial');
         }}
         zIndex={2}
@@ -158,6 +163,7 @@ export const SystemEditor = ({
             worldRadii['goldilocks-zone'] * 2,
             'goldilocks-zone'
           );
+          celestialViewerSelectedPlanet(null);
           systemEditorFocusVar('goldilocks-zone');
         }}
         interactive={true}
@@ -175,6 +181,7 @@ export const SystemEditor = ({
         }
         pointerdown={() => {
           viewportToCircle(worldRadii['asteroid-belt'] * 2, 'asteroid-belt');
+          celestialViewerSelectedPlanet(null);
           systemEditorFocusVar('asteroid-belt');
         }}
         interactive={true}

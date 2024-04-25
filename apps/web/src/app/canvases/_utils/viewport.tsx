@@ -43,8 +43,7 @@ const PixiViewportComponent = PixiComponent('Viewport', {
         .clampZoom({
           maxHeight: props.worldHeight * 8,
           minHeight: props.worldWidth / 16,
-        })
-        .clamp({ direction: 'all' });
+        });
     }
 
     if (props.initialZoom) {
