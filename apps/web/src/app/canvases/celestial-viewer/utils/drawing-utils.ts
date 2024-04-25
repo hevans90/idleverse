@@ -19,6 +19,7 @@ export const buildPlanet = ({
   selectionFunction,
   initialScale = { x: 5, y: 5 },
   sun,
+  orbitalRadius,
 }: {
   planetTexture: Texture<Resource>;
   radius: number;
@@ -28,6 +29,7 @@ export const buildPlanet = ({
   selectionFunction: () => void;
   initialScale?: { x: number; y: number };
   sun?: Planet;
+  orbitalRadius?: number;
 }) => {
   const radiusFactor = 28;
 
@@ -56,9 +58,9 @@ export const buildPlanet = ({
     radius,
     origin: { x: 0, y: 0 },
     orbit: {
-      x: 1500,
-      y: 1200,
-      speed: 1 / radius,
+      x: orbitalRadius ?? 500,
+      y: orbitalRadius ?? 500,
+      speed: 1 / (orbitalRadius / 100) ?? 1,
     },
   };
   const planet: Planet = createPlanet({

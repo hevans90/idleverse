@@ -1,10 +1,17 @@
-import { timeVar } from '@idleverse/state';
+import { useReactiveVar } from '@apollo/client';
+import { celestialViewerSelectedPlanet, timeVar } from '@idleverse/state';
 import { Container, useApp } from '@pixi/react';
 import { Viewport } from 'pixi-viewport';
-import { Graphics, Container as PixiContainer, TickerCallback } from 'pixi.js';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  Graphics,
+  Container as PixiContainer,
+  Sprite,
+  Text,
+  TickerCallback,
+} from 'pixi.js';
+import { useEffect, useRef } from 'react';
 import { Planet } from '../celestial-viewer/models';
-import { useSelectedPlanet } from '../celestial-viewer/use-selected-planet';
+import { useSelectedPlanetIndicator } from '../celestial-viewer/use-selected-planet';
 import {
   centerPlanetDraw,
   updatePlanetPosition,
@@ -22,53 +29,60 @@ export const Planets = ({
   const app = useApp();
   const containerRef = useRef<PixiContainer>();
 
-  const [selectedPlanetPosition, setSelectedPlanetPosition] = useState<{
-    x: number;
-    y: number;
-  }>(null);
+  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanet);
 
-  const selectedPlanet = useSelectedPlanet({
-    container: containerRef.current,
-    x: selectedPlanetPosition?.x,
-    y: selectedPlanetPosition?.y,
-    viewport: viewportRef.current,
+  const { selectedPlanetText, indicatorKey } = useSelectedPlanetIndicator({
+    x: 0,
+    y: 0,
   });
 
   const orbitalTickerRef = useRef<TickerCallback<unknown>>();
   const selectedIndicatorTickerRef = useRef<TickerCallback<unknown>>();
 
-  const setupTicker = useCallback(
-    (planetArr: Planet[]) => {
-      const selectedFound = planetArr.find(
-        (planet) => planet.config.id === selectedPlanet?.id
-      );
-
-      if (selectedFound) {
-        selectedIndicatorTickerRef.current = () => {
-          setSelectedPlanetPosition({
-            x:
-              selectedFound.sprite.x -
-              selectedFound.sprite.width / 2 -
-              // rough character width of zx-spectrum mono font characters
-              selectedPlanet.name.length * 7.75,
-            y: selectedFound.sprite.y - selectedFound.sprite.height - 10,
-          });
-        };
-        app.ticker?.add(selectedIndicatorTickerRef.current);
-      }
-    },
-    [app.ticker, selectedPlanet]
-  );
-
   useEffect(() => {
-    try {
-      app.ticker.remove(selectedIndicatorTickerRef.current);
-    } catch (e) {
-      //
+    if (selectedPlanet && containerRef.current) {
+      // check if exists
+      const planet = containerRef.current.getChildByName(
+        selectedPlanet.name
+      ) as Sprite;
+      const indicator =
+        (containerRef.current.getChildByName(indicatorKey) as Text) ??
+        selectedPlanetText;
+
+      indicator.text = selectedPlanet.name;
+      indicator.scale = {
+        x: 1 / viewportRef.current.scale.x,
+        y: 1 / viewportRef.current.scale.y,
+      };
+
+      const positionIndicator = (indicator: Text) => {
+        indicator.position.x = planet.x;
+        indicator.position.y = planet.y - planet.height - indicator.height;
+      };
+
+      indicator.anchor.set(0.5, 0.5);
+      positionIndicator(indicator);
+      indicator.zIndex = 2;
+      containerRef.current.addChild(indicator);
+
+      selectedIndicatorTickerRef.current = (dt) => {
+        const existingIndicator = containerRef.current.getChildByName(
+          indicatorKey
+        ) as Text;
+        positionIndicator(existingIndicator);
+      };
+      app.ticker.add(selectedIndicatorTickerRef.current);
     }
 
-    setupTicker(planets);
-  }, [selectedPlanet, planets, setupTicker, app.ticker]);
+    return () => {
+      try {
+        containerRef.current?.removeChild(selectedPlanetText);
+        app.ticker?.remove(selectedIndicatorTickerRef.current);
+      } catch (e) {
+        console.warn(e);
+      }
+    };
+  }, [selectedPlanet, indicatorKey]);
 
   useEffect(() => {
     planets.forEach((planet) => {

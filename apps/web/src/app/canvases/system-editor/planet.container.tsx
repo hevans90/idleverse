@@ -125,7 +125,7 @@ export const PlanetContainer = ({
       config: celestialConfig,
     });
 
-    planets.forEach(({ planet_by_pk: { id, name, radius } }) =>
+    planets.forEach(({ planet_by_pk: { id, name, radius, orbital_radius } }) =>
       tempPlanets.push(
         buildPlanet({
           planetTexture: bundle?.[name],
@@ -140,6 +140,7 @@ export const PlanetContainer = ({
             });
           },
           sun,
+          orbitalRadius: orbital_radius,
         })
       )
     );

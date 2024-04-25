@@ -23,7 +23,7 @@ import { useStarField } from '../../showreel/colyseus-poc/rendering/use-starfiel
 import { useResize } from '../_utils/use-resize.hook';
 import { useViewport } from '../_utils/use-viewport.hook';
 import { Planet, PlanetConfig } from './models';
-import { useSelectedPlanet } from './use-selected-planet';
+import { useSelectedPlanetIndicator } from './use-selected-planet';
 import {
   buildPlanet,
   centerPlanetDraw,
@@ -66,11 +66,9 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
     clampDrag: true,
   });
 
-  useSelectedPlanet({
-    container: solarSystemContainerRef.current,
+  useSelectedPlanetIndicator({
     x: selectedPlanetPosition?.x,
     y: selectedPlanetPosition?.y,
-    viewport,
   });
 
   useFpsTracker(app);

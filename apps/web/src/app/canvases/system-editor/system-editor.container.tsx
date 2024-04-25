@@ -40,13 +40,33 @@ export const SystemEditorContainer = () => {
     {
       planet_by_pk: {
         celestial: null,
+        orbital_radius: 1200,
         owner_id: '1',
         atmospheric_distance: 1,
         rings: [],
         texture_resolution: 1024,
-        name: 'nice',
+        name: 'dummy planet',
         id: 'showreel-planet',
         radius: 1,
+        terrain_bias: terrainBias,
+        terrain_hex_palette: {
+          ...currentHexPalette,
+          name: 'nice',
+          id: '1',
+        },
+      },
+    },
+    {
+      planet_by_pk: {
+        celestial: null,
+        orbital_radius: 800,
+        owner_id: '1',
+        atmospheric_distance: 1,
+        rings: [],
+        texture_resolution: 512,
+        name: 'dummy planet 2',
+        id: 'showreel-planet2',
+        radius: 0.5,
         terrain_bias: terrainBias,
         terrain_hex_palette: {
           ...currentHexPalette,
