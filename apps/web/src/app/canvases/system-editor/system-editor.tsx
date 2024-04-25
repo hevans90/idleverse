@@ -27,13 +27,13 @@ export const SystemEditor = ({
     (g: PixiGraphics) => {
       g.clear();
 
-      g.beginFill(hexStringToNumber(outlinePalette['200']), 0.5);
+      g.beginFill(hexStringToNumber(outlinePalette['200']), 0.2);
       g.drawCircle(center.x, center.y, worldRadii.celestial);
       g.alpha = 0.1;
       g.cursor = 'pointer';
 
       if (systemEditorFocusVar() === 'celestial') {
-        g.alpha = 0.4;
+        g.alpha = 0.3;
       }
 
       g.on('mouseenter', () => {
@@ -59,7 +59,7 @@ export const SystemEditor = ({
     ) => {
       g.clear();
 
-      g.beginFill(hexStringToNumber(outlinePalette['200']), 0.3);
+      g.beginFill(hexStringToNumber(outlinePalette['200']), 0.2);
       g.drawCircle(center.x, center.y, outerRadius);
       g.beginHole();
       g.drawCircle(center.x, center.y, innerRadius);
@@ -68,7 +68,7 @@ export const SystemEditor = ({
       g.alpha = 0.1;
 
       if (systemEditorFocusVar() === name) {
-        g.alpha = 0.4;
+        g.alpha = 0.3;
       }
 
       g.on('mouseenter', () => {

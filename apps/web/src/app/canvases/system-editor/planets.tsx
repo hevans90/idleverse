@@ -92,7 +92,7 @@ export const Planets = ({
     app.ticker.add(orbitalTickerRef.current);
 
     return () => {
-      app.ticker.remove(orbitalTickerRef.current);
+      app.ticker?.remove(orbitalTickerRef.current);
     };
   }, []);
 
