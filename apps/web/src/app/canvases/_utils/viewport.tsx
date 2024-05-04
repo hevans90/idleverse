@@ -10,10 +10,13 @@ export const updateScaledObjects = (viewport: Viewport) => {
     container: viewport,
     nameSubstring: 'PRESERVE_SCALE',
   });
-  preservedScaleObjects.forEach((object) => {
-    object.scale.y = 1 / viewport.scale.y;
-    object.scale.x = 1 / viewport.scale.x;
-  });
+
+  for (let i = 0; i < preservedScaleObjects.length; i++) {
+    const element = preservedScaleObjects[i];
+    const scaleFactor = element['scaleFactor'] ?? 1;
+    element.scale.y = scaleFactor / viewport.scale.y;
+    element.scale.x = scaleFactor / viewport.scale.x;
+  }
 };
 
 // we share the ticker and interaction from app
@@ -41,14 +44,15 @@ const PixiViewportComponent = PixiComponent('Viewport', {
         .pinch()
         .wheel({ trackpadPinch: true, wheelZoom: true })
         .clampZoom({
-          maxHeight: props.worldHeight * 8,
-          minHeight: props.worldWidth / 16,
+          minScale: 0.05,
+          maxScale: 2,
         });
     }
 
     if (props.initialZoom) {
       viewport.setZoom(props.initialZoom, true);
     }
+    updateScaledObjects(viewport);
 
     viewport.on('zoomed', () => {
       updateScaledObjects(viewport);

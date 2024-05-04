@@ -33,7 +33,7 @@ export const StarEditorContainer = () => {
         worldWidth={worldSize.width}
         initialZoom={4}
       >
-        <StarField dimensions={worldSize} />
+        <StarField dimensions={worldSize} initialScale={4} />
 
         <Container
           ref={containerRef}

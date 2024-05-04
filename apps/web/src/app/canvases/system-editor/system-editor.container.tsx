@@ -30,7 +30,7 @@ export const SystemEditorContainer = () => {
 
   const size = useResize();
 
-  const worldSize = useMemo(() => ({ width: 3200, height: 1800 }), []);
+  const worldSize = useMemo(() => ({ width: 4000, height: 4000 }), []);
 
   const { currentHexPalette, terrainBias } = useReactiveVar(
     planetGenerationColorDrawerVar
@@ -106,6 +106,8 @@ export const SystemEditorContainer = () => {
 
   const isMobile = bp === 'small';
 
+  const initialScale = isMobile ? 0.05 : 0.1;
+
   return (
     <>
       <PixiWrapper
@@ -124,9 +126,9 @@ export const SystemEditorContainer = () => {
           screenHeight={size.height}
           worldHeight={worldSize.height}
           worldWidth={worldSize.width}
-          initialZoom={isMobile ? 0.05 : 0.1}
+          initialZoom={initialScale}
         >
-          <StarField dimensions={worldSize} />
+          <StarField dimensions={worldSize} initialScale={initialScale} />
 
           <Asteroids
             center={center}

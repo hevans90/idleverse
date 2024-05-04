@@ -193,7 +193,7 @@ export const Asteroids = ({
         sprite.position.y = matterBody.position.y;
       });
 
-      Matter.Engine.update(engineRef.current, delta * (1000 / 60));
+      Matter.Engine.update(engineRef.current, delta * 2);
     };
 
     app.ticker.add(tickerRef.current);
