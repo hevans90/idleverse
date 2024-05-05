@@ -14,10 +14,11 @@ export const PixiWrapper = (props: {
   ui?: JSX.Element;
   resizeControls?: controls;
   showGameUI?: boolean;
+  bg?: 'dark' | 'darker';
 }) => {
   const { disableZoomCallback } = useDisableWheelZoom();
 
-  const { rawBgDark } = useUiBackground();
+  const { rawBgDarker, rawBgDark } = useUiBackground();
 
   const size = useResize(props.resizeControls || 'none');
 
@@ -38,7 +39,9 @@ export const PixiWrapper = (props: {
         <Stage
           {...size}
           options={{
-            backgroundColor: hexStringToNumber(rawBgDark),
+            backgroundColor: hexStringToNumber(
+              props?.bg === 'darker' ? rawBgDarker : rawBgDark
+            ),
             antialias: true,
           }}
         >

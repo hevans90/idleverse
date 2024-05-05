@@ -13,14 +13,14 @@ import { MutableRefObject, useCallback, useEffect } from 'react';
 
 export const SystemEditor = ({
   viewportRef,
-  worldSize,
+
   worldRadii,
   center,
   isMobile,
 }: {
   viewportRef: MutableRefObject<Viewport>;
-  worldSize: { width: number; height: number };
-  worldRadii: { [key in SystemFocus]: number };
+
+  worldRadii: { [key in SystemFocus]: { inner: number; outer: number } };
   center: { x: number; y: number };
   isMobile: boolean;
 }) => {
@@ -33,7 +33,7 @@ export const SystemEditor = ({
       g.clear();
 
       g.beginFill(hexStringToNumber(outlinePalette['200']), 0.2);
-      g.drawCircle(center.x, center.y, worldRadii.celestial);
+      g.drawCircle(center.x, center.y, worldRadii.celestial.outer);
       g.alpha = 0.1;
       g.cursor = 'pointer';
 
@@ -127,7 +127,7 @@ export const SystemEditor = ({
 
   useEffect(() => {
     if (focus) {
-      viewportToCircle(worldRadii[focus] * 2, focus);
+      viewportToCircle(worldRadii[focus].outer * 2, focus);
     }
   }, [focus, viewportToCircle, worldRadii]);
 
@@ -143,7 +143,7 @@ export const SystemEditor = ({
         draw={drawCelestialHighlight}
         interactive={true}
         pointerdown={() => {
-          viewportToCircle(worldRadii['celestial'] * 2, 'celestial');
+          viewportToCircle(worldRadii['celestial'].outer * 2, 'celestial');
           celestialViewerSelectedPlanet(null);
           systemEditorFocusVar('celestial');
         }}
@@ -153,14 +153,14 @@ export const SystemEditor = ({
       <Graphics
         draw={(g) =>
           drawRing(g, {
-            innerRadius: worldSize.width / 3,
-            outerRadius: worldRadii['goldilocks-zone'],
+            innerRadius: worldRadii['goldilocks-zone'].inner,
+            outerRadius: worldRadii['goldilocks-zone'].outer,
             name: 'goldilocks-zone',
           })
         }
         pointerdown={() => {
           viewportToCircle(
-            worldRadii['goldilocks-zone'] * 2,
+            worldRadii['goldilocks-zone'].outer * 2,
             'goldilocks-zone'
           );
           celestialViewerSelectedPlanet(null);
@@ -174,13 +174,16 @@ export const SystemEditor = ({
       <Graphics
         draw={(g) =>
           drawRing(g, {
-            innerRadius: center.x + worldSize.width / 10,
-            outerRadius: worldRadii['asteroid-belt'],
+            innerRadius: worldRadii['asteroid-belt'].inner,
+            outerRadius: worldRadii['asteroid-belt'].outer,
             name: 'asteroid-belt',
           })
         }
         pointerdown={() => {
-          viewportToCircle(worldRadii['asteroid-belt'] * 2, 'asteroid-belt');
+          viewportToCircle(
+            worldRadii['asteroid-belt'].outer * 2,
+            'asteroid-belt'
+          );
           celestialViewerSelectedPlanet(null);
           systemEditorFocusVar('asteroid-belt');
         }}

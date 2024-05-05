@@ -8,6 +8,8 @@ import * as Matter from 'matter-js';
 import { getRandomConvexIrregularPolygon } from './random-irregular-convex-polygon';
 
 import 'matter-attractors';
+import { randomIntegerInRange } from '../_utils/random-integer-in-range';
+import { randomPointInAnnulus } from '../_utils/random-point-in-annulus';
 
 Matter.use('matter-attractors');
 
@@ -77,23 +79,6 @@ export const Asteroids = ({
   const noAsteroids = 1000;
   const containerRef = useRef<PIXI.Container>();
 
-  const randomPointInAnnulus = () => {
-    // generate a random angle
-    const theta = Math.random() * 2 * Math.PI;
-
-    // generate a random distance
-    const radius =
-      Math.sqrt(Math.random()) *
-        (dimensions.outerRadius - dimensions.innerRadius) +
-      dimensions.innerRadius;
-
-    // Convert polar coordinates to Cartesian coordinates
-    return {
-      x: radius * Math.cos(theta) + center.x,
-      y: radius * Math.sin(theta) + center.y,
-    };
-  };
-
   useEffect(() => {
     const newAsteroids: Asteroid[] = [];
 
@@ -106,9 +91,15 @@ export const Asteroids = ({
     engineRef.current.gravity.scale = 0;
 
     for (let i = 0; i < noAsteroids; i++) {
-      const vertices = getRandomConvexIrregularPolygon(5, 100, 200, 100, 200);
+      const vertices = getRandomConvexIrregularPolygon(
+        randomIntegerInRange(5, 10),
+        100,
+        200,
+        100,
+        200
+      );
 
-      const position = randomPointInAnnulus();
+      const position = randomPointInAnnulus({ dimensions, center });
 
       const matterBody = Matter.Bodies.fromVertices(
         position.x,
