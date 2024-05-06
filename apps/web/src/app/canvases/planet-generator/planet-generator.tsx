@@ -1,9 +1,5 @@
-import { useQuery, useReactiveVar } from '@apollo/client';
+import { useReactiveVar } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
-import {
-  TerrainHexPalettesDocument,
-  TerrainHexPalettesQuery,
-} from '@idleverse/galaxy-gql';
 import { hexStringToNumber, useUiBackground } from '@idleverse/theme';
 import { OrbitControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
@@ -14,7 +10,6 @@ import { Loading } from '../../components/loading';
 
 import { RingConfig } from '@idleverse/models';
 import {
-  colorsVar,
   planetGenerationColorDrawerVar,
   planetGenerationRingDrawerVar,
   planetGeneratorConfigVar,
@@ -43,12 +38,7 @@ export const PlanetGenerator = ({
 }) => {
   const { rawBgDarker } = useUiBackground();
 
-  const { data: colorPalettes, loading: colorPalettesLoading } =
-    useQuery<TerrainHexPalettesQuery>(TerrainHexPalettesDocument);
-
   const { width, height } = useResize('planet-gen');
-
-  const { primary } = useReactiveVar(colorsVar);
 
   const containerRef = useRef<HTMLDivElement>();
 
@@ -127,9 +117,6 @@ export const PlanetGenerator = ({
     prevRingsRef.current = [...rings];
   }, [JSON.stringify(rings)]);
 
-  if (colorPalettesLoading)
-    return <Loading text="Loading Color Palettes"></Loading>;
-
   return (
     <>
       <Box
@@ -179,7 +166,7 @@ export const PlanetGenerator = ({
 
       {ui && (
         <>
-          <PlanetGeneratorColorDrawer paletteData={colorPalettes} />
+          <PlanetGeneratorColorDrawer />
           <NameSeedMobile />
 
           <PlanetGeneratorRingDrawer />

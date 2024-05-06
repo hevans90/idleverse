@@ -81,7 +81,9 @@ export const Asteroids = ({
 
   const asteroidsRef = useRef<Asteroid[]>([]);
 
-  const { noAsteroids, size } = useReactiveVar(celestialViewerAsteroidBeltVar);
+  const { noAsteroids, size, colorPalette } = useReactiveVar(
+    celestialViewerAsteroidBeltVar
+  );
   const containerRef = useRef<PIXI.Container>();
 
   useEffect(() => {
@@ -159,7 +161,18 @@ export const Asteroids = ({
       Matter.Body.setVelocity(matterBody, velocity);
 
       const g = new PIXI.Graphics();
-      g.beginFill(hexStringToNumber(colors[colorsVar().secondary]['500']));
+
+      // default color
+      let color = colors[colorsVar().secondary]['500'];
+
+      if (colorPalette) {
+        // get random colour from palette
+        const { forest, grass, sand, water } = colorPalette;
+
+        color = [forest, grass, sand, water][randomIntegerInRange(0, 3)];
+      }
+
+      g.beginFill(hexStringToNumber(color));
       g.drawPolygon(vertices);
       g.alpha = 0.3;
       g.endFill();
@@ -204,7 +217,7 @@ export const Asteroids = ({
       app.ticker?.remove(tickerRef.current);
       Matter.Composite.clear(engineRef?.current.world, false, true);
     };
-  }, [noAsteroids, size]);
+  }, [noAsteroids, size, colorPalette]);
 
   return <Container name="asteroid-field" ref={containerRef} />;
 };

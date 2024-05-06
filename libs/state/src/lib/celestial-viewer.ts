@@ -1,4 +1,5 @@
 import { makeVar } from '@apollo/client';
+import { TerrainHexPalettesQuery } from '@idleverse/galaxy-gql';
 import { makeVarPersisted } from './utils';
 
 export const asteroidSizes = ['small', 'medium', 'large'] as const;
@@ -15,10 +16,15 @@ export const celestialViewerPlanetDataUris = makeVarPersisted<{
   uris: { seed: string; uri: string }[];
 } | null>(null, 'planetDataUris');
 
-export const celestialViewerAsteroidBeltVar = makeVar<{
+export const celestialViewerAsteroidBeltVar = makeVarPersisted<{
   noAsteroids: number;
   size: AsteroidSize;
-}>({
-  noAsteroids: 1000,
-  size: 'medium',
-});
+  colorPalette: TerrainHexPalettesQuery['terrain_hex_palette'][0] | null;
+}>(
+  {
+    noAsteroids: 1000,
+    size: 'medium',
+    colorPalette: null,
+  },
+  'celestialViewerAsteroidBeltVar'
+);

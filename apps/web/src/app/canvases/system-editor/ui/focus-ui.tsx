@@ -10,6 +10,7 @@ import {
   Input,
   Menu,
   MenuButton,
+  MenuDivider,
   MenuItem,
   MenuList,
   NumberDecrementStepper,
@@ -28,16 +29,19 @@ import {
   celestialPresets,
   celestialViewerAsteroidBeltVar,
   celestialViewerSelectedPlanet,
+  colorPalettesVar,
   colorsVar,
   systemEditorConfigVar,
   systemEditorFocusVar,
 } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
 import { AnimatedFrame } from '@idleverse/ui';
+import { Fragment } from 'react';
 import {
   responsiveFontProps,
   subHeaderResponsiveFontProps,
 } from '../../../_responsive-utils/font-props';
+import { ColorQuad } from '../../planet-generator/ui/color-quad';
 
 export const SystemEditorFocusUI = ({
   planets,
@@ -45,6 +49,7 @@ export const SystemEditorFocusUI = ({
   planets: PlanetByIdQuery[];
 }) => {
   const focus = useReactiveVar(systemEditorFocusVar);
+  const { secondary } = useReactiveVar(colorsVar);
 
   const { rawBgDarker } = useUiBackground();
 
@@ -74,7 +79,14 @@ export const SystemEditorFocusUI = ({
         bg={rawBgDarker}
       >
         <VStack gap={2}>
-          <Text width="100%" mb={2} {...subHeaderResponsiveFontProps}>
+          <Text
+            as="u"
+            width="100%"
+            mb={2}
+            {...subHeaderResponsiveFontProps}
+            textUnderlineOffset={2}
+            textDecorationColor={`${secondary}.400`}
+          >
             {focus.replace('-', ' ').toLocaleUpperCase()}
           </Text>
           {focus === 'celestial' ? <CelestialFocusUI /> : null}
@@ -204,13 +216,17 @@ export const GoldilocksFocusUI = ({
 };
 
 export const AsteroidBeltFocusUI = () => {
-  const { noAsteroids, size } = useReactiveVar(celestialViewerAsteroidBeltVar);
+  const { noAsteroids, size, colorPalette } = useReactiveVar(
+    celestialViewerAsteroidBeltVar
+  );
+
+  const palettePresets = useReactiveVar(colorPalettesVar);
 
   const { primary, secondary } = useReactiveVar(colorsVar);
-  const { bg } = useUiBackground();
+  const { bg, border } = useUiBackground();
 
   return (
-    <HStack width="100%">
+    <VStack width="100%" gap={4}>
       <FormControl>
         <FormLabel>Count</FormLabel>
         <NumberInput
@@ -266,6 +282,56 @@ export const AsteroidBeltFocusUI = () => {
           </MenuList>
         </Menu>
       </FormControl>
-    </HStack>
+      <FormControl>
+        <FormLabel>Appearance</FormLabel>
+        <Menu>
+          <MenuButton
+            width="100%"
+            px={4}
+            py={2}
+            transition="all 0.2s"
+            borderRadius="md"
+            borderWidth="1px"
+            borderColor={border}
+            _hover={{ bg: `${primary}.500` }}
+            _expanded={{ bg: `${primary}.700` }}
+            _focus={{ boxShadow: 'outline' }}
+          >
+            <HStack justifyContent="space-between">
+              <Text>{colorPalette?.name ?? 'Choose palette'}</Text>{' '}
+              <ColorQuad {...colorPalette} />
+              {colorPalette?.name}
+            </HStack>
+          </MenuButton>
+          <MenuList bg={bg} borderColor={border} zIndex={2}>
+            {palettePresets.map(
+              ({ name, water, sand, grass, forest, id }, i) => (
+                <Fragment key={id}>
+                  <MenuItem
+                    bg={bg}
+                    onClick={() =>
+                      celestialViewerAsteroidBeltVar({
+                        ...celestialViewerAsteroidBeltVar(),
+                        colorPalette: { name, water, sand, grass, forest, id },
+                      })
+                    }
+                  >
+                    <HStack
+                      width="100%"
+                      minWidth="205px"
+                      justifyContent="space-between"
+                    >
+                      <Text>{name}</Text>
+                      <ColorQuad {...{ water, sand, grass, forest }} />
+                    </HStack>
+                  </MenuItem>
+                  {i !== palettePresets.length - 1 && <MenuDivider />}
+                </Fragment>
+              )
+            )}
+          </MenuList>
+        </Menu>
+      </FormControl>
+    </VStack>
   );
 };
