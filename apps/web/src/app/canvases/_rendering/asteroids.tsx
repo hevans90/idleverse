@@ -2,11 +2,16 @@ import { Container, useApp } from '@pixi/react';
 import * as PIXI from 'pixi.js';
 import { useEffect, useRef } from 'react';
 
-import { colorsVar } from '@idleverse/state';
+import {
+  AsteroidSize,
+  celestialViewerAsteroidBeltVar,
+  colorsVar,
+} from '@idleverse/state';
 import { colors, hexStringToNumber } from '@idleverse/theme';
 import * as Matter from 'matter-js';
 import { getRandomConvexIrregularPolygon } from './random-irregular-convex-polygon';
 
+import { useReactiveVar } from '@apollo/client';
 import 'matter-attractors';
 import { randomIntegerInRange } from '../_utils/random-integer-in-range';
 import { randomPointInAnnulus } from '../_utils/random-point-in-annulus';
@@ -76,7 +81,7 @@ export const Asteroids = ({
 
   const asteroidsRef = useRef<Asteroid[]>([]);
 
-  const noAsteroids = 1000;
+  const { noAsteroids, size } = useReactiveVar(celestialViewerAsteroidBeltVar);
   const containerRef = useRef<PIXI.Container>();
 
   useEffect(() => {
@@ -91,12 +96,17 @@ export const Asteroids = ({
     engineRef.current.gravity.scale = 0;
 
     for (let i = 0; i < noAsteroids; i++) {
+      const verticesForSize: {
+        [key in AsteroidSize]: [number, number, number, number];
+      } = {
+        small: [100, 200, 100, 200],
+        medium: [150, 300, 150, 300],
+        large: [200, 400, 200, 400],
+      };
+
       const vertices = getRandomConvexIrregularPolygon(
         randomIntegerInRange(5, 10),
-        100,
-        200,
-        100,
-        200
+        ...verticesForSize[size]
       );
 
       const position = randomPointInAnnulus({ dimensions, center });
@@ -194,7 +204,7 @@ export const Asteroids = ({
       app.ticker?.remove(tickerRef.current);
       Matter.Composite.clear(engineRef?.current.world, false, true);
     };
-  }, []);
+  }, [noAsteroids, size]);
 
   return <Container name="asteroid-field" ref={containerRef} />;
 };

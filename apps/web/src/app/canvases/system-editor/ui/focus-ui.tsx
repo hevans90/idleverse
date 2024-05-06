@@ -3,6 +3,8 @@ import { RepeatIcon } from '@chakra-ui/icons';
 import {
   Box,
   Button,
+  FormControl,
+  FormLabel,
   HStack,
   IconButton,
   Input,
@@ -10,6 +12,11 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
   Text,
   VStack,
   useBreakpointValue,
@@ -17,7 +24,9 @@ import {
 import { generateCelestialName } from '@idleverse/galaxy-gen';
 import { PlanetByIdQuery } from '@idleverse/galaxy-gql';
 import {
+  asteroidSizes,
   celestialPresets,
+  celestialViewerAsteroidBeltVar,
   celestialViewerSelectedPlanet,
   colorsVar,
   systemEditorConfigVar,
@@ -72,6 +81,7 @@ export const SystemEditorFocusUI = ({
           {focus === 'goldilocks-zone' ? (
             <GoldilocksFocusUI planets={planets} />
           ) : null}
+          {focus === 'asteroid-belt' ? <AsteroidBeltFocusUI /> : null}
         </VStack>
       </AnimatedFrame>
     </Box>
@@ -190,5 +200,72 @@ export const GoldilocksFocusUI = ({
         </Button>
       ))}
     </>
+  );
+};
+
+export const AsteroidBeltFocusUI = () => {
+  const { noAsteroids, size } = useReactiveVar(celestialViewerAsteroidBeltVar);
+
+  const { primary, secondary } = useReactiveVar(colorsVar);
+  const { bg } = useUiBackground();
+
+  return (
+    <HStack width="100%">
+      <FormControl>
+        <FormLabel>Count</FormLabel>
+        <NumberInput
+          value={noAsteroids}
+          min={0}
+          max={2000}
+          step={100}
+          onChange={(e) =>
+            celestialViewerAsteroidBeltVar({
+              ...celestialViewerAsteroidBeltVar(),
+              noAsteroids: parseInt(e),
+            })
+          }
+        >
+          <NumberInputField />
+          <NumberInputStepper>
+            <NumberIncrementStepper />
+            <NumberDecrementStepper />
+          </NumberInputStepper>
+        </NumberInput>
+      </FormControl>
+      <FormControl>
+        <FormLabel>Size</FormLabel>
+        <Menu>
+          <MenuButton
+            width="100%"
+            px={4}
+            py={2}
+            borderRadius="md"
+            borderWidth="1px"
+            _hover={{ bg: `${primary}.500` }}
+            _expanded={{ bg: `${primary}.700` }}
+            _focus={{ boxShadow: 'outline' }}
+          >
+            {size}
+          </MenuButton>
+          <MenuList bg={bg} zIndex={2}>
+            {asteroidSizes.map((asteroidSize, i) => (
+              <MenuItem
+                key={i}
+                bg={bg}
+                _hover={{ bg: `${primary}.500` }}
+                onClick={() =>
+                  celestialViewerAsteroidBeltVar({
+                    ...celestialViewerAsteroidBeltVar(),
+                    size: asteroidSize,
+                  })
+                }
+              >
+                {asteroidSize}
+              </MenuItem>
+            ))}
+          </MenuList>
+        </Menu>
+      </FormControl>
+    </HStack>
   );
 };
