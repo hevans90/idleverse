@@ -14,6 +14,8 @@ import {
   SelfQuery,
   TechnologiesDocument,
   TechnologiesQuery,
+  TerrainHexPalettesDocument,
+  TerrainHexPalettesQuery,
   UserInfoDocument,
   UserInfoQuery,
 } from '@idleverse/galaxy-gql';
@@ -21,6 +23,7 @@ import { ReactNode, useEffect, useState } from 'react';
 
 import {
   backgroundsVar,
+  colorPalettesVar,
   factionsVar,
   npcsVar,
   playableRacesVar,
@@ -49,6 +52,13 @@ export const PreloadContainer = ({ children }: { children: ReactNode }) => {
   const self = useReactiveVar(selfVar);
 
   const { mediaMetadataLoading } = useLoadAudioMetadata();
+
+  const { loading: colorPalettesLoading } = useQuery<TerrainHexPalettesQuery>(
+    TerrainHexPalettesDocument,
+    {
+      onCompleted: (data) => colorPalettesVar(data.terrain_hex_palette),
+    }
+  );
 
   const { loading: profileLoading } = useQuery<SelfQuery>(SelfDocument, {
     onCompleted: (data) => {
@@ -122,33 +132,34 @@ export const PreloadContainer = ({ children }: { children: ReactNode }) => {
     }
   }, [resourcesLoading, resources]);
 
-  if (usersLoading) return <Loading text="Loading Users"></Loading>;
+  const loadingItems = [
+    { loading: usersLoading, text: 'Loading Users' },
+    { loading: profileLoading, text: 'Loading Profile' },
+    { loading: !self, text: 'Setting Profile' },
+    {
+      loading: characterDataLoading,
+      text: 'Loading Races, Backgrounds & Factions',
+    },
+    { loading: npcsLoading, text: 'Loading Npcs' },
+    { loading: resourcesLoading, text: 'Loading Resources' },
+    {
+      loading: resourceGeneratorsLoading,
+      text: 'Loading Resource Generators',
+    },
+    { loading: technologiesLoading, text: 'Loading Technologies' },
+    { loading: questsLoading, text: 'Loading Quests' },
+    { loading: userAvatarsLoading, text: 'Creating Avatars' },
+    { loading: placeholdersLoading, text: 'Loading Placeholders' },
+    { loading: techTreeLoading, text: 'Generating Tech Tree' },
+    { loading: mediaMetadataLoading, text: 'Loading Audio Metadata' },
+    { loading: colorPalettesLoading, text: 'Loading Color Palettes' },
+  ];
 
-  if (profileLoading) return <Loading text="Loading Profile"></Loading>;
-  if (!self) return <Loading text="Setting Profile"></Loading>;
-
-  if (characterDataLoading)
-    return <Loading text="Loading Races, Backgrounds &amp; Factions"></Loading>;
-
-  if (npcsLoading) return <Loading text="Loading Npcs"></Loading>;
-
-  if (resourcesLoading) return <Loading text="Loading Resources"></Loading>;
-  if (resourceGeneratorsLoading)
-    return <Loading text="Loading Resource Generators"></Loading>;
-  if (technologiesLoading) {
-    return <Loading text="Loading Technologies"></Loading>;
+  for (const { loading, text } of loadingItems) {
+    if (loading) {
+      return <Loading text={text} />;
+    }
   }
-  if (questsLoading) {
-    return <Loading text="Loading Quests"></Loading>;
-  }
-
-  if (userAvatarsLoading) return <Loading text="Creating Avatars"></Loading>;
-  if (placeholdersLoading) {
-    return <Loading text="Loading Placeholders"></Loading>;
-  }
-  if (techTreeLoading) return <Loading text="Generating Tech Tree"></Loading>;
-  if (mediaMetadataLoading)
-    return <Loading text="Loading Audio Metadata"></Loading>;
 
   // eslint-disable-next-line react/jsx-no-useless-fragment
   return <>{children}</>;
