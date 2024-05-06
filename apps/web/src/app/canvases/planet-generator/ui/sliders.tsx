@@ -50,13 +50,13 @@ export const planetGeneratorSlidersConfig: PlanetGeneratorSliderType[] = [
     max: 8,
     step: 1,
   },
-  {
-    name: 'pixelSize',
-    displayName: 'Pixel size',
-    min: 1,
-    max: 15,
-    step: 1,
-  },
+  // {
+  //   name: 'pixelSize',
+  //   displayName: 'Pixel size',
+  //   min: 1,
+  //   max: 15,
+  //   step: 1,
+  // },
   {
     name: 'textureResolution',
     displayName: 'Resolution',
