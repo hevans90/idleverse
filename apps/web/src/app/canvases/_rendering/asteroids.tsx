@@ -169,7 +169,7 @@ export const Asteroids = ({
         // get random colour from palette
         const { forest, grass, sand, water } = colorPalette;
 
-        color = [forest, grass, sand, water][randomIntegerInRange(0, 3)];
+        color = [forest, grass, sand, water][randomIntegerInRange(1, 5) - 1];
       }
 
       g.beginFill(hexStringToNumber(color));

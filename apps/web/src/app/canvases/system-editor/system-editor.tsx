@@ -34,7 +34,7 @@ export const SystemEditor = ({
 
       g.beginFill(hexStringToNumber(outlinePalette['200']), 0.2);
       g.drawCircle(center.x, center.y, worldRadii.celestial.outer);
-      g.alpha = 0.1;
+      g.alpha = 0;
       g.cursor = 'pointer';
 
       if (systemEditorFocusVar() === 'celestial') {
@@ -70,7 +70,7 @@ export const SystemEditor = ({
       g.drawCircle(center.x, center.y, innerRadius);
       g.endHole();
       g.endFill();
-      g.alpha = 0.1;
+      g.alpha = 0;
 
       if (systemEditorFocusVar() === name) {
         g.alpha = 0.3;
@@ -80,7 +80,7 @@ export const SystemEditor = ({
         if (systemEditorFocusVar() !== name) g.alpha = 0.3;
       });
       g.on('mouseleave', () => {
-        if (systemEditorFocusVar() !== name) g.alpha = 0.1;
+        if (systemEditorFocusVar() !== name) g.alpha = 0;
       });
 
       g.cursor = 'pointer';
