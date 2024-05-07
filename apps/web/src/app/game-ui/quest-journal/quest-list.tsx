@@ -9,6 +9,7 @@ import {
   Th,
   Thead,
   Tr,
+  useColorMode,
 } from '@chakra-ui/react';
 import { ActiveGalacticEmpireQuestsSubscription } from '@idleverse/galaxy-gql';
 import { useEffect, useState } from 'react';
@@ -26,10 +27,13 @@ import { QuestRewardThumbnails } from './quest-reward-thumbnail';
 export const QuestList = ({ showCompleted }: { showCompleted: boolean }) => {
   const { border, bgDarkSecondary, bgDarkerSecondary } = useUiBackground();
 
+  const { colorMode } = useColorMode();
+
   const thProps: TableColumnHeaderProps = {
     borderColor: border,
     padding: 2,
     fontSize: '2xs',
+    color: colorMode === 'dark' ? 'whiteAlpha.700' : 'blackAlpha.700',
   };
 
   const tdProps: TableCellProps = {
