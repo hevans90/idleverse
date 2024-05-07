@@ -45,7 +45,7 @@ export const SystemEditor = ({
         if (systemEditorFocusVar() !== 'celestial') g.alpha = 0.3;
       });
       g.on('mouseleave', () => {
-        if (systemEditorFocusVar() !== 'celestial') g.alpha = 0.1;
+        if (systemEditorFocusVar() !== 'celestial') g.alpha = 0;
       });
 
       g.endFill();

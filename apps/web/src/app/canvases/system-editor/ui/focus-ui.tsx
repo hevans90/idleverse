@@ -192,6 +192,7 @@ export const GoldilocksFocusUI = ({
     <>
       {planets.map(({ planet_by_pk: { name, id } }) => (
         <Button
+          width="100%"
           key={id}
           flexGrow={1}
           opacity={0.75}
