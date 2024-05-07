@@ -1,13 +1,12 @@
 import { useReactiveVar } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
-import { rgbToHex, useUiBackground } from '@idleverse/theme';
+import { rgbToHex } from '@idleverse/theme';
 
 import { useEffect, useRef, useState } from 'react';
 import { DataTexture } from 'three';
 
 import { RingConfig } from '@idleverse/models';
 import {
-  colorPalettesVar,
   planetGenerationColorDrawerVar,
   planetGenerationRingDrawerVar,
   planetGeneratorConfigVar,
@@ -31,23 +30,12 @@ export const PlanetGenerator = ({
 }: {
   customSize?: { width: number; height: number };
 }) => {
-  const { rawBgDarker } = useUiBackground();
-
   const { width, height } = useResize('planet-gen');
 
   const containerRef = useRef<HTMLDivElement>();
 
-  const {
-    name,
-    ui,
-    seed,
-    pixelSize,
-    atmosphere,
-    rotate,
-    atmosphericDistance,
-    textureResolution,
-    radius,
-  } = useReactiveVar(planetGeneratorConfigVar);
+  const { ui, seed, atmosphericDistance, textureResolution, radius } =
+    useReactiveVar(planetGeneratorConfigVar);
 
   const {
     currentPalette: { water, sand, grass, forest },
@@ -56,7 +44,6 @@ export const PlanetGenerator = ({
     terrainBias,
   } = useReactiveVar(planetGenerationColorDrawerVar);
 
-  const colorPalettes = useReactiveVar(colorPalettesVar);
   const { rings } = useReactiveVar(planetGenerationRingDrawerVar);
 
   const prevRingsRef = useRef<RingConfig[]>([]);

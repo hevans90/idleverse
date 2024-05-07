@@ -19,15 +19,21 @@ export const updateScaledObjects = (viewport: Viewport) => {
   }
 };
 
+type CustomViewportOptions = {
+  size: { width: number; height: number };
+  children: ReactNode;
+  initialZoom?: number;
+  minScale?: number;
+  maxScale?: number;
+};
+
 // we share the ticker and interaction from app
 const PixiViewportComponent = PixiComponent('Viewport', {
   create(
     props: {
       app: Application;
-      size: { width: number; height: number };
-      children: ReactNode;
-      initialZoom?: number;
-    } & Partial<IViewportOptions>
+    } & Partial<IViewportOptions> &
+      CustomViewportOptions
   ) {
     const { app, ...viewportProps } = props;
 
@@ -44,8 +50,8 @@ const PixiViewportComponent = PixiComponent('Viewport', {
         .pinch()
         .wheel({ trackpadPinch: true, wheelZoom: true })
         .clampZoom({
-          minScale: 0.05,
-          maxScale: 2,
+          minScale: props?.minScale ?? 0.05,
+          maxScale: props?.maxScale ?? 2,
         });
     }
 
@@ -55,6 +61,9 @@ const PixiViewportComponent = PixiComponent('Viewport', {
     updateScaledObjects(viewport);
 
     viewport.on('zoomed', () => {
+      updateScaledObjects(viewport);
+    });
+    viewport.on('snap-zoom-end', () => {
       updateScaledObjects(viewport);
     });
 
@@ -90,9 +99,7 @@ export const PixiViewport = forwardRef<
   Viewport,
   Partial<IViewportOptions> & {
     children: ReactNode;
-    size: { width: number; height: number };
-    initialZoom?: number;
-  }
+  } & CustomViewportOptions
 >((props, ref) => (
   <PixiViewportComponent ref={ref} app={useApp()} {...props} />
 ));

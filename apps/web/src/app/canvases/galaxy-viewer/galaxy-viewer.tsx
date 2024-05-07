@@ -10,7 +10,7 @@ import {
 } from '@idleverse/galaxy-gen';
 import { UserInfoByIdQuery } from '@idleverse/galaxy-gql';
 import { colors } from '@idleverse/theme';
-import { useApp } from '@pixi/react';
+import { Container as ReactPixiContainer, useApp } from '@pixi/react';
 import { Container, Graphics } from 'pixi.js';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -20,9 +20,9 @@ import {
   galaxyConfigVar,
   galaxyRotationVar,
 } from '@idleverse/state';
+import { Viewport } from 'pixi-viewport';
 import { loadAvatarByUserId } from '../../asset-loading/load-user-by-id';
 import { useResize } from '../_utils/use-resize.hook';
-import { useViewport } from '../_utils/use-viewport.hook';
 import {
   Star,
   claimStar,
@@ -39,15 +39,21 @@ type GalaxyViewerProps = {
   claimedCelestials: claimedCelestials;
   navigate: ReturnType<typeof useNavigate>;
   newUserQuery: LazyQueryExecFunction<UserInfoByIdQuery, OperationVariables>;
+  viewportRef: React.MutableRefObject<Viewport>;
+  center: { x: number; y: number };
 };
 
 export const GalaxyViewer = ({
+  center,
+  viewportRef,
   galaxyConfig,
   claimedCelestials,
   navigate,
   newUserQuery,
 }: GalaxyViewerProps) => {
   const app = useApp();
+
+  const size = useResize();
 
   const claimedCelestialsRef = useRef<claimedCelestials>(claimedCelestials);
 
@@ -59,8 +65,6 @@ export const GalaxyViewer = ({
 
     galaxy.children.forEach((child) => (child.rotation = -galaxy.rotation));
   };
-
-  const size = useResize();
 
   const reposition = () =>
     stars.current.forEach((star, i) => {
@@ -74,9 +78,6 @@ export const GalaxyViewer = ({
 
   useEffect(() => {
     galaxyContainerRef.current.name = 'galaxy';
-
-    galaxyContainerRef.current.x = size.width / 2;
-    galaxyContainerRef.current.y = size.height / 2;
 
     galaxyContainerRef.current.sortableChildren = true;
 
@@ -128,6 +129,15 @@ export const GalaxyViewer = ({
       galaxyContainerRef.current.addChild(_star);
     });
 
+    viewportRef?.current.snap(center.x, center.y);
+
+    setTimeout(() => {
+      viewportRef?.current.snapZoom({
+        height: size.height,
+        removeOnComplete: true,
+      });
+    }, 100);
+
     reposition();
   }, []);
 
@@ -160,9 +170,13 @@ export const GalaxyViewer = ({
     );
   }, [claimedCelestials]);
 
-  useViewport({ app, size, containerRef: galaxyContainerRef, clampDrag: true });
   useFpsTracker(app);
 
   // eslint-disable-next-line react/jsx-no-useless-fragment
-  return <></>;
+  return (
+    <ReactPixiContainer
+      ref={galaxyContainerRef}
+      position={{ x: center.x, y: center.y }}
+    />
+  );
 };
