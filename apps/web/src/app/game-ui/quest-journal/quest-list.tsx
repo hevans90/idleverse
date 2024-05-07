@@ -5,6 +5,7 @@ import {
   TableColumnHeaderProps,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
@@ -23,7 +24,7 @@ import { useUiBackground } from '@idleverse/theme';
 import { QuestRewardThumbnails } from './quest-reward-thumbnail';
 
 export const QuestList = ({ showCompleted }: { showCompleted: boolean }) => {
-  const { border, bgLightSecondary } = useUiBackground();
+  const { border, bgDarkSecondary, bgDarkerSecondary } = useUiBackground();
 
   const thProps: TableColumnHeaderProps = {
     borderColor: border,
@@ -70,7 +71,8 @@ export const QuestList = ({ showCompleted }: { showCompleted: boolean }) => {
           .map(({ id: empireQuestId, completed, quest, quest_step_id }, i) => (
             <Tr
               key={i}
-              background={completed ? bgLightSecondary : 'unset'}
+              // opacity={completed ? 0.75 : 1}
+              background={completed ? bgDarkSecondary : bgDarkerSecondary}
               minWidth={['30vw', 'unset']}
               lineHeight="inherit"
               whiteSpace="normal"
@@ -95,8 +97,12 @@ export const QuestList = ({ showCompleted }: { showCompleted: boolean }) => {
                 });
               }}
             >
-              <Td {...tdProps}>{quest.name}</Td>
-              <Td {...tdProps}>{quest.description}</Td>
+              <Td {...tdProps}>
+                <Text as={completed ? 's' : 'span'}>{quest.name}</Text>
+              </Td>
+              <Td {...tdProps}>
+                <Text as={completed ? 's' : 'span'}>{quest.description}</Text>
+              </Td>
               <Td {...tdProps}>
                 <QuestRewardThumbnails rewards={quest.rewards} detail={false} />
               </Td>
