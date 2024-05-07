@@ -16,7 +16,6 @@ import {
 import {
   celestialViewerPlanetDataUris,
   celestialViewerSelectedPlanet,
-  solarSystemConfigVar,
   timeVar,
 } from '@idleverse/state';
 import { useStarField } from '../../showreel/colyseus-poc/rendering/use-starfield';
@@ -177,11 +176,7 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
           if (planet.name !== celestial.name) {
             planet.sprite.rotation += (1 / planet.config.radius) * 0.01;
           }
-          updatePlanetPosition(
-            timeVar(),
-            planet,
-            solarSystemConfigVar().simulationSpeed
-          );
+          updatePlanetPosition(timeVar(), planet);
           centerPlanetDraw(planet, planet.name === celestial.name);
         });
 

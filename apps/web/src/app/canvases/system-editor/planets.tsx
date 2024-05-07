@@ -105,12 +105,12 @@ export const Planets = ({
     );
 
     orbitalTickerRef.current = (dt) => {
-      timeVar(timeVar() + dt);
+      timeVar(timeVar() + dt / 2);
 
       planets.forEach((planet) => {
         planet.sprite.rotation += (1 / planet.config.radius) * 0.01;
 
-        updatePlanetPosition(timeVar(), planet, 10);
+        updatePlanetPosition(timeVar(), planet);
         centerPlanetDraw(planet, false);
       });
     };

@@ -60,7 +60,7 @@ export const buildPlanet = ({
     orbit: {
       x: orbitalRadius ?? 500,
       y: orbitalRadius ?? 500,
-      speed: 1 / (orbitalRadius / 100) ?? 1,
+      speed: 3 / orbitalRadius ?? 1,
     },
   };
   const planet: Planet = createPlanet({
@@ -107,12 +107,8 @@ export const centerPlanetDraw = (planet: Planet, isOriginCelestial = false) => {
     : planet.position.y;
 };
 
-export const updatePlanetPosition = (
-  time: number,
-  planet: Planet,
-  simulationSpeed: number
-) => {
-  const planetOffset = getPlanetPositionOffset(time, planet, simulationSpeed);
+export const updatePlanetPosition = (time: number, planet: Planet) => {
+  const planetOffset = getPlanetPositionOffset(time, planet);
   const parentPosition = planet.parent
     ? planet.parent.position
     : { x: 0, y: 0 };
@@ -123,16 +119,10 @@ export const updatePlanetPosition = (
   };
 };
 
-export const getPlanetPositionOffset = (
-  time: number,
-  planet: Planet,
-  simulationSpeed: number
-) => ({
-  x:
-    planet.config.orbit.x *
-    Math.sin(time * planet.config.orbit.speed * 0.002 * simulationSpeed),
-  y:
-    planet.config.orbit.y *
-    Math.cos(time * planet.config.orbit.speed * 0.002 * simulationSpeed),
-  scale: 1,
-});
+export const getPlanetPositionOffset = (time: number, planet: Planet) => {
+  return {
+    x: planet.config.orbit.x * Math.sin(time * planet.config.orbit.speed),
+    y: planet.config.orbit.y * -Math.cos(time * planet.config.orbit.speed),
+    scale: 1,
+  };
+};
