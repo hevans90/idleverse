@@ -124,6 +124,13 @@ export const stringOfLength = <Min extends number, Max extends number>(
   return input; // the type of input here is now StringOfLength<Min,Max>
 };
 
+export type IdleverseMedia =
+  | 'music'
+  | 'backgrounds'
+  | 'races'
+  | 'factions'
+  | 'celestial-systems';
+
 export type HydratedMediaResult = MediaResult & { url: string };
 
 export const BACKGROUNDS = ['ecologist', 'prospector'] as const;

@@ -11167,7 +11167,7 @@ export type MediaMetadataFieldsFragment = { __typename?: 'MediaResult', etag: st
 export type MediaMetadataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MediaMetadataQuery = { __typename?: 'query_root', backgrounds?: Array<{ __typename?: 'MediaResult', etag: string, name: string, metadata?: { __typename?: 'MediaMetadata', duration: number, contentType: string } | null }> | null, factions?: Array<{ __typename?: 'MediaResult', etag: string, name: string, metadata?: { __typename?: 'MediaMetadata', duration: number, contentType: string } | null }> | null, races?: Array<{ __typename?: 'MediaResult', etag: string, name: string, metadata?: { __typename?: 'MediaMetadata', duration: number, contentType: string } | null }> | null };
+export type MediaMetadataQuery = { __typename?: 'query_root', celestialSystems?: Array<{ __typename?: 'MediaResult', etag: string, name: string, metadata?: { __typename?: 'MediaMetadata', duration: number, contentType: string } | null }> | null, backgrounds?: Array<{ __typename?: 'MediaResult', etag: string, name: string, metadata?: { __typename?: 'MediaMetadata', duration: number, contentType: string } | null }> | null, factions?: Array<{ __typename?: 'MediaResult', etag: string, name: string, metadata?: { __typename?: 'MediaMetadata', duration: number, contentType: string } | null }> | null, races?: Array<{ __typename?: 'MediaResult', etag: string, name: string, metadata?: { __typename?: 'MediaMetadata', duration: number, contentType: string } | null }> | null };
 
 export type MusicQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -12171,6 +12171,9 @@ export const GetGalaxyByIdAndUnclaimedCelestialsDocument = gql`
 export type GetGalaxyByIdAndUnclaimedCelestialsQueryResult = Apollo.QueryResult<GetGalaxyByIdAndUnclaimedCelestialsQuery, GetGalaxyByIdAndUnclaimedCelestialsQueryVariables>;
 export const MediaMetadataDocument = gql`
     query MediaMetadata {
+  celestialSystems: media(mediaType: "celestial-systems") {
+    ...MediaMetadataFields
+  }
   backgrounds: media(mediaType: "backgrounds") {
     ...MediaMetadataFields
   }

@@ -1,10 +1,21 @@
 import { makeVar } from '@apollo/client';
 import { TerrainHexPalettesQuery } from '@idleverse/galaxy-gql';
+import { HydratedMediaResult } from '@idleverse/models';
 import { makeVarPersisted } from './utils';
 
 export const asteroidSizes = ['small', 'medium', 'large'] as const;
 
 export type AsteroidSize = typeof asteroidSizes[number];
+
+export const celestialViewerGenerationVar = makeVar<{
+  formingPoints: number;
+}>({ formingPoints: 0 });
+
+export const celestialMediaVar = makeVar<{
+  data: HydratedMediaResult[];
+}>({
+  data: [],
+});
 
 export const celestialViewerSelectedPlanet = makeVar<{
   name: string;

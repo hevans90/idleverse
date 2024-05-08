@@ -11,15 +11,13 @@ import { ISnapZoomOptions, Viewport } from 'pixi-viewport';
 import { Graphics as PixiGraphics, Point } from 'pixi.js';
 import { MutableRefObject, useCallback, useEffect } from 'react';
 
-export const SystemEditor = ({
+export const SystemEditorInteractions = ({
   viewportRef,
-
   worldRadii,
   center,
   isMobile,
 }: {
   viewportRef: MutableRefObject<Viewport>;
-
   worldRadii: { [key in SystemFocus]: { inner: number; outer: number } };
   center: { x: number; y: number };
   isMobile: boolean;

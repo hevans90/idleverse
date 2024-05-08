@@ -7,7 +7,7 @@ import { StarField } from '../_rendering/starfield';
 import { PixiWrapper } from '../_utils/pixi-wrapper';
 import { useResize } from '../_utils/use-resize.hook';
 import { PixiViewport } from '../_utils/viewport';
-import { SystemEditor } from './system-editor';
+import { SystemEditorInteractions } from './system-editor-interactions';
 
 import { useReactiveVar } from '@apollo/client';
 import { useBreakpointValue } from '@chakra-ui/react';
@@ -171,7 +171,7 @@ export const SystemEditorContainer = () => {
             planets={planets}
           />
 
-          <SystemEditor
+          <SystemEditorInteractions
             viewportRef={viewportRef}
             worldRadii={worldRadii}
             center={center}

@@ -103,7 +103,7 @@
     "three": "^0.138.2",
     "timers-browserify": "^2.0.12",
     "tslib": "^2.3.0",
-    "type-graphql": "^1.1.1",
+    "type-graphql": "2.0.0-rc.1",
     "typedi": "^0.10.0",
     "use-react-router-breadcrumbs": "^3.2.1",
     "uuid": "^8.3.2",

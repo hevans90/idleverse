@@ -1,3 +1,4 @@
+import { IdleverseMedia } from '@idleverse/models';
 import { DataSource } from 'apollo-datasource';
 import { isObject } from 'lodash';
 import * as minio from 'minio';
@@ -45,27 +46,24 @@ export class MinioAPI extends DataSource {
     return itemsWithMetadata;
   }
 
-  async getBucketItems(
-    bucketName: 'music' | 'backgrounds' | 'races' | 'factions'
-  ) {
+  async getBucketItems(bucketName: IdleverseMedia) {
     return new Promise<minio.BucketItemWithMetadata[]>((res, rej) => {
       const data: minio.BucketItemWithMetadata[] = [];
 
-      const music = this.client.listObjects(bucketName);
+      const bucketItem = this.client.listObjects(bucketName);
 
-      music.on('data', async (obj) => {
+      bucketItem.on('data', async (obj) => {
         data.push(obj);
       });
-      music.on('error', (err) => {
+      bucketItem.on('error', (err) => {
         console.error(err);
         rej(err);
       });
-      music.on('end', async () => {
+      bucketItem.on('end', async () => {
         const itemsWithMetaData = await this.augmentBucketItemsWithMetaData(
           bucketName,
           data
         );
-        console.log(itemsWithMetaData);
         res(itemsWithMetaData);
       });
     });
