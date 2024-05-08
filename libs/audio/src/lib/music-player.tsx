@@ -253,6 +253,7 @@ const AudioPlayer = () => {
       </Flex>
 
       <audio
+        autoPlay
         ref={audioRef}
         src={track?.url}
         onLoadedMetadata={onLoadedMetadata}
