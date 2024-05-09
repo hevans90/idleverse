@@ -16,14 +16,13 @@ import {
 import {
   celestialViewerPlanetDataUris,
   celestialViewerSelectedPlanet,
-  solarSystemConfigVar,
   timeVar,
 } from '@idleverse/state';
 import { useStarField } from '../../showreel/colyseus-poc/rendering/use-starfield';
 import { useResize } from '../_utils/use-resize.hook';
 import { useViewport } from '../_utils/use-viewport.hook';
 import { Planet, PlanetConfig } from './models';
-import { useSelectedPlanet } from './use-selected-planet';
+import { useSelectedPlanetIndicator } from './use-selected-planet';
 import {
   buildPlanet,
   centerPlanetDraw,
@@ -59,21 +58,19 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
 
   const solarSystemContainerRef = useRef(new Container());
 
-  useSelectedPlanet(
-    solarSystemContainerRef.current,
-    selectedPlanet?.name,
-    selectedPlanetPosition?.x,
-    selectedPlanetPosition?.y
-  );
-
-  useFpsTracker(app);
-
-  useViewport({
+  const viewport = useViewport({
     app,
     size,
     containerRef: solarSystemContainerRef,
     clampDrag: true,
   });
+
+  useSelectedPlanetIndicator({
+    x: selectedPlanetPosition?.x,
+    y: selectedPlanetPosition?.y,
+  });
+
+  useFpsTracker(app);
 
   useEffect(() => {
     if (app.renderer !== null) {
@@ -119,11 +116,19 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
       Assets.loadBundle(bundleKey).then((bundle) => {
         celestial.planets.forEach(({ id, name, radius }) =>
           tempPlanets.push(
-            buildPlanet(bundle?.[name], radius, app, name, id, sun, () => {
-              celestialViewerSelectedPlanet({
-                name,
-                id,
-              });
+            buildPlanet({
+              planetTexture: bundle?.[name],
+              radius,
+              app,
+              name,
+              id,
+              selectionFunction: () => {
+                celestialViewerSelectedPlanet({
+                  name,
+                  id,
+                });
+              },
+              sun,
             })
           )
         );
@@ -149,13 +154,13 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
               },
               config: { orbit },
             }) => {
-              const radialCircle = createRadialEllipse(
-                origin.x,
-                origin.y,
-                orbit.x,
-                orbit.y,
-                hexStringToNumber(rawBorder)
-              );
+              const radialCircle = createRadialEllipse({
+                x: origin.x,
+                y: origin.y,
+                width: orbit.x,
+                height: orbit.y,
+                color: hexStringToNumber(rawBorder),
+              });
 
               solarSystemContainerRef.current.addChild(radialCircle);
             }
@@ -171,11 +176,7 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
           if (planet.name !== celestial.name) {
             planet.sprite.rotation += (1 / planet.config.radius) * 0.01;
           }
-          updatePlanetPosition(
-            timeVar(),
-            planet,
-            solarSystemConfigVar().simulationSpeed
-          );
+          updatePlanetPosition(timeVar(), planet);
           centerPlanetDraw(planet, planet.name === celestial.name);
         });
 

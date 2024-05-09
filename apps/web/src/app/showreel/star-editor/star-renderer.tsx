@@ -134,7 +134,7 @@ export const StarRenderer = ({
         app.ticker?.remove(tickerRef.current);
         containerRef.current.filters = [
           filterRef.current,
-          new PixelateFilter(3),
+          new PixelateFilter(0.1),
         ];
         app.ticker.add(tickerRef.current);
       });

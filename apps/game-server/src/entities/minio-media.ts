@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { Arg, Ctx, Field, ObjectType, Query, Resolver } from 'type-graphql';
 import { Context } from '../datasources/context';
 
+import { type IdleverseMedia } from '@idleverse/models';
 import { BucketItemWithMetadata, ItemBucketMetadataList } from 'minio';
 
 @ObjectType()
@@ -31,7 +32,7 @@ export class MinioMediaResolver {
   @Query((returns) => [MediaResult], { nullable: true })
   async media(
     @Ctx() context: Context,
-    @Arg('mediaType') mediaType: 'music' | 'backgrounds' | 'races' | 'factions'
+    @Arg('mediaType', () => String) mediaType: IdleverseMedia
   ) {
     const data = await context.dataSources.minio.getBucketItems(mediaType);
     return data;

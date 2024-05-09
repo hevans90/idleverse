@@ -2,12 +2,19 @@ import { Container, useApp } from '@pixi/react';
 import * as PIXI from 'pixi.js';
 import { useEffect, useRef } from 'react';
 
-import { colorsVar } from '@idleverse/state';
+import {
+  AsteroidSize,
+  celestialViewerAsteroidBeltVar,
+  colorsVar,
+} from '@idleverse/state';
 import { colors, hexStringToNumber } from '@idleverse/theme';
 import * as Matter from 'matter-js';
 import { getRandomConvexIrregularPolygon } from './random-irregular-convex-polygon';
 
+import { useReactiveVar } from '@apollo/client';
 import 'matter-attractors';
+import { randomIntegerInRange } from '../_utils/random-integer-in-range';
+import { randomPointInAnnulus } from '../_utils/random-point-in-annulus';
 
 Matter.use('matter-attractors');
 
@@ -74,25 +81,10 @@ export const Asteroids = ({
 
   const asteroidsRef = useRef<Asteroid[]>([]);
 
-  const noAsteroids = 1000;
+  const { noAsteroids, size, colorPalette } = useReactiveVar(
+    celestialViewerAsteroidBeltVar
+  );
   const containerRef = useRef<PIXI.Container>();
-
-  const randomPointInAnnulus = () => {
-    // generate a random angle
-    const theta = Math.random() * 2 * Math.PI;
-
-    // generate a random distance
-    const radius =
-      Math.sqrt(Math.random()) *
-        (dimensions.outerRadius - dimensions.innerRadius) +
-      dimensions.innerRadius;
-
-    // Convert polar coordinates to Cartesian coordinates
-    return {
-      x: radius * Math.cos(theta) + center.x,
-      y: radius * Math.sin(theta) + center.y,
-    };
-  };
 
   useEffect(() => {
     const newAsteroids: Asteroid[] = [];
@@ -106,9 +98,20 @@ export const Asteroids = ({
     engineRef.current.gravity.scale = 0;
 
     for (let i = 0; i < noAsteroids; i++) {
-      const vertices = getRandomConvexIrregularPolygon(5, 100, 200, 100, 200);
+      const verticesForSize: {
+        [key in AsteroidSize]: [number, number, number, number];
+      } = {
+        small: [100, 200, 100, 200],
+        medium: [150, 300, 150, 300],
+        large: [200, 400, 200, 400],
+      };
 
-      const position = randomPointInAnnulus();
+      const vertices = getRandomConvexIrregularPolygon(
+        randomIntegerInRange(5, 10),
+        ...verticesForSize[size]
+      );
+
+      const position = randomPointInAnnulus({ dimensions, center });
 
       const matterBody = Matter.Bodies.fromVertices(
         position.x,
@@ -158,7 +161,18 @@ export const Asteroids = ({
       Matter.Body.setVelocity(matterBody, velocity);
 
       const g = new PIXI.Graphics();
-      g.beginFill(hexStringToNumber(colors[colorsVar().secondary]['500']));
+
+      // default color
+      let color = colors[colorsVar().secondary]['500'];
+
+      if (colorPalette) {
+        // get random colour from palette
+        const { forest, grass, sand, water } = colorPalette;
+
+        color = [forest, grass, sand, water][randomIntegerInRange(1, 5) - 1];
+      }
+
+      g.beginFill(hexStringToNumber(color));
       g.drawPolygon(vertices);
       g.alpha = 0.3;
       g.endFill();
@@ -193,17 +207,17 @@ export const Asteroids = ({
         sprite.position.y = matterBody.position.y;
       });
 
-      Matter.Engine.update(engineRef.current, delta * (1000 / 60));
+      Matter.Engine.update(engineRef.current, delta * 2);
     };
 
     app.ticker.add(tickerRef.current);
 
     return () => {
-      containerRef?.current.removeChildren();
+      containerRef?.current?.removeChildren();
       app.ticker?.remove(tickerRef.current);
       Matter.Composite.clear(engineRef?.current.world, false, true);
     };
-  }, []);
+  }, [noAsteroids, size, colorPalette]);
 
   return <Container name="asteroid-field" ref={containerRef} />;
 };

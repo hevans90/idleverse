@@ -4,9 +4,10 @@ import {
   MediaMetadataQuery,
   MediaResult,
 } from '@idleverse/galaxy-gql';
-import { HydratedMediaResult } from '@idleverse/models';
+import { HydratedMediaResult, IdleverseMedia } from '@idleverse/models';
 import {
   backgroundsMediaVar,
+  celestialMediaVar,
   factionsMediaVar,
   playableRacesMediaVar,
 } from '@idleverse/state';
@@ -14,7 +15,7 @@ import { environment } from '../environments/environment';
 
 const mediaMapper = (
   media: MediaResult[],
-  category: 'backgrounds' | 'factions' | 'races'
+  category: IdleverseMedia
 ): HydratedMediaResult[] =>
   media?.map(({ name, ...rest }) => ({
     url: `${environment.secure ? 'https' : 'http'}://${
@@ -28,7 +29,10 @@ export const useLoadAudioMetadata = () => {
   const { loading: mediaMetadataLoading } = useQuery<MediaMetadataQuery>(
     MediaMetadataDocument,
     {
-      onCompleted: ({ backgrounds, factions, races }) => {
+      onCompleted: ({ backgrounds, factions, races, celestialSystems }) => {
+        celestialMediaVar({
+          data: mediaMapper(celestialSystems, 'celestial-systems'),
+        });
         backgroundsMediaVar({
           data: mediaMapper(backgrounds, 'backgrounds'),
         });

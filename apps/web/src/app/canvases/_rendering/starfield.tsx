@@ -3,50 +3,73 @@ import { colors, hexStringToNumber } from '@idleverse/theme';
 import { ParticleContainer, useApp } from '@pixi/react';
 import * as PIXI from 'pixi.js';
 import { useEffect, useRef } from 'react';
+import { randomIntegerInRange } from '../_utils/random-integer-in-range';
 
 export const StarField = ({
+  center,
   dimensions,
+  initialScale,
+  numberOfStars = 1000,
+  radius = 1000,
 }: {
+  center: { x: number; y: number };
   dimensions: {
     width: number;
     height: number;
   };
+  initialScale: number;
+  numberOfStars?: number;
+  radius?: number;
 }) => {
   const app = useApp();
 
-  const noStars = dimensions.width * 3;
   const particleContainerRef = useRef<PIXI.ParticleContainer>();
+
+  const defaultRadius = 1;
+
+  const scaleFactors = [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1];
+
+  const randomPointInCircle = () => {
+    // generate a random angle
+    const theta = Math.random() * 2 * Math.PI;
+
+    // generate a random distance
+    const randomRadius = Math.sqrt(Math.random()) * radius;
+    // Convert polar coordinates to Cartesian coordinates
+    return {
+      x: randomRadius * Math.cos(theta) + center.x,
+      y: randomRadius * Math.sin(theta) + center.y,
+    };
+  };
 
   useEffect(() => {
     const starTexture = app.renderer.generateTexture(
       new PIXI.Graphics()
         .clear()
-        .beginFill(hexStringToNumber(colors[colorsVar().secondary]['200']))
-        .drawCircle(0, 0, 30)
+        .beginFill(hexStringToNumber(colors[colorsVar().secondary]['300']))
+        .drawCircle(0, 0, defaultRadius)
         .endFill()
     );
 
-    for (let i = 0; i < noStars; i++) {
-      // Make star speed & size scale non-linearly - there should be more far away than close
-      const scaleFactor = Math.pow(i, 2) / Math.pow(noStars, 2);
-      // Create a star sprite
+    for (let i = 0; i < numberOfStars; i++) {
       const star = new PIXI.Sprite(starTexture);
       star.anchor.set(0.5);
-      // Make stars progressively bigger as we add them, effectively z-sorting
-      star.scale.set(scaleFactor / 15 + 0.01);
+      const scaleFactor = scaleFactors[i % 10];
 
-      // star.dLife = scaleFactor*3
-      // Make sure larger stars move faster
-      // star.dy = 5 * scaleFactor;
-      // Move the stars to a random location on the screen
+      star.scale = {
+        x: scaleFactor / initialScale,
+        y: scaleFactor / initialScale,
+      };
 
-      const rand1 = Math.random();
-      const rand2 = Math.random();
+      star['scaleFactor'] = scaleFactor;
 
-      star.position.x =
-        Math.random() * dimensions.width * 3 * (rand1 > 0.5 ? -1 : 1);
-      star.position.y =
-        Math.random() * dimensions.height * 3 * (rand2 > 0.5 ? -1 : 1);
+      star.name = 'PRESERVE_SCALE';
+
+      star.alpha =
+        scaleFactors[randomIntegerInRange(0, scaleFactors.length - 1)];
+
+      star.position = randomPointInCircle();
+
       particleContainerRef.current.addChild(star);
     }
   }, []);
@@ -54,7 +77,7 @@ export const StarField = ({
   return (
     <ParticleContainer
       name="starfield"
-      maxSize={noStars}
+      maxSize={numberOfStars}
       ref={particleContainerRef}
     />
   );

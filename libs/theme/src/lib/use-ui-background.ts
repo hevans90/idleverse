@@ -14,6 +14,14 @@ export const useUiBackground = () => {
     `${secondary}.200`,
     `${secondary}.600`
   );
+  const bgDarkSecondary = useColorModeValue(
+    `${secondary}.400`,
+    `${secondary}.800`
+  );
+  const bgDarkerSecondary = useColorModeValue(
+    `${secondary}.500`,
+    `${secondary}.900`
+  );
   const bgLight = useColorModeValue(`${primary}.200`, `${primary}.600`);
   const bg = useColorModeValue(`${primary}.300`, `${primary}.700`);
   const bgDark = useColorModeValue(`${primary}.400`, `${primary}.800`);
@@ -42,6 +50,8 @@ export const useUiBackground = () => {
     bgLightSecondary,
     bgDark,
     bgDarker,
+    bgDarkSecondary,
+    bgDarkerSecondary,
     border,
     borderSecondary,
     rawBg,

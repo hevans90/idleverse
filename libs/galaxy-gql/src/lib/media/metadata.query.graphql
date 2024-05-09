@@ -8,6 +8,9 @@ fragment MediaMetadataFields on MediaResult {
 }
 
 query MediaMetadata {
+  celestialSystems: media(mediaType: "celestial-systems") {
+    ...MediaMetadataFields
+  }
   backgrounds: media(mediaType: "backgrounds") {
     ...MediaMetadataFields
   }

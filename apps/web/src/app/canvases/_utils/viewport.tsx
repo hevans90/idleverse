@@ -3,16 +3,37 @@ import { PixiComponent, useApp } from '@pixi/react';
 import { Viewport, type IViewportOptions } from 'pixi-viewport';
 import { Application } from 'pixi.js';
 import { ReactNode, forwardRef } from 'react';
+import { findChildrenByName } from './recursive-container-search';
+
+export const updateScaledObjects = (viewport: Viewport) => {
+  const preservedScaleObjects = findChildrenByName({
+    container: viewport,
+    nameSubstring: 'PRESERVE_SCALE',
+  });
+
+  for (let i = 0; i < preservedScaleObjects.length; i++) {
+    const element = preservedScaleObjects[i];
+    const scaleFactor = element['scaleFactor'] ?? 1;
+    element.scale.y = scaleFactor / viewport.scale.y;
+    element.scale.x = scaleFactor / viewport.scale.x;
+  }
+};
+
+type CustomViewportOptions = {
+  size: { width: number; height: number };
+  children: ReactNode;
+  initialZoom?: number;
+  minScale?: number;
+  maxScale?: number;
+};
 
 // we share the ticker and interaction from app
 const PixiViewportComponent = PixiComponent('Viewport', {
   create(
     props: {
       app: Application;
-      size: { width: number; height: number };
-      children: ReactNode;
-      initialZoom?: number;
-    } & Partial<IViewportOptions>
+    } & Partial<IViewportOptions> &
+      CustomViewportOptions
   ) {
     const { app, ...viewportProps } = props;
 
@@ -29,17 +50,25 @@ const PixiViewportComponent = PixiComponent('Viewport', {
         .pinch()
         .wheel({ trackpadPinch: true, wheelZoom: true })
         .clampZoom({
-          maxHeight: props.worldHeight * 8,
-          minHeight: props.worldWidth / 16,
-        })
-        .clamp({ direction: 'all' });
+          minScale: props?.minScale ?? 0.05,
+          maxScale: props?.maxScale ?? 2,
+        });
     }
 
     if (props.initialZoom) {
       viewport.setZoom(props.initialZoom, true);
     }
+    updateScaledObjects(viewport);
+
+    viewport.on('zoomed', () => {
+      updateScaledObjects(viewport);
+    });
+    viewport.on('snap-zoom-end', () => {
+      updateScaledObjects(viewport);
+    });
 
     viewport.sortableChildren = true;
+
     return viewport;
   },
   applyProps(viewport, _oldProps, _newProps) {
@@ -70,9 +99,7 @@ export const PixiViewport = forwardRef<
   Viewport,
   Partial<IViewportOptions> & {
     children: ReactNode;
-    size: { width: number; height: number };
-    initialZoom?: number;
-  }
+  } & CustomViewportOptions
 >((props, ref) => (
   <PixiViewportComponent ref={ref} app={useApp()} {...props} />
 ));

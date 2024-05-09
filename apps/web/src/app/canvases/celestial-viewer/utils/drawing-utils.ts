@@ -10,15 +10,27 @@ import {
 
 import { Planet, PlanetConfig } from '../models';
 
-export const buildPlanet = (
-  planetTexture: Texture<Resource>,
-  radius: number,
-  app: Application,
-  name: string,
-  id: string,
-  sun: Planet,
-  selectionFunction: () => void
-) => {
+export const buildPlanet = ({
+  planetTexture,
+  radius,
+  app,
+  name,
+  id,
+  selectionFunction,
+  initialScale = { x: 5, y: 5 },
+  sun,
+  orbitalRadius,
+}: {
+  planetTexture: Texture<Resource>;
+  radius: number;
+  app: Application;
+  name: string;
+  id: string;
+  selectionFunction: () => void;
+  initialScale?: { x: number; y: number };
+  sun?: Planet;
+  orbitalRadius?: number;
+}) => {
   const radiusFactor = 28;
 
   const planetGraphic = new Graphics()
@@ -36,7 +48,7 @@ export const buildPlanet = (
   sprite.eventMode = 'static';
   sprite.cursor = 'pointer';
   sprite.zIndex = 1;
-  sprite.scale = { x: 0.3, y: 0.3 };
+  sprite.scale = initialScale;
   sprite.anchor.set(0.5, 0.5);
 
   sprite.on('mousedown', () => selectionFunction());
@@ -46,9 +58,9 @@ export const buildPlanet = (
     radius,
     origin: { x: 0, y: 0 },
     orbit: {
-      x: Math.random() > 0.2 ? 200 * radius : 100 * radius,
-      y: Math.random() > 0.2 ? 200 * radius : 100 * radius,
-      speed: 1 / radius,
+      x: orbitalRadius ?? 500,
+      y: orbitalRadius ?? 500,
+      speed: 3 / orbitalRadius ?? 1,
     },
   };
   const planet: Planet = createPlanet({
@@ -68,7 +80,7 @@ export const createPlanet = ({
 }: {
   name: string;
   config: PlanetConfig;
-  sprite: AnimatedSprite | Sprite;
+  sprite?: AnimatedSprite | Sprite;
   parent?: Planet;
 }): Planet => ({
   name,
@@ -78,8 +90,8 @@ export const createPlanet = ({
   position: config.origin,
   scale: 1,
   originalDimensions: {
-    height: sprite.height,
-    width: sprite.width,
+    height: sprite?.height,
+    width: sprite?.width,
   },
 });
 
@@ -95,31 +107,22 @@ export const centerPlanetDraw = (planet: Planet, isOriginCelestial = false) => {
     : planet.position.y;
 };
 
-export const updatePlanetPosition = (
-  time: number,
-  planet: Planet,
-  simulationSpeed: number
-) => {
-  const planetOffset = getPlanetPositionOffset(time, planet, simulationSpeed);
+export const updatePlanetPosition = (time: number, planet: Planet) => {
+  const planetOffset = getPlanetPositionOffset(time, planet);
   const parentPosition = planet.parent
     ? planet.parent.position
     : { x: 0, y: 0 };
+
   planet.position = {
     x: planet.config.origin.x + planetOffset.x + parentPosition.x,
     y: planet.config.origin.y + planetOffset.y + parentPosition.y,
   };
 };
 
-export const getPlanetPositionOffset = (
-  time: number,
-  planet: Planet,
-  simulationSpeed: number
-) => ({
-  x:
-    planet.config.orbit.x *
-    Math.sin(time * planet.config.orbit.speed * 0.002 * simulationSpeed),
-  y:
-    planet.config.orbit.y *
-    Math.cos(time * planet.config.orbit.speed * 0.002 * simulationSpeed),
-  scale: 1,
-});
+export const getPlanetPositionOffset = (time: number, planet: Planet) => {
+  return {
+    x: planet.config.orbit.x * Math.sin(time * planet.config.orbit.speed),
+    y: planet.config.orbit.y * -Math.cos(time * planet.config.orbit.speed),
+    scale: 1,
+  };
+};

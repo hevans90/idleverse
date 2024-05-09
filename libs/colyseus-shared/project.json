@@ -3,22 +3,17 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/colyseus-shared/src",
   "projectType": "library",
+  "tags": [],
   "targets": {
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["libs/colyseus-shared/**/*.ts"]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/colyseus-shared"],
       "options": {
-        "jestConfig": "libs/colyseus-shared/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/colyseus-shared/jest.config.ts"
       }
     }
-  },
-  "tags": []
+  }
 }

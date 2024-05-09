@@ -5,6 +5,7 @@ fragment PlanetFields on planet {
   owner_id
   radius
   terrain_bias
+  orbital_radius
   terrain_hex_palette {
     forest
     grass

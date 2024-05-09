@@ -15,26 +15,25 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { TerrainHexPalettesQuery } from '@idleverse/galaxy-gql';
 import { hexToRGB, useUiBackground } from '@idleverse/theme';
 import { Fragment, useEffect, useState } from 'react';
 
 import { responsiveFontProps } from '../../../_responsive-utils/font-props';
 
-import { colorsVar, planetGenerationColorDrawerVar } from '@idleverse/state';
+import {
+  colorPalettesVar,
+  colorsVar,
+  planetGenerationColorDrawerVar,
+} from '@idleverse/state';
 import { ExpandingUI } from '../../../components/expanding-ui';
 import { ColorQuad } from './color-quad';
 
-export const PlanetGeneratorColorDrawer = ({
-  paletteData,
-}: {
-  paletteData: TerrainHexPalettesQuery;
-}) => {
+export const PlanetGeneratorColorDrawer = () => {
   const drawerState = useReactiveVar(planetGenerationColorDrawerVar);
   const { bg, border } = useUiBackground();
   const { primary } = useReactiveVar(colorsVar);
 
-  const palettePresets = paletteData.terrain_hex_palette;
+  const palettePresets = useReactiveVar(colorPalettesVar);
 
   // set a default here because we need access to the useTheme hook to pull colors
   const [localPalette, setLocalPalette] = useState<{

@@ -10,7 +10,7 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { AnimatedButton } from '@idleverse/ui';
 
@@ -83,6 +83,8 @@ export const CreationWorkflow = ({
   onStepClicked: (step: creationStep) => unknown;
   value: ReturnType<typeof characterCreationVar>;
 }) => {
+  const dataURICanvasRef = useRef<HTMLCanvasElement>(null);
+
   const [ready, setReady] = useState<boolean>(false);
   const [
     generatingPlanetThumbnailPixelData,
@@ -196,14 +198,18 @@ export const CreationWorkflow = ({
           </Text>
           {!generatingPlanetThumbnailPixelData &&
             generatingPlanetThumbnailDataURI && (
-              <DataUriGenerator
-                celestialId="character-creation"
-                input={[planetThumbnailPixelData]}
-                onGenerationFinished={({ uris }) => {
-                  setHomeworldDataURI(uris[0].uri);
-                  setGeneratingPlanetThumbnailDataURI(false);
-                }}
-              />
+              <>
+                <canvas ref={dataURICanvasRef} />
+                <DataUriGenerator
+                  canvasRef={dataURICanvasRef}
+                  celestialId="character-creation"
+                  input={[planetThumbnailPixelData]}
+                  onGenerationFinished={({ uris }) => {
+                    setHomeworldDataURI(uris[0].uri);
+                    setGeneratingPlanetThumbnailDataURI(false);
+                  }}
+                />
+              </>
             )}
           {homeworldDataURI && (
             <Image boxSize="50px" src={homeworldDataURI} borderRadius="full" />

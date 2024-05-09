@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/colyseus/src",
   "projectType": "application",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/webpack:webpack",
@@ -20,7 +21,8 @@
         ],
         "generatePackageJson": true,
         "target": "node",
-        "compiler": "tsc"
+        "compiler": "tsc",
+        "webpackConfig": "apps/colyseus/webpack.config.js"
       },
       "configurations": {
         "production": {
@@ -37,7 +39,7 @@
       }
     },
     "serve": {
-      "executor": "@nx/node:node",
+      "executor": "@nx/js:node",
       "options": {
         "buildTarget": "colyseus:build"
       },
@@ -48,18 +50,13 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/colyseus/**/*.ts"]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/colyseus"],
       "options": {
-        "jestConfig": "apps/colyseus/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/colyseus/jest.config.ts"
       }
     },
     "deploy": {
@@ -82,6 +79,5 @@
         ]
       }
     }
-  },
-  "tags": []
+  }
 }

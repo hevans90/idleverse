@@ -35,6 +35,7 @@ export const generatePlanetInsertionVars = (
     radius,
     atmosphericDistance,
     textureResolution,
+    orbitalRadius,
   } = planetGeneratorConfigVar();
 
   const { currentPaletteId, terrainBias } = planetGenerationColorDrawerVar();
@@ -54,5 +55,6 @@ export const generatePlanetInsertionVars = (
     terrain_hex_palette_id: currentPaletteId,
     texture_resolution: textureResolution,
     atmospheric_distance: atmosphericDistance,
+    orbital_radius: orbitalRadius,
   };
 };

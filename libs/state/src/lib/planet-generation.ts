@@ -22,6 +22,7 @@ export const planetGeneratorConfigVar =
       atmosphericDistance: 3,
       atmosphere: true,
       rotate: true,
+      orbitalRadius: 1,
     },
     'planetGenerationWorldVar'
   );
@@ -31,7 +32,7 @@ export const planetGenerationColorDrawerVar = makeVarPersisted<{
   palettePresetName: string;
   currentPalette: TerrainRGBPalette;
   currentHexPalette?: TerrainHexPalette;
-  currentPaletteId?: string;
+  currentPaletteId: string;
   terrainBias: [number, number, number, number];
 }>(
   {
@@ -43,9 +44,10 @@ export const planetGenerationColorDrawerVar = makeVarPersisted<{
       grass: { r: 0, g: 0, b: 0 },
       forest: { r: 0, g: 0, b: 0 },
     },
+    currentPaletteId: '196080d1-ed3c-496b-a913-3c14ccf11edf',
     terrainBias: [0, 0.2, 0.4, 0.6],
   },
-  'planetGenerationColorControls'
+  'planetGenerationColors'
 );
 
 export const planetGenerationRingDrawerVar = makeVarPersisted<{

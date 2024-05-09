@@ -6,18 +6,13 @@
   "tags": [],
   "targets": {
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["libs/pixi-utils/**/*.{ts,tsx,js,jsx}"]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/pixi-utils"],
       "options": {
-        "jestConfig": "libs/pixi-utils/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/pixi-utils/jest.config.ts"
       }
     }
   }

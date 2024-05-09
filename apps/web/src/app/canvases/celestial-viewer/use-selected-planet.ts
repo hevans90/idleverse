@@ -1,44 +1,30 @@
+import { useReactiveVar } from '@apollo/client';
 import { indicatorFactory } from '@idleverse/pixi-utils';
-import { Container, Text } from 'pixi.js';
-import { useEffect, useRef } from 'react';
+import { celestialViewerSelectedPlanet } from '@idleverse/state';
+import { Text } from 'pixi.js';
+import { useMemo } from 'react';
 
 /**
  * Adds selection UI to the currently selected planet.
  */
-export const useSelectedPlanet = (
-  container: Container,
-  planetName: string | null,
-  x: number,
-  y: number
-) => {
-  const selectedPlanetText = useRef<Text>(
-    indicatorFactory(planetName, x, y, 'selectedPlanetName')
+export const useSelectedPlanetIndicator = ({
+  x,
+  y,
+}: {
+  x: number;
+  y: number;
+}) => {
+  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanet);
+
+  const indicatorKey = `${selectedPlanet?.name}_indicator_PRESERVE_SCALE`;
+
+  const selectedPlanetText = useMemo<Text>(
+    () =>
+      selectedPlanet
+        ? indicatorFactory(selectedPlanet?.name, x, y, indicatorKey)
+        : null,
+    [selectedPlanet, indicatorKey, x, y]
   );
 
-  useEffect(() => {
-    if (planetName) {
-      container.addChild(selectedPlanetText.current);
-      const indicator = container.getChildByName('selectedPlanetName') as Text;
-      indicator.text = planetName;
-      indicator.position.x = x;
-      indicator.position.y = y;
-      indicator.zIndex = 2;
-    }
-
-    return () => {
-      try {
-        container.removeChild(selectedPlanetText.current);
-      } catch (e) {
-        console.warn(e);
-      }
-    };
-  }, [planetName]);
-
-  useEffect(() => {
-    if (planetName) {
-      const indicator = container.getChildByName('selectedPlanetName') as Text;
-      indicator.position.x = x;
-      indicator.position.y = y;
-    }
-  }, [x, y]);
+  return { selectedPlanetText, indicatorKey };
 };

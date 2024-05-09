@@ -3,22 +3,17 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/graphql-utils/src",
   "projectType": "library",
+  "tags": [],
   "targets": {
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["libs/graphql-utils/**/*.ts"]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/graphql-utils"],
       "options": {
-        "jestConfig": "libs/graphql-utils/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/graphql-utils/jest.config.ts"
       }
     }
-  },
-  "tags": []
+  }
 }

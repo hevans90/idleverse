@@ -10,3 +10,5 @@
 galaxy-api.ts
 
 graphql.schema.json
+
+/.nx/cache

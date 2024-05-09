@@ -160,14 +160,18 @@ const BuildItems = ({ items }: { items: Resource_Generator[] }) => {
     <Grid
       width="full"
       gap="6"
-      gridTemplate={[
-        'repeat(1, 1fr) / repeat(2, 1fr)',
-        'repeat(1, 1fr) / repeat(3, 1fr)',
-        'repeat(1, 1fr) / repeat(4, 1fr)',
-        'repeat(1, 1fr) / repeat(4, 1fr)',
-        'repeat(1, 1fr) / repeat(5, 1fr)',
-        'repeat(1, 1fr) / repeat(6, 1fr)',
-      ]}
+      gridTemplate={
+        empireResources?.length
+          ? [
+              'repeat(1, 1fr) / repeat(2, 1fr)',
+              'repeat(1, 1fr) / repeat(3, 1fr)',
+              'repeat(1, 1fr) / repeat(4, 1fr)',
+              'repeat(1, 1fr) / repeat(4, 1fr)',
+              'repeat(1, 1fr) / repeat(5, 1fr)',
+              'repeat(1, 1fr) / repeat(6, 1fr)',
+            ]
+          : ''
+      }
     >
       {empireResources?.length
         ? affordableGenerators.map((item, index) => {

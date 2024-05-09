@@ -3,6 +3,10 @@
 exports[`planetValidator should output correct errors 1`] = `
 [
   {
+    "field": "orbital_radius",
+    "issue": "ORBITAL RADIUS: 1.1 is above the maximum of 1.",
+  },
+  {
     "field": "texture_resolution",
     "issue": "TEXTURE RESOLUTION: 25 is below the minimum of 64.",
   },

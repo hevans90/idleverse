@@ -7,7 +7,7 @@ import {
 } from '@idleverse/galaxy-gql';
 import { hexToRGB } from '@idleverse/theme';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { celestialVar, celestialViewerSelectedPlanet } from '@idleverse/state';
@@ -22,6 +22,8 @@ import { InfoBox } from './ui/info-box';
 
 export const CelestialViewerContainer = () => {
   const { name } = useParams<{ name: string }>();
+
+  const dataURICanvasRef = useRef<HTMLCanvasElement>(null);
 
   const { data, loading } = useQuery<
     CelestialByNameQuery,
@@ -131,7 +133,9 @@ export const CelestialViewerContainer = () => {
           text="Generating planet textures"
         ></Loading>
 
+        <canvas ref={dataURICanvasRef} />
         <DataUriGenerator
+          canvasRef={dataURICanvasRef}
           celestialId={data?.celestial?.[0].id}
           input={pixelData}
           onGenerationFinished={() => setTexturesGenerating(false)}
