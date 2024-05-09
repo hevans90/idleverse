@@ -6,7 +6,7 @@ type FieldIssue = {
 };
 
 const MIN_ORBITAL_RADIUS = 0.1;
-const MAX_ORBITAL_RADIUS = 0.1;
+const MAX_ORBITAL_RADIUS = 1;
 
 const MIN_TEXTURE_RES = 64;
 

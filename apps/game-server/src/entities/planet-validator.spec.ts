@@ -14,6 +14,7 @@ const input: PlanetCreationInput = {
   terrain_hex_palette_id: 'ae0c493b-91a1-4f9f-b84d-6036e913c271',
   texture_resolution: 25,
   atmospheric_distance: 1,
+  orbital_radius: 1.1,
 };
 
 describe('planetValidator', () => {
