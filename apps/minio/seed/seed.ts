@@ -106,7 +106,7 @@ const uploadAudio = async () => {
       return client.fPutObject(
         buckets[i],
         trackName.toLowerCase(),
-        `${directory}/${trackName.toLowerCase()}`,
+        `${directory}/${trackName}`,
         {
           duration,
         }
