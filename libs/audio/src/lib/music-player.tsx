@@ -166,9 +166,6 @@ const AudioPlayer = () => {
       updateLoopRef.current = requestAnimationFrame(updateLoop);
     } else {
       audioRef.current?.pause();
-      if (updateLoopRef.current) {
-        cancelAnimationFrame(updateLoopRef.current);
-      }
     }
   }, [isPlaying, audioRef, updateLoop]);
 
@@ -253,7 +250,7 @@ const AudioPlayer = () => {
       </Flex>
 
       <audio
-        autoPlay
+        autoPlay={isPlaying}
         ref={audioRef}
         src={track?.url}
         onLoadedMetadata={onLoadedMetadata}
