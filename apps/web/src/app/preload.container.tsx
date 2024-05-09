@@ -26,6 +26,7 @@ import {
   colorPalettesVar,
   factionsVar,
   npcsVar,
+  planetGenerationColorDrawerVar,
   playableRacesVar,
   questsVar,
   resourceGeneratorsVar,
@@ -34,6 +35,7 @@ import {
   technologiesVar,
   usersVar,
 } from '@idleverse/state';
+import { hexToRGB } from '@idleverse/theme';
 import { loadNoise } from './asset-loading/load-noise';
 import { loadPlaceholders } from './asset-loading/load-placeholders';
 import { loadTechTree } from './asset-loading/load-tech-tree';
@@ -56,7 +58,27 @@ export const PreloadContainer = ({ children }: { children: ReactNode }) => {
   const { loading: colorPalettesLoading } = useQuery<TerrainHexPalettesQuery>(
     TerrainHexPalettesDocument,
     {
-      onCompleted: (data) => colorPalettesVar(data.terrain_hex_palette),
+      onCompleted: (data) => {
+        colorPalettesVar(data.terrain_hex_palette);
+        const firstPalette = data.terrain_hex_palette[0];
+        planetGenerationColorDrawerVar({
+          ...planetGenerationColorDrawerVar(),
+          palettePresetName: firstPalette.name,
+          currentPalette: {
+            water: hexToRGB(firstPalette.water),
+            sand: hexToRGB(firstPalette.sand),
+            grass: hexToRGB(firstPalette.grass),
+            forest: hexToRGB(firstPalette.forest),
+          },
+          currentHexPalette: {
+            water: firstPalette.water,
+            sand: firstPalette.sand,
+            grass: firstPalette.grass,
+            forest: firstPalette.forest,
+          },
+          currentPaletteId: firstPalette.id,
+        });
+      },
     }
   );
 

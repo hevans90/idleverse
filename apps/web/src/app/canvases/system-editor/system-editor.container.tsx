@@ -41,9 +41,12 @@ export const SystemEditorContainer = () => {
     [worldSize]
   );
 
-  const { currentHexPalette, terrainBias } = useReactiveVar(
-    planetGenerationColorDrawerVar
-  );
+  const {
+    currentPaletteId,
+    palettePresetName,
+    currentHexPalette,
+    terrainBias,
+  } = useReactiveVar(planetGenerationColorDrawerVar);
 
   const [celestialRadius, setCelestialRadius] = useState(0.25);
 
@@ -89,8 +92,8 @@ export const SystemEditorContainer = () => {
         terrain_bias: terrainBias,
         terrain_hex_palette: {
           ...currentHexPalette,
-          name: 'nice',
-          id: '1',
+          name: palettePresetName,
+          id: currentPaletteId,
         },
       },
     },
@@ -108,8 +111,8 @@ export const SystemEditorContainer = () => {
         terrain_bias: terrainBias,
         terrain_hex_palette: {
           ...currentHexPalette,
-          name: 'nice',
-          id: '1',
+          name: palettePresetName,
+          id: currentPaletteId,
         },
       },
     },
