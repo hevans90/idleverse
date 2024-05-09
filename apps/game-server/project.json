@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/game-server/src",
   "projectType": "application",
+  "tags": [],
   "targets": {
     "watch": {
       "executor": "./tools/executors/watch:watch",
@@ -34,7 +35,8 @@
         ],
         "generatePackageJson": true,
         "target": "node",
-        "compiler": "tsc"
+        "compiler": "tsc",
+        "webpackConfig": "apps/game-server/webpack.config.js"
       },
       "configurations": {
         "production": {
@@ -52,24 +54,19 @@
       }
     },
     "serve": {
-      "executor": "@nx/node:node",
+      "executor": "@nx/js:node",
       "options": {
         "buildTarget": "idleverse-game-server:build"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/game-server/**/*.ts"]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/game-server"],
       "options": {
-        "jestConfig": "apps/game-server/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/game-server/jest.config.ts"
       }
     },
     "deploy": {
@@ -80,6 +77,5 @@
       "dependsOn": ["build"],
       "command": "docker build -f apps/game-server/Dockerfile . -t idleverse-game-server"
     }
-  },
-  "tags": []
+  }
 }

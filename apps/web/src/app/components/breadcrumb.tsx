@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable react/jsx-no-useless-fragment */
 import { useReactiveVar } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
@@ -26,20 +27,24 @@ export const Breadcrumb = () => {
 
   const crumbs = useBreadcrumbs([
     {
+      // @ts-ignore
       path: '/galaxies/:name',
       breadcrumb: () => <>{galaxyName}</>,
     },
     {
+      // @ts-ignore
       path: '/celestials/:name',
       breadcrumb: () => <>{celestial?.name}</>,
     },
     {
+      // @ts-ignore
       path: '/planets/:name',
       breadcrumb: () => <>{planet?.name}</>,
     },
     {
+      // @ts-ignore
       path: '/system-editor',
-      breadcrumb: () => <>System designer</>,
+      breadcrumb: () => <>System Editor</>,
     },
   ]);
 
