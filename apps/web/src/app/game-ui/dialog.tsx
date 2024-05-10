@@ -11,7 +11,7 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { DialogEntry, dialogVar, hotkeyHintsVar } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
@@ -39,6 +39,7 @@ export const Dialog = ({ ...stackProps }: DialogProps) => {
   const [animation, setAnimation] = useState<string>('');
 
   const endOfDialogText = useRef<HTMLDivElement>(null);
+  const continueButtonRef = useRef<HTMLButtonElement>(null);
 
   const hotkeyHints = useReactiveVar(hotkeyHintsVar);
 
@@ -67,11 +68,16 @@ export const Dialog = ({ ...stackProps }: DialogProps) => {
       })
     );
 
+  const currentText = useMemo(
+    () => activeEntry?.steps[activeEntryStepIndex],
+    [activeEntry, activeEntryStepIndex]
+  );
+
   useEffect(() => {
     if (entries?.length) {
       setActiveEntry(entries[0]);
     }
-  }, [entries]);
+  }, [entries, open]);
 
   useEffect(() => {
     if (activeEntry) {
@@ -94,42 +100,43 @@ export const Dialog = ({ ...stackProps }: DialogProps) => {
       `
       );
 
-      const animationLength =
-        prequelWaitTime +
-        activeEntry.steps[activeEntryStepIndex].length *
-          characterWaitTime *
-          1000;
+      const animationLength = prequelWaitTime + duration * 1000;
 
       setCurrentEntryAnimationLength(animationLength);
 
-      const startTime = new Date().getTime();
+      continueButtonRef?.current.focus();
 
-      setTimeout(() => {
-        const interval = setInterval(function () {
-          if (new Date().getTime() - startTime > animationLength + 750) {
-            clearInterval(interval);
-            return;
-          }
-          scrollToBottom();
-        }, 500);
-      }, activeEntry.steps[activeEntryStepIndex].length * 4);
+      // const startTime = new Date().getTime();
+
+      // console.log('nice');
+
+      // setTimeout(() => {
+      //   const interval = setInterval(function () {
+      //     if (new Date().getTime() - startTime > animationLength + 750) {
+      //       clearInterval(interval);
+      //       return;
+      //     }
+      //     scrollToBottom();
+      //   }, 500);
+      // }, activeEntry.steps[activeEntryStepIndex].length * 4);
     }
   }, [activeEntry, activeEntryIndex, activeEntryStepIndex]);
 
   if (open && activeEntry) {
     return (
       <HStack
-        {...stackProps}
         bgColor={bg}
         borderWidth="1px"
         borderStyle="solid"
         borderColor={border}
         width="100%"
+        maxWidth={1920}
         alignItems="flex-start"
         divider={
           <StackDivider borderColor={border} margin="unset !important" />
         }
         maxHeight="md"
+        {...stackProps}
       >
         <VStack padding={3} maxWidth="175px" minWidth="175px">
           <Image
@@ -154,7 +161,7 @@ export const Dialog = ({ ...stackProps }: DialogProps) => {
             width="100%"
           >
             <Text
-              key={+new Date()}
+              key={activeEntry.steps?.[0]}
               as="span"
               color="#0000"
               background="
@@ -165,12 +172,12 @@ export const Dialog = ({ ...stackProps }: DialogProps) => {
               backgroundRepeat="no-repeat"
               animation={animation}
             >
-              {activeEntry?.steps[activeEntryStepIndex]}
+              {currentText}
             </Text>
             <Box ref={endOfDialogText} height="2ch"></Box>
           </Box>
           <HStack width="100%" justifyContent="end" padding={2}>
-            <Button onClick={continueDialog}>
+            <Button onClick={continueDialog} ref={continueButtonRef}>
               {activeEntryIndex === entries.length - 1 ? 'Done' : 'Continue'}
               {hotkeyHints && (
                 <>

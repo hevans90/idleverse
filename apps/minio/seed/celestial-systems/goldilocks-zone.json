@@ -1,0 +1,12 @@
+{
+  "entries": [
+    {
+      "id": 0,
+      "speakerName": "Harkas Sanima",
+      "imageUrl": "/npcs/harkas_sanima.png",
+      "steps": [
+        "The 'goldilocks zone' (also known as the 'habitable zone') refers to the range of distances from a star where conditions might be just right for the existence of liquid water on the surface of a planet. Typically this means said planet can support life."
+      ]
+    }
+  ]
+}

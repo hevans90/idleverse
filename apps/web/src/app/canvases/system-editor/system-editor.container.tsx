@@ -154,12 +154,14 @@ export const SystemEditorContainer = () => {
             <SystemEditorOverview
               onHelpClicked={(help) => {
                 setLocallySelectedAudioName(help);
-                audioRef.current.play();
+                audioRef.current.play().catch((e) => {
+                  //
+                });
                 dialogVar({ ...dialogVar(), open: true });
               }}
             />
             <SystemEditorFocusUI planets={planets} />
-            <Dialog position="absolute" bottom={0} left={0} />
+            <Dialog position="absolute" bottom={0} right={0} />
           </>
         }
         bg="darker"

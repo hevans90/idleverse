@@ -9,8 +9,10 @@ export type AsteroidSize = typeof asteroidSizes[number];
 
 export type CelestialAudioName =
   | 'welcome'
-  | 'system-forming-points'
-  | 'celestial';
+  | 'celestial'
+  | 'goldilocks-zone'
+  | 'asteroid-belt'
+  | 'system-forming-points';
 
 export const celestialViewerGenerationVar = makeVar<{
   mode: 'view' | 'edit';

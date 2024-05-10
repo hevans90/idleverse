@@ -1,0 +1,12 @@
+{
+  "entries": [
+    {
+      "id": 0,
+      "speakerName": "Harkas Sanima",
+      "imageUrl": "/npcs/harkas_sanima.png",
+      "steps": [
+        "Asteroid belts are regions of space filled with rocks infused with metal ore, typically found between the orbits of terrestrial and larger, gaseous planets. Once a civilisation is advanced enough, this will be the primary source of metals to mine."
+      ]
+    }
+  ]
+}

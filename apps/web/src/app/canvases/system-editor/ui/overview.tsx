@@ -56,10 +56,10 @@ export const SystemEditorOverview = ({
   return (
     <Box
       position="absolute"
-      bottom={[-2, 'unset']}
-      top={['unset', -2]}
-      left={[-2, 'unset']}
-      right={['unset', -2]}
+      bottom={[0, 'unset']}
+      top={['unset', 0]}
+      left={[0, 'unset']}
+      right={['unset', 0]}
       width={['104vw', 'unset']}
     >
       <AnimatedFrame
@@ -102,7 +102,11 @@ export const SystemEditorOverview = ({
                 >
                   {focus.replace('-', ' ').toLocaleUpperCase()}{' '}
                 </Button>
-                {/* <Text>{currentFocus === focus ? '<--' : null}</Text> */}
+                <IconButton
+                  aria-label="help"
+                  onClick={() => onHelpClicked(focus)}
+                  icon={<IoHelpCircleOutline size={30} />}
+                ></IconButton>
               </HStack>
             ))}
             <HStack mt={4} width="100%" justifyContent="space-between">
@@ -110,12 +114,8 @@ export const SystemEditorOverview = ({
               <Text> {formingPoints}</Text>
               <IconButton
                 aria-label="help"
-                icon={
-                  <IoHelpCircleOutline
-                    size={30}
-                    onClick={() => onHelpClicked('system-forming-points')}
-                  />
-                }
+                onClick={() => onHelpClicked('system-forming-points')}
+                icon={<IoHelpCircleOutline size={30} />}
               ></IconButton>
             </HStack>
           </VStack>

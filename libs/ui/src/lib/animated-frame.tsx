@@ -46,7 +46,6 @@ const AnimatedFrameContent = ({
         strokeWidth={borderStrokeWidth}
         elementRef={svgRef}
         onRender={onRender}
-        padding={4}
         {...rest}
       />
       <Box position="relative" visibility={show ? 'visible' : 'hidden'}>

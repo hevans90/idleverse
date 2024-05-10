@@ -29,7 +29,7 @@ export const useCelestialAudio = ({
     const entries = data.entries.map((entry) => ({ ...entry, audio: track }));
 
     dialogVar({
-      open: dialogVar().open,
+      open: true,
       entries,
     });
   };
