@@ -30,9 +30,14 @@ export const useLoadAudioMetadata = () => {
     MediaMetadataDocument,
     {
       onCompleted: ({ backgrounds, factions, races, celestialSystems }) => {
+        const celestialMedia = mediaMapper(
+          celestialSystems,
+          'celestial-systems'
+        );
         celestialMediaVar({
-          data: mediaMapper(celestialSystems, 'celestial-systems'),
+          data: celestialMedia,
         });
+        celestialMedia.forEach(({ url }) => fetch(url));
         backgroundsMediaVar({
           data: mediaMapper(backgrounds, 'backgrounds'),
         });

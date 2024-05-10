@@ -2,6 +2,7 @@ fragment CelestialFields on celestial {
   id
   name
   owner_id
+  forming_points
   user_info {
     display_name
     id

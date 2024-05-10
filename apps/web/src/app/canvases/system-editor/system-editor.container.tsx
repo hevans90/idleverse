@@ -13,15 +13,20 @@ import { useReactiveVar } from '@apollo/client';
 import { useBreakpointValue } from '@chakra-ui/react';
 import { PlanetByIdQuery } from '@idleverse/galaxy-gql';
 import {
+  CelestialAudioName,
   SystemFocus,
+  celestialViewerGenerationVar,
+  dialogVar,
   planetGenerationColorDrawerVar,
   systemEditorConfigVar,
 } from '@idleverse/state';
+import { Dialog } from '../../game-ui/dialog';
 import { Asteroids } from '../_rendering/asteroids';
 import { randomPointInAnnulus } from '../_utils/random-point-in-annulus';
 import { PlanetContainer } from './planet.container';
 import { SystemEditorFocusUI } from './ui/focus-ui';
 import { SystemEditorOverview } from './ui/overview';
+import { useCelestialAudio } from './use-celestial-audio.hook';
 
 export const SystemEditorContainer = () => {
   const viewportRef = useRef<Viewport>(null);
@@ -30,6 +35,16 @@ export const SystemEditorContainer = () => {
   const dataURICanvasRef = useRef<HTMLCanvasElement>(null);
 
   const size = useResize();
+
+  const { mode, formingPoints } = useReactiveVar(celestialViewerGenerationVar);
+
+  const [locallySelectedAudioName, setLocallySelectedAudioName] =
+    useState<CelestialAudioName>('welcome');
+
+  const { audioRef } = useCelestialAudio({
+    locallySelectedName: locallySelectedAudioName,
+    isOpen: true,
+  });
 
   const worldSize = useMemo(() => ({ width: 8000, height: 8000 }), []);
 
@@ -136,8 +151,15 @@ export const SystemEditorContainer = () => {
         showGameUI={false}
         ui={
           <>
-            <SystemEditorOverview />
+            <SystemEditorOverview
+              onHelpClicked={(help) => {
+                setLocallySelectedAudioName(help);
+                audioRef.current.play();
+                dialogVar({ ...dialogVar(), open: true });
+              }}
+            />
             <SystemEditorFocusUI planets={planets} />
+            <Dialog position="absolute" bottom={0} left={0} />
           </>
         }
         bg="darker"
@@ -195,6 +217,7 @@ export const SystemEditorContainer = () => {
         </PixiViewport>
       </PixiWrapper>
       <canvas style={{ visibility: 'hidden' }} ref={dataURICanvasRef} />
+      <audio ref={audioRef} />
     </>
   );
 };

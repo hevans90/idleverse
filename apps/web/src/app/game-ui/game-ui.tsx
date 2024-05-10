@@ -2,7 +2,7 @@
 import { useReactiveVar } from '@apollo/client';
 import { useDisclosure } from '@chakra-ui/react';
 
-import { dialogVar, globalUiVar } from '@idleverse/state';
+import { globalUiVar } from '@idleverse/state';
 import { BREADCRUMB_HEIGHT } from '../components/breadcrumb';
 import { useKeypress } from '../hooks/use-keypress';
 import { useRealtimeEmpireUpdates } from '../hooks/use-realtime-empire-updates';
@@ -15,8 +15,6 @@ import { ResourceBar } from './resource-bar';
 import { ResourceOverview } from './resource-overview/resource-overview';
 
 export const GameUI = ({ empireId }: { empireId: string }) => {
-  const { entries } = useReactiveVar(dialogVar);
-
   const { questJournalOpen, npcContactOpen, resourceOverviewOpen } =
     useReactiveVar(globalUiVar);
 
@@ -82,7 +80,7 @@ export const GameUI = ({ empireId }: { empireId: string }) => {
               onResourceOverviewClose();
             }}
           />
-          <Dialog entries={entries} position="absolute" bottom={0} left={0} />
+          <Dialog position="absolute" bottom={0} left={0} />
 
           <ResourceBar
             position="absolute"

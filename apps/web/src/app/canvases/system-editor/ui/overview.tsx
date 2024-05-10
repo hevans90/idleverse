@@ -16,8 +16,10 @@ import {
 } from '@chakra-ui/react';
 import { generateCelestialName } from '@idleverse/galaxy-gen';
 import {
+  CelestialAudioName,
   SYSTEM_FOCI,
   celestialPresets,
+  celestialViewerGenerationVar,
   celestialViewerSelectedPlanet,
   colorsVar,
   systemEditorConfigVar,
@@ -25,13 +27,20 @@ import {
 } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
 import { AnimatedFrame } from '@idleverse/ui';
+import { IoHelpCircleOutline } from 'react-icons/io5';
 import {
   headerResponsiveFontProps,
   responsiveFontProps,
 } from '../../../_responsive-utils/font-props';
 
-export const SystemEditorOverview = () => {
+export const SystemEditorOverview = ({
+  onHelpClicked,
+}: {
+  onHelpClicked: (help: CelestialAudioName) => void;
+}) => {
   const currentFocus = useReactiveVar(systemEditorFocusVar);
+  const { mode, formingPoints } = useReactiveVar(celestialViewerGenerationVar);
+
   const { secondary } = useReactiveVar(colorsVar);
 
   const { rawBgDarker } = useUiBackground();
@@ -96,6 +105,19 @@ export const SystemEditorOverview = () => {
                 {/* <Text>{currentFocus === focus ? '<--' : null}</Text> */}
               </HStack>
             ))}
+            <HStack mt={4} width="100%" justifyContent="space-between">
+              <Text>Forming Points:</Text>
+              <Text> {formingPoints}</Text>
+              <IconButton
+                aria-label="help"
+                icon={
+                  <IoHelpCircleOutline
+                    size={30}
+                    onClick={() => onHelpClicked('system-forming-points')}
+                  />
+                }
+              ></IconButton>
+            </HStack>
           </VStack>
         </VStack>
       </AnimatedFrame>

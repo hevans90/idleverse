@@ -18,46 +18,33 @@ import { useUiBackground } from '@idleverse/theme';
 import { useKeypress } from '../hooks/use-keypress';
 
 type DialogProps = StackProps & {
-  entries: DialogEntry[];
+  //
 };
 
 const prequelWaitTime = 0.3;
 const characterWaitTime = 0.01;
 
-export const Dialog = ({ entries, ...stackProps }: DialogProps) => {
+export const Dialog = ({ ...stackProps }: DialogProps) => {
   const { bg, border } = useUiBackground();
+  const { open, entries } = useReactiveVar(dialogVar);
 
   const [activeEntryIndex, setActiveEntryIndex] = useState<number>(0);
   const [activeEntryStepIndex, setActiveEntryStepIndex] = useState<number>(0);
-  const [activeEntry, setActiveEntry] = useState<DialogEntry>(
-    entries?.[activeEntryIndex]
-  );
+  const [activeEntry, setActiveEntry] = useState<DialogEntry>();
 
   // milliseconds
   const [currentEntryAnimationLength, setCurrentEntryAnimationLength] =
     useState<number>(0);
 
-  const [continueButtonText, setContinueButtonText] = useState<
-    'Continue' | 'Done'
-  >('Continue');
-
   const [animation, setAnimation] = useState<string>('');
 
   const endOfDialogText = useRef<HTMLDivElement>(null);
 
-  const { open } = useReactiveVar(dialogVar);
   const hotkeyHints = useReactiveVar(hotkeyHintsVar);
 
   useKeypress('Space', () => continueDialog());
 
   const continueDialog = () => {
-    if (activeEntryIndex === entries.length - 1) {
-      if (activeEntryStepIndex === activeEntry.steps.length - 2) {
-        // PENULTIMATE STEP
-        setContinueButtonText('Done');
-      }
-    }
-
     if (activeEntryStepIndex === activeEntry.steps.length - 1) {
       // end of entry, check if there is a next entry
       if (activeEntryIndex === entries.length - 1) {
@@ -81,6 +68,12 @@ export const Dialog = ({ entries, ...stackProps }: DialogProps) => {
     );
 
   useEffect(() => {
+    if (entries?.length) {
+      setActiveEntry(entries[0]);
+    }
+  }, [entries]);
+
+  useEffect(() => {
     if (activeEntry) {
       const topLayer = keyframes`
     from { background-size: 0 200%; }
@@ -88,11 +81,16 @@ export const Dialog = ({ entries, ...stackProps }: DialogProps) => {
       const bottomLayer = keyframes`
     50% { background-position: 0 -100%,0 0; }
   `;
+      let duration =
+        activeEntry.steps[activeEntryStepIndex].length * characterWaitTime;
+      if (activeEntry?.audio) {
+        duration = activeEntry.audio.metadata.duration;
+      }
       setAnimation(undefined);
       setAnimation(
         `
        ${bottomLayer} ${prequelWaitTime}s infinite steps(1), 
-       ${topLayer} calc(${activeEntry.steps[activeEntryStepIndex].length}*${characterWaitTime}s) steps(${activeEntry.steps[activeEntryStepIndex].length}) forwards
+       ${topLayer} calc(${duration}s) steps(${activeEntry.steps[activeEntryStepIndex].length}) forwards
       `
       );
 
@@ -116,9 +114,9 @@ export const Dialog = ({ entries, ...stackProps }: DialogProps) => {
         }, 500);
       }, activeEntry.steps[activeEntryStepIndex].length * 4);
     }
-  }, [activeEntryIndex, activeEntryStepIndex]);
+  }, [activeEntry, activeEntryIndex, activeEntryStepIndex]);
 
-  if (open) {
+  if (open && activeEntry) {
     return (
       <HStack
         {...stackProps}
@@ -173,7 +171,7 @@ export const Dialog = ({ entries, ...stackProps }: DialogProps) => {
           </Box>
           <HStack width="100%" justifyContent="end" padding={2}>
             <Button onClick={continueDialog}>
-              {continueButtonText}
+              {activeEntryIndex === entries.length - 1 ? 'Done' : 'Continue'}
               {hotkeyHints && (
                 <>
                   &nbsp;<Kbd>Space</Kbd>

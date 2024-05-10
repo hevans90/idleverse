@@ -7,9 +7,15 @@ export const asteroidSizes = ['small', 'medium', 'large'] as const;
 
 export type AsteroidSize = typeof asteroidSizes[number];
 
+export type CelestialAudioName =
+  | 'welcome'
+  | 'system-forming-points'
+  | 'celestial';
+
 export const celestialViewerGenerationVar = makeVar<{
+  mode: 'view' | 'edit';
   formingPoints: number;
-}>({ formingPoints: 0 });
+}>({ mode: 'view', formingPoints: 0 });
 
 export const celestialMediaVar = makeVar<{
   data: HydratedMediaResult[];
