@@ -116,7 +116,10 @@ export const SystemEditorOverview = ({
             ))}
             <HStack mt={1} width="100%" justifyContent="space-between">
               <Text>Forming Points:</Text>
-              <Text> {formingPoints}</Text>
+              <Text as="b" color={`${secondary}.200`}>
+                {' '}
+                {formingPoints}
+              </Text>
               <IconButton
                 aria-label="help"
                 onClick={() => onHelpClicked('system-forming-points')}
