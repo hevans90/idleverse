@@ -22,6 +22,7 @@ import {
   celestialViewerGenerationVar,
   celestialViewerSelectedPlanet,
   colorsVar,
+  dialogVar,
   systemEditorConfigVar,
   systemEditorFocusVar,
 } from '@idleverse/state';
@@ -50,10 +51,11 @@ export const SystemEditorOverview = ({
     md: 'medium',
     lg: 'large',
   });
+  const { open: dialogOpen } = useReactiveVar(dialogVar);
 
   const isMobile = bp === 'small';
 
-  return (
+  return isMobile && dialogOpen ? null : (
     <Box
       position="absolute"
       bottom={[0, 'unset']}
@@ -89,7 +91,6 @@ export const SystemEditorOverview = ({
                   {...responsiveFontProps}
                   _disabled={{
                     bg: `${secondary}.700`,
-                    transform: 'scale(0.98)',
                     pointerEvents: 'none',
                     opacity: 1,
                     _hover: { bg: `${secondary}.600` },
@@ -104,12 +105,16 @@ export const SystemEditorOverview = ({
                 </Button>
                 <IconButton
                   aria-label="help"
-                  onClick={() => onHelpClicked(focus)}
+                  onClick={() => {
+                    onHelpClicked(focus);
+                    systemEditorFocusVar(focus);
+                    celestialViewerSelectedPlanet(null);
+                  }}
                   icon={<IoHelpCircleOutline size={30} />}
                 ></IconButton>
               </HStack>
             ))}
-            <HStack mt={4} width="100%" justifyContent="space-between">
+            <HStack mt={1} width="100%" justifyContent="space-between">
               <Text>Forming Points:</Text>
               <Text> {formingPoints}</Text>
               <IconButton

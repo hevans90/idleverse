@@ -16,11 +16,13 @@ export const SystemEditorInteractions = ({
   worldRadii,
   center,
   isMobile,
+  canvasHeight,
 }: {
   viewportRef: MutableRefObject<Viewport>;
   worldRadii: { [key in SystemFocus]: { inner: number; outer: number } };
   center: { x: number; y: number };
   isMobile: boolean;
+  canvasHeight: number;
 }) => {
   const focus = useReactiveVar(systemEditorFocusVar);
 
@@ -127,7 +129,7 @@ export const SystemEditorInteractions = ({
     if (focus) {
       viewportToCircle(worldRadii[focus].outer * 2, focus);
     }
-  }, [focus, viewportToCircle, worldRadii]);
+  }, [canvasHeight, focus, viewportToCircle, worldRadii]);
 
   useEffect(() => {
     systemEditorFocusVar(undefined);

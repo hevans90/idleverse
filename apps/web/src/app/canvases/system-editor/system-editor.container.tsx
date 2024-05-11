@@ -34,7 +34,9 @@ export const SystemEditorContainer = () => {
 
   const dataURICanvasRef = useRef<HTMLCanvasElement>(null);
 
-  const size = useResize();
+  const { open: dialogOpen } = useReactiveVar(dialogVar);
+
+  const size = useResize(dialogOpen ? 'dialog' : 'none');
 
   const { mode, formingPoints } = useReactiveVar(celestialViewerGenerationVar);
 
@@ -161,7 +163,12 @@ export const SystemEditorContainer = () => {
               }}
             />
             <SystemEditorFocusUI planets={planets} />
-            <Dialog position="absolute" bottom={0} right={0} />
+            <Dialog
+              onDialogEnded={() => {
+                audioRef.current.currentTime = 0;
+                audioRef.current.pause();
+              }}
+            />
           </>
         }
         bg="darker"
@@ -203,6 +210,7 @@ export const SystemEditorContainer = () => {
             worldRadii={worldRadii}
             center={center}
             isMobile={isMobile}
+            canvasHeight={size.height}
           />
           <Container
             ref={containerRef}
@@ -214,6 +222,7 @@ export const SystemEditorContainer = () => {
               containerRef={containerRef}
               viewportRef={viewportRef}
               starRadius={celestialRadius}
+              size={size}
             />
           </Container>
         </PixiViewport>

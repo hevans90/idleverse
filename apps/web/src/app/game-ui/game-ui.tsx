@@ -80,7 +80,7 @@ export const GameUI = ({ empireId }: { empireId: string }) => {
               onResourceOverviewClose();
             }}
           />
-          <Dialog position="absolute" bottom={0} left={0} />
+          <Dialog />
 
           <ResourceBar
             position="absolute"

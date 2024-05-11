@@ -11,7 +11,7 @@ import { ReactNode, useRef } from 'react';
 
 const DataDiv = styled.div<{ bg: string; border: string }>`
   position: relative;
-  padding: 1.5rem;
+  padding: 1rem;
 
   [data-name='bg'] {
     color: ${(props) => props.bg};
