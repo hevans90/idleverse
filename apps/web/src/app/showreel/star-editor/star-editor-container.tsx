@@ -48,6 +48,7 @@ export const StarEditorContainer = () => {
             config={starConfig}
             containerRef={containerRef}
             viewportRef={viewportRef}
+            size={size}
           />
         </Container>
       </PixiViewport>

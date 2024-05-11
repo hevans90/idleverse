@@ -31,6 +31,7 @@ import {
   celestialViewerSelectedPlanet,
   colorPalettesVar,
   colorsVar,
+  dialogVar,
   systemEditorConfigVar,
   systemEditorFocusVar,
 } from '@idleverse/state';
@@ -48,6 +49,7 @@ export const SystemEditorFocusUI = ({
 }: {
   planets: PlanetByIdQuery[];
 }) => {
+  const { open: dialogOpen } = useReactiveVar(dialogVar);
   const focus = useReactiveVar(systemEditorFocusVar);
   const { secondary } = useReactiveVar(colorsVar);
 
@@ -61,12 +63,12 @@ export const SystemEditorFocusUI = ({
 
   const isMobile = bp === 'small';
 
-  return focus ? (
+  return focus && !dialogOpen ? (
     <Box
       position="absolute"
-      bottom={['unset', -2]}
-      top={[-2, 'unset']}
-      left={-2}
+      bottom={['unset', 0]}
+      top={[0, 'unset']}
+      left={0}
       right={'unset'}
       width={['104vw', 'unset']}
     >

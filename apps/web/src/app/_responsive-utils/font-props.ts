@@ -9,7 +9,12 @@ export const headerResponsiveFontProps: {
 export const subHeaderResponsiveFontProps: {
   fontSize: TypographyProps['fontSize'];
 } = {
-  fontSize: ['md', 'lg', 'lg'],
+  fontSize: ['md', 'md', 'lg'],
+};
+export const smallSubHeaderResponsiveFontProps: {
+  fontSize: TypographyProps['fontSize'];
+} = {
+  fontSize: ['sm', 'md', 'md'],
 };
 
 export const responsiveFontProps: { fontSize: TypographyProps['fontSize'] } = {

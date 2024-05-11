@@ -382,6 +382,7 @@ export type Background_Updates = {
 /** columns and relationships of "celestial" */
 export type Celestial = {
   __typename?: 'celestial';
+  forming_points: Scalars['numeric']['output'];
   /** An object relationship */
   galactic_empire?: Maybe<Galactic_Empire>;
   galactic_empire_id?: Maybe<Scalars['uuid']['output']>;
@@ -440,9 +441,17 @@ export type Celestial_Aggregate_Bool_Exp_Count = {
 /** aggregate fields of "celestial" */
 export type Celestial_Aggregate_Fields = {
   __typename?: 'celestial_aggregate_fields';
+  avg?: Maybe<Celestial_Avg_Fields>;
   count: Scalars['Int']['output'];
   max?: Maybe<Celestial_Max_Fields>;
   min?: Maybe<Celestial_Min_Fields>;
+  stddev?: Maybe<Celestial_Stddev_Fields>;
+  stddev_pop?: Maybe<Celestial_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Celestial_Stddev_Samp_Fields>;
+  sum?: Maybe<Celestial_Sum_Fields>;
+  var_pop?: Maybe<Celestial_Var_Pop_Fields>;
+  var_samp?: Maybe<Celestial_Var_Samp_Fields>;
+  variance?: Maybe<Celestial_Variance_Fields>;
 };
 
 
@@ -454,9 +463,17 @@ export type Celestial_Aggregate_FieldsCountArgs = {
 
 /** order by aggregate values of table "celestial" */
 export type Celestial_Aggregate_Order_By = {
+  avg?: InputMaybe<Celestial_Avg_Order_By>;
   count?: InputMaybe<Order_By>;
   max?: InputMaybe<Celestial_Max_Order_By>;
   min?: InputMaybe<Celestial_Min_Order_By>;
+  stddev?: InputMaybe<Celestial_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Celestial_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Celestial_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Celestial_Sum_Order_By>;
+  var_pop?: InputMaybe<Celestial_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Celestial_Var_Samp_Order_By>;
+  variance?: InputMaybe<Celestial_Variance_Order_By>;
 };
 
 /** input type for inserting array relation for remote table "celestial" */
@@ -466,11 +483,23 @@ export type Celestial_Arr_Rel_Insert_Input = {
   on_conflict?: InputMaybe<Celestial_On_Conflict>;
 };
 
+/** aggregate avg on columns */
+export type Celestial_Avg_Fields = {
+  __typename?: 'celestial_avg_fields';
+  forming_points?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by avg() on columns of table "celestial" */
+export type Celestial_Avg_Order_By = {
+  forming_points?: InputMaybe<Order_By>;
+};
+
 /** Boolean expression to filter rows from the table "celestial". All fields are combined with a logical 'AND'. */
 export type Celestial_Bool_Exp = {
   _and?: InputMaybe<Array<Celestial_Bool_Exp>>;
   _not?: InputMaybe<Celestial_Bool_Exp>;
   _or?: InputMaybe<Array<Celestial_Bool_Exp>>;
+  forming_points?: InputMaybe<Numeric_Comparison_Exp>;
   galactic_empire?: InputMaybe<Galactic_Empire_Bool_Exp>;
   galactic_empire_id?: InputMaybe<Uuid_Comparison_Exp>;
   galaxy?: InputMaybe<Galaxy_Bool_Exp>;
@@ -491,8 +520,14 @@ export enum Celestial_Constraint {
   SystemPkey = 'system_pkey'
 }
 
+/** input type for incrementing numeric columns in table "celestial" */
+export type Celestial_Inc_Input = {
+  forming_points?: InputMaybe<Scalars['numeric']['input']>;
+};
+
 /** input type for inserting data into table "celestial" */
 export type Celestial_Insert_Input = {
+  forming_points?: InputMaybe<Scalars['numeric']['input']>;
   galactic_empire?: InputMaybe<Galactic_Empire_Obj_Rel_Insert_Input>;
   galactic_empire_id?: InputMaybe<Scalars['uuid']['input']>;
   galaxy?: InputMaybe<Galaxy_Obj_Rel_Insert_Input>;
@@ -507,6 +542,7 @@ export type Celestial_Insert_Input = {
 /** aggregate max on columns */
 export type Celestial_Max_Fields = {
   __typename?: 'celestial_max_fields';
+  forming_points?: Maybe<Scalars['numeric']['output']>;
   galactic_empire_id?: Maybe<Scalars['uuid']['output']>;
   galaxy_id?: Maybe<Scalars['uuid']['output']>;
   id?: Maybe<Scalars['String']['output']>;
@@ -516,6 +552,7 @@ export type Celestial_Max_Fields = {
 
 /** order by max() on columns of table "celestial" */
 export type Celestial_Max_Order_By = {
+  forming_points?: InputMaybe<Order_By>;
   galactic_empire_id?: InputMaybe<Order_By>;
   galaxy_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
@@ -526,6 +563,7 @@ export type Celestial_Max_Order_By = {
 /** aggregate min on columns */
 export type Celestial_Min_Fields = {
   __typename?: 'celestial_min_fields';
+  forming_points?: Maybe<Scalars['numeric']['output']>;
   galactic_empire_id?: Maybe<Scalars['uuid']['output']>;
   galaxy_id?: Maybe<Scalars['uuid']['output']>;
   id?: Maybe<Scalars['String']['output']>;
@@ -535,6 +573,7 @@ export type Celestial_Min_Fields = {
 
 /** order by min() on columns of table "celestial" */
 export type Celestial_Min_Order_By = {
+  forming_points?: InputMaybe<Order_By>;
   galactic_empire_id?: InputMaybe<Order_By>;
   galaxy_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
@@ -567,6 +606,7 @@ export type Celestial_On_Conflict = {
 
 /** Ordering options when selecting data from "celestial". */
 export type Celestial_Order_By = {
+  forming_points?: InputMaybe<Order_By>;
   galactic_empire?: InputMaybe<Galactic_Empire_Order_By>;
   galactic_empire_id?: InputMaybe<Order_By>;
   galaxy?: InputMaybe<Galaxy_Order_By>;
@@ -586,6 +626,8 @@ export type Celestial_Pk_Columns_Input = {
 /** select columns of table "celestial" */
 export enum Celestial_Select_Column {
   /** column name */
+  FormingPoints = 'forming_points',
+  /** column name */
   GalacticEmpireId = 'galactic_empire_id',
   /** column name */
   GalaxyId = 'galaxy_id',
@@ -599,11 +641,45 @@ export enum Celestial_Select_Column {
 
 /** input type for updating data in table "celestial" */
 export type Celestial_Set_Input = {
+  forming_points?: InputMaybe<Scalars['numeric']['input']>;
   galactic_empire_id?: InputMaybe<Scalars['uuid']['input']>;
   galaxy_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   owner_id?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type Celestial_Stddev_Fields = {
+  __typename?: 'celestial_stddev_fields';
+  forming_points?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev() on columns of table "celestial" */
+export type Celestial_Stddev_Order_By = {
+  forming_points?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Celestial_Stddev_Pop_Fields = {
+  __typename?: 'celestial_stddev_pop_fields';
+  forming_points?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev_pop() on columns of table "celestial" */
+export type Celestial_Stddev_Pop_Order_By = {
+  forming_points?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Celestial_Stddev_Samp_Fields = {
+  __typename?: 'celestial_stddev_samp_fields';
+  forming_points?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev_samp() on columns of table "celestial" */
+export type Celestial_Stddev_Samp_Order_By = {
+  forming_points?: InputMaybe<Order_By>;
 };
 
 /** Streaming cursor of the table "celestial" */
@@ -616,6 +692,7 @@ export type Celestial_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Celestial_Stream_Cursor_Value_Input = {
+  forming_points?: InputMaybe<Scalars['numeric']['input']>;
   galactic_empire_id?: InputMaybe<Scalars['uuid']['input']>;
   galaxy_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
@@ -623,8 +700,21 @@ export type Celestial_Stream_Cursor_Value_Input = {
   owner_id?: InputMaybe<Scalars['String']['input']>;
 };
 
+/** aggregate sum on columns */
+export type Celestial_Sum_Fields = {
+  __typename?: 'celestial_sum_fields';
+  forming_points?: Maybe<Scalars['numeric']['output']>;
+};
+
+/** order by sum() on columns of table "celestial" */
+export type Celestial_Sum_Order_By = {
+  forming_points?: InputMaybe<Order_By>;
+};
+
 /** update columns of table "celestial" */
 export enum Celestial_Update_Column {
+  /** column name */
+  FormingPoints = 'forming_points',
   /** column name */
   GalacticEmpireId = 'galactic_empire_id',
   /** column name */
@@ -638,10 +728,45 @@ export enum Celestial_Update_Column {
 }
 
 export type Celestial_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Celestial_Inc_Input>;
   /** sets the columns of the filtered rows to the given values */
   _set?: InputMaybe<Celestial_Set_Input>;
   /** filter the rows which have to be updated */
   where: Celestial_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Celestial_Var_Pop_Fields = {
+  __typename?: 'celestial_var_pop_fields';
+  forming_points?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by var_pop() on columns of table "celestial" */
+export type Celestial_Var_Pop_Order_By = {
+  forming_points?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Celestial_Var_Samp_Fields = {
+  __typename?: 'celestial_var_samp_fields';
+  forming_points?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by var_samp() on columns of table "celestial" */
+export type Celestial_Var_Samp_Order_By = {
+  forming_points?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Celestial_Variance_Fields = {
+  __typename?: 'celestial_variance_fields';
+  forming_points?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by variance() on columns of table "celestial" */
+export type Celestial_Variance_Order_By = {
+  forming_points?: InputMaybe<Order_By>;
 };
 
 /** columns and relationships of "chat_message" */
@@ -4115,6 +4240,7 @@ export type Mutation_RootUpdate_Background_ManyArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_CelestialArgs = {
+  _inc?: InputMaybe<Celestial_Inc_Input>;
   _set?: InputMaybe<Celestial_Set_Input>;
   where: Celestial_Bool_Exp;
 };
@@ -4122,6 +4248,7 @@ export type Mutation_RootUpdate_CelestialArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Celestial_By_PkArgs = {
+  _inc?: InputMaybe<Celestial_Inc_Input>;
   _set?: InputMaybe<Celestial_Set_Input>;
   pk_columns: Celestial_Pk_Columns_Input;
 };

@@ -9,60 +9,66 @@ import {
   StackDivider,
   StackProps,
   Text,
+  useBreakpointValue,
   VStack,
 } from '@chakra-ui/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { DialogEntry, dialogVar, hotkeyHintsVar } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
+import {
+  responsiveFontProps,
+  smallSubHeaderResponsiveFontProps,
+} from '../_responsive-utils/font-props';
 import { useKeypress } from '../hooks/use-keypress';
 
+export const DIALOG_HEIGHT = 230;
+
 type DialogProps = StackProps & {
-  entries: DialogEntry[];
+  //
+  onDialogEnded?: () => void;
 };
 
 const prequelWaitTime = 0.3;
 const characterWaitTime = 0.01;
 
-export const Dialog = ({ entries, ...stackProps }: DialogProps) => {
+export const Dialog = ({ onDialogEnded, ...stackProps }: DialogProps) => {
   const { bg, border } = useUiBackground();
+  const { open, entries } = useReactiveVar(dialogVar);
+
+  const bp: 'small' | 'medium' | 'large' = useBreakpointValue({
+    base: 'small',
+    md: 'medium',
+    lg: 'large',
+  });
+
+  const isMobile = bp === 'small';
 
   const [activeEntryIndex, setActiveEntryIndex] = useState<number>(0);
   const [activeEntryStepIndex, setActiveEntryStepIndex] = useState<number>(0);
-  const [activeEntry, setActiveEntry] = useState<DialogEntry>(
-    entries?.[activeEntryIndex]
-  );
+  const [activeEntry, setActiveEntry] = useState<DialogEntry>();
 
   // milliseconds
   const [currentEntryAnimationLength, setCurrentEntryAnimationLength] =
     useState<number>(0);
 
-  const [continueButtonText, setContinueButtonText] = useState<
-    'Continue' | 'Done'
-  >('Continue');
-
   const [animation, setAnimation] = useState<string>('');
 
   const endOfDialogText = useRef<HTMLDivElement>(null);
+  const continueButtonRef = useRef<HTMLButtonElement>(null);
 
-  const { open } = useReactiveVar(dialogVar);
   const hotkeyHints = useReactiveVar(hotkeyHintsVar);
 
   useKeypress('Space', () => continueDialog());
 
   const continueDialog = () => {
-    if (activeEntryIndex === entries.length - 1) {
-      if (activeEntryStepIndex === activeEntry.steps.length - 2) {
-        // PENULTIMATE STEP
-        setContinueButtonText('Done');
-      }
-    }
-
     if (activeEntryStepIndex === activeEntry.steps.length - 1) {
       // end of entry, check if there is a next entry
       if (activeEntryIndex === entries.length - 1) {
         // END OF DIALOG
         dialogVar({ ...dialogVar(), open: false });
+
+        if (onDialogEnded) onDialogEnded();
       } else {
         setActiveEntryIndex((prev) => prev + 1);
         setActiveEntry(entries[activeEntryIndex + 1]);
@@ -80,6 +86,17 @@ export const Dialog = ({ entries, ...stackProps }: DialogProps) => {
       })
     );
 
+  const currentText = useMemo(
+    () => activeEntry?.steps[activeEntryStepIndex],
+    [activeEntry, activeEntryStepIndex]
+  );
+
+  useEffect(() => {
+    if (entries?.length) {
+      setActiveEntry(entries[0]);
+    }
+  }, [entries, open]);
+
   useEffect(() => {
     if (activeEntry) {
       const topLayer = keyframes`
@@ -88,75 +105,91 @@ export const Dialog = ({ entries, ...stackProps }: DialogProps) => {
       const bottomLayer = keyframes`
     50% { background-position: 0 -100%,0 0; }
   `;
+      let duration =
+        activeEntry.steps[activeEntryStepIndex].length * characterWaitTime;
+      if (activeEntry?.audio) {
+        duration = activeEntry.audio.metadata.duration;
+      }
       setAnimation(undefined);
       setAnimation(
         `
        ${bottomLayer} ${prequelWaitTime}s infinite steps(1), 
-       ${topLayer} calc(${activeEntry.steps[activeEntryStepIndex].length}*${characterWaitTime}s) steps(${activeEntry.steps[activeEntryStepIndex].length}) forwards
+       ${topLayer} calc(${duration}s) steps(${activeEntry.steps[activeEntryStepIndex].length}) forwards
       `
       );
 
-      const animationLength =
-        prequelWaitTime +
-        activeEntry.steps[activeEntryStepIndex].length *
-          characterWaitTime *
-          1000;
+      const animationLength = prequelWaitTime + duration * 1000;
 
       setCurrentEntryAnimationLength(animationLength);
 
-      const startTime = new Date().getTime();
+      continueButtonRef?.current.focus();
 
-      setTimeout(() => {
-        const interval = setInterval(function () {
-          if (new Date().getTime() - startTime > animationLength + 750) {
-            clearInterval(interval);
-            return;
-          }
-          scrollToBottom();
-        }, 500);
-      }, activeEntry.steps[activeEntryStepIndex].length * 4);
+      // const startTime = new Date().getTime();
+
+      // console.log('nice');
+
+      // setTimeout(() => {
+      //   const interval = setInterval(function () {
+      //     if (new Date().getTime() - startTime > animationLength + 750) {
+      //       clearInterval(interval);
+      //       return;
+      //     }
+      //     scrollToBottom();
+      //   }, 500);
+      // }, activeEntry.steps[activeEntryStepIndex].length * 4);
     }
-  }, [activeEntryIndex, activeEntryStepIndex]);
+  }, [activeEntry, activeEntryIndex, activeEntryStepIndex]);
 
-  if (open) {
+  if (open && activeEntry) {
     return (
       <HStack
-        {...stackProps}
+        height={DIALOG_HEIGHT}
         bgColor={bg}
-        borderWidth="1px"
+        borderWidth={1}
         borderStyle="solid"
         borderColor={border}
         width="100%"
+        maxWidth={1920}
         alignItems="flex-start"
         divider={
           <StackDivider borderColor={border} margin="unset !important" />
         }
         maxHeight="md"
+        position="absolute"
+        left={0}
+        right={0}
+        bottom={0}
+        marginLeft="auto"
+        marginRight="auto"
+        {...stackProps}
       >
-        <VStack padding={3} maxWidth="175px" minWidth="175px">
+        <VStack minWidth={[140, 170]}>
           <Image
-            boxSize={150}
+            boxSize={[140, 170]}
+            objectFit="cover"
             src={activeEntry?.imageUrl}
             fallbackSrc="/placeholders/150x150.png"
           />
-          <Text textAlign="center">{activeEntry?.speakerName}</Text>
+          <Text textAlign="center" {...smallSubHeaderResponsiveFontProps}>
+            {activeEntry?.speakerName}
+          </Text>
         </VStack>
 
         <VStack
+          height="100%"
           divider={
             <StackDivider borderColor={border} margin="unset !important" />
           }
-          flexGrow={1}
         >
           <Box
             padding={2}
-            maxHeight="200px"
-            minHeight="200px"
+            maxHeight={170}
             overflow="auto"
             width="100%"
+            flexGrow={1}
           >
             <Text
-              key={+new Date()}
+              key={activeEntry.steps?.[0]}
               as="span"
               color="#0000"
               background="
@@ -166,14 +199,20 @@ export const Dialog = ({ entries, ...stackProps }: DialogProps) => {
               backgroundClip="padding-box, text"
               backgroundRepeat="no-repeat"
               animation={animation}
+              {...responsiveFontProps}
             >
-              {activeEntry?.steps[activeEntryStepIndex]}
+              {currentText}
             </Text>
             <Box ref={endOfDialogText} height="2ch"></Box>
           </Box>
           <HStack width="100%" justifyContent="end" padding={2}>
-            <Button onClick={continueDialog}>
-              {continueButtonText}
+            <Button
+              autoFocus
+              onClick={continueDialog}
+              ref={continueButtonRef}
+              {...responsiveFontProps}
+            >
+              {activeEntryIndex === entries.length - 1 ? 'Done' : 'Continue'}
               {hotkeyHints && (
                 <>
                   &nbsp;<Kbd>Space</Kbd>

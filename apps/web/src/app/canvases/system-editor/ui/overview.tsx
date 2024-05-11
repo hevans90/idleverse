@@ -16,22 +16,32 @@ import {
 } from '@chakra-ui/react';
 import { generateCelestialName } from '@idleverse/galaxy-gen';
 import {
+  CelestialAudioName,
   SYSTEM_FOCI,
   celestialPresets,
+  celestialViewerGenerationVar,
   celestialViewerSelectedPlanet,
   colorsVar,
+  dialogVar,
   systemEditorConfigVar,
   systemEditorFocusVar,
 } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
 import { AnimatedFrame } from '@idleverse/ui';
+import { IoHelpCircleOutline } from 'react-icons/io5';
 import {
   headerResponsiveFontProps,
   responsiveFontProps,
 } from '../../../_responsive-utils/font-props';
 
-export const SystemEditorOverview = () => {
+export const SystemEditorOverview = ({
+  onHelpClicked,
+}: {
+  onHelpClicked: (help: CelestialAudioName) => void;
+}) => {
   const currentFocus = useReactiveVar(systemEditorFocusVar);
+  const { mode, formingPoints } = useReactiveVar(celestialViewerGenerationVar);
+
   const { secondary } = useReactiveVar(colorsVar);
 
   const { rawBgDarker } = useUiBackground();
@@ -41,16 +51,17 @@ export const SystemEditorOverview = () => {
     md: 'medium',
     lg: 'large',
   });
+  const { open: dialogOpen } = useReactiveVar(dialogVar);
 
   const isMobile = bp === 'small';
 
-  return (
+  return isMobile && dialogOpen ? null : (
     <Box
       position="absolute"
-      bottom={[-2, 'unset']}
-      top={['unset', -2]}
-      left={[-2, 'unset']}
-      right={['unset', -2]}
+      bottom={[0, 'unset']}
+      top={['unset', 0]}
+      left={[0, 'unset']}
+      right={['unset', 0]}
       width={['104vw', 'unset']}
     >
       <AnimatedFrame
@@ -80,7 +91,6 @@ export const SystemEditorOverview = () => {
                   {...responsiveFontProps}
                   _disabled={{
                     bg: `${secondary}.700`,
-                    transform: 'scale(0.98)',
                     pointerEvents: 'none',
                     opacity: 1,
                     _hover: { bg: `${secondary}.600` },
@@ -93,9 +103,29 @@ export const SystemEditorOverview = () => {
                 >
                   {focus.replace('-', ' ').toLocaleUpperCase()}{' '}
                 </Button>
-                {/* <Text>{currentFocus === focus ? '<--' : null}</Text> */}
+                <IconButton
+                  aria-label="help"
+                  onClick={() => {
+                    onHelpClicked(focus);
+                    systemEditorFocusVar(focus);
+                    celestialViewerSelectedPlanet(null);
+                  }}
+                  icon={<IoHelpCircleOutline size={30} />}
+                ></IconButton>
               </HStack>
             ))}
+            <HStack mt={1} width="100%" justifyContent="space-between">
+              <Text>Forming Points:</Text>
+              <Text as="b" color={`${secondary}.200`}>
+                {' '}
+                {formingPoints}
+              </Text>
+              <IconButton
+                aria-label="help"
+                onClick={() => onHelpClicked('system-forming-points')}
+                icon={<IoHelpCircleOutline size={30} />}
+              ></IconButton>
+            </HStack>
           </VStack>
         </VStack>
       </AnimatedFrame>

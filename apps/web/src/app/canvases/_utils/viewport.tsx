@@ -50,8 +50,8 @@ const PixiViewportComponent = PixiComponent('Viewport', {
         .pinch()
         .wheel({ trackpadPinch: true, wheelZoom: true })
         .clampZoom({
-          minScale: props?.minScale ?? 0.05,
-          maxScale: props?.maxScale ?? 2,
+          minScale: props?.minScale ?? 0.025,
+          maxScale: props?.maxScale ?? 3,
         });
     }
 

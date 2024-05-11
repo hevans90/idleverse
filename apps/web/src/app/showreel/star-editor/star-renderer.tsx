@@ -8,7 +8,6 @@ import {
   useRef,
   useState,
 } from 'react';
-import { useResize } from '../../canvases/_utils/use-resize.hook';
 
 import { CelestialGenerationConfig } from '@idleverse/models';
 import { Viewport } from 'pixi-viewport';
@@ -20,14 +19,15 @@ export const StarRenderer = ({
   viewportRef,
   starRadius,
   config,
+  size,
 }: {
   containerRef: MutableRefObject<PIXI.Container>;
   viewportRef: MutableRefObject<Viewport>;
-  starRadius?: number;
   config: CelestialGenerationConfig;
+  size: { width: number; height: number };
+  starRadius?: number;
 }) => {
   const app = useApp();
-  const size = useResize();
 
   const tickerRef = useRef<(delta: number) => void>();
   const filterRef = useRef<PIXI.Filter>();

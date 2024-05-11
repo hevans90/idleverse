@@ -11,7 +11,7 @@ import { ReactNode, useRef } from 'react';
 
 const DataDiv = styled.div<{ bg: string; border: string }>`
   position: relative;
-  padding: 1.5rem;
+  padding: 1rem;
 
   [data-name='bg'] {
     color: ${(props) => props.bg};
@@ -46,7 +46,6 @@ const AnimatedFrameContent = ({
         strokeWidth={borderStrokeWidth}
         elementRef={svgRef}
         onRender={onRender}
-        padding={4}
         {...rest}
       />
       <Box position="relative" visibility={show ? 'visible' : 'hidden'}>
