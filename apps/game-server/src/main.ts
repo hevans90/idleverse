@@ -19,7 +19,6 @@ import { GalaxyManagementResolver } from './entities/galaxy-management';
 import { QuestManagementResolver } from './entities/quest-management';
 import { RegisterResolver } from './entities/register';
 import { automaticMainQuestAssignment } from './quest-progression/automatic-quest-assignment';
-import { generateResources } from './resource-generation/generate-resources';
 import ws = require('ws');
 
 import { Client as MinioClient } from 'minio';
@@ -153,7 +152,7 @@ import { MinioMediaResolver } from './entities/minio-media';
 
   await server.start();
 
-  generateResources(apolloClient);
+  // generateResources(apolloClient);
 
   automaticMainQuestAssignment(
     apolloClient,

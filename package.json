@@ -7,6 +7,7 @@
   "scripts": {
     "build": "nx build",
     "console": "hasura console --project apps/hasura/db",
+    "dump-pg-schema": "PGPASSWORD=postgrespassword pg_dump -h localhost -p 5432 -U postgres --schema-only -f apps/go-server/schema.sql",
     "docker-build": "docker compose --env-file .env build --no-cache",
     "docker-down": "docker compose --env-file .env down",
     "docker-up": "docker compose --env-file .env up -d",
