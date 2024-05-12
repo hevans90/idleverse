@@ -4188,6 +4188,13 @@
   dependencies:
     "@nx/cypress" "19.0.1"
 
+"@nrwl/devkit@18.3.4":
+  version "18.3.4"
+  resolved "https://registry.yarnpkg.com/@nrwl/devkit/-/devkit-18.3.4.tgz#74744e5f60566b1031b8d33b330af2ffee7205df"
+  integrity sha512-Fty9Huqm12OYueU3uLJl3uvBUl5BvEyPfvw8+rLiNx9iftdEattM8C+268eAbIRRSLSOVXlWsJH4brlc6QZYYw==
+  dependencies:
+    "@nx/devkit" "18.3.4"
+
 "@nrwl/devkit@19.0.1":
   version "19.0.1"
   resolved "https://registry.yarnpkg.com/@nrwl/devkit/-/devkit-19.0.1.tgz#552f84cff3263a340e267e77eaf0f1c5cc70c969"
@@ -4259,6 +4266,14 @@
   dependencies:
     "@nx/workspace" "19.0.1"
 
+"@nx-go/nx-go@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@nx-go/nx-go/-/nx-go-3.0.0.tgz#bb96a3cd06fcd8d22ede8fddd3d0d02ee5f15029"
+  integrity sha512-lzptNDUltTEJtNmMh0NtKMBshVXQ18TVjM/FQNyRyS/695QYr9MyhHQr8zasMtCy7Egkymi6KGZspjv2819wnA==
+  dependencies:
+    "@nx/devkit" "^17.0.0 || ^18.0.0"
+    tslib "^2.3.0"
+
 "@nx/cypress@19.0.1":
   version "19.0.1"
   resolved "https://registry.yarnpkg.com/@nx/cypress/-/cypress-19.0.1.tgz#b1a32fa0703cba082b33255f66bd24884906061e"
@@ -4271,6 +4286,20 @@
     "@phenomnomnominal/tsquery" "~5.0.1"
     detect-port "^1.5.1"
     tslib "^2.3.0"
+
+"@nx/devkit@18.3.4", "@nx/devkit@^17.0.0 || ^18.0.0":
+  version "18.3.4"
+  resolved "https://registry.yarnpkg.com/@nx/devkit/-/devkit-18.3.4.tgz#1adee4670d0265c5f07f9e026bbfe60785992359"
+  integrity sha512-M3htxl5WvlNKK5KNOndCAApbyBCZNTFFs+rtdwvudNZk5+84zAAPaWzSoX9C4XLAW78/f98LzF68/ch05aN12A==
+  dependencies:
+    "@nrwl/devkit" "18.3.4"
+    ejs "^3.1.7"
+    enquirer "~2.3.6"
+    ignore "^5.0.4"
+    semver "^7.5.3"
+    tmp "~0.2.1"
+    tslib "^2.3.0"
+    yargs-parser "21.1.1"
 
 "@nx/devkit@19.0.1":
   version "19.0.1"

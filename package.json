@@ -123,6 +123,7 @@
     "@graphql-codegen/typescript-operations": "^4.0.1",
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
     "@nrwl/tao": "19.0.1",
+    "@nx-go/nx-go": "^3.0.0",
     "@nx/cypress": "19.0.1",
     "@nx/eslint": "19.0.1",
     "@nx/eslint-plugin": "19.0.1",
