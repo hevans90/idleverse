@@ -12,7 +12,7 @@ import (
 var db *sql.DB
 
 // This function will make a connection to the database only once.
-func Connect() {
+func Connect() *sql.DB {
 	var err error
 
 	dbUrl := os.Getenv("DATABASE_URL")
@@ -33,4 +33,6 @@ func Connect() {
 	}
 	// this will be printed in the terminal, confirming the connection to the database
 	fmt.Println("The database is connected")
+
+	return db
 }

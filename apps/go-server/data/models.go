@@ -5,235 +5,240 @@
 package idleversedata
 
 import (
-	"github.com/jackc/pgx/v5/pgtype"
+	"database/sql"
+	"encoding/json"
+	"time"
+
+	"github.com/google/uuid"
+	"github.com/sqlc-dev/pqtype"
 )
 
 // Playable backgrounds
 type Background struct {
-	ID          pgtype.UUID
+	ID          uuid.UUID
 	Name        string
 	Description string
-	ImageUrl    pgtype.Text
+	ImageUrl    sql.NullString
 }
 
 type Celestial struct {
-	Name             pgtype.Text
-	GalaxyID         pgtype.UUID
-	OwnerID          pgtype.Text
+	Name             sql.NullString
+	GalaxyID         uuid.UUID
+	OwnerID          sql.NullString
 	ID               string
-	GalacticEmpireID pgtype.UUID
-	FormingPoints    pgtype.Numeric
+	GalacticEmpireID uuid.NullUUID
+	FormingPoints    string
 }
 
 type ChatMessage struct {
-	ID        pgtype.UUID
+	ID        uuid.UUID
 	Message   string
 	PosterID  string
-	Timestamp pgtype.Timestamp
+	Timestamp time.Time
 }
 
 // NPC factions
 type Faction struct {
-	ID          pgtype.UUID
+	ID          uuid.UUID
 	Name        string
 	Description string
-	ImageUrl    pgtype.Text
+	ImageUrl    sql.NullString
 }
 
 type GalacticEmpire struct {
-	ID              pgtype.UUID
+	ID              uuid.UUID
 	UserID          string
-	GalaxyID        pgtype.UUID
-	BackgroundID    pgtype.UUID
-	FactionID       pgtype.UUID
-	PlayableRaceID  pgtype.UUID
-	HomeworldID     pgtype.UUID
+	GalaxyID        uuid.UUID
+	BackgroundID    uuid.UUID
+	FactionID       uuid.UUID
+	PlayableRaceID  uuid.UUID
+	HomeworldID     uuid.NullUUID
 	CelestialClaims int32
 }
 
 // NPCs unlocked for this empire
 type GalacticEmpireNpc struct {
-	NpcID            pgtype.UUID
-	ID               pgtype.UUID
-	GalacticEmpireID pgtype.UUID
+	NpcID            uuid.UUID
+	ID               uuid.UUID
+	GalacticEmpireID uuid.UUID
 }
 
 type GalacticEmpireQuest struct {
-	ID               pgtype.UUID
-	GalacticEmpireID pgtype.UUID
-	QuestID          pgtype.UUID
+	ID               uuid.UUID
+	GalacticEmpireID uuid.UUID
+	QuestID          uuid.UUID
 	Completed        bool
-	QuestStepID      pgtype.UUID
+	QuestStepID      uuid.UUID
 }
 
 type GalacticEmpireResource struct {
-	ResourceTypeID   pgtype.UUID
+	ResourceTypeID   uuid.UUID
 	Value            int32
-	UpdatedAt        pgtype.Timestamptz
-	ID               pgtype.UUID
-	GalacticEmpireID pgtype.UUID
+	UpdatedAt        time.Time
+	ID               uuid.UUID
+	GalacticEmpireID uuid.UUID
 }
 
 type GalacticEmpireResourceGenerator struct {
-	ID               pgtype.UUID
-	CreatedAt        pgtype.Timestamptz
-	UpdatedAt        pgtype.Timestamptz
-	GalacticEmpireID pgtype.UUID
-	GeneratorTypeID  pgtype.UUID
-	PlanetID         pgtype.UUID
-	Count            pgtype.Numeric
+	ID               uuid.UUID
+	CreatedAt        time.Time
+	UpdatedAt        time.Time
+	GalacticEmpireID uuid.UUID
+	GeneratorTypeID  uuid.UUID
+	PlanetID         uuid.NullUUID
+	Count            string
 }
 
 type Galaxy struct {
-	ID                      pgtype.UUID
-	Name                    pgtype.Text
+	ID                      uuid.UUID
+	Name                    sql.NullString
 	Radius                  int32
-	Arms                    pgtype.Numeric
-	Curvature               pgtype.Numeric
-	ArmWidth                pgtype.Numeric
-	CoreRadiusFactor        pgtype.Numeric
-	CoreConcentrationFactor pgtype.Numeric
+	Arms                    string
+	Curvature               string
+	ArmWidth                string
+	CoreRadiusFactor        string
+	CoreConcentrationFactor string
 	Stars                   int32
 }
 
 type HdbCatalogHdbActionLog struct {
-	ID                 pgtype.UUID
-	ActionName         pgtype.Text
-	InputPayload       []byte
-	RequestHeaders     []byte
-	SessionVariables   []byte
-	ResponsePayload    []byte
-	Errors             []byte
-	CreatedAt          pgtype.Timestamptz
-	ResponseReceivedAt pgtype.Timestamptz
+	ID                 uuid.UUID
+	ActionName         sql.NullString
+	InputPayload       json.RawMessage
+	RequestHeaders     json.RawMessage
+	SessionVariables   json.RawMessage
+	ResponsePayload    pqtype.NullRawMessage
+	Errors             pqtype.NullRawMessage
+	CreatedAt          time.Time
+	ResponseReceivedAt sql.NullTime
 	Status             string
 }
 
 type HdbCatalogHdbCronEvent struct {
 	ID            string
 	TriggerName   string
-	ScheduledTime pgtype.Timestamptz
+	ScheduledTime time.Time
 	Status        string
 	Tries         int32
-	CreatedAt     pgtype.Timestamptz
-	NextRetryAt   pgtype.Timestamptz
+	CreatedAt     sql.NullTime
+	NextRetryAt   sql.NullTime
 }
 
 type HdbCatalogHdbCronEventInvocationLog struct {
 	ID        string
-	EventID   pgtype.Text
-	Status    pgtype.Int4
-	Request   []byte
-	Response  []byte
-	CreatedAt pgtype.Timestamptz
+	EventID   sql.NullString
+	Status    sql.NullInt32
+	Request   pqtype.NullRawMessage
+	Response  pqtype.NullRawMessage
+	CreatedAt sql.NullTime
 }
 
 type HdbCatalogHdbMetadatum struct {
 	ID              int32
-	Metadata        []byte
+	Metadata        json.RawMessage
 	ResourceVersion int32
 }
 
 type HdbCatalogHdbScheduledEvent struct {
 	ID            string
-	WebhookConf   []byte
-	ScheduledTime pgtype.Timestamptz
-	RetryConf     []byte
-	Payload       []byte
-	HeaderConf    []byte
+	WebhookConf   json.RawMessage
+	ScheduledTime time.Time
+	RetryConf     pqtype.NullRawMessage
+	Payload       pqtype.NullRawMessage
+	HeaderConf    pqtype.NullRawMessage
 	Status        string
 	Tries         int32
-	CreatedAt     pgtype.Timestamptz
-	NextRetryAt   pgtype.Timestamptz
-	Comment       pgtype.Text
+	CreatedAt     sql.NullTime
+	NextRetryAt   sql.NullTime
+	Comment       sql.NullString
 }
 
 type HdbCatalogHdbScheduledEventInvocationLog struct {
 	ID        string
-	EventID   pgtype.Text
-	Status    pgtype.Int4
-	Request   []byte
-	Response  []byte
-	CreatedAt pgtype.Timestamptz
+	EventID   sql.NullString
+	Status    sql.NullInt32
+	Request   pqtype.NullRawMessage
+	Response  pqtype.NullRawMessage
+	CreatedAt sql.NullTime
 }
 
 type HdbCatalogHdbSchemaNotification struct {
 	ID              int32
-	Notification    []byte
+	Notification    json.RawMessage
 	ResourceVersion int32
-	InstanceID      pgtype.UUID
-	UpdatedAt       pgtype.Timestamptz
+	InstanceID      uuid.UUID
+	UpdatedAt       sql.NullTime
 }
 
 type HdbCatalogHdbVersion struct {
-	HasuraUuid     pgtype.UUID
+	HasuraUuid     uuid.UUID
 	Version        string
-	UpgradedOn     pgtype.Timestamptz
-	CliState       []byte
-	ConsoleState   []byte
-	EeClientID     pgtype.Text
-	EeClientSecret pgtype.Text
+	UpgradedOn     time.Time
+	CliState       json.RawMessage
+	ConsoleState   json.RawMessage
+	EeClientID     sql.NullString
+	EeClientSecret sql.NullString
 }
 
 // non-playable characters
 type Npc struct {
-	ID        pgtype.UUID
+	ID        uuid.UUID
 	Name      string
-	RaceID    pgtype.UUID
-	FactionID pgtype.UUID
+	RaceID    uuid.NullUUID
+	FactionID uuid.NullUUID
 	ImageUrl  string
 }
 
 type Planet struct {
-	ID                  pgtype.UUID
+	ID                  uuid.UUID
 	CelestialID         string
-	Radius              pgtype.Numeric
+	Radius              string
 	TextureResolution   int32
-	TerrainBias         []pgtype.Numeric
-	TerrainHexPaletteID pgtype.UUID
+	TerrainBias         []string
+	TerrainHexPaletteID uuid.UUID
 	OwnerID             string
 	Name                string
-	AtmosphericDistance pgtype.Numeric
-	OrbitalRadius       pgtype.Numeric
+	AtmosphericDistance string
+	OrbitalRadius       sql.NullString
 }
 
 type PlanetaryRing struct {
-	ID          pgtype.UUID
-	Rotation    []pgtype.Numeric
+	ID          uuid.UUID
+	Rotation    []string
 	Type        string
 	Colors      []string
-	TerrainBias []pgtype.Numeric
-	InnerRadius pgtype.Numeric
-	OuterRadius pgtype.Numeric
+	TerrainBias []string
+	InnerRadius string
+	OuterRadius string
 	Resolution  int32
 }
 
 // Playable races
 type PlayableRace struct {
-	ID          pgtype.UUID
+	ID          uuid.UUID
 	Name        string
 	Description string
-	ImageUrl    pgtype.Text
+	ImageUrl    sql.NullString
 }
 
 type Quest struct {
-	ID               pgtype.UUID
+	ID               uuid.UUID
 	Name             string
 	Description      string
 	Type             string
-	NextQuestInChain pgtype.UUID
-	Initial          pgtype.Bool
-	ImageUrl         pgtype.Text
+	NextQuestInChain uuid.NullUUID
+	Initial          sql.NullBool
+	ImageUrl         sql.NullString
 }
 
 type QuestReward struct {
-	ID                    pgtype.UUID
-	QuestID               pgtype.UUID
+	ID                    uuid.UUID
+	QuestID               uuid.UUID
 	Type                  string
-	ResourceAccrualTypeID pgtype.UUID
-	ResourceAccrualAmount pgtype.Int4
-	NpcUnlockID           pgtype.UUID
-	ResourceUnlockID      pgtype.UUID
+	ResourceAccrualTypeID uuid.NullUUID
+	ResourceAccrualAmount sql.NullInt32
+	NpcUnlockID           uuid.NullUUID
+	ResourceUnlockID      uuid.NullUUID
 }
 
 type QuestRewardType struct {
@@ -242,14 +247,14 @@ type QuestRewardType struct {
 }
 
 type QuestStep struct {
-	ID                 pgtype.UUID
+	ID                 uuid.UUID
 	Description        string
 	Type               string
-	QuestID            pgtype.UUID
-	NpcContactID       pgtype.UUID
-	ResourceCostID     pgtype.UUID
-	ResourceCostAmount pgtype.Int4
-	NextStepInQuest    pgtype.UUID
+	QuestID            uuid.UUID
+	NpcContactID       uuid.NullUUID
+	ResourceCostID     uuid.NullUUID
+	ResourceCostAmount sql.NullInt32
+	NextStepInQuest    uuid.NullUUID
 	Initial            bool
 }
 
@@ -263,34 +268,34 @@ type QuestType struct {
 }
 
 type ResourceGenerator struct {
-	ID                     pgtype.UUID
+	ID                     uuid.UUID
 	Name                   string
 	Description            string
-	GenerationRate         []pgtype.Numeric
-	ImageUrl               pgtype.Text
-	ResourceType1ID        pgtype.UUID
-	ResourceType2ID        pgtype.UUID
-	UnlockedByTechnologyID pgtype.UUID
-	CostResourceTypeID1    pgtype.UUID
-	CostAmount1            pgtype.Numeric
-	CostGrowthExponent     pgtype.Numeric
+	GenerationRate         []string
+	ImageUrl               sql.NullString
+	ResourceType1ID        uuid.UUID
+	ResourceType2ID        uuid.NullUUID
+	UnlockedByTechnologyID uuid.NullUUID
+	CostResourceTypeID1    uuid.UUID
+	CostAmount1            string
+	CostGrowthExponent     string
 }
 
 type ResourceType struct {
-	ID            pgtype.UUID
+	ID            uuid.UUID
 	Type          string
-	ImageUrlPixel pgtype.Text
-	ImageUrl      pgtype.Text
+	ImageUrlPixel sql.NullString
+	ImageUrl      sql.NullString
 }
 
 type Technology struct {
-	ID           pgtype.UUID
+	ID           uuid.UUID
 	Name         string
-	Description  pgtype.Text
-	Children     []pgtype.UUID
-	Root         pgtype.Bool
+	Description  sql.NullString
+	Children     []uuid.UUID
+	Root         sql.NullBool
 	ResearchCost int32
-	ImageUrl     pgtype.Text
+	ImageUrl     sql.NullString
 }
 
 type TerrainHexPalette struct {
@@ -298,31 +303,31 @@ type TerrainHexPalette struct {
 	Sand   string
 	Grass  string
 	Forest string
-	ID     pgtype.UUID
+	ID     uuid.UUID
 	Name   string
 }
 
 type UserInfo struct {
 	ID                string
 	Nickname          string
-	SecretSettingTest pgtype.Text
-	Name              pgtype.Text
-	DisplayName       pgtype.Text
+	SecretSettingTest sql.NullString
+	Name              sql.NullString
+	DisplayName       sql.NullString
 	FreeClaims        int32
-	AvatarUrl         pgtype.Text
+	AvatarUrl         sql.NullString
 }
 
 type UserMe struct {
 	ID                string
 	Nickname          string
-	SecretSettingTest pgtype.Text
-	Name              pgtype.Text
-	DisplayName       pgtype.Text
+	SecretSettingTest sql.NullString
+	Name              sql.NullString
+	DisplayName       sql.NullString
 	FreeClaims        int32
-	AvatarUrl         pgtype.Text
+	AvatarUrl         sql.NullString
 }
 
 type UserPrivate struct {
 	UserID            string
-	SecretSettingTest pgtype.Text
+	SecretSettingTest sql.NullString
 }

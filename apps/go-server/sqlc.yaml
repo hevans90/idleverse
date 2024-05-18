@@ -1,10 +1,10 @@
 version: '2'
 sql:
   - engine: 'postgresql'
-    queries: 'query.sql'
+    queries: 'queries/*.sql'
     schema: 'schema.sql'
     gen:
       go:
         package: 'idleversedata'
         out: 'data'
-        sql_package: 'pgx/v5'
+        sql_package: 'database/sql'

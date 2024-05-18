@@ -1,7 +1,9 @@
 package main
 
 import (
+	"context"
 	"embed"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -27,7 +29,21 @@ func main() {
 		port = "8080"
 	}
 
-	idleversedata.Connect()
+	db := idleversedata.Connect()
+
+	queries := idleversedata.New(db)
+	ctx := context.Background()
+
+	data, err := queries.GetGenerators(ctx)
+
+	// this will close the connection if this functional scope panics or returns
+	defer db.Close()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Print(data)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		data := map[string]string{
