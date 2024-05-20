@@ -24,7 +24,6 @@
       "executor": "@nx-go/nx-go:lint"
     },
     "deploy": {
-      "dependsOn": ["build"],
       "command": "flyctl deploy -a idleverse-go-server --config apps/go-server/fly.toml --dockerfile apps/go-server/Dockerfile"
     }
   }
