@@ -152,8 +152,6 @@ import { MinioMediaResolver } from './entities/minio-media';
 
   await server.start();
 
-  // generateResources(apolloClient);
-
   automaticMainQuestAssignment(
     apolloClient,
     new HasuraQuestProgression(apolloClient)
