@@ -5913,6 +5913,11 @@
   dependencies:
     "@use-gesture/core" "10.2.26"
 
+"@vercel/build-utils@^8.2.0":
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/@vercel/build-utils/-/build-utils-8.2.0.tgz#0e50e8f25baf1d6dad757c6b6f6015f5284c90e5"
+  integrity sha512-yDr/zp/SX45mIy6DO8IRD6hmEs6gIr33/ajT3y8efUt/crQvgNtaSkbx9ubbwkR4RV/qKL213v6kXxj+EpsnlQ==
+
 "@webassemblyjs/ast@1.11.6", "@webassemblyjs/ast@^1.11.5":
   version "1.11.6"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.11.6.tgz#db046555d3c413f8966ca50a95176a0e2c642e24"
