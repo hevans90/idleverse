@@ -1,9 +1,3 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }],
-  "builds": [
-    {
-      "src": "vercel-build.sh",
-      "use": "@vercel/build-utils/inline"
-    }
-  ]
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
