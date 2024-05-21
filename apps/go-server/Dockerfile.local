@@ -1,0 +1,16 @@
+
+FROM golang:1.22.1
+
+# Set destination for COPY
+WORKDIR /app
+
+ADD apps/go-server ./
+RUN go mod download
+
+# Build
+RUN CGO_ENABLED=0 GOOS=linux go build -o /idleverse-go-server
+
+# Run
+CMD [ "/idleverse-go-server" ]
+
+

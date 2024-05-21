@@ -47,7 +47,10 @@
   },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "sharedGlobals": ["{workspaceRoot}/babel.config.json"],
+    "sharedGlobals": [
+      "{workspaceRoot}/babel.config.json",
+      "{workspaceRoot}/go.work"
+    ],
     "production": [
       "default",
       "!{projectRoot}/.eslintrc.json",
@@ -60,5 +63,6 @@
   "nxCloudAccessToken": "MWFjMTZiNDUtOGJmYi00OTY3LTg1MDEtNTQ0ODNjYzQ5NTI5fHJlYWQtd3JpdGU=",
   "parallel": 1,
   "useInferencePlugins": false,
-  "defaultBase": "origin/main"
+  "defaultBase": "origin/main",
+  "plugins": ["@nx-go/nx-go"]
 }

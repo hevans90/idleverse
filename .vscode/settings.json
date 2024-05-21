@@ -5,5 +5,17 @@
   "[python]": {
     "editor.defaultFormatter": "ms-python.autopep8"
   },
-  "python.formatting.provider": "none"
+  "python.formatting.provider": "none",
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "idleverse db",
+      "database": "postgres",
+      "username": "postgres",
+      "password": "postgrespassword"
+    }
+  ]
 }
