@@ -8,8 +8,6 @@
 - [yarn](https://classic.yarnpkg.com/lang/en/docs/install/)
 - nx: `yarn global add nx` (after which running `nx --version` should return >15.7.x)
 
-- Apple silicon only: `brew install pkg-config cairo pango libpng jpeg giflib librsvg` (these are required to build `node-canvas` as there is no pre-built binary available for Apple Silicon processor architectures).
-
 Once done with prereqs, run a `yarn` at the root to bootstrap your environment.
 
 After all of this, talk to one of the code owners about setting up your .env files. Various secrets are required to develop the application against our various cloud services. You will need a `.env` at the root.
