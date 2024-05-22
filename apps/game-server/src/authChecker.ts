@@ -3,6 +3,8 @@
 import { AuthChecker } from 'type-graphql';
 import { Context } from './datasources/context';
 
+import {} from 'graphql-scalars';
+
 export const authChecker: AuthChecker<any> = async (
   { context }: { context: Context },
   roles

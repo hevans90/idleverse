@@ -60,7 +60,7 @@ export const Planets = ({
 
       const positionIndicator = (indicator: Text) => {
         indicator.position.x = planet?.x;
-        indicator.position.y = planet?.y - planet.height - indicator.height;
+        indicator.position.y = planet?.y - planet?.height - indicator.height;
       };
 
       indicator.anchor.set(0.5, 0.5);

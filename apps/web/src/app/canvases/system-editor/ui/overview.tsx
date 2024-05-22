@@ -35,8 +35,10 @@ import {
 } from '../../../_responsive-utils/font-props';
 
 export const SystemEditorOverview = ({
+  onDirectFocusClicked,
   onHelpClicked,
 }: {
+  onDirectFocusClicked: () => void;
   onHelpClicked: (help: CelestialAudioName) => void;
 }) => {
   const currentFocus = useReactiveVar(systemEditorFocusVar);
@@ -97,6 +99,7 @@ export const SystemEditorOverview = ({
                   }}
                   isDisabled={currentFocus === focus}
                   onClick={() => {
+                    onDirectFocusClicked();
                     systemEditorFocusVar(focus);
                     celestialViewerSelectedPlanet(null);
                   }}
