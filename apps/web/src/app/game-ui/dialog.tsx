@@ -122,7 +122,7 @@ export const Dialog = ({ onDialogEnded, ...stackProps }: DialogProps) => {
 
       setCurrentEntryAnimationLength(animationLength);
 
-      continueButtonRef?.current.focus();
+      continueButtonRef?.current?.focus();
 
       // const startTime = new Date().getTime();
 
