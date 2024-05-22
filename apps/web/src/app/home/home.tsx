@@ -69,6 +69,7 @@ export const Home = () => {
     >
       <VStack justify="end" flexGrow={1} marginBottom={10}>
         <AnimatedText
+          style={{ viewTransitionName: 'header' }}
           animationType="decipher"
           textAlign="center"
           display="block"

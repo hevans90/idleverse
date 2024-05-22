@@ -81,6 +81,7 @@ export const SystemEditorOverview = ({
             {...headerResponsiveFontProps}
             textUnderlineOffset={2}
             textDecorationColor={`${secondary}.400`}
+            style={{ viewTransitionName: 'header' }}
           >
             System Designer
           </Text>

@@ -58,7 +58,12 @@ export const Showreel = () => {
       flexDirection="column"
       margin="0 1rem 0 1rem"
     >
-      <Text fontSize="5xl" textAlign="center" marginBottom="2rem">
+      <Text
+        fontSize="5xl"
+        textAlign="center"
+        marginBottom="2rem"
+        style={{ viewTransitionName: 'header' }}
+      >
         Showreel Projects
       </Text>
       <Text fontSize="l" textAlign="center" marginBottom="2rem">
