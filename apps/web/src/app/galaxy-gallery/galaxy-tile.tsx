@@ -147,7 +147,11 @@ export const GalaxyTile = ({
               margin="auto !important"
               justify="center"
             >
-              <Link as={ReactRouterLink} to={`${galaxyUrl}/join`}>
+              <Link
+                as={ReactRouterLink}
+                to={`${galaxyUrl}/join`}
+                unstable_viewTransition
+              >
                 <Button
                   colorScheme={secondary}
                   size="sm"
@@ -159,7 +163,7 @@ export const GalaxyTile = ({
                 </Button>
               </Link>
 
-              <Link as={ReactRouterLink} to={galaxyUrl}>
+              <Link as={ReactRouterLink} to={galaxyUrl} unstable_viewTransition>
                 <Button
                   _hover={{ backgroundColor: 'gray.400' }}
                   backgroundColor="gray.500"

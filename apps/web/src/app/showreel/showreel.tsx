@@ -58,7 +58,12 @@ export const Showreel = () => {
       flexDirection="column"
       margin="0 1rem 0 1rem"
     >
-      <Text fontSize="5xl" textAlign="center" marginBottom="2rem">
+      <Text
+        fontSize="5xl"
+        textAlign="center"
+        marginBottom="2rem"
+        style={{ viewTransitionName: 'header' }}
+      >
         Showreel Projects
       </Text>
       <Text fontSize="l" textAlign="center" marginBottom="2rem">
@@ -67,7 +72,12 @@ export const Showreel = () => {
 
       <VStack>
         {links.map(({ route, display }, i) => (
-          <Link as={ReactRouterLink} key={i} to={`/${route}`}>
+          <Link
+            as={ReactRouterLink}
+            key={i}
+            to={`/${route}`}
+            unstable_viewTransition
+          >
             <Button colorScheme={secondary} height="40px">
               {display}
             </Button>

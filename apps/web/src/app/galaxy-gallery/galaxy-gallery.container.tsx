@@ -122,7 +122,12 @@ export const GalaxyGalleryContainer = () => {
     >
       <Text fontSize="2xl">No galaxies found...</Text>
 
-      <Link as={ReactRouterLink} to="../galaxy-gen" ml="1rem">
+      <Link
+        as={ReactRouterLink}
+        to="../galaxy-gen"
+        ml="1rem"
+        unstable_viewTransition
+      >
         <Button colorScheme={secondary} height="40px">
           Go create one!
         </Button>

@@ -69,6 +69,7 @@ export const Home = () => {
     >
       <VStack justify="end" flexGrow={1} marginBottom={10}>
         <AnimatedText
+          style={{ viewTransitionName: 'header' }}
           animationType="decipher"
           textAlign="center"
           display="block"
@@ -101,12 +102,22 @@ export const Home = () => {
             spacing={5}
             width={['100%', 'unset']}
           >
-            <Link as={ReactRouterLink} to="/showreel" width="100%">
+            <Link
+              as={ReactRouterLink}
+              to="/showreel"
+              width="100%"
+              unstable_viewTransition
+            >
               <Button width="100%" {...responsiveFontProps}>
                 Beta showreel
               </Button>
             </Link>
-            <Link as={ReactRouterLink} to="/galaxy-gen" width="100%">
+            <Link
+              as={ReactRouterLink}
+              to="/galaxy-gen"
+              width="100%"
+              unstable_viewTransition
+            >
               <Button
                 width="100%"
                 {...responsiveFontProps}
@@ -115,7 +126,12 @@ export const Home = () => {
                 Make a galaxy
               </Button>
             </Link>
-            <Link as={ReactRouterLink} to="/galaxies" width="100%">
+            <Link
+              as={ReactRouterLink}
+              to="/galaxies"
+              width="100%"
+              unstable_viewTransition
+            >
               <Button
                 width="100%"
                 {...responsiveFontProps}
@@ -211,6 +227,7 @@ export const Home = () => {
                               borderStyle="solid"
                               padding={2}
                               {...customHover}
+                              unstable_viewTransition
                             >
                               <Text fontSize="xs" marginBottom={1}>
                                 {name}
@@ -234,6 +251,7 @@ export const Home = () => {
                             width="100%"
                             as={ReactRouterLink}
                             to={`/galaxies/${name}`}
+                            unstable_viewTransition
                           >
                             <Button width="100%" {...responsiveFontProps}>
                               Visit

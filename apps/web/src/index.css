@@ -20,3 +20,8 @@ div#stats {
   position: absolute !important;
   top: 60px !important;
 }
+
+::view-transition-old(header),
+::view-transition-new(header) {
+  height: 100%;
+}
