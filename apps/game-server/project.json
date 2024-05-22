@@ -11,7 +11,7 @@
         "sources": ["apps/game-server/src"],
         "commands": [
           "nx build idleverse-game-server",
-          "docker restart --time 0 idleverse-game-server",
+          "docker restart --time 0 game-server",
           "echo Successfully rebuilt idleverse game server docker volume. Reloading metadata...",
           "sleep 5",
           "yarn metadata-reload"
