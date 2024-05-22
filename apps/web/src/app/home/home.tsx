@@ -133,6 +133,7 @@ export const Home = () => {
           flexBasis={0}
           align="center"
           height={['75%', '75%', '75%', '100%']}
+          width="100%"
         >
           {loadingGameplaySessions ? <>Loading</> : null}
           {!loadingGameplaySessions && data.galactic_empire.length > 0 ? (
