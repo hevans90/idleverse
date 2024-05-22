@@ -161,6 +161,9 @@ export const SystemEditorContainer = () => {
                 });
                 dialogVar({ ...dialogVar(), open: true });
               }}
+              onDirectFocusClicked={() =>
+                dialogVar({ ...dialogVar(), open: false })
+              }
             />
             <SystemEditorFocusUI planets={planets} />
             <Dialog
