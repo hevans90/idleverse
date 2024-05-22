@@ -75,6 +75,7 @@ export const PlayerPanel = ({
       {(!owners.length || !userHasEmpire) && (
         <Link
           as={ReactRouterLink}
+          unstable_viewTransition
           to={`/galaxies/${galaxyName}/join`}
           width="100%"
           mt={3}

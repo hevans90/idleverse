@@ -250,6 +250,7 @@ const PlanetInfo = ({
 
         <Link
           as={ReactRouterLink}
+          unstable_viewTransition
           to={`/planets/${planetInfo.name}`}
           width="100%"
         >

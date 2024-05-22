@@ -227,6 +227,7 @@ export const JoinGalaxy = () => {
         </Text>
         <Link
           as={ReactRouterLink}
+          unstable_viewTransition
           to={`/galaxies/${galaxyData.galaxy[0].name}`}
         >
           <Button>Galaxy View</Button>
@@ -251,6 +252,7 @@ export const JoinGalaxy = () => {
         <Text>Your empire was founded successfully.</Text>
         <Link
           as={ReactRouterLink}
+          unstable_viewTransition
           to={`/galaxies/${galaxyData.galaxy[0].name}`}
         >
           <Button>Begin</Button>

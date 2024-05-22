@@ -1,24 +1,23 @@
-import { useReactiveVar } from '@apollo/client';
-
-import { ChakraProvider, Theme } from '@chakra-ui/react';
-import { theme } from '@idleverse/theme';
-import { useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { App } from './app/App';
 
+import { useReactiveVar } from '@apollo/client';
+import { ChakraProvider, Theme } from '@chakra-ui/react';
 import { colorsVar } from '@idleverse/state';
-import { useEffect } from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { theme } from '@idleverse/theme';
+import { useEffect, useState } from 'react';
+import {
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+} from 'react-router-dom';
+import { App } from './app/App';
+import { routes } from './app/routes';
 import Auth0ProviderWithHistory from './auth0-provider-with-history';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
-const auth = {
-  domain: 'dev-uyer-vun.us.auth0.com',
-  clientId: 'UMMpI9y0OurEwa9M6lEf5wwG6kFqfj91',
-};
-
-const AppWithDynamicTheme = () => {
+const RootProviderWrapper = () => {
   const { primary, secondary } = useReactiveVar(colorsVar);
 
   const [currentTheme, setCurrentTheme] = useState<Partial<Theme>>(
@@ -30,19 +29,26 @@ const AppWithDynamicTheme = () => {
   }, [primary, secondary]);
 
   return (
-    <BrowserRouter>
-      <Auth0ProviderWithHistory domain={auth.domain} clientId={auth.clientId}>
-        <ChakraProvider theme={currentTheme}>
-          <App />
-        </ChakraProvider>
+    <ChakraProvider theme={currentTheme}>
+      <Auth0ProviderWithHistory>
+        <App />
       </Auth0ProviderWithHistory>
-    </BrowserRouter>
+    </ChakraProvider>
   );
 };
 
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<RootProviderWrapper />}>
+      {routes.map(({ path, component }, i) => (
+        <Route key={i} path={path} Component={component} />
+      ))}
+    </Route>
+  )
+);
+
 const container = document.getElementById('root');
-const root = createRoot(container); // createRoot(container!) if you use TypeScript
-root.render(<AppWithDynamicTheme />);
+createRoot(container).render(<RouterProvider router={router} />);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

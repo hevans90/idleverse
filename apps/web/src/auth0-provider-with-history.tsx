@@ -1,11 +1,12 @@
 import { Auth0Provider } from '@auth0/auth0-react';
 import { useNavigate } from 'react-router-dom';
 
-const Auth0ProviderWithHistory = (props: {
-  domain: string;
-  clientId: string;
-  children?: JSX.Element;
-}) => {
+const { domain, clientId } = {
+  domain: 'dev-uyer-vun.us.auth0.com',
+  clientId: 'UMMpI9y0OurEwa9M6lEf5wwG6kFqfj91',
+};
+
+const Auth0ProviderWithHistory = (props: { children?: JSX.Element }) => {
   const navigate = useNavigate();
 
   const onRedirectCallback = (appState) =>
@@ -13,8 +14,8 @@ const Auth0ProviderWithHistory = (props: {
 
   return (
     <Auth0Provider
-      domain={props.domain}
-      clientId={props.clientId}
+      domain={domain}
+      clientId={clientId}
       redirectUri={window.location.origin}
       onRedirectCallback={onRedirectCallback}
     >

@@ -67,7 +67,12 @@ export const Showreel = () => {
 
       <VStack>
         {links.map(({ route, display }, i) => (
-          <Link as={ReactRouterLink} key={i} to={`/${route}`}>
+          <Link
+            as={ReactRouterLink}
+            key={i}
+            to={`/${route}`}
+            unstable_viewTransition
+          >
             <Button colorScheme={secondary} height="40px">
               {display}
             </Button>
