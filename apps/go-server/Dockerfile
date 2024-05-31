@@ -1,9 +1,9 @@
 ARG GO_VERSION=1
 FROM golang:${GO_VERSION}-bookworm as builder
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-COPY . .
+COPY apps/go-server .
 RUN go mod download
 RUN go build -v -o /run-app .
 
