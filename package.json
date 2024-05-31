@@ -135,6 +135,7 @@
     "@nx/web": "19.0.1",
     "@nx/webpack": "19.0.1",
     "@nx/workspace": "19.0.1",
+    "@parcel/watcher": "^2.4.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@svgr/webpack": "8.1.0",
     "@testing-library/jest-dom": "^4.2.4",
