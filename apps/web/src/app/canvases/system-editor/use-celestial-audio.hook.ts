@@ -35,7 +35,7 @@ export const useCelestialAudio = ({
   };
 
   useEffect(() => {
-    if (isOpen && mediaData && locallySelectedName) {
+    if (isOpen && mediaData?.length && locallySelectedName) {
       const foundTrack = mediaData.find(
         ({ name, metadata }) =>
           metadata.contentType === 'audio/mpeg' &&

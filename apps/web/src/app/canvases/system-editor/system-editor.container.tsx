@@ -10,7 +10,7 @@ import { PixiViewport } from '../_utils/viewport';
 import { SystemEditorInteractions } from './system-editor-interactions';
 
 import { useReactiveVar } from '@apollo/client';
-import { useBreakpointValue } from '@chakra-ui/react';
+import { HStack, useBreakpointValue } from '@chakra-ui/react';
 import { PlanetByIdQuery } from '@idleverse/galaxy-gql';
 import {
   CelestialAudioName,
@@ -165,13 +165,26 @@ export const SystemEditorContainer = () => {
                 dialogVar({ ...dialogVar(), open: false })
               }
             />
-            <SystemEditorFocusUI planets={planets} />
-            <Dialog
-              onDialogEnded={() => {
-                audioRef.current.currentTime = 0;
-                audioRef.current.pause();
-              }}
-            />
+            <HStack
+              position="absolute"
+              bottom={0}
+              justifyContent="end"
+              alignItems="end"
+            >
+              <SystemEditorFocusUI
+                planets={planets}
+                position="static"
+                minW="25vw"
+                // minH="20vh"
+              />
+              <Dialog
+                position="static"
+                onDialogEnded={() => {
+                  audioRef.current.currentTime = 0;
+                  audioRef.current.pause();
+                }}
+              />
+            </HStack>
           </>
         }
         bg="darker"
