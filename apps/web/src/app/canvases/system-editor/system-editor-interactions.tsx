@@ -128,7 +128,7 @@ export const SystemEditorInteractions = ({
 
   useEffect(() => {
     if (focus) {
-      if (focus === 'goldilocks-zone' && !selectedPlanet) {
+      if (!selectedPlanet) {
         viewportToCircle(worldRadii[focus].outer * 2, focus);
       }
     }
