@@ -54,7 +54,7 @@ export const SystemEditorFocusUI = ({ planets, ...divProps }: FocusUIProps) => {
   const focus = useReactiveVar(systemEditorFocusVar);
   const { secondary } = useReactiveVar(colorsVar);
 
-  const { rawBgDarker } = useUiBackground();
+  const { rawBgDark } = useUiBackground();
 
   const bp: 'small' | 'medium' | 'large' = useBreakpointValue({
     base: 'small',
@@ -80,7 +80,7 @@ export const SystemEditorFocusUI = ({ planets, ...divProps }: FocusUIProps) => {
         leftTop={false}
         rightBottom={false}
         rightTop={isMobile ? false : true}
-        bg={rawBgDarker}
+        bg={rawBgDark}
       >
         <VStack gap={2}>
           <Text
