@@ -25,6 +25,7 @@ export const SystemEditorInteractions = ({
   canvasHeight: number;
 }) => {
   const focus = useReactiveVar(systemEditorFocusVar);
+  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanet);
 
   const outlinePalette = colors[colorsVar().secondary];
 
@@ -127,9 +128,11 @@ export const SystemEditorInteractions = ({
 
   useEffect(() => {
     if (focus) {
-      viewportToCircle(worldRadii[focus].outer * 2, focus);
+      if (focus === 'goldilocks-zone' && !selectedPlanet) {
+        viewportToCircle(worldRadii[focus].outer * 2, focus);
+      }
     }
-  }, [canvasHeight, focus, viewportToCircle, worldRadii]);
+  }, [canvasHeight, focus, viewportToCircle, worldRadii, selectedPlanet]);
 
   useEffect(() => {
     systemEditorFocusVar(undefined);
