@@ -6,6 +6,7 @@ import {
   FormControl,
   FormLabel,
   HStack,
+  HTMLChakraProps,
   IconButton,
   Input,
   Menu,
@@ -31,7 +32,6 @@ import {
   celestialViewerSelectedPlanet,
   colorPalettesVar,
   colorsVar,
-  dialogVar,
   systemEditorConfigVar,
   systemEditorFocusVar,
 } from '@idleverse/state';
@@ -44,12 +44,11 @@ import {
 } from '../../../_responsive-utils/font-props';
 import { ColorQuad } from '../../planet-generator/ui/color-quad';
 
-export const SystemEditorFocusUI = ({
-  planets,
-}: {
+type FocusUIProps = HTMLChakraProps<'div'> & {
   planets: PlanetByIdQuery[];
-}) => {
-  const { open: dialogOpen } = useReactiveVar(dialogVar);
+};
+
+export const SystemEditorFocusUI = ({ planets, ...divProps }: FocusUIProps) => {
   const focus = useReactiveVar(systemEditorFocusVar);
   const { secondary } = useReactiveVar(colorsVar);
 
@@ -63,7 +62,7 @@ export const SystemEditorFocusUI = ({
 
   const isMobile = bp === 'small';
 
-  return focus && !dialogOpen ? (
+  return focus ? (
     <Box
       position="absolute"
       bottom={['unset', 0]}
@@ -71,6 +70,7 @@ export const SystemEditorFocusUI = ({
       left={0}
       right={'unset'}
       width={['104vw', 'unset']}
+      {...divProps}
     >
       <AnimatedFrame
         show={true}
@@ -225,7 +225,7 @@ export const AsteroidBeltFocusUI = () => {
 
   const palettePresets = useReactiveVar(colorPalettesVar);
 
-  const { primary, secondary } = useReactiveVar(colorsVar);
+  const { primary } = useReactiveVar(colorsVar);
   const { bg, border } = useUiBackground();
 
   return (
