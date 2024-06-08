@@ -11,27 +11,12 @@ import {
   planetGenerationRingDrawerVar,
   planetGeneratorConfigVar,
 } from '@idleverse/state';
-import { useResize } from '../_utils/use-resize.hook';
 import { deepCompareRings } from './_utils/deep-compare-rings';
 import { runTextureGenOnWorker } from './texture-generation/run-texture-gen-on-worker';
-import { PlanetGeneratorBooleans } from './ui/booleans';
-import { PlanetGeneratorColorDrawer } from './ui/color-drawer';
-import { NameSeedMobile } from './ui/name-seed-mobile';
-import { PlanetGeneratorRingDrawer } from './ui/ring-drawer';
-import {
-  PlanetGeneratorSliders,
-  planetGenerationControlsHeight,
-} from './ui/sliders';
 
 import { Planet } from '../_rendering/planet';
 
-export const PlanetGenerator = ({
-  customSize,
-}: {
-  customSize?: { width: number; height: number };
-}) => {
-  const { width, height } = useResize('planet-gen');
-
+export const PlanetGenerator = ({ stars = true }: { stars?: boolean }) => {
   const containerRef = useRef<HTMLDivElement>();
 
   const { ui, seed, atmosphericDistance, textureResolution, radius } =
@@ -88,19 +73,9 @@ export const PlanetGenerator = ({
 
   return (
     <>
-      <Box
-        ref={containerRef}
-        position="relative"
-        width={`${customSize?.width || width}px`}
-        height={
-          ui
-            ? `${customSize?.height || height}px`
-            : `${
-                (customSize?.height || height) + planetGenerationControlsHeight
-              }`
-        }
-      >
+      <Box ref={containerRef} position="relative" width="100%" height="100%">
         <Planet
+          stars={stars}
           data={{
             id: seed,
             atmospheric_distance: atmosphericDistance,
@@ -127,9 +102,9 @@ export const PlanetGenerator = ({
         />
       </Box>
 
-      <PlanetGeneratorBooleans />
+      {/* <PlanetGeneratorBooleans /> */}
 
-      {ui && (
+      {/* {ui && (
         <>
           <PlanetGeneratorColorDrawer />
           <NameSeedMobile />
@@ -137,7 +112,7 @@ export const PlanetGenerator = ({
           <PlanetGeneratorRingDrawer />
           <PlanetGeneratorSliders />
         </>
-      )}
+      )} */}
     </>
   );
 };

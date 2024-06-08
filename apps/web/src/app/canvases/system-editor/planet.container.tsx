@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { Planet, PlanetConfig } from '../celestial-viewer/models';
 import { useGenerateDataUris } from '../celestial-viewer/use-generate-data-uris';
 import {
-  buildPlanet,
+  build2DPlanet,
   createPlanet,
 } from '../celestial-viewer/utils/drawing-utils';
 import { createRadialEllipse } from '../celestial-viewer/utils/graphics-utils';
@@ -127,7 +127,7 @@ export const PlanetContainer = ({
 
     planets.forEach(({ planet_by_pk: { id, name, radius, orbital_radius } }) =>
       tempPlanets.push(
-        buildPlanet({
+        build2DPlanet({
           planetTexture: bundle?.[name],
           radius,
           app,

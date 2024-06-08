@@ -113,7 +113,9 @@ export const SystemEditorOverview = ({
                   onClick={() => {
                     onHelpClicked(focus);
                     systemEditorFocusVar(focus);
-                    celestialViewerSelectedPlanet(null);
+                    if (focus !== 'goldilocks-zone') {
+                      celestialViewerSelectedPlanet(null);
+                    }
                   }}
                   icon={<Icon as={HelpPixelIcon} {...responsiveIconProps} />}
                 ></IconButton>
