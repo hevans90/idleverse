@@ -66,12 +66,12 @@ export const SystemEditorFocusUI = ({ planets, ...divProps }: FocusUIProps) => {
 
   return focus ? (
     <Box
-      position="absolute"
+      position={['fixed', 'static']}
       bottom={['unset', 0]}
       top={[0, 'unset']}
       left={0}
       right={'unset'}
-      width={['104vw', 'unset']}
+      width={['100vw', '100%']}
       {...divProps}
     >
       <AnimatedFrame

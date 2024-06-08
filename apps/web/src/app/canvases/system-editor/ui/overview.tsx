@@ -65,7 +65,7 @@ export const SystemEditorOverview = ({
       top={['unset', 0]}
       left={[0, 'unset']}
       right={['unset', 0]}
-      width={['104vw', 'unset']}
+      width={['100vw', 'unset']}
     >
       <AnimatedFrame
         show={true}

@@ -218,54 +218,58 @@ export const SystemEditorContainer = () => {
       <canvas style={{ visibility: 'hidden' }} ref={dataURICanvasRef} />
       <audio ref={audioRef} />
 
-      <>
-        <SystemEditorOverview
-          onHelpClicked={(help) => {
-            setLocallySelectedAudioName(help);
-            audioRef.current.play().catch((e) => {
-              //
-            });
-            dialogVar({ ...dialogVar(), open: true });
+      <SystemEditorOverview
+        onHelpClicked={(help) => {
+          setLocallySelectedAudioName(help);
+          audioRef.current.play().catch((e) => {
+            //
+          });
+          dialogVar({ ...dialogVar(), open: true });
+        }}
+        onDirectFocusClicked={() => dialogVar({ ...dialogVar(), open: false })}
+      />
+      <HStack
+        position="absolute"
+        bottom={0}
+        justifyContent="end"
+        alignItems="end"
+        gap={0}
+      >
+        {focus && (
+          <VStack maxWidth={isMobile ? 'unset' : 300}>
+            <AnimatedFrame
+              show={!!selectedPlanet}
+              bg={rawBgDarker}
+              leftBottom={!isMobile ? false : true}
+              containerProps={{
+                height: [
+                  sizeWithoutDialog.height / 4,
+                  sizeWithoutDialog.height / 3,
+                ],
+                width: ['100vw', '100%'],
+                position: ['fixed', 'relative'],
+                top: ['20vh', 'unset'],
+                left: [0, 'unset'],
+                display: isMobile && dialogOpen ? 'none' : 'block',
+              }}
+            >
+              <PlanetGenerator stars={false} />
+            </AnimatedFrame>
+
+            <SystemEditorFocusUI
+              planets={planets}
+              display={isMobile && dialogOpen ? 'none' : 'block'}
+            />
+          </VStack>
+        )}
+        <Dialog
+          position="static"
+          onDialogEnded={() => {
+            audioRef.current.currentTime = 0;
+            audioRef.current.pause();
           }}
-          onDirectFocusClicked={() =>
-            dialogVar({ ...dialogVar(), open: false })
-          }
         />
-        <HStack
-          position="absolute"
-          bottom={0}
-          justifyContent="end"
-          alignItems="end"
-          gap={0}
-        >
-          {focus && (
-            <VStack>
-              <AnimatedFrame
-                show={!!selectedPlanet}
-                bg={rawBgDarker}
-                leftBottom={false}
-                containerProps={{
-                  height: sizeWithoutDialog.height / 3,
-                }}
-              >
-                <PlanetGenerator stars={false} />
-              </AnimatedFrame>
-              <SystemEditorFocusUI
-                planets={planets}
-                position="static"
-                width="100%"
-              />
-            </VStack>
-          )}
-          <Dialog
-            position="static"
-            onDialogEnded={() => {
-              audioRef.current.currentTime = 0;
-              audioRef.current.pause();
-            }}
-          />
-        </HStack>
-      </>
+      </HStack>
     </>
   );
 };

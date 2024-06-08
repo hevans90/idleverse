@@ -148,7 +148,7 @@ export const Dialog = ({ onDialogEnded, ...stackProps }: DialogProps) => {
         borderWidth={1}
         borderStyle="solid"
         borderColor={border}
-        width="100%"
+        width={['100vw', '100%']}
         maxWidth={1920}
         alignItems="flex-start"
         divider={
@@ -163,7 +163,7 @@ export const Dialog = ({ onDialogEnded, ...stackProps }: DialogProps) => {
         marginRight="auto"
         {...stackProps}
       >
-        <VStack minWidth={[140, 170]}>
+        <VStack minWidth={[0, 170]} display={['none', 'block']}>
           <Image
             bg={bgDark}
             boxSize={[140, 170]}
