@@ -236,6 +236,7 @@ export const SystemEditorContainer = () => {
           bottom={0}
           justifyContent="end"
           alignItems="end"
+          gap={0}
         >
           {focus && (
             <VStack>

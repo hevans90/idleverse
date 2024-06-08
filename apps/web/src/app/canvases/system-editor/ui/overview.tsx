@@ -47,7 +47,7 @@ export const SystemEditorOverview = ({
 
   const { secondary } = useReactiveVar(colorsVar);
 
-  const { rawBgDarker } = useUiBackground();
+  const { rawBgDark } = useUiBackground();
 
   const bp: 'small' | 'medium' | 'large' = useBreakpointValue({
     base: 'small',
@@ -73,7 +73,7 @@ export const SystemEditorOverview = ({
         leftBottom={isMobile ? false : true}
         rightBottom={false}
         rightTop={false}
-        bg={rawBgDarker}
+        bg={rawBgDark}
       >
         <VStack gap={2} width="100%">
           <Text
