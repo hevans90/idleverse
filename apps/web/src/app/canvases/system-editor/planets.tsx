@@ -77,7 +77,7 @@ export const Planets = ({
       app.ticker.add(selectedIndicatorTickerRef.current);
 
       const snapDuration = 200;
-      viewportRef.current.snap(planet.position.x, planet.position.y, {
+      viewportRef.current.snap(planet?.position.x, planet?.position.y, {
         time: snapDuration,
         removeOnComplete: true,
       });
@@ -94,7 +94,7 @@ export const Planets = ({
         console.warn(e);
       }
     };
-  }, [selectedPlanet, indicatorKey]);
+  }, [selectedPlanet, indicatorKey, selectedPlanetText]);
 
   useEffect(() => {
     planets.forEach((planet) => {

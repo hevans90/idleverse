@@ -24,7 +24,13 @@ type PlanetData = Pick<
   | 'radius'
 >;
 
-export const Planet = ({ data }: { data: PlanetData }) => {
+export const Planet = ({
+  data,
+  stars = true,
+}: {
+  data: PlanetData;
+  stars?: boolean;
+}) => {
   const { rawBgDarker } = useUiBackground();
 
   const [worldDataTexture, setWorldDataTexture] =
@@ -97,7 +103,7 @@ export const Planet = ({ data }: { data: PlanetData }) => {
           fov: 50,
         }}
       >
-        <Stars rotationSpeed={0.1} />
+        {stars && <Stars rotationSpeed={0.1} />}
 
         <World
           planetRadius={data.radius}

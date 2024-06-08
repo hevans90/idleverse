@@ -10,7 +10,7 @@ import {
 
 import { Planet, PlanetConfig } from '../models';
 
-export const buildPlanet = ({
+export const build2DPlanet = ({
   planetTexture,
   radius,
   app,

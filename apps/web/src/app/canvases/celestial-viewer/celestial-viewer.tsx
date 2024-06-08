@@ -24,7 +24,7 @@ import { useViewport } from '../_utils/use-viewport.hook';
 import { Planet, PlanetConfig } from './models';
 import { useSelectedPlanetIndicator } from './use-selected-planet';
 import {
-  buildPlanet,
+  build2DPlanet,
   centerPlanetDraw,
   createPlanet,
   updatePlanetPosition,
@@ -116,7 +116,7 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
       Assets.loadBundle(bundleKey).then((bundle) => {
         celestial.planets.forEach(({ id, name, radius }) =>
           tempPlanets.push(
-            buildPlanet({
+            build2DPlanet({
               planetTexture: bundle?.[name],
               radius,
               app,

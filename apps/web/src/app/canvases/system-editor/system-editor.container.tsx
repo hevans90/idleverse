@@ -10,19 +10,24 @@ import { PixiViewport } from '../_utils/viewport';
 import { SystemEditorInteractions } from './system-editor-interactions';
 
 import { useReactiveVar } from '@apollo/client';
-import { HStack, useBreakpointValue } from '@chakra-ui/react';
+import { HStack, VStack, useBreakpointValue } from '@chakra-ui/react';
 import { PlanetByIdQuery } from '@idleverse/galaxy-gql';
 import {
   CelestialAudioName,
   SystemFocus,
   celestialViewerGenerationVar,
+  celestialViewerSelectedPlanet,
   dialogVar,
   planetGenerationColorDrawerVar,
   systemEditorConfigVar,
+  systemEditorFocusVar,
 } from '@idleverse/state';
+import { useUiBackground } from '@idleverse/theme';
+import { AnimatedFrame } from '@idleverse/ui';
 import { Dialog } from '../../game-ui/dialog';
 import { Asteroids } from '../_rendering/asteroids';
 import { randomPointInAnnulus } from '../_utils/random-point-in-annulus';
+import { PlanetGenerator } from '../planet-generator/planet-generator';
 import { PlanetContainer } from './planet.container';
 import { SystemEditorFocusUI } from './ui/focus-ui';
 import { SystemEditorOverview } from './ui/overview';
@@ -32,11 +37,16 @@ export const SystemEditorContainer = () => {
   const viewportRef = useRef<Viewport>(null);
   const containerRef = useRef<PixiContainer>();
 
+  const { rawBgDarker } = useUiBackground();
+
   const dataURICanvasRef = useRef<HTMLCanvasElement>(null);
+
+  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanet);
 
   const { open: dialogOpen } = useReactiveVar(dialogVar);
 
   const size = useResize(dialogOpen ? 'dialog' : 'none');
+  const sizeWithoutDialog = useResize();
 
   const { mode, formingPoints } = useReactiveVar(celestialViewerGenerationVar);
 
@@ -135,6 +145,8 @@ export const SystemEditorContainer = () => {
     },
   ]);
 
+  const focus = useReactiveVar(systemEditorFocusVar);
+
   const config = useReactiveVar(systemEditorConfigVar);
 
   const bp: 'small' | 'medium' | 'large' = useBreakpointValue({
@@ -144,51 +156,11 @@ export const SystemEditorContainer = () => {
   });
 
   const isMobile = bp === 'small';
-
   const initialScale = isMobile ? 0.05 : 0.1;
 
   return (
     <>
-      <PixiWrapper
-        showGameUI={false}
-        ui={
-          <>
-            <SystemEditorOverview
-              onHelpClicked={(help) => {
-                setLocallySelectedAudioName(help);
-                audioRef.current.play().catch((e) => {
-                  //
-                });
-                dialogVar({ ...dialogVar(), open: true });
-              }}
-              onDirectFocusClicked={() =>
-                dialogVar({ ...dialogVar(), open: false })
-              }
-            />
-            <HStack
-              position="absolute"
-              bottom={0}
-              justifyContent="end"
-              alignItems="end"
-            >
-              <SystemEditorFocusUI
-                planets={planets}
-                position="static"
-                minW="25vw"
-                // minH="20vh"
-              />
-              <Dialog
-                position="static"
-                onDialogEnded={() => {
-                  audioRef.current.currentTime = 0;
-                  audioRef.current.pause();
-                }}
-              />
-            </HStack>
-          </>
-        }
-        bg="darker"
-      >
+      <PixiWrapper showGameUI={false} bg="darker">
         <PixiViewport
           size={size}
           ref={viewportRef}
@@ -245,6 +217,54 @@ export const SystemEditorContainer = () => {
       </PixiWrapper>
       <canvas style={{ visibility: 'hidden' }} ref={dataURICanvasRef} />
       <audio ref={audioRef} />
+
+      <>
+        <SystemEditorOverview
+          onHelpClicked={(help) => {
+            setLocallySelectedAudioName(help);
+            audioRef.current.play().catch((e) => {
+              //
+            });
+            dialogVar({ ...dialogVar(), open: true });
+          }}
+          onDirectFocusClicked={() =>
+            dialogVar({ ...dialogVar(), open: false })
+          }
+        />
+        <HStack
+          position="absolute"
+          bottom={0}
+          justifyContent="end"
+          alignItems="end"
+        >
+          {focus && (
+            <VStack>
+              <AnimatedFrame
+                show={!!selectedPlanet}
+                bg={rawBgDarker}
+                leftBottom={false}
+                containerProps={{
+                  height: sizeWithoutDialog.height / 3,
+                }}
+              >
+                <PlanetGenerator stars={false} />
+              </AnimatedFrame>
+              <SystemEditorFocusUI
+                planets={planets}
+                position="static"
+                width="100%"
+              />
+            </VStack>
+          )}
+          <Dialog
+            position="static"
+            onDialogEnded={() => {
+              audioRef.current.currentTime = 0;
+              audioRef.current.pause();
+            }}
+          />
+        </HStack>
+      </>
     </>
   );
 };

@@ -203,7 +203,6 @@ export const GoldilocksFocusUI = ({
           {...responsiveFontProps}
           _disabled={{
             bg: `${secondary}.700`,
-            transform: 'scale(0.98)',
             pointerEvents: 'none',
             opacity: 1,
             _hover: { bg: `${secondary}.600` },
