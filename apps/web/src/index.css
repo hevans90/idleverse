@@ -3,6 +3,10 @@
   src: local('zx spectrum'), url(assets/zx-spectrum.ttf) format('truetype');
 }
 
+body {
+  overflow: hidden;
+}
+
 div#stats {
   position: fixed;
   top: 50px;

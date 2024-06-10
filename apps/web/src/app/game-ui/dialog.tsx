@@ -163,7 +163,7 @@ export const Dialog = ({ onDialogEnded, ...stackProps }: DialogProps) => {
         marginRight="auto"
         {...stackProps}
       >
-        <VStack minWidth={[0, 170]} display={['none', 'block']}>
+        <VStack minWidth={[0, 170]} display={['none', 'flex']}>
           <Image
             bg={bgDark}
             boxSize={[140, 170]}

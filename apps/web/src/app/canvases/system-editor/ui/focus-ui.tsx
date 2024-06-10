@@ -48,6 +48,7 @@ import { ColorQuad } from '../../planet-generator/ui/color-quad';
 
 type FocusUIProps = HTMLChakraProps<'div'> & {
   planets: PlanetByIdQuery[];
+  onPlanetClicked?: () => void;
 };
 
 export const SystemEditorFocusUI = ({ planets, ...divProps }: FocusUIProps) => {
