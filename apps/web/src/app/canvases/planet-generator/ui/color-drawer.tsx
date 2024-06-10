@@ -15,7 +15,7 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { hexToRGB, useUiBackground } from '@idleverse/theme';
+import { useUiBackground } from '@idleverse/theme';
 import { Fragment, useEffect, useState } from 'react';
 
 import { responsiveFontProps } from '../../../_responsive-utils/font-props';
@@ -59,19 +59,6 @@ export const PlanetGeneratorColorDrawer = () => {
     planetGenerationColorDrawerVar({
       ...drawerState,
       palettePresetName: localPalette.name,
-      currentPalette: {
-        water: hexToRGB(localPalette.water),
-        sand: hexToRGB(localPalette.sand),
-        grass: hexToRGB(localPalette.grass),
-        forest: hexToRGB(localPalette.forest),
-      },
-      currentHexPalette: {
-        water: localPalette.water,
-        sand: localPalette.sand,
-        grass: localPalette.grass,
-        forest: localPalette.forest,
-      },
-      currentPaletteId: localPalette.id,
     });
   }, [localPalette]);
 
@@ -169,22 +156,22 @@ export const PlanetGeneratorColorDrawer = () => {
             <RangeSliderThumb
               boxSize={6}
               index={0}
-              bgColor={drawerState.currentHexPalette?.water}
+              bgColor={localPalette?.water}
             />
             <RangeSliderThumb
               boxSize={6}
               index={1}
-              bgColor={drawerState.currentHexPalette?.sand}
+              bgColor={localPalette?.sand}
             />
             <RangeSliderThumb
               boxSize={6}
               index={2}
-              bgColor={drawerState.currentHexPalette?.grass}
+              bgColor={localPalette?.grass}
             />
             <RangeSliderThumb
               boxSize={6}
               index={3}
-              bgColor={drawerState.currentHexPalette?.forest}
+              bgColor={localPalette?.forest}
             />
           </RangeSlider>
         </Box>

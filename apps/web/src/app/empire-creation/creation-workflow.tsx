@@ -16,9 +16,11 @@ import { AnimatedButton } from '@idleverse/ui';
 
 import {
   characterCreationVar,
+  colorPalettesVar,
   colorsVar,
   planetGenerationColorDrawerVar,
 } from '@idleverse/state';
+import { hexToRGB } from '@idleverse/theme';
 import { responsiveFontProps } from '../_responsive-utils/font-props';
 import { DataUriGenerator } from '../canvases/celestial-viewer/data-uri-generator';
 import { runPixelDataGenOnWorker } from '../canvases/planet-generator/texture-generation/run-texture-gen-on-worker';
@@ -105,18 +107,23 @@ export const CreationWorkflow = ({
 
   const [homeworldDataURI, setHomeworldDataURI] = useState<string>(undefined);
 
+  const palettes = useReactiveVar(colorPalettesVar);
   const homeworldColors = useReactiveVar(planetGenerationColorDrawerVar);
+
+  const currentPalette = palettes.find(
+    ({ name }) => name === homeworldColors.palettePresetName
+  );
 
   useEffect(() => {
     if (homeworld) {
       setGeneratingPlanetThumbnailPixelData(true);
 
-      const { water, sand, grass, forest } = homeworldColors.currentPalette;
+      const { water, sand, grass, forest } = currentPalette;
 
       runPixelDataGenOnWorker(
         'perlin',
         homeworld.texture_resolution,
-        [water, sand, grass, forest],
+        [hexToRGB(water), hexToRGB(sand), hexToRGB(grass), hexToRGB(forest)],
         homeworld.terrain_bias as [number, number, number, number],
         homeworld.id
       ).then((pixelData) => {
@@ -125,7 +132,7 @@ export const CreationWorkflow = ({
         setGeneratingPlanetThumbnailDataURI(true);
       });
     }
-  }, [homeworld, homeworldColors]);
+  }, [homeworld, homeworldColors, currentPalette]);
 
   useEffect(() => {
     setReady(!!(race && background && faction && homeworld));

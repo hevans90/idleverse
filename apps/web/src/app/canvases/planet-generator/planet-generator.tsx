@@ -2,11 +2,12 @@ import { useReactiveVar } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
 import { rgbToHex } from '@idleverse/theme';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { DataTexture } from 'three';
 
 import { RingConfig } from '@idleverse/models';
 import {
+  colorPalettesVar,
   planetGenerationColorDrawerVar,
   planetGenerationRingDrawerVar,
   planetGeneratorConfigVar,
@@ -15,19 +16,34 @@ import { deepCompareRings } from './_utils/deep-compare-rings';
 import { runTextureGenOnWorker } from './texture-generation/run-texture-gen-on-worker';
 
 import { Planet } from '../_rendering/planet';
+import { PlanetGeneratorBooleans } from './ui/booleans';
+import { PlanetGeneratorColorDrawer } from './ui/color-drawer';
+import { NameSeedMobile } from './ui/name-seed-mobile';
+import { PlanetGeneratorRingDrawer } from './ui/ring-drawer';
+import { PlanetGeneratorSliders } from './ui/sliders';
 
-export const PlanetGenerator = ({ stars = true }: { stars?: boolean }) => {
+export const PlanetGenerator = ({
+  stars = true,
+  fullUI = true,
+}: {
+  stars?: boolean;
+  fullUI?: boolean;
+}) => {
   const containerRef = useRef<HTMLDivElement>();
 
   const { ui, seed, atmosphericDistance, textureResolution, radius } =
     useReactiveVar(planetGeneratorConfigVar);
 
-  const {
-    currentPalette: { water, sand, grass, forest },
-    palettePresetName,
-    currentPaletteId,
-    terrainBias,
-  } = useReactiveVar(planetGenerationColorDrawerVar);
+  const { palettePresetName, terrainBias } = useReactiveVar(
+    planetGenerationColorDrawerVar
+  );
+
+  const palettes = useReactiveVar(colorPalettesVar);
+
+  const currentPalette = useMemo(
+    () => palettes.find(({ name }) => name === palettePresetName),
+    [palettePresetName, palettes]
+  );
 
   const { rings } = useReactiveVar(planetGenerationRingDrawerVar);
 
@@ -82,14 +98,7 @@ export const PlanetGenerator = ({ stars = true }: { stars?: boolean }) => {
             texture_resolution: textureResolution,
             radius,
             terrain_bias: terrainBias,
-            terrain_hex_palette: {
-              id: currentPaletteId,
-              name: palettePresetName,
-              water: rgbToHex(water),
-              sand: rgbToHex(sand),
-              grass: rgbToHex(grass),
-              forest: rgbToHex(forest),
-            },
+            terrain_hex_palette: currentPalette,
             rings: rings.map((ring) => ({
               ...ring,
               id: ring.id ?? '',
@@ -102,17 +111,20 @@ export const PlanetGenerator = ({ stars = true }: { stars?: boolean }) => {
         />
       </Box>
 
-      {/* <PlanetGeneratorBooleans /> */}
-
-      {/* {ui && (
+      {fullUI && (
         <>
-          <PlanetGeneratorColorDrawer />
-          <NameSeedMobile />
+          <PlanetGeneratorBooleans />
+          {ui && (
+            <>
+              <PlanetGeneratorColorDrawer />
+              <NameSeedMobile />
 
-          <PlanetGeneratorRingDrawer />
-          <PlanetGeneratorSliders />
+              <PlanetGeneratorRingDrawer />
+              <PlanetGeneratorSliders />
+            </>
+          )}
         </>
-      )} */}
+      )}
     </>
   );
 };

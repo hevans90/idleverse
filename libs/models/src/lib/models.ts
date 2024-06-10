@@ -24,6 +24,11 @@ export type SolarSystemConfig = {
   simulationSpeed: number;
 };
 
+export type PlanetAppearanceConfig = {
+  palettePresetName: string;
+  terrainBias: [number, number, number, number];
+};
+
 export type PlanetGenerationConfig = {
   name: string;
   ui: boolean;
