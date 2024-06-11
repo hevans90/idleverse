@@ -16,7 +16,7 @@ export const useSelectedPlanetIndicator = ({
 }) => {
   const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanet);
 
-  const indicatorKey = `${selectedPlanet?.name}_indicator_PRESERVE_SCALE`;
+  const indicatorKey = `${selectedPlanet?.id}_indicator_PRESERVE_SCALE`;
 
   const selectedPlanetText = useMemo<Text>(
     () =>
