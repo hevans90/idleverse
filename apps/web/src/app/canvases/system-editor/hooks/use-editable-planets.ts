@@ -52,35 +52,37 @@ export const useEditablePlanets = ({
   const planets = useReactiveVar(celestialViewerPlanetsVar);
 
   useEffect(() => {
-    celestialViewerPlanetsVar([
-      {
-        celestial: null,
-        orbital_radius: randomGoldilocksRadii(),
-        owner_id: userId,
-        atmospheric_distance: 1,
-        rings: [],
-        texture_resolution: 128,
-        name: 'terran',
-        id: 'showreel-planet',
-        radius: 1,
-        terrain_bias: [0, 0.65, 0.73, 0.82],
-        terrain_hex_palette: palettes?.[0],
-      },
+    if (!celestialViewerPlanetsVar().length) {
+      celestialViewerPlanetsVar([
+        {
+          celestial: null,
+          orbital_radius: randomGoldilocksRadii(),
+          owner_id: userId,
+          atmospheric_distance: 1,
+          rings: [],
+          texture_resolution: 128,
+          name: 'terran',
+          id: 'showreel-planet',
+          radius: 1,
+          terrain_bias: [0, 0.65, 0.73, 0.82],
+          terrain_hex_palette: palettes?.[0],
+        },
 
-      {
-        celestial: null,
-        orbital_radius: randomGoldilocksRadii(),
-        owner_id: userId,
-        atmospheric_distance: 1,
-        rings: [],
-        texture_resolution: 256,
-        name: 'desert',
-        id: 'showreel-planet2',
-        radius: 0.5,
-        terrain_bias: [0, 0.5, 0.62, 0.9],
-        terrain_hex_palette: palettes?.[1],
-      },
-    ]);
+        {
+          celestial: null,
+          orbital_radius: randomGoldilocksRadii(),
+          owner_id: userId,
+          atmospheric_distance: 1,
+          rings: [],
+          texture_resolution: 256,
+          name: 'desert',
+          id: 'showreel-planet2',
+          radius: 0.5,
+          terrain_bias: [0, 0.5, 0.62, 0.9],
+          terrain_hex_palette: palettes?.[1],
+        },
+      ]);
+    }
   }, []);
 
   useEffect(() => {
