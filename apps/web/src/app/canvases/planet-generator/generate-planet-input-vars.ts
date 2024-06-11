@@ -27,8 +27,8 @@ const mapFromRingConfigToRingInsertInput = ({
 });
 
 export const generatePlanetInsertionVars = (
-  celestialId: string,
-  ownerId: string
+  celestialId?: string,
+  ownerId?: string
 ): PlanetCreationInput => {
   const {
     seed: id,
@@ -54,10 +54,10 @@ export const generatePlanetInsertionVars = (
 
   return {
     id,
-    celestial_id: celestialId,
+    celestial_id: celestialId ?? undefined,
     radius,
     name,
-    owner_id: ownerId,
+    owner_id: ownerId ?? undefined,
     rings: {
       data: rings.map((ring) => mapFromRingConfigToRingInsertInput(ring)),
     },

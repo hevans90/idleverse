@@ -25,11 +25,11 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 import { generateCelestialName } from '@idleverse/galaxy-gen';
-import { PlanetByIdQuery } from '@idleverse/galaxy-gql';
 import {
   asteroidSizes,
   celestialPresets,
   celestialViewerAsteroidBeltVar,
+  celestialViewerPlanetsVar,
   celestialViewerSelectedPlanet,
   colorPalettesVar,
   colorsVar,
@@ -42,16 +42,13 @@ import { Fragment } from 'react';
 import {
   responsiveFontProps,
   responsiveIconProps,
-  subHeaderResponsiveFontProps,
 } from '../../../_responsive-utils/font-props';
 import { ColorQuad } from '../../planet-generator/ui/color-quad';
+import { PlanetNameEditor } from './planet-editing';
 
-type FocusUIProps = HTMLChakraProps<'div'> & {
-  planets: PlanetByIdQuery[];
-  onPlanetClicked?: () => void;
-};
+type FocusUIProps = HTMLChakraProps<'div'>;
 
-export const SystemEditorFocusUI = ({ planets, ...divProps }: FocusUIProps) => {
+export const SystemEditorFocusUI = ({ ...divProps }: FocusUIProps) => {
   const focus = useReactiveVar(systemEditorFocusVar);
   const { secondary } = useReactiveVar(colorsVar);
 
@@ -84,7 +81,7 @@ export const SystemEditorFocusUI = ({ planets, ...divProps }: FocusUIProps) => {
         bg={rawBgDark}
       >
         <VStack gap={2}>
-          <Text
+          {/* <Text
             as="u"
             width="100%"
             mb={2}
@@ -93,11 +90,9 @@ export const SystemEditorFocusUI = ({ planets, ...divProps }: FocusUIProps) => {
             textDecorationColor={`${secondary}.400`}
           >
             {focus.replace('-', ' ').toLocaleUpperCase()}
-          </Text>
+          </Text> */}
           {focus === 'celestial' ? <CelestialFocusUI /> : null}
-          {focus === 'goldilocks-zone' ? (
-            <GoldilocksFocusUI planets={planets} />
-          ) : null}
+          {focus === 'goldilocks-zone' ? <GoldilocksFocusUI /> : null}
           {focus === 'asteroid-belt' ? <AsteroidBeltFocusUI /> : null}
         </VStack>
       </AnimatedFrame>
@@ -184,18 +179,17 @@ export const CelestialFocusUI = () => {
   );
 };
 
-export const GoldilocksFocusUI = ({
-  planets,
-}: {
-  planets: PlanetByIdQuery[];
-}) => {
+export const GoldilocksFocusUI = () => {
   const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanet);
+
+  const planets = useReactiveVar(celestialViewerPlanetsVar);
 
   const { secondary } = useReactiveVar(colorsVar);
 
   return (
     <>
-      {planets.map(({ planet_by_pk: { name, id } }) => (
+      {selectedPlanet && <PlanetNameEditor />}
+      {planets.map(({ name, id }) => (
         <Button
           width="100%"
           key={id}

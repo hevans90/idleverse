@@ -1,7 +1,7 @@
 import { Container } from '@pixi/react';
 import { Viewport } from 'pixi-viewport';
 import { Container as PixiContainer, Rectangle } from 'pixi.js';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { StarRenderer } from '../../showreel/star-editor/star-renderer';
 import { StarField } from '../_rendering/starfield';
 import { PixiWrapper } from '../_utils/pixi-wrapper';
@@ -11,27 +11,23 @@ import { SystemEditorInteractions } from './system-editor-interactions';
 
 import { useReactiveVar } from '@apollo/client';
 import { HStack, VStack, useBreakpointValue } from '@chakra-ui/react';
-import { PlanetByIdQuery } from '@idleverse/galaxy-gql';
-import { RingConfig, RingKey, rgb } from '@idleverse/models';
 import {
   CelestialAudioName,
   SystemFocus,
   celestialViewerGenerationVar,
+  celestialViewerPlanetsVar,
   celestialViewerSelectedPlanet,
-  colorPalettesVar,
   dialogVar,
-  planetGenerationColorDrawerVar,
-  planetGenerationRingDrawerVar,
-  planetGeneratorConfigVar,
   systemEditorConfigVar,
   systemEditorFocusVar,
 } from '@idleverse/state';
-import { hexToRGB, useUiBackground } from '@idleverse/theme';
+import { useUiBackground } from '@idleverse/theme';
 import { AnimatedFrame } from '@idleverse/ui';
 import { Dialog } from '../../game-ui/dialog';
 import { Asteroids } from '../_rendering/asteroids';
-import { randomPointInAnnulus } from '../_utils/random-point-in-annulus';
+
 import { PlanetGenerator } from '../planet-generator/planet-generator';
+import { useEditablePlanets } from './hooks/use-editable-planets';
 import { PlanetContainer } from './planet.container';
 import { SystemEditorFocusUI } from './ui/focus-ui';
 import { SystemEditorOverview } from './ui/overview';
@@ -45,7 +41,6 @@ export const SystemEditorContainer = () => {
 
   const dataURICanvasRef = useRef<HTMLCanvasElement>(null);
 
-  const palettes = useReactiveVar(colorPalettesVar);
   const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanet);
 
   const { open: dialogOpen } = useReactiveVar(dialogVar);
@@ -73,10 +68,6 @@ export const SystemEditorContainer = () => {
     [worldSize]
   );
 
-  const { palettePresetName, terrainBias } = useReactiveVar(
-    planetGenerationColorDrawerVar
-  );
-
   const [celestialRadius, setCelestialRadius] = useState(0.25);
 
   const worldRadii = useMemo(() => {
@@ -94,50 +85,9 @@ export const SystemEditorContainer = () => {
     return map;
   }, [celestialRadius, worldSize.width]);
 
-  const randomGoldilocksRadii = useCallback(
-    () =>
-      randomPointInAnnulus({
-        dimensions: {
-          innerRadius: worldRadii['goldilocks-zone'].inner,
-          outerRadius: worldRadii['goldilocks-zone'].outer,
-        },
-        center,
-      }).radius,
-    [worldRadii, center]
-  );
+  useEditablePlanets({ worldRadii, center });
 
-  const [planets, setPlanets] = useState<PlanetByIdQuery[]>([
-    {
-      planet_by_pk: {
-        celestial: null,
-        orbital_radius: randomGoldilocksRadii(),
-        owner_id: '1',
-        atmospheric_distance: 1,
-        rings: [],
-        texture_resolution: 128,
-        name: 'terran',
-        id: 'showreel-planet',
-        radius: 1,
-        terrain_bias: [0, 0.65, 0.73, 0.82],
-        terrain_hex_palette: palettes?.[0],
-      },
-    },
-    {
-      planet_by_pk: {
-        celestial: null,
-        orbital_radius: randomGoldilocksRadii(),
-        owner_id: '1',
-        atmospheric_distance: 1,
-        rings: [],
-        texture_resolution: 256,
-        name: 'desert',
-        id: 'showreel-planet2',
-        radius: 0.5,
-        terrain_bias: [0, 0.5, 0.62, 0.9],
-        terrain_hex_palette: palettes?.[1],
-      },
-    },
-  ]);
+  const planets = useReactiveVar(celestialViewerPlanetsVar);
 
   const focus = useReactiveVar(systemEditorFocusVar);
 
@@ -151,57 +101,6 @@ export const SystemEditorContainer = () => {
 
   const isMobile = bp === 'small';
   const initialScale = isMobile ? 0.05 : 0.1;
-
-  useEffect(() => {
-    if (selectedPlanet) {
-      const planet = planets.find(
-        ({ planet_by_pk }) => planet_by_pk.id === selectedPlanet.id
-      ).planet_by_pk;
-
-      planetGeneratorConfigVar({
-        ...planetGeneratorConfigVar(),
-        atmosphericDistance: planet.atmospheric_distance,
-        name: planet.name,
-        orbitalRadius: planet.orbital_radius,
-        seed: planet.id,
-        textureResolution: planet.texture_resolution,
-        radius: planet.radius,
-      });
-
-      planetGenerationColorDrawerVar({
-        panelOpen: false,
-        terrainBias: planet.terrain_bias as [number, number, number, number],
-        palettePresetName: planet.terrain_hex_palette.name,
-      });
-
-      planetGenerationRingDrawerVar({
-        panelOpen: false,
-        rings: planet.rings.map(
-          (ring) =>
-            ({
-              ...ring,
-              id: ring.id ?? '',
-              type: ring.type as RingKey,
-              rotation: ring.rotation as [x: number, y: number, z: number],
-              innerRadius: ring.inner_radius,
-              outerRadius: ring.outer_radius,
-              terrainBias: ring.terrain_bias as [
-                number,
-                number,
-                number,
-                number
-              ],
-              colors: ring.colors.map((color) => hexToRGB(color)) as [
-                rgb,
-                rgb,
-                rgb,
-                rgb
-              ],
-            } as RingConfig)
-        ),
-      });
-    }
-  }, [selectedPlanet, planets]);
 
   return (
     <>
@@ -235,7 +134,6 @@ export const SystemEditorContainer = () => {
             canvasRef={dataURICanvasRef}
             viewportRef={viewportRef}
             center={center}
-            planets={planets}
           />
 
           <SystemEditorInteractions
@@ -302,7 +200,6 @@ export const SystemEditorContainer = () => {
             </AnimatedFrame>
 
             <SystemEditorFocusUI
-              planets={planets}
               display={isMobile && dialogOpen ? 'none' : 'block'}
             />
           </VStack>

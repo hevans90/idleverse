@@ -39,51 +39,64 @@ export const Planets = ({
   const orbitalTickerRef = useRef<TickerCallback<unknown>>();
   const selectedIndicatorTickerRef = useRef<TickerCallback<unknown>>();
 
+  const indicateAndFollow = (renderedPlanet: Sprite) => {
+    const indicator =
+      (containerRef.current.getChildByName(indicatorKey) as Text) ??
+      selectedPlanetText;
+
+    indicator.text = selectedPlanet.name;
+    indicator.scale = {
+      x: 1 / viewportRef.current.scale.x,
+      y: 1 / viewportRef.current.scale.y,
+    };
+
+    const positionIndicator = (indicator: Text) => {
+      indicator.position.x = renderedPlanet?.x;
+      indicator.position.y =
+        renderedPlanet?.y - renderedPlanet?.height - indicator.height;
+    };
+
+    indicator.anchor.set(0.5, 0.5);
+    positionIndicator(indicator);
+    indicator.zIndex = 2;
+    containerRef.current.addChild(indicator);
+
+    selectedIndicatorTickerRef.current = (dt) => {
+      const existingIndicator = containerRef.current.getChildByName(
+        indicatorKey
+      ) as Text;
+      positionIndicator(existingIndicator);
+    };
+    app.ticker.add(selectedIndicatorTickerRef.current);
+
+    const snapDuration = 200;
+    viewportRef.current.snap(
+      renderedPlanet?.position.x,
+      renderedPlanet?.position.y,
+      {
+        time: snapDuration,
+        removeOnComplete: true,
+      }
+    );
+    setTimeout(() => {
+      viewportRef.current.follow(renderedPlanet);
+    }, snapDuration);
+  };
+
   useEffect(() => {
     if (!selectedPlanet) {
       viewportRef.current.plugins.remove('follow');
     }
     if (selectedPlanet && containerRef.current) {
       // check if exists
-      const planet = containerRef.current.getChildByName(
+
+      const renderedPlanet = containerRef.current.getChildByName(
         selectedPlanet.name
       ) as Sprite;
-      const indicator =
-        (containerRef.current.getChildByName(indicatorKey) as Text) ??
-        selectedPlanetText;
 
-      indicator.text = selectedPlanet.name;
-      indicator.scale = {
-        x: 1 / viewportRef.current.scale.x,
-        y: 1 / viewportRef.current.scale.y,
-      };
-
-      const positionIndicator = (indicator: Text) => {
-        indicator.position.x = planet?.x;
-        indicator.position.y = planet?.y - planet?.height - indicator.height;
-      };
-
-      indicator.anchor.set(0.5, 0.5);
-      positionIndicator(indicator);
-      indicator.zIndex = 2;
-      containerRef.current.addChild(indicator);
-
-      selectedIndicatorTickerRef.current = (dt) => {
-        const existingIndicator = containerRef.current.getChildByName(
-          indicatorKey
-        ) as Text;
-        positionIndicator(existingIndicator);
-      };
-      app.ticker.add(selectedIndicatorTickerRef.current);
-
-      const snapDuration = 200;
-      viewportRef.current.snap(planet?.position.x, planet?.position.y, {
-        time: snapDuration,
-        removeOnComplete: true,
-      });
-      setTimeout(() => {
-        viewportRef.current.follow(planet);
-      }, snapDuration);
+      if (renderedPlanet) {
+        indicateAndFollow(renderedPlanet);
+      }
     }
 
     return () => {
@@ -99,6 +112,9 @@ export const Planets = ({
   useEffect(() => {
     planets.forEach((planet) => {
       containerRef.current.addChild(planet.sprite);
+      if (selectedPlanet && selectedPlanet.name === planet.name) {
+        indicateAndFollow(planet.sprite);
+      }
     });
     orbitalEllipses.forEach((ellipse) =>
       containerRef.current.addChild(ellipse)
@@ -119,8 +135,15 @@ export const Planets = ({
 
     return () => {
       app.ticker?.remove(orbitalTickerRef.current);
+
+      planets.forEach((planet) => {
+        containerRef.current.removeChild(planet.sprite);
+      });
+      orbitalEllipses.forEach((ellipse) =>
+        containerRef.current.removeChild(ellipse)
+      );
     };
-  }, []);
+  }, [planets, orbitalEllipses, selectedPlanet]);
 
   return <Container sortableChildren={true} ref={containerRef} />;
 };

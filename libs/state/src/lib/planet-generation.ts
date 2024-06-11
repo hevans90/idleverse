@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { makeVarPersisted } from './utils';
-
+import { makeVar } from '@apollo/client';
 import { generateCelestialName } from '@idleverse/galaxy-gen';
 import {
   PlanetAppearanceConfig,
@@ -16,37 +15,30 @@ export const planetGenerationPresets: {
   appearance: PlanetAppearanceConfig;
 }[] = [];
 
-export const planetGeneratorConfigVar =
-  makeVarPersisted<PlanetGenerationConfig>(
-    {
-      name: generateCelestialName(),
-      ui: true,
-      radius: 1,
-      seed: uuidv4(),
-      textureResolution: 80,
-      pixelSize: 3,
-      atmosphericDistance: 3,
-      atmosphere: true,
-      rotate: true,
-      orbitalRadius: 1,
-    },
-    'planetGenerationWorldVar'
-  );
+export const planetGeneratorConfigVar = makeVar<PlanetGenerationConfig>({
+  name: generateCelestialName(),
+  ui: true,
+  radius: 1,
+  seed: uuidv4(),
+  textureResolution: 80,
+  pixelSize: 3,
+  atmosphericDistance: 3,
+  atmosphere: true,
+  rotate: true,
+  orbitalRadius: 1,
+});
 
-export const planetGenerationColorDrawerVar = makeVarPersisted<
+export const planetGenerationColorDrawerVar = makeVar<
   {
     panelOpen: boolean;
   } & PlanetAppearanceConfig
->(
-  {
-    panelOpen: false,
-    palettePresetName: 'desert',
-    terrainBias: [0, 0.2, 0.4, 0.6],
-  },
-  'planetGenerationColors'
-);
+>({
+  panelOpen: false,
+  palettePresetName: 'desert',
+  terrainBias: [0, 0.2, 0.4, 0.6],
+});
 
-export const planetGenerationRingDrawerVar = makeVarPersisted<{
+export const planetGenerationRingDrawerVar = makeVar<{
   panelOpen: boolean;
   rings: RingConfig[];
-}>({ panelOpen: false, rings: [] }, 'planetGenerationRingControls');
+}>({ panelOpen: false, rings: [] });

@@ -1,6 +1,7 @@
-import { PlanetByIdQuery } from '@idleverse/galaxy-gql';
+import { useReactiveVar } from '@apollo/client';
 import {
   celestialViewerPlanetDataUris,
+  celestialViewerPlanetsVar,
   celestialViewerSelectedPlanet,
 } from '@idleverse/state';
 import { hexStringToNumber, hexToRGB, useUiBackground } from '@idleverse/theme';
@@ -22,18 +23,18 @@ export const PlanetContainer = ({
   canvasRef,
   viewportRef,
   center,
-  planets,
 }: {
   canvasRef: React.MutableRefObject<HTMLCanvasElement>;
   viewportRef: React.MutableRefObject<Viewport>;
   center: { x: number; y: number };
-  planets: PlanetByIdQuery[];
 }) => {
   const app = useApp();
 
   const { rawBorder } = useUiBackground();
 
   const [texturesGenerating, setTexturesGenerating] = useState(true);
+
+  const planets = useReactiveVar(celestialViewerPlanetsVar);
 
   const [localOrbitalEllipses, setLocalOrbitalEllipses] = useState<Graphics[]>(
     []
@@ -59,12 +60,10 @@ export const PlanetContainer = ({
     }>[] = [];
     planets.forEach(
       ({
-        planet_by_pk: {
-          id,
-          texture_resolution: textureResolution,
-          terrain_hex_palette: { water, sand, grass, forest },
-          terrain_bias,
-        },
+        id,
+        texture_resolution: textureResolution,
+        terrain_hex_palette: { water, sand, grass, forest },
+        terrain_bias,
       }) =>
         pixelDataToGenerate.push(
           runPixelDataGenOnWorker(
@@ -102,7 +101,7 @@ export const PlanetContainer = ({
 
     Assets.addBundle(
       pixiAssetBundleKey,
-      planets.map(({ planet_by_pk: { id, name } }) => ({
+      planets.map(({ id, name }) => ({
         name,
         srcs: celestialViewerPlanetDataUris().uris.find(
           ({ seed }) => seed === id
@@ -125,7 +124,7 @@ export const PlanetContainer = ({
       config: celestialConfig,
     });
 
-    planets.forEach(({ planet_by_pk: { id, name, radius, orbital_radius } }) =>
+    planets.forEach(({ id, name, radius, orbital_radius }) =>
       tempPlanets.push(
         build2DPlanet({
           planetTexture: bundle?.[name],
