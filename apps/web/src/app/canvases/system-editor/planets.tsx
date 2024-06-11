@@ -161,9 +161,13 @@ export const Planets = ({
     return () => {
       app.ticker?.remove(orbitalTickerRef.current);
 
-      orbitalEllipses.forEach((ellipse) =>
-        containerRef.current.removeChild(ellipse)
-      );
+      orbitalEllipses.forEach((ellipse) => {
+        try {
+          containerRef.current.removeChild(ellipse);
+        } catch (e) {
+          console.warn(e);
+        }
+      });
     };
   }, [planets, orbitalEllipses, selectedPlanet, indicateAndFollow]);
 
