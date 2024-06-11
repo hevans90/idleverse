@@ -9,6 +9,7 @@ import {
   HTMLChakraProps,
   Icon,
   IconButton,
+  Image,
   Input,
   Menu,
   MenuButton,
@@ -29,6 +30,7 @@ import {
   asteroidSizes,
   celestialPresets,
   celestialViewerAsteroidBeltVar,
+  celestialViewerPlanetDataUris,
   celestialViewerPlanetsVar,
   celestialViewerSelectedPlanet,
   colorPalettesVar,
@@ -183,6 +185,7 @@ export const GoldilocksFocusUI = () => {
   const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanet);
 
   const planets = useReactiveVar(celestialViewerPlanetsVar);
+  const { uris } = useReactiveVar(celestialViewerPlanetDataUris);
 
   const { secondary } = useReactiveVar(colorsVar);
 
@@ -190,25 +193,34 @@ export const GoldilocksFocusUI = () => {
     <>
       {selectedPlanet && <PlanetNameEditor />}
       {planets.map(({ name, id }) => (
-        <Button
-          width="100%"
-          key={id}
-          flexGrow={1}
-          opacity={0.75}
-          {...responsiveFontProps}
-          _disabled={{
-            bg: `${secondary}.700`,
-            pointerEvents: 'none',
-            opacity: 1,
-            _hover: { bg: `${secondary}.600` },
-          }}
-          isDisabled={selectedPlanet?.id === id}
-          onClick={() => {
-            celestialViewerSelectedPlanet({ name, id });
-          }}
-        >
-          {name.toLocaleUpperCase()}{' '}
-        </Button>
+        <HStack width="100%">
+          <Image
+            boxSize="40px"
+            src={uris.find(({ seed }) => seed === id)?.uri}
+            fallbackSrc="/placeholders/75x75.png"
+            borderRadius="full"
+            objectFit="cover"
+          />
+          <Button
+            width="100%"
+            key={id}
+            flexGrow={1}
+            opacity={0.75}
+            {...responsiveFontProps}
+            _disabled={{
+              bg: `${secondary}.700`,
+              pointerEvents: 'none',
+              opacity: 1,
+              _hover: { bg: `${secondary}.600` },
+            }}
+            isDisabled={selectedPlanet?.id === id}
+            onClick={() => {
+              celestialViewerSelectedPlanet({ name, id });
+            }}
+          >
+            {name.toLocaleUpperCase()}{' '}
+          </Button>
+        </HStack>
       ))}
     </>
   );
