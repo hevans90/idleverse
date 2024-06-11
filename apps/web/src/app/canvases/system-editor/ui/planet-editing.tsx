@@ -1,6 +1,6 @@
 import { useReactiveVar } from '@apollo/client';
 import { RepeatIcon } from '@chakra-ui/icons';
-import { HStack, IconButton, Input, Text } from '@chakra-ui/react';
+import { HStack, IconButton, Input } from '@chakra-ui/react';
 import { generateCelestialName } from '@idleverse/galaxy-gen';
 import { colorsVar, planetGeneratorConfigVar } from '@idleverse/state';
 import { useEffect, useState } from 'react';
@@ -20,10 +20,8 @@ export const PlanetNameEditor = () => {
 
   return (
     <HStack mb={1}>
-      <Text minWidth="50px" fontSize={['2xs', 'xss']}>
-        name
-      </Text>
       <Input
+        placeholder="planet name"
         fontSize="2xs"
         value={localConfigValues.name}
         maxLength={25}
