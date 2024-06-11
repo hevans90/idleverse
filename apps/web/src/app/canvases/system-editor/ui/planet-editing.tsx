@@ -20,7 +20,7 @@ export const PlanetNameEditor = () => {
 
   return (
     <HStack mb={1}>
-      <Text minWidth="100px" fontSize={['2xs', 'xss']}>
+      <Text minWidth="50px" fontSize={['2xs', 'xss']}>
         name
       </Text>
       <Input

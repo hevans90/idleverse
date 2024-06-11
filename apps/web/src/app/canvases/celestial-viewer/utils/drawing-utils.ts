@@ -44,7 +44,8 @@ export const build2DPlanet = ({
   const texture = app.renderer?.generateTexture(planetGraphic);
   const sprite = new Sprite(texture);
 
-  sprite.name = name;
+  // important to use the id here because we can change the name in the planet editor
+  sprite.name = id;
   sprite.eventMode = 'static';
   sprite.cursor = 'pointer';
   sprite.zIndex = 1;
