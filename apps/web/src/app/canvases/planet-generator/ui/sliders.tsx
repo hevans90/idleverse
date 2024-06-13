@@ -44,13 +44,13 @@ export const planetGeneratorSlidersConfig: PlanetGeneratorSliderType[] = [
   {
     name: 'radius',
     displayName: 'Radius',
-    min: 1,
-    max: 8,
+    min: 0.25,
+    max: 3,
     step: 0.25,
   },
   {
     name: 'atmosphericDistance',
-    displayName: 'Atmospheric Dist.',
+    displayName: 'Atmosphere',
     min: 1,
     max: 8,
     step: 1,

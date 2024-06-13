@@ -24,7 +24,7 @@ import { Asteroids } from '../_rendering/asteroids';
 
 import { useEditablePlanets } from './hooks/use-editable-planets';
 import { PlanetContainer } from './planet.container';
-import { SystemEditorFocusUI } from './ui/focus-ui';
+import { SystemEditorFocusUI } from './ui/focus-ui/focus-ui';
 import { SystemEditorOverview } from './ui/overview';
 import { useCelestialAudio } from './use-celestial-audio.hook';
 

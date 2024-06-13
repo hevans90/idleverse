@@ -16,12 +16,7 @@ import {
 import { hexToRGB } from '@idleverse/theme';
 import { useCallback, useEffect } from 'react';
 import { randomPointInAnnulus } from '../../_utils/random-point-in-annulus';
-import {
-  generateNewPlanet,
-  generatePlanetInsertionVars,
-} from '../../planet-generator/generate-planet-input-vars';
-
-import { isEqual } from 'lodash';
+import { generateNewPlanet } from '../../planet-generator/generate-planet-input-vars';
 
 export const useEditablePlanets = ({
   worldRadii,
@@ -43,7 +38,6 @@ export const useEditablePlanets = ({
     [worldRadii, center]
   );
 
-  const currentPlanetEditorConfig = useReactiveVar(planetGeneratorConfigVar);
   const { id: userId } = useReactiveVar(selfVar);
   const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanetVar);
   const palettes = useReactiveVar(colorPalettesVar);
@@ -88,53 +82,55 @@ export const useEditablePlanets = ({
   /**
    * Update all our global reactive vars when a change is made to a planet
    */
-  useEffect(() => {
-    // find our planet
-    const editedPlanetIndex = planets.findIndex(
-      ({ id }) => id === currentPlanetEditorConfig.seed
-    );
+  // useEffect(() => {
+  //   // find our planet
+  //   const currentConfig = planetGeneratorConfigVar();
 
-    if (editedPlanetIndex !== undefined && editedPlanetIndex >= 0) {
-      const {
-        celestial_id,
-        rings,
-        terrain_hex_palette_id,
-        ...newCreationInput
-      } = generatePlanetInsertionVars('', userId);
+  //   const editedPlanetIndex = planets.findIndex(
+  //     ({ id }) => id === currentConfig.seed
+  //   );
 
-      const planetAfterEditing = {
-        ...newCreationInput,
-        rings: rings.data,
-        terrain_hex_palette: palettes.find(
-          ({ id }) => id === terrain_hex_palette_id
-        ),
-      };
+  //   if (editedPlanetIndex !== undefined && editedPlanetIndex >= 0) {
+  //     const {
+  //       celestial_id,
+  //       rings,
+  //       terrain_hex_palette_id,
+  //       ...newCreationInput
+  //     } = generatePlanetInsertionVars('', userId);
 
-      const { celestial, ...planetBeforeEditing } = planets[editedPlanetIndex];
+  //     const planetAfterEditing = {
+  //       ...newCreationInput,
+  //       rings: rings.data,
+  //       terrain_hex_palette: palettes.find(
+  //         ({ id }) => id === terrain_hex_palette_id
+  //       ),
+  //     };
 
-      const same = isEqual(planetAfterEditing, planetBeforeEditing);
+  //     const { celestial, ...planetBeforeEditing } = planets[editedPlanetIndex];
 
-      if (!same) {
-        celestialViewerPlanetsVar(
-          planets.map((element, index) =>
-            index === editedPlanetIndex
-              ? {
-                  ...element,
-                  name: currentPlanetEditorConfig.name,
-                  // add other props here to change 2D renders
-                }
-              : element
-          )
-        );
-        if (selectedPlanet) {
-          celestialViewerSelectedPlanetVar({
-            name: currentPlanetEditorConfig.name,
-            id: currentPlanetEditorConfig.seed,
-          });
-        }
-      }
-    }
-  }, [currentPlanetEditorConfig, userId, planets, palettes, selectedPlanet]);
+  //     const same = isEqual(planetAfterEditing, planetBeforeEditing);
+
+  //     if (!same) {
+  //       celestialViewerPlanetsVar(
+  //         planets.map((element, index) =>
+  //           index === editedPlanetIndex
+  //             ? {
+  //                 ...element,
+  //                 name: currentConfig.name,
+  //                 // add other props here to change 2D renders
+  //               }
+  //             : element
+  //         )
+  //       );
+  //       if (selectedPlanet) {
+  //         celestialViewerSelectedPlanetVar({
+  //           name: currentConfig.name,
+  //           id: currentConfig.seed,
+  //         });
+  //       }
+  //     }
+  //   }
+  // }, [userId, planets, palettes, selectedPlanet]);
 
   /**
    * Set the vars to power our 3D planet renderer

@@ -84,7 +84,7 @@ export const PlanetContainer = ({
     Promise.all(pixelDataToGenerate).then((values) => {
       setPixelData(values);
     });
-  }, [planets]);
+  }, [JSON.stringify(planets)]);
 
   const onDataURIGenerationfinished = async (data: {
     celestialId: string;
