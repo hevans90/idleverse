@@ -2,7 +2,7 @@ import { useReactiveVar } from '@apollo/client';
 import {
   celestialViewerPlanetDataUris,
   celestialViewerPlanetsVar,
-  celestialViewerSelectedPlanet,
+  celestialViewerSelectedPlanetVar,
 } from '@idleverse/state';
 import { hexStringToNumber, hexToRGB, useUiBackground } from '@idleverse/theme';
 import { useApp } from '@pixi/react';
@@ -133,7 +133,7 @@ export const PlanetContainer = ({
           name,
           id,
           selectionFunction: () => {
-            celestialViewerSelectedPlanet({
+            celestialViewerSelectedPlanetVar({
               name,
               id,
             });

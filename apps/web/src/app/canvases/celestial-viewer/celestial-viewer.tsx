@@ -15,7 +15,7 @@ import {
 
 import {
   celestialViewerPlanetDataUris,
-  celestialViewerSelectedPlanet,
+  celestialViewerSelectedPlanetVar,
   timeVar,
 } from '@idleverse/state';
 import { useStarField } from '../../showreel/colyseus-poc/rendering/use-starfield';
@@ -53,7 +53,7 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
 
   const [planets, setPlanets] = useState<Planet[]>([]);
 
-  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanet);
+  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanetVar);
   const planetDataUris = useReactiveVar(celestialViewerPlanetDataUris);
 
   const solarSystemContainerRef = useRef(new Container());
@@ -123,7 +123,7 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
               name,
               id,
               selectionFunction: () => {
-                celestialViewerSelectedPlanet({
+                celestialViewerSelectedPlanetVar({
                   name,
                   id,
                 });
@@ -135,7 +135,7 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
 
         // select first planet
         if (celestial.planets.length) {
-          celestialViewerSelectedPlanet({
+          celestialViewerSelectedPlanetVar({
             name: celestial.planets[0].name,
             id: celestial.planets[0].id,
           });

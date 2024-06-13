@@ -5,24 +5,23 @@ import {
   SystemFocus,
   celestialViewerGenerationVar,
   celestialViewerPlanetsVar,
-  celestialViewerSelectedPlanet,
+  celestialViewerSelectedPlanetVar,
   colorPalettesVar,
   planetGenerationColorDrawerVar,
   planetGenerationRingDrawerVar,
   planetGeneratorConfigVar,
   selfVar,
+  systemEditorNewPlanetVar,
 } from '@idleverse/state';
 import { hexToRGB } from '@idleverse/theme';
 import { useCallback, useEffect } from 'react';
 import { randomPointInAnnulus } from '../../_utils/random-point-in-annulus';
-import { generatePlanetInsertionVars } from '../../planet-generator/generate-planet-input-vars';
+import {
+  generateNewPlanet,
+  generatePlanetInsertionVars,
+} from '../../planet-generator/generate-planet-input-vars';
 
 import { isEqual } from 'lodash';
-
-type ComparablePlanet = Omit<
-  PlanetByIdQuery['planet_by_pk'],
-  'rings' | 'celestial'
-> & { rings: Omit<PlanetByIdQuery['planet_by_pk']['rings'][0], 'id'>[] };
 
 export const useEditablePlanets = ({
   worldRadii,
@@ -46,10 +45,12 @@ export const useEditablePlanets = ({
 
   const currentPlanetEditorConfig = useReactiveVar(planetGeneratorConfigVar);
   const { id: userId } = useReactiveVar(selfVar);
-  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanet);
+  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanetVar);
   const palettes = useReactiveVar(colorPalettesVar);
 
   const planets = useReactiveVar(celestialViewerPlanetsVar);
+
+  const creatingNewPlanet = useReactiveVar(systemEditorNewPlanetVar);
 
   useEffect(() => {
     if (!celestialViewerPlanetsVar().length) {
@@ -67,7 +68,6 @@ export const useEditablePlanets = ({
           terrain_bias: [0, 0.65, 0.73, 0.82],
           terrain_hex_palette: palettes?.[0],
         },
-
         {
           celestial: null,
           orbital_radius: randomGoldilocksRadii(),
@@ -85,6 +85,9 @@ export const useEditablePlanets = ({
     }
   }, []);
 
+  /**
+   * Update all our global reactive vars when a change is made to a planet
+   */
   useEffect(() => {
     // find our planet
     const editedPlanetIndex = planets.findIndex(
@@ -99,7 +102,7 @@ export const useEditablePlanets = ({
         ...newCreationInput
       } = generatePlanetInsertionVars('', userId);
 
-      const planetAfterEditing: ComparablePlanet = {
+      const planetAfterEditing = {
         ...newCreationInput,
         rings: rings.data,
         terrain_hex_palette: palettes.find(
@@ -112,16 +115,19 @@ export const useEditablePlanets = ({
       const same = isEqual(planetAfterEditing, planetBeforeEditing);
 
       if (!same) {
-        console.log('updating');
         celestialViewerPlanetsVar(
           planets.map((element, index) =>
             index === editedPlanetIndex
-              ? { ...element, name: currentPlanetEditorConfig.name }
+              ? {
+                  ...element,
+                  name: currentPlanetEditorConfig.name,
+                  // add other props here to change 2D renders
+                }
               : element
           )
         );
         if (selectedPlanet) {
-          celestialViewerSelectedPlanet({
+          celestialViewerSelectedPlanetVar({
             name: currentPlanetEditorConfig.name,
             id: currentPlanetEditorConfig.seed,
           });
@@ -130,52 +136,73 @@ export const useEditablePlanets = ({
     }
   }, [currentPlanetEditorConfig, userId, planets, palettes, selectedPlanet]);
 
+  /**
+   * Set the vars to power our 3D planet renderer
+   */
   useEffect(() => {
     if (selectedPlanet) {
       const planet = planets.find(({ id }) => id === selectedPlanet.id);
-
-      planetGeneratorConfigVar({
-        ...planetGeneratorConfigVar(),
-        atmosphericDistance: planet.atmospheric_distance,
-        name: planet.name,
-        orbitalRadius: planet.orbital_radius,
-        seed: planet.id,
-        textureResolution: planet.texture_resolution,
-        radius: planet.radius,
-      });
-
-      planetGenerationColorDrawerVar({
-        panelOpen: false,
-        terrainBias: planet.terrain_bias as [number, number, number, number],
-        palettePresetName: planet.terrain_hex_palette.name,
-      });
-
-      planetGenerationRingDrawerVar({
-        panelOpen: false,
-        rings: planet.rings.map(
-          (ring) =>
-            ({
-              ...ring,
-              id: ring.id ?? '',
-              type: ring.type as RingKey,
-              rotation: ring.rotation as [x: number, y: number, z: number],
-              innerRadius: ring.inner_radius,
-              outerRadius: ring.outer_radius,
-              terrainBias: ring.terrain_bias as [
-                number,
-                number,
-                number,
-                number
-              ],
-              colors: ring.colors.map((color) => hexToRGB(color)) as [
-                rgb,
-                rgb,
-                rgb,
-                rgb
-              ],
-            } as RingConfig)
-        ),
-      });
+      update3DPlanetRenderer(planet);
     }
-  }, [selectedPlanet, planets]);
+
+    if (creatingNewPlanet) {
+      const {
+        celestial_id,
+        rings,
+        terrain_hex_palette_id,
+        ...newCreationInput
+      } = generateNewPlanet();
+
+      const newPlanet = {
+        celestial: null,
+        ...newCreationInput,
+        rings: rings.data,
+        terrain_hex_palette: palettes.find(
+          ({ id }) => id === terrain_hex_palette_id
+        ),
+      };
+
+      update3DPlanetRenderer(newPlanet as PlanetByIdQuery['planet_by_pk']);
+    }
+  }, [selectedPlanet, planets, creatingNewPlanet, palettes, userId]);
+};
+
+const update3DPlanetRenderer = (planet: PlanetByIdQuery['planet_by_pk']) => {
+  planetGeneratorConfigVar({
+    ...planetGeneratorConfigVar(),
+    atmosphericDistance: planet.atmospheric_distance,
+    name: planet.name,
+    orbitalRadius: planet.orbital_radius,
+    seed: planet.id,
+    textureResolution: planet.texture_resolution,
+    radius: planet.radius,
+  });
+
+  planetGenerationColorDrawerVar({
+    panelOpen: false,
+    terrainBias: planet.terrain_bias as [number, number, number, number],
+    palettePresetName: planet.terrain_hex_palette.name,
+  });
+
+  planetGenerationRingDrawerVar({
+    panelOpen: false,
+    rings: planet.rings.map(
+      (ring) =>
+        ({
+          ...ring,
+          id: ring?.id ?? '',
+          type: ring.type as RingKey,
+          rotation: ring.rotation as [x: number, y: number, z: number],
+          innerRadius: ring.inner_radius,
+          outerRadius: ring.outer_radius,
+          terrainBias: ring.terrain_bias as [number, number, number, number],
+          colors: ring.colors.map((color) => hexToRGB(color)) as [
+            rgb,
+            rgb,
+            rgb,
+            rgb
+          ],
+        } as RingConfig)
+    ),
+  });
 };

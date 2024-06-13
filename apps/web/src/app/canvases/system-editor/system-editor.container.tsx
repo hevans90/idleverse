@@ -10,23 +10,18 @@ import { PixiViewport } from '../_utils/viewport';
 import { SystemEditorInteractions } from './system-editor-interactions';
 
 import { useReactiveVar } from '@apollo/client';
-import { HStack, VStack, useBreakpointValue } from '@chakra-ui/react';
+import { HStack, useBreakpointValue } from '@chakra-ui/react';
 import {
   CelestialAudioName,
   SystemFocus,
   celestialViewerGenerationVar,
-  celestialViewerPlanetsVar,
-  celestialViewerSelectedPlanet,
   dialogVar,
   systemEditorConfigVar,
   systemEditorFocusVar,
 } from '@idleverse/state';
-import { useUiBackground } from '@idleverse/theme';
-import { AnimatedFrame } from '@idleverse/ui';
 import { Dialog } from '../../game-ui/dialog';
 import { Asteroids } from '../_rendering/asteroids';
 
-import { PlanetGenerator } from '../planet-generator/planet-generator';
 import { useEditablePlanets } from './hooks/use-editable-planets';
 import { PlanetContainer } from './planet.container';
 import { SystemEditorFocusUI } from './ui/focus-ui';
@@ -37,16 +32,11 @@ export const SystemEditorContainer = () => {
   const viewportRef = useRef<Viewport>(null);
   const containerRef = useRef<PixiContainer>();
 
-  const { rawBgDarker } = useUiBackground();
-
   const dataURICanvasRef = useRef<HTMLCanvasElement>(null);
-
-  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanet);
 
   const { open: dialogOpen } = useReactiveVar(dialogVar);
 
   const size = useResize(dialogOpen ? 'dialog' : 'none');
-  const sizeWithoutDialog = useResize();
 
   const { mode, formingPoints } = useReactiveVar(celestialViewerGenerationVar);
 
@@ -86,8 +76,6 @@ export const SystemEditorContainer = () => {
   }, [celestialRadius, worldSize.width]);
 
   useEditablePlanets({ worldRadii, center });
-
-  const planets = useReactiveVar(celestialViewerPlanetsVar);
 
   const focus = useReactiveVar(systemEditorFocusVar);
 
@@ -179,30 +167,9 @@ export const SystemEditorContainer = () => {
         gap={0}
       >
         {focus && (
-          <VStack maxWidth={isMobile ? 'unset' : 300}>
-            <AnimatedFrame
-              show={!!selectedPlanet}
-              bg={rawBgDarker}
-              leftBottom={!isMobile ? false : true}
-              containerProps={{
-                height: [
-                  sizeWithoutDialog.height / 4,
-                  sizeWithoutDialog.height / 3,
-                ],
-                width: ['100vw', '100%'],
-                position: ['fixed', 'relative'],
-                top: ['20vh', 'unset'],
-                left: [0, 'unset'],
-                display: isMobile && dialogOpen ? 'none' : 'block',
-              }}
-            >
-              <PlanetGenerator stars={false} fullUI={false} />
-            </AnimatedFrame>
-
-            <SystemEditorFocusUI
-              display={isMobile && dialogOpen ? 'none' : 'block'}
-            />
-          </VStack>
+          <SystemEditorFocusUI
+            display={isMobile && dialogOpen ? 'none' : 'block'}
+          />
         )}
         <Dialog
           position="static"

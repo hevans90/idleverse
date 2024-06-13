@@ -1,8 +1,10 @@
 import { PlanetCreationInput, RingInsertInput } from '@idleverse/galaxy-gql';
 import { RingConfig } from '@idleverse/models';
 import {
+  NEW_PLANET_ID,
   colorPalettesVar,
   planetGenerationColorDrawerVar,
+  planetGenerationPresets,
   planetGenerationRingDrawerVar,
   planetGeneratorConfigVar,
 } from '@idleverse/state';
@@ -25,6 +27,32 @@ const mapFromRingConfigToRingInsertInput = ({
   terrain_bias: terrainBias,
   type,
 });
+
+export const generateNewPlanet = (): PlanetCreationInput => {
+  const { appearance, config, rings } = planetGenerationPresets[0];
+
+  const colorPalettes = colorPalettesVar();
+
+  const currentPalette = colorPalettes.find(
+    ({ name }) => name === appearance.palettePresetName
+  );
+
+  return {
+    id: NEW_PLANET_ID,
+    celestial_id: '',
+    owner_id: '',
+    radius: config.radius,
+    name: config.name,
+    rings: {
+      data: rings.map((ring) => mapFromRingConfigToRingInsertInput(ring)),
+    },
+    terrain_bias: appearance.terrainBias,
+    terrain_hex_palette_id: currentPalette.id,
+    texture_resolution: config.textureResolution,
+    atmospheric_distance: config.atmosphericDistance,
+    orbital_radius: config.orbitalRadius,
+  };
+};
 
 export const generatePlanetInsertionVars = (
   celestialId?: string,
