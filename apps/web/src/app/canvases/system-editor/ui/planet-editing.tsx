@@ -10,14 +10,25 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
   RangeSlider,
   RangeSliderFilledTrack,
   RangeSliderThumb,
   RangeSliderTrack,
+  Slider,
+  SliderFilledTrack,
+  SliderThumb,
+  SliderTrack,
   Text,
   VStack,
 } from '@chakra-ui/react';
 import { generateCelestialName } from '@idleverse/galaxy-gen';
+import { Terrain_Hex_Palette } from '@idleverse/galaxy-gql';
+import { PlanetGenerationConfig } from '@idleverse/models';
 import {
   colorPalettesVar,
   colorsVar,
@@ -26,9 +37,15 @@ import {
 } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
 import { Fragment, useEffect, useState } from 'react';
+import { responsiveFontProps } from '../../../_responsive-utils/font-props';
 import { ColorQuad } from '../../planet-generator/ui/color-quad';
+import { planetGeneratorSlidersConfig } from '../../planet-generator/ui/sliders';
 
-export const PlanetNameEditor = () => {
+export const PlanetNameEditor = ({
+  onNameChange,
+}: {
+  onNameChange: (string) => void;
+}) => {
   const currentConfig = useReactiveVar(planetGeneratorConfigVar);
 
   const [localConfigValues, setLocalValues] = useState(
@@ -54,10 +71,7 @@ export const PlanetNameEditor = () => {
             ...localConfigValues,
             name: event.target.value,
           });
-          planetGeneratorConfigVar({
-            ...planetGeneratorConfigVar(),
-            name: event.target.value,
-          });
+          onNameChange(event.target.value);
         }}
       />
       <IconButton
@@ -72,17 +86,20 @@ export const PlanetNameEditor = () => {
             ...localConfigValues,
             name,
           });
-          planetGeneratorConfigVar({
-            ...planetGeneratorConfigVar(),
-            name,
-          });
+          onNameChange(name);
         }}
       />
     </HStack>
   );
 };
 
-export const PlanetAppearanceEditor = () => {
+export const PlanetAppearanceEditor = ({
+  onPaletteChange,
+  onBiasChange,
+}: {
+  onPaletteChange: (palette: Terrain_Hex_Palette) => void;
+  onBiasChange: (biases: [number, number, number, number]) => void;
+}) => {
   const appearance = useReactiveVar(planetGenerationColorDrawerVar);
   const { bg, border } = useUiBackground();
   const { primary } = useReactiveVar(colorsVar);
@@ -90,14 +107,9 @@ export const PlanetAppearanceEditor = () => {
   const palettePresets = useReactiveVar(colorPalettesVar);
 
   // set a default here because we need access to the useTheme hook to pull colors
-  const [localPalette, setLocalPalette] = useState<{
-    forest: string;
-    grass: string;
-    id: string;
-    name: string;
-    sand: string;
-    water: string;
-  }>(palettePresets[0]);
+  const [localPalette, setLocalPalette] = useState<Terrain_Hex_Palette>(
+    palettePresets[0]
+  );
 
   useEffect(() => {
     const existingPalette = palettePresets.find(
@@ -107,17 +119,11 @@ export const PlanetAppearanceEditor = () => {
     if (existingPalette) {
       setLocalPalette(existingPalette);
     }
-  }, []);
-
-  useEffect(() => {
-    planetGenerationColorDrawerVar({
-      ...appearance,
-      palettePresetName: localPalette.name,
-    });
-  }, [localPalette]);
+  }, [appearance, palettePresets]);
 
   return (
     <VStack w="100%">
+      {/* Palette */}
       <Menu>
         <MenuButton
           w="100%"
@@ -140,7 +146,8 @@ export const PlanetAppearanceEditor = () => {
               <MenuItem
                 bg={bg}
                 _hover={{ bg: `${primary}.600` }}
-                onClick={() =>
+                onClick={() => {
+                  console.log('new appearance', id);
                   setLocalPalette({
                     name,
                     water,
@@ -148,8 +155,20 @@ export const PlanetAppearanceEditor = () => {
                     grass,
                     forest,
                     id,
-                  })
-                }
+                  });
+                  planetGenerationColorDrawerVar({
+                    ...appearance,
+                    palettePresetName: name,
+                  });
+                  onPaletteChange({
+                    name,
+                    water,
+                    sand,
+                    grass,
+                    forest,
+                    id,
+                  });
+                }}
               >
                 <HStack
                   width="100%"
@@ -165,18 +184,21 @@ export const PlanetAppearanceEditor = () => {
           ))}
         </MenuList>
       </Menu>
+
+      {/* Terrain Biases */}
       <Box padding={2} w="100%" zIndex={1}>
         <RangeSlider
           defaultValue={appearance.terrainBias}
           min={0}
           max={1}
           step={0.01}
-          onChangeEnd={(val: [number, number, number, number]) =>
+          onChangeEnd={(biases: [number, number, number, number]) => {
             planetGenerationColorDrawerVar({
               ...appearance,
-              terrainBias: val,
-            })
-          }
+              terrainBias: biases,
+            });
+            onBiasChange(biases);
+          }}
         >
           <RangeSliderTrack>
             <RangeSliderFilledTrack />
@@ -203,6 +225,95 @@ export const PlanetAppearanceEditor = () => {
           />
         </RangeSlider>
       </Box>
+    </VStack>
+  );
+};
+
+export const PlanetConfigEditor = ({
+  onConfigChange,
+}: {
+  onConfigChange: (key: keyof PlanetGenerationConfig, value: number) => void;
+}) => {
+  const initialPlanetGenerationConfig = planetGeneratorConfigVar();
+
+  const [localConfigValues, setLocalValues] = useState(
+    initialPlanetGenerationConfig
+  );
+
+  useEffect(() => {
+    setLocalValues({ ...initialPlanetGenerationConfig });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <VStack>
+      {planetGeneratorSlidersConfig.map((slider, index) => (
+        <HStack
+          key={`${index}-container`}
+          alignItems="center"
+          marginBottom="5px"
+          justifyContent="space-between"
+          gap={2}
+          position="relative"
+        >
+          <Text position="absolute" top={-2} fontSize={['2xs', 'xs']}>
+            {slider.displayName}
+          </Text>
+          <Slider
+            key={`${index}-slider`}
+            width="75%"
+            aria-label={`${slider.name}-slider`}
+            value={localConfigValues[slider.name] as number}
+            defaultValue={initialPlanetGenerationConfig[slider.name] as number}
+            min={slider.min}
+            max={slider.max}
+            step={slider.step}
+            onChange={(event: number) => {
+              setLocalValues({
+                ...localConfigValues,
+                [slider.name]: event,
+              });
+              planetGeneratorConfigVar({
+                ...planetGeneratorConfigVar(),
+                [slider.name]: event,
+              });
+              onConfigChange(slider.name, event);
+            }}
+            focusThumbOnChange={false}
+          >
+            <SliderTrack>
+              <SliderFilledTrack />
+            </SliderTrack>
+            <SliderThumb />
+          </Slider>
+
+          <NumberInput
+            width="45%"
+            key={`${index}-number`}
+            value={localConfigValues[slider.name] as number}
+            defaultValue={initialPlanetGenerationConfig[slider.name] as number}
+            min={slider.min}
+            max={slider.max}
+            step={slider.step}
+            onChange={(event: string) => {
+              setLocalValues({
+                ...localConfigValues,
+                [slider.name]: parseFloat(event),
+              });
+              planetGeneratorConfigVar({
+                ...planetGeneratorConfigVar(),
+                [slider.name]: parseFloat(event),
+              });
+            }}
+          >
+            <NumberInputField autoFocus {...responsiveFontProps} />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
+        </HStack>
+      ))}
     </VStack>
   );
 };
