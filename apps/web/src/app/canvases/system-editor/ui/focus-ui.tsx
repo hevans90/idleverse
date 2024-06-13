@@ -192,15 +192,18 @@ export const GoldilocksFocusUI = () => {
   return (
     <>
       {selectedPlanet && <PlanetNameEditor />}
-      {planets.map(({ name, id }) => (
+      {planets.map(({ name, id, radius }) => (
         <HStack width="100%">
-          <Image
-            boxSize="40px"
-            src={uris.find(({ seed }) => seed === id)?.uri}
-            fallbackSrc="/placeholders/75x75.png"
-            borderRadius="full"
-            objectFit="cover"
-          />
+          <Box minW="40px">
+            <Image
+              margin="auto"
+              boxSize={`${40 * radius}px`}
+              src={uris.find(({ seed }) => seed === id)?.uri}
+              fallbackSrc="/placeholders/75x75.png"
+              borderRadius="full"
+              objectFit="cover"
+            />
+          </Box>
           <Button
             width="100%"
             key={id}
