@@ -28,7 +28,7 @@ export const celestialMediaVar = makeVar<{
   data: [],
 });
 
-export const celestialViewerSelectedPlanet = makeVar<{
+export const celestialViewerSelectedPlanetVar = makeVar<{
   name: string;
   id: string;
 } | null>(null);

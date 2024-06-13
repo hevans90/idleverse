@@ -10,7 +10,10 @@ import { hexToRGB } from '@idleverse/theme';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { celestialVar, celestialViewerSelectedPlanet } from '@idleverse/state';
+import {
+  celestialVar,
+  celestialViewerSelectedPlanetVar,
+} from '@idleverse/state';
 import { loadPlanets } from '../../asset-loading/load-planets';
 import { Loading } from '../../components/loading';
 import { useEmpire } from '../../hooks/use-my-empire';
@@ -36,7 +39,7 @@ export const CelestialViewerContainer = () => {
   const [texturesGenerating, setTexturesGenerating] = useState(true);
   const [celestialSpritesLoading, setCelestialSpritesLoading] = useState(true);
 
-  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanet);
+  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanetVar);
 
   const [pixelData, setPixelData] = useState<
     {
@@ -60,7 +63,7 @@ export const CelestialViewerContainer = () => {
         selectedPlanet &&
         !data.celestial[0].planets.find(({ id }) => id === selectedPlanet.id)
       ) {
-        celestialViewerSelectedPlanet(null);
+        celestialViewerSelectedPlanetVar(null);
       }
 
       const pixelDataToGenerate: Promise<{

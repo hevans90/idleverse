@@ -21,7 +21,7 @@ import {
   SYSTEM_FOCI,
   celestialPresets,
   celestialViewerGenerationVar,
-  celestialViewerSelectedPlanet,
+  celestialViewerSelectedPlanetVar,
   colorsVar,
   dialogVar,
   systemEditorConfigVar,
@@ -103,7 +103,7 @@ export const SystemEditorOverview = ({
                   onClick={() => {
                     onDirectFocusClicked();
                     systemEditorFocusVar(focus);
-                    celestialViewerSelectedPlanet(null);
+                    celestialViewerSelectedPlanetVar(null);
                   }}
                 >
                   {focus.replace('-', ' ').toLocaleUpperCase()}{' '}
@@ -114,7 +114,7 @@ export const SystemEditorOverview = ({
                     onHelpClicked(focus);
                     systemEditorFocusVar(focus);
                     if (focus !== 'goldilocks-zone') {
-                      celestialViewerSelectedPlanet(null);
+                      celestialViewerSelectedPlanetVar(null);
                     }
                   }}
                   icon={<Icon as={HelpPixelIcon} {...responsiveIconProps} />}

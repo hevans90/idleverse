@@ -1,6 +1,6 @@
 import { useReactiveVar } from '@apollo/client';
 import { indicatorFactory } from '@idleverse/pixi-utils';
-import { celestialViewerSelectedPlanet } from '@idleverse/state';
+import { celestialViewerSelectedPlanetVar } from '@idleverse/state';
 import { Text } from 'pixi.js';
 import { useMemo } from 'react';
 
@@ -14,7 +14,7 @@ export const useSelectedPlanetIndicator = ({
   x: number;
   y: number;
 }) => {
-  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanet);
+  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanetVar);
 
   const indicatorKey = `${selectedPlanet?.id}_indicator_PRESERVE_SCALE`;
 

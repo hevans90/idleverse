@@ -1,5 +1,5 @@
 import { useReactiveVar } from '@apollo/client';
-import { celestialViewerSelectedPlanet, timeVar } from '@idleverse/state';
+import { celestialViewerSelectedPlanetVar, timeVar } from '@idleverse/state';
 import { Container, useApp } from '@pixi/react';
 import { Viewport } from 'pixi-viewport';
 import {
@@ -29,7 +29,7 @@ export const Planets = ({
   const app = useApp();
   const containerRef = useRef<PixiContainer>();
 
-  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanet);
+  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanetVar);
 
   const { selectedPlanetText, indicatorKey } = useSelectedPlanetIndicator({
     x: 0,

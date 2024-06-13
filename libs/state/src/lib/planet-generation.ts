@@ -8,14 +8,9 @@ import {
   RingConfig,
 } from '@idleverse/models';
 
-export const planetGenerationPresets: {
-  name: 'terran';
-  dimensions: PlanetGenerationConfig;
-  rings: RingConfig[];
-  appearance: PlanetAppearanceConfig;
-}[] = [];
+export const NEW_PLANET_ID = 'new-planet';
 
-export const planetGeneratorConfigVar = makeVar<PlanetGenerationConfig>({
+const defaultPlanetConfig: PlanetGenerationConfig = {
   name: generateCelestialName(),
   ui: true,
   radius: 1,
@@ -26,7 +21,54 @@ export const planetGeneratorConfigVar = makeVar<PlanetGenerationConfig>({
   atmosphere: true,
   rotate: true,
   orbitalRadius: 1,
-});
+};
+
+export const planetGenerationPresets: {
+  name: 'terran' | 'desert' | 'alien' | 'primordial';
+  appearance: PlanetAppearanceConfig;
+  config: PlanetGenerationConfig;
+  rings: RingConfig[];
+}[] = [
+  {
+    name: 'terran',
+    appearance: {
+      palettePresetName: 'terran',
+      terrainBias: [0, 0.65, 0.73, 0.82],
+    },
+    config: defaultPlanetConfig,
+    rings: [],
+  },
+  {
+    name: 'desert',
+    appearance: {
+      palettePresetName: 'desert',
+      terrainBias: [0, 0.5, 0.62, 0.9],
+    },
+    config: defaultPlanetConfig,
+    rings: [],
+  },
+  {
+    name: 'alien',
+    appearance: {
+      palettePresetName: 'desert',
+      terrainBias: [0, 0.65, 0.73, 0.82],
+    },
+    config: defaultPlanetConfig,
+    rings: [],
+  },
+  {
+    name: 'primordial',
+    appearance: {
+      palettePresetName: 'desert',
+      terrainBias: [0, 0.65, 0.73, 0.82],
+    },
+    config: defaultPlanetConfig,
+    rings: [],
+  },
+];
+
+export const planetGeneratorConfigVar =
+  makeVar<PlanetGenerationConfig>(defaultPlanetConfig);
 
 export const planetGenerationColorDrawerVar = makeVar<
   {

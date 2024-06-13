@@ -19,6 +19,7 @@ type SystemFociTuple = typeof SYSTEM_FOCI;
 
 export type SystemFocus = SystemFociTuple[number];
 
+export const systemEditorNewPlanetVar = makeVar<boolean>(false);
 export const systemEditorFocusVar = makeVar<SystemFocus | undefined>(undefined);
 
 export const systemEditorConfigVar = makeVarPersisted<{
