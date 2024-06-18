@@ -30,10 +30,12 @@ import { generateCelestialName } from '@idleverse/galaxy-gen';
 import { Terrain_Hex_Palette } from '@idleverse/galaxy-gql';
 import { PlanetGenerationConfig } from '@idleverse/models';
 import {
+  celestialViewerSelectedPlanetVar,
   colorPalettesVar,
   colorsVar,
   planetGenerationColorDrawerVar,
   planetGeneratorConfigVar,
+  systemEditorNewPlanetVar,
 } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
 import { Fragment, useEffect, useState } from 'react';
@@ -234,16 +236,18 @@ export const PlanetConfigEditor = ({
 }: {
   onConfigChange: (key: keyof PlanetGenerationConfig, value: number) => void;
 }) => {
-  const initialPlanetGenerationConfig = planetGeneratorConfigVar();
+  const currentConfig = useReactiveVar(planetGeneratorConfigVar);
 
-  const [localConfigValues, setLocalValues] = useState(
-    initialPlanetGenerationConfig
+  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanetVar);
+  const creatingNewPlanet = useReactiveVar(systemEditorNewPlanetVar);
+
+  const [localConfigValues, setLocalValues] = useState<PlanetGenerationConfig>(
+    planetGeneratorConfigVar()
   );
 
   useEffect(() => {
-    setLocalValues({ ...initialPlanetGenerationConfig });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    setLocalValues(currentConfig);
+  }, [currentConfig, selectedPlanet, creatingNewPlanet]);
 
   return (
     <VStack>
@@ -264,7 +268,6 @@ export const PlanetConfigEditor = ({
             width="75%"
             aria-label={`${slider.name}-slider`}
             value={localConfigValues[slider.name] as number}
-            defaultValue={initialPlanetGenerationConfig[slider.name] as number}
             min={slider.min}
             max={slider.max}
             step={slider.step}
@@ -291,7 +294,6 @@ export const PlanetConfigEditor = ({
             width="45%"
             key={`${index}-number`}
             value={localConfigValues[slider.name] as number}
-            defaultValue={initialPlanetGenerationConfig[slider.name] as number}
             min={slider.min}
             max={slider.max}
             step={slider.step}
