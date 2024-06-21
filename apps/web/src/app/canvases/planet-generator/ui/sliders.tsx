@@ -17,7 +17,7 @@ import {
   SliderTrack,
   Text,
 } from '@chakra-ui/react';
-import { generateCelestialName } from '@idleverse/galaxy-gen';
+import { WORLD_RADII, generateCelestialName } from '@idleverse/galaxy-gen';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -55,13 +55,13 @@ export const planetGeneratorSlidersConfig: PlanetGeneratorSliderType[] = [
     max: 8,
     step: 1,
   },
-  // {
-  //   name: 'pixelSize',
-  //   displayName: 'Pixel size',
-  //   min: 1,
-  //   max: 15,
-  //   step: 1,
-  // },
+  {
+    name: 'orbitalRadius',
+    displayName: 'Orbit',
+    min: WORLD_RADII['goldilocks-zone'].inner,
+    max: WORLD_RADII['goldilocks-zone'].outer,
+    step: 100,
+  },
   {
     name: 'textureResolution',
     displayName: 'Resolution',
@@ -70,6 +70,8 @@ export const planetGeneratorSlidersConfig: PlanetGeneratorSliderType[] = [
     step: 16,
   },
 ];
+
+console.log(WORLD_RADII);
 
 export const PlanetGeneratorSliders = () => {
   const { bg, border } = useUiBackground();

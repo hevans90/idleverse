@@ -1,6 +1,6 @@
 import { useReactiveVar } from '@apollo/client';
+import { SystemFocus } from '@idleverse/galaxy-gen';
 import {
-  SystemFocus,
   celestialViewerSelectedPlanetVar,
   colorsVar,
   systemEditorFocusVar,

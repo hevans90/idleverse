@@ -59,6 +59,12 @@ export type CelestialGenerationConfig = {
   radius: number;
 };
 
+export type CelestialVariant = {
+  name: string;
+  type: 'star' | 'black hole';
+  config: CelestialGenerationConfig;
+};
+
 export type BreadCrumb = {
   name: string;
   component: () => JSX.Element;

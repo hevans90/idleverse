@@ -15,10 +15,9 @@ import {
   VStack,
   useBreakpointValue,
 } from '@chakra-ui/react';
-import { generateCelestialName } from '@idleverse/galaxy-gen';
+import { SYSTEM_FOCI, generateCelestialName } from '@idleverse/galaxy-gen';
 import {
   CelestialAudioName,
-  SYSTEM_FOCI,
   celestialPresets,
   celestialViewerGenerationVar,
   celestialViewerSelectedPlanetVar,
