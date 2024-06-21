@@ -1,7 +1,7 @@
 import { Container } from '@pixi/react';
 import { Viewport } from 'pixi-viewport';
 import { Container as PixiContainer, Rectangle } from 'pixi.js';
-import { useMemo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { StarRenderer } from '../../showreel/star-editor/star-renderer';
 import { StarField } from '../_rendering/starfield';
 import { PixiWrapper } from '../_utils/pixi-wrapper';
@@ -13,7 +13,6 @@ import { useReactiveVar } from '@apollo/client';
 import { HStack, useBreakpointValue } from '@chakra-ui/react';
 import {
   CelestialAudioName,
-  SystemFocus,
   celestialViewerGenerationVar,
   dialogVar,
   systemEditorConfigVar,
@@ -22,6 +21,12 @@ import {
 import { Dialog } from '../../game-ui/dialog';
 import { Asteroids } from '../_rendering/asteroids';
 
+import {
+  CELESTIAL_RADIUS,
+  CENTER,
+  WORLD_RADII,
+  WORLD_SIZE,
+} from '@idleverse/galaxy-gen';
 import { useEditablePlanets } from './hooks/use-editable-planets';
 import { PlanetContainer } from './planet.container';
 import { SystemEditorFocusUI } from './ui/focus-ui/focus-ui';
@@ -48,34 +53,7 @@ export const SystemEditorContainer = () => {
     isOpen: true,
   });
 
-  const worldSize = useMemo(() => ({ width: 8000, height: 8000 }), []);
-
-  const center = useMemo(
-    () => ({
-      x: worldSize.width / 2,
-      y: worldSize.height / 2,
-    }),
-    [worldSize]
-  );
-
-  const [celestialRadius, setCelestialRadius] = useState(0.25);
-
-  const worldRadii = useMemo(() => {
-    const map: { [key in SystemFocus]: { inner: number; outer: number } } = {
-      celestial: { inner: 0, outer: celestialRadius * (worldSize.width / 3) },
-      'goldilocks-zone': {
-        inner: worldSize.width / 2 - worldSize.width / 6,
-        outer: worldSize.width / 2,
-      },
-      'asteroid-belt': {
-        inner: worldSize.width - worldSize.width / 4,
-        outer: worldSize.width - worldSize.width / 8,
-      },
-    };
-    return map;
-  }, [celestialRadius, worldSize.width]);
-
-  useEditablePlanets({ worldRadii, center });
+  useEditablePlanets();
 
   const focus = useReactiveVar(systemEditorFocusVar);
 
@@ -98,36 +76,36 @@ export const SystemEditorContainer = () => {
           ref={viewportRef}
           screenWidth={size.width}
           screenHeight={size.height}
-          worldHeight={worldSize.height}
-          worldWidth={worldSize.width}
+          worldHeight={WORLD_SIZE.height}
+          worldWidth={WORLD_SIZE.width}
           initialZoom={initialScale}
         >
           <StarField
-            center={center}
-            dimensions={worldSize}
+            center={CENTER}
+            dimensions={WORLD_SIZE}
             initialScale={initialScale}
             numberOfStars={5000}
-            radius={worldSize.width * 4}
+            radius={WORLD_SIZE.width * 4}
           />
 
           <Asteroids
-            center={center}
+            center={CENTER}
             dimensions={{
-              innerRadius: worldRadii['asteroid-belt'].inner,
-              outerRadius: worldRadii['asteroid-belt'].outer,
+              innerRadius: WORLD_RADII['asteroid-belt'].inner,
+              outerRadius: WORLD_RADII['asteroid-belt'].outer,
             }}
           />
 
           <PlanetContainer
             canvasRef={dataURICanvasRef}
             viewportRef={viewportRef}
-            center={center}
+            center={CENTER}
           />
 
           <SystemEditorInteractions
             viewportRef={viewportRef}
-            worldRadii={worldRadii}
-            center={center}
+            worldRadii={WORLD_RADII}
+            center={CENTER}
             isMobile={isMobile}
             canvasHeight={size.height}
           />
@@ -140,7 +118,7 @@ export const SystemEditorContainer = () => {
               config={config.celestial.config}
               containerRef={containerRef}
               viewportRef={viewportRef}
-              starRadius={celestialRadius}
+              starRadius={CELESTIAL_RADIUS}
               size={size}
             />
           </Container>

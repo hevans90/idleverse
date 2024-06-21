@@ -1,8 +1,8 @@
 import { useReactiveVar } from '@apollo/client';
+import { randomGoldilocksRadii } from '@idleverse/galaxy-gen';
 import { PlanetByIdQuery } from '@idleverse/galaxy-gql';
 import { RingConfig, RingKey, rgb } from '@idleverse/models';
 import {
-  SystemFocus,
   celestialViewerGenerationVar,
   celestialViewerPlanetsVar,
   celestialViewerSelectedPlanetVar,
@@ -14,29 +14,11 @@ import {
   systemEditorNewPlanetVar,
 } from '@idleverse/state';
 import { hexToRGB } from '@idleverse/theme';
-import { useCallback, useEffect } from 'react';
-import { randomPointInAnnulus } from '../../_utils/random-point-in-annulus';
+import { useEffect } from 'react';
 import { generateNewPlanet } from '../../planet-generator/generate-planet-input-vars';
 
-export const useEditablePlanets = ({
-  worldRadii,
-  center,
-}: {
-  worldRadii: { [key in SystemFocus]: { inner: number; outer: number } };
-  center: { x: number; y: number };
-}) => {
+export const useEditablePlanets = () => {
   const { mode, formingPoints } = useReactiveVar(celestialViewerGenerationVar);
-  const randomGoldilocksRadii = useCallback(
-    () =>
-      randomPointInAnnulus({
-        dimensions: {
-          innerRadius: worldRadii['goldilocks-zone'].inner,
-          outerRadius: worldRadii['goldilocks-zone'].outer,
-        },
-        center,
-      }).radius,
-    [worldRadii, center]
-  );
 
   const { id: userId } = useReactiveVar(selfVar);
   const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanetVar);
@@ -138,7 +120,9 @@ export const useEditablePlanets = ({
   useEffect(() => {
     if (selectedPlanet) {
       const planet = planets.find(({ id }) => id === selectedPlanet.id);
-      update3DPlanetRenderer(planet);
+      if (planet) {
+        update3DPlanetRenderer(planet);
+      }
     }
 
     if (creatingNewPlanet) {

@@ -297,7 +297,9 @@ export const PlanetConfigEditor = ({
             min={slider.min}
             max={slider.max}
             step={slider.step}
+            precision={0}
             onChange={(event: string) => {
+              console.log(slider.displayName, event);
               setLocalValues({
                 ...localConfigValues,
                 [slider.name]: parseFloat(event),
@@ -308,7 +310,7 @@ export const PlanetConfigEditor = ({
               });
             }}
           >
-            <NumberInputField autoFocus {...responsiveFontProps} />
+            <NumberInputField autoFocus {...responsiveFontProps} pl={1} />
             <NumberInputStepper>
               <NumberIncrementStepper />
               <NumberDecrementStepper />
