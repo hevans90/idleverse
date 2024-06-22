@@ -1,5 +1,5 @@
 import { useReactiveVar } from '@apollo/client';
-import { SettingsIcon } from '@chakra-ui/icons';
+
 import {
   Button,
   ButtonProps,
@@ -14,8 +14,6 @@ import {
   useColorModeValue,
   VStack,
 } from '@chakra-ui/react';
-import { GiMining, GiTalk } from 'react-icons/gi';
-import { MdMenuBook } from 'react-icons/md';
 
 import {
   empireNpcsVar,
@@ -24,6 +22,12 @@ import {
   hotkeyHintsVar,
 } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
+import {
+  BookOpenPixelIcon,
+  DollarPixelIcon,
+  SlidersPixelIcon,
+  UsersPixelIcon,
+} from '@idleverse/ui';
 import {
   responsiveFontProps,
   responsiveIconProps,
@@ -104,7 +108,7 @@ export const InGameMenu = ({ ...stackProps }: InGameMenuProps) => {
             globalUiVar({ ...globalUiVar(), questJournalOpen: true });
           }}
         >
-          <Icon as={MdMenuBook} {...iconProps} />
+          <Icon as={BookOpenPixelIcon} {...iconProps} />
           {hotkeyHints && <Kbd {...responsiveFontProps}>J</Kbd>}
         </Button>
       </MenuToolTip>
@@ -116,7 +120,7 @@ export const InGameMenu = ({ ...stackProps }: InGameMenuProps) => {
               globalUiVar({ ...globalUiVar(), npcContactOpen: true });
             }}
           >
-            <Icon as={GiTalk} {...iconProps} />
+            <Icon as={UsersPixelIcon} {...iconProps} />
             {hotkeyHints && <Kbd {...responsiveFontProps}>D</Kbd>}
           </Button>
         </MenuToolTip>
@@ -129,7 +133,7 @@ export const InGameMenu = ({ ...stackProps }: InGameMenuProps) => {
               globalUiVar({ ...globalUiVar(), resourceOverviewOpen: true });
             }}
           >
-            <Icon as={GiMining} {...iconProps} />
+            <Icon as={DollarPixelIcon} {...iconProps} />
             {hotkeyHints && <Kbd {...responsiveFontProps}>R</Kbd>}
           </Button>
         </MenuToolTip>
@@ -141,7 +145,7 @@ export const InGameMenu = ({ ...stackProps }: InGameMenuProps) => {
             globalUiVar({ ...globalUiVar(), escapeMenuOpen: true });
           }}
         >
-          <SettingsIcon {...iconProps} />
+          <Icon as={SlidersPixelIcon} {...iconProps} />
           {hotkeyHints && <Kbd {...responsiveFontProps}>Esc</Kbd>}
         </Button>
       </MenuToolTip>

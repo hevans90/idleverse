@@ -114,6 +114,7 @@ export { ReactComponent as MastodonPixelIcon } from './svg/mastodon.svg';
 export { ReactComponent as ArrowsHorizontalPixelIcon } from './svg/arrows-horizontal.svg';
 export { ReactComponent as ImageNewPixelIcon } from './svg/image-new.svg';
 export { ReactComponent as KeyboardPixelIcon } from './svg/keyboard.svg';
+export { ReactComponent as Settings_unfinishedPixelIcon } from './svg/settings_unfinished.svg';
 export { ReactComponent as ChartMultiplePixelIcon } from './svg/chart-multiple.svg';
 export { ReactComponent as EyeClosedPixelIcon } from './svg/eye-closed.svg';
 export { ReactComponent as LockPixelIcon } from './svg/lock.svg';
@@ -432,6 +433,7 @@ export { ReactComponent as MessageDeletePixelIcon } from './svg/message-delete.s
 export { ReactComponent as FourKBoxPixelIcon } from './svg/four-k-box.svg';
 export { ReactComponent as BookmarkPixelIcon } from './svg/bookmark.svg';
 export { ReactComponent as ImageGalleryPixelIcon } from './svg/image-gallery.svg';
+export { ReactComponent as HelpPixelIcon } from './svg/help.svg';
 export { ReactComponent as FloatLeftPixelIcon } from './svg/float-left.svg';
 export { ReactComponent as MembercardPixelIcon } from './svg/membercard.svg';
 export { ReactComponent as RadioHandheldPixelIcon } from './svg/radio-handheld.svg';

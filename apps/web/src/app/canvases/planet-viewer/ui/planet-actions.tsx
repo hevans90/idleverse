@@ -37,7 +37,7 @@ import {
   responsiveIconProps,
 } from '../../../_responsive-utils/font-props';
 
-import { IoBuild } from 'react-icons/io5';
+import { PlusPixelIcon } from '@idleverse/ui';
 
 const FrameSVGWrapperBox = chakra(Box, {
   baseStyle: {},
@@ -252,7 +252,7 @@ const BuildItems = ({ items }: { items: Resource_Generator[] }) => {
                     {...copyResponsiveFontProps}
                   >
                     <Icon
-                      as={IoBuild}
+                      as={PlusPixelIcon}
                       {...responsiveIconProps}
                       color={`${secondary}.300`}
                     />

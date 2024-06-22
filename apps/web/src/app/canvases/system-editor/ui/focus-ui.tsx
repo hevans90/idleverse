@@ -1,5 +1,5 @@
 import { useReactiveVar } from '@apollo/client';
-import { RepeatIcon } from '@chakra-ui/icons';
+
 import {
   Box,
   Button,
@@ -7,6 +7,7 @@ import {
   FormLabel,
   HStack,
   HTMLChakraProps,
+  Icon,
   IconButton,
   Input,
   Menu,
@@ -36,10 +37,11 @@ import {
   systemEditorFocusVar,
 } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
-import { AnimatedFrame } from '@idleverse/ui';
+import { AnimatedFrame, RepeatPixelIcon } from '@idleverse/ui';
 import { Fragment } from 'react';
 import {
   responsiveFontProps,
+  responsiveIconProps,
   subHeaderResponsiveFontProps,
 } from '../../../_responsive-utils/font-props';
 import { ColorQuad } from '../../planet-generator/ui/color-quad';
@@ -165,7 +167,7 @@ export const CelestialFocusUI = () => {
           marginLeft="0.3rem"
           colorScheme={secondary}
           aria-label="Generate new name"
-          icon={<RepeatIcon />}
+          icon={<Icon as={RepeatPixelIcon} {...responsiveIconProps} />}
           onClick={() => {
             systemEditorConfigVar({
               ...config,

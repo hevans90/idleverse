@@ -20,12 +20,13 @@ import {
 
 import { factionsMediaListenedToVar, factionsVar } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
-import { AnimatedText } from '@idleverse/ui';
 import {
-  MdOutlineKeyboardDoubleArrowLeft,
-  MdOutlineKeyboardDoubleArrowRight,
-  MdRefresh,
-} from 'react-icons/md';
+  AnimatedText,
+  ArrowLeftPixelIcon,
+  ArrowRightPixelIcon,
+  RepeatPixelIcon,
+} from '@idleverse/ui';
+
 import { GallerySelector } from '../components/gallery-selector';
 import { useReplayableAudio } from './use-replayable-audio.hook';
 
@@ -95,7 +96,7 @@ export const FactionSelectionModal = ({
               {...responsiveFontProps}
               onClick={() => replayCurrentAudio()}
             >
-              <Icon as={MdRefresh} {...responsiveIconProps} />
+              <Icon as={RepeatPixelIcon} {...responsiveIconProps} />
             </Button>
           )}
         </ModalHeader>
@@ -141,10 +142,7 @@ export const FactionSelectionModal = ({
               })
             }
           >
-            <Icon
-              as={MdOutlineKeyboardDoubleArrowLeft}
-              {...responsiveIconProps}
-            />
+            <Icon as={ArrowLeftPixelIcon} {...responsiveIconProps} />
             &nbsp;Background
           </Button>
           <Button
@@ -155,10 +153,7 @@ export const FactionSelectionModal = ({
             }
           >
             Homeworld &nbsp;
-            <Icon
-              as={MdOutlineKeyboardDoubleArrowRight}
-              {...responsiveIconProps}
-            />
+            <Icon as={ArrowRightPixelIcon} {...responsiveIconProps} />
           </Button>
         </ModalFooter>
       </ModalContent>

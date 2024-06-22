@@ -1,15 +1,22 @@
-import { AddIcon, MinusIcon, SettingsIcon } from '@chakra-ui/icons';
-import { HStack, IconButton, StackProps, Text, VStack } from '@chakra-ui/react';
+import {
+  HStack,
+  Icon,
+  IconButton,
+  StackProps,
+  Text,
+  VStack,
+} from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 import { useUiBackground } from '@idleverse/theme';
+import { MinusPixelIcon, PlusPixelIcon, SlidersPixelIcon } from '@idleverse/ui';
 import {
   responsiveFontProps,
   responsiveIconProps,
 } from '../_responsive-utils/font-props';
 
 export const ExpandingUI = ({
-  icon = <SettingsIcon {...responsiveIconProps} />,
+  icon = <Icon as={SlidersPixelIcon} {...responsiveIconProps} />,
   panelOpen = false,
   onPanelOpenChange,
   stackProps,
@@ -53,7 +60,13 @@ export const ExpandingUI = ({
         <IconButton
           size={['xs', 'sm', 'sm', 'md']}
           aria-label="close drawer"
-          icon={panelOpen ? <MinusIcon /> : <AddIcon />}
+          icon={
+            panelOpen ? (
+              <Icon as={MinusPixelIcon} {...responsiveIconProps} />
+            ) : (
+              <Icon as={PlusPixelIcon} {...responsiveIconProps} />
+            )
+          }
           onClick={onPanelOpenChange}
         />
         {title && titlePosition === 'after' && (
