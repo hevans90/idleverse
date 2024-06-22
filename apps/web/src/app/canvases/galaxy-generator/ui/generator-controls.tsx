@@ -1,8 +1,9 @@
 import { useReactiveVar } from '@apollo/client';
-import { RepeatIcon } from '@chakra-ui/icons';
+
 import {
   Box,
   HStack,
+  Icon,
   IconButton,
   Input,
   NumberDecrementStepper,
@@ -21,6 +22,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { colorsVar, galaxyConfigVar } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
+import { RepeatPixelIcon } from '@idleverse/ui';
+import { responsiveIconProps } from '../../../_responsive-utils/font-props';
 import { galaxySlidersConfig } from './sliders';
 
 export const generatorControlsHeight = 350;
@@ -104,7 +107,7 @@ export const GeneratorControls = () => {
             marginLeft="0.3rem"
             colorScheme={secondary}
             aria-label="Generate new seed"
-            icon={<RepeatIcon />}
+            icon={<Icon as={RepeatPixelIcon} {...responsiveIconProps} />}
             onClick={() => {
               const seed = uuidv4();
 

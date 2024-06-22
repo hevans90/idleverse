@@ -1,10 +1,11 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import { useReactiveVar } from '@apollo/client';
-import { DeleteIcon } from '@chakra-ui/icons';
+
 import {
   Box,
   Button,
   HStack,
+  Icon,
   IconButton,
   Menu,
   MenuButton,
@@ -39,7 +40,11 @@ import {
   colors as themeColors,
   useUiBackground,
 } from '@idleverse/theme';
-import { responsiveFontProps } from '../../../_responsive-utils/font-props';
+import { TrashAltPixelIcon } from '@idleverse/ui';
+import {
+  responsiveFontProps,
+  responsiveIconProps,
+} from '../../../_responsive-utils/font-props';
 import { ExpandingUI } from '../../../components/expanding-ui';
 import {
   degreesToRadians,
@@ -428,7 +433,12 @@ export const PlanetGeneratorRingDrawer = () => {
                     >
                       <IconButton
                         aria-label="delete ring"
-                        icon={<DeleteIcon />}
+                        icon={
+                          <Icon
+                            as={TrashAltPixelIcon}
+                            {...responsiveIconProps}
+                          />
+                        }
                         onClick={() => {
                           drawerState.rings.splice(index, 1);
                           updateRings();

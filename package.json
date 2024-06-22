@@ -137,7 +137,7 @@
     "@nx/workspace": "19.0.1",
     "@parcel/watcher": "^2.4.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
-    "@svgr/webpack": "8.1.0",
+    "@svgr/webpack": "^8.1.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "15.0.6",
     "@testing-library/react-hooks": "7.0.2",

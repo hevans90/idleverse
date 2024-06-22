@@ -1,8 +1,9 @@
 import { useReactiveVar } from '@apollo/client';
-import { RepeatIcon } from '@chakra-ui/icons';
+
 import {
   Box,
   HStack,
+  Icon,
   IconButton,
   Input,
   NumberDecrementStepper,
@@ -23,7 +24,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { PlanetGenerationConfig } from '@idleverse/models';
 import { colorsVar, planetGeneratorConfigVar } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
-import { responsiveFontProps } from '../../../_responsive-utils/font-props';
+import { RepeatPixelIcon } from '@idleverse/ui';
+import {
+  responsiveFontProps,
+  responsiveIconProps,
+} from '../../../_responsive-utils/font-props';
 
 export type PlanetGeneratorSliderType = {
   name: keyof PlanetGenerationConfig;
@@ -129,7 +134,7 @@ export const PlanetGeneratorSliders = () => {
             marginLeft="0.3rem"
             colorScheme={secondary}
             aria-label="Generate new name"
-            icon={<RepeatIcon />}
+            icon={<Icon as={RepeatPixelIcon} {...responsiveIconProps} />}
             onClick={() => {
               const name = generateCelestialName();
 
@@ -159,7 +164,7 @@ export const PlanetGeneratorSliders = () => {
             marginLeft="0.3rem"
             colorScheme={secondary}
             aria-label="Generate new seed"
-            icon={<RepeatIcon />}
+            icon={<Icon as={RepeatPixelIcon} {...responsiveIconProps} />}
             onClick={() => {
               const seed = uuidv4();
 

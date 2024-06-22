@@ -1,10 +1,11 @@
 import { useReactiveVar } from '@apollo/client';
-import { ChevronRightIcon, CloseIcon } from '@chakra-ui/icons';
+
 import {
   Avatar,
   Box,
   Button,
   HStack,
+  Icon,
   IconButton,
   Image,
   Link,
@@ -24,7 +25,11 @@ import {
   colorsVar,
 } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
-import { responsiveFontProps } from '../../../_responsive-utils/font-props';
+import { ChevronRightPixelIcon, ClosePixelIcon } from '@idleverse/ui';
+import {
+  responsiveFontProps,
+  responsiveIconProps,
+} from '../../../_responsive-utils/font-props';
 
 type InfoBoxProps = Pick<
   CelestialByIdQuery['celestial_by_pk'],
@@ -138,11 +143,17 @@ export const InfoBox = ({
                       }
                     >
                       {selectedPlanetId === planet.id && (
-                        <ChevronRightIcon
+                        <Icon
+                          as={ChevronRightPixelIcon}
                           position="absolute"
                           left="0"
-                          boxSize={5}
-                        ></ChevronRightIcon>
+                          {...responsiveIconProps}
+                        />
+                        // <ChevronRightIcon
+                        //   position="absolute"
+                        //   left="0"
+                        //   boxSize={5}
+                        // ></ChevronRightIcon>
                       )}
                       <Text {...responsiveFontProps}>{planet.name}</Text>
                     </Box>
@@ -214,7 +225,14 @@ const PlanetInfo = ({
           top="5px"
           right="5px"
           aria-label="Deselect planet"
-          icon={<CloseIcon />}
+          icon={
+            <Icon
+              as={ClosePixelIcon}
+              position="absolute"
+              left="0"
+              {...responsiveIconProps}
+            />
+          }
           size="xs"
           onClick={() => onClose()}
         />

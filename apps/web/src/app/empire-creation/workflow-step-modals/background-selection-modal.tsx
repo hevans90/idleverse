@@ -18,12 +18,13 @@ import {
   backgroundsVar,
 } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
-import { AnimatedText } from '@idleverse/ui';
 import {
-  MdOutlineKeyboardDoubleArrowLeft,
-  MdOutlineKeyboardDoubleArrowRight,
-  MdRefresh,
-} from 'react-icons/md';
+  AnimatedText,
+  ArrowLeftPixelIcon,
+  ArrowRightPixelIcon,
+  RepeatPixelIcon,
+} from '@idleverse/ui';
+
 import {
   headerResponsiveFontProps,
   responsiveFontProps,
@@ -99,7 +100,7 @@ export const BackgroundSelectionModal = ({
               {...responsiveFontProps}
               onClick={() => replayCurrentAudio()}
             >
-              <Icon as={MdRefresh} {...responsiveIconProps} />
+              <Icon as={RepeatPixelIcon} {...responsiveIconProps} />
             </Button>
           )}
         </ModalHeader>
@@ -147,10 +148,7 @@ export const BackgroundSelectionModal = ({
               })
             }
           >
-            <Icon
-              as={MdOutlineKeyboardDoubleArrowLeft}
-              {...responsiveIconProps}
-            />
+            <Icon as={ArrowLeftPixelIcon} {...responsiveIconProps} />
             &nbsp;Race
           </Button>
           <Button
@@ -164,10 +162,7 @@ export const BackgroundSelectionModal = ({
             }
           >
             Faction &nbsp;
-            <Icon
-              as={MdOutlineKeyboardDoubleArrowRight}
-              {...responsiveIconProps}
-            />
+            <Icon as={ArrowRightPixelIcon} {...responsiveIconProps} />
           </Button>
         </ModalFooter>
       </ModalContent>

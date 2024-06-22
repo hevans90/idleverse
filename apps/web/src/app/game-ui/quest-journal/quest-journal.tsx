@@ -1,8 +1,9 @@
 import { useReactiveVar } from '@apollo/client';
-import { ArrowBackIcon } from '@chakra-ui/icons';
+
 import {
   Button,
   HStack,
+  Icon,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -21,6 +22,8 @@ import {
 
 import { colorsVar, questDetailVar, questJournalVar } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
+import { ChevronLeftPixelIcon } from '@idleverse/ui';
+import { responsiveIconProps } from '../../_responsive-utils/font-props';
 import { QuestDetail } from './quest-detail';
 import { QuestList } from './quest-list';
 
@@ -89,7 +92,9 @@ export const QuestJournal = ({
                       completed: undefined,
                     });
                   }}
-                  leftIcon={<ArrowBackIcon boxSize="6" />}
+                  leftIcon={
+                    <Icon as={ChevronLeftPixelIcon} {...responsiveIconProps} />
+                  }
                 >
                   Back to Journal
                 </Button>

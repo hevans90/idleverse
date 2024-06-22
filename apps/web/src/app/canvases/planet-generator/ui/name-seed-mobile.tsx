@@ -1,12 +1,21 @@
 import { useReactiveVar } from '@apollo/client';
-import { RepeatIcon } from '@chakra-ui/icons';
-import { HStack, IconButton, Input, Text, VStack } from '@chakra-ui/react';
+
+import {
+  HStack,
+  Icon,
+  IconButton,
+  Input,
+  Text,
+  VStack,
+} from '@chakra-ui/react';
 import { generateCelestialName } from '@idleverse/galaxy-gen';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { colorsVar, planetGeneratorConfigVar } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
+import { RepeatPixelIcon } from '@idleverse/ui';
+import { responsiveIconProps } from '../../../_responsive-utils/font-props';
 import { planetGenerationControlsHeight } from './sliders';
 
 export const NameSeedMobile = () => {
@@ -64,7 +73,7 @@ export const NameSeedMobile = () => {
           marginLeft="0.3rem"
           colorScheme={secondary}
           aria-label="Generate new name"
-          icon={<RepeatIcon />}
+          icon={<Icon as={RepeatPixelIcon} {...responsiveIconProps} />}
           onClick={() => {
             const name = generateCelestialName();
 
@@ -94,7 +103,7 @@ export const NameSeedMobile = () => {
           marginLeft="0.3rem"
           colorScheme={secondary}
           aria-label="Generate new seed"
-          icon={<RepeatIcon />}
+          icon={<Icon as={RepeatPixelIcon} {...responsiveIconProps} />}
           onClick={() => {
             const seed = uuidv4();
 

@@ -1,7 +1,8 @@
 import { useReactiveVar } from '@apollo/client';
-import { SearchIcon } from '@chakra-ui/icons';
+
 import {
   HStack,
+  Icon,
   Input,
   InputGroup,
   InputLeftElement,
@@ -21,8 +22,12 @@ import {
 import { Box, Button } from '@chakra-ui/react';
 import { colorsVar } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
+import { SearchPixelIcon } from '@idleverse/ui';
 import { search as fuzzySearch } from 'fast-fuzzy';
-import { responsiveFontProps } from '../../../_responsive-utils/font-props';
+import {
+  responsiveFontProps,
+  responsiveIconProps,
+} from '../../../_responsive-utils/font-props';
 
 export const TreeSearch = () => {
   const { bg, border } = useUiBackground();
@@ -69,7 +74,7 @@ export const TreeSearch = () => {
         <InputGroup>
           <InputLeftElement
             pointerEvents="none"
-            children={<SearchIcon color={border} />}
+            children={<Icon as={SearchPixelIcon} {...responsiveIconProps} />}
           />
           <Input
             {...responsiveFontProps}

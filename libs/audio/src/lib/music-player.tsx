@@ -1,4 +1,14 @@
-import { AnimatedFrame } from '@idleverse/ui';
+import {
+  AnimatedFrame,
+  NextPixelIcon,
+  PausePixelIcon,
+  PlayPixelIcon,
+  PrevPixelIcon,
+  Volume1PixelIcon,
+  Volume2PixelIcon,
+  Volume3PixelIcon,
+  VolumeXPixelIcon,
+} from '@idleverse/ui';
 import { intervalToDuration } from 'date-fns';
 
 import { useQuery, useReactiveVar } from '@apollo/client';
@@ -19,17 +29,6 @@ import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
 import Draggable from 'react-draggable';
 
 import { MusicDocument, MusicQuery } from '@idleverse/galaxy-gql';
-import {
-  IoPauseSharp,
-  IoPlayBackSharp,
-  IoPlayForwardSharp,
-  IoPlaySharp,
-  IoPlaySkipBackSharp,
-  IoPlaySkipForwardSharp,
-  IoVolumeHigh,
-  IoVolumeLow,
-  IoVolumeMute,
-} from 'react-icons/io5';
 
 import { HydratedMediaResult } from '@idleverse/models';
 
@@ -127,18 +126,6 @@ const AudioPlayer = () => {
     updateLoopRef.current = requestAnimationFrame(updateLoop);
   }, [audioRef, setTrackTime]);
 
-  const skipForward = () => {
-    if (audioRef.current) {
-      audioRef.current.currentTime += 15;
-    }
-  };
-
-  const skipBackward = () => {
-    if (audioRef.current) {
-      audioRef.current.currentTime -= 15;
-    }
-  };
-
   const handleNext = () => {
     if (trackIndex >= data.length - 1) {
       setTrackIndex(0);
@@ -192,46 +179,42 @@ const AudioPlayer = () => {
       <Flex gap={2} position="relative">
         <Flex gap={2} flexGrow={2}>
           <IconButton
-            onClick={skipBackward}
-            isDisabled={!track}
-            icon={<IoPlaySkipBackSharp />}
-            aria-label="play-skip-back"
-          />
-          <IconButton
             onClick={handlePrevious}
             isDisabled={!track}
-            icon={<IoPlayBackSharp />}
+            icon={<PrevPixelIcon width={20} />}
             aria-label="play-back"
           />
 
           <IconButton
             onClick={() => setIsPlaying((prev) => !prev)}
             isDisabled={!track}
-            icon={isPlaying ? <IoPauseSharp /> : <IoPlaySharp />}
+            icon={
+              isPlaying ? (
+                <PausePixelIcon width={20} />
+              ) : (
+                <PlayPixelIcon width={20} />
+              )
+            }
             aria-label="pause"
           />
 
           <IconButton
             onClick={handleNext}
             isDisabled={!track}
-            icon={<IoPlayForwardSharp />}
+            icon={<NextPixelIcon width={20} />}
             aria-label="play-forward"
-          />
-          <IconButton
-            onClick={skipForward}
-            isDisabled={!track}
-            icon={<IoPlaySkipForwardSharp />}
-            aria-label="play-skip-forward"
           />
         </Flex>
         <Flex gap={2} flexGrow={1}>
           <button onClick={() => setMuteVolume((prev) => !prev)}>
             {muteVolume || volume < 5 ? (
-              <IoVolumeMute />
+              <VolumeXPixelIcon width={20} />
             ) : volume < 40 ? (
-              <IoVolumeLow />
+              <Volume1PixelIcon width={20} />
+            ) : volume < 70 ? (
+              <Volume2PixelIcon width={20} />
             ) : (
-              <IoVolumeHigh />
+              <Volume3PixelIcon width={20} />
             )}
           </button>
           <Slider

@@ -1,9 +1,10 @@
 import { useReactiveVar } from '@apollo/client';
-import { RepeatIcon } from '@chakra-ui/icons';
+
 import {
   Box,
   Button,
   HStack,
+  Icon,
   IconButton,
   Input,
   Menu,
@@ -27,11 +28,11 @@ import {
   systemEditorFocusVar,
 } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
-import { AnimatedFrame } from '@idleverse/ui';
-import { IoHelpCircleOutline } from 'react-icons/io5';
+import { AnimatedFrame, HelpPixelIcon, RepeatPixelIcon } from '@idleverse/ui';
 import {
   headerResponsiveFontProps,
   responsiveFontProps,
+  responsiveIconProps,
 } from '../../../_responsive-utils/font-props';
 
 export const SystemEditorOverview = ({
@@ -114,7 +115,7 @@ export const SystemEditorOverview = ({
                     systemEditorFocusVar(focus);
                     celestialViewerSelectedPlanet(null);
                   }}
-                  icon={<IoHelpCircleOutline size={30} />}
+                  icon={<Icon as={HelpPixelIcon} {...responsiveIconProps} />}
                 ></IconButton>
               </HStack>
             ))}
@@ -127,7 +128,7 @@ export const SystemEditorOverview = ({
               <IconButton
                 aria-label="help"
                 onClick={() => onHelpClicked('system-forming-points')}
-                icon={<IoHelpCircleOutline size={30} />}
+                icon={<Icon as={HelpPixelIcon} {...responsiveIconProps} />}
               ></IconButton>
             </HStack>
           </VStack>
@@ -200,7 +201,7 @@ export const CelestialFocusUI = (args) => {
           marginLeft="0.3rem"
           colorScheme={secondary}
           aria-label="Generate new name"
-          icon={<RepeatIcon />}
+          icon={<Icon as={RepeatPixelIcon} {...responsiveIconProps} />}
           onClick={() => {
             systemEditorConfigVar({
               ...config,

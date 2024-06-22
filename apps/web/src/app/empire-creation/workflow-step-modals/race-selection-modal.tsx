@@ -20,8 +20,11 @@ import {
 
 import { playableRacesVar, racesMediaListenedToVar } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
-import { AnimatedText } from '@idleverse/ui';
-import { MdDoubleArrow, MdRefresh } from 'react-icons/md';
+import {
+  AnimatedText,
+  ArrowRightPixelIcon,
+  RepeatPixelIcon,
+} from '@idleverse/ui';
 
 import { GallerySelector } from '../components/gallery-selector';
 import { useReplayableAudio } from './use-replayable-audio.hook';
@@ -90,7 +93,7 @@ export const RaceSelectionModal = ({
               {...responsiveFontProps}
               onClick={() => replayCurrentAudio()}
             >
-              <Icon as={MdRefresh} {...responsiveIconProps} />
+              <Icon as={RepeatPixelIcon} {...responsiveIconProps} />
             </Button>
           )}
         </ModalHeader>
@@ -132,7 +135,7 @@ export const RaceSelectionModal = ({
             }
           >
             Background &nbsp;
-            <Icon as={MdDoubleArrow} {...responsiveIconProps} />
+            <Icon as={ArrowRightPixelIcon} {...responsiveIconProps} />
           </Button>
         </ModalFooter>
       </ModalContent>
