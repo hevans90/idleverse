@@ -1,5 +1,4 @@
 import { useReactiveVar } from '@apollo/client';
-import { ChatIcon, SettingsIcon } from '@chakra-ui/icons';
 import {
   Box,
   Button,
@@ -8,7 +7,6 @@ import {
   Kbd,
   useDisclosure,
 } from '@chakra-ui/react';
-import { BsFileMusic } from 'react-icons/bs';
 
 import { Auth } from '../../_auth/auth';
 import {
@@ -23,6 +21,7 @@ import {
   musicPlayerVar,
 } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
+import { ChatPixelIcon, MusicPixelIcon, SlidersPixelIcon } from '@idleverse/ui';
 import { useKeypress } from '../../hooks/use-keypress';
 import { EscMenuContainer } from '../esc-menu/escape-menu.container';
 
@@ -75,7 +74,8 @@ export const ToolBar = () => {
             }}
             {...responsiveFontProps}
           >
-            <ChatIcon {...responsiveIconProps}></ChatIcon>
+            <Icon as={ChatPixelIcon} {...responsiveIconProps} />
+            {/* <ChatIcon {...responsiveIconProps}></ChatIcon> */}
           </Button>
           <Button
             onClick={() =>
@@ -83,7 +83,7 @@ export const ToolBar = () => {
             }
             {...responsiveFontProps}
           >
-            <SettingsIcon {...responsiveIconProps}></SettingsIcon>
+            <Icon as={SlidersPixelIcon} {...responsiveIconProps} />
             {hotkeyHints && (
               <>
                 &nbsp; <Kbd>Esc</Kbd>
@@ -96,7 +96,7 @@ export const ToolBar = () => {
             }}
             {...responsiveFontProps}
           >
-            <Icon as={BsFileMusic} {...responsiveIconProps} />
+            <Icon as={MusicPixelIcon} {...responsiveIconProps} />
           </Button>
         </HStack>
         <Auth></Auth>

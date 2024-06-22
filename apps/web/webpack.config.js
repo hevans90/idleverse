@@ -10,6 +10,10 @@ module.exports = composePlugins(withNx(), withReact(), (config) => {
       test: /\.(frag|glsl|vs|fs)$/,
       loader: 'ts-shader-loader',
     },
+    {
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
+    },
   ];
   config.resolve = {
     ...config.resolve,
