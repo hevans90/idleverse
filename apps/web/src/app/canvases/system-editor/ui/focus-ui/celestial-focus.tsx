@@ -1,7 +1,7 @@
 import { useReactiveVar } from '@apollo/client';
-import { RepeatIcon } from '@chakra-ui/icons';
 import {
   HStack,
+  Icon,
   IconButton,
   Input,
   Menu,
@@ -16,6 +16,8 @@ import {
   systemEditorConfigVar,
 } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
+import { RepeatPixelIcon } from '@idleverse/ui';
+import { responsiveIconProps } from '../../../../_responsive-utils/font-props';
 
 export const CelestialFocusUI = () => {
   const config = useReactiveVar(systemEditorConfigVar);
@@ -80,7 +82,7 @@ export const CelestialFocusUI = () => {
           marginLeft="0.3rem"
           colorScheme={secondary}
           aria-label="Generate new name"
-          icon={<RepeatIcon />}
+          icon={<Icon as={RepeatPixelIcon} {...responsiveIconProps} />}
           onClick={() => {
             systemEditorConfigVar({
               ...config,
