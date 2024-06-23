@@ -110,7 +110,7 @@ export const AsteroidBeltFocusUI = () => {
           >
             <HStack justifyContent="space-between">
               <Text>{colorPalette?.name ?? 'Choose palette'}</Text>{' '}
-              <ColorQuad {...colorPalette} />
+              {colorPalette ? <ColorQuad {...colorPalette} /> : null}
               {colorPalette?.name}
             </HStack>
           </MenuButton>
