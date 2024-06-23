@@ -1,6 +1,7 @@
 fragment GalacticEmpireFields on galactic_empire {
   id
   user_id
+  system_forming_points
   background {
     name
     image_url
