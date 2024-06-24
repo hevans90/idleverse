@@ -3,7 +3,6 @@ import { randomGoldilocksRadii } from '@idleverse/galaxy-gen';
 import { PlanetByIdQuery } from '@idleverse/galaxy-gql';
 import { RingConfig, RingKey, rgb } from '@idleverse/models';
 import {
-  celestialViewerGenerationVar,
   celestialViewerPlanetsVar,
   celestialViewerSelectedPlanetVar,
   colorPalettesVar,
@@ -11,6 +10,7 @@ import {
   planetGenerationRingDrawerVar,
   planetGeneratorConfigVar,
   selfVar,
+  systemEditorConfigVar,
   systemEditorNewPlanetVar,
 } from '@idleverse/state';
 import { hexToRGB } from '@idleverse/theme';
@@ -18,7 +18,7 @@ import { useEffect } from 'react';
 import { generateNewPlanet } from '../../planet-generator/generate-planet-input-vars';
 
 export const useEditablePlanets = () => {
-  const { mode, formingPoints } = useReactiveVar(celestialViewerGenerationVar);
+  const { mode, formingPoints } = useReactiveVar(systemEditorConfigVar);
 
   const { id: userId } = useReactiveVar(selfVar);
   const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanetVar);

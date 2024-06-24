@@ -17,11 +17,6 @@ export type CelestialAudioName =
   | 'asteroid-belt'
   | 'system-forming-points';
 
-export const celestialViewerGenerationVar = makeVar<{
-  mode: 'create' | 'view' | 'edit';
-  formingPoints: number;
-}>({ mode: 'create', formingPoints: 0 });
-
 export const celestialMediaVar = makeVar<{
   data: HydratedMediaResult[];
 }>({

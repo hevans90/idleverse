@@ -19,7 +19,6 @@ import { SYSTEM_FOCI, generateCelestialName } from '@idleverse/galaxy-gen';
 import {
   CelestialAudioName,
   celestialPresets,
-  celestialViewerGenerationVar,
   celestialViewerSelectedPlanetVar,
   colorsVar,
   dialogVar,
@@ -42,7 +41,7 @@ export const SystemEditorOverview = ({
   onHelpClicked: (help: CelestialAudioName) => void;
 }) => {
   const currentFocus = useReactiveVar(systemEditorFocusVar);
-  const { mode, formingPoints } = useReactiveVar(celestialViewerGenerationVar);
+  const { mode, formingPoints } = useReactiveVar(systemEditorConfigVar);
 
   const { secondary } = useReactiveVar(colorsVar);
 
