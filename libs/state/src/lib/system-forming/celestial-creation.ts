@@ -1,5 +1,5 @@
 import { CelestialGenerationConfig } from '@idleverse/models';
-import { makeVarPersisted } from './utils';
+import { makeVarPersisted } from '../utils';
 
 export const celestialPresets: CelestialGenerationConfig[] = [
   {

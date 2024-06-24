@@ -13,7 +13,6 @@ import { useReactiveVar } from '@apollo/client';
 import { HStack, useBreakpointValue } from '@chakra-ui/react';
 import {
   CelestialAudioName,
-  celestialViewerGenerationVar,
   dialogVar,
   systemEditorConfigVar,
   systemEditorFocusVar,
@@ -43,8 +42,6 @@ export const SystemEditorContainer = () => {
 
   const size = useResize(dialogOpen ? 'dialog' : 'none');
 
-  const { mode, formingPoints } = useReactiveVar(celestialViewerGenerationVar);
-
   const [locallySelectedAudioName, setLocallySelectedAudioName] =
     useState<CelestialAudioName>('welcome');
 
@@ -57,7 +54,9 @@ export const SystemEditorContainer = () => {
 
   const focus = useReactiveVar(systemEditorFocusVar);
 
-  const config = useReactiveVar(systemEditorConfigVar);
+  const { celestial, mode, formingPoints } = useReactiveVar(
+    systemEditorConfigVar
+  );
 
   const bp: 'small' | 'medium' | 'large' = useBreakpointValue({
     base: 'small',
@@ -115,7 +114,7 @@ export const SystemEditorContainer = () => {
             zIndex={1}
           >
             <StarRenderer
-              config={config.celestial.config}
+              config={celestial.config}
               containerRef={containerRef}
               viewportRef={viewportRef}
               starRadius={CELESTIAL_RADIUS}
