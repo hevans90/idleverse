@@ -1,9 +1,10 @@
 import { useReactiveVar } from '@apollo/client';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Avatar, Badge, Box, Text } from '@chakra-ui/react';
-import { Loading } from '../components/loading';
+import { Avatar, Badge, Box, HStack, Text } from '@chakra-ui/react';
 
 import { roleVar } from '@idleverse/state';
+import { BlinkingText } from '@idleverse/ui';
+import { responsiveFontProps } from '../_responsive-utils/font-props';
 import { LoginButton } from './login-button';
 import { LogoutButton } from './logout-button';
 
@@ -13,7 +14,12 @@ export const Auth = () => {
   const role = useReactiveVar(roleVar);
 
   if (isLoading) {
-    return <Loading fontSize="md"></Loading>;
+    return (
+      <HStack>
+        <Text>loading</Text>{' '}
+        <BlinkingText {...responsiveFontProps}>.</BlinkingText>
+      </HStack>
+    );
   }
 
   if (isAuthenticated && user) {
