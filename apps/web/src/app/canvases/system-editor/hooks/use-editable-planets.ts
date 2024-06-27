@@ -41,7 +41,7 @@ export const useEditablePlanets = () => {
           name: 'terran',
           id: 'showreel-planet',
           radius: 1,
-          terrain_bias: [0, 0.65, 0.73, 0.82],
+          terrain_bias: [0, 0.35, 0.4, 0.8],
           terrain_hex_palette: palettes?.[0],
         },
         {
