@@ -71,8 +71,6 @@ export const planetGeneratorSlidersConfig: PlanetGeneratorSliderType[] = [
   },
 ];
 
-console.log(WORLD_RADII);
-
 export const PlanetGeneratorSliders = () => {
   const { bg, border } = useUiBackground();
   const { secondary } = useReactiveVar(colorsVar);

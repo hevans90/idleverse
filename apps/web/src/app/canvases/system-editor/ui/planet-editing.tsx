@@ -1,8 +1,8 @@
 import { useReactiveVar } from '@apollo/client';
-import { RepeatIcon } from '@chakra-ui/icons';
 import {
   Box,
   HStack,
+  Icon,
   IconButton,
   Input,
   Menu,
@@ -38,8 +38,12 @@ import {
   systemEditorNewPlanetVar,
 } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
+import { RepeatPixelIcon } from '@idleverse/ui';
 import { Fragment, useEffect, useState } from 'react';
-import { responsiveFontProps } from '../../../_responsive-utils/font-props';
+import {
+  responsiveFontProps,
+  responsiveIconProps,
+} from '../../../_responsive-utils/font-props';
 import { ColorQuad } from '../../planet-generator/ui/color-quad';
 import { planetGeneratorSlidersConfig } from '../../planet-generator/ui/sliders';
 
@@ -80,7 +84,7 @@ export const PlanetNameEditor = ({
         marginLeft="0.3rem"
         colorScheme={secondary}
         aria-label="Generate new name"
-        icon={<RepeatIcon />}
+        icon={<Icon as={RepeatPixelIcon} {...responsiveIconProps} />}
         onClick={() => {
           const name = generateCelestialName();
 
@@ -149,7 +153,6 @@ export const PlanetAppearanceEditor = ({
                 bg={bg}
                 _hover={{ bg: `${primary}.600` }}
                 onClick={() => {
-                  console.log('new appearance', id);
                   setLocalPalette({
                     name,
                     water,
@@ -190,6 +193,7 @@ export const PlanetAppearanceEditor = ({
       {/* Terrain Biases */}
       <Box padding={2} w="100%" zIndex={1}>
         <RangeSlider
+          key={JSON.stringify(appearance.terrainBias)}
           defaultValue={appearance.terrainBias}
           min={0}
           max={1}

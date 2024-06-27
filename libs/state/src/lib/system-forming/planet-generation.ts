@@ -1,7 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import { makeVar } from '@apollo/client';
-import { generateCelestialName } from '@idleverse/galaxy-gen';
+import {
+  generateCelestialName,
+  randomGoldilocksRadii,
+} from '@idleverse/galaxy-gen';
 import {
   PlanetAppearanceConfig,
   PlanetGenerationConfig,
@@ -20,7 +23,7 @@ const defaultPlanetConfig: PlanetGenerationConfig = {
   atmosphericDistance: 3,
   atmosphere: true,
   rotate: true,
-  orbitalRadius: 1,
+  orbitalRadius: randomGoldilocksRadii(),
 };
 
 export const planetGenerationPresets: {
@@ -76,8 +79,7 @@ export const planetGenerationColorDrawerVar = makeVar<
   } & PlanetAppearanceConfig
 >({
   panelOpen: false,
-  palettePresetName: 'desert',
-  terrainBias: [0, 0.2, 0.4, 0.6],
+  ...planetGenerationPresets[0].appearance,
 });
 
 export const planetGenerationRingDrawerVar = makeVar<{

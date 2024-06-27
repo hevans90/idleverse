@@ -3,6 +3,8 @@ import {
   celestialViewerPlanetDataUris,
   celestialViewerPlanetsVar,
   celestialViewerSelectedPlanetVar,
+  planetGeneratorConfigVar,
+  systemEditorNewPlanetVar,
 } from '@idleverse/state';
 import { hexStringToNumber, hexToRGB, useUiBackground } from '@idleverse/theme';
 import { useApp } from '@pixi/react';
@@ -17,6 +19,7 @@ import {
 } from '../celestial-viewer/utils/drawing-utils';
 import { createRadialEllipse } from '../celestial-viewer/utils/graphics-utils';
 import { runPixelDataGenOnWorker } from '../planet-generator/texture-generation/run-texture-gen-on-worker';
+import { OrbitalDash } from './editing/orbital-dash';
 import { Planets } from './planets';
 
 export const PlanetContainer = ({
@@ -33,6 +36,10 @@ export const PlanetContainer = ({
   const { rawBorder } = useUiBackground();
 
   const [texturesGenerating, setTexturesGenerating] = useState(true);
+
+  const creatingNewPlanet = useReactiveVar(systemEditorNewPlanetVar);
+
+  const { orbitalRadius } = useReactiveVar(planetGeneratorConfigVar);
 
   const planets = useReactiveVar(celestialViewerPlanetsVar);
 
@@ -178,11 +185,18 @@ export const PlanetContainer = ({
     onGenerationFinished: onDataURIGenerationfinished,
   });
 
-  return localPlanets.length ? (
-    <Planets
-      planets={localPlanets}
-      orbitalEllipses={localOrbitalEllipses}
-      viewportRef={viewportRef}
-    />
-  ) : null;
+  return (
+    <>
+      {creatingNewPlanet ? (
+        <OrbitalDash center={center} radius={orbitalRadius} />
+      ) : null}
+      {localPlanets.length ? (
+        <Planets
+          planets={localPlanets}
+          orbitalEllipses={localOrbitalEllipses}
+          viewportRef={viewportRef}
+        />
+      ) : null}
+    </>
+  );
 };
