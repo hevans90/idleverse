@@ -33,7 +33,7 @@ const prequelWaitTime = 0.3;
 const characterWaitTime = 0.01;
 
 export const Dialog = ({ onDialogEnded, ...stackProps }: DialogProps) => {
-  const { bg, border } = useUiBackground();
+  const { bg, bgDark, border } = useUiBackground();
   const { open, entries } = useReactiveVar(dialogVar);
 
   const bp: 'small' | 'medium' | 'large' = useBreakpointValue({
@@ -165,6 +165,7 @@ export const Dialog = ({ onDialogEnded, ...stackProps }: DialogProps) => {
       >
         <VStack minWidth={[140, 170]}>
           <Image
+            bg={bgDark}
             boxSize={[140, 170]}
             objectFit="cover"
             src={activeEntry?.imageUrl}
