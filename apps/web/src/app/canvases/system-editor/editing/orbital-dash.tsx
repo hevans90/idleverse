@@ -17,8 +17,6 @@ export const OrbitalDash = ({
     graphicsRef.current.removeChildren();
     graphicsRef.current.clear();
 
-    console.log(radius);
-
     if (graphicsRef.current) {
       const dash = new DashLine(graphicsRef.current, {
         dash: [50, 30],

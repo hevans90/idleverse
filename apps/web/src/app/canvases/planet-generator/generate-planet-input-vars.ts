@@ -1,7 +1,7 @@
+import { generateCelestialName } from '@idleverse/galaxy-gen';
 import { PlanetCreationInput, RingInsertInput } from '@idleverse/galaxy-gql';
 import { RingConfig } from '@idleverse/models';
 import {
-  NEW_PLANET_ID,
   colorPalettesVar,
   planetGenerationColorDrawerVar,
   planetGenerationPresets,
@@ -9,6 +9,7 @@ import {
   planetGeneratorConfigVar,
 } from '@idleverse/state';
 import { rgbToHex } from '@idleverse/theme';
+import { v4 as uuidv4 } from 'uuid';
 
 const mapFromRingConfigToRingInsertInput = ({
   colors,
@@ -38,11 +39,11 @@ export const generateNewPlanet = (): PlanetCreationInput => {
   );
 
   return {
-    id: NEW_PLANET_ID,
+    id: uuidv4(),
     celestial_id: '',
     owner_id: '',
     radius: config.radius,
-    name: config.name,
+    name: generateCelestialName(),
     rings: {
       data: rings.map((ring) => mapFromRingConfigToRingInsertInput(ring)),
     },

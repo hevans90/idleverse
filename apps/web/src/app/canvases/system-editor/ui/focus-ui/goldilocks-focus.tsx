@@ -59,11 +59,15 @@ export const GoldilocksFocusUI = ({
   );
 
   const planetStateDirty = useMemo(() => {
+    if (creatingNewPlanet) {
+      return true;
+    }
+
     if (currentlySelectedPlanet) {
       return !isEqual(currentlySelectedPlanet, updatedPlanet);
     }
     return false;
-  }, [currentlySelectedPlanet, updatedPlanet]);
+  }, [creatingNewPlanet, currentlySelectedPlanet, updatedPlanet]);
 
   const bp: 'small' | 'medium' | 'large' = useBreakpointValue({
     base: 'small',
@@ -98,6 +102,7 @@ export const GoldilocksFocusUI = ({
       planet: updatedPlanet,
       mode: creatingNewPlanet ? 'new' : 'edit',
     });
+    systemEditorNewPlanetVar(false);
   };
 
   useEffect(() => {

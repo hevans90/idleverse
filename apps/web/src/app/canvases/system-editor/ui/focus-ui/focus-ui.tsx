@@ -10,6 +10,7 @@ import { systemEditorFocusVar } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
 import { AnimatedFrame } from '@idleverse/ui';
 
+import { runPlanetDiffLogic } from '../../_utils/2d-rendering-updates';
 import { AsteroidBeltFocusUI } from './asteroid-focus';
 import { CelestialFocusUI } from './celestial-focus';
 import { GoldilocksFocusUI } from './goldilocks-focus';
@@ -36,8 +37,7 @@ export const SystemEditorFocusUI = ({ ...divProps }: FocusUIProps) => {
     planet: PlanetByIdQuery['planet_by_pk'];
     mode: 'new' | 'edit';
   }) => {
-    //
-    console.log('PLS save new planet', planet, mode);
+    runPlanetDiffLogic();
   };
 
   return focus ? (
