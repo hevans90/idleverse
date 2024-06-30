@@ -11,9 +11,7 @@ import {
   RingConfig,
 } from '@idleverse/models';
 
-export const NEW_PLANET_ID = 'new-planet';
-
-const defaultPlanetConfig: PlanetGenerationConfig = {
+const defaultPlanetConfig: () => PlanetGenerationConfig = () => ({
   name: generateCelestialName(),
   ui: true,
   radius: 1,
@@ -24,7 +22,7 @@ const defaultPlanetConfig: PlanetGenerationConfig = {
   atmosphere: true,
   rotate: true,
   orbitalRadius: randomGoldilocksRadii(),
-};
+});
 
 export const planetGenerationPresets: {
   name: 'terran' | 'desert' | 'alien' | 'primordial';
@@ -38,7 +36,7 @@ export const planetGenerationPresets: {
       palettePresetName: 'terran',
       terrainBias: [0, 0.65, 0.73, 0.82],
     },
-    config: defaultPlanetConfig,
+    config: defaultPlanetConfig(),
     rings: [],
   },
   {
@@ -47,7 +45,7 @@ export const planetGenerationPresets: {
       palettePresetName: 'desert',
       terrainBias: [0, 0.5, 0.62, 0.9],
     },
-    config: defaultPlanetConfig,
+    config: defaultPlanetConfig(),
     rings: [],
   },
   {
@@ -56,7 +54,7 @@ export const planetGenerationPresets: {
       palettePresetName: 'desert',
       terrainBias: [0, 0.65, 0.73, 0.82],
     },
-    config: defaultPlanetConfig,
+    config: defaultPlanetConfig(),
     rings: [],
   },
   {
@@ -65,13 +63,14 @@ export const planetGenerationPresets: {
       palettePresetName: 'desert',
       terrainBias: [0, 0.65, 0.73, 0.82],
     },
-    config: defaultPlanetConfig,
+    config: defaultPlanetConfig(),
     rings: [],
   },
 ];
 
-export const planetGeneratorConfigVar =
-  makeVar<PlanetGenerationConfig>(defaultPlanetConfig);
+export const planetGeneratorConfigVar = makeVar<PlanetGenerationConfig>(
+  defaultPlanetConfig()
+);
 
 export const planetGenerationColorDrawerVar = makeVar<
   {
