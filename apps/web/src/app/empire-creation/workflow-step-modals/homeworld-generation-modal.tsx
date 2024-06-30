@@ -14,7 +14,6 @@ import {
   headerResponsiveFontProps,
   responsiveFontProps,
 } from '../../_responsive-utils/font-props';
-import { useResize } from '../../canvases/_utils/use-resize.hook';
 import { PlanetGenerator } from '../../canvases/planet-generator/planet-generator';
 
 export const HomeworldGenerationModal = ({
@@ -25,8 +24,6 @@ export const HomeworldGenerationModal = ({
   onClose: () => void;
 }) => {
   const { bg, border, bgDark } = useUiBackground();
-
-  const { width, height } = useResize('planet-gen', { sidenavOverride: true });
 
   return (
     <Modal isOpen={isOpen} onClose={() => onClose()} size={['full']} isCentered>
@@ -49,7 +46,7 @@ export const HomeworldGenerationModal = ({
           ></AnimatedText>
         </ModalHeader>
         <ModalBody bg={bgDark} padding={0} position="relative">
-          <PlanetGenerator customSize={{ width, height }} />
+          <PlanetGenerator />
         </ModalBody>
 
         <ModalFooter

@@ -219,7 +219,7 @@ const AudioPlayer = () => {
           </button>
           <Slider
             aria-label="volume-slider"
-            onChangeEnd={setVolume}
+            onChange={setVolume}
             defaultValue={volume}
             min={0}
             max={100}

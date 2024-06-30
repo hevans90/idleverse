@@ -1,7 +1,7 @@
 import { useReactiveVar } from '@apollo/client';
+import { SystemFocus } from '@idleverse/galaxy-gen';
 import {
-  SystemFocus,
-  celestialViewerSelectedPlanet,
+  celestialViewerSelectedPlanetVar,
   colorsVar,
   systemEditorFocusVar,
 } from '@idleverse/state';
@@ -25,6 +25,7 @@ export const SystemEditorInteractions = ({
   canvasHeight: number;
 }) => {
   const focus = useReactiveVar(systemEditorFocusVar);
+  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanetVar);
 
   const outlinePalette = colors[colorsVar().secondary];
 
@@ -127,9 +128,11 @@ export const SystemEditorInteractions = ({
 
   useEffect(() => {
     if (focus) {
-      viewportToCircle(worldRadii[focus].outer * 2, focus);
+      if (!selectedPlanet) {
+        viewportToCircle(worldRadii[focus].outer * 2, focus);
+      }
     }
-  }, [canvasHeight, focus, viewportToCircle, worldRadii]);
+  }, [canvasHeight, focus, viewportToCircle, worldRadii, selectedPlanet]);
 
   useEffect(() => {
     systemEditorFocusVar(undefined);
@@ -144,7 +147,7 @@ export const SystemEditorInteractions = ({
         interactive={true}
         pointerdown={() => {
           viewportToCircle(worldRadii['celestial'].outer * 2, 'celestial');
-          celestialViewerSelectedPlanet(null);
+          celestialViewerSelectedPlanetVar(null);
           systemEditorFocusVar('celestial');
         }}
         zIndex={2}
@@ -163,7 +166,7 @@ export const SystemEditorInteractions = ({
             worldRadii['goldilocks-zone'].outer * 2,
             'goldilocks-zone'
           );
-          celestialViewerSelectedPlanet(null);
+          celestialViewerSelectedPlanetVar(null);
           systemEditorFocusVar('goldilocks-zone');
         }}
         interactive={true}
@@ -184,7 +187,7 @@ export const SystemEditorInteractions = ({
             worldRadii['asteroid-belt'].outer * 2,
             'asteroid-belt'
           );
-          celestialViewerSelectedPlanet(null);
+          celestialViewerSelectedPlanetVar(null);
           systemEditorFocusVar('asteroid-belt');
         }}
         interactive={true}

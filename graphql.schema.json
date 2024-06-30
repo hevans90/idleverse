@@ -8757,22 +8757,6 @@
             "deprecationReason": null
           },
           {
-            "name": "celestial_claims",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "celestials",
             "description": "An array relationship",
             "args": [
@@ -9685,6 +9669,22 @@
             "deprecationReason": null
           },
           {
+            "name": "system_forming_points",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "numeric",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "user_id",
             "description": null,
             "args": [],
@@ -10239,7 +10239,7 @@
         "description": "aggregate avg on columns",
         "fields": [
           {
-            "name": "celestial_claims",
+            "name": "system_forming_points",
             "description": null,
             "args": [],
             "type": {
@@ -10263,7 +10263,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "celestial_claims",
+            "name": "system_forming_points",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -10355,18 +10355,6 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "uuid_comparison_exp",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "celestial_claims",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "Int_comparison_exp",
               "ofType": null
             },
             "defaultValue": null,
@@ -10578,6 +10566,18 @@
             "deprecationReason": null
           },
           {
+            "name": "system_forming_points",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "numeric_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "user_id",
             "description": null,
             "type": {
@@ -10636,11 +10636,11 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "celestial_claims",
+            "name": "system_forming_points",
             "description": null,
             "type": {
               "kind": "SCALAR",
-              "name": "Int",
+              "name": "numeric",
               "ofType": null
             },
             "defaultValue": null,
@@ -10676,18 +10676,6 @@
             "type": {
               "kind": "SCALAR",
               "name": "uuid",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "celestial_claims",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
               "ofType": null
             },
             "defaultValue": null,
@@ -10851,6 +10839,18 @@
             "deprecationReason": null
           },
           {
+            "name": "system_forming_points",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "user_id",
             "description": null,
             "type": {
@@ -10897,18 +10897,6 @@
             "deprecationReason": null
           },
           {
-            "name": "celestial_claims",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "faction_id",
             "description": null,
             "args": [],
@@ -10963,6 +10951,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "uuid",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "system_forming_points",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
               "ofType": null
             },
             "isDeprecated": false,
@@ -11005,18 +11005,6 @@
             "deprecationReason": null
           },
           {
-            "name": "celestial_claims",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "faction_id",
             "description": null,
             "type": {
@@ -11066,6 +11054,18 @@
           },
           {
             "name": "playable_race_id",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "system_forming_points",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -11111,18 +11111,6 @@
             "deprecationReason": null
           },
           {
-            "name": "celestial_claims",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "faction_id",
             "description": null,
             "args": [],
@@ -11177,6 +11165,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "uuid",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "system_forming_points",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
               "ofType": null
             },
             "isDeprecated": false,
@@ -11219,18 +11219,6 @@
             "deprecationReason": null
           },
           {
-            "name": "celestial_claims",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "faction_id",
             "description": null,
             "type": {
@@ -11280,6 +11268,18 @@
           },
           {
             "name": "playable_race_id",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "system_forming_points",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -12748,18 +12748,6 @@
             "deprecationReason": null
           },
           {
-            "name": "celestial_claims",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "celestials_aggregate",
             "description": null,
             "type": {
@@ -12909,6 +12897,18 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "galactic_empire_resources_aggregate_order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "system_forming_points",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
               "ofType": null
             },
             "defaultValue": null,
@@ -18505,12 +18505,6 @@
             "deprecationReason": null
           },
           {
-            "name": "celestial_claims",
-            "description": "column name",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "faction_id",
             "description": "column name",
             "isDeprecated": false,
@@ -18536,6 +18530,12 @@
           },
           {
             "name": "playable_race_id",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "system_forming_points",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
@@ -18568,18 +18568,6 @@
             "deprecationReason": null
           },
           {
-            "name": "celestial_claims",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "faction_id",
             "description": null,
             "type": {
@@ -18640,6 +18628,18 @@
             "deprecationReason": null
           },
           {
+            "name": "system_forming_points",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "user_id",
             "description": null,
             "type": {
@@ -18662,7 +18662,7 @@
         "description": "aggregate stddev on columns",
         "fields": [
           {
-            "name": "celestial_claims",
+            "name": "system_forming_points",
             "description": null,
             "args": [],
             "type": {
@@ -18686,7 +18686,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "celestial_claims",
+            "name": "system_forming_points",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -18708,7 +18708,7 @@
         "description": "aggregate stddev_pop on columns",
         "fields": [
           {
-            "name": "celestial_claims",
+            "name": "system_forming_points",
             "description": null,
             "args": [],
             "type": {
@@ -18732,7 +18732,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "celestial_claims",
+            "name": "system_forming_points",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -18754,7 +18754,7 @@
         "description": "aggregate stddev_samp on columns",
         "fields": [
           {
-            "name": "celestial_claims",
+            "name": "system_forming_points",
             "description": null,
             "args": [],
             "type": {
@@ -18778,7 +18778,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "celestial_claims",
+            "name": "system_forming_points",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -18852,18 +18852,6 @@
             "deprecationReason": null
           },
           {
-            "name": "celestial_claims",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "faction_id",
             "description": null,
             "type": {
@@ -18924,6 +18912,18 @@
             "deprecationReason": null
           },
           {
+            "name": "system_forming_points",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "user_id",
             "description": null,
             "type": {
@@ -18946,12 +18946,12 @@
         "description": "aggregate sum on columns",
         "fields": [
           {
-            "name": "celestial_claims",
+            "name": "system_forming_points",
             "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Int",
+              "name": "numeric",
               "ofType": null
             },
             "isDeprecated": false,
@@ -18970,7 +18970,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "celestial_claims",
+            "name": "system_forming_points",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -19001,12 +19001,6 @@
             "deprecationReason": null
           },
           {
-            "name": "celestial_claims",
-            "description": "column name",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "faction_id",
             "description": "column name",
             "isDeprecated": false,
@@ -19032,6 +19026,12 @@
           },
           {
             "name": "playable_race_id",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "system_forming_points",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
@@ -19102,7 +19102,7 @@
         "description": "aggregate var_pop on columns",
         "fields": [
           {
-            "name": "celestial_claims",
+            "name": "system_forming_points",
             "description": null,
             "args": [],
             "type": {
@@ -19126,7 +19126,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "celestial_claims",
+            "name": "system_forming_points",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -19148,7 +19148,7 @@
         "description": "aggregate var_samp on columns",
         "fields": [
           {
-            "name": "celestial_claims",
+            "name": "system_forming_points",
             "description": null,
             "args": [],
             "type": {
@@ -19172,7 +19172,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "celestial_claims",
+            "name": "system_forming_points",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -19194,7 +19194,7 @@
         "description": "aggregate variance on columns",
         "fields": [
           {
-            "name": "celestial_claims",
+            "name": "system_forming_points",
             "description": null,
             "args": [],
             "type": {
@@ -19218,7 +19218,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "celestial_claims",
+            "name": "system_forming_points",
             "description": null,
             "type": {
               "kind": "ENUM",
