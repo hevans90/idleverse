@@ -1,7 +1,6 @@
-import { DataSource } from 'apollo-datasource';
 import axios, { AxiosRequestConfig } from 'axios';
 
-export class Auth0API extends DataSource {
+export class Auth0API {
   async getManagementToken() {
     const options = {
       method: 'POST',

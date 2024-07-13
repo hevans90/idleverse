@@ -1,8 +1,9 @@
+import { expressMiddleware } from '@apollo/server/express4';
 import { apolloBootstrapper } from '@idleverse/graphql-utils';
-import { DataSources } from 'apollo-server-core/dist/requestPipeline';
-import { ApolloServer } from 'apollo-server-express';
+
+import { ApolloServer } from '@apollo/server';
 import fetch from 'cross-fetch';
-import express from 'express';
+import express, { json } from 'express';
 import jwt from 'express-jwt';
 import jwksRsa from 'jwks-rsa';
 import { buildSchema } from 'type-graphql';
@@ -82,53 +83,11 @@ import { MinioMediaResolver } from './entities/minio-media';
 
   const server = new ApolloServer({
     schema,
-    context: ({ req }) => {
-      const context: Partial<Context> = {
-        req,
-        user: req['user'], // `req.user` comes from `express-jwt`
-      };
-
-      if (req['user']) {
-        if (context.req['user'][process.env.HASURA_NAMESPACE]) {
-          if (
-            context.req['user'][process.env.HASURA_NAMESPACE][
-              'x-hasura-allowed-roles'
-            ]
-          )
-            context.roles =
-              context.req['user'][process.env.HASURA_NAMESPACE][
-                'x-hasura-allowed-roles'
-              ];
-          if (
-            context.req['user'][process.env.HASURA_NAMESPACE][
-              'x-hasura-user-id'
-            ]
-          )
-            context.id =
-              context.req['user'][process.env.HASURA_NAMESPACE][
-                'x-hasura-user-id'
-              ];
-        }
-      }
-
-      return context;
-    },
-    dataSources: (): DataSources<Partial<Context['dataSources']>> => {
-      return {
-        hasuraAPI: new HasuraAPI(apolloClient),
-        hasuraEmpirePurchases: new HasuraEmpirePurchases(apolloClient),
-        hasuraQuestProgression: new HasuraQuestProgression(apolloClient),
-        hasuraEmpireResourceModifiers: new HasuraEmpireResourceModifiers(
-          apolloClient
-        ),
-        auth0API: new Auth0API(),
-        minio: new MinioAPI(minioClient),
-      };
-    },
     introspection: true,
   });
 
-  // Mount a jwt or other authentication middleware that is run before the GraphQL execution
+  await server.start();
+
   app.use(
     path,
     jwt({
@@ -150,22 +109,65 @@ import { MinioMediaResolver } from './entities/minio-media';
     })
   );
 
-  await server.start();
+  app.use(
+    path,
+    json(),
+    expressMiddleware(server, {
+      context: async ({ req }) => {
+        const context: Partial<Context> = {
+          req,
+          user: req['user'], // `req.user` comes from `express-jwt`
+          dataSources: {
+            hasuraAPI: new HasuraAPI(apolloClient),
+            hasuraEmpirePurchases: new HasuraEmpirePurchases(apolloClient),
+            hasuraQuestProgression: new HasuraQuestProgression(apolloClient),
+            hasuraEmpireResourceModifiers: new HasuraEmpireResourceModifiers(
+              apolloClient
+            ),
+            auth0API: new Auth0API(),
+            minio: new MinioAPI(minioClient),
+          },
+        };
+
+        if (req['user']) {
+          if (context.req['user'][process.env.HASURA_NAMESPACE]) {
+            if (
+              context.req['user'][process.env.HASURA_NAMESPACE][
+                'x-hasura-allowed-roles'
+              ]
+            )
+              context.roles =
+                context.req['user'][process.env.HASURA_NAMESPACE][
+                  'x-hasura-allowed-roles'
+                ];
+            if (
+              context.req['user'][process.env.HASURA_NAMESPACE][
+                'x-hasura-user-id'
+              ]
+            )
+              context.id =
+                context.req['user'][process.env.HASURA_NAMESPACE][
+                  'x-hasura-user-id'
+                ];
+          }
+        }
+
+        return context;
+      },
+    })
+  );
 
   automaticMainQuestAssignment(
     apolloClient,
     new HasuraQuestProgression(apolloClient)
   );
 
-  // Apply the GraphQL server middleware
-  server.applyMiddleware({ app, path });
-
   // Launch the express server
   app.listen({ port: process.env.PORT || 4000, host: '' }, () => {
     console.log(
       `🚀 Idleverse Game Server ready at http://localhost:${
         process.env.PORT || 4000
-      }${server.graphqlPath}`
+      }/graphql`
     );
   });
 })();

@@ -1,5 +1,5 @@
 import { IdleverseMedia } from '@idleverse/models';
-import { DataSource } from 'apollo-datasource';
+
 import { isObject } from 'lodash';
 import * as minio from 'minio';
 
@@ -22,9 +22,8 @@ const keysToCamel = (object: object) => {
   return object;
 };
 
-export class MinioAPI extends DataSource {
+export class MinioAPI {
   constructor(client: minio.Client) {
-    super();
     this.client = client;
   }
 

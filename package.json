@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",
+    "@apollo/server": "^4.10.4",
     "@arwes/react": "^1.0.0-alpha.21",
     "@auth0/auth0-react": "^1.9.0",
     "@chakra-ui/icons": "^2.1.1",
@@ -52,8 +53,6 @@
     "apollo-link": "^1.2.14",
     "apollo-link-http": "^1.5.17",
     "apollo-link-ws": "^1.0.20",
-    "apollo-server": "^3.3.0",
-    "apollo-server-express": "^3.3.0",
     "axios": "1.6.8",
     "chakra-ui-steps": "^1.7.4",
     "chalk": "^4.1.2",
