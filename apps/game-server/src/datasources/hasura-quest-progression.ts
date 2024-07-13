@@ -20,12 +20,9 @@ import {
   UnlockGalacticEmpireResourceMutation,
   UnlockGalacticEmpireResourceMutationVariables,
 } from '@idleverse/galaxy-gql';
-import { DataSource } from 'apollo-datasource';
 
-export class HasuraQuestProgression extends DataSource {
+export class HasuraQuestProgression {
   constructor(client: ApolloClient<NormalizedCacheObject>) {
-    super();
-
     this.client = client;
   }
 

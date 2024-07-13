@@ -4,13 +4,10 @@ import {
   IncrementGalacticEmpireResourcesMutation,
   IncrementGalacticEmpireResourcesMutationVariables,
 } from '@idleverse/galaxy-gql';
-import { DataSource } from 'apollo-datasource';
 import { ResourceModification } from '../resource-modification/utils';
 
-export class HasuraEmpireResourceModifiers extends DataSource {
+export class HasuraEmpireResourceModifiers {
   constructor(client: ApolloClient<NormalizedCacheObject>) {
-    super();
-
     this.client = client;
   }
 

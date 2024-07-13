@@ -15,12 +15,9 @@ import {
   ResourceGeneratorsDocument,
   ResourceGeneratorsQuery,
 } from '@idleverse/galaxy-gql';
-import { DataSource } from 'apollo-datasource';
 
-export class HasuraEmpirePurchases extends DataSource {
+export class HasuraEmpirePurchases {
   constructor(client: ApolloClient<NormalizedCacheObject>) {
-    super();
-
     this.client = client;
   }
 

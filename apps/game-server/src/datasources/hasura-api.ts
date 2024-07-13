@@ -16,12 +16,9 @@ import {
   TryInsertPlanetMutation,
   TryInsertPlanetMutationVariables,
 } from '@idleverse/galaxy-gql';
-import { DataSource } from 'apollo-datasource';
 
-export class HasuraAPI extends DataSource {
+export class HasuraAPI {
   constructor(client: ApolloClient<NormalizedCacheObject>) {
-    super();
-
     this.client = client;
   }
 
