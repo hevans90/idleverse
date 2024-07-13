@@ -1,4 +1,3 @@
-
 import axios, { AxiosRequestConfig } from 'axios';
 
 export class Auth0API {
