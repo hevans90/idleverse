@@ -89,6 +89,7 @@ export const PlanetContainer = ({
     );
 
     Promise.all(pixelDataToGenerate).then((values) => {
+      console.log('new pixel data', values);
       setPixelData(values);
     });
   }, [JSON.stringify(planets)]);
@@ -174,6 +175,7 @@ export const PlanetContainer = ({
         }
       );
 
+    console.log('new planets', tempPlanets);
     setLocalPlanets(tempPlanets);
     setLocalOrbitalEllipses(orbitalEllipses);
   };
