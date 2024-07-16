@@ -21,7 +21,7 @@ import { Link as ReactRouterLink } from 'react-router-dom';
 
 import {
   celestialViewerPlanetDataUris,
-  celestialViewerSelectedPlanet,
+  celestialViewerSelectedPlanetVar,
   colorsVar,
 } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
@@ -54,7 +54,7 @@ export const InfoBox = ({
 
   const { primary, secondary } = useReactiveVar(colorsVar);
 
-  const selectedPlanetId = useReactiveVar(celestialViewerSelectedPlanet)?.id;
+  const selectedPlanetId = useReactiveVar(celestialViewerSelectedPlanetVar)?.id;
 
   const selectedPlanetColor = useColorModeValue(
     `${secondary}.900`,
@@ -131,7 +131,7 @@ export const InfoBox = ({
                         background: `${primary}.600`,
                       }}
                       onClick={() =>
-                        celestialViewerSelectedPlanet({
+                        celestialViewerSelectedPlanetVar({
                           name: planet.name,
                           id: planet.id,
                         })
@@ -183,7 +183,7 @@ export const InfoBox = ({
               ?.uri
           }
           planetInfo={planets.find(({ id }) => id === selectedPlanetId)}
-          onClose={() => celestialViewerSelectedPlanet(null)}
+          onClose={() => celestialViewerSelectedPlanetVar(null)}
         ></PlanetInfo>
       )}
     </HStack>

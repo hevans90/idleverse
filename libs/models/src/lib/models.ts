@@ -24,6 +24,11 @@ export type SolarSystemConfig = {
   simulationSpeed: number;
 };
 
+export type PlanetAppearanceConfig = {
+  palettePresetName: string;
+  terrainBias: [number, number, number, number];
+};
+
 export type PlanetGenerationConfig = {
   name: string;
   ui: boolean;
@@ -52,6 +57,12 @@ export type CelestialGenerationConfig = {
   coronalStrength: number;
   color: { r: number; g: number; b: number };
   radius: number;
+};
+
+export type CelestialVariant = {
+  name: string;
+  type: 'star' | 'black hole';
+  config: CelestialGenerationConfig;
 };
 
 export type BreadCrumb = {

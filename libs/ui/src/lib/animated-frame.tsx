@@ -5,21 +5,11 @@ import {
   useFrameSVGAssemblingAnimation,
 } from '@arwes/react-frames';
 import { Box } from '@chakra-ui/layout';
-import styled from '@emotion/styled';
+import { HTMLChakraProps } from '@chakra-ui/react';
+import { css } from '@emotion/react';
+
 import { useUiBackground } from '@idleverse/theme';
 import { ReactNode, useRef } from 'react';
-
-const DataDiv = styled.div<{ bg: string; border: string }>`
-  position: relative;
-  padding: 1rem;
-
-  [data-name='bg'] {
-    color: ${(props) => props.bg};
-  }
-  [data-name='line'] {
-    color: ${(props) => props.border};
-  }
-`;
 
 const AnimatedFrameContent = ({
   children,
@@ -27,6 +17,7 @@ const AnimatedFrameContent = ({
   border,
   borderStrokeWidth = 1,
   show,
+  containerProps,
   ...rest
 }: {
   children?: ReactNode;
@@ -34,13 +25,29 @@ const AnimatedFrameContent = ({
   border?: string;
   borderStrokeWidth?: number;
   show: boolean;
+  containerProps?: HTMLChakraProps<'div'>;
 } & FrameSVGOctagonProps) => {
   const { rawBg, rawBorder } = useUiBackground();
 
   const svgRef = useRef<SVGSVGElement | null>(null);
   const { onRender } = useFrameSVGAssemblingAnimation(svgRef);
   return (
-    <DataDiv bg={bg ?? rawBg} border={border ?? rawBorder}>
+    <Box
+      flexGrow={1}
+      position="relative"
+      p="1rem"
+      width="100%"
+      height="100%"
+      css={css`
+        [data-name='bg'] {
+          color: ${bg ?? rawBg};
+        }
+        [data-name='line'] {
+          color: ${border ?? rawBorder};
+        }
+      `}
+      {...containerProps}
+    >
       <FrameSVGOctagon
         squareSize={20}
         strokeWidth={borderStrokeWidth}
@@ -48,10 +55,15 @@ const AnimatedFrameContent = ({
         onRender={onRender}
         {...rest}
       />
-      <Box position="relative" visibility={show ? 'visible' : 'hidden'}>
+      <Box
+        position="relative"
+        width="100%"
+        height="100%"
+        visibility={show ? 'visible' : 'hidden'}
+      >
         {children}
       </Box>
-    </DataDiv>
+    </Box>
   );
 };
 
@@ -60,15 +72,23 @@ export const AnimatedFrame = ({
   bg,
   border,
   show,
+  containerProps,
   ...rest
 }: {
   children?: ReactNode;
   bg?: string;
   border?: string;
+  containerProps?: HTMLChakraProps<'div'>;
   show: boolean;
 } & FrameSVGOctagonProps) => (
   <Animator active={show}>
-    <AnimatedFrameContent show={show} bg={bg} border={border} {...rest}>
+    <AnimatedFrameContent
+      show={show}
+      bg={bg}
+      border={border}
+      containerProps={containerProps}
+      {...rest}
+    >
       {children}
     </AnimatedFrameContent>
   </Animator>
