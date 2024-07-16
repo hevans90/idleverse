@@ -103,6 +103,7 @@ export const GoldilocksFocusUI = ({
       mode: creatingNewPlanet ? 'new' : 'edit',
     });
     systemEditorNewPlanetVar(false);
+    celestialViewerSelectedPlanetVar(null);
   };
 
   useEffect(() => {
