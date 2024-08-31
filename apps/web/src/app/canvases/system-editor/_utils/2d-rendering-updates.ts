@@ -33,9 +33,6 @@ export const runPlanetDiffLogic = ({
   const { celestial_id, rings, terrain_hex_palette_id, ...newCreationInput } =
     generatePlanetInsertionVars('', userId);
 
-  // if(mode === 'new'){
-
-  // }
   const editedIndex = celestialViewerPlanetsVar().findIndex(
     ({ id }) => id === currentConfig.seed
   );
@@ -44,7 +41,7 @@ export const runPlanetDiffLogic = ({
     createPlanet({ appearance, config: currentConfig, userId });
   }
 
-  if (editedIndex !== undefined && editedIndex >= 0) {
+  if (mode === 'edit' && editedIndex !== undefined && editedIndex >= 0) {
     // before
     const { celestial, ...planetBeforeEditing } =
       celestialViewerPlanetsVar()[editedIndex];
