@@ -65,7 +65,7 @@ export const PlanetNameEditor = ({
   const { secondary } = useReactiveVar(colorsVar);
 
   return (
-    <HStack mb={1}>
+    <HStack>
       <Input
         placeholder="planet name"
         fontSize="2xs"
@@ -259,7 +259,6 @@ export const PlanetConfigEditor = ({
         <HStack
           key={`${index}-container`}
           alignItems="center"
-          marginBottom="5px"
           justifyContent="space-between"
           gap={2}
           position="relative"

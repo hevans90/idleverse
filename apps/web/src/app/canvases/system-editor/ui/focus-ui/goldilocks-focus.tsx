@@ -135,10 +135,7 @@ export const GoldilocksFocusUI = ({
             bg={rawBgDarker}
             leftBottom={!isMobile ? false : true}
             containerProps={{
-              height: [
-                sizeWithoutDialog.height / 4,
-                sizeWithoutDialog.height / 3,
-              ],
+              height: [sizeWithoutDialog.height / 4],
               width: ['100vw', '100%'],
               position: ['fixed', 'relative'],
               top: ['20vh', 'unset'],
