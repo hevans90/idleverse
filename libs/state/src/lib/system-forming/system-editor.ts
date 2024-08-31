@@ -4,6 +4,7 @@ import { CelestialVariant } from '@idleverse/models';
 import { makeVarPersisted } from '../utils';
 import { celestialPresets } from './celestial-creation';
 
+export const systemEditorOrbitalEditInProgressVar = makeVar<boolean>(false);
 export const systemEditorNewPlanetVar = makeVar<boolean>(false);
 export const systemEditorFocusVar = makeVar<SystemFocus | undefined>(undefined);
 

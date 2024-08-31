@@ -5,6 +5,7 @@ import {
   celestialViewerSelectedPlanetVar,
   planetGeneratorConfigVar,
   systemEditorNewPlanetVar,
+  systemEditorOrbitalEditInProgressVar,
 } from '@idleverse/state';
 import { hexStringToNumber, hexToRGB, useUiBackground } from '@idleverse/theme';
 import { useApp } from '@pixi/react';
@@ -38,6 +39,9 @@ export const PlanetContainer = ({
   const [texturesGenerating, setTexturesGenerating] = useState(true);
 
   const creatingNewPlanet = useReactiveVar(systemEditorNewPlanetVar);
+  const orbitalEditInProgress = useReactiveVar(
+    systemEditorOrbitalEditInProgressVar
+  );
 
   const { orbitalRadius } = useReactiveVar(planetGeneratorConfigVar);
 
@@ -189,7 +193,7 @@ export const PlanetContainer = ({
 
   return (
     <>
-      {creatingNewPlanet ? (
+      {creatingNewPlanet || orbitalEditInProgress ? (
         <OrbitalDash center={center} radius={orbitalRadius} />
       ) : null}
       {localPlanets.length ? (

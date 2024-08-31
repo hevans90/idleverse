@@ -13,13 +13,17 @@ import {
   celestialViewerSelectedPlanetVar,
   colorsVar,
   dialogVar,
+  planetGeneratorConfigVar,
   systemEditorNewPlanetVar,
+  systemEditorOrbitalEditInProgressVar,
+  toSnakeCase,
 } from '@idleverse/state';
 import { useUiBackground } from '@idleverse/theme';
 import { AnimatedFrame, AnimatedText, BlinkingText } from '@idleverse/ui';
 
+import { PlanetGenerationConfig } from '@idleverse/models';
 import { isEqual } from 'lodash';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { responsiveFontProps } from '../../../../_responsive-utils/font-props';
 import { useResize } from '../../../_utils/use-resize.hook';
 import { PlanetGenerator } from '../../../planet-generator/planet-generator';
@@ -53,6 +57,29 @@ export const GoldilocksFocusUI = ({
   const [updatedPlanet, setUpdatedPlanet] =
     useState<PlanetByIdQuery['planet_by_pk']>();
 
+  const updatePlanetGenerationConfig = useCallback(
+    (key: keyof PlanetGenerationConfig, val: string | number) => {
+      planetGeneratorConfigVar({
+        ...planetGeneratorConfigVar(),
+        [key]: val,
+      });
+
+      if (key === 'orbitalRadius' && val !== updatedPlanet?.orbital_radius) {
+        systemEditorOrbitalEditInProgressVar(true);
+      } else {
+        systemEditorOrbitalEditInProgressVar(false);
+      }
+
+      // db entity
+      const snakeKey = toSnakeCase(key);
+      setUpdatedPlanet({
+        ...updatedPlanet,
+        [snakeKey]: val,
+      });
+    },
+    [updatedPlanet]
+  );
+
   const currentlySelectedPlanet = useMemo(
     () => selectedPlanet && planets.find(({ id }) => id === selectedPlanet.id),
     [selectedPlanet, planets]
@@ -64,6 +91,7 @@ export const GoldilocksFocusUI = ({
     }
 
     if (currentlySelectedPlanet) {
+      console.log({ dirty: !isEqual(currentlySelectedPlanet, updatedPlanet) });
       return !isEqual(currentlySelectedPlanet, updatedPlanet);
     }
     return false;
@@ -80,11 +108,14 @@ export const GoldilocksFocusUI = ({
   const showEditor = creatingNewPlanet || !!selectedPlanet;
 
   const selectPlanetHandler = ({ name, id }: { name: string; id: string }) => {
+    systemEditorOrbitalEditInProgressVar(false);
     systemEditorNewPlanetVar(false);
     celestialViewerSelectedPlanetVar({ name, id });
-    setUpdatedPlanet({
-      ...planets.find(({ id: existingPlanetId }) => existingPlanetId === id),
-    });
+
+    const planet = planets.find(
+      ({ id: existingPlanetId }) => existingPlanetId === id
+    );
+    setUpdatedPlanet(planet);
   };
 
   const newPlanetHandler = () => {
@@ -147,9 +178,7 @@ export const GoldilocksFocusUI = ({
           </AnimatedFrame>
 
           <PlanetNameEditor
-            onNameChange={(name) =>
-              setUpdatedPlanet({ ...updatedPlanet, name })
-            }
+            onNameChange={(name) => updatePlanetGenerationConfig('name', name)}
           />
           <PlanetAppearanceEditor
             onPaletteChange={(palette) =>
@@ -167,10 +196,7 @@ export const GoldilocksFocusUI = ({
           />
           <PlanetConfigEditor
             onConfigChange={(key, value) =>
-              setUpdatedPlanet({
-                ...updatedPlanet,
-                [key]: value,
-              })
+              updatePlanetGenerationConfig(key, value)
             }
           />
         </>

@@ -279,10 +279,7 @@ export const PlanetConfigEditor = ({
                 ...localConfigValues,
                 [slider.name]: event,
               });
-              planetGeneratorConfigVar({
-                ...planetGeneratorConfigVar(),
-                [slider.name]: event,
-              });
+
               onConfigChange(slider.name, event);
             }}
             focusThumbOnChange={false}
@@ -307,10 +304,7 @@ export const PlanetConfigEditor = ({
                 ...localConfigValues,
                 [slider.name]: parseFloat(event),
               });
-              planetGeneratorConfigVar({
-                ...planetGeneratorConfigVar(),
-                [slider.name]: parseFloat(event),
-              });
+              onConfigChange(slider.name, parseFloat(event));
             }}
           >
             <NumberInputField autoFocus {...responsiveFontProps} pl={1} />

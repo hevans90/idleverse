@@ -9,10 +9,11 @@ export const randomPointInAnnulus = ({
   const theta = Math.random() * 2 * Math.PI;
 
   // generate a random distance
-  const radius =
+  const radius = Math.floor(
     Math.sqrt(Math.random()) *
       (dimensions.outerRadius - dimensions.innerRadius) +
-    dimensions.innerRadius;
+      dimensions.innerRadius
+  );
 
   // Convert polar coordinates to Cartesian coordinates
   return {

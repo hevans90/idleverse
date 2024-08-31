@@ -1,3 +1,4 @@
+import { PlanetByIdQuery } from '@idleverse/galaxy-gql';
 import {
   PlanetAppearanceConfig,
   PlanetGenerationConfig,
@@ -16,7 +17,13 @@ import { generatePlanetInsertionVars } from '../../planet-generator/generate-pla
 /**
  * When creating or updating planets, call this function and it will do all the hard work.
  */
-export const runPlanetDiffLogic = () => {
+export const runPlanetDiffLogic = ({
+  planet,
+  mode,
+}: {
+  planet: PlanetByIdQuery['planet_by_pk'];
+  mode: 'new' | 'edit';
+}) => {
   const currentConfig = planetGeneratorConfigVar();
   const { id: userId } = selfVar();
   const { panelOpen, ...appearance } = planetGenerationColorDrawerVar();
@@ -26,12 +33,14 @@ export const runPlanetDiffLogic = () => {
   const { celestial_id, rings, terrain_hex_palette_id, ...newCreationInput } =
     generatePlanetInsertionVars('', userId);
 
-  // check if we are updating an existing planet
+  // if(mode === 'new'){
+
+  // }
   const editedIndex = celestialViewerPlanetsVar().findIndex(
     ({ id }) => id === currentConfig.seed
   );
 
-  if (editedIndex === -1) {
+  if (mode === 'new') {
     createPlanet({ appearance, config: currentConfig, userId });
   }
 

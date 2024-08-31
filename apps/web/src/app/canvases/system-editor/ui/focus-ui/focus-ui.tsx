@@ -37,7 +37,10 @@ export const SystemEditorFocusUI = ({ ...divProps }: FocusUIProps) => {
     planet: PlanetByIdQuery['planet_by_pk'];
     mode: 'new' | 'edit';
   }) => {
-    runPlanetDiffLogic();
+    runPlanetDiffLogic({
+      planet,
+      mode,
+    });
   };
 
   return focus ? (
