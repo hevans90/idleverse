@@ -91,7 +91,6 @@ export const GoldilocksFocusUI = ({
     }
 
     if (currentlySelectedPlanet) {
-      console.log({ dirty: !isEqual(currentlySelectedPlanet, updatedPlanet) });
       return !isEqual(currentlySelectedPlanet, updatedPlanet);
     }
     return false;

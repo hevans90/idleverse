@@ -4,7 +4,8 @@ import { OrbitControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 
 import { PlanetByIdQuery } from '@idleverse/galaxy-gql';
-import { Suspense, useEffect, useState } from 'react';
+import { isEqual } from 'lodash';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { DataTexture } from 'three';
 import { Loading } from '../../components/loading';
 import { CameraController } from '../planet-generator/camera-controller';
@@ -31,6 +32,8 @@ export const Planet = ({
   data: PlanetData;
   stars?: boolean;
 }) => {
+  const prevPropRef = useRef<PlanetData>();
+
   const { rawBgDarker } = useUiBackground();
 
   const [worldDataTexture, setWorldDataTexture] =
@@ -41,7 +44,9 @@ export const Planet = ({
   }>(undefined);
 
   useEffect(() => {
-    if (data) {
+    const sameData = prevPropRef.current && isEqual(prevPropRef.current, data);
+
+    if (data && !sameData) {
       const {
         id: seed,
         terrain_bias,
@@ -89,6 +94,8 @@ export const Planet = ({
           });
         }
       );
+
+      prevPropRef.current = data;
     }
   }, [data]);
 

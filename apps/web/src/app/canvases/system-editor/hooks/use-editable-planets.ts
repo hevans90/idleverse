@@ -52,7 +52,6 @@ export const useEditablePlanets = () => {
         ),
       };
 
-      console.log('updating', newPlanet?.name);
       update3DPlanetRenderer(newPlanet as PlanetByIdQuery['planet_by_pk']);
     }
   }, [selectedPlanet, planets, creatingNewPlanet, palettes, userId]);

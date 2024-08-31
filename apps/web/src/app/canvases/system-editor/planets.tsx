@@ -137,6 +137,7 @@ export const Planets = ({
 
       if (alreadyRendered) {
         // UPDATE EXISTING: texture, rings, etc
+        alreadyRendered.texture = planet.sprite.texture;
       } else {
         containerRef.current.addChild(planet.sprite);
       }

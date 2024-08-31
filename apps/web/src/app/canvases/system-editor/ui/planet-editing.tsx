@@ -299,7 +299,6 @@ export const PlanetConfigEditor = ({
             step={slider.step}
             precision={0}
             onChange={(event: string) => {
-              console.log(slider.displayName, event);
               setLocalValues({
                 ...localConfigValues,
                 [slider.name]: parseFloat(event),

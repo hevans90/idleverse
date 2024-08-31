@@ -1,6 +1,5 @@
 import { useReactiveVar } from '@apollo/client';
 import {
-  celestialViewerPlanetDataUris,
   celestialViewerPlanetsVar,
   celestialViewerSelectedPlanetVar,
   planetGeneratorConfigVar,
@@ -10,7 +9,7 @@ import {
 import { hexStringToNumber, hexToRGB, useUiBackground } from '@idleverse/theme';
 import { useApp } from '@pixi/react';
 import { Viewport } from 'pixi-viewport';
-import { Assets, Graphics } from 'pixi.js';
+import { Assets, Graphics, Texture } from 'pixi.js';
 import { useEffect, useState } from 'react';
 import { Planet, PlanetConfig } from '../celestial-viewer/models';
 import { useGenerateDataUris } from '../celestial-viewer/use-generate-data-uris';
@@ -93,7 +92,6 @@ export const PlanetContainer = ({
     );
 
     Promise.all(pixelDataToGenerate).then((values) => {
-      console.log('new pixel data', values);
       setPixelData(values);
     });
   }, [JSON.stringify(planets)]);
@@ -109,21 +107,16 @@ export const PlanetContainer = ({
     const tempPlanets: Planet[] = [];
     setTexturesGenerating(false);
 
-    const pixiAssetBundleKey = 'editor';
+    const textures: { [planetName: string]: Texture } = {};
 
-    Assets.addBundle(
-      pixiAssetBundleKey,
-      planets.map(({ id, name }) => ({
-        name,
-        srcs: celestialViewerPlanetDataUris().uris.find(
-          ({ seed }) => seed === id
-        ).uri,
-      }))
-    );
-
-    const bundle: { name: string }[] = await Assets.loadBundle(
-      pixiAssetBundleKey
-    );
+    for (let i = 0; i < planets.length; i++) {
+      const planet = planets[i];
+      const dataUri = data.uris.find(({ seed }) => seed === planet.id).uri;
+      if (dataUri) {
+        console.log(`datauri for ${planet.name}`, dataUri);
+        textures[planet.name] = await Assets.load(dataUri);
+      }
+    }
 
     const celestialConfig: PlanetConfig = {
       id: 'celestial',
@@ -139,7 +132,7 @@ export const PlanetContainer = ({
     planets.forEach(({ id, name, radius, orbital_radius }) =>
       tempPlanets.push(
         build2DPlanet({
-          planetTexture: bundle?.[name],
+          planetTexture: textures[name],
           radius,
           app,
           name,
@@ -179,7 +172,6 @@ export const PlanetContainer = ({
         }
       );
 
-    console.log('new planets', tempPlanets);
     setLocalPlanets(tempPlanets);
     setLocalOrbitalEllipses(orbitalEllipses);
   };
