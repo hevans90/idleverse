@@ -20,6 +20,7 @@ export const build2DPlanet = ({
   initialScale = { x: 5, y: 5 },
   sun,
   orbitalRadius,
+  textureResolution,
 }: {
   planetTexture: Texture<Resource>;
   radius: number;
@@ -30,13 +31,23 @@ export const build2DPlanet = ({
   initialScale?: { x: number; y: number };
   sun?: Planet;
   orbitalRadius?: number;
+  textureResolution: number;
 }) => {
   const radiusFactor = 28;
+
+  const textureZoomFactor = 120 / textureResolution;
 
   const planetGraphic = new Graphics()
     .beginTextureFill({
       texture: planetTexture,
-      matrix: new Matrix(1, 0, 0, 1, 0, radius * radiusFactor),
+      matrix: new Matrix(
+        textureZoomFactor,
+        0,
+        0,
+        textureZoomFactor,
+        0,
+        radius * radiusFactor
+      ),
     })
     .drawCircle(0, 0, radius * radiusFactor)
     .endFill();

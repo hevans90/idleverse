@@ -113,7 +113,6 @@ export const PlanetContainer = ({
       const planet = planets[i];
       const dataUri = data.uris.find(({ seed }) => seed === planet.id).uri;
       if (dataUri) {
-        console.log(`datauri for ${planet.name}`, dataUri);
         textures[planet.name] = await Assets.load(dataUri);
       }
     }
@@ -129,24 +128,26 @@ export const PlanetContainer = ({
       config: celestialConfig,
     });
 
-    planets.forEach(({ id, name, radius, orbital_radius }) =>
-      tempPlanets.push(
-        build2DPlanet({
-          planetTexture: textures[name],
-          radius,
-          app,
-          name,
-          id,
-          selectionFunction: () => {
-            celestialViewerSelectedPlanetVar({
-              name,
-              id,
-            });
-          },
-          sun,
-          orbitalRadius: orbital_radius,
-        })
-      )
+    planets.forEach(
+      ({ id, name, radius, orbital_radius, texture_resolution }) =>
+        tempPlanets.push(
+          build2DPlanet({
+            planetTexture: textures[name],
+            radius,
+            app,
+            name,
+            id,
+            selectionFunction: () => {
+              celestialViewerSelectedPlanetVar({
+                name,
+                id,
+              });
+            },
+            sun,
+            orbitalRadius: orbital_radius,
+            textureResolution: texture_resolution,
+          })
+        )
     );
 
     tempPlanets

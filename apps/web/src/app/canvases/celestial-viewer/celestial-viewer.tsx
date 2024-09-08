@@ -114,7 +114,7 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
       );
 
       Assets.loadBundle(bundleKey).then((bundle) => {
-        celestial.planets.forEach(({ id, name, radius }) =>
+        celestial.planets.forEach(({ id, name, radius, texture_resolution }) =>
           tempPlanets.push(
             build2DPlanet({
               planetTexture: bundle?.[name],
@@ -129,6 +129,7 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
                 });
               },
               sun,
+              textureResolution: texture_resolution,
             })
           )
         );
