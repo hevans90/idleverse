@@ -34,7 +34,7 @@ export const runPlanetDiffLogic = ({
     generatePlanetInsertionVars('', userId);
 
   const editedIndex = celestialViewerPlanetsVar().findIndex(
-    ({ id }) => id === currentConfig.seed
+    ({ id }) => id === planet.id
   );
 
   if (mode === 'new') {
@@ -103,10 +103,6 @@ export const updatePlanet = ({
         : element
     )
   );
-  celestialViewerSelectedPlanetVar({
-    name: config.name,
-    id: config.seed,
-  });
 };
 
 export const createPlanet = ({
@@ -136,8 +132,4 @@ export const createPlanet = ({
       celestial: null,
     },
   ]);
-  celestialViewerSelectedPlanetVar({
-    name: config.name,
-    id: config.seed,
-  });
 };
