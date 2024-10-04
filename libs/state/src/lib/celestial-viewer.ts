@@ -43,7 +43,7 @@ export const celestialViewerAsteroidBeltVar = makeVarPersisted<{
   colorPalette: TerrainHexPalettesQuery['terrain_hex_palette'][0] | null;
 }>(
   {
-    noAsteroids: 1000,
+    noAsteroids: 0,
     size: 'medium',
     colorPalette: null,
   },

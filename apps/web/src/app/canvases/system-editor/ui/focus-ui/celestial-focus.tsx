@@ -38,7 +38,7 @@ export const CelestialFocusUI = () => {
           _expanded={{ bg: `${primary}.700` }}
           _focus={{ boxShadow: 'outline' }}
         >
-          {config.celestial.config.preset.replace('-', ' ')}
+          {config.celestial?.config.preset.replace('-', ' ') || 'Select Star'}
         </MenuButton>
         <MenuList bg={bg} zIndex={2}>
           {celestialPresets.map(({ preset, ...rest }, i) => (
@@ -64,36 +64,38 @@ export const CelestialFocusUI = () => {
           ))}
         </MenuList>
       </Menu>
-      <HStack width="100%">
-        <Input
-          fontSize="2xs"
-          placeholder="name your star"
-          value={config.celestial.name}
-          maxLength={25}
-          flexGrow="1"
-          onChange={(event) => {
-            systemEditorConfigVar({
-              ...config,
-              celestial: { ...config.celestial, name: event.target.value },
-            });
-          }}
-        />
-        <IconButton
-          marginLeft="0.3rem"
-          colorScheme={secondary}
-          aria-label="Generate new name"
-          icon={<Icon as={RepeatPixelIcon} {...responsiveIconProps} />}
-          onClick={() => {
-            systemEditorConfigVar({
-              ...config,
-              celestial: {
-                ...config.celestial,
-                name: generateCelestialName(),
-              },
-            });
-          }}
-        />
-      </HStack>
+      {config.celestial && (
+        <HStack width="100%">
+          <Input
+            fontSize="2xs"
+            placeholder="name your star"
+            value={config.celestial.name}
+            maxLength={25}
+            flexGrow="1"
+            onChange={(event) => {
+              systemEditorConfigVar({
+                ...config,
+                celestial: { ...config.celestial, name: event.target.value },
+              });
+            }}
+          />
+          <IconButton
+            marginLeft="0.3rem"
+            colorScheme={secondary}
+            aria-label="Generate new name"
+            icon={<Icon as={RepeatPixelIcon} {...responsiveIconProps} />}
+            onClick={() => {
+              systemEditorConfigVar({
+                ...config,
+                celestial: {
+                  ...config.celestial,
+                  name: generateCelestialName(),
+                },
+              });
+            }}
+          />
+        </HStack>
+      )}
     </>
   );
 };

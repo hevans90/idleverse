@@ -113,13 +113,15 @@ export const SystemEditorContainer = () => {
             filterArea={new Rectangle(0, 0, size.width, size.height)}
             zIndex={1}
           >
-            <StarRenderer
-              config={celestial.config}
-              containerRef={containerRef}
-              viewportRef={viewportRef}
-              starRadius={CELESTIAL_RADIUS}
-              size={size}
-            />
+            {celestial && (
+              <StarRenderer
+                config={celestial.config}
+                containerRef={containerRef}
+                viewportRef={viewportRef}
+                starRadius={CELESTIAL_RADIUS}
+                size={size}
+              />
+            )}
           </Container>
         </PixiViewport>
       </PixiWrapper>
