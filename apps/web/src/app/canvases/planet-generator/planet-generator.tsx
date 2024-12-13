@@ -25,9 +25,11 @@ import { PlanetGeneratorSliders } from './ui/sliders';
 export const PlanetGenerator = ({
   stars = true,
   fullUI = true,
+  pixelShaderSize,
 }: {
   stars?: boolean;
   fullUI?: boolean;
+  pixelShaderSize?: number;
 }) => {
   const containerRef = useRef<HTMLDivElement>();
 
@@ -91,6 +93,7 @@ export const PlanetGenerator = ({
     <>
       <Box ref={containerRef} position="relative" width="100%" height="100%">
         <Planet
+          pixelShaderSize={pixelShaderSize}
           stars={stars}
           data={{
             id: seed,

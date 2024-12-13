@@ -28,9 +28,11 @@ type PlanetData = Pick<
 export const Planet = ({
   data,
   stars = true,
+  pixelShaderSize = 4,
 }: {
   data: PlanetData;
   stars?: boolean;
+  pixelShaderSize?: number;
 }) => {
   const prevPropRef = useRef<PlanetData>();
 
@@ -145,7 +147,10 @@ export const Planet = ({
           )}
         />
         <CameraController />
-        <Pixelate bgColor={hexStringToNumber(rawBgDarker)} pixelSize={4} />
+        <Pixelate
+          bgColor={hexStringToNumber(rawBgDarker)}
+          pixelSize={pixelShaderSize}
+        />
         <OrbitControls
           minPolarAngle={Math.PI / 16}
           maxPolarAngle={Math.PI - Math.PI / 16}

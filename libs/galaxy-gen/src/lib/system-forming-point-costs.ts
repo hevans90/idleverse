@@ -1,27 +1,57 @@
-import { CelestialType } from '@idleverse/models';
+import {
+  CelestialType,
+  PlanetTerrain,
+  TerrainHexPaletteKey,
+} from '@idleverse/models';
 import { SystemFocus } from './system-generation';
 
-// Utility type to extract a single key from a union type
-type ExtractKey<T, K extends T> = K;
-
 export type FormingData = {
-  [key in ExtractKey<SystemFocus, 'celestial'>]: {
-    [key in CelestialType]: {
-      cost: number;
+  [key in SystemFocus]: key extends 'celestial'
+    ? CelestialData
+    : key extends 'asteroid-belt'
+    ? AsteroidBeltData
+    : GoldilocksZoneData;
+};
 
-      /* A direct multiplier to solar energy production */
-      luminosity: number;
+type CelestialData = {
+  [key in CelestialType]: {
+    cost: number;
 
-      /* An additive percentage value to overall system metal mining efficiency */
-      metallurgicalQuality: number;
+    /** A direct multiplier to solar energy production */
+    luminosity: number;
 
-      /**
-       *  A score between 0-10.
-       *  0 = no activity
-       *  > 0 = the number is a multiplier to the magnitude of various random events,
-       *  like solar flares
-       * */
-      volatility: number;
+    /** An additive percentage value to overall system metal mining efficiency  */
+    metallurgicalQuality: number;
+
+    /**
+     *  A score between 0-10.
+     *
+     *  0 = no activity
+     *
+     *  \> 0 = the number is a multiplier to the magnitude of various random events,
+     *  like solar flares
+     * */
+    volatility: number;
+  };
+};
+
+type AsteroidBeltData = {
+  [key in PlanetTerrain]: {
+    waterCost: number;
+    sandCost: number;
+    grassCost: number;
+    forestCost: number;
+  };
+};
+
+type GoldilocksZoneData = {
+  planets: {
+    [key in PlanetTerrain]: {
+      [key in TerrainHexPaletteKey]: {
+        hydrocarbonsMultiplier?: number;
+        commonMetalsMultiplier?: number;
+        rareMetalsMultiplier?: number;
+      };
     };
   };
 };
@@ -53,4 +83,85 @@ export const FORMING_DATA: FormingData = {
       volatility: 8,
     },
   },
+  'goldilocks-zone': {
+    planets: {
+      terran: {
+        water: {
+          hydrocarbonsMultiplier: 0.4,
+        },
+        sand: {
+          commonMetalsMultiplier: 0.2,
+          rareMetalsMultiplier: 0.1,
+        },
+        grass: {
+          hydrocarbonsMultiplier: 0.3,
+          commonMetalsMultiplier: 0.1,
+        },
+        forest: {
+          hydrocarbonsMultiplier: 0.2,
+          rareMetalsMultiplier: 0.1,
+        },
+      },
+      desert: {
+        water: {
+          commonMetalsMultiplier: 0.2,
+          rareMetalsMultiplier: 0.1,
+        },
+        sand: {
+          commonMetalsMultiplier: 0.3,
+          rareMetalsMultiplier: 0.2,
+        },
+        grass: {
+          commonMetalsMultiplier: 0.1,
+        },
+        forest: {
+          hydrocarbonsMultiplier: 0.2,
+          rareMetalsMultiplier: 0.3,
+        },
+      },
+      alien: {
+        water: {
+          hydrocarbonsMultiplier: 0,
+          commonMetalsMultiplier: 0,
+          rareMetalsMultiplier: 0,
+        },
+        sand: {
+          hydrocarbonsMultiplier: 0,
+          commonMetalsMultiplier: 0,
+          rareMetalsMultiplier: 0,
+        },
+        grass: {
+          hydrocarbonsMultiplier: 0,
+          commonMetalsMultiplier: 0,
+          rareMetalsMultiplier: 0,
+        },
+        forest: {
+          hydrocarbonsMultiplier: 0.7,
+        },
+      },
+      primordial: {
+        water: {
+          hydrocarbonsMultiplier: 0,
+          commonMetalsMultiplier: 0,
+          rareMetalsMultiplier: 0,
+        },
+        sand: {
+          hydrocarbonsMultiplier: 0,
+          commonMetalsMultiplier: 0,
+          rareMetalsMultiplier: 0,
+        },
+        grass: {
+          hydrocarbonsMultiplier: 0,
+          commonMetalsMultiplier: 0,
+          rareMetalsMultiplier: 0,
+        },
+        forest: {
+          hydrocarbonsMultiplier: 0,
+          commonMetalsMultiplier: 0,
+          rareMetalsMultiplier: 0,
+        },
+      },
+    },
+  },
+  'asteroid-belt': undefined,
 };

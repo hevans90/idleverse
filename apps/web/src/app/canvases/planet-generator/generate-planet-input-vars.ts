@@ -59,8 +59,6 @@ export const generatePlanetInsertionVars = (
   celestialId?: string,
   ownerId?: string
 ): PlanetCreationInput => {
-  console.log(planetGeneratorConfigVar());
-
   const {
     seed: id,
     name,

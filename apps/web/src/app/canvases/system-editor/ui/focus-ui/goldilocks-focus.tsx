@@ -173,7 +173,7 @@ export const GoldilocksFocusUI = ({
               display: isMobile && dialogOpen ? 'none' : 'block',
             }}
           >
-            <PlanetGenerator stars={false} fullUI={false} />
+            <PlanetGenerator stars={true} fullUI={false} pixelShaderSize={8} />
           </AnimatedFrame>
 
           <PlanetNameEditor
@@ -186,12 +186,20 @@ export const GoldilocksFocusUI = ({
                 terrain_hex_palette: palette,
               })
             }
-            onBiasChange={(biases) =>
+            onBiasChange={(biases) => {
+              const [waterBound, sandBound, grassBound, forestBound] = biases;
+
+              console.log({
+                water: sandBound,
+                sand: 1 - sandBound - (1 - Math.min(grassBound, forestBound)),
+                grass: 1 - grassBound - (1 - Math.min(forestBound, 1)),
+                forest: 1 - forestBound,
+              });
               setUpdatedPlanet({
                 ...updatedPlanet,
                 terrain_bias: biases,
-              })
-            }
+              });
+            }}
           />
           <PlanetConfigEditor
             onConfigChange={(key, value) =>
@@ -248,7 +256,7 @@ export const GoldilocksFocusUI = ({
         </HStack>
       ) : (
         <Button width="100%" onClick={newPlanetHandler} colorScheme={secondary}>
-          New +
+          New Planet +
         </Button>
       )}
     </>

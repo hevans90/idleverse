@@ -17,7 +17,7 @@ const defaultPlanetConfig: () => PlanetGenerationConfig = () => ({
   ui: true,
   radius: 1,
   seed: uuidv4(),
-  textureResolution: 80,
+  textureResolution: 128,
   pixelSize: 3,
   atmosphericDistance: 3,
   atmosphere: true,
@@ -35,7 +35,7 @@ export const planetGenerationPresets: {
     name: 'terran',
     appearance: {
       palettePresetName: 'terran',
-      terrainBias: [0, 0.65, 0.73, 0.82],
+      terrainBias: [0, 0.55, 0.65, 0.82],
     },
     config: defaultPlanetConfig(),
     rings: [],
@@ -52,8 +52,8 @@ export const planetGenerationPresets: {
   {
     name: 'alien',
     appearance: {
-      palettePresetName: 'desert',
-      terrainBias: [0, 0.65, 0.73, 0.82],
+      palettePresetName: 'alien',
+      terrainBias: [0, 0.35, 0.6, 0.82],
     },
     config: defaultPlanetConfig(),
     rings: [],
@@ -61,8 +61,8 @@ export const planetGenerationPresets: {
   {
     name: 'primordial',
     appearance: {
-      palettePresetName: 'desert',
-      terrainBias: [0, 0.65, 0.73, 0.82],
+      palettePresetName: 'primordial',
+      terrainBias: [0, 0.38, 0.5, 0.66],
     },
     config: defaultPlanetConfig(),
     rings: [],

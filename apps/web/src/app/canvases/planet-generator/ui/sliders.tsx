@@ -52,8 +52,8 @@ export const planetGeneratorSlidersConfig: PlanetGeneratorSliderType[] = [
     name: 'atmosphericDistance',
     displayName: 'Atmosphere',
     min: 1,
-    max: 8,
-    step: 1,
+    max: 16,
+    step: 2,
   },
   {
     name: 'orbitalRadius',
@@ -65,8 +65,8 @@ export const planetGeneratorSlidersConfig: PlanetGeneratorSliderType[] = [
   {
     name: 'textureResolution',
     displayName: 'Resolution',
-    min: 16,
-    max: 1024,
+    min: 48,
+    max: 256,
     step: 16,
   },
 ];

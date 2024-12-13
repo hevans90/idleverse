@@ -34,6 +34,7 @@ import {
   colorPalettesVar,
   colorsVar,
   planetGenerationColorDrawerVar,
+  planetGenerationPresets,
   planetGeneratorConfigVar,
   systemEditorNewPlanetVar,
 } from '@idleverse/state';
@@ -107,8 +108,9 @@ export const PlanetAppearanceEditor = ({
   onBiasChange: (biases: [number, number, number, number]) => void;
 }) => {
   const appearance = useReactiveVar(planetGenerationColorDrawerVar);
+
   const { bg, border } = useUiBackground();
-  const { primary } = useReactiveVar(colorsVar);
+  const { primary, secondary } = useReactiveVar(colorsVar);
 
   const palettePresets = useReactiveVar(colorPalettesVar);
 
@@ -153,6 +155,15 @@ export const PlanetAppearanceEditor = ({
                 bg={bg}
                 _hover={{ bg: `${primary}.600` }}
                 onClick={() => {
+                  const biasPreset = planetGenerationPresets.find(
+                    (preset) => preset.name === name
+                  )?.appearance.terrainBias;
+
+                  if (!biasPreset) {
+                    console.error(`Could not find terrain bias for: "${name}"`);
+                    return;
+                  }
+
                   setLocalPalette({
                     name,
                     water,
@@ -162,7 +173,8 @@ export const PlanetAppearanceEditor = ({
                     id,
                   });
                   planetGenerationColorDrawerVar({
-                    ...appearance,
+                    panelOpen: appearance.panelOpen,
+                    terrainBias: biasPreset,
                     palettePresetName: name,
                   });
                   onPaletteChange({
@@ -197,38 +209,57 @@ export const PlanetAppearanceEditor = ({
           defaultValue={appearance.terrainBias}
           min={0}
           max={1}
+          minStepsBetweenThumbs={2}
           step={0.01}
           onChangeEnd={(biases: [number, number, number, number]) => {
+            if (biases[0] !== 0) {
+              setTimeout(() => {
+                const newBiases: [number, number, number, number] = [
+                  0,
+                  biases[1],
+                  biases[2],
+                  biases[3],
+                ];
+
+                planetGenerationColorDrawerVar({
+                  ...appearance,
+                  terrainBias: newBiases,
+                });
+                onBiasChange(newBiases);
+              }, 200);
+            }
+
+            const newBiases: [number, number, number, number] = [
+              0,
+              biases[1],
+              biases[2],
+              biases[3],
+            ];
+
             planetGenerationColorDrawerVar({
               ...appearance,
-              terrainBias: biases,
+              terrainBias: newBiases,
             });
-            onBiasChange(biases);
+            onBiasChange(newBiases);
           }}
         >
           <RangeSliderTrack>
             <RangeSliderFilledTrack />
           </RangeSliderTrack>
-          <RangeSliderThumb
-            boxSize={6}
-            index={0}
-            bgColor={localPalette?.water}
-          />
-          <RangeSliderThumb
-            boxSize={6}
-            index={1}
-            bgColor={localPalette?.sand}
-          />
-          <RangeSliderThumb
-            boxSize={6}
-            index={2}
-            bgColor={localPalette?.grass}
-          />
-          <RangeSliderThumb
-            boxSize={6}
-            index={3}
-            bgColor={localPalette?.forest}
-          />
+          {[
+            localPalette.water,
+            localPalette.sand,
+            localPalette.grass,
+            localPalette.forest,
+          ].map((paletteColor, i) => (
+            <RangeSliderThumb
+              boxSize={6}
+              index={i}
+              bgColor={paletteColor}
+              borderColor={`${secondary}.200`}
+              borderWidth={2}
+            />
+          ))}
         </RangeSlider>
       </Box>
     </VStack>
