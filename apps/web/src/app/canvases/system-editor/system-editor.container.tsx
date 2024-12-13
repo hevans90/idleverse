@@ -1,7 +1,7 @@
 import { Container } from '@pixi/react';
 import { Viewport } from 'pixi-viewport';
 import { Container as PixiContainer, Rectangle } from 'pixi.js';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { StarRenderer } from '../../showreel/star-editor/star-renderer';
 import { StarField } from '../_rendering/starfield';
 import { PixiWrapper } from '../_utils/pixi-wrapper';
@@ -23,6 +23,8 @@ import { Asteroids } from '../_rendering/asteroids';
 import {
   CELESTIAL_RADIUS,
   CENTER,
+  SYSTEM_FOCI,
+  SystemFocus,
   WORLD_RADII,
   WORLD_SIZE,
 } from '@idleverse/galaxy-gen';
@@ -32,11 +34,21 @@ import { SystemEditorFocusUI } from './ui/focus-ui/focus-ui';
 import { SystemEditorOverview } from './ui/overview';
 import { useCelestialAudio } from './use-celestial-audio.hook';
 
+const welcomeTourSteps: CelestialAudioName[] = [
+  'welcome',
+  'system-forming-points',
+  'celestial',
+  'goldilocks-zone',
+  'asteroid-belt',
+];
+
 export const SystemEditorContainer = () => {
   const viewportRef = useRef<Viewport>(null);
   const containerRef = useRef<PixiContainer>();
 
   const dataURICanvasRef = useRef<HTMLCanvasElement>(null);
+
+  const [tour, setTour] = useState(true);
 
   const { open: dialogOpen } = useReactiveVar(dialogVar);
 
@@ -44,6 +56,30 @@ export const SystemEditorContainer = () => {
 
   const [locallySelectedAudioName, setLocallySelectedAudioName] =
     useState<CelestialAudioName>('welcome');
+
+  const continueTour = useCallback(() => {
+    const currentIndex = welcomeTourSteps.indexOf(locallySelectedAudioName);
+
+    const nextStep = welcomeTourSteps[currentIndex + 1];
+
+    // dialogVar({ ...dialogVar(), open: false });
+
+    if (currentIndex === -1 || currentIndex === welcomeTourSteps.length - 1) {
+      // End tour because the step doesn't exist or it's the last step
+      setTour(false);
+
+      if (!nextStep) {
+        systemEditorFocusVar(undefined);
+        dialogVar({ ...dialogVar(), open: false });
+      }
+    }
+
+    if (SYSTEM_FOCI.includes(nextStep as SystemFocus)) {
+      systemEditorFocusVar(nextStep as SystemFocus);
+    }
+
+    setLocallySelectedAudioName(nextStep);
+  }, [locallySelectedAudioName]);
 
   const { audioRef } = useCelestialAudio({
     locallySelectedName: locallySelectedAudioName,
@@ -152,6 +188,7 @@ export const SystemEditorContainer = () => {
         )}
         <Dialog
           position="static"
+          onContinue={tour ? continueTour : undefined}
           onDialogEnded={() => {
             audioRef.current.currentTime = 0;
             audioRef.current.pause();

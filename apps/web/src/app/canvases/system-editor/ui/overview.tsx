@@ -190,7 +190,6 @@ export const CelestialFocusUI = (args) => {
           maxLength={25}
           flexGrow="1"
           onChange={(event) => {
-            console.log('name change');
             systemEditorConfigVar({
               ...config,
               celestial: { ...config.celestial, name: event.target.value },
