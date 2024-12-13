@@ -1,6 +1,7 @@
 import { makeVar } from '@apollo/client';
 import { SystemFocus } from '@idleverse/galaxy-gen';
 import { CelestialVariant } from '@idleverse/models';
+import { celestialPresets } from './celestial-creation';
 
 export const systemEditorOrbitalEditInProgressVar = makeVar<boolean>(false);
 export const systemEditorNewPlanetVar = makeVar<boolean>(false);
@@ -13,5 +14,9 @@ export const systemEditorConfigVar = makeVar<{
 }>({
   mode: 'create',
   formingPoints: 0,
-  celestial: null,
+  celestial: {
+    config: celestialPresets[0],
+    name: 'Sol',
+    type: 'star',
+  },
 });
