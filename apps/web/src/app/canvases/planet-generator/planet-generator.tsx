@@ -2,47 +2,50 @@ import { useReactiveVar } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
 import { rgbToHex } from '@idleverse/theme';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { DataTexture } from 'three';
 
 import { RingConfig } from '@idleverse/models';
 import {
+  colorPalettesVar,
   planetGenerationColorDrawerVar,
   planetGenerationRingDrawerVar,
   planetGeneratorConfigVar,
 } from '@idleverse/state';
-import { useResize } from '../_utils/use-resize.hook';
 import { deepCompareRings } from './_utils/deep-compare-rings';
 import { runTextureGenOnWorker } from './texture-generation/run-texture-gen-on-worker';
+
+import { Planet } from '../_rendering/planet';
 import { PlanetGeneratorBooleans } from './ui/booleans';
 import { PlanetGeneratorColorDrawer } from './ui/color-drawer';
 import { NameSeedMobile } from './ui/name-seed-mobile';
 import { PlanetGeneratorRingDrawer } from './ui/ring-drawer';
-import {
-  PlanetGeneratorSliders,
-  planetGenerationControlsHeight,
-} from './ui/sliders';
-
-import { Planet } from '../_rendering/planet';
+import { PlanetGeneratorSliders } from './ui/sliders';
 
 export const PlanetGenerator = ({
-  customSize,
+  stars = true,
+  fullUI = true,
+  pixelShaderSize,
 }: {
-  customSize?: { width: number; height: number };
+  stars?: boolean;
+  fullUI?: boolean;
+  pixelShaderSize?: number;
 }) => {
-  const { width, height } = useResize('planet-gen');
-
   const containerRef = useRef<HTMLDivElement>();
 
   const { ui, seed, atmosphericDistance, textureResolution, radius } =
     useReactiveVar(planetGeneratorConfigVar);
 
-  const {
-    currentPalette: { water, sand, grass, forest },
-    palettePresetName,
-    currentPaletteId,
-    terrainBias,
-  } = useReactiveVar(planetGenerationColorDrawerVar);
+  const { palettePresetName, terrainBias } = useReactiveVar(
+    planetGenerationColorDrawerVar
+  );
+
+  const palettes = useReactiveVar(colorPalettesVar);
+
+  const currentPalette = useMemo(
+    () => palettes.find(({ name }) => name === palettePresetName),
+    [palettePresetName, palettes]
+  );
 
   const { rings } = useReactiveVar(planetGenerationRingDrawerVar);
 
@@ -88,33 +91,17 @@ export const PlanetGenerator = ({
 
   return (
     <>
-      <Box
-        ref={containerRef}
-        position="relative"
-        width={`${customSize?.width || width}px`}
-        height={
-          ui
-            ? `${customSize?.height || height}px`
-            : `${
-                (customSize?.height || height) + planetGenerationControlsHeight
-              }`
-        }
-      >
+      <Box ref={containerRef} position="relative" width="100%" height="100%">
         <Planet
+          pixelShaderSize={pixelShaderSize}
+          stars={stars}
           data={{
             id: seed,
             atmospheric_distance: atmosphericDistance,
             texture_resolution: textureResolution,
             radius,
             terrain_bias: terrainBias,
-            terrain_hex_palette: {
-              id: currentPaletteId,
-              name: palettePresetName,
-              water: rgbToHex(water),
-              sand: rgbToHex(sand),
-              grass: rgbToHex(grass),
-              forest: rgbToHex(forest),
-            },
+            terrain_hex_palette: currentPalette,
             rings: rings.map((ring) => ({
               ...ring,
               id: ring.id ?? '',
@@ -127,15 +114,18 @@ export const PlanetGenerator = ({
         />
       </Box>
 
-      <PlanetGeneratorBooleans />
-
-      {ui && (
+      {fullUI && (
         <>
-          <PlanetGeneratorColorDrawer />
-          <NameSeedMobile />
+          <PlanetGeneratorBooleans />
+          {ui && (
+            <>
+              <PlanetGeneratorColorDrawer />
+              <NameSeedMobile />
 
-          <PlanetGeneratorRingDrawer />
-          <PlanetGeneratorSliders />
+              <PlanetGeneratorRingDrawer />
+              <PlanetGeneratorSliders />
+            </>
+          )}
         </>
       )}
     </>

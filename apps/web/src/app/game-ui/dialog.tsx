@@ -20,19 +20,23 @@ import {
   responsiveFontProps,
   smallSubHeaderResponsiveFontProps,
 } from '../_responsive-utils/font-props';
-import { useKeypress } from '../hooks/use-keypress';
 
 export const DIALOG_HEIGHT = 230;
 
 type DialogProps = StackProps & {
   //
   onDialogEnded?: () => void;
+  onContinue?: () => void;
 };
 
 const prequelWaitTime = 0.3;
 const characterWaitTime = 0.01;
 
-export const Dialog = ({ onDialogEnded, ...stackProps }: DialogProps) => {
+export const Dialog = ({
+  onContinue,
+  onDialogEnded,
+  ...stackProps
+}: DialogProps) => {
   const { bg, bgDark, border } = useUiBackground();
   const { open, entries } = useReactiveVar(dialogVar);
 
@@ -59,9 +63,11 @@ export const Dialog = ({ onDialogEnded, ...stackProps }: DialogProps) => {
 
   const hotkeyHints = useReactiveVar(hotkeyHintsVar);
 
-  useKeypress('Space', () => continueDialog());
-
   const continueDialog = () => {
+    if (onContinue) {
+      onContinue();
+      return;
+    }
     if (activeEntryStepIndex === activeEntry.steps.length - 1) {
       // end of entry, check if there is a next entry
       if (activeEntryIndex === entries.length - 1) {
@@ -148,7 +154,7 @@ export const Dialog = ({ onDialogEnded, ...stackProps }: DialogProps) => {
         borderWidth={1}
         borderStyle="solid"
         borderColor={border}
-        width="100%"
+        width={['100vw', '100%']}
         maxWidth={1920}
         alignItems="flex-start"
         divider={
@@ -163,7 +169,7 @@ export const Dialog = ({ onDialogEnded, ...stackProps }: DialogProps) => {
         marginRight="auto"
         {...stackProps}
       >
-        <VStack minWidth={[140, 170]}>
+        <VStack minWidth={[0, 170]} display={['none', 'flex']}>
           <Image
             bg={bgDark}
             boxSize={[140, 170]}
@@ -213,7 +219,11 @@ export const Dialog = ({ onDialogEnded, ...stackProps }: DialogProps) => {
               ref={continueButtonRef}
               {...responsiveFontProps}
             >
-              {activeEntryIndex === entries.length - 1 ? 'Done' : 'Continue'}
+              {onContinue
+                ? 'Continue'
+                : activeEntryIndex === entries.length - 1
+                ? 'Done'
+                : 'Continue'}
               {hotkeyHints && (
                 <>
                   &nbsp;<Kbd>Space</Kbd>

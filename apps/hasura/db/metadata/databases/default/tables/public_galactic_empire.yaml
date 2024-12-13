@@ -80,15 +80,25 @@ select_permissions:
   - role: dev
     permission:
       columns:
-        - galaxy_id
-        - id
+        - system_forming_points
         - user_id
+        - background_id
+        - faction_id
+        - galaxy_id
+        - homeworld_id
+        - id
+        - playable_race_id
       filter: {}
       allow_aggregations: true
   - role: user
     permission:
       columns:
+        - background_id
+        - faction_id
         - galaxy_id
+        - homeworld_id
         - id
+        - playable_race_id
+        - system_forming_points
         - user_id
       filter: {}

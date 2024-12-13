@@ -13,8 +13,9 @@ import { getRandomConvexIrregularPolygon } from './random-irregular-convex-polyg
 
 import { useReactiveVar } from '@apollo/client';
 import 'matter-attractors';
+
+import { randomPointInAnnulus } from '@idleverse/galaxy-gen';
 import { randomIntegerInRange } from '../_utils/random-integer-in-range';
-import { randomPointInAnnulus } from '../_utils/random-point-in-annulus';
 
 Matter.use('matter-attractors');
 

@@ -15,7 +15,7 @@ import {
 
 import {
   celestialViewerPlanetDataUris,
-  celestialViewerSelectedPlanet,
+  celestialViewerSelectedPlanetVar,
   timeVar,
 } from '@idleverse/state';
 import { useStarField } from '../../showreel/colyseus-poc/rendering/use-starfield';
@@ -24,7 +24,7 @@ import { useViewport } from '../_utils/use-viewport.hook';
 import { Planet, PlanetConfig } from './models';
 import { useSelectedPlanetIndicator } from './use-selected-planet';
 import {
-  buildPlanet,
+  build2DPlanet,
   centerPlanetDraw,
   createPlanet,
   updatePlanetPosition,
@@ -53,7 +53,7 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
 
   const [planets, setPlanets] = useState<Planet[]>([]);
 
-  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanet);
+  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanetVar);
   const planetDataUris = useReactiveVar(celestialViewerPlanetDataUris);
 
   const solarSystemContainerRef = useRef(new Container());
@@ -114,28 +114,29 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
       );
 
       Assets.loadBundle(bundleKey).then((bundle) => {
-        celestial.planets.forEach(({ id, name, radius }) =>
+        celestial.planets.forEach(({ id, name, radius, texture_resolution }) =>
           tempPlanets.push(
-            buildPlanet({
+            build2DPlanet({
               planetTexture: bundle?.[name],
               radius,
               app,
               name,
               id,
               selectionFunction: () => {
-                celestialViewerSelectedPlanet({
+                celestialViewerSelectedPlanetVar({
                   name,
                   id,
                 });
               },
               sun,
+              textureResolution: texture_resolution,
             })
           )
         );
 
         // select first planet
         if (celestial.planets.length) {
-          celestialViewerSelectedPlanet({
+          celestialViewerSelectedPlanetVar({
             name: celestial.planets[0].name,
             id: celestial.planets[0].id,
           });

@@ -15,13 +15,11 @@ import {
   VStack,
   useBreakpointValue,
 } from '@chakra-ui/react';
-import { generateCelestialName } from '@idleverse/galaxy-gen';
+import { SYSTEM_FOCI, generateCelestialName } from '@idleverse/galaxy-gen';
 import {
   CelestialAudioName,
-  SYSTEM_FOCI,
   celestialPresets,
-  celestialViewerGenerationVar,
-  celestialViewerSelectedPlanet,
+  celestialViewerSelectedPlanetVar,
   colorsVar,
   dialogVar,
   systemEditorConfigVar,
@@ -43,11 +41,11 @@ export const SystemEditorOverview = ({
   onHelpClicked: (help: CelestialAudioName) => void;
 }) => {
   const currentFocus = useReactiveVar(systemEditorFocusVar);
-  const { mode, formingPoints } = useReactiveVar(celestialViewerGenerationVar);
+  const { mode, formingPoints } = useReactiveVar(systemEditorConfigVar);
 
   const { secondary } = useReactiveVar(colorsVar);
 
-  const { rawBgDarker } = useUiBackground();
+  const { rawBgDark } = useUiBackground();
 
   const bp: 'small' | 'medium' | 'large' = useBreakpointValue({
     base: 'small',
@@ -65,7 +63,7 @@ export const SystemEditorOverview = ({
       top={['unset', 0]}
       left={[0, 'unset']}
       right={['unset', 0]}
-      width={['104vw', 'unset']}
+      width={['100vw', 'unset']}
     >
       <AnimatedFrame
         show={true}
@@ -73,7 +71,7 @@ export const SystemEditorOverview = ({
         leftBottom={isMobile ? false : true}
         rightBottom={false}
         rightTop={false}
-        bg={rawBgDarker}
+        bg={rawBgDark}
       >
         <VStack gap={2} width="100%">
           <Text
@@ -103,7 +101,7 @@ export const SystemEditorOverview = ({
                   onClick={() => {
                     onDirectFocusClicked();
                     systemEditorFocusVar(focus);
-                    celestialViewerSelectedPlanet(null);
+                    celestialViewerSelectedPlanetVar(null);
                   }}
                 >
                   {focus.replace('-', ' ').toLocaleUpperCase()}{' '}
@@ -113,7 +111,9 @@ export const SystemEditorOverview = ({
                   onClick={() => {
                     onHelpClicked(focus);
                     systemEditorFocusVar(focus);
-                    celestialViewerSelectedPlanet(null);
+                    if (focus !== 'goldilocks-zone') {
+                      celestialViewerSelectedPlanetVar(null);
+                    }
                   }}
                   icon={<Icon as={HelpPixelIcon} {...responsiveIconProps} />}
                 ></IconButton>
@@ -190,7 +190,6 @@ export const CelestialFocusUI = (args) => {
           maxLength={25}
           flexGrow="1"
           onChange={(event) => {
-            console.log('name change');
             systemEditorConfigVar({
               ...config,
               celestial: { ...config.celestial, name: event.target.value },

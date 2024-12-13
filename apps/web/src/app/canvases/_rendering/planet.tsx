@@ -4,7 +4,8 @@ import { OrbitControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 
 import { PlanetByIdQuery } from '@idleverse/galaxy-gql';
-import { Suspense, useEffect, useState } from 'react';
+import { isEqual } from 'lodash';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { DataTexture } from 'three';
 import { Loading } from '../../components/loading';
 import { CameraController } from '../planet-generator/camera-controller';
@@ -24,7 +25,17 @@ type PlanetData = Pick<
   | 'radius'
 >;
 
-export const Planet = ({ data }: { data: PlanetData }) => {
+export const Planet = ({
+  data,
+  stars = true,
+  pixelShaderSize = 4,
+}: {
+  data: PlanetData;
+  stars?: boolean;
+  pixelShaderSize?: number;
+}) => {
+  const prevPropRef = useRef<PlanetData>();
+
   const { rawBgDarker } = useUiBackground();
 
   const [worldDataTexture, setWorldDataTexture] =
@@ -35,7 +46,9 @@ export const Planet = ({ data }: { data: PlanetData }) => {
   }>(undefined);
 
   useEffect(() => {
-    if (data) {
+    const sameData = prevPropRef.current && isEqual(prevPropRef.current, data);
+
+    if (data && !sameData) {
       const {
         id: seed,
         terrain_bias,
@@ -83,6 +96,8 @@ export const Planet = ({ data }: { data: PlanetData }) => {
           });
         }
       );
+
+      prevPropRef.current = data;
     }
   }, [data]);
 
@@ -97,7 +112,7 @@ export const Planet = ({ data }: { data: PlanetData }) => {
           fov: 50,
         }}
       >
-        <Stars rotationSpeed={0.1} />
+        {stars && <Stars rotationSpeed={0.1} />}
 
         <World
           planetRadius={data.radius}
@@ -132,7 +147,10 @@ export const Planet = ({ data }: { data: PlanetData }) => {
           )}
         />
         <CameraController />
-        <Pixelate bgColor={hexStringToNumber(rawBgDarker)} pixelSize={4} />
+        <Pixelate
+          bgColor={hexStringToNumber(rawBgDarker)}
+          pixelSize={pixelShaderSize}
+        />
         <OrbitControls
           minPolarAngle={Math.PI / 16}
           maxPolarAngle={Math.PI - Math.PI / 16}

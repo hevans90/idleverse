@@ -30,7 +30,6 @@ export const PixelateSVGFilter = ({
         setDistortionState(
           ({ opacity: prevOpacity, distortion: prevDistortion }) => {
             if (prevOpacity >= 1 && prevDistortion <= minDistortion) {
-              // console.log('finished distorting');
               clearInterval(interval);
             }
 
@@ -49,7 +48,6 @@ export const PixelateSVGFilter = ({
         setDistortionState(
           ({ opacity: prevOpacity, distortion: prevDistortion }) => {
             if (prevOpacity < 0 && prevDistortion >= maxDistortion) {
-              // console.log('finished distorting');
               clearInterval(interval);
             }
 

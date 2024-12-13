@@ -1,7 +1,7 @@
 import { useReactiveVar } from '@apollo/client';
+import { SystemFocus } from '@idleverse/galaxy-gen';
 import {
-  SystemFocus,
-  celestialViewerSelectedPlanet,
+  celestialViewerSelectedPlanetVar,
   colorsVar,
   systemEditorFocusVar,
 } from '@idleverse/state';
@@ -24,7 +24,10 @@ export const SystemEditorInteractions = ({
   isMobile: boolean;
   canvasHeight: number;
 }) => {
+  const hoverAlpha = 0.3;
+  const selectionAlpha = 0.15;
   const focus = useReactiveVar(systemEditorFocusVar);
+  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanetVar);
 
   const outlinePalette = colors[colorsVar().secondary];
 
@@ -38,11 +41,11 @@ export const SystemEditorInteractions = ({
       g.cursor = 'pointer';
 
       if (systemEditorFocusVar() === 'celestial') {
-        g.alpha = 0.3;
+        g.alpha = selectionAlpha;
       }
 
       g.on('mouseenter', () => {
-        if (systemEditorFocusVar() !== 'celestial') g.alpha = 0.3;
+        if (systemEditorFocusVar() !== 'celestial') g.alpha = hoverAlpha;
       });
       g.on('mouseleave', () => {
         if (systemEditorFocusVar() !== 'celestial') g.alpha = 0;
@@ -73,11 +76,11 @@ export const SystemEditorInteractions = ({
       g.alpha = 0;
 
       if (systemEditorFocusVar() === name) {
-        g.alpha = 0.3;
+        g.alpha = selectionAlpha;
       }
 
       g.on('mouseenter', () => {
-        if (systemEditorFocusVar() !== name) g.alpha = 0.3;
+        if (systemEditorFocusVar() !== name) g.alpha = hoverAlpha;
       });
       g.on('mouseleave', () => {
         if (systemEditorFocusVar() !== name) g.alpha = 0;
@@ -127,24 +130,22 @@ export const SystemEditorInteractions = ({
 
   useEffect(() => {
     if (focus) {
-      viewportToCircle(worldRadii[focus].outer * 2, focus);
+      if (!selectedPlanet) {
+        viewportToCircle(worldRadii[focus].outer * 2, focus);
+      }
     }
-  }, [canvasHeight, focus, viewportToCircle, worldRadii]);
-
-  useEffect(() => {
-    systemEditorFocusVar(undefined);
-  }, []);
+  }, [canvasHeight, focus, viewportToCircle, worldRadii, selectedPlanet]);
 
   return (
     <Container>
       {/* Celestial circle */}
       <Graphics
-        alpha={focus === 'celestial' ? 0.5 : 0.1}
+        alpha={focus === 'celestial' ? selectionAlpha : 0}
         draw={drawCelestialHighlight}
         interactive={true}
         pointerdown={() => {
           viewportToCircle(worldRadii['celestial'].outer * 2, 'celestial');
-          celestialViewerSelectedPlanet(null);
+          celestialViewerSelectedPlanetVar(null);
           systemEditorFocusVar('celestial');
         }}
         zIndex={2}
@@ -163,7 +164,7 @@ export const SystemEditorInteractions = ({
             worldRadii['goldilocks-zone'].outer * 2,
             'goldilocks-zone'
           );
-          celestialViewerSelectedPlanet(null);
+          celestialViewerSelectedPlanetVar(null);
           systemEditorFocusVar('goldilocks-zone');
         }}
         interactive={true}
@@ -184,7 +185,7 @@ export const SystemEditorInteractions = ({
             worldRadii['asteroid-belt'].outer * 2,
             'asteroid-belt'
           );
-          celestialViewerSelectedPlanet(null);
+          celestialViewerSelectedPlanetVar(null);
           systemEditorFocusVar('asteroid-belt');
         }}
         interactive={true}

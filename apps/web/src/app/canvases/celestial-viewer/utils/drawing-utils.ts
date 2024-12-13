@@ -10,7 +10,7 @@ import {
 
 import { Planet, PlanetConfig } from '../models';
 
-export const buildPlanet = ({
+export const build2DPlanet = ({
   planetTexture,
   radius,
   app,
@@ -20,6 +20,7 @@ export const buildPlanet = ({
   initialScale = { x: 5, y: 5 },
   sun,
   orbitalRadius,
+  textureResolution,
 }: {
   planetTexture: Texture<Resource>;
   radius: number;
@@ -30,13 +31,23 @@ export const buildPlanet = ({
   initialScale?: { x: number; y: number };
   sun?: Planet;
   orbitalRadius?: number;
+  textureResolution: number;
 }) => {
   const radiusFactor = 28;
+
+  const textureZoomFactor = 120 / textureResolution;
 
   const planetGraphic = new Graphics()
     .beginTextureFill({
       texture: planetTexture,
-      matrix: new Matrix(1, 0, 0, 1, 0, radius * radiusFactor),
+      matrix: new Matrix(
+        textureZoomFactor,
+        0,
+        0,
+        textureZoomFactor,
+        0,
+        radius * radiusFactor
+      ),
     })
     .drawCircle(0, 0, radius * radiusFactor)
     .endFill();
@@ -44,7 +55,8 @@ export const buildPlanet = ({
   const texture = app.renderer?.generateTexture(planetGraphic);
   const sprite = new Sprite(texture);
 
-  sprite.name = name;
+  // important to use the id here because we can change the name in the planet editor
+  sprite.name = id;
   sprite.eventMode = 'static';
   sprite.cursor = 'pointer';
   sprite.zIndex = 1;

@@ -1,5 +1,5 @@
 import { useReactiveVar } from '@apollo/client';
-import { celestialViewerSelectedPlanet, timeVar } from '@idleverse/state';
+import { celestialViewerSelectedPlanetVar, timeVar } from '@idleverse/state';
 import { Container, useApp } from '@pixi/react';
 import { Viewport } from 'pixi-viewport';
 import {
@@ -9,7 +9,7 @@ import {
   Text,
   TickerCallback,
 } from 'pixi.js';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { Planet } from '../celestial-viewer/models';
 import { useSelectedPlanetIndicator } from '../celestial-viewer/use-selected-planet';
 import {
@@ -29,25 +29,32 @@ export const Planets = ({
   const app = useApp();
   const containerRef = useRef<PixiContainer>();
 
-  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanet);
+  const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanetVar);
 
   const { selectedPlanetText, indicatorKey } = useSelectedPlanetIndicator({
     x: 0,
     y: 0,
   });
 
+  const renderedPlanets = () => {
+    const arr: Planet[] = [];
+    planets.forEach(({ config, ...rest }) => {
+      const rendered = containerRef.current?.getChildByName(
+        config.id
+      ) as Sprite;
+
+      if (rendered) {
+        arr.push({ ...rest, config, sprite: rendered });
+      }
+    });
+    return arr;
+  };
+
   const orbitalTickerRef = useRef<TickerCallback<unknown>>();
   const selectedIndicatorTickerRef = useRef<TickerCallback<unknown>>();
 
-  useEffect(() => {
-    if (!selectedPlanet) {
-      viewportRef.current.plugins.remove('follow');
-    }
-    if (selectedPlanet && containerRef.current) {
-      // check if exists
-      const planet = containerRef.current.getChildByName(
-        selectedPlanet.name
-      ) as Sprite;
+  const indicateAndFollow = useCallback(
+    (renderedPlanet: Sprite) => {
       const indicator =
         (containerRef.current.getChildByName(indicatorKey) as Text) ??
         selectedPlanetText;
@@ -59,8 +66,9 @@ export const Planets = ({
       };
 
       const positionIndicator = (indicator: Text) => {
-        indicator.position.x = planet?.x;
-        indicator.position.y = planet?.y - planet?.height - indicator.height;
+        indicator.position.x = renderedPlanet?.x;
+        indicator.position.y =
+          renderedPlanet?.y - renderedPlanet?.height - indicator.height;
       };
 
       indicator.anchor.set(0.5, 0.5);
@@ -72,18 +80,42 @@ export const Planets = ({
         const existingIndicator = containerRef.current.getChildByName(
           indicatorKey
         ) as Text;
-        positionIndicator(existingIndicator);
+        if (existingIndicator) {
+          positionIndicator(existingIndicator);
+        }
       };
       app.ticker.add(selectedIndicatorTickerRef.current);
 
       const snapDuration = 200;
-      viewportRef.current.snap(planet.position.x, planet.position.y, {
-        time: snapDuration,
-        removeOnComplete: true,
-      });
+      viewportRef.current.snap(
+        renderedPlanet?.position.x,
+        renderedPlanet?.position.y,
+        {
+          time: snapDuration,
+          removeOnComplete: true,
+        }
+      );
       setTimeout(() => {
-        viewportRef.current.follow(planet);
+        viewportRef.current.follow(renderedPlanet);
       }, snapDuration);
+    },
+    [app.ticker, indicatorKey, selectedPlanet, selectedPlanetText, viewportRef]
+  );
+
+  useEffect(() => {
+    if (!selectedPlanet) {
+      viewportRef.current.plugins.remove('follow');
+    }
+    if (selectedPlanet && containerRef.current) {
+      // check if exists
+
+      const renderedPlanet = containerRef.current.getChildByName(
+        selectedPlanet.id
+      ) as Sprite;
+
+      if (renderedPlanet) {
+        indicateAndFollow(renderedPlanet);
+      }
     }
 
     return () => {
@@ -94,11 +126,21 @@ export const Planets = ({
         console.warn(e);
       }
     };
-  }, [selectedPlanet, indicatorKey]);
+  }, [selectedPlanet, indicatorKey, selectedPlanetText, indicateAndFollow]);
 
   useEffect(() => {
     planets.forEach((planet) => {
-      containerRef.current.addChild(planet.sprite);
+      // check if planet already rendered and update if so
+      const alreadyRendered = containerRef.current.getChildByName(
+        planet.config.id
+      ) as Sprite;
+
+      if (alreadyRendered) {
+        // UPDATE EXISTING: texture, rings, etc
+        alreadyRendered.texture = planet.sprite.texture;
+      } else {
+        containerRef.current.addChild(planet.sprite);
+      }
     });
     orbitalEllipses.forEach((ellipse) =>
       containerRef.current.addChild(ellipse)
@@ -107,7 +149,7 @@ export const Planets = ({
     orbitalTickerRef.current = (dt) => {
       timeVar(timeVar() + dt / 2);
 
-      planets.forEach((planet) => {
+      renderedPlanets().forEach((planet) => {
         planet.sprite.rotation += (1 / planet.config.radius) * 0.01;
 
         updatePlanetPosition(timeVar(), planet);
@@ -119,8 +161,16 @@ export const Planets = ({
 
     return () => {
       app.ticker?.remove(orbitalTickerRef.current);
+
+      orbitalEllipses.forEach((ellipse) => {
+        try {
+          containerRef.current.removeChild(ellipse);
+        } catch (e) {
+          console.warn(e);
+        }
+      });
     };
-  }, []);
+  }, [planets, orbitalEllipses, selectedPlanet, indicateAndFollow]);
 
   return <Container sortableChildren={true} ref={containerRef} />;
 };

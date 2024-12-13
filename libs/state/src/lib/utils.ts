@@ -47,3 +47,9 @@ export const makeVarPersisted = <T>(
 
   return rv;
 };
+
+export const toSnakeCase = (str: string) =>
+  str
+    .replace(/([A-Z])/g, '_$1') // Insert an underscore before all uppercase letters
+    .replace(/^_/, '') // Remove the underscore from the start (if any)
+    .toLowerCase(); // Convert the entire string to lowercase

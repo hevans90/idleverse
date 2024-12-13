@@ -24,6 +24,11 @@ export type SolarSystemConfig = {
   simulationSpeed: number;
 };
 
+export type PlanetAppearanceConfig = {
+  palettePresetName: string;
+  terrainBias: [number, number, number, number];
+};
+
 export type PlanetGenerationConfig = {
   name: string;
   ui: boolean;
@@ -45,6 +50,8 @@ export type CelestialType =
   | 'white-dwarf'
   | 'blue-giant';
 
+export type PlanetTerrain = 'terran' | 'desert' | 'alien' | 'primordial';
+
 export type CelestialGenerationConfig = {
   preset: CelestialType;
   brightness: number;
@@ -52,6 +59,12 @@ export type CelestialGenerationConfig = {
   coronalStrength: number;
   color: { r: number; g: number; b: number };
   radius: number;
+};
+
+export type CelestialVariant = {
+  name: string;
+  type: 'star' | 'black hole';
+  config: CelestialGenerationConfig;
 };
 
 export type BreadCrumb = {
@@ -75,6 +88,8 @@ export type TerrainHexPalette = {
   grass: string;
   forest: string;
 };
+
+export type TerrainHexPaletteKey = keyof TerrainHexPalette;
 
 export const RING_TYPES = ['banded', 'rocky'] as const;
 

@@ -1,39 +1,50 @@
-import { PlanetByIdQuery } from '@idleverse/galaxy-gql';
+import { useReactiveVar } from '@apollo/client';
 import {
-  celestialViewerPlanetDataUris,
-  celestialViewerSelectedPlanet,
+  celestialViewerPlanetsVar,
+  celestialViewerSelectedPlanetVar,
+  planetGeneratorConfigVar,
+  systemEditorNewPlanetVar,
+  systemEditorOrbitalEditInProgressVar,
 } from '@idleverse/state';
 import { hexStringToNumber, hexToRGB, useUiBackground } from '@idleverse/theme';
 import { useApp } from '@pixi/react';
 import { Viewport } from 'pixi-viewport';
-import { Assets, Graphics } from 'pixi.js';
+import { Assets, Graphics, Texture } from 'pixi.js';
 import { useEffect, useState } from 'react';
 import { Planet, PlanetConfig } from '../celestial-viewer/models';
 import { useGenerateDataUris } from '../celestial-viewer/use-generate-data-uris';
 import {
-  buildPlanet,
+  build2DPlanet,
   createPlanet,
 } from '../celestial-viewer/utils/drawing-utils';
 import { createRadialEllipse } from '../celestial-viewer/utils/graphics-utils';
 import { runPixelDataGenOnWorker } from '../planet-generator/texture-generation/run-texture-gen-on-worker';
+import { OrbitalDash } from './editing/orbital-dash';
 import { Planets } from './planets';
 
 export const PlanetContainer = ({
   canvasRef,
   viewportRef,
   center,
-  planets,
 }: {
   canvasRef: React.MutableRefObject<HTMLCanvasElement>;
   viewportRef: React.MutableRefObject<Viewport>;
   center: { x: number; y: number };
-  planets: PlanetByIdQuery[];
 }) => {
   const app = useApp();
 
   const { rawBorder } = useUiBackground();
 
   const [texturesGenerating, setTexturesGenerating] = useState(true);
+
+  const creatingNewPlanet = useReactiveVar(systemEditorNewPlanetVar);
+  const orbitalEditInProgress = useReactiveVar(
+    systemEditorOrbitalEditInProgressVar
+  );
+
+  const { orbitalRadius } = useReactiveVar(planetGeneratorConfigVar);
+
+  const planets = useReactiveVar(celestialViewerPlanetsVar);
 
   const [localOrbitalEllipses, setLocalOrbitalEllipses] = useState<Graphics[]>(
     []
@@ -59,12 +70,10 @@ export const PlanetContainer = ({
     }>[] = [];
     planets.forEach(
       ({
-        planet_by_pk: {
-          id,
-          texture_resolution: textureResolution,
-          terrain_hex_palette: { water, sand, grass, forest },
-          terrain_bias,
-        },
+        id,
+        texture_resolution: textureResolution,
+        terrain_hex_palette: { water, sand, grass, forest },
+        terrain_bias,
       }) =>
         pixelDataToGenerate.push(
           runPixelDataGenOnWorker(
@@ -85,7 +94,7 @@ export const PlanetContainer = ({
     Promise.all(pixelDataToGenerate).then((values) => {
       setPixelData(values);
     });
-  }, [planets]);
+  }, [JSON.stringify(planets)]);
 
   const onDataURIGenerationfinished = async (data: {
     celestialId: string;
@@ -98,21 +107,15 @@ export const PlanetContainer = ({
     const tempPlanets: Planet[] = [];
     setTexturesGenerating(false);
 
-    const pixiAssetBundleKey = 'editor';
+    const textures: { [planetName: string]: Texture } = {};
 
-    Assets.addBundle(
-      pixiAssetBundleKey,
-      planets.map(({ planet_by_pk: { id, name } }) => ({
-        name,
-        srcs: celestialViewerPlanetDataUris().uris.find(
-          ({ seed }) => seed === id
-        ).uri,
-      }))
-    );
-
-    const bundle: { name: string }[] = await Assets.loadBundle(
-      pixiAssetBundleKey
-    );
+    for (let i = 0; i < planets.length; i++) {
+      const planet = planets[i];
+      const dataUri = data.uris.find(({ seed }) => seed === planet.id).uri;
+      if (dataUri) {
+        textures[planet.name] = await Assets.load(dataUri);
+      }
+    }
 
     const celestialConfig: PlanetConfig = {
       id: 'celestial',
@@ -125,24 +128,26 @@ export const PlanetContainer = ({
       config: celestialConfig,
     });
 
-    planets.forEach(({ planet_by_pk: { id, name, radius, orbital_radius } }) =>
-      tempPlanets.push(
-        buildPlanet({
-          planetTexture: bundle?.[name],
-          radius,
-          app,
-          name,
-          id,
-          selectionFunction: () => {
-            celestialViewerSelectedPlanet({
-              name,
-              id,
-            });
-          },
-          sun,
-          orbitalRadius: orbital_radius,
-        })
-      )
+    planets.forEach(
+      ({ id, name, radius, orbital_radius, texture_resolution }) =>
+        tempPlanets.push(
+          build2DPlanet({
+            planetTexture: textures[name],
+            radius,
+            app,
+            name,
+            id,
+            selectionFunction: () => {
+              celestialViewerSelectedPlanetVar({
+                name,
+                id,
+              });
+            },
+            sun,
+            orbitalRadius: orbital_radius,
+            textureResolution: texture_resolution,
+          })
+        )
     );
 
     tempPlanets
@@ -179,11 +184,18 @@ export const PlanetContainer = ({
     onGenerationFinished: onDataURIGenerationfinished,
   });
 
-  return localPlanets.length ? (
-    <Planets
-      planets={localPlanets}
-      orbitalEllipses={localOrbitalEllipses}
-      viewportRef={viewportRef}
-    />
-  ) : null;
+  return (
+    <>
+      {creatingNewPlanet || orbitalEditInProgress ? (
+        <OrbitalDash center={center} radius={orbitalRadius} />
+      ) : null}
+      {localPlanets.length ? (
+        <Planets
+          planets={localPlanets}
+          orbitalEllipses={localOrbitalEllipses}
+          viewportRef={viewportRef}
+        />
+      ) : null}
+    </>
+  );
 };

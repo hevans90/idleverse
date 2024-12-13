@@ -1,5 +1,8 @@
 import { makeVar } from '@apollo/client';
-import { TerrainHexPalettesQuery } from '@idleverse/galaxy-gql';
+import {
+  PlanetByIdQuery,
+  TerrainHexPalettesQuery,
+} from '@idleverse/galaxy-gql';
 import { HydratedMediaResult } from '@idleverse/models';
 import { makeVarPersisted } from './utils';
 
@@ -14,21 +17,20 @@ export type CelestialAudioName =
   | 'asteroid-belt'
   | 'system-forming-points';
 
-export const celestialViewerGenerationVar = makeVar<{
-  mode: 'view' | 'edit';
-  formingPoints: number;
-}>({ mode: 'view', formingPoints: 0 });
-
 export const celestialMediaVar = makeVar<{
   data: HydratedMediaResult[];
 }>({
   data: [],
 });
 
-export const celestialViewerSelectedPlanet = makeVar<{
+export const celestialViewerSelectedPlanetVar = makeVar<{
   name: string;
   id: string;
 } | null>(null);
+
+export const celestialViewerPlanetsVar = makeVar<
+  PlanetByIdQuery['planet_by_pk'][]
+>([]);
 
 export const celestialViewerPlanetDataUris = makeVarPersisted<{
   celestialId: string;
@@ -41,7 +43,7 @@ export const celestialViewerAsteroidBeltVar = makeVarPersisted<{
   colorPalette: TerrainHexPalettesQuery['terrain_hex_palette'][0] | null;
 }>(
   {
-    noAsteroids: 1000,
+    noAsteroids: 0,
     size: 'medium',
     colorPalette: null,
   },
