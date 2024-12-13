@@ -24,6 +24,8 @@ export const SystemEditorInteractions = ({
   isMobile: boolean;
   canvasHeight: number;
 }) => {
+  const hoverAlpha = 0.3;
+  const selectionAlpha = 0.15;
   const focus = useReactiveVar(systemEditorFocusVar);
   const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanetVar);
 
@@ -39,11 +41,11 @@ export const SystemEditorInteractions = ({
       g.cursor = 'pointer';
 
       if (systemEditorFocusVar() === 'celestial') {
-        g.alpha = 0.3;
+        g.alpha = selectionAlpha;
       }
 
       g.on('mouseenter', () => {
-        if (systemEditorFocusVar() !== 'celestial') g.alpha = 0.3;
+        if (systemEditorFocusVar() !== 'celestial') g.alpha = hoverAlpha;
       });
       g.on('mouseleave', () => {
         if (systemEditorFocusVar() !== 'celestial') g.alpha = 0;
@@ -74,11 +76,11 @@ export const SystemEditorInteractions = ({
       g.alpha = 0;
 
       if (systemEditorFocusVar() === name) {
-        g.alpha = 0.3;
+        g.alpha = selectionAlpha;
       }
 
       g.on('mouseenter', () => {
-        if (systemEditorFocusVar() !== name) g.alpha = 0.3;
+        if (systemEditorFocusVar() !== name) g.alpha = hoverAlpha;
       });
       g.on('mouseleave', () => {
         if (systemEditorFocusVar() !== name) g.alpha = 0;
@@ -134,15 +136,11 @@ export const SystemEditorInteractions = ({
     }
   }, [canvasHeight, focus, viewportToCircle, worldRadii, selectedPlanet]);
 
-  useEffect(() => {
-    systemEditorFocusVar(undefined);
-  }, []);
-
   return (
     <Container>
       {/* Celestial circle */}
       <Graphics
-        alpha={focus === 'celestial' ? 0.5 : 0.1}
+        alpha={focus === 'celestial' ? selectionAlpha : 0}
         draw={drawCelestialHighlight}
         interactive={true}
         pointerdown={() => {
