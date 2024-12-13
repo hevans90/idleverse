@@ -30,7 +30,7 @@ export const Auth = () => {
           src={user.picture}
           mr={2}
           name={user.name}
-          display={['none', 'none', 'block']}
+          display={['none', 'none', 'flex']}
         />
 
         <Text mr={3} display={['none', 'none', 'block']}>
