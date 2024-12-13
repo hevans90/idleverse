@@ -50,6 +50,8 @@ export type CelestialType =
   | 'white-dwarf'
   | 'blue-giant';
 
+export type PlanetTerrain = 'terran' | 'desert' | 'alien' | 'primordial';
+
 export type CelestialGenerationConfig = {
   preset: CelestialType;
   brightness: number;
@@ -86,6 +88,8 @@ export type TerrainHexPalette = {
   grass: string;
   forest: string;
 };
+
+export type TerrainHexPaletteKey = keyof TerrainHexPalette;
 
 export const RING_TYPES = ['banded', 'rocky'] as const;
 

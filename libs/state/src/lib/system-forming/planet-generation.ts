@@ -8,6 +8,7 @@ import {
 import {
   PlanetAppearanceConfig,
   PlanetGenerationConfig,
+  PlanetTerrain,
   RingConfig,
 } from '@idleverse/models';
 
@@ -25,7 +26,7 @@ const defaultPlanetConfig: () => PlanetGenerationConfig = () => ({
 });
 
 export const planetGenerationPresets: {
-  name: 'terran' | 'desert' | 'alien' | 'primordial';
+  name: PlanetTerrain;
   appearance: PlanetAppearanceConfig;
   config: PlanetGenerationConfig;
   rings: RingConfig[];
