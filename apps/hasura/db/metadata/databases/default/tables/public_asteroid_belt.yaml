@@ -1,0 +1,30 @@
+table:
+  name: asteroid_belt
+  schema: public
+object_relationships:
+  - name: terrain_hex_palette
+    using:
+      foreign_key_constraint_on: palette_id
+select_permissions:
+  - role: dev
+    permission:
+      columns:
+        - id
+        - created_at
+        - updated_at
+        - celestial_id
+        - count
+        - asteroid_size
+        - palette_id
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - celestial_id
+        - count
+        - asteroid_size
+        - created_at
+        - updated_at
+        - id
+        - palette_id
+      filter: {}

@@ -1,3 +1,4 @@
+- "!include public_asteroid_belt.yaml"
 - "!include public_background.yaml"
 - "!include public_celestial.yaml"
 - "!include public_chat_message.yaml"
