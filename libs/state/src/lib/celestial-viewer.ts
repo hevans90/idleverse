@@ -32,7 +32,7 @@ export const celestialViewerPlanetsVar = makeVar<
   PlanetByIdQuery['planet_by_pk'][]
 >([]);
 
-export const celestialViewerPlanetDataUris = makeVarPersisted<{
+export const celestialViewerPlanetDataUrisVar = makeVarPersisted<{
   celestialId: string;
   uris: { seed: string; uri: string }[];
 } | null>(null, 'planetDataUris');

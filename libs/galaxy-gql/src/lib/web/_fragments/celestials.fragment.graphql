@@ -2,6 +2,13 @@ fragment CelestialFields on celestial {
   id
   name
   owner_id
+
+  radius
+  color
+  brightness
+  coronal_strength
+  density
+
   user_info {
     display_name
     id
@@ -19,6 +26,18 @@ fragment CelestialFields on celestial {
     terrain_bias
     texture_resolution
     atmospheric_distance
+    terrain_hex_palette {
+      forest
+      grass
+      name
+      sand
+      water
+    }
+  }
+  asteroid_belts {
+    id
+    count
+    asteroid_size
     terrain_hex_palette {
       forest
       grass

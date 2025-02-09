@@ -14,7 +14,7 @@ import {
 } from './utils/graphics-utils';
 
 import {
-  celestialViewerPlanetDataUris,
+  celestialViewerPlanetDataUrisVar,
   celestialViewerSelectedPlanetVar,
   timeVar,
 } from '@idleverse/state';
@@ -54,7 +54,7 @@ export const CelestialViewer = ({ celestial }: CelestialViewerProps) => {
   const [planets, setPlanets] = useState<Planet[]>([]);
 
   const selectedPlanet = useReactiveVar(celestialViewerSelectedPlanetVar);
-  const planetDataUris = useReactiveVar(celestialViewerPlanetDataUris);
+  const planetDataUris = useReactiveVar(celestialViewerPlanetDataUrisVar);
 
   const solarSystemContainerRef = useRef(new Container());
 

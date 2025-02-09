@@ -45,8 +45,8 @@ import { creationStep } from './creation-types';
 import { CreationWorkflow } from './creation-workflow';
 import { BackgroundSelectionModal } from './workflow-step-modals/background-selection-modal';
 import { FactionSelectionModal } from './workflow-step-modals/faction-selection-modal';
-import { HomeworldGenerationModal } from './workflow-step-modals/homeworld-generation-modal';
 import { RaceSelectionModal } from './workflow-step-modals/race-selection-modal';
+import { SystemGenerationModal } from './workflow-step-modals/system-generation-modal';
 
 export const JoinGalaxy = () => {
   const characterCreationState = useReactiveVar(characterCreationVar);
@@ -73,10 +73,8 @@ export const JoinGalaxy = () => {
     useState<boolean>(false);
 
   const [empireCreationStatus, setEmpireCreationStatus] = useState<
-    'origin system' | 'homeworld' | 'empire' | 'done'
+    'origin system' | 'homesystem' | 'empire' | 'done'
   >(undefined);
-
-  const [readyToTransition, setReadyToTransition] = useState<boolean>(false);
 
   const [createEmpire] = useMutation<
     CreateGalacticEmpireMutation,
@@ -112,9 +110,9 @@ export const JoinGalaxy = () => {
   } = useDisclosure();
 
   const {
-    isOpen: homeworldGenerationOpen,
-    onOpen: onHomeworldGenerationOpen,
-    onClose: onHomeworldGenerationClose,
+    isOpen: systemGenerationOpen,
+    onOpen: onSystemGenerationOpen,
+    onClose: onSystemGenerationClose,
   } = useDisclosure();
 
   const tileContainerRef = useRef<HTMLDivElement>();
@@ -144,12 +142,12 @@ export const JoinGalaxy = () => {
         galacticEmpireId: empireData.insert_galactic_empire_one.id,
       },
     });
-    setEmpireCreationStatus('homeworld');
+    setEmpireCreationStatus('homesystem');
 
     await createHomeworld({
       variables: {
         input: {
-          ...characterCreationState.homeworld,
+          ...characterCreationState.system,
           celestial_id:
             celestial.data.createEmpireOriginCelestial.insertedCelestialId,
         },
@@ -161,7 +159,7 @@ export const JoinGalaxy = () => {
     return () => {
       characterCreationVar({
         ...characterCreationVar(),
-        homeworld: undefined,
+        system: undefined,
       });
     };
   }, []);
@@ -303,20 +301,20 @@ export const JoinGalaxy = () => {
           onFactionSelectionClose();
 
           // open homeworld gen
-          if (progress === 'next') onHomeworldGenerationOpen();
+          if (progress === 'next') onSystemGenerationOpen();
           if (progress === 'prev') onBackgroundSelectionOpen();
         }}
       />
 
-      <HomeworldGenerationModal
-        isOpen={homeworldGenerationOpen}
+      <SystemGenerationModal
+        isOpen={systemGenerationOpen}
         onClose={() => {
           characterCreationVar({
             ...characterCreationVar(),
             // make sure to set a celestial ID once a celestial is claimed at the end of the flow
-            homeworld: generatePlanetInsertionVars('', userId),
+            system: generatePlanetInsertionVars('', userId),
           });
-          onHomeworldGenerationClose();
+          onSystemGenerationClose();
         }}
       />
 
@@ -364,7 +362,7 @@ export const JoinGalaxy = () => {
               race: () => onRaceSelectionOpen(),
               background: () => onBackgroundSelectionOpen(),
               faction: () => onFactionSelectionOpen(),
-              homeworld: () => onHomeworldGenerationOpen(),
+              homeworld: () => onSystemGenerationOpen(),
               start: () => setReadyToCreateEmpire(true),
             };
 
