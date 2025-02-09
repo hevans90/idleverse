@@ -80,7 +80,7 @@ const WorkflowButton = ({
 
 export const CreationWorkflow = ({
   onStepClicked,
-  value: { race, background, faction, homeworld },
+  value: { race, background, faction, system },
 }: {
   onStepClicked: (step: creationStep) => unknown;
   value: ReturnType<typeof characterCreationVar>;
@@ -115,28 +115,30 @@ export const CreationWorkflow = ({
   );
 
   useEffect(() => {
-    if (homeworld) {
+    if (system && system.planets?.[0]) {
       setGeneratingPlanetThumbnailPixelData(true);
+
+      const firstPlanet = system.planets[0];
 
       const { water, sand, grass, forest } = currentPalette;
 
       runPixelDataGenOnWorker(
         'perlin',
-        homeworld.texture_resolution,
+        firstPlanet.texture_resolution,
         [hexToRGB(water), hexToRGB(sand), hexToRGB(grass), hexToRGB(forest)],
-        homeworld.terrain_bias as [number, number, number, number],
-        homeworld.id
+        firstPlanet.terrain_bias as [number, number, number, number],
+        firstPlanet.id
       ).then((pixelData) => {
         setplanetThumbnailPixelData(pixelData);
         setGeneratingPlanetThumbnailPixelData(false);
         setGeneratingPlanetThumbnailDataURI(true);
       });
     }
-  }, [homeworld, homeworldColors, currentPalette]);
+  }, [system, homeworldColors, currentPalette]);
 
   useEffect(() => {
-    setReady(!!(race && background && faction && homeworld));
-  }, [race, background, faction, homeworld]);
+    setReady(!!(race && background && faction && system));
+  }, [race, background, faction, system]);
 
   return (
     <SimpleGrid
@@ -197,11 +199,8 @@ export const CreationWorkflow = ({
       </AnimatedButton>
       <AnimatedButton onClick={() => onStepClicked('homeworld')}>
         <VStack gap={[1, 1, 2]} padding={[2, 2, 2, 0]}>
-          <Text
-            display={['none', 'none', 'none', 'block']}
-            {...responsiveFontProps}
-          >
-            {homeworld?.name ?? 'generate homeworld'}
+          <Text {...responsiveFontProps}>
+            {system?.celestial.name ?? 'system'}
           </Text>
           {!generatingPlanetThumbnailPixelData &&
             generatingPlanetThumbnailDataURI && (

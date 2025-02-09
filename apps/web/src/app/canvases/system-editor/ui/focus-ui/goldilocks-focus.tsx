@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { PlanetByIdQuery } from '@idleverse/galaxy-gql';
 import {
-  celestialViewerPlanetDataUris,
+  celestialViewerPlanetDataUrisVar,
   celestialViewerPlanetsVar,
   celestialViewerSelectedPlanetVar,
   colorsVar,
@@ -49,7 +49,7 @@ export const GoldilocksFocusUI = ({
   const sizeWithoutDialog = useResize();
   const { rawBgDarker } = useUiBackground();
   const planets = useReactiveVar(celestialViewerPlanetsVar);
-  const { uris } = useReactiveVar(celestialViewerPlanetDataUris);
+  const { uris } = useReactiveVar(celestialViewerPlanetDataUrisVar);
 
   const creatingNewPlanet = useReactiveVar(systemEditorNewPlanetVar);
   const { secondary } = useReactiveVar(colorsVar);
