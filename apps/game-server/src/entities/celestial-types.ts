@@ -1,14 +1,9 @@
-import {
-  Planet,
-  Planet_Insert_Input,
-  Planetary_Ring_Arr_Rel_Insert_Input,
-  Planetary_Ring_Insert_Input,
-} from '@idleverse/galaxy-gql';
+import { NodeGraphqlAPI } from '@idleverse/galaxy-gql';
 import { Field, Float, InputType, ObjectType } from 'type-graphql';
 
 @InputType()
 export class RingInsertInput
-  implements Omit<Planetary_Ring_Insert_Input, 'id'>
+  implements Omit<NodeGraphqlAPI.Planetary_Ring_Insert_Input, 'id'>
 {
   @Field((type) => [String])
   colors: string[];
@@ -34,14 +29,14 @@ export class RingInsertInput
 
 @InputType()
 export class RingInsertInputWrapper
-  implements Planetary_Ring_Arr_Rel_Insert_Input
+  implements NodeGraphqlAPI.Planetary_Ring_Arr_Rel_Insert_Input
 {
   @Field(() => [RingInsertInput])
   data: RingInsertInput[];
 }
 
 @InputType()
-export class PlanetCreationInput implements Planet_Insert_Input {
+export class PlanetCreationInput implements NodeGraphqlAPI.Planet_Insert_Input {
   @Field()
   celestial_id: string;
 
@@ -77,7 +72,9 @@ export class PlanetCreationInput implements Planet_Insert_Input {
 }
 
 @ObjectType()
-export class PartialPlanet implements Pick<Planet, 'id' | 'name' | 'owner_id'> {
+export class PartialPlanet
+  implements Pick<NodeGraphqlAPI.Planet, 'id' | 'name' | 'owner_id'>
+{
   @Field()
   id: string;
 

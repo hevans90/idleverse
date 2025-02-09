@@ -1,21 +1,5 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
-import {
-  GalacticEmpiresByGalaxyIdDocument,
-  GalacticEmpiresByGalaxyIdQuery,
-  GalacticEmpiresByGalaxyIdQueryVariables,
-  GetGalaxyByIdAndUnclaimedCelestialsDocument,
-  GetGalaxyByIdAndUnclaimedCelestialsQuery,
-  GetGalaxyByIdAndUnclaimedCelestialsQueryVariables,
-  SetDisplayNameByUserIdDocument,
-  SetDisplayNameByUserIdMutation,
-  SetDisplayNameByUserIdMutationVariables,
-  TryInsertClaimedCelestialDocument,
-  TryInsertClaimedCelestialMutation,
-  TryInsertClaimedCelestialMutationVariables,
-  TryInsertPlanetDocument,
-  TryInsertPlanetMutation,
-  TryInsertPlanetMutationVariables,
-} from '@idleverse/galaxy-gql';
+import { NodeGraphqlAPI } from '@idleverse/galaxy-gql';
 
 export class HasuraAPI {
   constructor(client: ApolloClient<NormalizedCacheObject>) {
@@ -26,28 +10,28 @@ export class HasuraAPI {
 
   trySetDisplayName = async (id: string, display_name: string) =>
     this.client.mutate<
-      SetDisplayNameByUserIdMutation,
-      SetDisplayNameByUserIdMutationVariables
+      NodeGraphqlAPI.SetDisplayNameByUserIdMutation,
+      NodeGraphqlAPI.SetDisplayNameByUserIdMutationVariables
     >({
-      mutation: SetDisplayNameByUserIdDocument,
+      mutation: NodeGraphqlAPI.SetDisplayNameByUserIdDocument,
       variables: { id, display_name },
     });
 
   getGalacticEmpiresByGalaxyId = async (galaxyId: string) =>
     this.client.query<
-      GalacticEmpiresByGalaxyIdQuery,
-      GalacticEmpiresByGalaxyIdQueryVariables
+      NodeGraphqlAPI.GalacticEmpiresByGalaxyIdQuery,
+      NodeGraphqlAPI.GalacticEmpiresByGalaxyIdQueryVariables
     >({
-      query: GalacticEmpiresByGalaxyIdDocument,
+      query: NodeGraphqlAPI.GalacticEmpiresByGalaxyIdDocument,
       variables: { galaxyId },
     });
 
   getGalaxyByIdWithUnclaimedCelestials = async (galaxyId: string) =>
     this.client.query<
-      GetGalaxyByIdAndUnclaimedCelestialsQuery,
-      GetGalaxyByIdAndUnclaimedCelestialsQueryVariables
+      NodeGraphqlAPI.GetGalaxyByIdAndUnclaimedCelestialsQuery,
+      NodeGraphqlAPI.GetGalaxyByIdAndUnclaimedCelestialsQueryVariables
     >({
-      query: GetGalaxyByIdAndUnclaimedCelestialsDocument,
+      query: NodeGraphqlAPI.GetGalaxyByIdAndUnclaimedCelestialsDocument,
       variables: { galaxyId },
     });
 
@@ -65,10 +49,10 @@ export class HasuraAPI {
     celestialName: string;
   }) =>
     this.client.mutate<
-      TryInsertClaimedCelestialMutation,
-      TryInsertClaimedCelestialMutationVariables
+      NodeGraphqlAPI.TryInsertClaimedCelestialMutation,
+      NodeGraphqlAPI.TryInsertClaimedCelestialMutationVariables
     >({
-      mutation: TryInsertClaimedCelestialDocument,
+      mutation: NodeGraphqlAPI.TryInsertClaimedCelestialDocument,
       variables: {
         id: celestialId,
         owner_id: userId,
@@ -79,10 +63,10 @@ export class HasuraAPI {
     });
 
   tryInsertPlanetToCelestial = async (
-    variables: TryInsertPlanetMutationVariables
+    variables: NodeGraphqlAPI.TryInsertPlanetMutationVariables
   ) =>
     this.client.mutate<
-      TryInsertPlanetMutation,
-      TryInsertPlanetMutationVariables
-    >({ mutation: TryInsertPlanetDocument, variables });
+      NodeGraphqlAPI.TryInsertPlanetMutation,
+      NodeGraphqlAPI.TryInsertPlanetMutationVariables
+    >({ mutation: NodeGraphqlAPI.TryInsertPlanetDocument, variables });
 }

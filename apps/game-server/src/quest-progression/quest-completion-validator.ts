@@ -1,5 +1,4 @@
-import { GalacticEmpireQuestByIdQuery } from '@idleverse/galaxy-gql';
-
+import { NodeGraphqlAPI } from '@idleverse/galaxy-gql';
 import { QuestErrorTypes } from '../entities/error-enums/quest-errors';
 import { ResourceModification } from '../resource-modification/utils';
 import {
@@ -14,7 +13,7 @@ import { questStepProgressionValidator } from './quest-step-progression-validato
 export const questCompletionValidator = ({
   questData,
 }: {
-  questData: GalacticEmpireQuestByIdQuery;
+  questData: NodeGraphqlAPI.GalacticEmpireQuestByIdQuery;
 }): {
   error?: QuestErrorTypes;
   resourceModification?: ResourceModification;

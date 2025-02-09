@@ -5,37 +5,36 @@ import {
 } from '@apollo/client';
 import { MockSubscriptionLink } from '@apollo/client/testing';
 import { MockedSubscriptionResult } from '@apollo/client/testing/core/mocking/mockSubscriptionLink';
-import {
-  AddGalacticEmpireQuestDocument,
-  EmpiresWithoutQuestsSubscription,
-  InitialMainQuestIdQuery,
-} from '@idleverse/galaxy-gql';
-import { HasuraQuestProgression } from '../datasources/hasura-quest-progression';
+
 import {
   mockApolloClient,
   mockQuery,
 } from '../_test-utils/mock-apollo-client.test-util';
+import { HasuraQuestProgression } from '../datasources/hasura-quest-progression';
 
+import { NodeGraphqlAPI } from '@idleverse/galaxy-gql';
 import { automaticMainQuestAssignment } from './automatic-quest-assignment';
 
-const emptyEmpireSubResults: FetchResult<EmpiresWithoutQuestsSubscription> = {
-  data: {
-    galactic_empire_aggregate: {
-      nodes: [],
+const emptyEmpireSubResults: FetchResult<NodeGraphqlAPI.EmpiresWithoutQuestsSubscription> =
+  {
+    data: {
+      galactic_empire_aggregate: {
+        nodes: [],
+      },
     },
-  },
-};
-const empireSubResults: FetchResult<EmpiresWithoutQuestsSubscription> = {
-  data: {
-    galactic_empire_aggregate: {
-      nodes: [
-        {
-          id: 'new-empire-id',
-        },
-      ],
+  };
+const empireSubResults: FetchResult<NodeGraphqlAPI.EmpiresWithoutQuestsSubscription> =
+  {
+    data: {
+      galactic_empire_aggregate: {
+        nodes: [
+          {
+            id: 'new-empire-id',
+          },
+        ],
+      },
     },
-  },
-};
+  };
 
 const emptyMockedSubResult: MockedSubscriptionResult = {
   result: emptyEmpireSubResults,
@@ -68,7 +67,7 @@ describe('automaticMainQuestAssignment', () => {
     expect(mockClient.mutate).not.toHaveBeenCalled();
   });
   it('should create the entry level quest for new empires', async () => {
-    mockQuery<InitialMainQuestIdQuery>(mockClient, {
+    mockQuery<NodeGraphqlAPI.InitialMainQuestIdQuery>(mockClient, {
       quest: [
         {
           id: 'initial-main-quest-id',
@@ -92,7 +91,7 @@ describe('automaticMainQuestAssignment', () => {
 
     expect(mockClient.mutate).toHaveBeenCalledTimes(1);
     expect(mockClient.mutate).toHaveBeenCalledWith({
-      mutation: AddGalacticEmpireQuestDocument,
+      mutation: NodeGraphqlAPI.AddGalacticEmpireQuestDocument,
       variables: {
         input: {
           galactic_empire_id: 'new-empire-id',

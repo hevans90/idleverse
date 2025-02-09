@@ -1,25 +1,5 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
-import {
-  AddGalacticEmpireQuestDocument,
-  AddGalacticEmpireQuestMutation,
-  AddGalacticEmpireQuestMutationVariables,
-  CompleteGalacticEmpireQuestByIdDocument,
-  CompleteGalacticEmpireQuestByIdMutation,
-  CompleteGalacticEmpireQuestByIdMutationVariables,
-  GalacticEmpireQuestByIdDocument,
-  GalacticEmpireQuestByIdQuery,
-  GalacticEmpireQuestByIdQueryVariables,
-  Galactic_Empire_Quest_Insert_Input,
-  ProgressGalacticEmpireQuestStepByIdDocument,
-  ProgressGalacticEmpireQuestStepByIdMutation,
-  ProgressGalacticEmpireQuestStepByIdMutationVariables,
-  UnlockGalacticEmpireNpcDocument,
-  UnlockGalacticEmpireNpcMutation,
-  UnlockGalacticEmpireNpcMutationVariables,
-  UnlockGalacticEmpireResourceDocument,
-  UnlockGalacticEmpireResourceMutation,
-  UnlockGalacticEmpireResourceMutationVariables,
-} from '@idleverse/galaxy-gql';
+import { NodeGraphqlAPI } from '@idleverse/galaxy-gql';
 
 export class HasuraQuestProgression {
   constructor(client: ApolloClient<NormalizedCacheObject>) {
@@ -30,55 +10,55 @@ export class HasuraQuestProgression {
 
   getGalacticEmpireQuestById = async (empireQuestId: string) =>
     this.client.query<
-      GalacticEmpireQuestByIdQuery,
-      GalacticEmpireQuestByIdQueryVariables
+      NodeGraphqlAPI.GalacticEmpireQuestByIdQuery,
+      NodeGraphqlAPI.GalacticEmpireQuestByIdQueryVariables
     >({
-      query: GalacticEmpireQuestByIdDocument,
+      query: NodeGraphqlAPI.GalacticEmpireQuestByIdDocument,
       variables: { empireQuestId },
     });
 
   progressQuestStep = (questId: string, stepId: string) =>
     this.client.mutate<
-      ProgressGalacticEmpireQuestStepByIdMutation,
-      ProgressGalacticEmpireQuestStepByIdMutationVariables
+      NodeGraphqlAPI.ProgressGalacticEmpireQuestStepByIdMutation,
+      NodeGraphqlAPI.ProgressGalacticEmpireQuestStepByIdMutationVariables
     >({
-      mutation: ProgressGalacticEmpireQuestStepByIdDocument,
+      mutation: NodeGraphqlAPI.ProgressGalacticEmpireQuestStepByIdDocument,
       variables: { stepId, questId },
     });
 
-  addQuest = (input: Galactic_Empire_Quest_Insert_Input) =>
+  addQuest = (input: NodeGraphqlAPI.Galactic_Empire_Quest_Insert_Input) =>
     this.client.mutate<
-      AddGalacticEmpireQuestMutation,
-      AddGalacticEmpireQuestMutationVariables
+      NodeGraphqlAPI.AddGalacticEmpireQuestMutation,
+      NodeGraphqlAPI.AddGalacticEmpireQuestMutationVariables
     >({
-      mutation: AddGalacticEmpireQuestDocument,
+      mutation: NodeGraphqlAPI.AddGalacticEmpireQuestDocument,
       variables: { input },
     });
 
   completeQuest = (questId: string) =>
     this.client.mutate<
-      CompleteGalacticEmpireQuestByIdMutation,
-      CompleteGalacticEmpireQuestByIdMutationVariables
+      NodeGraphqlAPI.CompleteGalacticEmpireQuestByIdMutation,
+      NodeGraphqlAPI.CompleteGalacticEmpireQuestByIdMutationVariables
     >({
-      mutation: CompleteGalacticEmpireQuestByIdDocument,
+      mutation: NodeGraphqlAPI.CompleteGalacticEmpireQuestByIdDocument,
       variables: { questId },
     });
 
   unlockEmpireResource = (empireId: string, resourceTypeId: string) =>
     this.client.mutate<
-      UnlockGalacticEmpireResourceMutation,
-      UnlockGalacticEmpireResourceMutationVariables
+      NodeGraphqlAPI.UnlockGalacticEmpireResourceMutation,
+      NodeGraphqlAPI.UnlockGalacticEmpireResourceMutationVariables
     >({
-      mutation: UnlockGalacticEmpireResourceDocument,
+      mutation: NodeGraphqlAPI.UnlockGalacticEmpireResourceDocument,
       variables: { empireId, resourceTypeId },
     });
 
   unlockEmpireNpc = (empireId: string, npcId: string) =>
     this.client.mutate<
-      UnlockGalacticEmpireNpcMutation,
-      UnlockGalacticEmpireNpcMutationVariables
+      NodeGraphqlAPI.UnlockGalacticEmpireNpcMutation,
+      NodeGraphqlAPI.UnlockGalacticEmpireNpcMutationVariables
     >({
-      mutation: UnlockGalacticEmpireNpcDocument,
+      mutation: NodeGraphqlAPI.UnlockGalacticEmpireNpcDocument,
       variables: { empireId, npcId },
     });
 }

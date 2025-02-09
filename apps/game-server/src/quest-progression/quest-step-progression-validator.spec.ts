@@ -1,24 +1,21 @@
-import {
-  GalacticEmpireQuestByIdQuery,
-  Quest_Step_Type_Enum,
-} from '@idleverse/galaxy-gql';
+import { NodeGraphqlAPI } from '@idleverse/galaxy-gql';
 import { v4 as uuidv4 } from 'uuid';
 import { ResourceErrorTypes } from '../entities/error-enums/resource-errors';
 import { emptyResourceModification } from '../resource-modification/validate-resource-modification';
 import { questStepProgressionValidator } from './quest-step-progression-validator';
 
 type Step =
-  GalacticEmpireQuestByIdQuery['galactic_empire_quest_by_pk']['quest']['steps'][0];
+  NodeGraphqlAPI.GalacticEmpireQuestByIdQuery['galactic_empire_quest_by_pk']['quest']['steps'][0];
 
 type Empire =
-  GalacticEmpireQuestByIdQuery['galactic_empire_quest_by_pk']['galactic_empire'];
+  NodeGraphqlAPI.GalacticEmpireQuestByIdQuery['galactic_empire_quest_by_pk']['galactic_empire'];
 
 const stepFactory = ({
   type,
   resource_cost_amount,
   resource_cost_id,
 }: {
-  type: Quest_Step_Type_Enum;
+  type: NodeGraphqlAPI.Quest_Step_Type_Enum;
   resource_cost_amount?: number;
   resource_cost_id?: string;
 }): Step => ({
@@ -42,7 +39,7 @@ describe('questStepProgressionValidator', () => {
       const empireId = uuidv4();
       expect(
         questStepProgressionValidator({
-          step: stepFactory({ type: Quest_Step_Type_Enum.Cta }),
+          step: stepFactory({ type: NodeGraphqlAPI.Quest_Step_Type_Enum.Cta }),
           galactic_empire: empireFactory([], empireId),
           resourceModification: emptyResourceModification(empireId),
         })
@@ -55,7 +52,9 @@ describe('questStepProgressionValidator', () => {
       const empireId = uuidv4();
       expect(
         questStepProgressionValidator({
-          step: stepFactory({ type: Quest_Step_Type_Enum.NpcContact }),
+          step: stepFactory({
+            type: NodeGraphqlAPI.Quest_Step_Type_Enum.NpcContact,
+          }),
           galactic_empire: empireFactory([], empireId),
           resourceModification: emptyResourceModification(empireId),
         })
@@ -68,7 +67,9 @@ describe('questStepProgressionValidator', () => {
       const empireId = uuidv4();
       expect(
         questStepProgressionValidator({
-          step: stepFactory({ type: Quest_Step_Type_Enum.ResourceCost }),
+          step: stepFactory({
+            type: NodeGraphqlAPI.Quest_Step_Type_Enum.ResourceCost,
+          }),
           galactic_empire: empireFactory([], empireId),
           resourceModification: emptyResourceModification(empireId),
         })
@@ -82,7 +83,7 @@ describe('questStepProgressionValidator', () => {
     expect(
       questStepProgressionValidator({
         step: stepFactory({
-          type: Quest_Step_Type_Enum.ResourceCost,
+          type: NodeGraphqlAPI.Quest_Step_Type_Enum.ResourceCost,
           resource_cost_id: 'not-unlocked',
         }),
         galactic_empire: empireFactory(
@@ -107,7 +108,7 @@ describe('questStepProgressionValidator', () => {
     expect(
       questStepProgressionValidator({
         step: stepFactory({
-          type: Quest_Step_Type_Enum.ResourceCost,
+          type: NodeGraphqlAPI.Quest_Step_Type_Enum.ResourceCost,
           resource_cost_id: resourceId,
           resource_cost_amount: 200,
         }),
@@ -133,7 +134,7 @@ describe('questStepProgressionValidator', () => {
     expect(
       questStepProgressionValidator({
         step: stepFactory({
-          type: Quest_Step_Type_Enum.ResourceCost,
+          type: NodeGraphqlAPI.Quest_Step_Type_Enum.ResourceCost,
           resource_cost_id: resourceId,
           resource_cost_amount: 99,
         }),

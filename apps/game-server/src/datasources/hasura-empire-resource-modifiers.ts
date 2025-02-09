@@ -1,9 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
-import {
-  IncrementGalacticEmpireResourcesDocument,
-  IncrementGalacticEmpireResourcesMutation,
-  IncrementGalacticEmpireResourcesMutationVariables,
-} from '@idleverse/galaxy-gql';
+
+import { NodeGraphqlAPI } from '@idleverse/galaxy-gql';
 import { ResourceModification } from '../resource-modification/utils';
 
 export class HasuraEmpireResourceModifiers {
@@ -25,10 +22,10 @@ export class HasuraEmpireResourceModifiers {
     voidMatterIncrement,
   }: ResourceModification) =>
     this.client.mutate<
-      IncrementGalacticEmpireResourcesMutation,
-      IncrementGalacticEmpireResourcesMutationVariables
+      NodeGraphqlAPI.IncrementGalacticEmpireResourcesMutation,
+      NodeGraphqlAPI.IncrementGalacticEmpireResourcesMutationVariables
     >({
-      mutation: IncrementGalacticEmpireResourcesDocument,
+      mutation: NodeGraphqlAPI.IncrementGalacticEmpireResourcesDocument,
       variables: {
         galacticEmpireId,
         galacticCreditsIncrement,

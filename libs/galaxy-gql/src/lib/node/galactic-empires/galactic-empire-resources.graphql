@@ -1,3 +1,30 @@
+query CurrentGalacticEmpireResources($empireId: uuid!) {
+  galactic_empire_resources(where: { galactic_empire_id: { _eq: $empireId } }) {
+    value
+    resource_type {
+      id
+      type
+    }
+    id
+  }
+}
+
+mutation UnlockGalacticEmpireResource(
+  $empireId: uuid!
+  $resourceTypeId: uuid!
+) {
+  insert_galactic_empire_resources_one(
+    object: {
+      galactic_empire_id: $empireId
+      resource_type_id: $resourceTypeId
+      value: 0
+    }
+  ) {
+    galactic_empire_id
+    resource_type_id
+  }
+}
+
 mutation IncrementGalacticEmpireResources(
   $galacticEmpireId: uuid!
   $galacticCreditsIncrement: Int!

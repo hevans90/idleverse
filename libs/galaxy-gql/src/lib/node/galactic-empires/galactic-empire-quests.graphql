@@ -1,3 +1,20 @@
+mutation AddGalacticEmpireQuest($input: galactic_empire_quest_insert_input!) {
+  insert_galactic_empire_quest_one(object: $input) {
+    quest_id
+    galactic_empire_id
+  }
+}
+
+mutation CompleteGalacticEmpireQuestById($questId: uuid!) {
+  update_galactic_empire_quest_by_pk(
+    pk_columns: { id: $questId }
+    _set: { completed: true }
+  ) {
+    completed
+    quest_id
+  }
+}
+
 query GalacticEmpireQuestById($empireQuestId: uuid!) {
   galactic_empire_quest_by_pk(id: $empireQuestId) {
     completed
@@ -37,6 +54,24 @@ query GalacticEmpireQuestById($empireQuestId: uuid!) {
           id
         }
       }
+    }
+  }
+}
+
+mutation ProgressGalacticEmpireQuestStepById($questId: uuid!, $stepId: uuid!) {
+  update_galactic_empire_quest_by_pk(
+    pk_columns: { id: $questId }
+    _set: { quest_step_id: $stepId }
+  ) {
+    completed
+    quest_id
+  }
+}
+
+subscription EmpiresWithoutQuests {
+  galactic_empire_aggregate(where: { _not: { quests: {} } }) {
+    nodes {
+      id
     }
   }
 }

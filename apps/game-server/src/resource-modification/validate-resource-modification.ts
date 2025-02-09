@@ -1,8 +1,4 @@
-import {
-  CurrentGalacticEmpireResourcesQuery,
-  GalacticEmpireQuestByIdQuery,
-} from '@idleverse/galaxy-gql';
-
+import { NodeGraphqlAPI } from '@idleverse/galaxy-gql';
 import { ResourceErrorTypes } from '../entities/error-enums/resource-errors';
 import { ResourceModification, ResourceModifierKey } from './utils';
 
@@ -53,8 +49,8 @@ export const validateResourceModification = ({
   resource_id,
 }: {
   resources:
-    | GalacticEmpireQuestByIdQuery['galactic_empire_quest_by_pk']['galactic_empire']['resources']
-    | CurrentGalacticEmpireResourcesQuery['galactic_empire_resources'];
+    | NodeGraphqlAPI.GalacticEmpireQuestByIdQuery['galactic_empire_quest_by_pk']['galactic_empire']['resources']
+    | NodeGraphqlAPI.CurrentGalacticEmpireResourcesQuery['galactic_empire_resources'];
   resource_amount: number;
   resource_id: string;
 }): {

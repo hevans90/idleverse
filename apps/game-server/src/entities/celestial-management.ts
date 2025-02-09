@@ -1,4 +1,3 @@
-import { RingInsertInput } from '@idleverse/galaxy-gql';
 import 'reflect-metadata';
 import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
 import { Context } from '../datasources/context';
@@ -40,7 +39,7 @@ export class CelestialManagementResolver {
             colors: `{${colors}}`,
             terrain_bias: `{${terrain_bias}}`,
             rotation: `{${rotation}}`,
-          } as unknown as RingInsertInput)
+          } as any) // RingInsertInput
       );
     }
 

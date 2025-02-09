@@ -212,6 +212,363 @@ export type _Uuid_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['_uuid']['input']>>;
 };
 
+/** columns and relationships of "asteroid_belt" */
+export type Asteroid_Belt = {
+  __typename?: 'asteroid_belt';
+  asteroid_size: Scalars['String']['output'];
+  celestial_id: Scalars['String']['output'];
+  count: Scalars['Int']['output'];
+  created_at: Scalars['timestamptz']['output'];
+  id: Scalars['uuid']['output'];
+  palette_id: Scalars['uuid']['output'];
+  /** An object relationship */
+  terrain_hex_palette: Terrain_Hex_Palette;
+  updated_at: Scalars['timestamptz']['output'];
+};
+
+/** aggregated selection of "asteroid_belt" */
+export type Asteroid_Belt_Aggregate = {
+  __typename?: 'asteroid_belt_aggregate';
+  aggregate?: Maybe<Asteroid_Belt_Aggregate_Fields>;
+  nodes: Array<Asteroid_Belt>;
+};
+
+export type Asteroid_Belt_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Asteroid_Belt_Aggregate_Bool_Exp_Count>;
+};
+
+export type Asteroid_Belt_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Asteroid_Belt_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Asteroid_Belt_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "asteroid_belt" */
+export type Asteroid_Belt_Aggregate_Fields = {
+  __typename?: 'asteroid_belt_aggregate_fields';
+  avg?: Maybe<Asteroid_Belt_Avg_Fields>;
+  count: Scalars['Int']['output'];
+  max?: Maybe<Asteroid_Belt_Max_Fields>;
+  min?: Maybe<Asteroid_Belt_Min_Fields>;
+  stddev?: Maybe<Asteroid_Belt_Stddev_Fields>;
+  stddev_pop?: Maybe<Asteroid_Belt_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Asteroid_Belt_Stddev_Samp_Fields>;
+  sum?: Maybe<Asteroid_Belt_Sum_Fields>;
+  var_pop?: Maybe<Asteroid_Belt_Var_Pop_Fields>;
+  var_samp?: Maybe<Asteroid_Belt_Var_Samp_Fields>;
+  variance?: Maybe<Asteroid_Belt_Variance_Fields>;
+};
+
+
+/** aggregate fields of "asteroid_belt" */
+export type Asteroid_Belt_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Asteroid_Belt_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** order by aggregate values of table "asteroid_belt" */
+export type Asteroid_Belt_Aggregate_Order_By = {
+  avg?: InputMaybe<Asteroid_Belt_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Asteroid_Belt_Max_Order_By>;
+  min?: InputMaybe<Asteroid_Belt_Min_Order_By>;
+  stddev?: InputMaybe<Asteroid_Belt_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Asteroid_Belt_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Asteroid_Belt_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Asteroid_Belt_Sum_Order_By>;
+  var_pop?: InputMaybe<Asteroid_Belt_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Asteroid_Belt_Var_Samp_Order_By>;
+  variance?: InputMaybe<Asteroid_Belt_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "asteroid_belt" */
+export type Asteroid_Belt_Arr_Rel_Insert_Input = {
+  data: Array<Asteroid_Belt_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Asteroid_Belt_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Asteroid_Belt_Avg_Fields = {
+  __typename?: 'asteroid_belt_avg_fields';
+  count?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by avg() on columns of table "asteroid_belt" */
+export type Asteroid_Belt_Avg_Order_By = {
+  count?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "asteroid_belt". All fields are combined with a logical 'AND'. */
+export type Asteroid_Belt_Bool_Exp = {
+  _and?: InputMaybe<Array<Asteroid_Belt_Bool_Exp>>;
+  _not?: InputMaybe<Asteroid_Belt_Bool_Exp>;
+  _or?: InputMaybe<Array<Asteroid_Belt_Bool_Exp>>;
+  asteroid_size?: InputMaybe<String_Comparison_Exp>;
+  celestial_id?: InputMaybe<String_Comparison_Exp>;
+  count?: InputMaybe<Int_Comparison_Exp>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  palette_id?: InputMaybe<Uuid_Comparison_Exp>;
+  terrain_hex_palette?: InputMaybe<Terrain_Hex_Palette_Bool_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "asteroid_belt" */
+export enum Asteroid_Belt_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  AsteroidBeltPkey = 'asteroid_belt_pkey'
+}
+
+/** input type for incrementing numeric columns in table "asteroid_belt" */
+export type Asteroid_Belt_Inc_Input = {
+  count?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** input type for inserting data into table "asteroid_belt" */
+export type Asteroid_Belt_Insert_Input = {
+  asteroid_size?: InputMaybe<Scalars['String']['input']>;
+  celestial_id?: InputMaybe<Scalars['String']['input']>;
+  count?: InputMaybe<Scalars['Int']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  palette_id?: InputMaybe<Scalars['uuid']['input']>;
+  terrain_hex_palette?: InputMaybe<Terrain_Hex_Palette_Obj_Rel_Insert_Input>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** aggregate max on columns */
+export type Asteroid_Belt_Max_Fields = {
+  __typename?: 'asteroid_belt_max_fields';
+  asteroid_size?: Maybe<Scalars['String']['output']>;
+  celestial_id?: Maybe<Scalars['String']['output']>;
+  count?: Maybe<Scalars['Int']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  palette_id?: Maybe<Scalars['uuid']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** order by max() on columns of table "asteroid_belt" */
+export type Asteroid_Belt_Max_Order_By = {
+  asteroid_size?: InputMaybe<Order_By>;
+  celestial_id?: InputMaybe<Order_By>;
+  count?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  palette_id?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Asteroid_Belt_Min_Fields = {
+  __typename?: 'asteroid_belt_min_fields';
+  asteroid_size?: Maybe<Scalars['String']['output']>;
+  celestial_id?: Maybe<Scalars['String']['output']>;
+  count?: Maybe<Scalars['Int']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  palette_id?: Maybe<Scalars['uuid']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** order by min() on columns of table "asteroid_belt" */
+export type Asteroid_Belt_Min_Order_By = {
+  asteroid_size?: InputMaybe<Order_By>;
+  celestial_id?: InputMaybe<Order_By>;
+  count?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  palette_id?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "asteroid_belt" */
+export type Asteroid_Belt_Mutation_Response = {
+  __typename?: 'asteroid_belt_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Asteroid_Belt>;
+};
+
+/** on_conflict condition type for table "asteroid_belt" */
+export type Asteroid_Belt_On_Conflict = {
+  constraint: Asteroid_Belt_Constraint;
+  update_columns?: Array<Asteroid_Belt_Update_Column>;
+  where?: InputMaybe<Asteroid_Belt_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "asteroid_belt". */
+export type Asteroid_Belt_Order_By = {
+  asteroid_size?: InputMaybe<Order_By>;
+  celestial_id?: InputMaybe<Order_By>;
+  count?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  palette_id?: InputMaybe<Order_By>;
+  terrain_hex_palette?: InputMaybe<Terrain_Hex_Palette_Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: asteroid_belt */
+export type Asteroid_Belt_Pk_Columns_Input = {
+  id: Scalars['uuid']['input'];
+};
+
+/** select columns of table "asteroid_belt" */
+export enum Asteroid_Belt_Select_Column {
+  /** column name */
+  AsteroidSize = 'asteroid_size',
+  /** column name */
+  CelestialId = 'celestial_id',
+  /** column name */
+  Count = 'count',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  PaletteId = 'palette_id',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+/** input type for updating data in table "asteroid_belt" */
+export type Asteroid_Belt_Set_Input = {
+  asteroid_size?: InputMaybe<Scalars['String']['input']>;
+  celestial_id?: InputMaybe<Scalars['String']['input']>;
+  count?: InputMaybe<Scalars['Int']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  palette_id?: InputMaybe<Scalars['uuid']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type Asteroid_Belt_Stddev_Fields = {
+  __typename?: 'asteroid_belt_stddev_fields';
+  count?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev() on columns of table "asteroid_belt" */
+export type Asteroid_Belt_Stddev_Order_By = {
+  count?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Asteroid_Belt_Stddev_Pop_Fields = {
+  __typename?: 'asteroid_belt_stddev_pop_fields';
+  count?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev_pop() on columns of table "asteroid_belt" */
+export type Asteroid_Belt_Stddev_Pop_Order_By = {
+  count?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Asteroid_Belt_Stddev_Samp_Fields = {
+  __typename?: 'asteroid_belt_stddev_samp_fields';
+  count?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev_samp() on columns of table "asteroid_belt" */
+export type Asteroid_Belt_Stddev_Samp_Order_By = {
+  count?: InputMaybe<Order_By>;
+};
+
+/** Streaming cursor of the table "asteroid_belt" */
+export type Asteroid_Belt_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Asteroid_Belt_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Asteroid_Belt_Stream_Cursor_Value_Input = {
+  asteroid_size?: InputMaybe<Scalars['String']['input']>;
+  celestial_id?: InputMaybe<Scalars['String']['input']>;
+  count?: InputMaybe<Scalars['Int']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  palette_id?: InputMaybe<Scalars['uuid']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** aggregate sum on columns */
+export type Asteroid_Belt_Sum_Fields = {
+  __typename?: 'asteroid_belt_sum_fields';
+  count?: Maybe<Scalars['Int']['output']>;
+};
+
+/** order by sum() on columns of table "asteroid_belt" */
+export type Asteroid_Belt_Sum_Order_By = {
+  count?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "asteroid_belt" */
+export enum Asteroid_Belt_Update_Column {
+  /** column name */
+  AsteroidSize = 'asteroid_size',
+  /** column name */
+  CelestialId = 'celestial_id',
+  /** column name */
+  Count = 'count',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  PaletteId = 'palette_id',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+export type Asteroid_Belt_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Asteroid_Belt_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Asteroid_Belt_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Asteroid_Belt_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Asteroid_Belt_Var_Pop_Fields = {
+  __typename?: 'asteroid_belt_var_pop_fields';
+  count?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by var_pop() on columns of table "asteroid_belt" */
+export type Asteroid_Belt_Var_Pop_Order_By = {
+  count?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Asteroid_Belt_Var_Samp_Fields = {
+  __typename?: 'asteroid_belt_var_samp_fields';
+  count?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by var_samp() on columns of table "asteroid_belt" */
+export type Asteroid_Belt_Var_Samp_Order_By = {
+  count?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Asteroid_Belt_Variance_Fields = {
+  __typename?: 'asteroid_belt_variance_fields';
+  count?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by variance() on columns of table "asteroid_belt" */
+export type Asteroid_Belt_Variance_Order_By = {
+  count?: InputMaybe<Order_By>;
+};
+
 /** Playable backgrounds */
 export type Background = {
   __typename?: 'background';
@@ -382,7 +739,14 @@ export type Background_Updates = {
 /** columns and relationships of "celestial" */
 export type Celestial = {
   __typename?: 'celestial';
-  forming_points: Scalars['numeric']['output'];
+  /** An array relationship */
+  asteroid_belts: Array<Asteroid_Belt>;
+  /** An aggregate relationship */
+  asteroid_belts_aggregate: Asteroid_Belt_Aggregate;
+  brightness: Scalars['numeric']['output'];
+  color: Scalars['_numeric']['output'];
+  coronal_strength: Scalars['numeric']['output'];
+  density: Scalars['numeric']['output'];
   /** An object relationship */
   galactic_empire?: Maybe<Galactic_Empire>;
   galactic_empire_id?: Maybe<Scalars['uuid']['output']>;
@@ -396,8 +760,29 @@ export type Celestial = {
   planets: Array<Planet>;
   /** An aggregate relationship */
   planets_aggregate: Planet_Aggregate;
+  radius: Scalars['numeric']['output'];
   /** An object relationship */
   user_info?: Maybe<User_Info>;
+};
+
+
+/** columns and relationships of "celestial" */
+export type CelestialAsteroid_BeltsArgs = {
+  distinct_on?: InputMaybe<Array<Asteroid_Belt_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Asteroid_Belt_Order_By>>;
+  where?: InputMaybe<Asteroid_Belt_Bool_Exp>;
+};
+
+
+/** columns and relationships of "celestial" */
+export type CelestialAsteroid_Belts_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Asteroid_Belt_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Asteroid_Belt_Order_By>>;
+  where?: InputMaybe<Asteroid_Belt_Bool_Exp>;
 };
 
 
@@ -486,12 +871,18 @@ export type Celestial_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Celestial_Avg_Fields = {
   __typename?: 'celestial_avg_fields';
-  forming_points?: Maybe<Scalars['Float']['output']>;
+  brightness?: Maybe<Scalars['Float']['output']>;
+  coronal_strength?: Maybe<Scalars['Float']['output']>;
+  density?: Maybe<Scalars['Float']['output']>;
+  radius?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "celestial" */
 export type Celestial_Avg_Order_By = {
-  forming_points?: InputMaybe<Order_By>;
+  brightness?: InputMaybe<Order_By>;
+  coronal_strength?: InputMaybe<Order_By>;
+  density?: InputMaybe<Order_By>;
+  radius?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "celestial". All fields are combined with a logical 'AND'. */
@@ -499,7 +890,12 @@ export type Celestial_Bool_Exp = {
   _and?: InputMaybe<Array<Celestial_Bool_Exp>>;
   _not?: InputMaybe<Celestial_Bool_Exp>;
   _or?: InputMaybe<Array<Celestial_Bool_Exp>>;
-  forming_points?: InputMaybe<Numeric_Comparison_Exp>;
+  asteroid_belts?: InputMaybe<Asteroid_Belt_Bool_Exp>;
+  asteroid_belts_aggregate?: InputMaybe<Asteroid_Belt_Aggregate_Bool_Exp>;
+  brightness?: InputMaybe<Numeric_Comparison_Exp>;
+  color?: InputMaybe<_Numeric_Comparison_Exp>;
+  coronal_strength?: InputMaybe<Numeric_Comparison_Exp>;
+  density?: InputMaybe<Numeric_Comparison_Exp>;
   galactic_empire?: InputMaybe<Galactic_Empire_Bool_Exp>;
   galactic_empire_id?: InputMaybe<Uuid_Comparison_Exp>;
   galaxy?: InputMaybe<Galaxy_Bool_Exp>;
@@ -509,6 +905,7 @@ export type Celestial_Bool_Exp = {
   owner_id?: InputMaybe<String_Comparison_Exp>;
   planets?: InputMaybe<Planet_Bool_Exp>;
   planets_aggregate?: InputMaybe<Planet_Aggregate_Bool_Exp>;
+  radius?: InputMaybe<Numeric_Comparison_Exp>;
   user_info?: InputMaybe<User_Info_Bool_Exp>;
 };
 
@@ -522,12 +919,19 @@ export enum Celestial_Constraint {
 
 /** input type for incrementing numeric columns in table "celestial" */
 export type Celestial_Inc_Input = {
-  forming_points?: InputMaybe<Scalars['numeric']['input']>;
+  brightness?: InputMaybe<Scalars['numeric']['input']>;
+  coronal_strength?: InputMaybe<Scalars['numeric']['input']>;
+  density?: InputMaybe<Scalars['numeric']['input']>;
+  radius?: InputMaybe<Scalars['numeric']['input']>;
 };
 
 /** input type for inserting data into table "celestial" */
 export type Celestial_Insert_Input = {
-  forming_points?: InputMaybe<Scalars['numeric']['input']>;
+  asteroid_belts?: InputMaybe<Asteroid_Belt_Arr_Rel_Insert_Input>;
+  brightness?: InputMaybe<Scalars['numeric']['input']>;
+  color?: InputMaybe<Scalars['_numeric']['input']>;
+  coronal_strength?: InputMaybe<Scalars['numeric']['input']>;
+  density?: InputMaybe<Scalars['numeric']['input']>;
   galactic_empire?: InputMaybe<Galactic_Empire_Obj_Rel_Insert_Input>;
   galactic_empire_id?: InputMaybe<Scalars['uuid']['input']>;
   galaxy?: InputMaybe<Galaxy_Obj_Rel_Insert_Input>;
@@ -536,49 +940,62 @@ export type Celestial_Insert_Input = {
   name?: InputMaybe<Scalars['String']['input']>;
   owner_id?: InputMaybe<Scalars['String']['input']>;
   planets?: InputMaybe<Planet_Arr_Rel_Insert_Input>;
+  radius?: InputMaybe<Scalars['numeric']['input']>;
   user_info?: InputMaybe<User_Info_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
 export type Celestial_Max_Fields = {
   __typename?: 'celestial_max_fields';
-  forming_points?: Maybe<Scalars['numeric']['output']>;
+  brightness?: Maybe<Scalars['numeric']['output']>;
+  coronal_strength?: Maybe<Scalars['numeric']['output']>;
+  density?: Maybe<Scalars['numeric']['output']>;
   galactic_empire_id?: Maybe<Scalars['uuid']['output']>;
   galaxy_id?: Maybe<Scalars['uuid']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   owner_id?: Maybe<Scalars['String']['output']>;
+  radius?: Maybe<Scalars['numeric']['output']>;
 };
 
 /** order by max() on columns of table "celestial" */
 export type Celestial_Max_Order_By = {
-  forming_points?: InputMaybe<Order_By>;
+  brightness?: InputMaybe<Order_By>;
+  coronal_strength?: InputMaybe<Order_By>;
+  density?: InputMaybe<Order_By>;
   galactic_empire_id?: InputMaybe<Order_By>;
   galaxy_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   owner_id?: InputMaybe<Order_By>;
+  radius?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
 export type Celestial_Min_Fields = {
   __typename?: 'celestial_min_fields';
-  forming_points?: Maybe<Scalars['numeric']['output']>;
+  brightness?: Maybe<Scalars['numeric']['output']>;
+  coronal_strength?: Maybe<Scalars['numeric']['output']>;
+  density?: Maybe<Scalars['numeric']['output']>;
   galactic_empire_id?: Maybe<Scalars['uuid']['output']>;
   galaxy_id?: Maybe<Scalars['uuid']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   owner_id?: Maybe<Scalars['String']['output']>;
+  radius?: Maybe<Scalars['numeric']['output']>;
 };
 
 /** order by min() on columns of table "celestial" */
 export type Celestial_Min_Order_By = {
-  forming_points?: InputMaybe<Order_By>;
+  brightness?: InputMaybe<Order_By>;
+  coronal_strength?: InputMaybe<Order_By>;
+  density?: InputMaybe<Order_By>;
   galactic_empire_id?: InputMaybe<Order_By>;
   galaxy_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   owner_id?: InputMaybe<Order_By>;
+  radius?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "celestial" */
@@ -606,7 +1023,11 @@ export type Celestial_On_Conflict = {
 
 /** Ordering options when selecting data from "celestial". */
 export type Celestial_Order_By = {
-  forming_points?: InputMaybe<Order_By>;
+  asteroid_belts_aggregate?: InputMaybe<Asteroid_Belt_Aggregate_Order_By>;
+  brightness?: InputMaybe<Order_By>;
+  color?: InputMaybe<Order_By>;
+  coronal_strength?: InputMaybe<Order_By>;
+  density?: InputMaybe<Order_By>;
   galactic_empire?: InputMaybe<Galactic_Empire_Order_By>;
   galactic_empire_id?: InputMaybe<Order_By>;
   galaxy?: InputMaybe<Galaxy_Order_By>;
@@ -615,6 +1036,7 @@ export type Celestial_Order_By = {
   name?: InputMaybe<Order_By>;
   owner_id?: InputMaybe<Order_By>;
   planets_aggregate?: InputMaybe<Planet_Aggregate_Order_By>;
+  radius?: InputMaybe<Order_By>;
   user_info?: InputMaybe<User_Info_Order_By>;
 };
 
@@ -626,7 +1048,13 @@ export type Celestial_Pk_Columns_Input = {
 /** select columns of table "celestial" */
 export enum Celestial_Select_Column {
   /** column name */
-  FormingPoints = 'forming_points',
+  Brightness = 'brightness',
+  /** column name */
+  Color = 'color',
+  /** column name */
+  CoronalStrength = 'coronal_strength',
+  /** column name */
+  Density = 'density',
   /** column name */
   GalacticEmpireId = 'galactic_empire_id',
   /** column name */
@@ -636,50 +1064,74 @@ export enum Celestial_Select_Column {
   /** column name */
   Name = 'name',
   /** column name */
-  OwnerId = 'owner_id'
+  OwnerId = 'owner_id',
+  /** column name */
+  Radius = 'radius'
 }
 
 /** input type for updating data in table "celestial" */
 export type Celestial_Set_Input = {
-  forming_points?: InputMaybe<Scalars['numeric']['input']>;
+  brightness?: InputMaybe<Scalars['numeric']['input']>;
+  color?: InputMaybe<Scalars['_numeric']['input']>;
+  coronal_strength?: InputMaybe<Scalars['numeric']['input']>;
+  density?: InputMaybe<Scalars['numeric']['input']>;
   galactic_empire_id?: InputMaybe<Scalars['uuid']['input']>;
   galaxy_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   owner_id?: InputMaybe<Scalars['String']['input']>;
+  radius?: InputMaybe<Scalars['numeric']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Celestial_Stddev_Fields = {
   __typename?: 'celestial_stddev_fields';
-  forming_points?: Maybe<Scalars['Float']['output']>;
+  brightness?: Maybe<Scalars['Float']['output']>;
+  coronal_strength?: Maybe<Scalars['Float']['output']>;
+  density?: Maybe<Scalars['Float']['output']>;
+  radius?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "celestial" */
 export type Celestial_Stddev_Order_By = {
-  forming_points?: InputMaybe<Order_By>;
+  brightness?: InputMaybe<Order_By>;
+  coronal_strength?: InputMaybe<Order_By>;
+  density?: InputMaybe<Order_By>;
+  radius?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Celestial_Stddev_Pop_Fields = {
   __typename?: 'celestial_stddev_pop_fields';
-  forming_points?: Maybe<Scalars['Float']['output']>;
+  brightness?: Maybe<Scalars['Float']['output']>;
+  coronal_strength?: Maybe<Scalars['Float']['output']>;
+  density?: Maybe<Scalars['Float']['output']>;
+  radius?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "celestial" */
 export type Celestial_Stddev_Pop_Order_By = {
-  forming_points?: InputMaybe<Order_By>;
+  brightness?: InputMaybe<Order_By>;
+  coronal_strength?: InputMaybe<Order_By>;
+  density?: InputMaybe<Order_By>;
+  radius?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Celestial_Stddev_Samp_Fields = {
   __typename?: 'celestial_stddev_samp_fields';
-  forming_points?: Maybe<Scalars['Float']['output']>;
+  brightness?: Maybe<Scalars['Float']['output']>;
+  coronal_strength?: Maybe<Scalars['Float']['output']>;
+  density?: Maybe<Scalars['Float']['output']>;
+  radius?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "celestial" */
 export type Celestial_Stddev_Samp_Order_By = {
-  forming_points?: InputMaybe<Order_By>;
+  brightness?: InputMaybe<Order_By>;
+  coronal_strength?: InputMaybe<Order_By>;
+  density?: InputMaybe<Order_By>;
+  radius?: InputMaybe<Order_By>;
 };
 
 /** Streaming cursor of the table "celestial" */
@@ -692,29 +1144,45 @@ export type Celestial_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Celestial_Stream_Cursor_Value_Input = {
-  forming_points?: InputMaybe<Scalars['numeric']['input']>;
+  brightness?: InputMaybe<Scalars['numeric']['input']>;
+  color?: InputMaybe<Scalars['_numeric']['input']>;
+  coronal_strength?: InputMaybe<Scalars['numeric']['input']>;
+  density?: InputMaybe<Scalars['numeric']['input']>;
   galactic_empire_id?: InputMaybe<Scalars['uuid']['input']>;
   galaxy_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   owner_id?: InputMaybe<Scalars['String']['input']>;
+  radius?: InputMaybe<Scalars['numeric']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Celestial_Sum_Fields = {
   __typename?: 'celestial_sum_fields';
-  forming_points?: Maybe<Scalars['numeric']['output']>;
+  brightness?: Maybe<Scalars['numeric']['output']>;
+  coronal_strength?: Maybe<Scalars['numeric']['output']>;
+  density?: Maybe<Scalars['numeric']['output']>;
+  radius?: Maybe<Scalars['numeric']['output']>;
 };
 
 /** order by sum() on columns of table "celestial" */
 export type Celestial_Sum_Order_By = {
-  forming_points?: InputMaybe<Order_By>;
+  brightness?: InputMaybe<Order_By>;
+  coronal_strength?: InputMaybe<Order_By>;
+  density?: InputMaybe<Order_By>;
+  radius?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "celestial" */
 export enum Celestial_Update_Column {
   /** column name */
-  FormingPoints = 'forming_points',
+  Brightness = 'brightness',
+  /** column name */
+  Color = 'color',
+  /** column name */
+  CoronalStrength = 'coronal_strength',
+  /** column name */
+  Density = 'density',
   /** column name */
   GalacticEmpireId = 'galactic_empire_id',
   /** column name */
@@ -724,7 +1192,9 @@ export enum Celestial_Update_Column {
   /** column name */
   Name = 'name',
   /** column name */
-  OwnerId = 'owner_id'
+  OwnerId = 'owner_id',
+  /** column name */
+  Radius = 'radius'
 }
 
 export type Celestial_Updates = {
@@ -739,34 +1209,52 @@ export type Celestial_Updates = {
 /** aggregate var_pop on columns */
 export type Celestial_Var_Pop_Fields = {
   __typename?: 'celestial_var_pop_fields';
-  forming_points?: Maybe<Scalars['Float']['output']>;
+  brightness?: Maybe<Scalars['Float']['output']>;
+  coronal_strength?: Maybe<Scalars['Float']['output']>;
+  density?: Maybe<Scalars['Float']['output']>;
+  radius?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "celestial" */
 export type Celestial_Var_Pop_Order_By = {
-  forming_points?: InputMaybe<Order_By>;
+  brightness?: InputMaybe<Order_By>;
+  coronal_strength?: InputMaybe<Order_By>;
+  density?: InputMaybe<Order_By>;
+  radius?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
 export type Celestial_Var_Samp_Fields = {
   __typename?: 'celestial_var_samp_fields';
-  forming_points?: Maybe<Scalars['Float']['output']>;
+  brightness?: Maybe<Scalars['Float']['output']>;
+  coronal_strength?: Maybe<Scalars['Float']['output']>;
+  density?: Maybe<Scalars['Float']['output']>;
+  radius?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "celestial" */
 export type Celestial_Var_Samp_Order_By = {
-  forming_points?: InputMaybe<Order_By>;
+  brightness?: InputMaybe<Order_By>;
+  coronal_strength?: InputMaybe<Order_By>;
+  density?: InputMaybe<Order_By>;
+  radius?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
 export type Celestial_Variance_Fields = {
   __typename?: 'celestial_variance_fields';
-  forming_points?: Maybe<Scalars['Float']['output']>;
+  brightness?: Maybe<Scalars['Float']['output']>;
+  coronal_strength?: Maybe<Scalars['Float']['output']>;
+  density?: Maybe<Scalars['Float']['output']>;
+  radius?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "celestial" */
 export type Celestial_Variance_Order_By = {
-  forming_points?: InputMaybe<Order_By>;
+  brightness?: InputMaybe<Order_By>;
+  coronal_strength?: InputMaybe<Order_By>;
+  density?: InputMaybe<Order_By>;
+  radius?: InputMaybe<Order_By>;
 };
 
 /** columns and relationships of "chat_message" */
@@ -3118,6 +3606,10 @@ export type Mutation_Root = {
   completeQuest?: Maybe<QuestCompletion>;
   createEmpireOriginCelestial?: Maybe<GalaxyManagement>;
   createPlanet?: Maybe<CelestialManagement>;
+  /** delete data from the table: "asteroid_belt" */
+  delete_asteroid_belt?: Maybe<Asteroid_Belt_Mutation_Response>;
+  /** delete single row from the table: "asteroid_belt" */
+  delete_asteroid_belt_by_pk?: Maybe<Asteroid_Belt>;
   /** delete data from the table: "background" */
   delete_background?: Maybe<Background_Mutation_Response>;
   /** delete single row from the table: "background" */
@@ -3222,6 +3714,10 @@ export type Mutation_Root = {
   delete_user_me?: Maybe<User_Me_Mutation_Response>;
   /** delete data from the table: "user_private" */
   delete_user_private?: Maybe<User_Private_Mutation_Response>;
+  /** insert data into the table: "asteroid_belt" */
+  insert_asteroid_belt?: Maybe<Asteroid_Belt_Mutation_Response>;
+  /** insert a single row into the table: "asteroid_belt" */
+  insert_asteroid_belt_one?: Maybe<Asteroid_Belt>;
   /** insert data into the table: "background" */
   insert_background?: Maybe<Background_Mutation_Response>;
   /** insert a single row into the table: "background" */
@@ -3333,6 +3829,12 @@ export type Mutation_Root = {
   progressQuestStep?: Maybe<QuestStepProgression>;
   purchaseResourceGenerator?: Maybe<PurchaseCompletion>;
   setDisplayName?: Maybe<Register>;
+  /** update data of the table: "asteroid_belt" */
+  update_asteroid_belt?: Maybe<Asteroid_Belt_Mutation_Response>;
+  /** update single row of the table: "asteroid_belt" */
+  update_asteroid_belt_by_pk?: Maybe<Asteroid_Belt>;
+  /** update multiples rows of table: "asteroid_belt" */
+  update_asteroid_belt_many?: Maybe<Array<Maybe<Asteroid_Belt_Mutation_Response>>>;
   /** update data of the table: "background" */
   update_background?: Maybe<Background_Mutation_Response>;
   /** update single row of the table: "background" */
@@ -3510,6 +4012,18 @@ export type Mutation_RootCreateEmpireOriginCelestialArgs = {
 /** mutation root */
 export type Mutation_RootCreatePlanetArgs = {
   input: PlanetCreationInput;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Asteroid_BeltArgs = {
+  where: Asteroid_Belt_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Asteroid_Belt_By_PkArgs = {
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -3822,6 +4336,20 @@ export type Mutation_RootDelete_User_MeArgs = {
 /** mutation root */
 export type Mutation_RootDelete_User_PrivateArgs = {
   where: User_Private_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Asteroid_BeltArgs = {
+  objects: Array<Asteroid_Belt_Insert_Input>;
+  on_conflict?: InputMaybe<Asteroid_Belt_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Asteroid_Belt_OneArgs = {
+  object: Asteroid_Belt_Insert_Input;
+  on_conflict?: InputMaybe<Asteroid_Belt_On_Conflict>;
 };
 
 
@@ -4215,6 +4743,28 @@ export type Mutation_RootPurchaseResourceGeneratorArgs = {
 /** mutation root */
 export type Mutation_RootSetDisplayNameArgs = {
   display_name: Scalars['String']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Asteroid_BeltArgs = {
+  _inc?: InputMaybe<Asteroid_Belt_Inc_Input>;
+  _set?: InputMaybe<Asteroid_Belt_Set_Input>;
+  where: Asteroid_Belt_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Asteroid_Belt_By_PkArgs = {
+  _inc?: InputMaybe<Asteroid_Belt_Inc_Input>;
+  _set?: InputMaybe<Asteroid_Belt_Set_Input>;
+  pk_columns: Asteroid_Belt_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Asteroid_Belt_ManyArgs = {
+  updates: Array<Asteroid_Belt_Updates>;
 };
 
 
@@ -5484,6 +6034,7 @@ export type Planetary_Ring = {
   id: Scalars['uuid']['output'];
   inner_radius: Scalars['numeric']['output'];
   outer_radius: Scalars['numeric']['output'];
+  planet_id: Scalars['uuid']['output'];
   resolution: Scalars['Int']['output'];
   rotation: Scalars['_numeric']['output'];
   terrain_bias: Scalars['_numeric']['output'];
@@ -5577,6 +6128,7 @@ export type Planetary_Ring_Bool_Exp = {
   id?: InputMaybe<Uuid_Comparison_Exp>;
   inner_radius?: InputMaybe<Numeric_Comparison_Exp>;
   outer_radius?: InputMaybe<Numeric_Comparison_Exp>;
+  planet_id?: InputMaybe<Uuid_Comparison_Exp>;
   resolution?: InputMaybe<Int_Comparison_Exp>;
   rotation?: InputMaybe<_Numeric_Comparison_Exp>;
   terrain_bias?: InputMaybe<_Numeric_Comparison_Exp>;
@@ -5602,6 +6154,7 @@ export type Planetary_Ring_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']['input']>;
   inner_radius?: InputMaybe<Scalars['numeric']['input']>;
   outer_radius?: InputMaybe<Scalars['numeric']['input']>;
+  planet_id?: InputMaybe<Scalars['uuid']['input']>;
   resolution?: InputMaybe<Scalars['Int']['input']>;
   rotation?: InputMaybe<Scalars['_numeric']['input']>;
   terrain_bias?: InputMaybe<Scalars['_numeric']['input']>;
@@ -5614,6 +6167,7 @@ export type Planetary_Ring_Max_Fields = {
   id?: Maybe<Scalars['uuid']['output']>;
   inner_radius?: Maybe<Scalars['numeric']['output']>;
   outer_radius?: Maybe<Scalars['numeric']['output']>;
+  planet_id?: Maybe<Scalars['uuid']['output']>;
   resolution?: Maybe<Scalars['Int']['output']>;
   type?: Maybe<Scalars['String']['output']>;
 };
@@ -5623,6 +6177,7 @@ export type Planetary_Ring_Max_Order_By = {
   id?: InputMaybe<Order_By>;
   inner_radius?: InputMaybe<Order_By>;
   outer_radius?: InputMaybe<Order_By>;
+  planet_id?: InputMaybe<Order_By>;
   resolution?: InputMaybe<Order_By>;
   type?: InputMaybe<Order_By>;
 };
@@ -5633,6 +6188,7 @@ export type Planetary_Ring_Min_Fields = {
   id?: Maybe<Scalars['uuid']['output']>;
   inner_radius?: Maybe<Scalars['numeric']['output']>;
   outer_radius?: Maybe<Scalars['numeric']['output']>;
+  planet_id?: Maybe<Scalars['uuid']['output']>;
   resolution?: Maybe<Scalars['Int']['output']>;
   type?: Maybe<Scalars['String']['output']>;
 };
@@ -5642,6 +6198,7 @@ export type Planetary_Ring_Min_Order_By = {
   id?: InputMaybe<Order_By>;
   inner_radius?: InputMaybe<Order_By>;
   outer_radius?: InputMaybe<Order_By>;
+  planet_id?: InputMaybe<Order_By>;
   resolution?: InputMaybe<Order_By>;
   type?: InputMaybe<Order_By>;
 };
@@ -5668,6 +6225,7 @@ export type Planetary_Ring_Order_By = {
   id?: InputMaybe<Order_By>;
   inner_radius?: InputMaybe<Order_By>;
   outer_radius?: InputMaybe<Order_By>;
+  planet_id?: InputMaybe<Order_By>;
   resolution?: InputMaybe<Order_By>;
   rotation?: InputMaybe<Order_By>;
   terrain_bias?: InputMaybe<Order_By>;
@@ -5690,6 +6248,8 @@ export enum Planetary_Ring_Select_Column {
   /** column name */
   OuterRadius = 'outer_radius',
   /** column name */
+  PlanetId = 'planet_id',
+  /** column name */
   Resolution = 'resolution',
   /** column name */
   Rotation = 'rotation',
@@ -5705,6 +6265,7 @@ export type Planetary_Ring_Set_Input = {
   id?: InputMaybe<Scalars['uuid']['input']>;
   inner_radius?: InputMaybe<Scalars['numeric']['input']>;
   outer_radius?: InputMaybe<Scalars['numeric']['input']>;
+  planet_id?: InputMaybe<Scalars['uuid']['input']>;
   resolution?: InputMaybe<Scalars['Int']['input']>;
   rotation?: InputMaybe<Scalars['_numeric']['input']>;
   terrain_bias?: InputMaybe<Scalars['_numeric']['input']>;
@@ -5770,6 +6331,7 @@ export type Planetary_Ring_Stream_Cursor_Value_Input = {
   id?: InputMaybe<Scalars['uuid']['input']>;
   inner_radius?: InputMaybe<Scalars['numeric']['input']>;
   outer_radius?: InputMaybe<Scalars['numeric']['input']>;
+  planet_id?: InputMaybe<Scalars['uuid']['input']>;
   resolution?: InputMaybe<Scalars['Int']['input']>;
   rotation?: InputMaybe<Scalars['_numeric']['input']>;
   terrain_bias?: InputMaybe<Scalars['_numeric']['input']>;
@@ -5801,6 +6363,8 @@ export enum Planetary_Ring_Update_Column {
   InnerRadius = 'inner_radius',
   /** column name */
   OuterRadius = 'outer_radius',
+  /** column name */
+  PlanetId = 'planet_id',
   /** column name */
   Resolution = 'resolution',
   /** column name */
@@ -6032,6 +6596,12 @@ export type Playable_Race_Updates = {
 
 export type Query_Root = {
   __typename?: 'query_root';
+  /** fetch data from the table: "asteroid_belt" */
+  asteroid_belt: Array<Asteroid_Belt>;
+  /** fetch aggregated fields from the table: "asteroid_belt" */
+  asteroid_belt_aggregate: Asteroid_Belt_Aggregate;
+  /** fetch data from the table: "asteroid_belt" using primary key columns */
+  asteroid_belt_by_pk?: Maybe<Asteroid_Belt>;
   /** fetch data from the table: "background" */
   background: Array<Background>;
   /** fetch aggregated fields from the table: "background" */
@@ -6191,6 +6761,29 @@ export type Query_Root = {
   user_private: Array<User_Private>;
   /** fetch aggregated fields from the table: "user_private" */
   user_private_aggregate: User_Private_Aggregate;
+};
+
+
+export type Query_RootAsteroid_BeltArgs = {
+  distinct_on?: InputMaybe<Array<Asteroid_Belt_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Asteroid_Belt_Order_By>>;
+  where?: InputMaybe<Asteroid_Belt_Bool_Exp>;
+};
+
+
+export type Query_RootAsteroid_Belt_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Asteroid_Belt_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Asteroid_Belt_Order_By>>;
+  where?: InputMaybe<Asteroid_Belt_Bool_Exp>;
+};
+
+
+export type Query_RootAsteroid_Belt_By_PkArgs = {
+  id: Scalars['uuid']['input'];
 };
 
 
@@ -8778,6 +9371,14 @@ export type Resource_Type_Updates = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
+  /** fetch data from the table: "asteroid_belt" */
+  asteroid_belt: Array<Asteroid_Belt>;
+  /** fetch aggregated fields from the table: "asteroid_belt" */
+  asteroid_belt_aggregate: Asteroid_Belt_Aggregate;
+  /** fetch data from the table: "asteroid_belt" using primary key columns */
+  asteroid_belt_by_pk?: Maybe<Asteroid_Belt>;
+  /** fetch data from the table in a streaming manner: "asteroid_belt" */
+  asteroid_belt_stream: Array<Asteroid_Belt>;
   /** fetch data from the table: "background" */
   background: Array<Background>;
   /** fetch aggregated fields from the table: "background" */
@@ -8990,6 +9591,36 @@ export type Subscription_Root = {
   user_private_aggregate: User_Private_Aggregate;
   /** fetch data from the table in a streaming manner: "user_private" */
   user_private_stream: Array<User_Private>;
+};
+
+
+export type Subscription_RootAsteroid_BeltArgs = {
+  distinct_on?: InputMaybe<Array<Asteroid_Belt_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Asteroid_Belt_Order_By>>;
+  where?: InputMaybe<Asteroid_Belt_Bool_Exp>;
+};
+
+
+export type Subscription_RootAsteroid_Belt_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Asteroid_Belt_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Asteroid_Belt_Order_By>>;
+  where?: InputMaybe<Asteroid_Belt_Bool_Exp>;
+};
+
+
+export type Subscription_RootAsteroid_Belt_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootAsteroid_Belt_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Asteroid_Belt_Stream_Cursor_Input>>;
+  where?: InputMaybe<Asteroid_Belt_Bool_Exp>;
 };
 
 
@@ -10956,11 +11587,11 @@ export type Uuid_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['uuid']['input']>>;
 };
 
-export type CelestialFieldsFragment = { __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, forming_points: number, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string, avatar_url?: string | null } | null, planets: Array<{ __typename?: 'planet', id: string, name: string, radius: number, terrain_bias: number[], texture_resolution: number, atmospheric_distance: number, rings: Array<{ __typename?: 'planetary_ring', id: string, type: string, colors: string[] }>, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string } }>, galactic_empire?: { __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> } | null };
+export type CelestialFieldsFragment = { __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string, avatar_url?: string | null } | null, planets: Array<{ __typename?: 'planet', id: string, name: string, radius: number, terrain_bias: number[], texture_resolution: number, atmospheric_distance: number, rings: Array<{ __typename?: 'planetary_ring', id: string, type: string, colors: string[] }>, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string } }>, galactic_empire?: { __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> } | null };
 
 export type GalacticEmpireFieldsFragment = { __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> };
 
-export type GalaxyFieldsFragment = { __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, forming_points: number, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string, avatar_url?: string | null } | null, planets: Array<{ __typename?: 'planet', id: string, name: string, radius: number, terrain_bias: number[], texture_resolution: number, atmospheric_distance: number, rings: Array<{ __typename?: 'planetary_ring', id: string, type: string, colors: string[] }>, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string } }>, galactic_empire?: { __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> } | null }> };
+export type GalaxyFieldsFragment = { __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string, avatar_url?: string | null } | null, planets: Array<{ __typename?: 'planet', id: string, name: string, radius: number, terrain_bias: number[], texture_resolution: number, atmospheric_distance: number, rings: Array<{ __typename?: 'planetary_ring', id: string, type: string, colors: string[] }>, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string } }>, galactic_empire?: { __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> } | null }> };
 
 export type PlanetFieldsFragment = { __typename?: 'planet', atmospheric_distance: number, id: string, name: string, owner_id: string, radius: number, terrain_bias: number[], orbital_radius?: number | null, texture_resolution: number, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string, id: string }, rings: Array<{ __typename?: 'planetary_ring', colors: string[], id: string, inner_radius: number, outer_radius: number, resolution: number, rotation: number[], terrain_bias: number[], type: string }>, user_info?: { __typename?: 'user_info', avatar_url?: string | null, name?: string | null, nickname: string, id: string } | null, celestial: { __typename?: 'celestial', name?: string | null, planets_aggregate: { __typename?: 'planet_aggregate', aggregate?: { __typename?: 'planet_aggregate_fields', count: number } | null }, galactic_empire?: { __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> } | null } };
 
@@ -10969,19 +11600,19 @@ export type CelestialByIdQueryVariables = Exact<{
 }>;
 
 
-export type CelestialByIdQuery = { __typename?: 'query_root', celestial_by_pk?: { __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, forming_points: number, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string, avatar_url?: string | null } | null, planets: Array<{ __typename?: 'planet', id: string, name: string, radius: number, terrain_bias: number[], texture_resolution: number, atmospheric_distance: number, rings: Array<{ __typename?: 'planetary_ring', id: string, type: string, colors: string[] }>, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string } }>, galactic_empire?: { __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> } | null } | null };
+export type CelestialByIdQuery = { __typename?: 'query_root', celestial_by_pk?: { __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string, avatar_url?: string | null } | null, planets: Array<{ __typename?: 'planet', id: string, name: string, radius: number, terrain_bias: number[], texture_resolution: number, atmospheric_distance: number, rings: Array<{ __typename?: 'planetary_ring', id: string, type: string, colors: string[] }>, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string } }>, galactic_empire?: { __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> } | null } | null };
 
 export type CelestialByNameQueryVariables = Exact<{
   name: Scalars['String']['input'];
 }>;
 
 
-export type CelestialByNameQuery = { __typename?: 'query_root', celestial: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, forming_points: number, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string, avatar_url?: string | null } | null, planets: Array<{ __typename?: 'planet', id: string, name: string, radius: number, terrain_bias: number[], texture_resolution: number, atmospheric_distance: number, rings: Array<{ __typename?: 'planetary_ring', id: string, type: string, colors: string[] }>, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string } }>, galactic_empire?: { __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> } | null }> };
+export type CelestialByNameQuery = { __typename?: 'query_root', celestial: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string, avatar_url?: string | null } | null, planets: Array<{ __typename?: 'planet', id: string, name: string, radius: number, terrain_bias: number[], texture_resolution: number, atmospheric_distance: number, rings: Array<{ __typename?: 'planetary_ring', id: string, type: string, colors: string[] }>, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string } }>, galactic_empire?: { __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> } | null }> };
 
 export type CelestialsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CelestialsSubscription = { __typename?: 'subscription_root', celestial: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, forming_points: number, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string, avatar_url?: string | null } | null, planets: Array<{ __typename?: 'planet', id: string, name: string, radius: number, terrain_bias: number[], texture_resolution: number, atmospheric_distance: number, rings: Array<{ __typename?: 'planetary_ring', id: string, type: string, colors: string[] }>, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string } }>, galactic_empire?: { __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> } | null }> };
+export type CelestialsSubscription = { __typename?: 'subscription_root', celestial: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string, avatar_url?: string | null } | null, planets: Array<{ __typename?: 'planet', id: string, name: string, radius: number, terrain_bias: number[], texture_resolution: number, atmospheric_distance: number, rings: Array<{ __typename?: 'planetary_ring', id: string, type: string, colors: string[] }>, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string } }>, galactic_empire?: { __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> } | null }> };
 
 export type CelestialsByGalaxyIdSubscriptionVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -10997,17 +11628,6 @@ export type CreateEmpireOriginCelestialMutationVariables = Exact<{
 
 
 export type CreateEmpireOriginCelestialMutation = { __typename?: 'mutation_root', createEmpireOriginCelestial?: { __typename?: 'GalaxyManagement', insertedCelestialId: string, insertedCelestialName: string } | null };
-
-export type TryInsertClaimedCelestialMutationVariables = Exact<{
-  galaxy_id: Scalars['uuid']['input'];
-  galactic_empire_id: Scalars['uuid']['input'];
-  id: Scalars['String']['input'];
-  name: Scalars['String']['input'];
-  owner_id: Scalars['String']['input'];
-}>;
-
-
-export type TryInsertClaimedCelestialMutation = { __typename?: 'mutation_root', insert_celestial_one?: { __typename?: 'celestial', galaxy_id: string, id: string, name?: string | null, owner_id?: string | null, galactic_empire_id?: string | null } | null };
 
 export type CharacterDataQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -11038,40 +11658,12 @@ export type CreateGalacticEmpireMutationVariables = Exact<{
 
 export type CreateGalacticEmpireMutation = { __typename?: 'mutation_root', insert_galactic_empire_one?: { __typename?: 'galactic_empire', id: string } | null };
 
-export type GalacticEmpiresByGalaxyIdQueryVariables = Exact<{
-  galaxyId: Scalars['uuid']['input'];
-}>;
-
-
-export type GalacticEmpiresByGalaxyIdQuery = { __typename?: 'query_root', galactic_empire: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }> };
-
 export type GalacticEmpiresByUserIdSubscriptionVariables = Exact<{
   userId: Scalars['String']['input'];
 }>;
 
 
 export type GalacticEmpiresByUserIdSubscription = { __typename?: 'subscription_root', galactic_empire: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }> };
-
-export type IncrementGalacticEmpireResourcesMutationVariables = Exact<{
-  galacticEmpireId: Scalars['uuid']['input'];
-  galacticCreditsIncrement: Scalars['Int']['input'];
-  commonMetalsIncrement: Scalars['Int']['input'];
-  rareMetalsIncrement: Scalars['Int']['input'];
-  hydrocarbonsIncrement: Scalars['Int']['input'];
-  voidMatterIncrement: Scalars['Int']['input'];
-}>;
-
-
-export type IncrementGalacticEmpireResourcesMutation = { __typename?: 'mutation_root', common_metals?: { __typename?: 'galactic_empire_resources_mutation_response', affected_rows: number } | null, galactic_credits?: { __typename?: 'galactic_empire_resources_mutation_response', affected_rows: number } | null, hydrocarbons?: { __typename?: 'galactic_empire_resources_mutation_response', affected_rows: number } | null, rare_metals?: { __typename?: 'galactic_empire_resources_mutation_response', affected_rows: number } | null, void_matter?: { __typename?: 'galactic_empire_resources_mutation_response', affected_rows: number } | null };
-
-export type IncrementResourceMutationVariables = Exact<{
-  galacticEmpireId: Scalars['uuid']['input'];
-  resourceType: Scalars['String']['input'];
-  increment: Scalars['Int']['input'];
-}>;
-
-
-export type IncrementResourceMutation = { __typename?: 'mutation_root', update_galactic_empire_resources?: { __typename?: 'galactic_empire_resources_mutation_response', affected_rows: number } | null };
 
 export type GalacticEmpireNpcsSubscriptionVariables = Exact<{
   empireId: Scalars['uuid']['input'];
@@ -11080,34 +11672,12 @@ export type GalacticEmpireNpcsSubscriptionVariables = Exact<{
 
 export type GalacticEmpireNpcsSubscription = { __typename?: 'subscription_root', galactic_empire_npc: Array<{ __typename?: 'galactic_empire_npc', npc: { __typename?: 'npc', id: string, name: string, image_url: string, playable_race?: { __typename?: 'playable_race', name: string, id: string } | null, faction?: { __typename?: 'faction', name: string, id: string } | null } }> };
 
-export type UnlockGalacticEmpireNpcMutationVariables = Exact<{
-  empireId: Scalars['uuid']['input'];
-  npcId: Scalars['uuid']['input'];
-}>;
-
-
-export type UnlockGalacticEmpireNpcMutation = { __typename?: 'mutation_root', insert_galactic_empire_npc_one?: { __typename?: 'galactic_empire_npc', npc_id: string, galactic_empire_id: string } | null };
-
 export type ActiveGalacticEmpireQuestsByEmpireIdSubscriptionVariables = Exact<{
   id: Scalars['uuid']['input'];
 }>;
 
 
 export type ActiveGalacticEmpireQuestsByEmpireIdSubscription = { __typename?: 'subscription_root', galactic_empire_quest: Array<{ __typename?: 'galactic_empire_quest', quest_step_id: string, id: string, quest: { __typename?: 'quest', next_quest_in_chain?: string | null, rewards: Array<{ __typename?: 'quest_reward', npc_unlock_id?: string | null, type: Quest_Reward_Type_Enum, resource_unlock_id?: string | null, resource_accrual_type_id?: string | null, resource_accrual_amount?: number | null }>, steps: Array<{ __typename?: 'quest_step', next_step_in_quest?: string | null, npc_contact_id?: string | null, type: Quest_Step_Type_Enum, resource_cost_amount?: number | null, resource_cost_id?: string | null }>, quest_type: { __typename?: 'quest_type', value: string } } }> };
-
-export type AddGalacticEmpireQuestMutationVariables = Exact<{
-  input: Galactic_Empire_Quest_Insert_Input;
-}>;
-
-
-export type AddGalacticEmpireQuestMutation = { __typename?: 'mutation_root', insert_galactic_empire_quest_one?: { __typename?: 'galactic_empire_quest', quest_id: string, galactic_empire_id: string } | null };
-
-export type CompleteGalacticEmpireQuestByIdMutationVariables = Exact<{
-  questId: Scalars['uuid']['input'];
-}>;
-
-
-export type CompleteGalacticEmpireQuestByIdMutation = { __typename?: 'mutation_root', update_galactic_empire_quest_by_pk?: { __typename?: 'galactic_empire_quest', completed: boolean, quest_id: string } | null };
 
 export type CompleteQuestStepMutationVariables = Exact<{
   empireQuestId: Scalars['String']['input'];
@@ -11122,18 +11692,6 @@ export type CompleteQuestMutationVariables = Exact<{
 
 
 export type CompleteQuestMutation = { __typename?: 'mutation_root', completeQuest?: { __typename?: 'QuestCompletion', next_quest_in_chain_added?: string | null, quest_id: string, rewards: Array<{ __typename?: 'QuestReward', npc_unlock_id?: string | null, resource_accrual_amount?: number | null, resource_accrual_type_id?: string | null, resource_unlock_id?: string | null, type: string }> } | null };
-
-export type EmpiresWithoutQuestsSubscriptionVariables = Exact<{ [key: string]: never; }>;
-
-
-export type EmpiresWithoutQuestsSubscription = { __typename?: 'subscription_root', galactic_empire_aggregate: { __typename?: 'galactic_empire_aggregate', nodes: Array<{ __typename?: 'galactic_empire', id: string }> } };
-
-export type GalacticEmpireQuestByIdQueryVariables = Exact<{
-  empireQuestId: Scalars['uuid']['input'];
-}>;
-
-
-export type GalacticEmpireQuestByIdQuery = { __typename?: 'query_root', galactic_empire_quest_by_pk?: { __typename?: 'galactic_empire_quest', completed: boolean, quest_step_id: string, quest: { __typename?: 'quest', steps: Array<{ __typename?: 'quest_step', next_step_in_quest?: string | null, id: string, npc_contact_id?: string | null, resource_cost_amount?: number | null, resource_cost_id?: string | null, type: Quest_Step_Type_Enum }>, rewards: Array<{ __typename?: 'quest_reward', npc_unlock_id?: string | null, resource_accrual_amount?: number | null, resource_accrual_type_id?: string | null, resource_unlock_id?: string | null, type: Quest_Reward_Type_Enum }>, quest_type: { __typename?: 'quest_type', value: string }, next_quest?: { __typename?: 'quest', id: string, steps: Array<{ __typename?: 'quest_step', id: string }> } | null }, galactic_empire: { __typename?: 'galactic_empire', id: string, resources: Array<{ __typename?: 'galactic_empire_resources', value: number, resource_type: { __typename?: 'resource_type', type: string, id: string } }> } } | null };
 
 export type GalacticEmpireQuestFieldsFragment = { __typename?: 'galactic_empire_quest', id: string, completed: boolean, quest_step_id: string, quest: { __typename?: 'quest', id: string, type: Quest_Type_Enum, description: string, name: string, rewards: Array<{ __typename?: 'quest_reward', npc_unlock_id?: string | null, resource_accrual_amount?: number | null, resource_accrual_type_id?: string | null, resource_unlock_id?: string | null, type: Quest_Reward_Type_Enum }>, next_quest?: { __typename?: 'quest', name: string } | null, steps: Array<{ __typename?: 'quest_step', id: string, type: Quest_Step_Type_Enum, description: string, initial: boolean, resource_cost_id?: string | null, resource_cost_amount?: number | null, npc_contact_id?: string | null, next_step_in_quest?: string | null }> } };
 
@@ -11151,42 +11709,12 @@ export type ActiveGalacticEmpireQuestsSubscriptionVariables = Exact<{
 
 export type ActiveGalacticEmpireQuestsSubscription = { __typename?: 'subscription_root', galactic_empire_quest: Array<{ __typename?: 'galactic_empire_quest', id: string, completed: boolean, quest_step_id: string, quest: { __typename?: 'quest', id: string, type: Quest_Type_Enum, description: string, name: string, rewards: Array<{ __typename?: 'quest_reward', npc_unlock_id?: string | null, resource_accrual_amount?: number | null, resource_accrual_type_id?: string | null, resource_unlock_id?: string | null, type: Quest_Reward_Type_Enum }>, next_quest?: { __typename?: 'quest', name: string } | null, steps: Array<{ __typename?: 'quest_step', id: string, type: Quest_Step_Type_Enum, description: string, initial: boolean, resource_cost_id?: string | null, resource_cost_amount?: number | null, npc_contact_id?: string | null, next_step_in_quest?: string | null }> } }> };
 
-export type InitialMainQuestIdQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type InitialMainQuestIdQuery = { __typename?: 'query_root', quest: Array<{ __typename?: 'quest', id: string, steps: Array<{ __typename?: 'quest_step', id: string }> }> };
-
-export type ProgressGalacticEmpireQuestStepByIdMutationVariables = Exact<{
-  questId: Scalars['uuid']['input'];
-  stepId: Scalars['uuid']['input'];
-}>;
-
-
-export type ProgressGalacticEmpireQuestStepByIdMutation = { __typename?: 'mutation_root', update_galactic_empire_quest_by_pk?: { __typename?: 'galactic_empire_quest', completed: boolean, quest_id: string } | null };
-
 export type SubmitEmpireQuestCompletionRequestMutationVariables = Exact<{
   empireQuestId: Scalars['String']['input'];
 }>;
 
 
 export type SubmitEmpireQuestCompletionRequestMutation = { __typename?: 'mutation_root', completeQuest?: { __typename?: 'QuestCompletion', quest_id: string, next_quest_in_chain_added?: string | null } | null };
-
-export type IncrementResourceGeneratorCountMutationVariables = Exact<{
-  galacticEmpireId: Scalars['uuid']['input'];
-  resourceGeneratorId: Scalars['uuid']['input'];
-  increment: Scalars['numeric']['input'];
-}>;
-
-
-export type IncrementResourceGeneratorCountMutation = { __typename?: 'mutation_root', update_galactic_empire_resource_generator?: { __typename?: 'galactic_empire_resource_generator_mutation_response', affected_rows: number } | null };
-
-export type CreateEmpireResourceGeneratorMutationVariables = Exact<{
-  galacticEmpireId: Scalars['uuid']['input'];
-  generatorTypeId: Scalars['uuid']['input'];
-}>;
-
-
-export type CreateEmpireResourceGeneratorMutation = { __typename?: 'mutation_root', insert_galactic_empire_resource_generator_one?: { __typename?: 'galactic_empire_resource_generator', id: string } | null };
 
 export type PurchaseResourceGeneratorMutationVariables = Exact<{
   galacticEmpireId: Scalars['String']['input'];
@@ -11195,14 +11723,6 @@ export type PurchaseResourceGeneratorMutationVariables = Exact<{
 
 
 export type PurchaseResourceGeneratorMutation = { __typename?: 'mutation_root', purchaseResourceGenerator?: { __typename?: 'PurchaseCompletion', spent: number } | null };
-
-export type EmpireResourceGeneratorsByTypeQueryVariables = Exact<{
-  galacticEmpireId: Scalars['uuid']['input'];
-  typeId: Scalars['uuid']['input'];
-}>;
-
-
-export type EmpireResourceGeneratorsByTypeQuery = { __typename?: 'query_root', galactic_empire_resource_generator: Array<{ __typename?: 'galactic_empire_resource_generator', planet_id?: string | null, count: number, resource_generator: { __typename?: 'resource_generator', id: string, cost_growth_exponent: number, cost_amount_1: number, cost_resource_type_id_1: string }, galactic_empire: { __typename?: 'galactic_empire', id: string, resources: Array<{ __typename?: 'galactic_empire_resources', value: number, resource_type: { __typename?: 'resource_type', type: string, id: string } }> } }> };
 
 export type GalacticEmpireResourceGeneratorFieldsFragment = { __typename?: 'galactic_empire_resource_generator', created_at: string, planet_id?: string | null, count: number, galactic_empire_id: string, resource_generator: { __typename?: 'resource_generator', generation_rate: number[], name: string, id: string, cost_growth_exponent: number, cost_amount_1: number, cost_resource_type_id_1: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null } };
 
@@ -11218,8 +11738,6 @@ export type EmpireResourceGeneratorsByEmpireIdSubscriptionVariables = Exact<{
 
 export type EmpireResourceGeneratorsByEmpireIdSubscription = { __typename?: 'subscription_root', galactic_empire_resource_generator: Array<{ __typename?: 'galactic_empire_resource_generator', created_at: string, planet_id?: string | null, count: number, galactic_empire_id: string, resource_generator: { __typename?: 'resource_generator', generation_rate: number[], name: string, id: string, cost_growth_exponent: number, cost_amount_1: number, cost_resource_type_id_1: string, resource_type: { __typename?: 'resource_type', id: string, type: string }, resource_type_2?: { __typename?: 'resource_type', id: string, type: string } | null } }> };
 
-export type EmpireResourceFieldsFragment = { __typename?: 'galactic_empire_resources', value: number, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string } };
-
 export type GalacticEmpireResourcesSubscriptionVariables = Exact<{
   empireId: Scalars['uuid']['input'];
 }>;
@@ -11227,27 +11745,12 @@ export type GalacticEmpireResourcesSubscriptionVariables = Exact<{
 
 export type GalacticEmpireResourcesSubscription = { __typename?: 'subscription_root', galactic_empire_resources: Array<{ __typename?: 'galactic_empire_resources', value: number, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string } }> };
 
-export type CurrentGalacticEmpireResourcesQueryVariables = Exact<{
-  empireId: Scalars['uuid']['input'];
-}>;
-
-
-export type CurrentGalacticEmpireResourcesQuery = { __typename?: 'query_root', galactic_empire_resources: Array<{ __typename?: 'galactic_empire_resources', value: number, id: string, resource_type: { __typename?: 'resource_type', id: string, type: string } }> };
-
-export type UnlockGalacticEmpireResourceMutationVariables = Exact<{
-  empireId: Scalars['uuid']['input'];
-  resourceTypeId: Scalars['uuid']['input'];
-}>;
-
-
-export type UnlockGalacticEmpireResourceMutation = { __typename?: 'mutation_root', insert_galactic_empire_resources_one?: { __typename?: 'galactic_empire_resources', galactic_empire_id: string, resource_type_id: string } | null };
-
 export type CreateGalaxyMutationVariables = Exact<{
   input: Galaxy_Insert_Input;
 }>;
 
 
-export type CreateGalaxyMutation = { __typename?: 'mutation_root', insert_galaxy_one?: { __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, forming_points: number, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string, avatar_url?: string | null } | null, planets: Array<{ __typename?: 'planet', id: string, name: string, radius: number, terrain_bias: number[], texture_resolution: number, atmospheric_distance: number, rings: Array<{ __typename?: 'planetary_ring', id: string, type: string, colors: string[] }>, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string } }>, galactic_empire?: { __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> } | null }> } | null };
+export type CreateGalaxyMutation = { __typename?: 'mutation_root', insert_galaxy_one?: { __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string, avatar_url?: string | null } | null, planets: Array<{ __typename?: 'planet', id: string, name: string, radius: number, terrain_bias: number[], texture_resolution: number, atmospheric_distance: number, rings: Array<{ __typename?: 'planetary_ring', id: string, type: string, colors: string[] }>, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string } }>, galactic_empire?: { __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> } | null }> } | null };
 
 export type DeleteGalaxyByIdMutationVariables = Exact<{
   id: Scalars['uuid']['input'];
@@ -11259,35 +11762,28 @@ export type DeleteGalaxyByIdMutation = { __typename?: 'mutation_root', delete_ga
 export type GalaxiesSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GalaxiesSubscription = { __typename?: 'subscription_root', galaxy: Array<{ __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, forming_points: number, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string, avatar_url?: string | null } | null, planets: Array<{ __typename?: 'planet', id: string, name: string, radius: number, terrain_bias: number[], texture_resolution: number, atmospheric_distance: number, rings: Array<{ __typename?: 'planetary_ring', id: string, type: string, colors: string[] }>, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string } }>, galactic_empire?: { __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> } | null }> }> };
+export type GalaxiesSubscription = { __typename?: 'subscription_root', galaxy: Array<{ __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string, avatar_url?: string | null } | null, planets: Array<{ __typename?: 'planet', id: string, name: string, radius: number, terrain_bias: number[], texture_resolution: number, atmospheric_distance: number, rings: Array<{ __typename?: 'planetary_ring', id: string, type: string, colors: string[] }>, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string } }>, galactic_empire?: { __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> } | null }> }> };
 
 export type GalaxyByIdQueryVariables = Exact<{
   id: Scalars['uuid']['input'];
 }>;
 
 
-export type GalaxyByIdQuery = { __typename?: 'query_root', galaxy_by_pk?: { __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, forming_points: number, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string, avatar_url?: string | null } | null, planets: Array<{ __typename?: 'planet', id: string, name: string, radius: number, terrain_bias: number[], texture_resolution: number, atmospheric_distance: number, rings: Array<{ __typename?: 'planetary_ring', id: string, type: string, colors: string[] }>, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string } }>, galactic_empire?: { __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> } | null }> } | null };
+export type GalaxyByIdQuery = { __typename?: 'query_root', galaxy_by_pk?: { __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string, avatar_url?: string | null } | null, planets: Array<{ __typename?: 'planet', id: string, name: string, radius: number, terrain_bias: number[], texture_resolution: number, atmospheric_distance: number, rings: Array<{ __typename?: 'planetary_ring', id: string, type: string, colors: string[] }>, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string } }>, galactic_empire?: { __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> } | null }> } | null };
 
 export type GalaxyByNameQueryVariables = Exact<{
   name: Scalars['String']['input'];
 }>;
 
 
-export type GalaxyByNameQuery = { __typename?: 'query_root', galaxy: Array<{ __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, forming_points: number, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string, avatar_url?: string | null } | null, planets: Array<{ __typename?: 'planet', id: string, name: string, radius: number, terrain_bias: number[], texture_resolution: number, atmospheric_distance: number, rings: Array<{ __typename?: 'planetary_ring', id: string, type: string, colors: string[] }>, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string } }>, galactic_empire?: { __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> } | null }> }> };
+export type GalaxyByNameQuery = { __typename?: 'query_root', galaxy: Array<{ __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string, avatar_url?: string | null } | null, planets: Array<{ __typename?: 'planet', id: string, name: string, radius: number, terrain_bias: number[], texture_resolution: number, atmospheric_distance: number, rings: Array<{ __typename?: 'planetary_ring', id: string, type: string, colors: string[] }>, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string } }>, galactic_empire?: { __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> } | null }> }> };
 
 export type GalaxyByNameSubSubscriptionVariables = Exact<{
   name: Scalars['String']['input'];
 }>;
 
 
-export type GalaxyByNameSubSubscription = { __typename?: 'subscription_root', galaxy: Array<{ __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, forming_points: number, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string, avatar_url?: string | null } | null, planets: Array<{ __typename?: 'planet', id: string, name: string, radius: number, terrain_bias: number[], texture_resolution: number, atmospheric_distance: number, rings: Array<{ __typename?: 'planetary_ring', id: string, type: string, colors: string[] }>, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string } }>, galactic_empire?: { __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> } | null }> }> };
-
-export type GetGalaxyByIdAndUnclaimedCelestialsQueryVariables = Exact<{
-  galaxyId: Scalars['uuid']['input'];
-}>;
-
-
-export type GetGalaxyByIdAndUnclaimedCelestialsQuery = { __typename?: 'query_root', galaxy_by_pk?: { __typename?: 'galaxy', id: string, stars: number } | null, celestial: Array<{ __typename?: 'celestial', id: string }> };
+export type GalaxyByNameSubSubscription = { __typename?: 'subscription_root', galaxy: Array<{ __typename?: 'galaxy', id: string, name?: string | null, curvature: number, core_radius_factor: number, core_concentration_factor: number, arms: number, arm_width: number, radius: number, stars: number, galactic_empires: Array<{ __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> }>, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, owner_id?: string | null, user_info?: { __typename?: 'user_info', display_name?: string | null, id: string, avatar_url?: string | null } | null, planets: Array<{ __typename?: 'planet', id: string, name: string, radius: number, terrain_bias: number[], texture_resolution: number, atmospheric_distance: number, rings: Array<{ __typename?: 'planetary_ring', id: string, type: string, colors: string[] }>, terrain_hex_palette: { __typename?: 'terrain_hex_palette', forest: string, grass: string, name: string, sand: string, water: string } }>, galactic_empire?: { __typename?: 'galactic_empire', id: string, user_id: string, system_forming_points: number, background: { __typename?: 'background', name: string, image_url?: string | null, id: string, description: string }, faction: { __typename?: 'faction', description: string, id: string, image_url?: string | null, name: string }, playable_race: { __typename?: 'playable_race', description: string, id: string, image_url?: string | null, name: string }, galaxy: { __typename?: 'galaxy', name?: string | null, id: string }, celestials: Array<{ __typename?: 'celestial', id: string, name?: string | null, planets: Array<{ __typename?: 'planet', name: string }> }> } | null }> }> };
 
 export type MediaMetadataFieldsFragment = { __typename?: 'MediaResult', etag: string, name: string, metadata?: { __typename?: 'MediaMetadata', duration: number, contentType: string } | null };
 
@@ -11339,13 +11835,6 @@ export type TerrainHexPalettesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type TerrainHexPalettesQuery = { __typename?: 'query_root', terrain_hex_palette: Array<{ __typename?: 'terrain_hex_palette', forest: string, grass: string, id: string, name: string, sand: string, water: string }> };
 
-export type TryInsertPlanetMutationVariables = Exact<{
-  input: Planet_Insert_Input;
-}>;
-
-
-export type TryInsertPlanetMutation = { __typename?: 'mutation_root', insert_planet_one?: { __typename?: 'planet', id: string, name: string, owner_id: string } | null };
-
 export type CreateQuestMutationVariables = Exact<{
   input: Quest_Insert_Input;
 }>;
@@ -11382,14 +11871,6 @@ export type SelfQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type SelfQuery = { __typename?: 'query_root', user_me: Array<{ __typename?: 'user_me', display_name?: string | null, id?: string | null, name?: string | null, nickname?: string | null, secret_setting_test?: string | null, avatar_url?: string | null }> };
-
-export type SetDisplayNameByUserIdMutationVariables = Exact<{
-  id: Scalars['String']['input'];
-  display_name: Scalars['String']['input'];
-}>;
-
-
-export type SetDisplayNameByUserIdMutation = { __typename?: 'mutation_root', update_user_info_by_pk?: { __typename?: 'user_info', display_name?: string | null } | null };
 
 export type SetNameByUserIdMutationVariables = Exact<{
   display_name?: InputMaybe<Scalars['String']['input']>;
@@ -11473,7 +11954,6 @@ export const CelestialFieldsFragmentDoc = gql`
   id
   name
   owner_id
-  forming_points
   user_info {
     display_name
     id
@@ -11628,16 +12108,6 @@ export const GalacticEmpireResourceGeneratorFieldsFragmentDoc = gql`
   galactic_empire_id
 }
     `;
-export const EmpireResourceFieldsFragmentDoc = gql`
-    fragment EmpireResourceFields on galactic_empire_resources {
-  value
-  resource_type {
-    id
-    type
-  }
-  id
-}
-    `;
 export const MediaMetadataFieldsFragmentDoc = gql`
     fragment MediaMetadataFields on MediaResult {
   etag
@@ -11741,23 +12211,6 @@ export const CreateEmpireOriginCelestialDocument = gql`
 export type CreateEmpireOriginCelestialMutationFn = Apollo.MutationFunction<CreateEmpireOriginCelestialMutation, CreateEmpireOriginCelestialMutationVariables>;
 export type CreateEmpireOriginCelestialMutationResult = Apollo.MutationResult<CreateEmpireOriginCelestialMutation>;
 export type CreateEmpireOriginCelestialMutationOptions = Apollo.BaseMutationOptions<CreateEmpireOriginCelestialMutation, CreateEmpireOriginCelestialMutationVariables>;
-export const TryInsertClaimedCelestialDocument = gql`
-    mutation TryInsertClaimedCelestial($galaxy_id: uuid!, $galactic_empire_id: uuid!, $id: String!, $name: String!, $owner_id: String!) {
-  insert_celestial_one(
-    object: {galaxy_id: $galaxy_id, id: $id, name: $name, owner_id: $owner_id, galactic_empire_id: $galactic_empire_id}
-    on_conflict: {constraint: system_pkey, update_columns: owner_id}
-  ) {
-    galaxy_id
-    id
-    name
-    owner_id
-    galactic_empire_id
-  }
-}
-    `;
-export type TryInsertClaimedCelestialMutationFn = Apollo.MutationFunction<TryInsertClaimedCelestialMutation, TryInsertClaimedCelestialMutationVariables>;
-export type TryInsertClaimedCelestialMutationResult = Apollo.MutationResult<TryInsertClaimedCelestialMutation>;
-export type TryInsertClaimedCelestialMutationOptions = Apollo.BaseMutationOptions<TryInsertClaimedCelestialMutation, TryInsertClaimedCelestialMutationVariables>;
 export const CharacterDataDocument = gql`
     query CharacterData {
   playable_race {
@@ -11826,14 +12279,6 @@ export const CreateGalacticEmpireDocument = gql`
 export type CreateGalacticEmpireMutationFn = Apollo.MutationFunction<CreateGalacticEmpireMutation, CreateGalacticEmpireMutationVariables>;
 export type CreateGalacticEmpireMutationResult = Apollo.MutationResult<CreateGalacticEmpireMutation>;
 export type CreateGalacticEmpireMutationOptions = Apollo.BaseMutationOptions<CreateGalacticEmpireMutation, CreateGalacticEmpireMutationVariables>;
-export const GalacticEmpiresByGalaxyIdDocument = gql`
-    query GalacticEmpiresByGalaxyId($galaxyId: uuid!) {
-  galactic_empire(where: {galaxy_id: {_eq: $galaxyId}}) {
-    ...GalacticEmpireFields
-  }
-}
-    ${GalacticEmpireFieldsFragmentDoc}`;
-export type GalacticEmpiresByGalaxyIdQueryResult = Apollo.QueryResult<GalacticEmpiresByGalaxyIdQuery, GalacticEmpiresByGalaxyIdQueryVariables>;
 export const GalacticEmpiresByUserIdDocument = gql`
     subscription GalacticEmpiresByUserId($userId: String!) {
   galactic_empire(where: {user_id: {_eq: $userId}}) {
@@ -11842,56 +12287,6 @@ export const GalacticEmpiresByUserIdDocument = gql`
 }
     ${GalacticEmpireFieldsFragmentDoc}`;
 export type GalacticEmpiresByUserIdSubscriptionResult = Apollo.SubscriptionResult<GalacticEmpiresByUserIdSubscription>;
-export const IncrementGalacticEmpireResourcesDocument = gql`
-    mutation IncrementGalacticEmpireResources($galacticEmpireId: uuid!, $galacticCreditsIncrement: Int!, $commonMetalsIncrement: Int!, $rareMetalsIncrement: Int!, $hydrocarbonsIncrement: Int!, $voidMatterIncrement: Int!) {
-  common_metals: update_galactic_empire_resources(
-    _inc: {value: $commonMetalsIncrement}
-    where: {galactic_empire_id: {_eq: $galacticEmpireId}, resource_type: {type: {_eq: "common metals"}}}
-  ) {
-    affected_rows
-  }
-  galactic_credits: update_galactic_empire_resources(
-    _inc: {value: $galacticCreditsIncrement}
-    where: {galactic_empire_id: {_eq: $galacticEmpireId}, resource_type: {type: {_eq: "galactic credits"}}}
-  ) {
-    affected_rows
-  }
-  hydrocarbons: update_galactic_empire_resources(
-    _inc: {value: $hydrocarbonsIncrement}
-    where: {galactic_empire_id: {_eq: $galacticEmpireId}, resource_type: {type: {_eq: "hydrocarbons"}}}
-  ) {
-    affected_rows
-  }
-  rare_metals: update_galactic_empire_resources(
-    _inc: {value: $rareMetalsIncrement}
-    where: {galactic_empire_id: {_eq: $galacticEmpireId}, resource_type: {type: {_eq: "rare metals"}}}
-  ) {
-    affected_rows
-  }
-  void_matter: update_galactic_empire_resources(
-    _inc: {value: $voidMatterIncrement}
-    where: {galactic_empire_id: {_eq: $galacticEmpireId}, resource_type: {type: {_eq: "void matter"}}}
-  ) {
-    affected_rows
-  }
-}
-    `;
-export type IncrementGalacticEmpireResourcesMutationFn = Apollo.MutationFunction<IncrementGalacticEmpireResourcesMutation, IncrementGalacticEmpireResourcesMutationVariables>;
-export type IncrementGalacticEmpireResourcesMutationResult = Apollo.MutationResult<IncrementGalacticEmpireResourcesMutation>;
-export type IncrementGalacticEmpireResourcesMutationOptions = Apollo.BaseMutationOptions<IncrementGalacticEmpireResourcesMutation, IncrementGalacticEmpireResourcesMutationVariables>;
-export const IncrementResourceDocument = gql`
-    mutation IncrementResource($galacticEmpireId: uuid!, $resourceType: String!, $increment: Int!) {
-  update_galactic_empire_resources(
-    _inc: {value: $increment}
-    where: {galactic_empire_id: {_eq: $galacticEmpireId}, resource_type: {type: {_eq: $resourceType}}}
-  ) {
-    affected_rows
-  }
-}
-    `;
-export type IncrementResourceMutationFn = Apollo.MutationFunction<IncrementResourceMutation, IncrementResourceMutationVariables>;
-export type IncrementResourceMutationResult = Apollo.MutationResult<IncrementResourceMutation>;
-export type IncrementResourceMutationOptions = Apollo.BaseMutationOptions<IncrementResourceMutation, IncrementResourceMutationVariables>;
 export const GalacticEmpireNpcsDocument = gql`
     subscription GalacticEmpireNpcs($empireId: uuid!) {
   galactic_empire_npc(where: {galactic_empire_id: {_eq: $empireId}}) {
@@ -11912,19 +12307,6 @@ export const GalacticEmpireNpcsDocument = gql`
 }
     `;
 export type GalacticEmpireNpcsSubscriptionResult = Apollo.SubscriptionResult<GalacticEmpireNpcsSubscription>;
-export const UnlockGalacticEmpireNpcDocument = gql`
-    mutation UnlockGalacticEmpireNpc($empireId: uuid!, $npcId: uuid!) {
-  insert_galactic_empire_npc_one(
-    object: {galactic_empire_id: $empireId, npc_id: $npcId}
-  ) {
-    npc_id
-    galactic_empire_id
-  }
-}
-    `;
-export type UnlockGalacticEmpireNpcMutationFn = Apollo.MutationFunction<UnlockGalacticEmpireNpcMutation, UnlockGalacticEmpireNpcMutationVariables>;
-export type UnlockGalacticEmpireNpcMutationResult = Apollo.MutationResult<UnlockGalacticEmpireNpcMutation>;
-export type UnlockGalacticEmpireNpcMutationOptions = Apollo.BaseMutationOptions<UnlockGalacticEmpireNpcMutation, UnlockGalacticEmpireNpcMutationVariables>;
 export const ActiveGalacticEmpireQuestsByEmpireIdDocument = gql`
     subscription ActiveGalacticEmpireQuestsByEmpireId($id: uuid!) {
   galactic_empire_quest(where: {galactic_empire_id: {_eq: $id}}) {
@@ -11954,31 +12336,6 @@ export const ActiveGalacticEmpireQuestsByEmpireIdDocument = gql`
 }
     `;
 export type ActiveGalacticEmpireQuestsByEmpireIdSubscriptionResult = Apollo.SubscriptionResult<ActiveGalacticEmpireQuestsByEmpireIdSubscription>;
-export const AddGalacticEmpireQuestDocument = gql`
-    mutation AddGalacticEmpireQuest($input: galactic_empire_quest_insert_input!) {
-  insert_galactic_empire_quest_one(object: $input) {
-    quest_id
-    galactic_empire_id
-  }
-}
-    `;
-export type AddGalacticEmpireQuestMutationFn = Apollo.MutationFunction<AddGalacticEmpireQuestMutation, AddGalacticEmpireQuestMutationVariables>;
-export type AddGalacticEmpireQuestMutationResult = Apollo.MutationResult<AddGalacticEmpireQuestMutation>;
-export type AddGalacticEmpireQuestMutationOptions = Apollo.BaseMutationOptions<AddGalacticEmpireQuestMutation, AddGalacticEmpireQuestMutationVariables>;
-export const CompleteGalacticEmpireQuestByIdDocument = gql`
-    mutation CompleteGalacticEmpireQuestById($questId: uuid!) {
-  update_galactic_empire_quest_by_pk(
-    pk_columns: {id: $questId}
-    _set: {completed: true}
-  ) {
-    completed
-    quest_id
-  }
-}
-    `;
-export type CompleteGalacticEmpireQuestByIdMutationFn = Apollo.MutationFunction<CompleteGalacticEmpireQuestByIdMutation, CompleteGalacticEmpireQuestByIdMutationVariables>;
-export type CompleteGalacticEmpireQuestByIdMutationResult = Apollo.MutationResult<CompleteGalacticEmpireQuestByIdMutation>;
-export type CompleteGalacticEmpireQuestByIdMutationOptions = Apollo.BaseMutationOptions<CompleteGalacticEmpireQuestByIdMutation, CompleteGalacticEmpireQuestByIdMutationVariables>;
 export const CompleteQuestStepDocument = gql`
     mutation CompleteQuestStep($empireQuestId: String!) {
   progressQuestStep(empire_quest_id: $empireQuestId) {
@@ -12008,61 +12365,6 @@ export const CompleteQuestDocument = gql`
 export type CompleteQuestMutationFn = Apollo.MutationFunction<CompleteQuestMutation, CompleteQuestMutationVariables>;
 export type CompleteQuestMutationResult = Apollo.MutationResult<CompleteQuestMutation>;
 export type CompleteQuestMutationOptions = Apollo.BaseMutationOptions<CompleteQuestMutation, CompleteQuestMutationVariables>;
-export const EmpiresWithoutQuestsDocument = gql`
-    subscription EmpiresWithoutQuests {
-  galactic_empire_aggregate(where: {_not: {quests: {}}}) {
-    nodes {
-      id
-    }
-  }
-}
-    `;
-export type EmpiresWithoutQuestsSubscriptionResult = Apollo.SubscriptionResult<EmpiresWithoutQuestsSubscription>;
-export const GalacticEmpireQuestByIdDocument = gql`
-    query GalacticEmpireQuestById($empireQuestId: uuid!) {
-  galactic_empire_quest_by_pk(id: $empireQuestId) {
-    completed
-    quest_step_id
-    quest {
-      steps {
-        next_step_in_quest
-        id
-        npc_contact_id
-        resource_cost_amount
-        resource_cost_id
-        type
-      }
-      rewards {
-        npc_unlock_id
-        resource_accrual_amount
-        resource_accrual_type_id
-        resource_unlock_id
-        type
-      }
-      quest_type {
-        value
-      }
-      next_quest {
-        id
-        steps(where: {initial: {_eq: true}}) {
-          id
-        }
-      }
-    }
-    galactic_empire {
-      id
-      resources {
-        value
-        resource_type {
-          type
-          id
-        }
-      }
-    }
-  }
-}
-    `;
-export type GalacticEmpireQuestByIdQueryResult = Apollo.QueryResult<GalacticEmpireQuestByIdQuery, GalacticEmpireQuestByIdQueryVariables>;
 export const CompletedGalacticEmpireQuestsDocument = gql`
     subscription CompletedGalacticEmpireQuests($empireId: uuid!) {
   galactic_empire_quest(
@@ -12083,31 +12385,6 @@ export const ActiveGalacticEmpireQuestsDocument = gql`
 }
     ${GalacticEmpireQuestFieldsFragmentDoc}`;
 export type ActiveGalacticEmpireQuestsSubscriptionResult = Apollo.SubscriptionResult<ActiveGalacticEmpireQuestsSubscription>;
-export const InitialMainQuestIdDocument = gql`
-    query InitialMainQuestId {
-  quest(where: {type: {_eq: main}, initial: {_eq: true}}) {
-    id
-    steps(where: {initial: {_eq: true}}) {
-      id
-    }
-  }
-}
-    `;
-export type InitialMainQuestIdQueryResult = Apollo.QueryResult<InitialMainQuestIdQuery, InitialMainQuestIdQueryVariables>;
-export const ProgressGalacticEmpireQuestStepByIdDocument = gql`
-    mutation ProgressGalacticEmpireQuestStepById($questId: uuid!, $stepId: uuid!) {
-  update_galactic_empire_quest_by_pk(
-    pk_columns: {id: $questId}
-    _set: {quest_step_id: $stepId}
-  ) {
-    completed
-    quest_id
-  }
-}
-    `;
-export type ProgressGalacticEmpireQuestStepByIdMutationFn = Apollo.MutationFunction<ProgressGalacticEmpireQuestStepByIdMutation, ProgressGalacticEmpireQuestStepByIdMutationVariables>;
-export type ProgressGalacticEmpireQuestStepByIdMutationResult = Apollo.MutationResult<ProgressGalacticEmpireQuestStepByIdMutation>;
-export type ProgressGalacticEmpireQuestStepByIdMutationOptions = Apollo.BaseMutationOptions<ProgressGalacticEmpireQuestStepByIdMutation, ProgressGalacticEmpireQuestStepByIdMutationVariables>;
 export const SubmitEmpireQuestCompletionRequestDocument = gql`
     mutation SubmitEmpireQuestCompletionRequest($empireQuestId: String!) {
   completeQuest(empire_quest_id: $empireQuestId) {
@@ -12119,31 +12396,6 @@ export const SubmitEmpireQuestCompletionRequestDocument = gql`
 export type SubmitEmpireQuestCompletionRequestMutationFn = Apollo.MutationFunction<SubmitEmpireQuestCompletionRequestMutation, SubmitEmpireQuestCompletionRequestMutationVariables>;
 export type SubmitEmpireQuestCompletionRequestMutationResult = Apollo.MutationResult<SubmitEmpireQuestCompletionRequestMutation>;
 export type SubmitEmpireQuestCompletionRequestMutationOptions = Apollo.BaseMutationOptions<SubmitEmpireQuestCompletionRequestMutation, SubmitEmpireQuestCompletionRequestMutationVariables>;
-export const IncrementResourceGeneratorCountDocument = gql`
-    mutation IncrementResourceGeneratorCount($galacticEmpireId: uuid!, $resourceGeneratorId: uuid!, $increment: numeric!) {
-  update_galactic_empire_resource_generator(
-    _inc: {count: $increment}
-    where: {galactic_empire_id: {_eq: $galacticEmpireId}, generator_type_id: {_eq: $resourceGeneratorId}}
-  ) {
-    affected_rows
-  }
-}
-    `;
-export type IncrementResourceGeneratorCountMutationFn = Apollo.MutationFunction<IncrementResourceGeneratorCountMutation, IncrementResourceGeneratorCountMutationVariables>;
-export type IncrementResourceGeneratorCountMutationResult = Apollo.MutationResult<IncrementResourceGeneratorCountMutation>;
-export type IncrementResourceGeneratorCountMutationOptions = Apollo.BaseMutationOptions<IncrementResourceGeneratorCountMutation, IncrementResourceGeneratorCountMutationVariables>;
-export const CreateEmpireResourceGeneratorDocument = gql`
-    mutation CreateEmpireResourceGenerator($galacticEmpireId: uuid!, $generatorTypeId: uuid!) {
-  insert_galactic_empire_resource_generator_one(
-    object: {generator_type_id: $generatorTypeId, galactic_empire_id: $galacticEmpireId}
-  ) {
-    id
-  }
-}
-    `;
-export type CreateEmpireResourceGeneratorMutationFn = Apollo.MutationFunction<CreateEmpireResourceGeneratorMutation, CreateEmpireResourceGeneratorMutationVariables>;
-export type CreateEmpireResourceGeneratorMutationResult = Apollo.MutationResult<CreateEmpireResourceGeneratorMutation>;
-export type CreateEmpireResourceGeneratorMutationOptions = Apollo.BaseMutationOptions<CreateEmpireResourceGeneratorMutation, CreateEmpireResourceGeneratorMutationVariables>;
 export const PurchaseResourceGeneratorDocument = gql`
     mutation PurchaseResourceGenerator($galacticEmpireId: String!, $resourceGeneratorId: String!) {
   purchaseResourceGenerator(
@@ -12157,33 +12409,6 @@ export const PurchaseResourceGeneratorDocument = gql`
 export type PurchaseResourceGeneratorMutationFn = Apollo.MutationFunction<PurchaseResourceGeneratorMutation, PurchaseResourceGeneratorMutationVariables>;
 export type PurchaseResourceGeneratorMutationResult = Apollo.MutationResult<PurchaseResourceGeneratorMutation>;
 export type PurchaseResourceGeneratorMutationOptions = Apollo.BaseMutationOptions<PurchaseResourceGeneratorMutation, PurchaseResourceGeneratorMutationVariables>;
-export const EmpireResourceGeneratorsByTypeDocument = gql`
-    query EmpireResourceGeneratorsByType($galacticEmpireId: uuid!, $typeId: uuid!) {
-  galactic_empire_resource_generator(
-    where: {galactic_empire_id: {_eq: $galacticEmpireId}, generator_type_id: {_eq: $typeId}}
-  ) {
-    planet_id
-    count
-    resource_generator {
-      id
-      cost_growth_exponent
-      cost_amount_1
-      cost_resource_type_id_1
-    }
-    galactic_empire {
-      id
-      resources {
-        value
-        resource_type {
-          type
-          id
-        }
-      }
-    }
-  }
-}
-    `;
-export type EmpireResourceGeneratorsByTypeQueryResult = Apollo.QueryResult<EmpireResourceGeneratorsByTypeQuery, EmpireResourceGeneratorsByTypeQueryVariables>;
 export const EmpireResourceGeneratorsDocument = gql`
     subscription EmpireResourceGenerators {
   galactic_empire_resource_generator {
@@ -12205,32 +12430,16 @@ export type EmpireResourceGeneratorsByEmpireIdSubscriptionResult = Apollo.Subscr
 export const GalacticEmpireResourcesDocument = gql`
     subscription GalacticEmpireResources($empireId: uuid!) {
   galactic_empire_resources(where: {galactic_empire_id: {_eq: $empireId}}) {
-    ...EmpireResourceFields
-  }
-}
-    ${EmpireResourceFieldsFragmentDoc}`;
-export type GalacticEmpireResourcesSubscriptionResult = Apollo.SubscriptionResult<GalacticEmpireResourcesSubscription>;
-export const CurrentGalacticEmpireResourcesDocument = gql`
-    query CurrentGalacticEmpireResources($empireId: uuid!) {
-  galactic_empire_resources(where: {galactic_empire_id: {_eq: $empireId}}) {
-    ...EmpireResourceFields
-  }
-}
-    ${EmpireResourceFieldsFragmentDoc}`;
-export type CurrentGalacticEmpireResourcesQueryResult = Apollo.QueryResult<CurrentGalacticEmpireResourcesQuery, CurrentGalacticEmpireResourcesQueryVariables>;
-export const UnlockGalacticEmpireResourceDocument = gql`
-    mutation UnlockGalacticEmpireResource($empireId: uuid!, $resourceTypeId: uuid!) {
-  insert_galactic_empire_resources_one(
-    object: {galactic_empire_id: $empireId, resource_type_id: $resourceTypeId, value: 0}
-  ) {
-    galactic_empire_id
-    resource_type_id
+    value
+    resource_type {
+      id
+      type
+    }
+    id
   }
 }
     `;
-export type UnlockGalacticEmpireResourceMutationFn = Apollo.MutationFunction<UnlockGalacticEmpireResourceMutation, UnlockGalacticEmpireResourceMutationVariables>;
-export type UnlockGalacticEmpireResourceMutationResult = Apollo.MutationResult<UnlockGalacticEmpireResourceMutation>;
-export type UnlockGalacticEmpireResourceMutationOptions = Apollo.BaseMutationOptions<UnlockGalacticEmpireResourceMutation, UnlockGalacticEmpireResourceMutationVariables>;
+export type GalacticEmpireResourcesSubscriptionResult = Apollo.SubscriptionResult<GalacticEmpireResourcesSubscription>;
 export const CreateGalaxyDocument = gql`
     mutation CreateGalaxy($input: galaxy_insert_input!) {
   insert_galaxy_one(object: $input) {
@@ -12284,20 +12493,6 @@ export const GalaxyByNameSubDocument = gql`
 }
     ${GalaxyFieldsFragmentDoc}`;
 export type GalaxyByNameSubSubscriptionResult = Apollo.SubscriptionResult<GalaxyByNameSubSubscription>;
-export const GetGalaxyByIdAndUnclaimedCelestialsDocument = gql`
-    query GetGalaxyByIdAndUnclaimedCelestials($galaxyId: uuid!) {
-  galaxy_by_pk(id: $galaxyId) {
-    id
-    stars
-  }
-  celestial(
-    where: {galaxy_id: {_eq: $galaxyId}, _and: {owner_id: {_is_null: true}}}
-  ) {
-    id
-  }
-}
-    `;
-export type GetGalaxyByIdAndUnclaimedCelestialsQueryResult = Apollo.QueryResult<GetGalaxyByIdAndUnclaimedCelestialsQuery, GetGalaxyByIdAndUnclaimedCelestialsQueryVariables>;
 export const MediaMetadataDocument = gql`
     query MediaMetadata {
   celestialSystems: media(mediaType: "celestial-systems") {
@@ -12407,18 +12602,6 @@ export const TerrainHexPalettesDocument = gql`
 }
     `;
 export type TerrainHexPalettesQueryResult = Apollo.QueryResult<TerrainHexPalettesQuery, TerrainHexPalettesQueryVariables>;
-export const TryInsertPlanetDocument = gql`
-    mutation TryInsertPlanet($input: planet_insert_input!) {
-  insert_planet_one(object: $input) {
-    id
-    name
-    owner_id
-  }
-}
-    `;
-export type TryInsertPlanetMutationFn = Apollo.MutationFunction<TryInsertPlanetMutation, TryInsertPlanetMutationVariables>;
-export type TryInsertPlanetMutationResult = Apollo.MutationResult<TryInsertPlanetMutation>;
-export type TryInsertPlanetMutationOptions = Apollo.BaseMutationOptions<TryInsertPlanetMutation, TryInsertPlanetMutationVariables>;
 export const CreateQuestDocument = gql`
     mutation CreateQuest($input: quest_insert_input!) {
   insert_quest_one(object: $input) {
@@ -12499,19 +12682,6 @@ export const SelfDocument = gql`
 }
     `;
 export type SelfQueryResult = Apollo.QueryResult<SelfQuery, SelfQueryVariables>;
-export const SetDisplayNameByUserIdDocument = gql`
-    mutation SetDisplayNameByUserID($id: String!, $display_name: String!) {
-  update_user_info_by_pk(
-    pk_columns: {id: $id}
-    _set: {display_name: $display_name}
-  ) {
-    display_name
-  }
-}
-    `;
-export type SetDisplayNameByUserIdMutationFn = Apollo.MutationFunction<SetDisplayNameByUserIdMutation, SetDisplayNameByUserIdMutationVariables>;
-export type SetDisplayNameByUserIdMutationResult = Apollo.MutationResult<SetDisplayNameByUserIdMutation>;
-export type SetDisplayNameByUserIdMutationOptions = Apollo.BaseMutationOptions<SetDisplayNameByUserIdMutation, SetDisplayNameByUserIdMutationVariables>;
 export const SetNameByUserIdDocument = gql`
     mutation SetNameByUserID($display_name: String = "") {
   setDisplayName(display_name: $display_name) {
