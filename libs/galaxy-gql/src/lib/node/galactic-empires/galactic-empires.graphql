@@ -1,0 +1,36 @@
+query GalacticEmpiresByGalaxyId($galaxyId: uuid!) {
+  galactic_empire(where: { galaxy_id: { _eq: $galaxyId } }) {
+    id
+    user_id
+    system_forming_points
+    background {
+      name
+      image_url
+      id
+      description
+    }
+    faction {
+      description
+      id
+      image_url
+      name
+    }
+    playable_race {
+      description
+      id
+      image_url
+      name
+    }
+    galaxy {
+      name
+      id
+    }
+    celestials {
+      id
+      name
+      planets {
+        name
+      }
+    }
+  }
+}

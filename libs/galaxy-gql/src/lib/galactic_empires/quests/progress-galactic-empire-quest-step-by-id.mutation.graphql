@@ -1,9 +1,0 @@
-mutation ProgressGalacticEmpireQuestStepById($questId: uuid!, $stepId: uuid!) {
-  update_galactic_empire_quest_by_pk(
-    pk_columns: { id: $questId }
-    _set: { quest_step_id: $stepId }
-  ) {
-    completed
-    quest_id
-  }
-}

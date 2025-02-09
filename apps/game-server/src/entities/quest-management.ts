@@ -1,5 +1,5 @@
 import { FetchResult } from '@apollo/client';
-import { Quest_Reward_Type_Enum } from '@idleverse/galaxy-gql';
+
 import 'reflect-metadata';
 import {
   Arg,
@@ -12,6 +12,7 @@ import {
 } from 'type-graphql';
 import { Context } from '../datasources/context';
 
+import { NodeGraphqlAPI } from '@idleverse/galaxy-gql';
 import { questCompletionValidator } from '../quest-progression/quest-completion-validator';
 import { questStepProgressionValidator } from '../quest-progression/quest-step-progression-validator';
 import { resourceModificationFactory } from '../resource-modification/utils';
@@ -127,7 +128,7 @@ export class QuestManagementResolver {
 
     questData.galactic_empire_quest_by_pk.quest.rewards.forEach((reward) => {
       switch (reward.type) {
-        case Quest_Reward_Type_Enum.NpcUnlock:
+        case NodeGraphqlAPI.Quest_Reward_Type_Enum.NpcUnlock:
           rewardPromises.push(
             dataSources.hasuraQuestProgression.unlockEmpireNpc(
               galactic_empire_id,
@@ -135,7 +136,7 @@ export class QuestManagementResolver {
             )
           );
           break;
-        case Quest_Reward_Type_Enum.ResourceUnlock:
+        case NodeGraphqlAPI.Quest_Reward_Type_Enum.ResourceUnlock:
           rewardPromises.push(
             dataSources.hasuraQuestProgression.unlockEmpireResource(
               galactic_empire_id,
@@ -143,7 +144,7 @@ export class QuestManagementResolver {
             )
           );
           break;
-        case Quest_Reward_Type_Enum.ResourceAccrual:
+        case NodeGraphqlAPI.Quest_Reward_Type_Enum.ResourceAccrual:
           {
             let questRewardResourceModification =
               emptyResourceModification(galactic_empire_id);

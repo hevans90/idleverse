@@ -1,1 +1,2 @@
-export * from './lib/galaxy-api';
+export * as NodeGraphqlAPI from './lib/node-api';
+export * from './lib/web-api';

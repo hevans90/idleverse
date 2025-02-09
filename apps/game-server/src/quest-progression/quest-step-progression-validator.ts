@@ -1,9 +1,5 @@
+import { NodeGraphqlAPI } from '@idleverse/galaxy-gql';
 import { QuestErrorTypes } from '../entities/error-enums/quest-errors';
-
-import {
-  GalacticEmpireQuestByIdQuery,
-  Quest_Step_Type_Enum,
-} from '@idleverse/galaxy-gql';
 
 import { ResourceErrorTypes } from '../entities/error-enums/resource-errors';
 import {
@@ -20,23 +16,23 @@ export const questStepProgressionValidator = ({
   galactic_empire,
   resourceModification,
 }: {
-  step: GalacticEmpireQuestByIdQuery['galactic_empire_quest_by_pk']['quest']['steps'][0];
-  galactic_empire: GalacticEmpireQuestByIdQuery['galactic_empire_quest_by_pk']['galactic_empire'];
+  step: NodeGraphqlAPI.GalacticEmpireQuestByIdQuery['galactic_empire_quest_by_pk']['quest']['steps'][0];
+  galactic_empire: NodeGraphqlAPI.GalacticEmpireQuestByIdQuery['galactic_empire_quest_by_pk']['galactic_empire'];
   resourceModification: ResourceModification;
 }): {
   error?: QuestErrorTypes | ResourceErrorTypes;
   resourceModification?: ResourceModification;
 } => {
   switch (step.type) {
-    case Quest_Step_Type_Enum.Cta:
+    case NodeGraphqlAPI.Quest_Step_Type_Enum.Cta:
       // no completion requirements
       break;
 
-    case Quest_Step_Type_Enum.NpcContact:
+    case NodeGraphqlAPI.Quest_Step_Type_Enum.NpcContact:
       // no completion requirements
       break;
 
-    case Quest_Step_Type_Enum.ResourceCost:
+    case NodeGraphqlAPI.Quest_Step_Type_Enum.ResourceCost:
       {
         if (!galactic_empire.resources.length) {
           return { error: ResourceErrorTypes.NoResourcesUnlocked };

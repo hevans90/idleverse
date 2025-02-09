@@ -1,20 +1,5 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
-import {
-  CreateEmpireResourceGeneratorDocument,
-  CreateEmpireResourceGeneratorMutation,
-  CreateEmpireResourceGeneratorMutationVariables,
-  CurrentGalacticEmpireResourcesDocument,
-  CurrentGalacticEmpireResourcesQuery,
-  CurrentGalacticEmpireResourcesQueryVariables,
-  EmpireResourceGeneratorsByTypeDocument,
-  EmpireResourceGeneratorsByTypeQuery,
-  EmpireResourceGeneratorsByTypeQueryVariables,
-  IncrementResourceGeneratorCountDocument,
-  IncrementResourceGeneratorCountMutation,
-  IncrementResourceGeneratorCountMutationVariables,
-  ResourceGeneratorsDocument,
-  ResourceGeneratorsQuery,
-} from '@idleverse/galaxy-gql';
+import { NodeGraphqlAPI } from '@idleverse/galaxy-gql';
 
 export class HasuraEmpirePurchases {
   constructor(client: ApolloClient<NormalizedCacheObject>) {
@@ -29,16 +14,16 @@ export class HasuraEmpirePurchases {
     galacticEmpireId: string;
   }) =>
     this.client.query<
-      CurrentGalacticEmpireResourcesQuery,
-      CurrentGalacticEmpireResourcesQueryVariables
+      NodeGraphqlAPI.CurrentGalacticEmpireResourcesQuery,
+      NodeGraphqlAPI.CurrentGalacticEmpireResourcesQueryVariables
     >({
-      query: CurrentGalacticEmpireResourcesDocument,
+      query: NodeGraphqlAPI.CurrentGalacticEmpireResourcesDocument,
       variables: { empireId: galacticEmpireId },
     });
 
   getResourceGenerators = async () =>
-    this.client.query<ResourceGeneratorsQuery>({
-      query: ResourceGeneratorsDocument,
+    this.client.query<NodeGraphqlAPI.ResourceGeneratorsQuery>({
+      query: NodeGraphqlAPI.ResourceGeneratorsDocument,
     });
 
   getEmpireResourceGenerators = async ({
@@ -49,10 +34,10 @@ export class HasuraEmpirePurchases {
     generatorTypeId: string;
   }) =>
     this.client.query<
-      EmpireResourceGeneratorsByTypeQuery,
-      EmpireResourceGeneratorsByTypeQueryVariables
+      NodeGraphqlAPI.EmpireResourceGeneratorsByTypeQuery,
+      NodeGraphqlAPI.EmpireResourceGeneratorsByTypeQueryVariables
     >({
-      query: EmpireResourceGeneratorsByTypeDocument,
+      query: NodeGraphqlAPI.EmpireResourceGeneratorsByTypeDocument,
       variables: { galacticEmpireId, typeId: generatorTypeId },
     });
 
@@ -66,10 +51,10 @@ export class HasuraEmpirePurchases {
     increment: number;
   }) =>
     this.client.mutate<
-      IncrementResourceGeneratorCountMutation,
-      IncrementResourceGeneratorCountMutationVariables
+      NodeGraphqlAPI.IncrementResourceGeneratorCountMutation,
+      NodeGraphqlAPI.IncrementResourceGeneratorCountMutationVariables
     >({
-      mutation: IncrementResourceGeneratorCountDocument,
+      mutation: NodeGraphqlAPI.IncrementResourceGeneratorCountDocument,
       variables: {
         galacticEmpireId,
         increment,
@@ -85,10 +70,10 @@ export class HasuraEmpirePurchases {
     generatorTypeId: string;
   }) =>
     this.client.mutate<
-      CreateEmpireResourceGeneratorMutation,
-      CreateEmpireResourceGeneratorMutationVariables
+      NodeGraphqlAPI.CreateEmpireResourceGeneratorMutation,
+      NodeGraphqlAPI.CreateEmpireResourceGeneratorMutationVariables
     >({
-      mutation: CreateEmpireResourceGeneratorDocument,
+      mutation: NodeGraphqlAPI.CreateEmpireResourceGeneratorDocument,
       variables: { galacticEmpireId, generatorTypeId },
     });
 }

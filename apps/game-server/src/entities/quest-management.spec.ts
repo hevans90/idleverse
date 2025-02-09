@@ -4,16 +4,15 @@ import {
   NormalizedCacheObject,
 } from '@apollo/client';
 import { MockSubscriptionLink } from '@apollo/client/testing';
-import {
-  GalacticEmpireQuestByIdQuery,
-  Quest_Step_Type_Enum,
-} from '@idleverse/galaxy-gql';
+import { NodeGraphqlAPI } from '@idleverse/galaxy-gql';
 import { mockQuery } from '../_test-utils/mock-apollo-client.test-util';
 import { mockContext } from '../_test-utils/mock-context';
 import { QuestErrorTypes } from './error-enums/quest-errors';
 import { ResourceErrorTypes } from './error-enums/resource-errors';
 import { UserErrorTypes } from './error-enums/user-errors';
 import { QuestManagementResolver } from './quest-management';
+
+type GalacticEmpireQuestByIdQuery = NodeGraphqlAPI.GalacticEmpireQuestByIdQuery;
 
 describe('QuestManagementResolver', () => {
   let resolver: QuestManagementResolver;
@@ -121,7 +120,7 @@ describe('QuestManagementResolver', () => {
               steps: [
                 {
                   id: 'step-id',
-                  type: Quest_Step_Type_Enum.ResourceCost,
+                  type: NodeGraphqlAPI.Quest_Step_Type_Enum.ResourceCost,
                 },
               ],
               quest_type: {
@@ -157,7 +156,7 @@ describe('QuestManagementResolver', () => {
               steps: [
                 {
                   id: 'step-id',
-                  type: Quest_Step_Type_Enum.ResourceCost,
+                  type: NodeGraphqlAPI.Quest_Step_Type_Enum.ResourceCost,
                   resource_cost_id: 'correct-resource-id',
                 },
               ],
@@ -194,7 +193,7 @@ describe('QuestManagementResolver', () => {
               steps: [
                 {
                   id: 'step-id',
-                  type: Quest_Step_Type_Enum.ResourceCost,
+                  type: NodeGraphqlAPI.Quest_Step_Type_Enum.ResourceCost,
                   resource_cost_id: 'correct-resource-id',
                   resource_cost_amount: 10,
                 },
@@ -232,7 +231,7 @@ describe('QuestManagementResolver', () => {
               steps: [
                 {
                   id: 'step-id',
-                  type: Quest_Step_Type_Enum.ResourceCost,
+                  type: NodeGraphqlAPI.Quest_Step_Type_Enum.ResourceCost,
                   resource_cost_id: 'correct-resource-id',
                   resource_cost_amount: -9,
                 },
