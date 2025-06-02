@@ -148,6 +148,12 @@ const AudioPlayer = () => {
   };
 
   useEffect(() => {
+    if (data?.length > 0) {
+      setTrack(data[trackIndex]);
+    }
+  }, [data, trackIndex]);
+
+  useEffect(() => {
     if (isPlaying) {
       audioRef.current?.play();
       updateLoopRef.current = requestAnimationFrame(updateLoop);
