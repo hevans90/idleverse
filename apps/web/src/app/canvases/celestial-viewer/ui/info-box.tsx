@@ -20,7 +20,7 @@ import { CelestialByIdQuery } from '@idleverse/galaxy-gql';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
 import {
-  celestialViewerPlanetDataUris,
+  celestialViewerPlanetDataUrisVar,
   celestialViewerSelectedPlanetVar,
   colorsVar,
 } from '@idleverse/state';
@@ -48,7 +48,7 @@ export const InfoBox = ({
   user_info: { display_name, avatar_url },
   ...stackProps
 }: InfoBoxProps) => {
-  const planetDataUris = useReactiveVar(celestialViewerPlanetDataUris);
+  const planetDataUris = useReactiveVar(celestialViewerPlanetDataUrisVar);
 
   const { bg, border } = useUiBackground();
 

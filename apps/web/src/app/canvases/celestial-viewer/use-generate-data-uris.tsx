@@ -1,4 +1,4 @@
-import { celestialViewerPlanetDataUris } from '@idleverse/state';
+import { celestialViewerPlanetDataUrisVar } from '@idleverse/state';
 import { useEffect } from 'react';
 
 export const useGenerateDataUris = ({
@@ -9,7 +9,7 @@ export const useGenerateDataUris = ({
 }: {
   canvasRef: React.MutableRefObject<HTMLCanvasElement>;
   onGenerationFinished: (
-    uris: ReturnType<typeof celestialViewerPlanetDataUris>
+    uris: ReturnType<typeof celestialViewerPlanetDataUrisVar>
   ) => void;
   celestialId: string;
   input: { seed: string; data: Uint8Array; width: number; height: number }[];
@@ -52,7 +52,7 @@ export const useGenerateDataUris = ({
         canvasRef.current.height = 0;
       });
 
-      celestialViewerPlanetDataUris({ celestialId, uris });
+      celestialViewerPlanetDataUrisVar({ celestialId, uris });
       onGenerationFinished({ celestialId, uris });
     }
   }, [input]);

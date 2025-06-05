@@ -17,6 +17,5 @@ export const systemEditorConfigVar = makeVar<{
   celestial: {
     config: celestialPresets[0],
     name: 'Sol',
-    type: 'star',
   },
 });

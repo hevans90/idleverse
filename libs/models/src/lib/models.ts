@@ -63,7 +63,6 @@ export type CelestialGenerationConfig = {
 
 export type CelestialVariant = {
   name: string;
-  type: 'star' | 'black hole';
   config: CelestialGenerationConfig;
 };
 

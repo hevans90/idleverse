@@ -18,6 +18,13 @@ object_relationships:
     using:
       foreign_key_constraint_on: owner_id
 array_relationships:
+  - name: asteroid_belts
+    using:
+      foreign_key_constraint_on:
+        column: celestial_id
+        table:
+          name: asteroid_belt
+          schema: public
   - name: planets
     using:
       foreign_key_constraint_on:
@@ -29,22 +36,30 @@ select_permissions:
   - role: dev
     permission:
       columns:
-        - forming_points
-        - galactic_empire_id
-        - galaxy_id
-        - id
         - name
+        - galaxy_id
         - owner_id
+        - id
+        - galactic_empire_id
+        - brightness
+        - density
+        - coronal_strength
+        - radius
+        - color
       filter: {}
       allow_aggregations: true
   - role: user
     permission:
       columns:
-        - forming_points
-        - galactic_empire_id
-        - galaxy_id
+        - color
         - id
         - name
         - owner_id
+        - brightness
+        - coronal_strength
+        - density
+        - radius
+        - galactic_empire_id
+        - galaxy_id
       filter: {}
       allow_aggregations: true
